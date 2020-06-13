@@ -1,0 +1,20 @@
+{
+  "name": "tinyhttp",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "dist/example.js",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "mime-types": "^2.1.26",
+    "path-to-regexp": "^6.1.0"
+  },
+  "devDependencies": {
+    "@types/mime-types": "^2.1.0",
+    "@types/node": "^13.7.0",
+    "typescript": "^3.7.5"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  }
+}

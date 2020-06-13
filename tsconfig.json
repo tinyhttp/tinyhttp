@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "CommonJS",
+    "declaration": true,
+    "outDir": "dist",
+    "isolatedModules": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "downlevelIteration": true,
+    "noUnusedLocals": false,
+    "noImplicitAny": false,
+    "noUnusedParameters": true,
+    "preserveConstEnums": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "allowUnusedLabels": true,
+    "allowUmdGlobalAccess": false,
+
+    "forceConsistentCasingInFileNames": true
+  }
+}

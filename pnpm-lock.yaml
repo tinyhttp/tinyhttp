@@ -1,0 +1,56 @@
+dependencies:
+  colors: 1.4.0
+  mime-types: 2.1.27
+  path-to-regexp: 6.1.0
+devDependencies:
+  '@types/mime-types': 2.1.0
+  '@types/node': 13.13.9
+  typescript: 3.9.3
+lockfileVersion: 5.1
+packages:
+  /@types/mime-types/2.1.0:
+    dev: true
+    resolution:
+      integrity: sha1-nKUs2jY/aZxpRmwqbM2q2RPqenM=
+  /@types/node/13.13.9:
+    dev: true
+    resolution:
+      integrity: sha512-EPZBIGed5gNnfWCiwEIwTE2Jdg4813odnG8iNPMQGrqVxrI+wL68SPtPeCX+ZxGBaA6pKAVc6jaKgP/Q0QzfdQ==
+  /colors/1.4.0:
+    dev: false
+    engines:
+      node: '>=0.1.90'
+    resolution:
+      integrity: sha512-a+UqTh4kgZg/SlGvfbzDHpgRu7AAQOmmqRHJnxhRZICKFUT91brVhNNt58CMWU9PsBbv3PDCZUHbVxuDiH2mtA==
+  /mime-db/1.44.0:
+    dev: false
+    engines:
+      node: '>= 0.6'
+    resolution:
+      integrity: sha512-/NOTfLrsPBVeH7YtFPgsVWveuL+4SjjYxaQ1xtM1KMFj7HdxlBlxeyNLzhyJVx7r4rZGJAZ/6lkKCitSc/Nmpg==
+  /mime-types/2.1.27:
+    dependencies:
+      mime-db: 1.44.0
+    dev: false
+    engines:
+      node: '>= 0.6'
+    resolution:
+      integrity: sha512-JIhqnCasI9yD+SsmkquHBxTSEuZdQX5BuQnS2Vc7puQQQ+8yiP5AY5uWhpdv4YL4VM5c6iliiYWPgJ/nJQLp7w==
+  /path-to-regexp/6.1.0:
+    dev: false
+    resolution:
+      integrity: sha512-h9DqehX3zZZDCEm+xbfU0ZmwCGFCAAraPJWMXJ4+v32NjZJilVg3k1TcKsRgIb8IQ/izZSaydDc1OhJCZvs2Dw==
+  /typescript/3.9.3:
+    dev: true
+    engines:
+      node: '>=4.2.0'
+    hasBin: true
+    resolution:
+      integrity: sha512-D/wqnB2xzNFIcoBG9FG8cXRDjiqSTbG2wd8DMZeQyJlP1vfTkIxH4GKveWaEBYySKIg+USu+E+EDIR47SqnaMQ==
+specifiers:
+  '@types/mime-types': ^2.1.0
+  '@types/node': ^13.7.0
+  colors: ^1.4.0
+  mime-types: ^2.1.26
+  path-to-regexp: ^6.1.0
+  typescript: ^3.7.5
