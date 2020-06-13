@@ -1,6 +1,6 @@
 import { createServer } from 'http'
 import rg from 'regexparam'
-import Request, { getQueryParams } from './classes/request'
+import Request, { getQueryParams, getURLParams } from './classes/request'
 import Response, { send, json } from './classes/response'
 import notFound from './helpers/notFound'
 
@@ -32,22 +32,6 @@ const createHandler = ({
   handler: handler || (url as Handler),
   url: typeof url === 'string' ? url : '*'
 })
-
-const exec = (
-  path: string,
-  result: {
-    pattern: RegExp
-    keys: string[]
-  }
-) => {
-  let i = 0,
-    out = {}
-  let matches = result.pattern.exec(path)
-  while (i < result.keys.length) {
-    out[result.keys[i]] = matches?.[++i] || null
-  }
-  return out
-}
 
 export default class App {
   routes: Middleware[]
@@ -83,7 +67,7 @@ export default class App {
   }
   listen(
     port: number,
-    cb = () => console.log(`Started on http://${host}:${port} 🚀`),
+    cb = () => console.log(`Started on http://${host}:${port}`),
     host: string = 'localhost',
     backlog?: number
   ) {
@@ -98,10 +82,7 @@ export default class App {
       this.routes.map(({ url, method, handler }) => {
         if (req.method === method) {
           if (url && req.url && rg(url).pattern.test(req.url)) {
-            const param = exec(req.url, rg(url))
-
-            console.log(param)
-
+            req.params = getURLParams(req.url, url)
             if (!res.writableEnded) {
               res.statusCode = 200
               handler(req, res)
