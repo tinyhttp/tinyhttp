@@ -1,8 +1,10 @@
 import colors from 'colors'
 import { Handler } from '../index'
+import Request from '../classes/request'
+import Response from '../classes/response'
 
 const loggerHandler = (methods: string[] = ['GET', 'POST', 'PUT']): Handler => {
-  return (req, res) => {
+  const logger = (req: Request, res: Response) => {
     const { method, url } = req
     const { statusCode, statusMessage } = res
 
@@ -30,6 +32,8 @@ const loggerHandler = (methods: string[] = ['GET', 'POST', 'PUT']): Handler => {
       console.log(`${status} ${msg} ${url}`)
     }
   }
+
+  return logger
 }
 
 export default loggerHandler

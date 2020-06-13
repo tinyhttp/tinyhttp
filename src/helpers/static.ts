@@ -4,9 +4,7 @@ import notFound from './notFound'
 import { Handler } from '../index'
 
 const sendFile = (file: string) => {
-  let content = readFileSync(`${process.cwd()}/${file}`)
-
-  return content.toString()
+  return readFileSync(`${process.cwd()}/${file}`).toString()
 }
 
 const staticFolder = (dir = process.cwd()): Handler => {
@@ -17,22 +15,21 @@ const staticFolder = (dir = process.cwd()): Handler => {
 
     const file = files.find(file => (url ? url.slice(1) === file : null))
 
-    if (url === '/') {
-      res.writeHead(200, {
-        'Content-Type': 'text/html; charset=utf-8'
-      })
-      if (files.includes('index.html')) {
-        res.end(sendFile('index.html'))
-      } else if (files.includes('index.txt')) {
-        res.end(sendFile('index.txt'))
+    if (!res.writableEnded && file) {
+      if (url === '/') {
+        if (files.includes('index.html')) {
+          res.setHeader('Content-Type', 'text/html; charset=utf-8')
+          res.statusCode = 200
+          res.send(sendFile('index.html'))
+        } else if (files.includes('index.txt')) {
+          res.statusCode = 200
+          res.send(sendFile('index.txt'))
+        }
+      } else if (file && !statSync(file).isDirectory()) {
+        res.statusCode = 200
+        res.setHeader('Content-Type', mime.contentType(file) || 'text/plain')
+        res.send(sendFile(file))
       }
-    } else if (file && !statSync(file).isDirectory()) {
-      res.writeHead(200, {
-        'Content-Type': mime.contentType(file) || 'text/plain'
-      })
-      res.end(sendFile(file))
-    } else {
-      notFound()(req, res)
     }
   }
 }
