@@ -19,7 +19,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/app": "^0.0.5",
+    "@tinyhttp/app": "^0.0.1",
     "mime-types": "^2.1.27"
   }
 }
