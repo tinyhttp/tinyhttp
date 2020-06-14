@@ -1,0 +1,21 @@
+{
+  "name": "@tinyhttp/etag",
+  "version": "0.0.2",
+  "description": "tinyhttp eTag module",
+  "main": "dist/etag.js",
+  "types": "dist/etag.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "keywords": [
+    "tinyhttp",
+    "node.js",
+    "web framework",
+    "web",
+    "backend",
+    "etag"
+  ],
+  "author": "v1rtl",
+  "license": "MIT"
+}
