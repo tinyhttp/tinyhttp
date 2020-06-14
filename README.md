@@ -15,9 +15,9 @@ A tiny Express remake, written in TypeScript.
 ## Example
 
 ```ts
-import App from './src/index'
-import logger from './src/helpers/logger'
-import staticFolder from './src/helpers/static'
+import { App } from '@tinyhttp/app'
+import logger from '@tinyhttp/logger'
+import staticFolder from '@tinyhttp/static'
 
 const app = new App()
 

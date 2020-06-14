@@ -1,6 +1,6 @@
-import App from '../../src/index'
-import logger from '../../src/helpers/logger'
-import staticFolder from '../../src/helpers/static'
+import { App } from '@tinyhttp/app'
+import staticFolder from '@tinyhttp/static'
+import logger from '@tinyhttp/logger'
 
 const app = new App()
 
