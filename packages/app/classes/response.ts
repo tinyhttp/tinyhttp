@@ -1,7 +1,7 @@
 import { ServerResponse } from 'http'
 import { parse, format } from 'content-type'
-import etag from '../helpers/etag'
-import Request from './request'
+import etag from '@tinyhttp/etag'
+import { Request } from './request'
 
 const createETag = (body: Buffer | string, encoding: 'utf8' | undefined) => {
   const buf = !Buffer.isBuffer(body) ? Buffer.from(body, encoding) : body
@@ -81,7 +81,7 @@ export const send = (req: Request, res: Response, body: any) => {
   }
 }
 
-export default interface Response extends ServerResponse {
+export interface Response extends ServerResponse {
   send(body: unknown): void
   json(body: unknown): void
 }

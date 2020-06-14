@@ -13,10 +13,10 @@
     "noUnusedParameters": true,
     "preserveConstEnums": true,
     "skipLibCheck": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "allowUnusedLabels": true,
     "allowUmdGlobalAccess": false,
-
     "forceConsistentCasingInFileNames": true
-  }
+  },
+  "include": ["packages/**/*.ts"]
 }

@@ -1,18 +1,20 @@
 {
   "name": "tinyhttp",
   "version": "0.0.1",
+  "repository": "https://github.com/talentlessguy/parsec.git",
+  "author": "talentlessguy <pilll.PL22@gmail.com>",
   "license": "MIT",
-  "main": "dist/example.js",
-  "dependencies": {
-    "colors": "^1.4.0",
-    "content-type": "^1.0.4",
-    "mime-types": "^2.1.26",
-    "regexparam": "^1.3.0"
+  "engines": {
+    "node": ">=13"
   },
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
     "@types/content-type": "^1.1.3",
     "@types/mime-types": "^2.1.0",
     "@types/node": "^13.7.0",
+    "lerna": "^3.22.1",
     "typescript": "^3.7.5"
   },
   "scripts": {

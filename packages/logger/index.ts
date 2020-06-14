@@ -1,7 +1,5 @@
 import colors from 'colors'
-import { Handler } from '../index'
-import Request from '../classes/request'
-import Response from '../classes/response'
+import { Handler, Request, Response } from '@tinyhttp/app'
 
 const loggerHandler = (methods: string[] = ['GET', 'POST', 'PUT']): Handler => {
   const logger = (req: Request, res: Response) => {

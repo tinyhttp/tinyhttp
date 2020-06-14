@@ -1,8 +1,8 @@
 import { createServer } from 'http'
 import rg from 'regexparam'
-import Request, { getQueryParams, getURLParams } from './classes/request'
-import Response, { send, json } from './classes/response'
-import notFound from './helpers/notFound'
+import { Request, getQueryParams, getURLParams } from './classes/request'
+import { Response, send, json } from './classes/response'
+import { notFound } from './notFound'
 
 export const METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'HEAD']
 
@@ -33,7 +33,7 @@ const createHandler = ({
   url: typeof url === 'string' ? url : '*'
 })
 
-export default class App {
+export class App {
   routes: Middleware[]
   middleware: Middleware[]
   constructor() {

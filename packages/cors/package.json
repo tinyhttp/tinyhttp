@@ -1,7 +1,7 @@
 {
-  "name": "@tinyhttp/etag",
-  "version": "0.0.2",
-  "description": "tinyhttp eTag module",
+  "name": "@tinyhttp/cors",
+  "version": "0.0.1",
+  "description": "tinyhttp CORS module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -14,8 +14,11 @@
     "web framework",
     "web",
     "backend",
-    "etag"
+    "cors"
   ],
   "author": "v1rtl",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@tinyhttp/app": "^0.0.3"
+  }
 }

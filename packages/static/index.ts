@@ -1,7 +1,6 @@
 import { readdirSync, readFileSync, statSync } from 'fs'
 import mime from 'mime-types'
-import notFound from './notFound'
-import { Handler } from '../index'
+import { Handler } from '@tinyhttp/app'
 
 const sendFile = (file: string) => {
   return readFileSync(`${process.cwd()}/${file}`).toString()

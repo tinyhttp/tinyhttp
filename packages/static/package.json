@@ -1,7 +1,7 @@
 {
-  "name": "@tinyhttp/etag",
-  "version": "0.0.2",
-  "description": "tinyhttp eTag module",
+  "name": "@tinyhttp/static",
+  "version": "0.0.1",
+  "description": "tinyhttp static module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -14,8 +14,12 @@
     "web framework",
     "web",
     "backend",
-    "etag"
+    "static"
   ],
   "author": "v1rtl",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@tinyhttp/app": "^0.0.5",
+    "mime-types": "^2.1.27"
+  }
 }

@@ -1,4 +1,4 @@
-import { Handler, METHODS } from '../index'
+import { Handler, METHODS } from '@tinyhttp/app'
 
 const cors = ({ host = '*', methods = METHODS, headers = ['Origin', 'X-Requested-With', 'Content-Type'] }): Handler => {
   const prefix = 'Access-Control-Allow'

@@ -31,7 +31,7 @@ export const getURLParams = (reqUrl = '/', url = '/'): URLParams => {
   return exec(reqUrl, rg(url))
 }
 
-export default interface Request extends IncomingMessage {
+export interface Request extends IncomingMessage {
   query: ParsedUrlQuery
   params: URLParams
 }
