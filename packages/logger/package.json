@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/logger",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "tinyhttp logger module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -19,7 +19,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/app": "^0.1.3",
+    "@tinyhttp/app": "^0.1.4",
     "colors": "^1.4.0"
   }
 }
