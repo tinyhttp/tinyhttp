@@ -23,5 +23,6 @@
   "dependencies": {
     "@tinyhttp/app": "^0.1.7",
     "colors": "^1.4.0"
-  }
+  },
+  "gitHead": "c10093fd4cdbbfa6470f0b200522f79f5c7b068f"
 }
