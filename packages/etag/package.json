@@ -1,7 +1,13 @@
 {
   "name": "@tinyhttp/etag",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "tinyhttp eTag module",
+  "homepage": "https://github.com/talentlessguy/tinyhttp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/talentlessguy/tinyhttp.git",
+    "directory": "packages/etag"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "keywords": [

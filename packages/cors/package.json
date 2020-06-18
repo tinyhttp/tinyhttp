@@ -1,9 +1,15 @@
 {
   "name": "@tinyhttp/cors",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "tinyhttp CORS module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "homepage": "https://github.com/talentlessguy/tinyhttp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/talentlessguy/tinyhttp.git",
+    "directory": "packages/cors"
+  },
   "keywords": [
     "tinyhttp",
     "node.js",
@@ -15,6 +21,6 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/app": "^0.1.5"
+    "@tinyhttp/app": "^0.1.6"
   }
 }

@@ -1,7 +1,13 @@
 {
   "name": "@tinyhttp/app",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "tinyhttp core",
+  "homepage": "https://github.com/talentlessguy/tinyhttp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/talentlessguy/tinyhttp.git",
+    "directory": "packages/app"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "keywords": [
@@ -18,7 +24,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/etag": "^0.1.5",
+    "@tinyhttp/etag": "^0.1.6",
     "content-type": "^1.0.4",
     "proxy-addr": "^2.0.6",
     "range-parser": "^1.2.1",
