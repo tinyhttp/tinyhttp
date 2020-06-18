@@ -1,11 +1,11 @@
 {
   "name": "tinyhttp",
   "version": "0.0.1",
-  "repository": "https://github.com/talentlessguy/parsec.git",
+  "repository": "https://github.com/talentlessguy/tinyhttp.git",
   "author": "talentlessguy <pilll.PL22@gmail.com>",
   "license": "MIT",
   "engines": {
-    "node": ">=13"
+    "node": ">=14"
   },
   "files": [
     "dist"
@@ -19,7 +19,8 @@
     "typescript": "^3.7.5"
   },
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch"
+    "build": "rollup -c",
+    "dev": "rollup -cw",
+    "prepare": "pnpm run build"
   }
 }
