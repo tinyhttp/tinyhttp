@@ -1,13 +1,9 @@
 {
   "name": "@tinyhttp/etag",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "tinyhttp eTag module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch"
-  },
   "keywords": [
     "tinyhttp",
     "node.js",

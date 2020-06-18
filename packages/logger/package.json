@@ -1,13 +1,9 @@
 {
   "name": "@tinyhttp/logger",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "tinyhttp logger module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch"
-  },
   "keywords": [
     "tinyhttp",
     "node.js",
@@ -19,7 +15,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/app": "^0.1.4",
+    "@tinyhttp/app": "^0.1.5",
     "colors": "^1.4.0"
   }
 }

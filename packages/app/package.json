@@ -1,14 +1,9 @@
 {
   "name": "@tinyhttp/app",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "tinyhttp core",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
-    "prepare": "pnpm run build"
-  },
   "keywords": [
     "tinyhttp",
     "node.js",
@@ -23,7 +18,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/etag": "^0.1.4",
+    "@tinyhttp/etag": "^0.1.5",
     "content-type": "^1.0.4",
     "proxy-addr": "^2.0.6",
     "range-parser": "^1.2.1",
