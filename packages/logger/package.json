@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/logger",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "tinyhttp logger module",
   "homepage": "https://github.com/talentlessguy/tinyhttp",
   "repository": {
@@ -21,7 +21,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/app": "^0.1.6",
+    "@tinyhttp/app": "^0.1.7",
     "colors": "^1.4.0"
   }
 }
