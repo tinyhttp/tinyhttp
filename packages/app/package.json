@@ -16,11 +16,21 @@
     "web",
     "backend"
   ],
+  "files": [
+    "dist",
+    "src"
+  ],
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
     "@tinyhttp/etag": "^0.1.0",
     "content-type": "^1.0.4",
+    "proxy-addr": "^2.0.6",
+    "range-parser": "^1.2.1",
     "regexparam": "^1.3.0"
+  },
+  "devDependencies": {
+    "@types/proxy-addr": "^2.0.0",
+    "@types/range-parser": "^1.2.3"
   }
 }

@@ -1,7 +1,17 @@
 import { createServer } from 'http'
 import rg from 'regexparam'
-import { Request, getQueryParams, getURLParams } from './classes/request'
-import { Response, send, json } from './classes/response'
+import {
+  Request,
+  getQueryParams,
+  getURLParams,
+  getRouteFromApp,
+  getProtocol,
+  getHeader,
+  getRangeFromHeader,
+  checkIfXMLHttpRequest,
+  getHostname
+} from './classes/request'
+import { Response, send, json, status } from './classes/response'
 import { notFound } from './notFound'
 
 export const METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'HEAD']
@@ -65,6 +75,7 @@ export class App {
       handler
     })
   }
+
   listen(
     port: number,
     cb = () => console.log(`Started on http://${host}:${port}`),
@@ -73,16 +84,40 @@ export class App {
   ) {
     // @ts-ignore
     createServer((req: Request, res: Response) => {
-      // Define extensions
-      res.send = (body: any) => send(req, res, body)
-      res.json = (body: any) => json(req, res, body)
+      /// Define extensions
+
+      /*
+      Request extensions
+      */
+      const proto = getProtocol(req)
+      const secure = proto === 'https'
+      req.protocol = proto
+      req.secure = secure
+      req.connection = Object.assign(req.socket, {
+        encrypted: secure
+      })
 
       req.query = getQueryParams(req.url)
+
+      req.get = getHeader(req)
+      req.range = getRangeFromHeader(req)
+
+      req.xhr = checkIfXMLHttpRequest(req)
+
+      req.hostname = getHostname(req)
+
+      /* 
+      Response extensions
+      */
+      res.send = send(req, res)
+      res.json = json(req, res)
+      res.status = status(req, res)
 
       this.routes.map(({ url, method, handler }) => {
         if (req.method === method) {
           if (url && req.url && rg(url).pattern.test(req.url)) {
             req.params = getURLParams(req.url, url)
+            req.route = getRouteFromApp(this, handler)
             if (!res.writableEnded) {
               res.statusCode = 200
               handler(req, res)

@@ -16,7 +16,8 @@
     "sourceMap": false,
     "allowUnusedLabels": true,
     "allowUmdGlobalAccess": false,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": ["packages/**/*.ts"]
 }

@@ -1,5 +1,5 @@
 import { readdirSync, readFileSync, statSync } from 'fs'
-import mime from 'mime-types'
+import * as mime from 'mime-types'
 import { Handler } from '@tinyhttp/app'
 
 const sendFile = (file: string) => {

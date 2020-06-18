@@ -1,11 +1,6 @@
 {
   "name": "basic",
   "private": true,
-  "dependencies": {
-    "@tinyhttp/app": "^0.0.6",
-    "@tinyhttp/logger": "^0.0.6",
-    "@tinyhttp/static": "^0.0.6"
-  },
   "scripts": {
     "dev": "ts-node index.ts"
   }

@@ -19,6 +19,6 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/app": "^0.0.3"
+    "@tinyhttp/app": "^0.1.2"
   }
 }

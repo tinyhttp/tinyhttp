@@ -19,7 +19,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/app": "^0.0.1",
+    "@tinyhttp/app": "^0.1.2",
     "colors": "^1.4.0"
   }
 }

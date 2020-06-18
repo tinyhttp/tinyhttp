@@ -14,16 +14,18 @@ function setCharset(type: string, charset: string) {
   return format(parsed)
 }
 
-export const json = (_: Request, res: Response, body: any, ...args: any[]) => {
+export const json = (_: Request, res: Response) => (body: any, ...args: any[]): Response => {
   res.setHeader('Content-Type', 'application/json')
   if (typeof body === 'object' && body != 'null') {
     res.end(JSON.stringify(body, null, 2), ...args)
   } else if (typeof body === 'string') {
     res.end(body, ...args)
   }
+
+  return res
 }
 
-export const send = (req: Request, res: Response, body: any) => {
+export const send = (req: Request, res: Response) => (body: any) => {
   let bodyToSend = body
 
   // in case of object - turn it to json
@@ -68,7 +70,7 @@ export const send = (req: Request, res: Response, body: any) => {
         res.setHeader('content-type', 'application/octet-stream')
       }
     } else {
-      encoding ? json(req, res, bodyToSend, encoding) : json(req, res, bodyToSend)
+      encoding ? json(req, res)(bodyToSend, encoding) : json(req, res)(bodyToSend)
     }
   } else {
     if (encoding) {
@@ -79,9 +81,18 @@ export const send = (req: Request, res: Response, body: any) => {
       res.end(bodyToSend)
     }
   }
+
+  return res
+}
+
+export const status = (_: Request, res: Response) => (status: number): Response => {
+  res.statusCode = status
+
+  return res
 }
 
 export interface Response extends ServerResponse {
-  send(body: unknown): void
-  json(body: unknown): void
+  send(body: unknown): Response
+  json(body: unknown): Response
+  status(status: number): Response
 }
