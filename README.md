@@ -26,8 +26,7 @@ yarn add @tinyhttp/app
 ## Features
 
 - Compatible with Express
-- Built-in helpers for static, cors and logger
-- Async routes
+- Async routes [not tested yet]
 - Smaller size
 - 0 legacy dependencies
 
