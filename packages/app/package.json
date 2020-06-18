@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/app",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "tinyhttp core",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,7 +18,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/etag": "^0.0.1",
+    "@tinyhttp/etag": "^0.1.0",
     "content-type": "^1.0.4",
     "regexparam": "^1.3.0"
   }
