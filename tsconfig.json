@@ -3,7 +3,7 @@
     "target": "ESNext",
     "module": "CommonJS",
     "declaration": true,
-
+    "preserveSymlinks": true,
     "outDir": "dist",
     "isolatedModules": true,
     "strict": true,

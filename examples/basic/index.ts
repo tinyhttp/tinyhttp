@@ -1,7 +1,6 @@
 import { App } from '../../packages/app/src/index'
 import staticFolder from '../../packages/static/index'
 import logger from '../../packages/logger/index'
-import { parse } from 'url'
 
 const app = new App()
 
