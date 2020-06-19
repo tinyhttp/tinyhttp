@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/static",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "tinyhttp static module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -19,7 +19,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/app": "^0.1.7",
+    "@tinyhttp/app": "^0.1.9",
     "mime-types": "^2.1.27"
   },
   "devDependencies": {

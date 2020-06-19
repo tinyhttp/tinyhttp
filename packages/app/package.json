@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/app",
-  "version": "0.1.7",
+  "version": "0.1.9",
   "description": "tinyhttp core",
   "homepage": "https://github.com/talentlessguy/tinyhttp",
   "repository": {
@@ -27,7 +27,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/etag": "^0.1.7",
+    "@tinyhttp/etag": "^0.1.9",
     "content-type": "^1.0.4",
     "proxy-addr": "^2.0.6",
     "range-parser": "^1.2.1",
