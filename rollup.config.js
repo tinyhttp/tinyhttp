@@ -38,7 +38,6 @@ for (let pkg of pkgsList) {
       ts({
         transpileOnly: true
       }),
-
       terser()
     ]
   })
