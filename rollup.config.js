@@ -1,4 +1,4 @@
-import terser from 'rollup-plugin-terser'
+import { terser } from 'rollup-plugin-terser'
 import auto from 'rollup-plugin-auto-external'
 import ts from '@wessberg/rollup-plugin-ts'
 import fs from 'fs'
@@ -24,7 +24,7 @@ for (let pkg of pkgsList) {
       file: `packages/${pkg}/dist/index.js`,
       format: 'cjs'
     },
-    plugins: [auto(), ts(), terser]
+    plugins: [auto(), ts(), terser()]
   })
 
   cfg.push({
@@ -39,7 +39,7 @@ for (let pkg of pkgsList) {
         transpileOnly: true
       }),
 
-      terser
+      terser()
     ]
   })
 }
