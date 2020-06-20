@@ -1,6 +1,7 @@
 {
-  "name": "tinyhttp",
+  "name": "@tinyhttp/monorepo",
   "version": "0.0.1",
+  "private": true,
   "repository": "https://github.com/talentlessguy/tinyhttp.git",
   "author": "talentlessguy <pilll.PL22@gmail.com>",
   "license": "MIT",
@@ -11,16 +12,25 @@
     "dist"
   ],
   "devDependencies": {
-    "@rollup/plugin-typescript": "^4.1.2",
-    "@types/node": "^13.7.0",
-    "lerna": "^3.22.1",
-    "rollup": "^2.17.0",
+    "@types/jest": "^26.0.0",
+    "@types/node": "^14.0.13",
+    "@types/supertest": "^2.0.9",
+    "@wessberg/rollup-plugin-ts": "^1.2.25",
+    "jest": "^26.0.1",
+    "rollup": "^2.17.1",
+    "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-terser": "^6.1.0",
-    "typescript": "^3.7.5"
+    "supertest": "^4.0.2",
+    "ts-jest": "^26.1.0",
+    "tslib": "^2.0.0",
+    "typescript": "^3.9.5"
   },
   "scripts": {
+    "prebuild": "rm -rf packages/*/dist",
     "build": "rollup -c",
     "dev": "rollup -cw",
-    "prepare": "pnpm run build"
+    "postbuild": "rm packages/*/dist/index.esm.d.ts",
+    "prepare": "pnpm run build && pnpm run test",
+    "test": "jest"
   }
 }

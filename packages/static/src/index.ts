@@ -1,15 +1,15 @@
-import { readdirSync, readFileSync, statSync } from 'fs'
+import { promises as fs } from 'fs'
 import * as mime from 'mime-types'
-import { Handler } from '@tinyhttp/app'
+import { Request, Response } from '@tinyhttp/app'
 
-const sendFile = (file: string) => {
-  return readFileSync(`${process.cwd()}/${file}`).toString()
+const sendFile = async (file: string) => {
+  return (await fs.readFile(`${process.cwd()}/${file}`)).toString()
 }
 
-const staticFolder = (dir = process.cwd()): Handler => {
-  const files = readdirSync(dir)
+const staticFolder = async (dir = process.cwd()) => {
+  const files = await fs.readdir(dir)
 
-  return (req, res) => {
+  return async (req: Request, res: Response) => {
     let { url } = req
 
     const file = files.find(file => (url ? url.slice(1) === file : null))
@@ -18,13 +18,11 @@ const staticFolder = (dir = process.cwd()): Handler => {
       if (url === '/') {
         if (files.includes('index.html')) {
           res.setHeader('Content-Type', 'text/html; charset=utf-8')
-          res.statusCode = 200
-          res.send(sendFile('index.html'))
+          res.status(200).send(sendFile('index.html'))
         } else if (files.includes('index.txt')) {
-          res.statusCode = 200
-          res.send(sendFile('index.txt'))
+          res.status(200).send(sendFile('index.txt'))
         }
-      } else if (file && !statSync(file).isDirectory()) {
+      } else if (file && !(await fs.stat(file)).isDirectory()) {
         res.statusCode = 200
         res.setHeader('Content-Type', mime.contentType(file) || 'text/plain')
         res.send(sendFile(file))

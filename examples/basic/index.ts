@@ -4,27 +4,18 @@ import logger from '../../packages/logger/index'
 
 const app = new App()
 
-app.all('/', (req, res) => {
+app.get('/', (_, res) => void res.send('<h1>Hello World</h1>'))
+
+app.all('/page/:page/', (req, res) => {
   res.status(200).send(`
-    <h1>tinyhttp example</h1>
-    <ul>
-      <li>Protocol: ${req.protocol}</li>
-      <li>HTTPS: ${req.secure ? 'yes' : 'no'}</li>
-      <li>URL: ${req.url}</li>
-      <li>Method: ${req.method}</li>
-      <li>Host: ${req.hostname}</li>
-      <li>Status: ${res.statusCode}</li>
-    </ul>
-    <h2>Request headers</h2>
-<pre>
-${JSON.stringify(req.headers, null, 2)}
-</pre>
+    <h1>Some cool page</h1>
+    <h2>URL</h2>
+    ${req.url}
+    <h2>Params</h2>
+    ${JSON.stringify(req.params, null, 2)}
 `)
 })
 
-app.get('/:first/:second', (req, res) => {
-  res.json({ URLParams: req.params, QueryParams: req.query })
-})
 
 app.use(staticFolder())
 

@@ -50,40 +50,48 @@ export class App {
     this.routes = []
     this.middleware = []
   }
+
   get(url: string | Handler, handler?: Handler) {
     this.routes.push(createHandler({ url, handler, method: 'GET' }))
+    return this
   }
   post(url: string | Handler, handler?: Handler) {
     this.routes.push(createHandler({ url, handler, method: 'POST' }))
+    return this
   }
   put(url: string | Handler, handler?: Handler) {
     this.routes.push(createHandler({ url, handler, method: 'PUT' }))
+    return this
   }
   patch(url: string | Handler, handler?: Handler) {
     this.routes.push(createHandler({ url, handler, method: 'PATCH' }))
+    return this
   }
   head(url: string | Handler, handler?: Handler) {
     this.routes.push(createHandler({ url, handler, method: 'HEAD' }))
+    return this
   }
   all(url: string | Handler, handler?: Handler) {
     for (const method of METHODS) {
       this.routes.push(createHandler({ url, handler, method }))
     }
+    return this
   }
   use(handler: Handler) {
     this.middleware.push({
       handler
     })
+    return this
   }
 
   listen(
-    port: number,
+    port?: number,
     cb = () => console.log(`Started on http://${host}:${port}`),
     host: string = 'localhost',
     backlog?: number
   ) {
     // @ts-ignore
-    createServer((req: Request, res: Response) => {
+    const server = createServer((req: Request, res: Response) => {
       /// Define extensions
 
       /*
@@ -137,6 +145,8 @@ export class App {
       middleware.map(({ handler }) => {
         handler(req, res)
       })
-    }).listen(port, host, backlog, cb)
+    })
+
+    return server.listen(port, host, backlog, cb)
   }
 }

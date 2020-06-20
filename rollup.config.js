@@ -5,26 +5,43 @@ import fs from 'fs'
 
 let cfg = []
 
-const getPackages = () => {
-  const pkgsList = fs.readdirSync('packages')
+const pkgsList = fs.readdirSync('packages').sort()
 
-  for (let pkg of pkgsList.filter(p => p !== 'app')) {
-    const pkgJson = JSON.parse(fs.readFileSync(`${__dirname}/packages/${pkg}/package.json`).toString())
+for (let pkg of pkgsList) {
+  const pkgJson = JSON.parse(fs.readFileSync(`${__dirname}/packages/${pkg}/package.json`).toString())
 
-    const deps = pkgJson.dependencies ? Object.keys(pkgJson.dependencies) : []
+  const deps = pkgJson.dependencies ? Object.keys(pkgJson.dependencies) : []
 
-    cfg.push({
-      input: `packages/${pkg}/index.ts`,
-      output: {
-        dir: `packages/${pkg}/dist`,
-        format: 'cjs'
-      },
-      plugins: [auto(), ts(), terser],
-      external: deps
-    })
+  const defaultCfg = {
+    input: `packages/${pkg}/src/index.ts`,
+
+    external: deps
   }
-}
 
-getPackages()
+  cfg.push({
+    ...defaultCfg,
+    output: {
+      file: `packages/${pkg}/dist/index.js`,
+      format: 'cjs'
+    },
+    plugins: [auto(), ts(), terser]
+  })
+
+  cfg.push({
+    ...defaultCfg,
+    output: {
+      file: `packages/${pkg}/dist/index.esm.js`,
+      format: 'es'
+    },
+    plugins: [
+      auto(),
+      ts({
+        transpileOnly: true
+      }),
+
+      terser
+    ]
+  })
+}
 
 export default cfg

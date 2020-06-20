@@ -19,11 +19,11 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/app": "^0.1.10",
+    "@tinyhttp/app": "^0.1.17",
     "mime-types": "^2.1.27"
   },
   "devDependencies": {
     "@types/mime-types": "^2.1.0"
   },
-  "gitHead": "b634eec2ab91db040871c62822056fda5d2b5a64"
+  "gitHead": "584a7d9a98e23543ef5285af59532a583c578d11"
 }

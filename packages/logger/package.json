@@ -10,6 +10,7 @@
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "module": "dist/index.esm.js",
   "keywords": [
     "tinyhttp",
     "node.js",
@@ -21,8 +22,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/app": "^0.1.10",
     "colors": "^1.4.0"
   },
-  "gitHead": "b634eec2ab91db040871c62822056fda5d2b5a64"
+  "gitHead": "584a7d9a98e23543ef5285af59532a583c578d11"
 }

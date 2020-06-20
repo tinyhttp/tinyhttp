@@ -29,7 +29,7 @@ const etag = (entity: string | Buffer | Stats, options: { weak: boolean }) => {
     throw new TypeError('argument entity is required')
   }
 
-  const weak = options && typeof options.weak === 'boolean' ? options.weak : entity instanceof Stats
+  const weak = options?.weak || entity instanceof Stats
 
   // generate entity tag
 
