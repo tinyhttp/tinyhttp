@@ -27,7 +27,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/cookie": "^0.0.1",
+    "@tinyhttp/cookie": "^0.0.5",
     "@tinyhttp/etag": "^0.1.15",
     "content-type": "^1.0.4",
     "proxy-addr": "^2.0.6",
