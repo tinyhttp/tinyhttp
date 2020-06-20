@@ -4,9 +4,11 @@
   "description": "tinyhttp static module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch"
+  "homepage": "https://github.com/talentlessguy/tinyhttp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/talentlessguy/tinyhttp.git",
+    "directory": "packages/static"
   },
   "keywords": [
     "tinyhttp",

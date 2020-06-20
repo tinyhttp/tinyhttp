@@ -1,8 +1,13 @@
 import { IncomingMessage as Request, ServerResponse as Response } from 'http'
 
-export const METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'HEAD']
+export const defaultMethods = ['GET', 'POST', 'PUT', 'PATCH', 'HEAD']
 
-const cors = ({ host = '*', methods = METHODS, headers = ['Origin', 'X-Requested-With', 'Content-Type'] }) => {
+export const defaultHeaders = ['Origin', 'X-Requested-With', 'Content-Type']
+
+/**
+ * CORS Middleware
+ */
+export const cors = ({ host = '*', methods = defaultMethods, headers = defaultHeaders }) => {
   const prefix = 'Access-Control-Allow'
 
   return (_req: Request, res: Response) => {
@@ -11,5 +16,3 @@ const cors = ({ host = '*', methods = METHODS, headers = ['Origin', 'X-Requested
     res.setHeader(`${prefix}-Methods`, methods.join(', '))
   }
 }
-
-export default cors

@@ -16,7 +16,6 @@ app.all('/page/:page/', (req, res) => {
 `)
 })
 
-
 app.use(staticFolder())
 
 app.use(logger())

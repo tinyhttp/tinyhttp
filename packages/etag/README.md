@@ -1,27 +1,14 @@
 # @tinyhttp/etag
 
-tinyhttp eTag module
+[![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/etag?style=flat-square)](npmjs.com/package/@tinyhttp/etag) [![npm](https://img.shields.io/npm/dt/@tinyhttp/etag?style=flat-square)](npmjs.com/package/@tinyhttp/etag)
+
+tinyhttp entity tag module
 
 ## Installation
 
-This is a [Node.js](https://nodejs.org/) module available through the 
-[npm registry](https://www.npmjs.com/). It can be installed using the 
-[`npm`](https://docs.npmjs.com/getting-started/installing-npm-packages-locally)
-or 
-[`yarn`](https://yarnpkg.com/en/)
-command line tools.
-
 ```sh
-npm install @tinyhttp/etag --save
+npm install @tinyhttp/etag
 ```
-
-## Dependencies
-
-None
-
-## Dev Dependencies
-
-None
 
 ## License
 

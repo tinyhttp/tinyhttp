@@ -1,0 +1,28 @@
+{
+  "name": "@tinyhttp/cookie-signature",
+  "version": "0.0.1",
+  "description": "HTTP cookie signing and unsigning",
+  "homepage": "https://github.com/talentlessguy/tinyhttp",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/talentlessguy/tinyhttp.git",
+    "directory": "packages/cookie-signature"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.esm.js",
+  "keywords": [
+    "tinyhttp",
+    "node.js",
+    "web framework",
+    "web",
+    "backend",
+    "static",
+    "cookie"
+  ],
+  "author": "v1rtl",
+  "license": "MIT"
+}

@@ -43,7 +43,7 @@ export const compileTrust = (val: any) => {
 
   if (val === true) {
     // Support plain true/false
-    return function () {
+    return function() {
       return true
     }
   }
