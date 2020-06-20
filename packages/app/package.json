@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/app",
-  "version": "0.1.20",
+  "version": "0.1.21",
   "description": "tinyhttp core",
   "homepage": "https://github.com/talentlessguy/tinyhttp",
   "repository": {
@@ -16,9 +16,6 @@
   ],
   "engines": {
     "node": ">=14"
-  },
-  "scripts": {
-    "build": "rollup -c"
   },
   "keywords": [
     "tinyhttp",
@@ -40,6 +37,5 @@
     "@types/content-type": "^1.1.3",
     "@types/proxy-addr": "^2.0.0",
     "@types/range-parser": "^1.2.3"
-  },
-  "gitHead": "584a7d9a98e23543ef5285af59532a583c578d11"
+  }
 }
