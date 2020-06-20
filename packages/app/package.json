@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/app",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "tinyhttp core",
   "homepage": "https://github.com/talentlessguy/tinyhttp",
   "repository": {
@@ -38,10 +38,10 @@
   "devDependencies": {
     "@types/proxy-addr": "^2.0.0",
     "@types/range-parser": "^1.2.3",
-    "@wessberg/rollup-plugin-ts": "^1.2.25",
     "rollup": "^2.17.1",
     "rollup-plugin-auto-external": "^2.0.0",
-    "rollup-plugin-terser": "^6.1.0"
+    "rollup-plugin-terser": "^6.1.0",
+    "rollup-plugin-typescript2": "^0.27.1"
   },
   "gitHead": "584a7d9a98e23543ef5285af59532a583c578d11"
 }
