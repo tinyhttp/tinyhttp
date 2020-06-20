@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/app",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "tinyhttp core",
   "homepage": "https://github.com/talentlessguy/tinyhttp",
   "repository": {
@@ -10,6 +10,7 @@
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "module": "dist/index.esm.js",
   "files": [
     "dist"
   ],
@@ -29,19 +30,16 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/etag": "^0.1.7",
+    "@tinyhttp/etag": "^0.1.15",
     "content-type": "^1.0.4",
     "proxy-addr": "^2.0.6",
     "range-parser": "^1.2.1",
     "regexparam": "^1.3.0"
   },
   "devDependencies": {
+    "@types/content-type": "^1.1.3",
     "@types/proxy-addr": "^2.0.0",
-    "@types/range-parser": "^1.2.3",
-    "rollup": "^2.17.1",
-    "rollup-plugin-auto-external": "^2.0.0",
-    "rollup-plugin-terser": "^6.1.0",
-    "rollup-plugin-typescript2": "^0.27.1"
+    "@types/range-parser": "^1.2.3"
   },
   "gitHead": "584a7d9a98e23543ef5285af59532a583c578d11"
 }
