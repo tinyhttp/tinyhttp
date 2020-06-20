@@ -12,7 +12,7 @@
 
 ## Installation
 
-Node.js 14 is required.
+Node.js 13 is required.
 
 ```sh
 # npm

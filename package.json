@@ -6,7 +6,7 @@
 	"author": "talentlessguy <pilll.PL22@gmail.com>",
 	"license": "MIT",
 	"engines": {
-		"node": ">=14"
+		"node": ">=13"
 	},
 	"files": [
 		"dist"
