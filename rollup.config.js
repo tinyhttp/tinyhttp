@@ -5,9 +5,16 @@ import fs from 'fs'
 
 let cfg = []
 
-const pkgsList = fs.readdirSync('packages').sort()
+const swapPositions = (array, a ,b) => {
+  [array[a], array[b]] = [array[b], array[a]]
+}
 
-for (let pkg of pkgsList) {
+const pkgList = fs.readdirSync('packages')
+
+swapPositions(pkgList, pkgList.indexOf('app'), pkgList.indexOf('etag'))
+
+
+for (let pkg of pkgList) {
   const pkgJson = JSON.parse(fs.readFileSync(`${__dirname}/packages/${pkg}/package.json`).toString())
 
   const deps = pkgJson.dependencies ? Object.keys(pkgJson.dependencies) : []

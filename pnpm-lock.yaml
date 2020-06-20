@@ -28,7 +28,7 @@ importers:
       typescript: ^3.9.5
   packages/app:
     dependencies:
-      '@tinyhttp/etag': 0.1.15
+      '@tinyhttp/etag': 'link:../etag'
       content-type: 1.0.4
       proxy-addr: 2.0.6
       range-parser: 1.2.1
@@ -38,7 +38,7 @@ importers:
       '@types/proxy-addr': 2.0.0
       '@types/range-parser': 1.2.3
     specifiers:
-      '@tinyhttp/etag': ^0.1.15
+      '@tinyhttp/etag': 'workspace:*'
       '@types/content-type': ^1.1.3
       '@types/proxy-addr': ^2.0.0
       '@types/range-parser': ^1.2.3
@@ -57,7 +57,7 @@ importers:
       colors: ^1.4.0
   packages/static:
     dependencies:
-      '@tinyhttp/app': 0.1.17
+      '@tinyhttp/app': 'link:../app'
       mime-types: 2.1.27
     devDependencies:
       '@types/mime-types': 2.1.0
@@ -1231,22 +1231,6 @@ packages:
     dev: true
     resolution:
       integrity: sha512-MZPUxrmFubI36XS1DI3qmI0YdN1gks62JtFZvxR67ljjSNCeK6U08Zx4msEWOXuofgqUt6zPHSi1H9fbjR/NRA==
-  /@tinyhttp/app/0.1.17:
-    dependencies:
-      '@tinyhttp/etag': 0.1.15
-      content-type: 1.0.4
-      proxy-addr: 2.0.6
-      range-parser: 1.2.1
-      regexparam: 1.3.0
-    dev: false
-    engines:
-      node: '>=14'
-    resolution:
-      integrity: sha512-LvqHknuvJ3YCldZWlu0Z/NAtTkd0BElh0BEnp8gBEHSgY7wiamuSE60vPdnNHCPN8hXSBQd320ZBrfiXDJAUyg==
-  /@tinyhttp/etag/0.1.15:
-    dev: false
-    resolution:
-      integrity: sha512-1U0pRSKy14FmXGWjdkgDGOLUwCNpbgz3/F6hhAvQrg4KwTmF8rHpJMvAtYHVKYZLf1OaSUpZAihnQ1koOUfJVA==
   /@types/babel__core/7.1.8:
     dependencies:
       '@babel/parser': 7.10.3

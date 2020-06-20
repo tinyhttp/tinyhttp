@@ -30,7 +30,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/etag": "^0.1.15",
+    "@tinyhttp/etag": "workspace:*",
     "content-type": "^1.0.4",
     "proxy-addr": "^2.0.6",
     "range-parser": "^1.2.1",
