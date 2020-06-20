@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/cookie",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "HTTP cookie parser and serializer for Node.js",
   "homepage": "https://github.com/talentlessguy/tinyhttp",
   "publishConfig": {
@@ -20,7 +20,8 @@
     "web framework",
     "web",
     "backend",
-    "static"
+    "static",
+    "cookie"
   ],
   "author": "v1rtl",
   "license": "MIT"
