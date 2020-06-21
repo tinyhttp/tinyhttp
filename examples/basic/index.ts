@@ -1,12 +1,16 @@
 import { App } from '../../packages/app/src/index'
-import staticFolder from '../../packages/static/index'
-import logger from '../../packages/logger/index'
+import staticFolder from '../../packages/static/src/index'
+import logger from '../../packages/logger/src/index'
 
 const app = new App()
 
 app.get('/', (_, res) => void res.send('<h1>Hello World</h1>'))
 
-app.all('/page/:page/', (req, res) => {
+app.all('*', (_, res) => {
+  throw new Error('oops')
+})
+
+app.get('/page/:page/', (req, res) => {
   res.status(200).send(`
     <h1>Some cool page</h1>
     <h2>URL</h2>
@@ -16,8 +20,6 @@ app.all('/page/:page/', (req, res) => {
 `)
 })
 
-app.use(staticFolder())
-
-app.use(logger())
+app.use(logger()).use(staticFolder())
 
 app.listen(3000)

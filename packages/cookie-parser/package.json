@@ -1,12 +1,15 @@
 {
-  "name": "@tinyhttp/etag",
-  "version": "0.1.20",
-  "description": "tinyhttp eTag module",
+  "name": "@tinyhttp/cookie-parser",
+  "version": "0.0.2",
+  "description": "HTTP cookie parsing",
   "homepage": "https://github.com/talentlessguy/tinyhttp",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/talentlessguy/tinyhttp.git",
-    "directory": "packages/etag"
+    "directory": "packages/cookie-parser"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,9 +20,14 @@
     "web framework",
     "web",
     "backend",
-    "etag"
+    "cookie",
+    "cookie-parser"
   ],
   "author": "v1rtl",
   "license": "MIT",
-  "gitHead": "584a7d9a98e23543ef5285af59532a583c578d11"
+  "dependencies": {
+    "@tinyhttp/app": "workspace:^0.1.21",
+    "@tinyhttp/cookie": "workspace:^0.0.6",
+    "@tinyhttp/cookie-signature": "workspace:^0.0.4"
+  }
 }

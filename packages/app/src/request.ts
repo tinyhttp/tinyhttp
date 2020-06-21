@@ -2,9 +2,10 @@ import { IncomingMessage } from 'http'
 import { ParsedUrlQuery } from 'querystring'
 import rg from 'regexparam'
 import { parse } from 'url'
-import proxyAddr from 'proxy-addr'
 import parseRange, { Ranges, Options } from 'range-parser'
-import { App, Handler, Middleware } from '../app'
+import proxyAddr from 'proxy-addr'
+import { App, Handler, Middleware } from './app'
+import { compileTrust, rgExec } from './utils/request'
 
 export const getQueryParams = (url = '/'): ParsedUrlQuery => {
   return parse(url, true).query
@@ -14,55 +15,12 @@ export type URLParams = {
   [key: string]: string
 }
 
-const exec = (
-  path: string,
-  result: {
-    pattern: RegExp
-    keys: string[]
-  }
-) => {
-  let i = 0,
-    out = {}
-  let matches = result.pattern.exec(path)
-  while (i < result.keys.length) {
-    out[result.keys[i]] = matches?.[++i] || null
-  }
-  return out
-}
-
 export const getURLParams = (reqUrl = '/', url = '/'): URLParams => {
-  return exec(reqUrl, rg(url))
+  return rgExec(reqUrl, rg(url))
 }
 
 export const getRouteFromApp = (app: App, handler: Handler) => {
   return app.routes.find(h => h.handler.name === handler.name)
-}
-
-export const compileTrust = (val: any) => {
-  if (typeof val === 'function') return val
-
-  if (val === true) {
-    // Support plain true/false
-    return function() {
-      return true
-    }
-  }
-
-  if (typeof val === 'number') {
-    // Support trusting hop count
-    return (_: unknown, i: number) => {
-      if (val) {
-        return i < val
-      }
-    }
-  }
-
-  if (typeof val === 'string') {
-    // Support comma-separated values
-    val = val.split(/ *, */)
-  }
-
-  return proxyAddr.compile(val || [])
 }
 
 export const getProtocol = (req: Request): Protocol => {
@@ -126,6 +84,8 @@ export type Connection = IncomingMessage['socket'] & {
 export type Protocol = 'http' | 'https' | string
 
 export interface Request extends IncomingMessage {
+  app: App
+
   query: ParsedUrlQuery
   params: URLParams
   connection: Connection
@@ -140,4 +100,8 @@ export interface Request extends IncomingMessage {
 
   get: (header: string) => string | string[] | undefined
   range: (size: number, options?: any) => -1 | -2 | Ranges | undefined
+
+  cookies?: any
+  signedCookies?: any
+  secret?: string | string[]
 }

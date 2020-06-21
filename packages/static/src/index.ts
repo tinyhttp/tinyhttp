@@ -6,11 +6,13 @@ const sendFile = async (file: string) => {
   return (await fs.readFile(`${process.cwd()}/${file}`)).toString()
 }
 
-const staticFolder = async (dir = process.cwd()) => {
-  const files = await fs.readdir(dir)
+const staticFolder = (dir = process.cwd()) => {
+  const getFiles = async () => await fs.readdir(dir)
 
   return async (req: Request, res: Response) => {
     let { url } = req
+
+    const files = await getFiles()
 
     const file = files.find(file => (url ? url.slice(1) === file : null))
 

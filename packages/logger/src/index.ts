@@ -1,4 +1,4 @@
-import * as colors from 'colors'
+import colors from 'colors'
 import { IncomingMessage as Request, ServerResponse as Response } from 'http'
 
 const loggerHandler = (methods: string[] = ['GET', 'POST', 'PUT']) => {

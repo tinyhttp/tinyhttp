@@ -1,33 +1,75 @@
-# @tinyhttp/app
+![Twitter](https://img.shields.io/twitter/follow/v1rtl.svg?label=sub%20to%20twitter&style=flat-square) ![npm type definitions](https://img.shields.io/npm/types/@tinyhttp/app?style=flat-square)
+![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/body-parsec.svg?style=flat-square)
+![Last commit](https://img.shields.io/github/last-commit/talentlessguy/tinyhttp.svg?style=flat-square) ![NPM](https://img.shields.io/npm/l/@tinyhttp/app?style=flat-square)
 
-tinyhttp core
+# @tinyhttp/core
+
+`tinyhttp` core module with `App`, `Request` and `Response` classes.
+
+> ⚠ The project is incomplete. Please don't use in production.
+
+**tinyhttp** is a modern Express-like web framework for Node.js. It uses a bare minimum amount of dependencies trying to avoid legacy.
 
 ## Installation
 
-This is a [Node.js](https://nodejs.org/) module available through the 
-[npm registry](https://www.npmjs.com/). It can be installed using the 
-[`npm`](https://docs.npmjs.com/getting-started/installing-npm-packages-locally)
-or 
-[`yarn`](https://yarnpkg.com/en/)
-command line tools.
+Node.js 13 is required.
 
 ```sh
-npm install @tinyhttp/app --save
+# npm
+npm i @tinyhttp/app
+# pnpm
+pnpm i @tinyhttp/app
+# yarn
+yarn add @tinyhttp/app
 ```
 
-## Dependencies
+## Features
 
-- [@tinyhttp/etag](https://ghub.io/@tinyhttp/etag): tinyhttp eTag module
-- [content-type](https://ghub.io/content-type): Create and parse HTTP Content-Type header
-- [proxy-addr](https://ghub.io/proxy-addr): Determine address of proxied request
-- [range-parser](https://ghub.io/range-parser): Range header field string parser
-- [regexparam](https://ghub.io/regexparam): A tiny (308B) utility that converts route patterns into RegExp. Limited alternative to `path-to-regexp` 🙇‍
+- Compatible with Express
+- Async routes [not tested yet]
+- Smaller size
+- 0 legacy dependencies
 
-## Dev Dependencies
+## Docs
 
-- [@types/proxy-addr](https://ghub.io/@types/proxy-addr): TypeScript definitions for proxy-addr
-- [@types/range-parser](https://ghub.io/@types/range-parser): TypeScript definitions for range-parser
+Coming soon...
 
-## License
+## Example
 
-MIT
+At the moment there is only one basic example. I will add more of them once I add all the existing Express `req` / `res` extensions.
+
+```ts
+import { App } from '@tinyhttp/app'
+import staticFolder from '@tinyhttp/static'
+import logger from '@tinyhttp/logger'
+
+const app = new App()
+
+app.all('/', (req, res) => {
+  res.status(200).send(`
+    <h1>tinyhttp example</h1>
+    <ul>
+      <li>Protocol: ${req.protocol}</li>
+      <li>HTTPS: ${req.secure ? 'yes' : 'no'}</li>
+      <li>URL: ${req.url}</li>
+      <li>Method: ${req.method}</li>
+      <li>Host: ${req.hostname}</li>
+      <li>Status: ${res.statusCode}</li>
+    </ul>
+    <h2>Request headers</h2>
+<pre>
+${JSON.stringify(req.headers, null, 2)}
+</pre>
+`)
+})
+
+app.get('/:first/:second', (req, res) => {
+  res.json({ URLParams: req.params, QueryParams: req.query })
+})
+
+app.use(staticFolder())
+
+app.use(logger())
+
+app.listen(3000)
+```

@@ -5,14 +5,18 @@ import fs from 'fs'
 
 let cfg = []
 
-const swapPositions = (array, a ,b) => {
-  [array[a], array[b]] = [array[b], array[a]]
+const swapPositions = (array, a, b) => {
+  ;[array[a], array[b]] = [array[b], array[a]]
 }
 
-const pkgList = fs.readdirSync('packages')
+// const pkgList = fs.readdirSync('packages').sort((a, b) => a.localeCompare(b))
 
-swapPositions(pkgList, pkgList.indexOf('app'), pkgList.indexOf('etag'))
+// swapPositions(pkgList, pkgList.indexOf('app'), pkgList.indexOf('etag'))
+// swapPositions(pkgList, pkgList.indexOf('cookie-parser'), pkgList.indexOf('cookie-signature'))
 
+const pkgList = ['cookie-signature', 'etag', 'app', 'cookie', 'cookie-parser', 'cors', 'logger', 'static']
+
+console.log(`Building these packages: ${pkgList.join(', ')}...`)
 
 for (let pkg of pkgList) {
   const pkgJson = JSON.parse(fs.readFileSync(`${__dirname}/packages/${pkg}/package.json`).toString())
