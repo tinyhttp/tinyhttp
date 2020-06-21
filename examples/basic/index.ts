@@ -2,13 +2,16 @@ import { App } from '../../packages/app/src/index'
 import staticFolder from '../../packages/static/src/index'
 import logger from '../../packages/logger/src/index'
 
-const app = new App()
+const app = new App({
+  noMatchHandler: (_req, res) => {
+    res.status(404)
+    res.write(`<h1>404</h1>`)
+    res.write(`<h2>Not found</h2>`)
+    res.end(':(')
+  }
+})
 
 app.get('/', (_, res) => void res.send('<h1>Hello World</h1>'))
-
-app.all('*', (_, res) => {
-  throw new Error('oops')
-})
 
 app.get('/page/:page/', (req, res) => {
   res.status(200).send(`

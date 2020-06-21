@@ -53,10 +53,14 @@ export class App {
   routes: Middleware[]
   middleware: Middleware[]
   noMatchHandler: Handler
-  constructor(noMatchHandler: Handler = notFound()) {
+  constructor(
+    options: Partial<{ noMatchHandler: Handler }> = {
+      noMatchHandler: notFound()
+    }
+  ) {
     this.routes = []
     this.middleware = []
-    this.noMatchHandler = noMatchHandler
+    this.noMatchHandler = options.noMatchHandler
   }
 
   get(url: string | Handler, handler?: Handler) {
