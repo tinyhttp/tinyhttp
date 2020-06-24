@@ -2,9 +2,7 @@
 ![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/body-parsec.svg?style=flat-square)
 ![Last commit](https://img.shields.io/github/last-commit/talentlessguy/tinyhttp.svg?style=flat-square) ![NPM](https://img.shields.io/npm/l/@tinyhttp/app?style=flat-square)
 
-# @tinyhttp/core
-
-`tinyhttp` core module with `App`, `Request` and `Response` classes.
+# tinyhttp
 
 > ⚠ The project is incomplete. Please don't use in production.
 
@@ -12,7 +10,7 @@
 
 ## Installation
 
-Node.js 13 is required.
+Node.js 12.4.0 or newer (according to https://node.green/#ES2019) is required.
 
 ```sh
 # npm
@@ -45,31 +43,14 @@ import logger from '@tinyhttp/logger'
 
 const app = new App()
 
-app.all('/', (req, res) => {
-  res.status(200).send(`
-    <h1>tinyhttp example</h1>
-    <ul>
-      <li>Protocol: ${req.protocol}</li>
-      <li>HTTPS: ${req.secure ? 'yes' : 'no'}</li>
-      <li>URL: ${req.url}</li>
-      <li>Method: ${req.method}</li>
-      <li>Host: ${req.hostname}</li>
-      <li>Status: ${res.statusCode}</li>
-    </ul>
-    <h2>Request headers</h2>
-<pre>
-${JSON.stringify(req.headers, null, 2)}
-</pre>
-`)
-})
-
-app.get('/:first/:second', (req, res) => {
-  res.json({ URLParams: req.params, QueryParams: req.query })
-})
-
-app.use(staticFolder())
-
-app.use(logger())
-
-app.listen(3000)
+app
+  .get('/', (_, res) => {
+    res.send('<h1>Hello World</h1>')
+  })
+  .get('/page/:page/', (req, res) => {
+    res.status(200).send(`${JSON.stringify(req.params, null, 2)}`)
+  })
+  .use(logger())
+  .use(staticFolder())
+  .listen(3000)
 ```
