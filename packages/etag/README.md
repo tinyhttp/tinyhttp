@@ -7,7 +7,7 @@ tinyhttp entity tag module
 ## Installation
 
 ```sh
-npm install @tinyhttp/etag
+pnpm i @tinyhttp/etag
 ```
 
 ## License

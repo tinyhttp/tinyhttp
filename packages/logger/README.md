@@ -12,7 +12,7 @@ or
 command line tools.
 
 ```sh
-npm install @tinyhttp/logger --save
+pnpm i @tinyhttp/logger --save
 ```
 
 ## License

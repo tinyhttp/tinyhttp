@@ -24,5 +24,7 @@
   "dependencies": {
     "colors": "^1.4.0"
   },
-  "gitHead": "584a7d9a98e23543ef5285af59532a583c578d11"
+  "engines": {
+    "node": ">=12.4.0"
+  }
 }

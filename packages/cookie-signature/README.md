@@ -7,7 +7,7 @@ HTTP cookie signing and unsigning. A rewrite of [cookie-signature](https://githu
 ## Installation
 
 ```sh
-npm install @tinyhttp/cookie-signature
+pnpm i @tinyhttp/cookie-signature
 ```
 
 ## API

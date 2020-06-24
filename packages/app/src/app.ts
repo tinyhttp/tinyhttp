@@ -6,10 +6,11 @@ import {
   getURLParams,
   getRouteFromApp,
   getProtocol,
-  getHeader,
   getRangeFromHeader,
   checkIfXMLHttpRequest,
-  getHostname
+  getHostname,
+  getRequestHeader,
+  setRequestHeader
 } from './request'
 import { Response, send, json, status, setCookie, clearCookie, setHeader } from './response'
 import { notFound } from './notFound'
@@ -115,7 +116,8 @@ export class App {
 
     req.query = getQueryParams(req.url)
 
-    req.get = getHeader(req)
+    req.get = getRequestHeader(req)
+    req.set = setRequestHeader(req)
     req.range = getRangeFromHeader(req)
 
     req.xhr = checkIfXMLHttpRequest(req)
@@ -134,12 +136,8 @@ export class App {
     res.cookie = setCookie(req, res)
     res.clearCookie = clearCookie(req, res)
 
-    for (const route of this.routes) {
-      const { url, method, handler } = route
-
-      if (res.writableEnded) {
-        continue
-      } else {
+    this.routes?.forEach(({ url, method, handler }) => {
+      if (!res.writableEnded) {
         if (req.method === method) {
           if (url && req.url && rg(url).pattern.test(req.url)) {
             req.params = getURLParams(req.url, url)
@@ -151,27 +149,18 @@ export class App {
           }
         }
       }
-    }
+    })
 
-    let middleware: Middleware[] = this.middleware.filter(m => m.handler.name !== 'logger')
+    let middleware: Middleware[] = this.middleware
 
-    middleware.push({ handler: this.noMatchHandler })
-
-    const logger = this.middleware.find(m => m.handler.name === 'logger')
-
-    if (logger) middleware.push(logger)
-
-    middleware.map(({ handler }) => {
+    middleware?.map(({ handler }) => {
       handler(req, res)
     })
+
+    this.noMatchHandler(req, res)
   }
 
-  listen(
-    port?: number,
-    cb = () => console.log(`Started on http://${host}:${port}`),
-    host: string = 'localhost',
-    backlog?: number
-  ) {
+  listen(port?: number, cb?: () => void, host: string = 'localhost', backlog?: number) {
     // @ts-ignore
     const server = createServer((req: Request, res: Response) => {
       this.handle(req, res)

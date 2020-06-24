@@ -5,7 +5,7 @@ tinyhttp CORS module
 ## Installation
 
 ```sh
-npm install @tinyhttp/cors
+pnpm i @tinyhttp/cors
 ```
 
 ## API

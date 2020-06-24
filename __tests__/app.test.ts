@@ -1,13 +1,25 @@
 import supertest, { SuperTest, Request, Test, Response } from 'supertest'
-import { App } from '../packages/app/src'
+import { App, Handler } from '../packages/app/src'
+
+export const InitAppAndTest = (handler: Handler, route?: string, method: string = 'get') => {
+  const app = new App()
+
+  if (route) {
+    app[method](route, handler)
+  } else {
+    app.use(handler)
+  }
+
+  const server = app.listen()
+
+  const request: any = supertest(server)
+
+  return { request, server }
+}
 
 describe('Testing App', () => {
   it('should launch a basic server', done => {
-    const app = new App()
-
-    const server = app.use((_req, res) => void res.send('Hello world')).listen()
-
-    const request: any = supertest(server)
+    const { request, server } = InitAppAndTest((_req, res) => void res.send('Hello world'))
 
     request
       .get('/')
@@ -29,13 +41,7 @@ describe('Testing App', () => {
 
 describe('Testing routes', () => {
   it('should respond on matched route', done => {
-    const app = new App()
-
-    app.get('/route', (_req, res) => void res.send('Hello world'))
-
-    const server = app.listen()
-
-    const request: any = supertest(server)
+    const { request, server } = InitAppAndTest((_req, res) => void res.send('Hello world'), '/route')
 
     request
       .get('/route')
@@ -55,7 +61,7 @@ describe('Testing routes', () => {
 
     const server = app.listen()
 
-    const request: any = supertest(server)
+    const request = supertest(server)
 
     request
       .get('/route')

@@ -3,5 +3,10 @@
   "private": true,
   "scripts": {
     "dev": "ts-node index.ts"
+  },
+  "dependencies": {
+    "@tinyhttp/app": "workspace:^0.1.22",
+    "@tinyhttp/logger": "workspace:^0.1.20",
+    "@tinyhttp/static": "workspace:^0.1.20"
   }
 }

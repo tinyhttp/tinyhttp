@@ -29,6 +29,20 @@ importers:
       ts-jest: ^26.1.0
       tslib: ^2.0.0
       typescript: ^3.9.5
+  examples/basic:
+    dependencies:
+      '@tinyhttp/app': 'link:../../packages/app'
+      '@tinyhttp/logger': 'link:../../packages/logger'
+      '@tinyhttp/static': 'link:../../packages/static'
+    specifiers:
+      '@tinyhttp/app': 'workspace:^0.1.22'
+      '@tinyhttp/logger': 'workspace:^0.1.20'
+      '@tinyhttp/static': 'workspace:^0.1.20'
+  examples/no-match-handler:
+    dependencies:
+      '@tinyhttp/app': 'link:../../packages/app'
+    specifiers:
+      '@tinyhttp/app': 'workspace:^0.1.22'
   packages/app:
     dependencies:
       '@tinyhttp/cookie': 0.0.5

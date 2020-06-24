@@ -11,6 +11,9 @@
     "url": "https://github.com/talentlessguy/tinyhttp.git",
     "directory": "packages/cookie-signature"
   },
+  "engines": {
+    "node": ">=12.4.0"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "module": "dist/index.esm.js",

@@ -19,6 +19,9 @@
     "backend",
     "cors"
   ],
+  "engines": {
+    "node": ">=12.4.0"
+  },
   "author": "v1rtl",
   "license": "MIT"
 }

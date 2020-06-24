@@ -1,0 +1,10 @@
+{
+  "name": "basic",
+  "private": true,
+  "scripts": {
+    "dev": "ts-node index.ts"
+  },
+  "dependencies": {
+    "@tinyhttp/app": "workspace:^0.1.22"
+  }
+}

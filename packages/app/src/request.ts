@@ -37,8 +37,12 @@ export const getProtocol = (req: Request): Protocol => {
   return index !== -1 ? header.substring(0, index).trim() : header.trim()
 }
 
-export const getHeader = (req: Request) => (header: string) => {
-  return req.headers[header.toLowerCase()]
+export const getRequestHeader = (req: Request) => (header: string) => {
+  return req.headers[header]
+}
+
+export const setRequestHeader = (req: Request) => (field: string, value: string) => {
+  return (req.headers[field] = value)
 }
 
 export const getRangeFromHeader = (req: Request) => (size: number, options?: Options) => {
@@ -99,6 +103,7 @@ export interface Request extends IncomingMessage {
   hostname: string | undefined
 
   get: (header: string) => string | string[] | undefined
+  set: (field: string, value: string) => string
   range: (size: number, options?: any) => -1 | -2 | Ranges | undefined
 
   cookies?: any

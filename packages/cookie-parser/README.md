@@ -10,7 +10,7 @@ middleware. A rewrite of [cookie-parser](https://github.com/expressjs/cookie-par
 ## Installation
 
 ```sh
-npm install @tinyhttp/cookie-parser
+pnpm i @tinyhttp/cookie-parser
 ```
 
 ## API

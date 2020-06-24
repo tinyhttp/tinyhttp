@@ -7,7 +7,7 @@ HTTP cookie parser and serializer for Node.js. A rewrite of [cookie](https://git
 ## Installation
 
 ```sh
-npm install @tinyhttp/cookie
+pnpm i @tinyhttp/cookie
 ```
 
 ## API
