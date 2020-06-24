@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/cors",
-  "version": "0.1.21",
+  "version": "0.1.22",
   "description": "tinyhttp CORS module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
