@@ -88,7 +88,7 @@ unsign the cookie with each secret in order.
 import { App } from '@tinyhttp/app'
 import { cookieParser } from '@tinyhttp/cookie-parser'
 
-const app = express()
+const app = App()
 app.use(cookieParser())
 
 app.get('/', (req, res) => {
