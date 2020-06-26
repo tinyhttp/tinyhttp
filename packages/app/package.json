@@ -8,6 +8,9 @@
     "url": "https://github.com/talentlessguy/tinyhttp.git",
     "directory": "packages/app"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "module": "dist/index.esm.js",
