@@ -20,7 +20,7 @@ export const getURLParams = (reqUrl = '/', url = '/'): URLParams => {
 }
 
 export const getRouteFromApp = (app: App, handler: Handler) => {
-  return app.routes.find(h => h.handler.name === handler.name)
+  return app.middleware.find(h => h.handler.name === handler.name)
 }
 
 export const getProtocol = (req: Request): Protocol => {

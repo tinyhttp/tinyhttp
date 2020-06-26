@@ -6,7 +6,6 @@
   },
   "dependencies": {
     "@tinyhttp/app": "workspace:^0.1.24",
-    "@tinyhttp/logger": "workspace:^0.1.21",
-    "@tinyhttp/static": "workspace:^0.1.21"
+    "@tinyhttp/cookie-parser": "workspace:^0.0.3"
   }
 }

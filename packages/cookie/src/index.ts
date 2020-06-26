@@ -10,9 +10,9 @@ const pairSplitRegExp = /; */
 
 const fieldContentRegExp = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/
 
-function tryDecode(str: string, decode: (...args: any[]) => void) {
+function tryDecode(str: string) {
   try {
-    return decode(str)
+    return decodeURIComponent(str)
   } catch (e) {
     return str
   }
@@ -25,14 +25,7 @@ function tryDecode(str: string, decode: (...args: any[]) => void) {
  * The object has the various cookies as keys(names) => values
  *
  */
-export function parse(
-  str: string,
-  {
-    decode = decodeURIComponent
-  }: {
-    decode?: (str: string) => string
-  }
-) {
+export function parse(str: string) {
   let obj = {}
   const pairs = str.split(pairSplitRegExp)
 
@@ -51,7 +44,7 @@ export function parse(
     if ('"' == val[0]) val = val.slice(1, -1)
 
     // only assign once
-    if (obj[key] == null) obj[key] = tryDecode(val, decode)
+    if (obj[key] == null) obj[key] = tryDecode(val)
   }
 
   return obj

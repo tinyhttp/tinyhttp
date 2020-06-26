@@ -16,12 +16,12 @@ const swapPositions = (array, a, b) => {
 
 const pkgList = ['cookie-signature', 'etag', 'app', 'cookie', 'cookie-parser', 'cors', 'logger', 'static']
 
-console.log(`Building these packages: ${pkgList.join(', ')}...`)
-
 for (let pkg of pkgList) {
   const pkgJson = JSON.parse(fs.readFileSync(`${__dirname}/packages/${pkg}/package.json`).toString())
 
   const deps = pkgJson.dependencies ? Object.keys(pkgJson.dependencies) : []
+
+  console.log(`Building ${pkg}`)
 
   const defaultCfg = {
     input: `packages/${pkg}/src/index.ts`,

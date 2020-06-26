@@ -51,7 +51,6 @@ const createHandler = ({
 })
 
 export class App {
-  routes: Middleware[]
   middleware: Middleware[]
   noMatchHandler: Handler
   constructor(
@@ -59,34 +58,33 @@ export class App {
       noMatchHandler: notFound()
     }
   ) {
-    this.routes = []
     this.middleware = []
     this.noMatchHandler = options.noMatchHandler
   }
 
   get(url: string | Handler, handler?: Handler) {
-    this.routes.push(createHandler({ url, handler, method: 'GET' }))
+    this.middleware.push(createHandler({ url, handler, method: 'GET' }))
     return this
   }
   post(url: string | Handler, handler?: Handler) {
-    this.routes.push(createHandler({ url, handler, method: 'POST' }))
+    this.middleware.push(createHandler({ url, handler, method: 'POST' }))
     return this
   }
   put(url: string | Handler, handler?: Handler) {
-    this.routes.push(createHandler({ url, handler, method: 'PUT' }))
+    this.middleware.push(createHandler({ url, handler, method: 'PUT' }))
     return this
   }
   patch(url: string | Handler, handler?: Handler) {
-    this.routes.push(createHandler({ url, handler, method: 'PATCH' }))
+    this.middleware.push(createHandler({ url, handler, method: 'PATCH' }))
     return this
   }
   head(url: string | Handler, handler?: Handler) {
-    this.routes.push(createHandler({ url, handler, method: 'HEAD' }))
+    this.middleware.push(createHandler({ url, handler, method: 'HEAD' }))
     return this
   }
   all(url: string | Handler, handler?: Handler) {
     for (const method of METHODS) {
-      this.routes.push(createHandler({ url, handler, method }))
+      this.middleware.push(createHandler({ url, handler, method }))
     }
     return this
   }
@@ -136,9 +134,9 @@ export class App {
     res.cookie = setCookie(req, res)
     res.clearCookie = clearCookie(req, res)
 
-    this.routes?.forEach(({ url, method, handler }) => {
+    this.middleware?.forEach(({ url, method, handler }) => {
       if (!res.writableEnded) {
-        if (req.method === method) {
+        if (method && req.method === method) {
           if (url && req.url && rg(url).pattern.test(req.url)) {
             req.params = getURLParams(req.url, url)
             req.route = getRouteFromApp(this, handler)
@@ -147,14 +145,10 @@ export class App {
 
             handler(req, res)
           }
+        } else {
+          handler(req, res)
         }
       }
-    })
-
-    let middleware: Middleware[] = this.middleware
-
-    middleware?.map(({ handler }) => {
-      handler(req, res)
     })
 
     this.noMatchHandler(req, res)

@@ -84,7 +84,7 @@ export function signedCookies(obj: any, secret: string | string[]) {
  * Parse Cookie header and populate `req.cookies`
  * with an object keyed by the cookie names.
  */
-export const cookieParser = (secret: string | string[], options) => {
+export const cookieParser = (secret?: string | string[]) => {
   const secrets = !secret || Array.isArray(secret) ? secret || [] : [secret]
 
   return function cookieParser(req: Request, _res: Response) {
@@ -101,7 +101,7 @@ export const cookieParser = (secret: string | string[], options) => {
       return
     }
 
-    req.cookies = cookie.parse(cookies, options)
+    req.cookies = cookie.parse(cookies)
 
     // parse signed cookies
     if (secrets.length !== 0) {
