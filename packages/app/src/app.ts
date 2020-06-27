@@ -94,7 +94,7 @@ export class App {
     })
     return this
   }
-  handle(req: Request, res: Response) {
+  async handle(req: Request, res: Response) {
     /// Define extensions
 
     /*
@@ -134,7 +134,11 @@ export class App {
     res.cookie = setCookie(req, res)
     res.clearCookie = clearCookie(req, res)
 
-    this.middleware?.forEach(({ url, method, handler }) => {
+    const mw: Middleware[] = [...this.middleware, { handler: this.noMatchHandler }]
+
+    for (const m of mw) {
+      const { url, method, handler } = m
+
       if (!res.writableEnded) {
         if (method && req.method === method) {
           if (url && req.url && rg(url).pattern.test(req.url)) {
@@ -143,15 +147,19 @@ export class App {
 
             res.statusCode = 200
 
+            if (handler[Symbol.toStringTag] === 'AsyncFunction') {
+              await handler(req, res)
+            }
             handler(req, res)
           }
         } else {
+          if (handler[Symbol.toStringTag] === 'AsyncFunction') {
+            await handler(req, res)
+          }
           handler(req, res)
         }
       }
-    })
-
-    this.noMatchHandler(req, res)
+    }
   }
 
   listen(port?: number, cb?: () => void, host: string = 'localhost', backlog?: number) {

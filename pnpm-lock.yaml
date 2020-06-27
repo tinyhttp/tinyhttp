@@ -104,16 +104,29 @@ importers:
       colors: 1.4.0
     specifiers:
       colors: ^1.4.0
+  packages/site:
+    dependencies:
+      '@tinyhttp/app': 'link:../app'
+      '@tinyhttp/logger': 'link:../logger'
+      '@tinyhttp/static': 'link:../static'
+      typeface-inter: 3.12.0
+    specifiers:
+      '@tinyhttp/app': 'workspace:^0.1.25'
+      '@tinyhttp/logger': 'workspace:^0.1.21'
+      '@tinyhttp/static': 'workspace:^0.1.21'
+      typeface-inter: ^3.12.0
   packages/static:
     dependencies:
       '@tinyhttp/app': 'link:../app'
       mime-types: 2.1.27
+      readdirp: 3.4.0
     devDependencies:
       '@types/mime-types': 2.1.0
     specifiers:
       '@tinyhttp/app': ^0.1.17
       '@types/mime-types': ^2.1.0
       mime-types: ^2.1.27
+      readdirp: ^3.4.0
 lockfileVersion: 5.1
 packages:
   /@babel/code-frame/7.10.3:
@@ -4859,6 +4872,14 @@ packages:
     dev: true
     resolution:
       integrity: sha512-Ebho8K4jIbHAxnuxi7o42OrZgF/ZTNcsZj6nRKyUmkhLFq8CHItp/fy6hQZuZmP/n3yZ9VBUbp4zz/mX8hmYPw==
+  /readdirp/3.4.0:
+    dependencies:
+      picomatch: 2.2.2
+    dev: false
+    engines:
+      node: '>=8.10.0'
+    resolution:
+      integrity: sha512-0xe001vZBnJEK+uKcj8qOhyAKPzIT+gStxWr3LCB0DwcXR5NZJ3IaC+yGnHCYzB/S7ov3m3EEbZI2zeNvX+hGQ==
   /redent/2.0.0:
     dependencies:
       indent-string: 3.2.0
@@ -5738,6 +5759,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-zdu8XMNEDepKKR+XYOXAVPtWui0ly0NtohUscw+UmaHiAWT8hrV1rr//H6V+0DvJ3OQ19S979M0laLfX8rm82Q==
+  /typeface-inter/3.12.0:
+    dev: false
+    resolution:
+      integrity: sha512-3vKBTKCl6S0OJhMKwmyAOodsfTD3Gxsrj5ReavpQmdZ385ecUr3swfNxiBZ4u594mNfojlqL/zUebavV3A1yCA==
   /typescript/3.9.5:
     dev: true
     engines:

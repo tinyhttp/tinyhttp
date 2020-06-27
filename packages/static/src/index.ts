@@ -1,33 +1,34 @@
 import { promises as fs } from 'fs'
-import * as mime from 'mime-types'
+import { contentType } from 'mime-types'
 import { Request, Response } from '@tinyhttp/app'
+import readdir from 'readdirp'
 
 const sendFile = async (file: string) => {
-  return (await fs.readFile(`${process.cwd()}/${file}`)).toString()
+  return fs.readFile(`${file}`).toString()
 }
 
 const staticFolder = (dir = process.cwd()) => {
-  const getFiles = async () => await fs.readdir(dir)
-
   return async (req: Request, res: Response) => {
-    let { url } = req
+    const files = await readdir.promise(dir)
 
-    const files = await getFiles()
+    const file = files.find(file => (req.url ? decodeURI(req.url).slice(1) === file.path : null))
 
-    const file = files.find(file => (url ? url.slice(1) === file : null))
-
-    if (!res.writableEnded && file) {
-      if (url === '/') {
-        if (files.includes('index.html')) {
-          res.setHeader('Content-Type', 'text/html; charset=utf-8')
-          res.status(200).send(sendFile('index.html'))
-        } else if (files.includes('index.txt')) {
-          res.status(200).send(sendFile('index.txt'))
+    if (!res.writableEnded) {
+      if (req.url === '/') {
+        if (files.find(f => f.path === 'index.html')) {
+          res.set('Content-Type', 'text/html; charset=utf-8').send(sendFile(`${dir}/index.html`))
+        } else if (files.find(f => f.path === 'index.html')) {
+          res.set('Content-Type', 'text/plain').send(sendFile(`${dir}/index.txt`))
         }
-      } else if (file && !(await fs.stat(file)).isDirectory()) {
-        res.statusCode = 200
-        res.setHeader('Content-Type', mime.contentType(file) || 'text/plain')
-        res.send(sendFile(file))
+      }
+
+      if (file) {
+        const isDir = (await fs.stat(`${dir}/${file.path}`)).isDirectory()
+        if (isDir) {
+          // TODO
+        } else {
+          res.set('Content-Type', contentType(file.basename) || 'text/plain').send(sendFile(`${dir}/${file.path}`))
+        }
       }
     }
   }

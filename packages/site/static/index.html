@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tinyhttp</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav>
+      <a href="/">Home</a>
+      <a href="https://github.com/talentlessguy/tinyhttp">GitHub</a>
+      <a href="https://tinyhttp.now.sh">Docs</a>
+      <a href="https://v1rtl.site/donate">Donate</a>
+  
+    </nav>
+    <main>
+      <header>
+        <img id="logo" src="logo.svg" />
+        <p>
+          tinyhttp is a <strong>modern</strong>, <strong>lightweight</strong> and <strong>modular</strong> Express-like
+          web framework for Node.js.
+        </p>
+        <div>
+          <button onclick="window.scrollTo({top: 715})">Get Started</button>
+          <button>Docs</button>
+        </div>
+      </header>
+      <section id="get_started">
+        <pre id="install">pnpm add @tinyhttp/app @tinyhttp/logger</pre>
+    
+        <pre id="code">
+import { App } from '@tinyhttp/app'
+import logger from '@tinyhttp/logger'
+
+const app = new App()
+
+app
+  .get('/', (_, res) => void res.send('Hello World'))
+  .get('/page/:page/', (req, res) => {
+    res.status(200).send(`
+    Some cool page
+    URL
+    ${req.url}
+    Params
+    ${JSON.stringify(req.params, null, 2)}
+  `)
+  })
+  .use(logger())
+  .listen(3000)
+
+        </pre>
+        <div id="window">
+          <div id="address">http://localhost:3000/<input id="editable" value="page/test" /></div>
+          <div id="content">
+            <h1>Some cool page</h1>
+            <h2>URL</h2>
+            /page/test
+            <h2>Params</h2>
+            { "page": "test" }
+          </div>
+        </div>
+      </section>
+      <section id="features">
+        <h2>Features</h2>
+        <div>
+          <div>
+            <h3>Same API without legacy dependencies</h2>
+            <p>
+              tinyhttp uses a bare minimum of dependencies to avoid shipping useless ES6 polyfills (that Express has).
+              <code>node_modules</code> is smaller, code runs faster, everyone wins! Also, it targets ES2019 (Node 12.4+)
+              to ship as less code as possible.
+            </p>
+          </div>
+          <img src="no_legacy.svg" />
+          <div>
+            <h3>Compatible with Express</h2>
+            <p>tinyhttp offers a pack of popular middleware like <a href="https://github.com/talentlessguy/tinyhttp/blob/master/packages/logger">logger</a> and <a href="https://github.com/talentlessguy/tinyhttp/blob/master/packages/cookie-parser">cookie parser</a> but all middleware for Express works for tinyhttp as well.</p>
+          </div>
+          <img src="express.svg" />
+          <div>
+            <h3>Completely modular</h2>
+            <p>Every piece of tinyhttp, from <a href="https://github.com/talentlessguy/tinyhttp/blob/master/packages/static">static server</a> to <a href="https://github.com/talentlessguy/tinyhttp/blob/master/packages/etag">eTag</a> is published separately as a module that you can use outside of tinyhttp.</p>
+          </div>
+          <img src="modular.svg" alt="modular" />
+        </div>
+        
+      </section>
+    </main>
+    <footer>
+      v1rtl (c) <a href="https://github.com/talentlessguy/tinyhttp/blob/master/LICENSE">MIT License</a>
+    </footer>
+    <script src="index.js"></script>
+  </body>
+</html>

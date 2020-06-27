@@ -1,0 +1,198 @@
+@import url('https://rsms.me/inter/inter.css');
+
+:root {
+  --bg: #f0dae1;
+  --pink: #c55b79;
+  --bright-pink: #9e7eba;
+  --fg: #633240;
+  --shadow: 5px 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+}
+
+@supports (font-variation-settings: normal) {
+  * {
+    font-family: 'Inter var', sans-serif !important;
+  }
+}
+
+* {
+  font-family: 'Inter', sans-serif !important;
+}
+
+pre,
+code {
+  font-family: 'Fira Code', 'Inconsolata', 'Losevka', sans-serif !important;
+}
+
+body,
+html {
+  height: 100%;
+}
+
+main {
+  width: 90vw;
+  margin: 0 auto;
+  display: grid;
+  padding: 3rem 0;
+  row-gap: 3rem;
+}
+
+#logo {
+  margin-top: 2rem;
+  width: 65%;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+
+button {
+  background: transparent;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  box-shadow: var(--shadow);
+  border: none;
+  cursor: pointer;
+}
+
+header button:first-of-type {
+  border-color: var(--pink);
+  color: var(--bg);
+  background: linear-gradient(150deg, var(--pink) 40%, var(--bright-pink) 72%);
+}
+
+header button:nth-of-type(2) {
+  border-color: var(--fg);
+  color: var(--fg);
+}
+
+header p {
+  margin: 2rem 0;
+}
+
+header button:first-of-type {
+  margin-right: 3rem;
+}
+
+#features > div {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 10rem 5rem;
+}
+
+#features > div img {
+  place-self: center;
+}
+
+#get_started {
+  display: grid;
+  gap: 3rem;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas: 'install install' '. .';
+}
+
+@media (max-width: 1100px) {
+  #get_started {
+    grid-template-columns: 1fr;
+    grid-template-areas: 'install' '.' '.';
+  }
+}
+
+#get_started #install {
+  grid-area: install;
+}
+
+#get_started > * {
+  padding: 2rem;
+  box-shadow: var(--shadow);
+  border-radius: 10px;
+}
+
+pre {
+  background-color: var(--fg);
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--bg);
+}
+
+#get_started #window {
+  background-color: white;
+}
+
+#get_started #address {
+  background-color: #f1f1f1;
+  color: #575757;
+  display: block;
+  padding: 0.5rem 2rem;
+  border-radius: 30px;
+}
+
+#get_started #content h1 {
+  font-size: 3rem;
+  margin: 1.5rem 0;
+  letter-spacing: -2.5px;
+}
+
+#get_started #content h2 {
+  font-size: 2rem;
+  margin: 1rem 0;
+  letter-spacing: -2.5px;
+}
+
+#get_started #address input {
+  appearance: none;
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: inherit;
+  margin: 0;
+  outline: none;
+  padding: 0;
+  width: 50%;
+}
+
+#features h2 {
+  text-align: center;
+  font-size: calc(2rem + 2vw);
+  letter-spacing: -3px;
+}
+
+#features h3 {
+  font-size: calc(1rem + 1vw);
+  letter-spacing: -2px;
+  margin-bottom: 0.1rem;
+}
+
+nav {
+  background-color: var(--bg);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem 0;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+nav a {
+  color: var(--pink);
+}
+
+nav a:hover {
+  color: var(--bright-pink);
+}
+
+footer {
+  padding: 3rem;
+  display: flex;
+  justify-content: space-between;
+}
