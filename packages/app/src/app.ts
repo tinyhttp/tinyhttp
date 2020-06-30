@@ -97,7 +97,7 @@ export class App {
     })
     return this
   }
-  private extendMiddleware(req: Request, res: Response) {
+  extendMiddleware(req: Request, res: Response) {
     /// Define extensions
 
     /*
@@ -144,7 +144,7 @@ export class App {
     else res.end(err.message || STATUS_CODES[code])
   }
 
-  private handle(mw: Middleware) {
+  handle(mw: Middleware) {
     const { url, method, handler } = mw
 
     return async (req: Request, res: Response, next?: NextFunction) => {
