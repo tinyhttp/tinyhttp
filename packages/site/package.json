@@ -5,9 +5,6 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/app": "workspace:^0.1.25",
-    "@tinyhttp/logger": "workspace:^0.1.21",
-    "@tinyhttp/static": "workspace:^0.1.21",
     "typeface-inter": "^3.12.0"
   },
   "scripts": {

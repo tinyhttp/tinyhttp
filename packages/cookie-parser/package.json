@@ -30,7 +30,7 @@
   "license": "MIT",
   "dependencies": {
     "@tinyhttp/app": "workspace:^0.1.21",
-    "@tinyhttp/cookie": "workspace:^0.0.6",
-    "@tinyhttp/cookie-signature": "workspace:^0.0.4"
+    "@tinyhttp/cookie": "workspace:^0.0.8",
+    "@tinyhttp/cookie-signature": "workspace:^0.0.5"
   }
 }

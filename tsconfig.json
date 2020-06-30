@@ -17,6 +17,7 @@
     "sourceMap": false,
     "allowUnusedLabels": true,
     "allowUmdGlobalAccess": false,
+
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true
   },

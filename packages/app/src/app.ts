@@ -14,12 +14,15 @@ import {
 } from './request'
 import { Response, send, json, status, setCookie, clearCookie, setHeader } from './response'
 import { notFound } from './notFound'
+import { isAsync } from './utils/async'
 
 export const METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'HEAD']
 
-export type Handler = (req: Request, res: Response, next?: () => void) => void | Promise<void>
+export type Handler = (req: Request, res: Response, next?: (err?: any) => void) => void | Promise<void>
 
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'HEAD' | string
+
+export type NextFunction = (err?: any) => void
 
 export const onError = (err: any, _req: Request, res: Response, _next: () => void) => {
   let code = (res.statusCode = err.code || err.status || 500)
@@ -59,7 +62,7 @@ export class App {
     }
   ) {
     this.middleware = []
-    this.noMatchHandler = options.noMatchHandler
+    this.noMatchHandler = options.noMatchHandler || this.onError.bind(null, { code: 404 })
   }
 
   get(url: string | Handler, handler?: Handler) {
@@ -94,7 +97,7 @@ export class App {
     })
     return this
   }
-  async handle(req: Request, res: Response) {
+  private extendMiddleware(req: Request, res: Response) {
     /// Define extensions
 
     /*
@@ -133,12 +136,18 @@ export class App {
 
     res.cookie = setCookie(req, res)
     res.clearCookie = clearCookie(req, res)
+  }
 
-    const mw: Middleware[] = [...this.middleware, { handler: this.noMatchHandler }]
+  onError(err, _req: Request, res: Response, _next) {
+    let code = (res.statusCode = err.code || err.status || 500)
+    if (typeof err === 'string' || Buffer.isBuffer(err)) res.end(err)
+    else res.end(err.message || STATUS_CODES[code])
+  }
 
-    for (const m of mw) {
-      const { url, method, handler } = m
+  private handle(mw: Middleware) {
+    const { url, method, handler } = mw
 
+    return async (req: Request, res: Response, next?: NextFunction) => {
       if (!res.writableEnded) {
         if (method && req.method === method) {
           if (url && req.url && rg(url).pattern.test(req.url)) {
@@ -147,25 +156,45 @@ export class App {
 
             res.statusCode = 200
 
-            if (handler[Symbol.toStringTag] === 'AsyncFunction') {
-              await handler(req, res)
+            if (isAsync(handler)) {
+              await handler(req, res, next)
+            } else {
+              handler(req, res, next)
             }
-            handler(req, res)
           }
         } else {
-          if (handler[Symbol.toStringTag] === 'AsyncFunction') {
-            await handler(req, res)
+          if (isAsync(handler)) {
+            await handler(req, res, next)
+          } else {
+            handler(req, res, next)
           }
-          handler(req, res)
         }
       }
     }
   }
 
+  handler(mw: Middleware[] | [], req: Request, res: Response) {
+    if (mw.length === 0) return
+
+    this.extendMiddleware(req, res)
+
+    const m = mw[0]
+    const rest = mw.slice(1, mw.length)
+
+    // skip handling if only one middleware
+    // TODO: Implement next(err) function properly
+    const next = err => (err ? this.onError(err, req, res, next) : this.handler(rest, req, res))
+
+    this.handle(m)(req, res, next)
+
+    this.handler(rest, req, res)
+  }
+
   listen(port?: number, cb?: () => void, host: string = 'localhost', backlog?: number) {
     // @ts-ignore
     const server = createServer((req: Request, res: Response) => {
-      this.handle(req, res)
+      this.handler(this.middleware, req, res)
+      this.noMatchHandler(req, res)
     })
 
     return server.listen(port, host, backlog, cb)

@@ -29,30 +29,9 @@ importers:
       ts-jest: ^26.1.0
       tslib: ^2.0.0
       typescript: ^3.9.5
-  examples/basic:
-    dependencies:
-      '@tinyhttp/app': 'link:../../packages/app'
-      '@tinyhttp/logger': 'link:../../packages/logger'
-      '@tinyhttp/static': 'link:../../packages/static'
-    specifiers:
-      '@tinyhttp/app': 'workspace:^0.1.24'
-      '@tinyhttp/logger': 'workspace:^0.1.21'
-      '@tinyhttp/static': 'workspace:^0.1.21'
-  examples/cookie:
-    dependencies:
-      '@tinyhttp/app': 'link:../../packages/app'
-      '@tinyhttp/cookie-parser': 'link:../../packages/cookie-parser'
-    specifiers:
-      '@tinyhttp/app': 'workspace:^0.1.24'
-      '@tinyhttp/cookie-parser': 'workspace:^0.0.3'
-  examples/no-match-handler:
-    dependencies:
-      '@tinyhttp/app': 'link:../../packages/app'
-    specifiers:
-      '@tinyhttp/app': 'workspace:^0.1.24'
   packages/app:
     dependencies:
-      '@tinyhttp/cookie': 0.0.5
+      '@tinyhttp/cookie': 'link:../cookie'
       '@tinyhttp/cookie-signature': 'link:../cookie-signature'
       '@tinyhttp/etag': 'link:../etag'
       content-type: 1.0.4
@@ -68,8 +47,8 @@ importers:
       '@types/proxy-addr': 2.0.0
       '@types/range-parser': 1.2.3
     specifiers:
-      '@tinyhttp/cookie': ^0.0.5
-      '@tinyhttp/cookie-signature': 'workspace:^0.0.4'
+      '@tinyhttp/cookie': 'workspace:^0.0.8'
+      '@tinyhttp/cookie-signature': 'workspace:^0.0.5'
       '@tinyhttp/etag': ^0.1.15
       '@types/content-type': ^1.1.3
       '@types/encodeurl': ^1.0.0
@@ -91,8 +70,8 @@ importers:
       '@tinyhttp/cookie-signature': 'link:../cookie-signature'
     specifiers:
       '@tinyhttp/app': 'workspace:^0.1.21'
-      '@tinyhttp/cookie': 'workspace:^0.0.6'
-      '@tinyhttp/cookie-signature': 'workspace:^0.0.4'
+      '@tinyhttp/cookie': 'workspace:^0.0.8'
+      '@tinyhttp/cookie-signature': 'workspace:^0.0.5'
   packages/cookie-signature:
     specifiers: {}
   packages/cors:
@@ -106,14 +85,8 @@ importers:
       colors: ^1.4.0
   packages/site:
     dependencies:
-      '@tinyhttp/app': 'link:../app'
-      '@tinyhttp/logger': 'link:../logger'
-      '@tinyhttp/static': 'link:../static'
       typeface-inter: 3.12.0
     specifiers:
-      '@tinyhttp/app': 'workspace:^0.1.25'
-      '@tinyhttp/logger': 'workspace:^0.1.21'
-      '@tinyhttp/static': 'workspace:^0.1.21'
       typeface-inter: ^3.12.0
   packages/static:
     dependencies:
@@ -1504,10 +1477,6 @@ packages:
     dev: true
     resolution:
       integrity: sha512-MZPUxrmFubI36XS1DI3qmI0YdN1gks62JtFZvxR67ljjSNCeK6U08Zx4msEWOXuofgqUt6zPHSi1H9fbjR/NRA==
-  /@tinyhttp/cookie/0.0.5:
-    dev: false
-    resolution:
-      integrity: sha512-UkEBZDY8I1trVjglc5AX58Tm4bkBvDHE9DrQRHblVVjrP2rDUIyHFAKHcX7aLM+ZIzKY/+Dv4ulBpSCQWQBdMQ==
   /@types/babel__core/7.1.8:
     dependencies:
       '@babel/parser': 7.10.3
