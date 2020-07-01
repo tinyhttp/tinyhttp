@@ -173,7 +173,7 @@ export class App {
     }
   }
 
-  handler(mw: Middleware[] | [], req: Request, res: Response) {
+  async handler(mw: Middleware[] | [], req: Request, res: Response) {
     if (mw.length === 0) return
 
     this.extendMiddleware(req, res)
@@ -183,9 +183,9 @@ export class App {
 
     // skip handling if only one middleware
     // TODO: Implement next(err) function properly
-    const next = err => (err ? this.onError(err, req, res, next) : this.handler(rest, req, res))
+    // const next = err => (err ? this.onError(err, req, res, next) : this.handler(rest, req, res))
 
-    this.handle(m)(req, res, next)
+    await this.handle(m)(req, res)
 
     this.handler(rest, req, res)
   }
@@ -193,8 +193,10 @@ export class App {
   listen(port?: number, cb?: () => void, host: string = 'localhost', backlog?: number) {
     // @ts-ignore
     const server = createServer((req: Request, res: Response) => {
-      this.handler(this.middleware, req, res)
-      this.noMatchHandler(req, res)
+      const mw = this.middleware
+
+      const noMatchMw = { handler: this.noMatchHandler }
+      this.handler([...mw, noMatchMw], req, res)
     })
 
     return server.listen(port, host, backlog, cb)

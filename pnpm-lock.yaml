@@ -69,7 +69,7 @@ importers:
       '@tinyhttp/cookie': 'link:../cookie'
       '@tinyhttp/cookie-signature': 'link:../cookie-signature'
     specifiers:
-      '@tinyhttp/app': 'workspace:^0.1.21'
+      '@tinyhttp/app': 'workspace:^0.1.26'
       '@tinyhttp/cookie': 'workspace:^0.0.8'
       '@tinyhttp/cookie-signature': 'workspace:^0.0.5'
   packages/cookie-signature:
@@ -83,6 +83,18 @@ importers:
       colors: 1.4.0
     specifiers:
       colors: ^1.4.0
+  packages/markdown:
+    dependencies:
+      '@tinyhttp/app': 'link:../app'
+      marked: 1.1.0
+      readdirp: 3.4.0
+    devDependencies:
+      '@types/marked': 1.1.0
+    specifiers:
+      '@tinyhttp/app': 'workspace:^0.1.26'
+      '@types/marked': ^1.1.0
+      marked: ^1.1.0
+      readdirp: ^3.4.0
   packages/site:
     dependencies:
       typeface-inter: 3.12.0
@@ -96,7 +108,7 @@ importers:
     devDependencies:
       '@types/mime-types': 2.1.0
     specifiers:
-      '@tinyhttp/app': ^0.1.17
+      '@tinyhttp/app': 'workspace:^0.1.26'
       '@types/mime-types': ^2.1.0
       mime-types: ^2.1.27
       readdirp: ^3.4.0
@@ -1555,6 +1567,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-/yeMsH9HQ1RLORlXAwoLXe8S98xxvhNtUz3yrgrwbaxYjT+6SFPZZRksmRKRA6L5vsUtSHeN71viDOTTyYAD+g==
+  /@types/marked/1.1.0:
+    dev: true
+    resolution:
+      integrity: sha512-j8XXj6/l9kFvCwMyVqozznqpd/nk80krrW+QiIJN60Uu9gX5Pvn4/qPJ2YngQrR3QREPwmrE1f9/EWKVTFzoEw==
   /@types/mime-types/2.1.0:
     dev: true
     resolution:
@@ -4138,6 +4154,13 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-7Nyo8TFE5mDxtb1B8S80edmN+48=
+  /marked/1.1.0:
+    dev: false
+    engines:
+      node: '>= 8.16.2'
+    hasBin: true
+    resolution:
+      integrity: sha512-EkE7RW6KcXfMHy2PA7Jg0YJE1l8UPEZE8k45tylzmZM30/r1M1MUXWQfJlrSbsTeh7m/XTwHbWUENvAJZpp1YA==
   /mdn-browser-compat-data/1.0.19:
     dependencies:
       extend: 3.0.2

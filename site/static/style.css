@@ -21,6 +21,7 @@ body {
 
 * {
   font-family: 'Inter', sans-serif !important;
+  scroll-behavior: smooth;
 }
 
 pre,
@@ -43,7 +44,7 @@ main {
 
 #logo {
   margin-top: 2rem;
-  width: 65%;
+  width: 700px;
 }
 
 header {
@@ -63,23 +64,20 @@ button {
   cursor: pointer;
 }
 
-header button:first-of-type {
+header #to_get_started {
   border-color: var(--pink);
   color: var(--bg);
   background: linear-gradient(150deg, var(--pink) 40%, var(--bright-pink) 72%);
+  margin-right: 3rem;
 }
 
-header button:nth-of-type(2) {
+header #to_docs {
   border-color: var(--fg);
   color: var(--fg);
 }
 
 header p {
   margin: 2rem 0;
-}
-
-header button:first-of-type {
-  margin-right: 3rem;
 }
 
 #features > div {
@@ -118,10 +116,13 @@ header button:first-of-type {
 }
 
 pre {
-  background-color: var(--fg);
+  background-color: #420926;
   margin: 0;
   font-size: 0.8rem;
   color: var(--bg);
+  padding: 2rem;
+  box-shadow: var(--shadow);
+  border-radius: 10px;
 }
 
 #get_started #window {

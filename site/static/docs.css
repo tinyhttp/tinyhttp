@@ -1,0 +1,91 @@
+@import url('/style.css');
+
+body {
+  width: 50vw;
+  margin: 5rem auto;
+}
+
+@media (max-width: 350px) {
+  body {
+    width: 80vw;
+  }
+}
+
+blockquote {
+  margin: 0;
+  padding: 1rem;
+  font-style: italic;
+  background: #d1c6c6;
+}
+
+pre {
+  margin: 2rem 0;
+  overflow-x: auto;
+}
+body > h1 {
+  font-size: calc(2vw + 2rem);
+}
+
+body > * {
+  scroll-margin-top: 4rem;
+}
+
+body > h2 {
+  font-size: calc(1.25vw + 1.25rem);
+}
+
+body > h3 {
+  font-size: calc(1vw + 1rem);
+  color: #242323;
+}
+
+body > h4 {
+  font-size: calc(0.8vw + 0.8rem);
+  color: #3a3839;
+}
+
+body > h5 {
+  font-size: calc(0.75vw + 0.75rem);
+  color: #424142;
+  margin: 0.75rem 0;
+}
+
+body > h6 {
+  font-size: calc(0.6vw + 0.6rem);
+  margin: 0.5rem 0;
+}
+
+td {
+  padding: 1rem;
+}
+
+aside {
+  position: fixed;
+  background: var(--bg);
+  left: 0;
+  top: 3rem;
+  padding-left: 3rem;
+}
+
+aside ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+@media (max-width: 750px) {
+  body {
+    width: 70vw;
+  }
+  aside {
+    position: static;
+    top: unset;
+    left: unset;
+    padding: 0;
+  }
+}
+
+aside h2 {
+  font-style: italic;
+  font-size: 1.2rem;
+  color: #3a3839;
+}

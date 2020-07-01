@@ -9,17 +9,20 @@ const swapPositions = (array, a, b) => {
   ;[array[a], array[b]] = [array[b], array[a]]
 }
 
-// const pkgList = fs.readdirSync('packages').sort((a, b) => a.localeCompare(b))
+const pkgList = fs.readdirSync('packages').sort((a, b) => a.localeCompare(b))
 
-// swapPositions(pkgList, pkgList.indexOf('app'), pkgList.indexOf('etag'))
-// swapPositions(pkgList, pkgList.indexOf('cookie-parser'), pkgList.indexOf('cookie-signature'))
+swapPositions(pkgList, pkgList.indexOf('app'), pkgList.indexOf('etag'))
+swapPositions(pkgList, pkgList.indexOf('cookie-parser'), pkgList.indexOf('cookie-signature'))
+swapPositions(pkgList, pkgList.indexOf('app'), pkgList.indexOf('cookie-parser'))
 
-const pkgList = ['cookie', 'cookie-signature', 'etag', 'app', 'cookie-parser', 'cors', 'logger', 'static']
+// const pkgList = ['cookie', 'cookie-signature', 'etag', 'app', 'cookie-parser', 'cors', 'logger', 'static']
 
 for (let pkg of pkgList) {
   const pkgJson = JSON.parse(fs.readFileSync(`${__dirname}/packages/${pkg}/package.json`).toString())
 
-  const deps = pkgJson.dependencies ? Object.keys(pkgJson.dependencies) : []
+  let deps = ['fs/promises']
+
+  deps = pkgJson.dependencies ? Object.keys(pkgJson.dependencies) : []
 
   console.log(`Building ${pkg}`)
 

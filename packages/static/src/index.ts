@@ -1,37 +1,75 @@
-import { promises as fs } from 'fs'
+import { stat, readFile, readdir } from 'fs/promises'
 import { contentType } from 'mime-types'
 import { Request, Response } from '@tinyhttp/app'
-import readdir from 'readdirp'
+import { promise as recursiveReaddir } from 'readdirp'
+import { parse } from 'path'
 
 const sendFile = async (file: string) => {
-  return fs.readFile(`${file}`).toString()
+  return (await readFile(`${file}`)).toString()
 }
 
-const staticFolder = (dir = process.cwd()) => {
+export type StaticHandlerOptions = Partial<{
+  prefix: string
+  recursive: boolean
+}>
+
+export const staticHandler = (
+  dir = process.cwd(),
+  { prefix, recursive }: StaticHandlerOptions = { prefix: '/', recursive: false }
+) => {
   return async (req: Request, res: Response) => {
-    const files = await readdir.promise(dir)
+    let files: string[]
 
-    const file = files.find(file => (req.url ? decodeURI(req.url).slice(1) === file.path : null))
+    if (recursive) {
+      files = (
+        await recursiveReaddir(dir, {
+          type: 'all'
+        })
+      ).map(f => f.path)
+    } else {
+      files = await readdir(dir)
+    }
 
-    if (!res.writableEnded) {
-      if (req.url === '/') {
-        if (files.find(f => f.path === 'index.html')) {
-          res.set('Content-Type', 'text/html; charset=utf-8').send(sendFile(`${dir}/index.html`))
-        } else if (files.find(f => f.path === 'index.html')) {
-          res.set('Content-Type', 'text/plain').send(sendFile(`${dir}/index.txt`))
+    if (req.url.startsWith(prefix)) {
+      const file = files.find(file => {
+        // remove prefix from URL
+        let unPrefixedURL = req.url.replace(prefix, '')
+
+        // strip extension for .html files
+        if (unPrefixedURL) {
+          return decodeURI(unPrefixedURL) === file
+        } else return null
+      })
+
+      // use index.* for root
+      if (req.url === prefix) {
+        const indexFile = files.find(f => parse(f).name === 'index')
+        if (indexFile) {
+          const fileContent = await sendFile(`${dir}/${indexFile}`)
+          res.set('Content-Type', 'text/html; charset=utf-8').send(fileContent)
         }
       }
-
       if (file) {
-        const isDir = (await fs.stat(`${dir}/${file.path}`)).isDirectory()
+        const fPath = file
+        const dirAndfilePath = `${dir}/${fPath}`
+
+        // Check if directory
+        const isDir = (await stat(dirAndfilePath)).isDirectory()
+
+        // If directory, output a list of files
         if (isDir) {
-          // TODO
+          const d = res.set('Content-Type', 'text/html; charset=utf-8')
+          res.write(`<h1>Index of /${fPath}</h1>`)
+          res.write('<ul>')
+          for (const item of await readdir(dirAndfilePath)) {
+            res.write(`<li><a href="/${fPath}/${item}">${item}</a></li>`)
+          }
+          res.end('</ul>')
         } else {
-          res.set('Content-Type', contentType(file.basename) || 'text/plain').send(sendFile(`${dir}/${file.path}`))
+          const fileContent = await sendFile(dirAndfilePath)
+          res.set('Content-Type', contentType(parse(file).ext) || 'text/plain').send(fileContent)
         }
       }
     }
   }
 }
-
-export default staticFolder
