@@ -6,8 +6,10 @@ import logger from '../packages/logger/src'
 const app = new App()
 
 app
+
   .use(logger())
   .use(staticHandler('static'))
+
   .use(
     md('docs', {
       prefix: '/docs',

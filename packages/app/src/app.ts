@@ -183,9 +183,15 @@ export class App {
 
     // skip handling if only one middleware
     // TODO: Implement next(err) function properly
-    // const next = err => (err ? this.onError(err, req, res, next) : this.handler(rest, req, res))
+    const next = err => {
+      if (err) {
+        this.onError(err, req, res, next)
+      } else {
+        this.handler(rest, req, res)
+      }
+    }
 
-    await this.handle(m)(req, res)
+    await this.handle(m)(req, res, next)
 
     this.handler(rest, req, res)
   }

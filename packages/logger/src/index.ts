@@ -2,7 +2,7 @@ import colors from 'colors'
 import { IncomingMessage as Request, ServerResponse as Response } from 'http'
 
 const loggerHandler = (methods: string[] = ['GET', 'POST', 'PUT']) => {
-  const logger = (req: Request, res: Response, next: () => void) => {
+  const logger = (req: Request, res: Response) => {
     res.on('finish', () => {
       const { method, url } = req
       const { statusCode, statusMessage } = res
@@ -32,8 +32,6 @@ const loggerHandler = (methods: string[] = ['GET', 'POST', 'PUT']) => {
         }
       }
     })
-
-    if (next) next()
   }
 
   return logger
