@@ -4,10 +4,8 @@ import { Response } from './response'
 
 export const notFound = (): Handler => {
   const notFound = (_: Request, res: Response) => {
-    if (!res.writableEnded) {
-      res.statusCode = 404
-      res.end('Not found')
-    }
+    res.statusCode = 404
+    res.end('Not found')
   }
   return notFound
 }

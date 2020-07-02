@@ -144,42 +144,13 @@ export class App {
     else res.end(err.message || STATUS_CODES[code])
   }
 
-  handle(mw: Middleware) {
-    const { url, method, handler } = mw
-
-    return async (req: Request, res: Response, next?: NextFunction) => {
-      if (!res.writableEnded) {
-        if (method && req.method === method) {
-          if (url && req.url && rg(url).pattern.test(req.url)) {
-            req.params = getURLParams(req.url, url)
-            req.route = getRouteFromApp(this, handler)
-
-            res.statusCode = 200
-
-            if (isAsync(handler)) {
-              await handler(req, res, next)
-            } else {
-              handler(req, res, next)
-            }
-          }
-        } else {
-          if (isAsync(handler)) {
-            await handler(req, res, next)
-          } else {
-            handler(req, res, next)
-          }
-        }
-      }
-    }
-  }
-
-  async handler(mw: Middleware[] | [], req: Request, res: Response) {
-    if (mw.length === 0) return
+  async handler(mw: Middleware[], req: Request, res: Response) {
+    mw.push({ handler: this.noMatchHandler })
 
     this.extendMiddleware(req, res)
 
-    const m = mw[0]
-    const rest = mw.slice(1, mw.length)
+    let idx = 0
+    let len = mw.length - 1
 
     // skip handling if only one middleware
     // TODO: Implement next(err) function properly
@@ -187,22 +158,52 @@ export class App {
       if (err) {
         this.onError(err, req, res, next)
       } else {
-        this.handler(rest, req, res)
+        loop()
       }
     }
 
-    await this.handle(m)(req, res, next)
+    const handle = (mw: Middleware) => async (req: Request, res: Response, next?: NextFunction) => {
+      const { url, method, handler } = mw
 
-    this.handler(rest, req, res)
+      if (method && req.method === method) {
+        if (url && req.url && rg(url).pattern.test(req.url)) {
+          req.params = getURLParams(req.url, url)
+          req.route = getRouteFromApp(this, handler)
+
+          res.statusCode = 200
+
+          if (isAsync(handler)) {
+            await handler(req, res, next)
+          } else {
+            handler(req, res, next)
+          }
+        }
+      } else {
+        if (isAsync(handler)) {
+          await handler(req, res, next)
+        } else {
+          handler(req, res, next)
+        }
+      }
+    }
+
+    if (mw.length === 1) handle(mw[0])(req, res)
+
+    const loop = () => {
+      if (!res.writableEnded) {
+        if (idx < len) {
+          handle(mw[idx++])(req, res, next)
+        }
+      }
+    }
+
+    loop()
   }
 
   listen(port?: number, cb?: () => void, host: string = 'localhost', backlog?: number) {
     // @ts-ignore
     const server = createServer((req: Request, res: Response) => {
-      const mw = this.middleware
-
-      const noMatchMw = { handler: this.noMatchHandler }
-      this.handler([...mw, noMatchMw], req, res)
+      this.handler(this.middleware, req, res)
     })
 
     return server.listen(port, host, backlog, cb)

@@ -1,4 +1,4 @@
-import { Request, Response } from '@tinyhttp/app'
+import { Request, Response, NextFunction } from '@tinyhttp/app'
 import cookie from '@tinyhttp/cookie'
 import signature from '@tinyhttp/cookie-signature'
 
@@ -87,7 +87,7 @@ export function signedCookies(obj: any, secret: string | string[]) {
 export const cookieParser = (secret?: string | string[]) => {
   const secrets = !secret || Array.isArray(secret) ? secret || [] : [secret]
 
-  return function cookieParser(req: Request, _res: Response) {
+  return function cookieParser(req: Request, _res: Response, next?: NextFunction) {
     if (req.cookies) {
       return
     }
@@ -111,5 +111,7 @@ export const cookieParser = (secret?: string | string[]) => {
 
     // parse JSON cookies
     req.cookies = JSONCookies(req.cookies)
+
+    next?.()
   }
 }

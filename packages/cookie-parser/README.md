@@ -2,10 +2,12 @@
 
 [![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/cookie-parser?style=flat-square)](npmjs.com/package/@tinyhttp/cookie-parser) [![npm](https://img.shields.io/npm/dt/@tinyhttp/cookie-parser?style=flat-square)](npmjs.com/package/@tinyhttp/cookie-parser)
 
+> A rewrite of [cookie-parser](https://github.com/expressjs/cookie-parser) module.
+
 Parse `Cookie` header and populate `req.cookies` with an object keyed by the
 cookie names. Optionally you may enable signed cookie support by passing a
 `secret` string, which assigns `req.secret` so it may be used by other
-middleware. A rewrite of [cookie-parser](https://github.com/expressjs/cookie-parser) module.
+middleware.
 
 ## Installation
 
@@ -15,13 +17,11 @@ pnpm i @tinyhttp/cookie-parser
 
 ## API
 
-## API
-
 ```js
 import { cookieParser, JSONCookie, JSONCookies, signedCookie, signedCookies } from 'cookie-parser'
 ```
 
-### cookieParser(secret, options)
+### `cookieParser(secret, options)`
 
 Create a new cookie parser middleware function using the given `secret` and
 `options`.
@@ -50,18 +50,18 @@ the value is prefixed with `j:`. When these values are encountered, the value wi
 be exposed as the result of `JSON.parse`. If parsing fails, the original value will
 remain.
 
-### JSONCookie(str)
+### `JSONCookie(str)`
 
 Parse a cookie value as a JSON cookie. This will return the parsed JSON value
 if it was a JSON cookie, otherwise, it will return the passed value.
 
-### JSONCookies(cookies)
+### `JSONCookies(cookies)`
 
 Given an object, this will iterate over the keys and call `JSONCookie` on each
 value, replacing the original value with the parsed value. This returns the
 same object that was passed in.
 
-### signedCookie(str, secret)
+### `signedCookie(str, secret)`
 
 Parse a cookie value as a signed cookie. This will return the parsed unsigned
 value if it was a signed cookie and the signature was valid. If the value was
@@ -72,7 +72,7 @@ The `secret` argument can be an array or string. If a string is provided, this
 is used as the secret. If an array is provided, an attempt will be made to
 unsign the cookie with each secret in order.
 
-### signedCookies(cookies, secret)
+### `signedCookies(cookies, secret)`
 
 Given an object, this will iterate over the keys and check if any value is a
 signed cookie. If it is a signed cookie and the signature is valid, the key

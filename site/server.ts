@@ -8,6 +8,12 @@ const app = new App()
 app
 
   .use(logger())
+  .use((req, res, next) => {
+    if (req.url === '/bruh') {
+      res.end('hi')
+    }
+    next()
+  })
   .use(staticHandler('static'))
 
   .use(

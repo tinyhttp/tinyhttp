@@ -3,6 +3,7 @@ import { contentType } from 'mime-types'
 import { Request, Response } from '@tinyhttp/app'
 import { promise as recursiveReaddir } from 'readdirp'
 import { parse } from 'path'
+import { NextFunction } from '../../app/dist'
 
 const sendFile = async (file: string) => {
   return (await readFile(`${file}`)).toString()
@@ -17,7 +18,7 @@ export const staticHandler = (
   dir = process.cwd(),
   { prefix, recursive }: StaticHandlerOptions = { prefix: '/', recursive: false }
 ) => {
-  return async (req: Request, res: Response) => {
+  return async (req: Request, res: Response, next?: NextFunction) => {
     let files: string[]
 
     if (recursive) {
@@ -58,7 +59,7 @@ export const staticHandler = (
 
         // If directory, output a list of files
         if (isDir) {
-          const d = res.set('Content-Type', 'text/html; charset=utf-8')
+          res.set('Content-Type', 'text/html; charset=utf-8')
           res.write(`<h1>Index of /${fPath}</h1>`)
           res.write('<ul>')
           for (const item of await readdir(dirAndfilePath)) {
@@ -71,5 +72,7 @@ export const staticHandler = (
         }
       }
     }
+
+    next?.()
   }
 }

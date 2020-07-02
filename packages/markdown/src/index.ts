@@ -1,9 +1,9 @@
-import { Request, Response } from '@tinyhttp/app'
+import { Request, Response, NextFunction } from '@tinyhttp/app'
 import { parse } from 'path'
 import { existsSync } from 'fs'
-import { readFile, readdir, access } from 'fs/promises'
+import { readFile, readdir } from 'fs/promises'
 import { promise as recursiveReaddir } from 'readdirp'
-import md, { MarkedOptions, Renderer } from 'marked'
+import md, { MarkedOptions } from 'marked'
 
 export type MarkdownServerHandlerOptions = Partial<{
   prefix: string
@@ -22,7 +22,7 @@ export const markdownStaticHandler = (
     markedOptions: null,
     markedExtensions: []
   }
-) => async (req: Request, res: Response) => {
+) => async (req: Request, res: Response, next?: NextFunction) => {
   if (req.url.startsWith(prefix)) {
     const unPrefixedURL = req.url.replace(prefix, '').slice(1)
 
@@ -75,4 +75,5 @@ export const markdownStaticHandler = (
       res.set('Content-Type', 'text/html').send(md(content, markedOptions))
     }
   }
+  next?.()
 }
