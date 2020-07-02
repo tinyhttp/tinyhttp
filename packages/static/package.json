@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/static",
-  "version": "0.1.22",
+  "version": "0.1.23",
   "description": "tinyhttp static module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -1,7 +1,7 @@
 {
   "name": "@tinyhttp/cookie-parser",
-  "version": "0.0.5",
-  "description": "HTTP cookie parsing",
+  "version": "0.0.6",
+  "description": "tinyhttp cookie parsing middleware",
   "homepage": "https://github.com/talentlessguy/tinyhttp",
   "publishConfig": {
     "access": "public"
