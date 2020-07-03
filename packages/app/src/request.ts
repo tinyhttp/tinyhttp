@@ -4,7 +4,9 @@ import rg from 'regexparam'
 import { parse } from 'url'
 import parseRange, { Ranges, Options } from 'range-parser'
 import proxyAddr from 'proxy-addr'
-import { App, Handler, Middleware } from './app'
+import { App, Middleware } from './app'
+import { Handler } from './router'
+// import { Response } from './response'
 import { compileTrust, rgExec } from './utils/request'
 
 export const getQueryParams = (url = '/'): ParsedUrlQuery => {
@@ -80,6 +82,35 @@ export const getHostname = (req: Request): string | undefined => {
 export const getIP = (req: Request) => {
   return proxyAddr(req, compileTrust)
 }
+
+// export const getRequestIs = (types: string | string[], ...args: string[]) => (req: Request) => {
+//   let arr = types
+
+//   if (!Array.isArray(types)) {
+//     arr = new Array(args.length)
+//     for (let i = 0; i < arr.length; i++) {
+//       arr[i] = args[i]
+//     }
+//   }
+// }
+
+// export const getFreshOrStale = (req: Request, res: Response) => {
+//   const method = req.method
+//   const status = res.statusCode
+
+//   // GET or HEAD for weak freshness validation only
+//   if ('GET' !== method && 'HEAD' !== method) return false
+
+//   // 2xx or 304 as per rfc2616 14.26
+//   if ((status >= 200 && status < 300) || 304 === status) {
+//     return fresh(this.headers, {
+//       etag: res.get('ETag'),
+//       'last-modified': res.get('Last-Modified')
+//     })
+//   }
+
+//   return false
+// }
 
 export type Connection = IncomingMessage['socket'] & {
   encrypted: boolean

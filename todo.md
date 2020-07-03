@@ -4,7 +4,7 @@
 
 ### Properties
 
-- [ ] `app.locals`
+- [x] `app.locals`
 - [ ] `app.mountpath`
 - [ ] `app.router`
 
@@ -38,7 +38,6 @@
 - [ ] `req.body`
 - [x] `req.cookies`
 - [ ] `req.fresh`
-- [x] `req.host`
 - [x] `req.hostname`
 - [x] `req.ip`
 - [ ] `req.ips`
@@ -63,7 +62,6 @@
 - [ ] `req.acceptsLanguages()`
 - [x] `req.get()`
 - [ ] `req.is()`
-- [ ] `req.param()`
 - [x] `req.range()`
 
 ## Response

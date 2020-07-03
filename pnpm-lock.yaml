@@ -112,6 +112,17 @@ importers:
       '@types/mime-types': ^2.1.0
       mime-types: ^2.1.27
       readdirp: ^3.4.0
+  site:
+    dependencies:
+      '@tinyhttp/app': 'link:../packages/app'
+      '@tinyhttp/logger': 'link:../packages/logger'
+      '@tinyhttp/markdown': 'link:../packages/markdown'
+      '@tinyhttp/static': 'link:../packages/static'
+    specifiers:
+      '@tinyhttp/app': 'workspace:^0.1.27'
+      '@tinyhttp/logger': 'workspace:^0.1.22'
+      '@tinyhttp/markdown': 'workspace:^0.0.1'
+      '@tinyhttp/static': 'workspace:^0.1.23'
 lockfileVersion: 5.1
 packages:
   /@babel/code-frame/7.10.3:

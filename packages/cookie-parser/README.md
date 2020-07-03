@@ -18,7 +18,7 @@ pnpm i @tinyhttp/cookie-parser
 ## API
 
 ```js
-import { cookieParser, JSONCookie, JSONCookies, signedCookie, signedCookies } from 'cookie-parser'
+import { cookieParser, JSONCookie, JSONCookies, signedCookie, signedCookies } from '@tinyhttp/cookie-parser'
 ```
 
 ### `cookieParser(secret, options)`

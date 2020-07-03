@@ -1,7 +1,7 @@
 {
   "name": "@tinyhttp/markdown",
-  "version": "0.0.1",
-  "description": "tinyhttp static markdown handler",
+  "version": "0.0.2",
+  "description": "tinyhttp static markdown middleware",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "module": "dist/index.esm.js",
@@ -23,7 +23,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/app": "workspace:^0.1.26",
+    "@tinyhttp/app": "workspace:*",
     "marked": "^1.1.0",
     "readdirp": "^3.4.0"
   },

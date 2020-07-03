@@ -1,12 +1,11 @@
 import { stat, readFile, readdir } from 'fs/promises'
 import { contentType } from 'mime-types'
-import { Request, Response } from '@tinyhttp/app'
+import { Request, Response, NextFunction, AsyncHandler } from '@tinyhttp/app'
 import { promise as recursiveReaddir } from 'readdirp'
 import { parse } from 'path'
-import { NextFunction } from '../../app/dist'
 
-const sendFile = async (file: string) => {
-  return (await readFile(`${file}`)).toString()
+export const fileToString = async (path: string) => {
+  return (await readFile(`${path}`)).toString('utf-8')
 }
 
 export type StaticHandlerOptions = Partial<{
@@ -17,7 +16,7 @@ export type StaticHandlerOptions = Partial<{
 export const staticHandler = (
   dir = process.cwd(),
   { prefix, recursive }: StaticHandlerOptions = { prefix: '/', recursive: false }
-) => {
+): AsyncHandler => {
   return async (req: Request, res: Response, next?: NextFunction) => {
     let files: string[]
 
@@ -46,7 +45,7 @@ export const staticHandler = (
       if (req.url === prefix) {
         const indexFile = files.find(f => parse(f).name === 'index')
         if (indexFile) {
-          const fileContent = await sendFile(`${dir}/${indexFile}`)
+          const fileContent = await fileToString(`${dir}/${indexFile}`)
           res.set('Content-Type', 'text/html; charset=utf-8').send(fileContent)
         }
       }
@@ -67,7 +66,7 @@ export const staticHandler = (
           }
           res.end('</ul>')
         } else {
-          const fileContent = await sendFile(dirAndfilePath)
+          const fileContent = await fileToString(dirAndfilePath)
           res.set('Content-Type', contentType(parse(file).ext) || 'text/plain').send(fileContent)
         }
       }

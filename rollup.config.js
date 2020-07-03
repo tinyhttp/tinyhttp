@@ -22,7 +22,7 @@ for (let pkg of pkgList) {
 
   let deps = ['fs/promises']
 
-  deps = pkgJson.dependencies ? Object.keys(pkgJson.dependencies) : []
+  deps = [...deps, ...(pkgJson.dependencies ? Object.keys(pkgJson.dependencies) : [])]
 
   console.log(`Building ${pkg}`)
 
