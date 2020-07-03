@@ -1,4 +1,4 @@
-import { Handler } from './index'
+import { Handler } from './router'
 import { Request } from './request'
 import { Response } from './response'
 
