@@ -1,4 +1,4 @@
-import { Handler } from './router'
+import { Handler, Middleware } from './router'
 import { Request } from './request'
 import { Response } from './response'
 
@@ -9,3 +9,9 @@ export const notFound = (): Handler => {
   }
   return notFound
 }
+
+export const notFoundMw = (handler = notFound()): Middleware => ({
+  path: '/',
+  handler,
+  type: 'mw'
+})

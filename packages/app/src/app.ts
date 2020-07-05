@@ -45,7 +45,7 @@ export class App extends Router {
   async handler(mw: Middleware[], req: Request, res: Response) {
     extendMiddleware(this)(req, res)
 
-    mw.push({ handler: this.noMatchHandler, type: 'mw' })
+    mw.push({ handler: this.noMatchHandler, type: 'mw', path: '/' })
 
     let idx = 0
     let len = mw.length - 1
@@ -61,11 +61,11 @@ export class App extends Router {
     }
 
     const handle = (mw: Middleware) => async (req: Request, res: Response, next?: NextFunction) => {
-      const { url, method, handler } = mw
+      const { path, method, handler } = mw
 
       if (method && req.method === method) {
-        if (url && req.url && rg(url).pattern.test(req.url)) {
-          req.params = getURLParams(req.url, url)
+        if (path && req.url && rg(path).pattern.test(req.url)) {
+          req.params = getURLParams(req.url, path)
           req.route = getRouteFromApp(this, handler)
 
           // route found, send Success 200

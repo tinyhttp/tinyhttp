@@ -8,9 +8,7 @@ const app = new App()
 app
 
   .use(logger())
-  .use((_req, _res, next) => {
-    next()
-  })
+
   .use(staticHandler('static'))
   .use(
     md('docs', {
@@ -36,6 +34,5 @@ app
       ]
     })
   )
-console.log(app.middleware)
 
 app.listen(3000, () => console.log(`Running on http://localhost:3000`))

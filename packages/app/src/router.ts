@@ -16,30 +16,30 @@ type MiddlewareType = 'mw' | 'route'
 export interface Middleware {
   method?: Method
   handler: Handler
-  url?: string
+  path?: string
   type: MiddlewareType
 }
 
 type MethodHandler = {
-  url?: string | Handler
+  path?: string | Handler
   handler?: Handler
   type: MiddlewareType
 }
 
 const createMiddlewareFromRoute = ({
-  url,
+  path,
   handler,
   method
 }: MethodHandler & {
   method?: Method
 }) => ({
   method,
-  handler: handler || (url as Handler),
-  url: typeof url === 'string' ? url : '/'
+  handler: handler || (path as Handler),
+  path: typeof path === 'string' ? path : '/'
 })
 
 const pushMiddleware = (mw: Middleware[]) => ({
-  url,
+  path,
   handler,
   method,
   handlers,
@@ -48,7 +48,7 @@ const pushMiddleware = (mw: Middleware[]) => ({
   method?: Method
   handlers?: Handler[]
 }) => {
-  const m = createMiddlewareFromRoute({ url, handler, method, type })
+  const m = createMiddlewareFromRoute({ path, handler, method, type })
 
   const waresFromHandlers: { handler: Handler }[] = handlers.map(handler => ({ handler }))
 
@@ -60,35 +60,35 @@ const pushMiddleware = (mw: Middleware[]) => ({
 export class Router {
   middleware: Middleware[]
 
-  get(url: string | Handler, handler?: Handler, ...handlers: Handler[]) {
-    pushMiddleware(this.middleware)({ url, handler, handlers, method: 'GET', type: 'route' })
+  get(path: string | Handler, handler?: Handler, ...handlers: Handler[]) {
+    pushMiddleware(this.middleware)({ path, handler, handlers, method: 'GET', type: 'route' })
 
     return this
   }
-  post(url: string | Handler, handler?: Handler, ...handlers: Handler[]) {
-    pushMiddleware(this.middleware)({ url, handler, handlers, method: 'POST', type: 'route' })
+  post(path: string | Handler, handler?: Handler, ...handlers: Handler[]) {
+    pushMiddleware(this.middleware)({ path, handler, handlers, method: 'POST', type: 'route' })
     return this
   }
-  put(url: string | Handler, handler?: Handler, ...handlers: Handler[]) {
-    pushMiddleware(this.middleware)({ url, handler, handlers, method: 'PUT', type: 'route' })
+  put(path: string | Handler, handler?: Handler, ...handlers: Handler[]) {
+    pushMiddleware(this.middleware)({ path, handler, handlers, method: 'PUT', type: 'route' })
     return this
   }
-  patch(url: string | Handler, handler?: Handler, ...handlers: Handler[]) {
-    pushMiddleware(this.middleware)({ url, handler, handlers, method: 'PATCH', type: 'route' })
+  patch(path: string | Handler, handler?: Handler, ...handlers: Handler[]) {
+    pushMiddleware(this.middleware)({ path, handler, handlers, method: 'PATCH', type: 'route' })
     return this
   }
-  head(url: string | Handler, handler?: Handler, ...handlers: Handler[]) {
-    pushMiddleware(this.middleware)({ url, handler, handlers, method: 'HEAD', type: 'route' })
+  head(path: string | Handler, handler?: Handler, ...handlers: Handler[]) {
+    pushMiddleware(this.middleware)({ path, handler, handlers, method: 'HEAD', type: 'route' })
     return this
   }
-  all(url: string | Handler, handler?: Handler, ...handlers: Handler[]) {
+  all(path: string | Handler, handler?: Handler, ...handlers: Handler[]) {
     for (const method of METHODS) {
-      pushMiddleware(this.middleware)({ url, handler, handlers, method, type: 'route' })
+      pushMiddleware(this.middleware)({ path, handler, handlers, method, type: 'route' })
     }
     return this
   }
-  use(handler: Handler, ...handlers: Handler[]) {
-    pushMiddleware(this.middleware)({ url: '/', handler, handlers, type: 'mw' })
+  use(path: string | Handler, handler?: Handler, ...handlers: Handler[]) {
+    pushMiddleware(this.middleware)({ path, handler: typeof path === 'string' ? handler : path, handlers, type: 'mw' })
     return this
   }
 }
