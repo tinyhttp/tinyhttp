@@ -11,7 +11,7 @@ import {
   setRequestHeader
 } from './request'
 import { Response, send, json, status, setCookie, clearCookie, setHeader } from './response'
-import { App } from '.'
+import { App } from './app'
 
 export const extendMiddleware = (app: App) => (req: Request, res: Response) => {
   /// Define extensions
