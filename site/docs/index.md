@@ -4,7 +4,8 @@
 <nav>
   <a href="/">Home</a>
   <a href="https://github.com/talentlessguy/tinyhttp">GitHub</a>
-  <a href="https://tinyhttp.now.sh">Docs</a>
+  <a href="/learn">Learn</a>
+  <a href="/docs">Docs</a>
   <a href="https://v1rtl.site/donate">Donate</a>
 </nav>
 
@@ -22,6 +23,7 @@
     <li><a href="#apppostpath-handler-handler">app.post</a></li>
     <li><a href="#appputpath-handler-handler">app.put</a></li>
     <li><a href="#appdeletepath-handler-handler">app.delete</a></li>
+    <li><a href="#appusehandler-handler">app.use</a></li>
   </ul>
 </aside>
 
@@ -162,7 +164,21 @@ app.put('/', (req, res) => {
 
 #### `app.use(handler, [...handler])`
 
-Mounts the specified middleware function or functions.
+Mounts the specified middleware function or functions at the specified path: the middleware function is executed when the base of the requested path matches path.
+
+##### Description
+
+A route will match any path that follows its path immediately with a `/`. For example: `app.use('/apple', ...)` will match `/apple`, `/apple/images`, `/apple/images/news`, and so on.
+
+Since path defaults to `/,` middleware mounted without a path will be executed for every request to the app.
+For example, this middleware function will be executed for every request to the app:
+
+```ts
+app.use(function (req, res, next) {
+  console.log('Time: %d', Date.now())
+  next()
+})
+```
 
 Middleware functions are executed sequentially, therefore the order of middleware inclusion is important.
 

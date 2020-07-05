@@ -1,14 +1,12 @@
-import { App } from '../packages/app/src'
-import { staticHandler } from '../packages/static/src'
-import { markdownStaticHandler as md } from '../packages/markdown/src'
-import logger from '../packages/logger/src'
+import { App } from '@tinyhttp/app'
+import { staticHandler } from '@tinyhttp/static'
+import { markdownStaticHandler as md } from '@tinyhttp/markdown'
+import logger from '@tinyhttp/logger'
 
 const app = new App()
 
 app
-
   .use(logger())
-
   .use(staticHandler('static'))
   .use(
     md('docs', {

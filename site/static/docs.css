@@ -19,7 +19,7 @@ blockquote {
 }
 
 pre {
-  margin: 2rem 0;
+  margin: 3.25rem 0;
   overflow-x: auto;
 }
 body > h1 {
@@ -94,11 +94,11 @@ ul li {
   line-height: 1.5;
 }
 
-ul li a {
+aside a {
   text-decoration: none;
   color: #242323;
 }
 
-ul li a:hover {
+aside a:hover {
   text-decoration: underline;
 }

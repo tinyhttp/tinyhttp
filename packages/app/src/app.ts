@@ -72,9 +72,15 @@ export class App extends Router {
           res.statusCode = 200
 
           applyHandler(handler)(req, res, next)
+        } else {
+          loop()
         }
       } else {
-        applyHandler(handler)(req, res, next)
+        if (req.url.startsWith(path)) {
+          applyHandler(handler)(req, res, next)
+        } else {
+          loop()
+        }
       }
     }
 
