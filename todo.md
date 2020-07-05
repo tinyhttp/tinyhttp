@@ -11,23 +11,45 @@
 ### Methods
 
 - [x] `app.all()`
-- [x] `app.delete()`
 - [ ] `app.disable()`
 - [ ] `app.disabled()`
 - [ ] `app.enable()`
 - [ ] `app.enabled()`
 - [ ] `app.engine()`
-- [x] `app.get()`
 - [x] `app.listen()`
-- [ ] `app.METHOD()`
 - [ ] `app.param()`
 - [ ] `app.path()`
-- [x] `app.post()`
-- [x] `app.put()`
-- [ ] `app.render()`
-- [ ] `app.route()`
-- [ ] `app.set()`
-- [x] `app.use()`
+
+* [ ] `app.render()`
+* [ ] `app.route()`
+* [ ] `app.set()`
+* [x] `app.use()`
+
+HTTP Methods
+
+- [x] checkout
+- [x] copy
+- [x] delete
+- [x] get
+- [x] head
+- [x] lock
+- [x] merge
+- [x] mkactivity
+- [x] mkcol
+- [x] move
+- [x] m-search
+- [x] notify
+- [x] options
+- [x] patch
+- [x] post
+- [x] purge
+- [x] put
+- [x] report
+- [x] search
+- [x] subscribe
+- [x] trace
+- [x] unlock
+- [x] unsubscribe
 
 ## Request
 
@@ -95,13 +117,3 @@
 - [x] `res.status()`
 - [ ] `res.type()`
 - [ ] `res.vary()`
-
-## Router
-
-Router is not yet implemented as a separate thing but will be in the near future.
-
-- [ ] `router.all()`
-- [ ] `router.METHOD()`
-- [ ] `router.param()`
-- [ ] `router.route()`
-- [ ] `router.use()`

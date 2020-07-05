@@ -4,8 +4,8 @@ import { sign } from '@tinyhttp/cookie-signature'
 import mime from 'mime'
 import cookie, { SerializeOptions } from '@tinyhttp/cookie'
 import { setCharset, createETag } from './utils/response'
-import { Request } from './request'
 import { App } from './app'
+import { Request } from './request'
 
 export const json = (_req: Request, res: Response) => (body: any, ...args: any[]): Response => {
   res.setHeader('Content-Type', 'application/json')

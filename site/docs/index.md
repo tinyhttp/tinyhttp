@@ -12,12 +12,16 @@
   <a href="#application"><h1>Application</h1></a>
   <h2>Properties</h2>
   <ul>
-  <li><a href="#applocals">app.locals</a></li>
+    <li><a href="#applocals">app.locals</a></li>
   </ul>
   <h2>Events</h2>
   <h2>Methods</h2>
   <ul>
-  <li><a href="#appallpath-handler">app.all</a></li>
+    <li><a href="#appmethodpath-handler-handler">app.all</a></li>
+    <li><a href="#appgetpath-handler-handler">app.get</a></li>
+    <li><a href="#apppostpath-handler-handler">app.post</a></li>
+    <li><a href="#appputpath-handler-handler">app.put</a></li>
+    <li><a href="#appdeletepath-handler-handler">app.delete</a></li>
   </ul>
 </aside>
 
@@ -78,52 +82,98 @@ Coming soon...
 
 ### Methods
 
-#### `app.all(path, handler)`
+#### `app.METHOD(path, handler, [...handler])`
 
-This method is like the standard `app.METHOD()` methods, except it matches all HTTP verbs.
+Routes an HTTP request, where METHOD is the HTTP method of the request, such as GET, PUT, POST, and so on, in lowercase. Thus, the actual methods are app.get(), app.post(), app.put(), and so on.
 
-##### Arguments
+##### Routing methods
 
-###### `path`
+- checkout
+- copy
+- delete
+- get
+- head
+- lock
+- merge
+- mkactivity
+- mkcol
+- move
+- m-search
+- notify
+- options
+- patch
+- post
+- purge
+- put
+- report
+- search
+- subscribe
+- trace
+- unlock
+- unsubscribe
 
-The path for which the middleware function is invoked; can be any of:
+#### `app.get(path, handler, [...handler])`
 
-- A string representing a path.
-- A path pattern.
-- A regular expression pattern to match paths.
-- An array of combinations of any of the above.
+Routes HTTP GET requests to the specified path with the specified handler functions.
 
-###### `handler`
-
-Handler functions; can be:
-
-- A middleware function.
-- A series of middleware functions (separated by commas).
-- An array of middleware functions.
-- A combination of all of the above.
-
-Since router and app implement the middleware interface, you can use them as you would any other middleware function.
-
-For examples, see [Middleware handler function examples]().
-
-##### Examples
-
-The following handler is executed for requests to /secret whether using GET, POST, PUT, DELETE, or any other HTTP request method:
+##### Example
 
 ```ts
-app.all('/secret', (req, res) => {
-  console.log('Accessing the secret section ...')
+app.post('/', (req, res) => {
+  res.send(`${req.method || 'GET'} request to homepage`
 })
 ```
 
-The `app.all()` method is useful for mapping “global” logic for specific path prefixes or arbitrary matches. For example, if you put the following at the top of all other route definitions, it requires that all routes from that point on require authentication, and automatically load a user.
+#### `app.post(path, handler, [...handler])`
+
+Routes HTTP POST requests to the specified path with the specified handler functions.
+
+##### Example
 
 ```ts
-app.all('*', requireAuthentication, loadUser)
+app.post('/', (req, res) => {
+  res.send(`${req.method || 'POST'} request to homepage`
+})
 ```
 
-Another example is white-listed “global” functionality. The example is similar to the ones above, but it only restricts paths that start with “/api”:
+#### `app.put(path, handler, [...handler])`
+
+Routes HTTP PUT requests to the specified path with the specified handler functions.
+
+##### Example
 
 ```ts
-app.all('/api/*', requireAuthentication)
+app.put('/', (req, res) => {
+  res.send(`${req.method || 'PUT'} request to homepage`)
+})
+```
+
+#### `app.delete(path, handler, [...handler])`
+
+Routes HTTP DELETE requests to the specified path with the specified handler functions.
+
+##### Example
+
+```ts
+app.put('/', (req, res) => {
+  res.send(`${req.method || 'PUT'} request to homepage`)
+})
+```
+
+#### `app.use(handler, [...handler])`
+
+Mounts the specified middleware function or functions.
+
+Middleware functions are executed sequentially, therefore the order of middleware inclusion is important.
+
+```ts
+// this middleware will not allow the request to go beyond it
+app.use(function (req, res, next) {
+  res.send('Hello World')
+})
+
+// requests will never reach this route
+app.get('/', function (req, res) {
+  res.send('Welcome')
+})
 ```

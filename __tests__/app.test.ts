@@ -88,4 +88,53 @@ describe('Testing routes', () => {
         done()
       })
   })
+  it('next function skips current middleware', done => {
+    const app = new App()
+
+    app.locals['log'] = []
+
+    app
+      .use(async (req, _res, next) => {
+        app.locals['log'].push(req.url)
+        next()
+      })
+      .use((_req, res) => void res.json({ ...app.locals }))
+
+    const server = app.listen()
+
+    const request: any = supertest(server)
+
+    request
+      .get('/')
+      .expect(200, { log: ['/'] })
+      .end((err: Error) => {
+        server.close()
+        if (err) return done(err)
+        done()
+      })
+  })
+  it('next function handles errors', done => {
+    const app = new App()
+
+    app.use((req, res, next) => {
+      if (req.url === '/broken') {
+        next('Your appearance destroyed this world.')
+      } else {
+        res.send('Welcome back')
+      }
+    })
+
+    const server = app.listen()
+
+    const request: any = supertest(server)
+
+    request
+      .get('/broken')
+      .expect(500, 'Your appearance destroyed this world.')
+      .end((err: Error) => {
+        server.close()
+        if (err) return done(err)
+        done()
+      })
+  })
 })

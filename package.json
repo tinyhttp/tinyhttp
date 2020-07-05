@@ -31,10 +31,6 @@
     "build": "rollup -c",
     "dev": "rollup -cw",
     "postbuild": "rm packages/*/dist/index.esm.d.ts",
-    "prepare": "pnpm run build && pnpm run test",
     "test": "jest"
-  },
-  "dependencies": {
-    "@changesets/cli": "^2.9.1"
   }
 }

@@ -89,3 +89,16 @@ aside h2 {
   font-size: 1.2rem;
   color: #3a3839;
 }
+
+ul li {
+  line-height: 1.5;
+}
+
+ul li a {
+  text-decoration: none;
+  color: #242323;
+}
+
+ul li a:hover {
+  text-decoration: underline;
+}

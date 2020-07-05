@@ -4,9 +4,8 @@ import rg from 'regexparam'
 import { parse } from 'url'
 import parseRange, { Ranges, Options } from 'range-parser'
 import proxyAddr from 'proxy-addr'
-import { App, Middleware } from './app'
-import { Handler } from './router'
-// import { Response } from './response'
+import { App } from './app'
+import { Middleware, Handler } from './router'
 import { compileTrust, rgExec } from './utils/request'
 
 export const getQueryParams = (url = '/'): ParsedUrlQuery => {

@@ -4,19 +4,13 @@ import { Request, getURLParams, getRouteFromApp } from './request'
 import { Response } from './response'
 import { notFound } from './notFound'
 import { isAsync } from './utils/async'
-import { Method, Handler, NextFunction, Router } from './router'
+import { Middleware, Handler, NextFunction, Router } from './router'
 import { extendMiddleware } from './extend'
 
 export const onError = (err: any, _req: Request, res: Response, _next: () => void) => {
   let code = (res.statusCode = err.code || err.status || 500)
   if (typeof err === 'string' || Buffer.isBuffer(err)) res.end(err)
   else res.end(err.message || STATUS_CODES[code])
-}
-
-export interface Middleware {
-  method?: Method
-  handler: Handler
-  url?: string
 }
 
 export const applyHandler = (h: Handler): Handler => async (req, res, next?) => {
@@ -49,9 +43,9 @@ export class App extends Router {
   }
 
   async handler(mw: Middleware[], req: Request, res: Response) {
-    mw.push({ handler: this.noMatchHandler })
+    extendMiddleware(this)(req, res)
 
-    extendMiddleware(this)
+    mw.push({ handler: this.noMatchHandler, type: 'mw' })
 
     let idx = 0
     let len = mw.length - 1

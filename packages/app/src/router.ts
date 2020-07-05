@@ -1,4 +1,3 @@
-import { Middleware } from '.'
 import { METHODS } from 'http'
 import { Request } from './request'
 import { Response } from './response'
@@ -13,9 +12,18 @@ export type Handler = AsyncHandler | SyncHandler
 
 export type Method = typeof METHODS[number]
 
+type MiddlewareType = 'mw' | 'route'
+export interface Middleware {
+  method?: Method
+  handler: Handler
+  url?: string
+  type: MiddlewareType
+}
+
 type MethodHandler = {
   url?: string | Handler
   handler?: Handler
+  type: MiddlewareType
 }
 
 const createMiddlewareFromRoute = ({
@@ -23,28 +31,29 @@ const createMiddlewareFromRoute = ({
   handler,
   method
 }: MethodHandler & {
-  method: Method
+  method?: Method
 }) => ({
   method,
   handler: handler || (url as Handler),
-  url: typeof url === 'string' ? url : '*'
+  url: typeof url === 'string' ? url : '/'
 })
 
 const pushMiddleware = (mw: Middleware[]) => ({
   url,
   handler,
   method,
-  handlers
+  handlers,
+  type
 }: MethodHandler & {
-  method: Method
+  method?: Method
   handlers?: Handler[]
 }) => {
-  const m = createMiddlewareFromRoute({ url, handler, method })
+  const m = createMiddlewareFromRoute({ url, handler, method, type })
 
   const waresFromHandlers: { handler: Handler }[] = handlers.map(handler => ({ handler }))
 
   for (const mdw of [m, ...waresFromHandlers]) {
-    mw.push(mdw)
+    mw.push({ ...mdw, type })
   }
 }
 
@@ -52,41 +61,34 @@ export class Router {
   middleware: Middleware[]
 
   get(url: string | Handler, handler?: Handler, ...handlers: Handler[]) {
-    pushMiddleware(this.middleware)({ url, handler, handlers, method: 'GET' })
+    pushMiddleware(this.middleware)({ url, handler, handlers, method: 'GET', type: 'route' })
 
     return this
   }
   post(url: string | Handler, handler?: Handler, ...handlers: Handler[]) {
-    pushMiddleware(this.middleware)({ url, handler, handlers, method: 'POST' })
+    pushMiddleware(this.middleware)({ url, handler, handlers, method: 'POST', type: 'route' })
     return this
   }
   put(url: string | Handler, handler?: Handler, ...handlers: Handler[]) {
-    pushMiddleware(this.middleware)({ url, handler, handlers, method: 'PUT' })
+    pushMiddleware(this.middleware)({ url, handler, handlers, method: 'PUT', type: 'route' })
     return this
   }
   patch(url: string | Handler, handler?: Handler, ...handlers: Handler[]) {
-    pushMiddleware(this.middleware)({ url, handler, handlers, method: 'PATCH' })
+    pushMiddleware(this.middleware)({ url, handler, handlers, method: 'PATCH', type: 'route' })
     return this
   }
   head(url: string | Handler, handler?: Handler, ...handlers: Handler[]) {
-    pushMiddleware(this.middleware)({ url, handler, handlers, method: 'HEAD' })
+    pushMiddleware(this.middleware)({ url, handler, handlers, method: 'HEAD', type: 'route' })
     return this
   }
   all(url: string | Handler, handler?: Handler, ...handlers: Handler[]) {
     for (const method of METHODS) {
-      pushMiddleware(this.middleware)({ url, handler, handlers, method })
+      pushMiddleware(this.middleware)({ url, handler, handlers, method, type: 'route' })
     }
     return this
   }
   use(handler: Handler, ...handlers: Handler[]) {
-    this.middleware.push({
-      handler
-    })
-    for (const h of handlers) {
-      this.middleware.push({
-        handler: h
-      })
-    }
+    pushMiddleware(this.middleware)({ url: '/', handler, handlers, type: 'mw' })
     return this
   }
 }
