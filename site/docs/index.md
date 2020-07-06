@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="docs.css" />
+<link rel="stylesheet" href="/docs.css" />
 <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
 
 <nav>
@@ -10,13 +10,25 @@
 </nav>
 
 <aside>
-  <a href="#application"><h1>Application</h1></a>
-  <h2>Properties</h2>
-  <ul>
-    <li><a href="#applocals">app.locals</a></li>
-  </ul>
-  <h2>Events</h2>
-  <h2>Methods</h2>
+  <a href="#application"><h2>Application</h2></a>
+  <details>
+    <summary>
+    Constructor
+    </summary>
+    <ul>
+      <li><a href="#nomatchhandlerreq-res">noMatchHandler</a></li>
+      <li><a href="#onerrorerr-req-res">onError</a></li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>Properties</summary>
+    <ul>
+      <li><a href="#applocals">app.locals</a></li>
+    </ul>
+  </details>
+
+  <h3>Methods</h3>
   <ul>
     <li><a href="#appmethodpath-handler-handler">app.all</a></li>
     <li><a href="#appgetpath-handler-handler">app.get</a></li>
@@ -25,6 +37,24 @@
     <li><a href="#appdeletepath-handler-handler">app.delete</a></li>
     <li><a href="#appusehandler-handler">app.use</a></li>
   </ul>
+  <a href="#Request"><h2>Request</h2></a>
+  <details>
+    <summary>
+      Properties
+    </summary>
+    <ul>
+      <li><a href="#reqapp">req.app</a></li>
+      <li><a href="#reqhostname">req.hostname</a></li>
+      <li><a href="#reqquery">req.query</a></li>
+      <li><a href="#reqroute">req.route</a></li>
+      <li><a href="#reqparams">req.params</a></li>
+      <li><a href="#reqprotocol">req.protocol</a></li>
+      <li><a href="#reqsecure">req.secure</a></li>
+      <li><a href="#reqxhr">req.xhr</a></li>
+    </ul>
+  </details>
+ 
+  
 </aside>
 
 # 0.1X API
@@ -37,6 +67,8 @@ The `app` object is the whole tinyhttp application with all the middleware, hand
 
 ```ts
 import { App } from '@tinyhttp/app'
+
+const app = new App()
 
 app.get('/', (req, res) => {
   res.send('hello world')
@@ -53,6 +85,54 @@ The app object has methods for
 - **NOT IMPLEMENTED** Registering a template engine; see `app.engine`.
 
 The Express application object can be referred from the request object and the response object as `req.app`, and `res.app`, respectively.
+
+### Constructor
+
+#### `noMatchHandler(req, res)`
+
+Handler if none of the routes match. Should return 404 Not found.
+
+Example:
+
+```ts
+import { App, Request, Response } from '@tinyhttp/app'
+
+const app = new App({
+  noMatchHandler: (req: Request, res: Response) => {
+    res.status(404).end('Not found :(')
+  }
+})
+
+app
+  .get('/', (req, res) => {
+    res.send('hello world')
+  })
+  .listen(3000)
+```
+
+#### `onError(err, req, res)`
+
+A middleware to catch server errors. Error can be anything. Should return 500 Internal Server Error.
+
+Example:
+
+```ts
+import { App, Request, Response } from '@tinyhttp/app'
+
+const app = new App({
+  onError: (err, req, res) => {
+    res.status(500).send({
+      message: err.message
+    })
+  }
+})
+
+app
+  .get('/', (req, res) => {
+    res.send('hello world')
+  })
+  .listen(3000)
+```
 
 ### Properties
 
@@ -90,29 +170,15 @@ Routes an HTTP request, where METHOD is the HTTP method of the request, such as 
 
 ##### Routing methods
 
-- checkout
-- copy
-- delete
+Not all methods aren't added yet.
+
 - get
-- head
-- lock
-- merge
-- mkactivity
-- mkcol
-- move
-- m-search
-- notify
-- options
-- patch
 - post
-- purge
 - put
-- report
-- search
-- subscribe
-- trace
-- unlock
-- unsubscribe
+- patch
+- head
+- delete
+- options
 
 #### `app.get(path, handler, [...handler])`
 
@@ -192,4 +258,116 @@ app.use(function (req, res, next) {
 app.get('/', function (req, res) {
   res.send('Welcome')
 })
+```
+
+## Request
+
+### Properties
+
+#### `req.app`
+
+This property holds a reference to the instance of the tinyhttp application that is using the middleware.
+
+Example:
+
+```ts
+app.get('/', (req, res) => {
+  res.json({
+    ...req.app.middleware
+  })
+})
+```
+
+#### `req.hostname`
+
+Contains the hostname derived from either `Host` or `X-Forwarded-Host` HTTP header.
+
+```ts
+// Host: "example.com:3000"
+console.dir(req.hostname)
+// => 'example.com'
+```
+
+#### `req.query`
+
+This property is an object containing a property for each query string parameter in the route.
+
+```ts
+// GET /search?q=tobi+ferret
+console.dir(req.query.q)
+// => "tobi ferret"
+
+// GET /shoes?order=desc&shoe[color]=blue&shoe[type]=converse
+console.dir(req.query.order)
+// => "desc"
+
+console.dir(req.query.shoe.color)
+// => "blue"
+
+console.dir(req.query.shoe.type)
+// => "converse"
+
+// GET /shoes?color[]=blue&color[]=black&color[]=red
+console.dir(req.query.color)
+// => [blue, black, red]
+```
+
+#### `req.route`
+
+Contains the currently-matched route, a string. For example:
+
+```ts
+app.get('/user/:id?', function userIdHandler(req, res) {
+  console.log(req.route)
+  res.send('GET')
+})
+```
+
+Example output would be something like this:
+
+```txt
+{
+  path: '/user/:id?',
+  method: 'GET',
+  handler: [Function: userIdHandler],
+  tyoe: 'route'
+}
+```
+
+#### `req.params`
+
+This property is an object containing properties mapped to the named route “parameters”. For example, if you have the route `/user/:name`, then the “name” property is available as `req.params.name`. This object defaults to `{}`.
+
+```ts
+// GET /user/v1rtl
+
+app.get('/user/:name', (req, res) => {
+  res.end(`Hello ${req.params.name}!`)
+})
+// => v1rtl
+```
+
+#### `req.protocol`
+
+Contains the request protocol string: either http or (for TLS requests) https. This property will use the value of the `X-Forwarded-Proto` header field if present. This header can be set by the client or by the proxy.
+
+```ts
+console.dir(req.protocol)
+```
+
+#### `req.secure`
+
+A Boolean property that is true if a TLS connection is established. Equivalent to the following:
+
+```ts
+req.protocol === 'https'
+```
+
+#### `req.xhr`
+
+A Boolean property that is true if the request’s `X-Requested-With` header field is “XMLHttpRequest”, indicating that the request was issued by a client library such as `fetch`.
+
+```ts
+console.dir(req.xhr)
+// => true
 ```

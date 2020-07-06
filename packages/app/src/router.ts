@@ -10,6 +10,8 @@ export type AsyncHandler = (req: Request, res: Response, next?: NextFunction) =>
 
 export type Handler = AsyncHandler | SyncHandler
 
+export type ErrorHandler = (err: any, req: Request, res: Response) => void
+
 export type Method = typeof METHODS[number]
 
 type MiddlewareType = 'mw' | 'route'
@@ -79,6 +81,14 @@ export class Router {
   }
   head(path: string | Handler, handler?: Handler, ...handlers: Handler[]) {
     pushMiddleware(this.middleware)({ path, handler, handlers, method: 'HEAD', type: 'route' })
+    return this
+  }
+  delete(path: string | Handler, handler?: Handler, ...handlers: Handler[]) {
+    pushMiddleware(this.middleware)({ path, handler, handlers, method: 'DELETE', type: 'route' })
+    return this
+  }
+  options(path: string | Handler, handler?: Handler, ...handlers: Handler[]) {
+    pushMiddleware(this.middleware)({ path, handler, handlers, method: 'OPTIONS', type: 'route' })
     return this
   }
   all(path: string | Handler, handler?: Handler, ...handlers: Handler[]) {

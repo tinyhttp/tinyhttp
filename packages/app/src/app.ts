@@ -3,15 +3,10 @@ import rg from 'regexparam'
 import { Request, getURLParams, getRouteFromApp } from './request'
 import { Response } from './response'
 import { notFound } from './notFound'
+import { onError } from './onError'
 import { isAsync } from './utils/async'
-import { Middleware, Handler, NextFunction, Router } from './router'
+import { Middleware, Handler, NextFunction, Router, ErrorHandler } from './router'
 import { extendMiddleware } from './extend'
-
-export const onError = (err: any, _req: Request, res: Response, _next: () => void) => {
-  let code = (res.statusCode = err.code || err.status || 500)
-  if (typeof err === 'string' || Buffer.isBuffer(err)) res.end(err)
-  else res.end(err.message || STATUS_CODES[code])
-}
 
 export const applyHandler = (h: Handler): Handler => async (req, res, next?) => {
   if (isAsync(h)) {
@@ -25,9 +20,11 @@ export class App extends Router {
   middleware: Middleware[]
   locals: { [key: string]: string }[]
   noMatchHandler: Handler
+  onError: ErrorHandler
   constructor(
-    options: Partial<{ noMatchHandler: Handler }> = {
-      noMatchHandler: notFound()
+    options: Partial<{ noMatchHandler: Handler; onError: ErrorHandler }> = {
+      noMatchHandler: notFound(),
+      onError: onError
     }
   ) {
     super()
@@ -36,16 +33,12 @@ export class App extends Router {
     this.noMatchHandler = options.noMatchHandler || this.onError.bind(null, { code: 404 })
   }
 
-  onError(err, _req: Request, res: Response, _next: NextFunction) {
-    let code = (res.statusCode = err.code || err.status || 500)
-    if (typeof err === 'string' || Buffer.isBuffer(err)) res.end(err)
-    else res.end(err.message || STATUS_CODES[code])
-  }
-
-  async handler(mw: Middleware[], req: Request, res: Response) {
+  private async handler(mw: Middleware[], req: Request, res: Response) {
     extendMiddleware(this)(req, res)
 
-    mw.push({ handler: this.noMatchHandler, type: 'mw', path: '/' })
+    const noMatchMW: Middleware = { handler: this.noMatchHandler, type: 'mw', path: '/' }
+
+    if (!mw.includes(noMatchMW)) mw.push(noMatchMW)
 
     let idx = 0
     let len = mw.length - 1
@@ -54,7 +47,7 @@ export class App extends Router {
     // TODO: Implement next(err) function properly
     const next = err => {
       if (err) {
-        this.onError(err, req, res, next)
+        this.onError(err, req, res)
       } else {
         loop()
       }
