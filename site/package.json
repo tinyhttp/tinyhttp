@@ -12,6 +12,7 @@
     "typeface-inter": "^3.12.0"
   },
   "scripts": {
-    "dev": "ts-node server.ts"
+    "dev": "ts-node server.ts",
+    "start": "ts-node server.ts"
   }
 }
