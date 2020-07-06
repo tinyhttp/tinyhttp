@@ -24,7 +24,7 @@ body {
 
 pre,
 code {
-  font-family: 'Fira Code', 'Inconsolata', 'Losevka', sans-serif !important;
+  font-family: 'Fira Code', 'Inconsolata', 'Losevka', monospace !important;
 }
 
 body,
