@@ -7,6 +7,10 @@ const app = new App()
 
 app
   .use(logger())
+  .use((req, _res, next) => {
+    console.log(req.method)
+    next()
+  })
   .use(staticHandler('static'))
   .use(
     md('docs', {

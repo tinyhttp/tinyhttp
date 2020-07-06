@@ -115,7 +115,7 @@ header p {
 
 pre {
   background-color: #420926;
-
+  margin: 0;
   font-size: 0.8rem;
   color: var(--bg);
   padding: 2rem;
