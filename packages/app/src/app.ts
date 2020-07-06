@@ -61,19 +61,21 @@ export class App extends Router {
     }
 
     const handle = (mw: Middleware) => async (req: Request, res: Response, next?: NextFunction) => {
-      const { path, method, handler } = mw
+      const { path, method, handler, type } = mw
 
-      if (method && req.method === method) {
-        if (path && req.url && rg(path).pattern.test(req.url)) {
-          req.params = getURLParams(req.url, path)
-          req.route = getRouteFromApp(this, handler)
+      if (type === 'route') {
+        if (req.method === method) {
+          if (rg(path).pattern.test(req.url)) {
+            req.params = getURLParams(req.url, path)
+            req.route = getRouteFromApp(this, handler)
 
-          // route found, send Success 200
-          res.statusCode = 200
+            // route found, send Success 200
+            res.statusCode = 200
 
-          applyHandler(handler)(req, res, next)
-        } else {
-          loop()
+            applyHandler(handler)(req, res, next)
+          } else {
+            loop()
+          }
         }
       } else {
         if (req.url.startsWith(path)) {

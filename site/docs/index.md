@@ -1,11 +1,11 @@
-<link rel="stylesheet" href="/docs.css" />
+<link rel="stylesheet" href="docs.css" />
 <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
 
 <nav>
-  <a href="/">Home</a>
+  <a href="/tinyhttp">Home</a>
   <a href="https://github.com/talentlessguy/tinyhttp">GitHub</a>
-  <a href="/learn">Learn</a>
-  <a href="/docs">Docs</a>
+  <a href="/tinyhttp/learn">Learn</a>
+  <a href="/tinyhttp/docs">Docs</a>
   <a href="https://v1rtl.site/donate">Donate</a>
 </nav>
 
