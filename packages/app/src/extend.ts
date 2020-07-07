@@ -20,8 +20,6 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response) => {
   Request extensions
   */
 
-  // Properties
-
   req.app = app
 
   const proto = getProtocol(req)
@@ -35,15 +33,13 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response) => {
 
   req.query = getQueryParams(req.url)
 
-  req.xhr = checkIfXMLHttpRequest(req)
-
-  req.hostname = getHostname(req)
-
-  // Methods
-
   req.get = getRequestHeader(req)
   req.set = setRequestHeader(req)
   req.range = getRangeFromHeader(req)
+
+  req.xhr = checkIfXMLHttpRequest(req)
+
+  req.hostname = getHostname(req)
 
   /*
   Response extensions
