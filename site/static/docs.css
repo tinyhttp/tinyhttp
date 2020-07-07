@@ -1,6 +1,6 @@
 main {
   width: 67.5vw;
-  margin: 0 auto;
+  margin: 4rem auto;
 }
 
 @media (max-width: 350px) {
@@ -38,7 +38,7 @@ main li {
 
 main > h2 {
   font-size: calc(1.25vw + 1.25rem);
-  color: #1d1b1c;
+  color: var(--dark-fg);
 }
 
 main > h3 {
@@ -67,7 +67,7 @@ aside {
   position: fixed;
   background: var(--bg);
   left: 0;
-  top: 3rem;
+  top: 4rem;
   padding-left: 3rem;
 }
 
@@ -112,7 +112,13 @@ summary:hover {
   aside {
     position: static;
     width: 70vw;
-    margin: 0 auto;
+    margin: 4rem auto;
     padding: 0;
+  }
+}
+
+@media (max-width: 500px) {
+  nav a:nth-of-type(5) {
+    display: none;
   }
 }

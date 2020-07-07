@@ -4,6 +4,7 @@ main {
   display: grid;
   padding: 3rem 0;
   row-gap: 3rem;
+  grid-template-columns: 100%;
 }
 
 #logo {
@@ -33,11 +34,12 @@ header #to_docs {
 
 header p {
   margin: 2rem 0;
+  color: var(--fg);
 }
 
 #features > div {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 10rem 5rem;
 }
 
@@ -72,7 +74,7 @@ header p {
 
 #get_started > pre {
   margin: 0;
-
+  overflow-x: auto;
   padding: calc(1rem + 1vw);
   box-shadow: var(--shadow);
   border-radius: 10px;
@@ -93,13 +95,11 @@ header p {
 #get_started #content h1 {
   font-size: 3rem;
   margin: 1.5rem 0;
-  letter-spacing: -2.5px;
 }
 
 #get_started #content h2 {
   font-size: 2rem;
   margin: 1rem 0;
-  letter-spacing: -2.5px;
 }
 
 #get_started #address input {
@@ -117,11 +117,18 @@ header p {
 #features h2 {
   text-align: center;
   font-size: calc(2rem + 2vw);
-  letter-spacing: -3px;
+  color: var(--dark-fg);
 }
 
 #features h3 {
   font-size: calc(1rem + 1vw);
-  letter-spacing: -2px;
   margin-bottom: 0.1rem;
+  margin-left: -0.1rem;
+  color: var(--dark-fg);
+}
+
+@media (max-width: 700px) {
+  #features > div {
+    grid-template-columns: 100%;
+  }
 }

@@ -13,6 +13,7 @@ button {
   --pink: #c55b79;
   --bright-pink: #9e7eba;
   --fg: #633240;
+  --dark-fg: #1d1b1c;
   --shadow: 5px 10px 30px rgba(0, 0, 0, 0.3);
 }
 
@@ -44,7 +45,7 @@ html {
 
 nav {
   background-color: var(--bg);
-  position: sticky;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
