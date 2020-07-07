@@ -42,13 +42,14 @@ main {
 
 #logo {
   margin-top: 2rem;
-  width: 700px;
+  width: calc(150px + 40vw);
 }
 
 header {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   height: 100vh;
 }
 
@@ -116,13 +117,13 @@ header p {
 #get_started > pre {
   margin: 0;
 
-  padding: 2rem;
+  padding: calc(1rem + 1vw);
   box-shadow: var(--shadow);
   border-radius: 10px;
 }
 
 pre {
-  font-size: 0.8rem;
+  font-size: calc(0.75rem + 0.1vw);
   color: var(--bg);
   background-color: #42192e;
 }

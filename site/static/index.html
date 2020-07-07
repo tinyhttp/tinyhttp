@@ -14,6 +14,7 @@
       <a href="/learn">Learn</a>
       <a href="/docs">Docs</a>
       <a href="https://v1rtl.site/donate">Donate</a>
+      <img alt="GitHub stars" src="https://img.shields.io/github/stars/talentlessguy/tinyhttp?color=hotpink&label=Star%20on%20GitHub&style=flat-square" />
     </nav>
     <main>
       <header>
@@ -50,7 +51,7 @@ app
   `)
   })
   .use(logger())
-  .listen(3000)
+  .listen(3000, () => console.log('Started on http://localhost:3000'))
 
         </pre>
         <div id="window">
