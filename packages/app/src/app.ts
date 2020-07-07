@@ -33,7 +33,7 @@ export class App extends Router {
     this.noMatchHandler = options.noMatchHandler || this.onError.bind(null, { code: 404 })
   }
 
-  private async handler(mw: Middleware[], req: Request, res: Response) {
+  async handler(mw: Middleware[], req: Request, res: Response) {
     extendMiddleware(this)(req, res)
 
     const noMatchMW: Middleware = { handler: this.noMatchHandler, type: 'mw', path: '/' }
