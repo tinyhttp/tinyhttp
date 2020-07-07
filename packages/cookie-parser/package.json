@@ -29,8 +29,8 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/app": "workspace:^0.1.26",
-    "@tinyhttp/cookie": "workspace:^0.0.8",
-    "@tinyhttp/cookie-signature": "workspace:^0.0.5"
+    "@tinyhttp/app": "workspace:*",
+    "@tinyhttp/cookie": "workspace:*",
+    "@tinyhttp/cookie-signature": "workspace:*"
   }
 }
