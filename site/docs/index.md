@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="/docs.css" />
-<link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+<link rel="stylesheet" href="/shared.css" />
+<link rel="stylesheet" href="/inter.css" />
 
 <nav>
   <a href="/">Home</a>
@@ -89,6 +90,8 @@
   </ul>
  </details>
 </aside>
+
+<main>
 
 # 0.1.X API
 
@@ -600,3 +603,5 @@ res.set({
 ```
 
 Alias to `res.header`.
+
+</main>

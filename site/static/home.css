@@ -1,37 +1,3 @@
-:root {
-  --bg: #f0dae1;
-  --pink: #c55b79;
-  --bright-pink: #9e7eba;
-  --fg: #633240;
-  --shadow: 5px 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-body {
-  margin: 0;
-  background-color: var(--bg);
-}
-
-@supports (font-variation-settings: normal) {
-  * {
-    font-family: 'Inter var', sans-serif !important;
-  }
-}
-
-* {
-  font-family: 'Inter', sans-serif;
-  scroll-behavior: smooth;
-}
-
-pre,
-code {
-  font-family: 'Fira Code', 'Inconsolata', 'Iosevka', monospace !important;
-}
-
-body,
-html {
-  height: 100%;
-}
-
 main {
   width: 90vw;
   margin: 0 auto;
@@ -51,16 +17,6 @@ header {
   align-items: center;
   justify-content: center;
   height: 100vh;
-}
-
-button {
-  background: transparent;
-  padding: 1rem 2rem;
-  border-radius: 10px;
-  font-size: 1.5rem;
-  box-shadow: var(--shadow);
-  border: none;
-  cursor: pointer;
 }
 
 header #to_get_started {
@@ -122,12 +78,6 @@ header p {
   border-radius: 10px;
 }
 
-pre {
-  font-size: calc(0.75rem + 0.1vw);
-  color: var(--bg);
-  background-color: #42192e;
-}
-
 #get_started #window {
   background-color: white;
 }
@@ -174,29 +124,4 @@ pre {
   font-size: calc(1rem + 1vw);
   letter-spacing: -2px;
   margin-bottom: 0.1rem;
-}
-
-nav {
-  background-color: var(--bg);
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 1rem 0;
-  display: flex;
-  justify-content: space-evenly;
-}
-
-nav a {
-  color: var(--pink);
-}
-
-nav a:hover {
-  color: var(--bright-pink);
-}
-
-footer {
-  padding: 3rem;
-  display: flex;
-  justify-content: space-between;
 }

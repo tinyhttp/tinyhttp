@@ -1,12 +1,12 @@
 @import url('/style.css');
 
-body {
+main {
   width: 67.5vw;
-  margin: 5rem auto;
+  margin: 0 auto;
 }
 
 @media (max-width: 350px) {
-  body {
+  main {
     width: 80vw;
   }
 }
@@ -25,43 +25,44 @@ pre {
   padding: 1rem;
 }
 
-body > h1 {
+main > h1 {
   font-size: calc(2vw + 2rem);
 }
 
-body > * {
+main > * {
   scroll-margin-top: 4rem;
 }
 
-body > h2 {
+main p,
+main li {
+  line-height: 1.5;
+}
+
+main > h2 {
   font-size: calc(1.25vw + 1.25rem);
   color: #1d1b1c;
 }
 
-body > h3 {
+main > h3 {
   font-size: calc(1vw + 1rem);
   color: #242323;
 }
 
-body > h4 {
+main > h4 {
   font-size: calc(0.8vw + 0.8rem);
   color: #3a3839;
 }
 
-body > h5 {
+main > h5 {
   font-size: calc(0.6vw + 0.6rem);
   color: #424142;
   margin-top: 1.5rem;
   margin-bottom: 0.25rem;
 }
 
-body > h6 {
+main > h6 {
   font-size: calc(0.6vw + 0.6rem);
   margin: 0.5rem 0;
-}
-
-td {
-  padding: 1rem;
 }
 
 aside {
@@ -106,14 +107,14 @@ summary:hover {
   cursor: pointer;
 }
 
-@media (max-width: 750px) {
-  body {
+@media (max-width: 1050px) {
+  main {
     width: 70vw;
   }
   aside {
     position: static;
-    top: unset;
-    left: unset;
+    width: 70vw;
+    margin: 0 auto;
     padding: 0;
   }
 }
