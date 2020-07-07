@@ -20,7 +20,7 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response) => {
   Request extensions
   */
 
-  // Request properties
+  // Properties
 
   req.app = app
 
@@ -33,18 +33,17 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response) => {
     encrypted: secure
   })
 
+  req.query = getQueryParams(req.url)
+
   req.xhr = checkIfXMLHttpRequest(req)
 
   req.hostname = getHostname(req)
 
-  req.query = getQueryParams(req.url)
-
-  req.range = getRangeFromHeader(req)
-
-  // Request methods
+  // Methods
 
   req.get = getRequestHeader(req)
   req.set = setRequestHeader(req)
+  req.range = getRangeFromHeader(req)
 
   /*
   Response extensions
