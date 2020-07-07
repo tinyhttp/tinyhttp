@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/app",
-  "version": "0.1.31",
+  "version": "0.1.32",
   "description": "tinyhttp core",
   "homepage": "https://github.com/talentlessguy/tinyhttp",
   "repository": {
@@ -30,8 +30,8 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/cookie": "workspace:^0.0.8",
-    "@tinyhttp/cookie-signature": "workspace:^0.0.5",
+    "@tinyhttp/cookie": "workspace:*",
+    "@tinyhttp/cookie-signature": "workspace:*",
     "@tinyhttp/etag": "^0.1.15",
     "content-type": "^1.0.4",
     "encodeurl": "^1.0.2",
