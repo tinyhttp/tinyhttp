@@ -28,16 +28,21 @@
     </ul>
   </details>
 
-  <h3>Methods</h3>
-  <ul>
-    <li><a href="#appmethodpath-handler-handler">app.all</a></li>
-    <li><a href="#appgetpath-handler-handler">app.get</a></li>
-    <li><a href="#apppostpath-handler-handler">app.post</a></li>
-    <li><a href="#appputpath-handler-handler">app.put</a></li>
-    <li><a href="#appdeletepath-handler-handler">app.delete</a></li>
-    <li><a href="#appusehandler-handler">app.use</a></li>
+  <details>
+  <summary>Methods</summary>
+    <ul>
+    <li><a href="#appmethod">app.METHOD</a></li>
+    <li><a href="#appall">app.all</a></li>
+    <li><a href="#appget">app.get</a></li>
+    <li><a href="#apppost">app.post</a></li>
+    <li><a href="#appput">app.put</a></li>
+    <li><a href="#appdelete">app.delete</a></li>
+    <li><a href="#appuse">app.use</a></li>
   </ul>
-  <a href="#Request"><h2>Request</h2></a>
+  </details>
+
+<a href="#request"><h2>Request</h2></a>
+
   <details>
     <summary>
       Properties
@@ -54,10 +59,38 @@
     </ul>
   </details>
  
-  
+ <details>
+  <summary>Methods</summary>
+  <ul>
+    <li><a href="#reqget">req.get</a></li>
+  </ul>
+ </details>
+
+<a href="#response"><h2>Response</h2></a>
+
+<details>
+    <summary>
+      Properties
+    </summary>
+    <ul>
+      <li><a href="#resapp">res.app</a></li>
+    </ul>
+  </details>
+ <details>
+  <summary>Methods</summary>
+  <ul>
+    <li><a href="#rescookie">res.cookie</a></li>
+    <li><a href="#resclearcookie">res.clearCookie</a></li>
+    <li><a href="#resend">res.end</a></li>
+    <li><a href="#resjson">res.json</a></li>
+    <li><a href="#ressend">res.send</a></li>
+    <li><a href="#resstatus">res.status</a></li>
+    <li><a href="#resset">res.set</a></li>
+  </ul>
+ </details>
 </aside>
 
-# 0.1X API
+# 0.1.X API
 
 > Note: tinyhttp is not yet finished. Therefore, documentation is incomplete.
 
@@ -84,7 +117,7 @@ The app object has methods for
 - **NOT IMPLEMENTED** Rendering HTML views; see `app.render`.
 - **NOT IMPLEMENTED** Registering a template engine; see `app.engine`.
 
-The Express application object can be referred from the request object and the response object as `req.app`, and `res.app`, respectively.
+The tinyhttp application object can be referred from the request object and the response object as `req.app`, and `res.app`, respectively.
 
 ### Constructor
 
@@ -164,7 +197,7 @@ Coming soon...
 
 ### Methods
 
-#### `app.METHOD(path, handler, [...handler])`
+#### `app.METHOD`
 
 Routes an HTTP request, where METHOD is the HTTP method of the request, such as GET, PUT, POST, and so on, in lowercase. Thus, the actual methods are app.get(), app.post(), app.put(), and so on.
 
@@ -180,7 +213,28 @@ Not all methods aren't added yet.
 - delete
 - options
 
-#### `app.get(path, handler, [...handler])`
+#### `app.all`
+
+This method is like the standard [`app.METHOD()`](#appmethod) methods, except it matches all HTTP verbs.
+
+##### Examples
+
+The following callback is executed for requests to `/secret` whether using GET, POST, PUT, DELETE, or any other HTTP request method:
+
+```ts
+app.all('/secret', (req, res, next) => {
+  console.log('Accessing the secret section ...')
+  next() // pass control to the next handler
+})
+```
+
+The `app.all()` method is useful for mapping “global” logic for specific path prefixes or arbitrary matches. For example, if you put the following at the top of all other route definitions, it requires that all routes from that point on require authentication, and automatically load a user. Keep in mind that these callbacks do not have to act as end-points: loadUser can perform a task, then call `next()` to continue matching subsequent routes.
+
+```ts
+app.all('*', requireAuthentication, loadUser)
+```
+
+#### `app.get`
 
 Routes HTTP GET requests to the specified path with the specified handler functions.
 
@@ -192,7 +246,7 @@ app.post('/', (req, res) => {
 })
 ```
 
-#### `app.post(path, handler, [...handler])`
+#### `app.post`
 
 Routes HTTP POST requests to the specified path with the specified handler functions.
 
@@ -204,7 +258,7 @@ app.post('/', (req, res) => {
 })
 ```
 
-#### `app.put(path, handler, [...handler])`
+#### `app.put`
 
 Routes HTTP PUT requests to the specified path with the specified handler functions.
 
@@ -216,7 +270,7 @@ app.put('/', (req, res) => {
 })
 ```
 
-#### `app.delete(path, handler, [...handler])`
+#### `app.delete`
 
 Routes HTTP DELETE requests to the specified path with the specified handler functions.
 
@@ -228,7 +282,7 @@ app.put('/', (req, res) => {
 })
 ```
 
-#### `app.use(handler, [...handler])`
+#### `app.use`
 
 Mounts the specified middleware function or functions at the specified path: the middleware function is executed when the base of the requested path matches path.
 
@@ -262,13 +316,25 @@ app.get('/', function (req, res) {
 
 ## Request
 
+The `req` object represents the HTTP request and has properties for the request query string, parameters, body, HTTP headers, and so on.
+
+##### Example
+
+```ts
+app.get('/user/:id', (req, res) => {
+  res.send(`user ${req.params.id}`)
+})
+```
+
+The req object is an enhanced version of Node.js built-in [IncomingMessage](https://nodejs.org/api/http.html#http_class_http_incomingmessage) object.
+
 ### Properties
 
 #### `req.app`
 
 This property holds a reference to the instance of the tinyhttp application that is using the middleware.
 
-Example:
+##### Example
 
 ```ts
 app.get('/', (req, res) => {
@@ -371,3 +437,166 @@ A Boolean property that is true if the request’s `X-Requested-With` header fie
 console.dir(req.xhr)
 // => true
 ```
+
+### Methods
+
+#### `req.get()`
+
+Returns the specified HTTP request header field (case-insensitive match).
+
+```ts
+req.get('Content-Type')
+// => "text/plain"
+
+req.get('content-type')
+// => "text/plain"
+
+req.get('Something')
+// => undefined
+```
+
+## Response
+
+The `res` object represents the HTTP response that an tinyhttp app sends when it gets an HTTP request.
+
+### Properties
+
+#### `res.app`
+
+This property holds a reference to the instance of the tinyhttp app that is using the middleware.
+
+`res.app` is identical to the [`req.app`](#reqapp) property in the request object.
+
+### Methods
+
+#### `res.cookie`
+
+Sets cookie `name` to `value`. The `value` parameter may be a string or object converted to JSON.
+
+The `options` parameter is an object that can have the following properties.
+
+| Property   | Type                | Description                                                                                                                                  |
+| ---------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `domain`   | `string`            | Domain name for the cookie. Defaults to the domain name of the app.                                                                          |
+| `encode`   | `Function`          | A synchronous function used for cookie value encoding. Defaults to `encodeURIComponent`.                                                     |
+| `expires`  | `Date`              | Expiry date of the cookie in GMT. If not specified or set to 0, creates a session cookie.                                                    |
+| `httpOnly` | `boolean`           | Flags the cookie to be accessible only by the web server.                                                                                    |
+| `maxAge`   | `number`            | Convenient option for setting the expiry time relative to the current time in milliseconds.                                                  |
+| `path`     | `string`            | Path for the cookie. Defaults to “/”.                                                                                                        |
+| `secure`   | `boolean`           | Marks the cookie to be used with HTTPS only.                                                                                                 |
+| `signed`   | `boolean`           | Indicates if the cookie should be signed.                                                                                                    |
+| `sameSite` | `boolean \| string` | Value of the “SameSite” Set-Cookie attribute. [More info](https://tools.ietf.org/html/draft-ietf-httpbis-cookie-same-site-00#section-4.1.1). |
+
+> All `res.cookie()` does is set the HTTP Set-Cookie header with the options provided. Any option not specified defaults to the value stated in RFC 6265.
+
+##### Example
+
+```ts
+res.cookie('name', 'tobi', { domain: '.example.com', path: '/admin', secure: true })
+res.cookie('rememberme', '1', { expires: new Date(Date.now() + 900000), httpOnly: true })
+```
+
+#### `res.clearCookie`
+
+Clears the cookie specified by `name`. For details about the `options` object, see [`res.cookie()`](#rescookie).
+
+> Web browsers and other compliant clients will only clear the cookie if the given options is identical to those given to res.cookie(), excluding expires and maxAge.
+
+##### Example
+
+```ts
+res.cookie('name', 'tobi', { path: '/admin' })
+res.clearCookie('name', { path: '/admin' })
+```
+
+#### `res.end`
+
+Ends the response process. The method comes from [response.end() of http.ServerResponse.](https://nodejs.org/api/http.html#http_response_end_data_encoding_callback).
+
+Can be used to send raw data or end the response without any data at all. If you need to respond with data with proper content type headers set and so on, instead use methods such as [`res.send()`](#ressend) and [`res.json()`](#resjson).
+
+##### Example
+
+```ts
+res.end()
+res.status(404).end()
+```
+
+#### `res.json`
+
+Sends a JSON response. This method sends a response (with the correct content-type) that is the parameter converted to a JSON string using [`JSON.stringify()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify).
+
+The parameter can be any JSON type, including object, array, string, boolean, number, or null, and you can also use it to convert other values to JSON.
+
+##### Example
+
+```ts
+res.json(null)
+res.json({ user: 'tobi' })
+res.status(500).json({ error: 'message' })
+```
+
+#### `res.send`
+
+Sends the HTTP response.
+
+The body parameter can be a `Buffer` object, a string, an object, or an array.
+
+##### Example
+
+```ts
+res.send(Buffer.from('whoop'))
+res.send({ some: 'json' })
+res.send('<p>some html</p>')
+res.status(404).send('Sorry, we cannot find that!')
+res.status(500).send({ error: 'something blew up' })
+```
+
+This method performs many useful tasks for simple non-streaming responses: For example, it automatically assigns the `Content-Length` HTTP response header field (unless previously defined) and provides automatic HEAD and HTTP cache freshness support.
+
+When the parameter is a Buffer object, the method sets the `Content-Type` response header field to `"application/octet-stream"`, unless previously defined as shown below:
+
+```ts
+res.set('Content-Type', 'text/html')
+res.send(Buffer.from('<p>some html</p>'))
+```
+
+When the parameter is a string, the method sets the `Content-Type` to `"text/html"`:
+
+```ts
+res.send('<p>some html</p>')
+```
+
+When the parameter is an Array or Object, Express responds with the JSON representation (same as [`res.json`](#resjson)):
+
+```ts
+res.send({ user: 'tobi' })
+res.send([1, 2, 3])
+```
+
+#### `res.status`
+
+Sets the HTTP status for the response. It is a chainable alias of Node’s `response.statusCode`.
+
+```ts
+res.status(403).end()
+res.status(400).send('Bad Request')
+```
+
+#### `res.set`
+
+Sets the response’s HTTP header `field` to `value`. To set multiple fields at once, pass an object as the parameter.
+
+##### Example
+
+```ts
+res.set('Content-Type', 'text/plain')
+
+res.set({
+  'Content-Type': 'text/plain',
+  'Content-Length': '123',
+  ETag: '12345'
+})
+```
+
+Alias to `res.header`.

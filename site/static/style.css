@@ -113,14 +113,18 @@ header p {
   border-radius: 10px;
 }
 
-pre {
-  background-color: #420926;
+#get_started > pre {
   margin: 0;
-  font-size: 0.8rem;
-  color: var(--bg);
+
   padding: 2rem;
   box-shadow: var(--shadow);
   border-radius: 10px;
+}
+
+pre {
+  font-size: 0.8rem;
+  color: var(--bg);
+  background-color: #42192e;
 }
 
 #get_started #window {

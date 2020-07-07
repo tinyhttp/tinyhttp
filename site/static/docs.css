@@ -1,7 +1,7 @@
 @import url('/style.css');
 
 body {
-  width: 50vw;
+  width: 67.5vw;
   margin: 5rem auto;
 }
 
@@ -19,9 +19,12 @@ blockquote {
 }
 
 pre {
-  margin: 3.25rem 0;
+  margin: 1rem 0;
   overflow-x: auto;
+  box-shadow: none;
+  padding: 1rem;
 }
+
 body > h1 {
   font-size: calc(2vw + 2rem);
 }
@@ -32,6 +35,7 @@ body > * {
 
 body > h2 {
   font-size: calc(1.25vw + 1.25rem);
+  color: #1d1b1c;
 }
 
 body > h3 {
@@ -45,9 +49,10 @@ body > h4 {
 }
 
 body > h5 {
-  font-size: calc(0.75vw + 0.75rem);
+  font-size: calc(0.6vw + 0.6rem);
   color: #424142;
-  margin: 0.75rem 0;
+  margin-top: 1.5rem;
+  margin-bottom: 0.25rem;
 }
 
 body > h6 {
@@ -95,6 +100,10 @@ aside a {
 
 aside a:hover {
   text-decoration: underline;
+}
+
+summary:hover {
+  cursor: pointer;
 }
 
 @media (max-width: 750px) {

@@ -39,7 +39,7 @@ export const getProtocol = (req: Request): Protocol => {
 }
 
 export const getRequestHeader = (req: Request) => (header: string) => {
-  return req.headers[header]
+  return req.headers[header.toLowerCase()]
 }
 
 export const setRequestHeader = (req: Request) => (field: string, value: string) => {
