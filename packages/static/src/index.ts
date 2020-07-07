@@ -15,7 +15,7 @@ export type StaticHandlerOptions = Partial<{
 
 export const staticHandler = (
   dir = process.cwd(),
-  { prefix, recursive }: StaticHandlerOptions = { prefix: '/', recursive: false }
+  { prefix = '/', recursive = false }: StaticHandlerOptions
 ): AsyncHandler => {
   return async (req: Request, res: Response, next?: NextFunction) => {
     let files: string[]

@@ -9,10 +9,15 @@
     "@tinyhttp/logger": "workspace:*",
     "@tinyhttp/markdown": "workspace:*",
     "@tinyhttp/static": "workspace:*",
+    "highlight.js": "^10.1.1",
+    "serve-handler": "^6.1.3",
     "typeface-inter": "^3.12.0"
   },
   "scripts": {
     "dev": "ts-node server.ts",
     "start": "ts-node server.ts"
+  },
+  "devDependencies": {
+    "@types/serve-handler": "^6.1.0"
   }
 }

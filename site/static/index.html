@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>tinyhttp</title>
     <link rel="stylesheet" href="/style.css" />
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link rel="stylesheet" href="/inter.css">
   </head>
   <body>
     <nav>
       <a href="/">Home</a>
-      <a href="https://github.com/talentlessguy/tinyhttp">GitHub</a>
+      <a href="https://github.com/talentlessguy/tinyhttp">Examples</a>
       <a href="/learn">Learn</a>
       <a href="/docs">Docs</a>
       <a href="https://v1rtl.site/donate">Donate</a>
@@ -71,27 +71,36 @@ app
             <h3>Same API without legacy dependencies</h2>
             <p>
               tinyhttp uses a bare minimum of dependencies to avoid shipping useless ES6 polyfills (that Express has).
-              <code>node_modules</code> is smaller, code runs faster, everyone wins! Also, it targets ES2019 (Node 12.4+)
-              to ship as less code as possible.
+              <code>node_modules</code> is smaller in size and code executes faster. Also, it targets ES2019 (Node 12.4+) that allows to use modern syntax to ship as less code as possible.
             </p>
           </div>
-          <img src="/no_legacy.svg" />
           <div>
             <h3>Compatible with Express</h2>
-            <p>tinyhttp offers a pack of popular middleware like <a href="https://github.com/talentlessguy/blob/master/packages/logger">logger</a> and <a href="https://github.com/talentlessguy/blob/master/packages/cookie-parser">cookie parser</a> but all middleware for Express works for tinyhttp as well.</p>
+            <p>All middleware for Express works the same for tinyhttp. Explore <a href="https://github.com/talentlessguy/tinyhttp/blob/master/examples">examples</a> with using Express-oriented middleware.</p>
           </div>
-          <img src="/express.svg" />
+          <div>
+            <h3>Premade popular middleware</h3>
+            <p>tinyhttp offers a list of popularly used middleware as separate packages. See <a href="/mw">full middleware list</a>.</p>
+          </div>
+          <div>
+            <h3>Compatible with Deno [not yet]</h3>
+            <p>tinyhttp is planned to be available as a Deno module [soon]</p>
+          </div>
           <div>
             <h3>Completely modular</h2>
-            <p>Every piece of tinyhttp, from <a href="https://github.com/talentlessguy/blob/master/packages/static">static server</a> to <a href="https://github.com/talentlessguy/blob/master/packages/etag">eTag</a> is published separately as a module that you can use outside of tinyhttp.</p>
+            <p>Every piece of tinyhttp is published separately as a package that you can use outside of tinyhttp.
+              For example, you can use these modules with built-in `http` module.</p>
           </div>
-          <img src="/modular.svg" alt="modular" />
+          <div>
+            <h3>Async support</h3>
+            <p>In comparison to Express, tinyhttp handles <code>async / await</code> without any extra setup with keeping a proper middleware handling loop.</p>
+          </div>
         </div>
         
       </section>
     </main>
     <footer>
-      v1rtl (c) <a href="https://github.com/talentlessguy/blob/master/LICENSE">MIT License</a>
+      v1rtl (c) <a href="https://github.com/talentlessguy/tinyhttp/blob/master/LICENSE">MIT License</a>
     </footer>
     <script src="/index.js"></script>
   </body>
