@@ -3,7 +3,7 @@
 
 <nav>
   <a href="/">Home</a>
-  <a href="https://github.com/talentlessguy/tinyhttp">GitHub</a>
+  <a href="https://github.com/talentlessguy/tinyhttp/tree/master/examples">Examples</a>
   <a href="/learn">Learn</a>
   <a href="/docs">Docs</a>
   <a href="https://v1rtl.site/donate">Donate</a>
