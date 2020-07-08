@@ -1,7 +1,6 @@
-import { ServerResponse } from 'http'
-import encodeUrl from 'encodeurl'
+import { ServerResponse, STATUS_CODES } from 'http'
 import { sign } from '@tinyhttp/cookie-signature'
-import mime from 'mime'
+import mime from 'mime-types'
 import cookie, { SerializeOptions } from '@tinyhttp/cookie'
 import { setCharset, createETag } from './utils/response'
 import { App } from './app'
@@ -138,7 +137,7 @@ export const setHeader = (_req: Request, res: Response) => (field: string | obje
         throw new TypeError('Content-Type cannot be set to an Array')
       }
       if (!charsetRegExp.test(value)) {
-        const charset = mime.getType(value.split(';')[0])
+        const charset = mime.lookup(value.split(';')[0])
         if (charset) value += '; charset=' + charset.toLowerCase()
       }
     }
@@ -152,7 +151,7 @@ export const setHeader = (_req: Request, res: Response) => (field: string | obje
   return res
 }
 
-export const setLocationHeader = (req: Request, res: Response) => (url: string) => {
+export const setLocationHeader = (req: Request, res: Response) => (url: string): Response => {
   let loc = url
 
   // "back" is an alias for the referrer
@@ -161,17 +160,47 @@ export const setLocationHeader = (req: Request, res: Response) => (url: string) 
   }
 
   // set location
-  return res.setHeader('Location', encodeUrl(loc))
+  res.setHeader('Location', encodeURIComponent(loc))
+  return res
+}
+
+export const getResponseHeader = (_req: Request, res: Response) => (field: string): string | number | string[] => {
+  return res.getHeader(field)
+}
+
+export const setLinksHeader = (_req: Request, res: Response) => (links: { [key: string]: string }): Response => {
+  let link = res.get('Link') || ''
+  if (link) link += ', '
+  return res.set(
+    'Link',
+    link +
+      Object.keys(links)
+        .map(rel => '<' + links[rel] + '>; rel="' + rel + '"')
+        .join(', ')
+  )
+}
+
+export const sendStatus = (_req: Request, res: Response) => (statusCode: number): Response => {
+  const body = STATUS_CODES[statusCode] || String(statusCode)
+
+  res.statusCode = statusCode
+
+  res.set('Content-Type', 'text/plain')
+
+  return res.send(body)
 }
 
 export interface Response extends ServerResponse {
   app: App
   header(field: string | object, val: string | any[]): Response
   set(field: string | object, val: string | any[]): Response
+  get(field: string): string | number | string[]
   send(body: unknown): Response
   json(body: unknown): Response
   status(status: number): Response
+  sendStatus(statusCode: number): Response
   cookie(name: string, value: string | object, options?: SerializeOptions & Partial<{ signed: boolean }>): Response
   clearCookie(name: string, options?: SerializeOptions): Response
   location(url: string): Response
+  links(links: { [key: string]: string }): Response
 }

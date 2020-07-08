@@ -1,20 +1,34 @@
 import {
   Request,
   getQueryParams,
-  getURLParams,
-  getRouteFromApp,
   getProtocol,
   getRangeFromHeader,
   checkIfXMLHttpRequest,
   getHostname,
   getRequestHeader,
-  setRequestHeader
+  setRequestHeader,
+  getFreshOrStale,
+  getAccepts
 } from './request'
-import { Response, send, json, status, setCookie, clearCookie, setHeader } from './response'
+import {
+  Response,
+  send,
+  json,
+  status,
+  setCookie,
+  clearCookie,
+  setHeader,
+  getResponseHeader,
+  setLocationHeader,
+  setLinksHeader,
+  sendStatus
+} from './response'
 import { App } from './app'
 
 export const extendMiddleware = (app: App) => (req: Request, res: Response) => {
   /// Define extensions
+
+  res.get = getResponseHeader(req, res)
 
   /*
   Request extensions
@@ -33,9 +47,14 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response) => {
 
   req.query = getQueryParams(req.url)
 
+  req.fresh = getFreshOrStale(req, res)
+
+  req.stale = !req.fresh
+
   req.get = getRequestHeader(req)
   req.set = setRequestHeader(req)
   req.range = getRangeFromHeader(req)
+  req.accepts = getAccepts(req)
 
   req.xhr = checkIfXMLHttpRequest(req)
 
@@ -44,11 +63,16 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response) => {
   /*
   Response extensions
   */
+
   res.app = app
   res.header = res.set = setHeader(req, res)
+
   res.send = send(req, res)
   res.json = json(req, res)
   res.status = status(req, res)
+  res.sendStatus = sendStatus(req, res)
+  res.location = setLocationHeader(req, res)
+  res.links = setLinksHeader(req, res)
 
   res.cookie = setCookie(req, res)
   res.clearCookie = clearCookie(req, res)

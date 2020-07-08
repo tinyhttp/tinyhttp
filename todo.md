@@ -6,7 +6,6 @@
 
 - [x] `app.locals`
 - [ ] `app.mountpath`
-- [ ] `app.router`
 
 ### Methods
 
@@ -56,15 +55,13 @@ HTTP Methods
 ### Properties
 
 - [x] `req.app`
-- [ ] `req.baseUrl`
 - [ ] `req.body`
 - [x] `req.cookies`
-- [ ] `req.fresh`
+- [x] `req.fresh`
 - [x] `req.hostname`
 - [x] `req.ip`
 - [ ] `req.ips`
 - [x] `req.method`
-- [ ] `req.originalUrl`
 - [x] `req.params`
 - [ ] `req.path`
 - [x] `req.protocol`
@@ -72,13 +69,13 @@ HTTP Methods
 - [x] `req.route`
 - [x] `req.secure`
 - [x] `req.signedCookies`
-- [ ] `req.stale`
+- [x] `req.stale`
 - [ ] `req.subdomains`
 - [x] `req.xhr`
 
 ### Methods
 
-- [ ] `req.accepts()`
+- [x] `req.accepts()`
 - [ ] `req.acceptsCharsets()`
 - [ ] `req.acceptsEncodings()`
 - [ ] `req.acceptsLanguages()`
@@ -91,7 +88,6 @@ HTTP Methods
 ### Properties
 
 - [x] `res.app`
-- [ ] `res.headersSent`
 - [ ] `res.locals`
 
 ### Methods
@@ -106,13 +102,13 @@ HTTP Methods
 - [x] `res.get()`
 - [x] `res.json()`
 - [ ] `res.jsonp()`
-- [ ] `res.links()`
+- [x] `res.links()`
 - [x] `res.location()`
 - [ ] `res.redirect()`
 - [ ] `res.render()`
 - [x] `res.send()`
 - [ ] `res.sendFile()`
-- [ ] `res.sendStatus()`
+- [x] `res.sendStatus()`
 - [x] `res.set()`
 - [x] `res.status()`
 - [ ] `res.type()`

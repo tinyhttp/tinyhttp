@@ -60,13 +60,16 @@
       <li><a href="#reqprotocol">req.protocol</a></li>
       <li><a href="#reqsecure">req.secure</a></li>
       <li><a href="#reqxhr">req.xhr</a></li>
+      <li><a href="#reqfresh">req.fresh</a></li>
+      <li><a href="#reqstale">req.stale</a></li>
     </ul>
   </details>
  
  <details>
   <summary>Methods</summary>
   <ul>
-    <li><a href="#reqget">req.get</a></li>
+    <li><a href="#reqaccepts">req.accepts</a></li>
+    <li><a href="#reqget">req.get</a></li>  
   </ul>
  </details>
 
@@ -90,6 +93,8 @@
     <li><a href="#ressend">res.send</a></li>
     <li><a href="#resstatus">res.status</a></li>
     <li><a href="#resset">res.set</a></li>
+    <li><a href="#reslinks">res.links</a></li>
+    <li><a href="#reslocation">res.location</a></li>
   </ul>
  </details>
 </aside>
@@ -131,7 +136,7 @@ The tinyhttp application object can be referred from the request object and the 
 
 Handler if none of the routes match. Should return 404 Not found.
 
-Example:
+##### Example
 
 ```ts
 import { App, Request, Response } from '@tinyhttp/app'
@@ -153,7 +158,7 @@ app
 
 A middleware to catch server errors. Error can be anything. Should return 500 Internal Server Error.
 
-Example:
+##### Example
 
 ```ts
 import { App, Request, Response } from '@tinyhttp/app'
@@ -444,9 +449,64 @@ console.dir(req.xhr)
 // => true
 ```
 
+#### `req.fresh`
+
+When the response is still “fresh” in the client’s cache true is returned, otherwise false is returned to indicate that the client cache is now stale and the full response should be sent.
+
+When a client sends the `Cache-Control: no-cache` request header to indicate an end-to-end reload request, this module will return false to make handling these requests transparent.
+
+Further details for how cache validation works can be found in the [HTTP/1.1 Caching Specification](https://tools.ietf.org/html/rfc7234).
+
+```ts
+console.dir(req.fresh)
+// => true
+```
+
+#### `req.stale`
+
+Indicates whether the request is “stale,” and is the opposite of `req.fresh`. For more information, see [`req.fresh`](#reqfresh).
+
+```ts
+console.dir(req.stale)
+// => true
+```
+
 ### Methods
 
-#### `req.get()`
+#### `req.accepts`
+
+Checks if the specified content types are acceptable, based on the request’s `Accept` HTTP header field. The method returns the best match, or if none of the specified content types is acceptable, returns `false` (in which case, the application should respond with `406 "Not Acceptable"`).
+
+The type value may be a single MIME type string (such as `"application/json"`), an extension name such as `"json"`, a comma-delimited list, or an array. For a list or array, the method returns the _**best**_ match (if any).
+
+```ts
+// Accept: text/html
+req.accepts('html')
+// => "html"
+
+// Accept: text/*, application/json
+req.accepts('html')
+// => "html"
+req.accepts('text/html')
+// => "text/html"
+req.accepts(['json', 'text'])
+// => "json"
+req.accepts('application/json')
+// => "application/json"
+
+// Accept: text/*, application/json
+req.accepts('image/png')
+req.accepts('png')
+// => false
+
+// Accept: text/*;q=.5, application/json
+req.accepts(['html', 'json'])
+// => "json"
+```
+
+For more information, or if you have issues or concerns, see [accepts](https://github.com/jshttp/accepts).
+
+#### `req.get`
 
 Returns the specified HTTP request header field (case-insensitive match).
 
@@ -589,6 +649,25 @@ res.status(403).end()
 res.status(400).send('Bad Request')
 ```
 
+#### `res.sendStatus`
+
+Sets the response HTTP status code to statusCode and send its string representation as the response body.
+
+```ts
+res.sendStatus(200) // equivalent to res.status(200).send('OK')
+res.sendStatus(403) // equivalent to res.status(403).send('Forbidden')
+res.sendStatus(404) // equivalent to res.status(404).send('Not Found')
+res.sendStatus(500) // equivalent to res.status(500).send('Internal Server Error')
+```
+
+If an unsupported status code is specified, the HTTP status is still set to statusCode and the string version of the code is sent as the response body.
+
+```ts
+res.sendStatus(9999) // equivalent to res.status(9999).send('9999')
+```
+
+[More about HTTP Status Codes](http://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
+
 #### `res.set`
 
 Sets the response’s HTTP header `field` to `value`. To set multiple fields at once, pass an object as the parameter.
@@ -606,5 +685,39 @@ res.set({
 ```
 
 Alias to `res.header`.
+
+#### `res.links`
+
+Joins the `links` provided as properties of the parameter to populate the response’s `Link` HTTP header field.
+
+For example, the following call:
+
+```ts
+res.links({
+  next: 'http://api.example.com/users?page=2',
+  last: 'http://api.example.com/users?page=5'
+})
+```
+
+Yields the following results:
+
+```txt
+Link: <http://api.example.com/users?page=2>; rel="next",
+      <http://api.example.com/users?page=5>; rel="last"
+```
+
+#### `res.location`
+
+Sets the response Location HTTP header to the specified path parameter.
+
+```ts
+res.location('/foo/bar')
+res.location('http://example.com')
+res.location('back')
+```
+
+A `path` value of `"back"` has a special meaning, it refers to the URL specified in the `Referer` header of the request. If the Referer header was not specified, it refers to `"/"`.
+
+> After encoding the URL, if not encoded already, tinyhttp passes the specified URL to the browser in the `Location` header, without any validation. Browsers take the responsibility of deriving the intended URL from the current URL or the referring URL, and the URL specified in the Location header; and redirect the user accordingly.
 
 </main>

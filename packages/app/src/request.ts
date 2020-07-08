@@ -1,12 +1,15 @@
-import { IncomingMessage } from 'http'
+import { IncomingMessage, OutgoingHttpHeaders } from 'http'
 import { ParsedUrlQuery } from 'querystring'
 import rg from 'regexparam'
 import { parse } from 'url'
 import parseRange, { Ranges, Options } from 'range-parser'
 import proxyAddr from 'proxy-addr'
+import fresh from '@foxify/fresh'
+import accepts from 'accepts'
 import { App } from './app'
 import { Middleware, Handler } from './router'
 import { compileTrust, rgExec } from './utils/request'
+import { Response } from './response'
 
 export const getQueryParams = (url = '/'): ParsedUrlQuery => {
   return parse(url, true).query
@@ -39,7 +42,15 @@ export const getProtocol = (req: Request): Protocol => {
 }
 
 export const getRequestHeader = (req: Request) => (header: string) => {
-  return req.headers[header.toLowerCase()]
+  const lc = header.toLowerCase()
+
+  switch (lc) {
+    case 'referer':
+    case 'referrer':
+      return req.headers.referrer || req.headers.referer
+    default:
+      return req.headers[lc]
+  }
 }
 
 export const setRequestHeader = (req: Request) => (field: string, value: string) => {
@@ -93,23 +104,29 @@ export const getIP = (req: Request) => {
 //   }
 // }
 
-// export const getFreshOrStale = (req: Request, res: Response) => {
-//   const method = req.method
-//   const status = res.statusCode
+export const getFreshOrStale = (req: Request, res: Response) => {
+  const method = req.method
+  const status = res.statusCode
 
-//   // GET or HEAD for weak freshness validation only
-//   if ('GET' !== method && 'HEAD' !== method) return false
+  // GET or HEAD for weak freshness validation only
+  if (method !== 'GET' && method !== 'HEAD') return false
 
-//   // 2xx or 304 as per rfc2616 14.26
-//   if ((status >= 200 && status < 300) || 304 === status) {
-//     return fresh(this.headers, {
-//       etag: res.get('ETag'),
-//       'last-modified': res.get('Last-Modified')
-//     })
-//   }
+  // 2xx or 304 as per rfc2616 14.26
+  if ((status >= 200 && status < 300) || 304 === status) {
+    const resHeaders = {
+      etag: res.get('ETag'),
+      'last-modified': res.get('Last-Modified')
+    }
 
-//   return false
-// }
+    return fresh(req.headers, resHeaders)
+  }
+
+  return false
+}
+
+export const getAccepts = (req: Request) => (...types: string[]): string | false | string[] => {
+  return accepts(req).types(types)
+}
 
 export type Connection = IncomingMessage['socket'] & {
   encrypted: boolean
@@ -135,8 +152,12 @@ export interface Request extends IncomingMessage {
   get: (header: string) => string | string[] | undefined
   set: (field: string, value: string) => string
   range: (size: number, options?: any) => -1 | -2 | Ranges | undefined
+  accepts: (...types: string[]) => string | false | string[]
 
   cookies?: any
   signedCookies?: any
   secret?: string | string[]
+
+  fresh: boolean
+  stale: boolean
 }

@@ -28,33 +28,33 @@ importers:
       typescript: ^3.9.5
   packages/app:
     dependencies:
+      '@foxify/fresh': 1.1.0
       '@tinyhttp/cookie': 'link:../cookie'
       '@tinyhttp/cookie-signature': 'link:../cookie-signature'
       '@tinyhttp/etag': 'link:../etag'
+      accepts: 1.3.7
       content-type: 1.0.4
-      encodeurl: 1.0.2
-      mime: 2.4.6
+      mime-types: 2.1.27
       proxy-addr: 2.0.6
       range-parser: 1.2.1
       regexparam: 1.3.0
     devDependencies:
+      '@types/accepts': 1.3.5
       '@types/content-type': 1.1.3
-      '@types/encodeurl': 1.0.0
-      '@types/mime': 2.0.2
       '@types/proxy-addr': 2.0.0
       '@types/range-parser': 1.2.3
     specifiers:
-      '@tinyhttp/cookie': 'workspace:^0.0.8'
-      '@tinyhttp/cookie-signature': 'workspace:^0.0.5'
-      '@tinyhttp/etag': ^0.1.15
+      '@foxify/fresh': ^1.1.0
+      '@tinyhttp/cookie': 'workspace:*'
+      '@tinyhttp/cookie-signature': 'workspace:*'
+      '@tinyhttp/etag': 'workspace:*'
+      '@types/accepts': ^1.3.5
       '@types/content-type': ^1.1.3
-      '@types/encodeurl': ^1.0.0
-      '@types/mime': ^2.0.2
       '@types/proxy-addr': ^2.0.0
       '@types/range-parser': ^1.2.3
+      accepts: ^1.3.7
       content-type: ^1.0.4
-      encodeurl: ^1.0.2
-      mime: ^2.4.6
+      mime-types: ^2.1.27
       proxy-addr: ^2.0.6
       range-parser: ^1.2.1
       regexparam: ^1.3.0
@@ -66,9 +66,9 @@ importers:
       '@tinyhttp/cookie': 'link:../cookie'
       '@tinyhttp/cookie-signature': 'link:../cookie-signature'
     specifiers:
-      '@tinyhttp/app': 'workspace:^0.1.26'
-      '@tinyhttp/cookie': 'workspace:^0.0.8'
-      '@tinyhttp/cookie-signature': 'workspace:^0.0.5'
+      '@tinyhttp/app': 'workspace:*'
+      '@tinyhttp/cookie': 'workspace:*'
+      '@tinyhttp/cookie-signature': 'workspace:*'
   packages/cookie-signature:
     specifiers: {}
   packages/cors:
@@ -1063,6 +1063,12 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-v9kIhKwjeZThiWrLmj0y17CWoyddASLj9O2yvbZkbvw/N3rWOYy9zkV66ursAoVr0mV15bL8g0c4QZUE6cdDoQ==
+  /@foxify/fresh/1.1.0:
+    dev: false
+    engines:
+      node: '>= 8'
+    resolution:
+      integrity: sha512-Nz3j6WFrzhD+cPX2v/lTiMqvC0lXb9hX6mKWV4TceZ8oITETzaClVtjnSJsLgSxOFd0hGXzvv87WwtSbVAjx+A==
   /@istanbuljs/load-nyc-config/1.1.0:
     dependencies:
       camelcase: 5.3.1
@@ -1294,6 +1300,12 @@ packages:
     dev: true
     resolution:
       integrity: sha512-MZPUxrmFubI36XS1DI3qmI0YdN1gks62JtFZvxR67ljjSNCeK6U08Zx4msEWOXuofgqUt6zPHSi1H9fbjR/NRA==
+  /@types/accepts/1.3.5:
+    dependencies:
+      '@types/node': 14.0.20
+    dev: true
+    resolution:
+      integrity: sha512-jOdnI/3qTpHABjM5cx1Hc0sKsPoYCp+DP/GJRGtDlPd7fiV9oXGGIcjW/ZOxLIvjGz8MA+uMZI9metHlgqbgwQ==
   /@types/babel__core/7.1.8:
     dependencies:
       '@babel/parser': 7.10.3
@@ -1335,10 +1347,6 @@ packages:
     dev: true
     resolution:
       integrity: sha512-aRnpPa7ysx3aNW60hTiCtLHlQaIFsXFCgQlpakNgDNVFzbtusSY8PwjAQgRWfSk0ekNoBjO51eQRB6upA9uuyw==
-  /@types/encodeurl/1.0.0:
-    dev: true
-    resolution:
-      integrity: sha512-iO2Q6xQOJ5DtOB6wJ2KIetFq9JRTbpzcKTe2aS6CCsa+W9KNWX2yXx9KeB5sY/nBfAWN43LkPg6SFB+ldsW9ZA==
   /@types/estree/0.0.39:
     dev: true
     resolution:
@@ -1381,18 +1389,14 @@ packages:
     dev: true
     resolution:
       integrity: sha1-nKUs2jY/aZxpRmwqbM2q2RPqenM=
-  /@types/mime/2.0.2:
-    dev: true
-    resolution:
-      integrity: sha512-4kPlzbljFcsttWEq6aBW0OZe6BDajAmyvr2xknBG92tejQnvdGtT9+kXSZ580DqpxY9qG2xeQVF9Dq0ymUTo5Q==
   /@types/node/14.0.13:
     dev: true
     resolution:
       integrity: sha512-rouEWBImiRaSJsVA+ITTFM6ZxibuAlTuNOCyxVbwreu6k6+ujs7DfnU9o+PShFhET78pMBl3eH+AGSI5eOTkPA==
-  /@types/node/14.0.19:
+  /@types/node/14.0.20:
     dev: true
     resolution:
-      integrity: sha512-yf3BP/NIXF37BjrK5klu//asUWitOEoUP5xE1mhSUjazotwJ/eJDgEmMQNlOeWOVv72j24QQ+3bqXHE++CFGag==
+      integrity: sha512-MRn/NP3dee8yL5QhbSA6riuwkS+UOcsPUMOIOG3KMUQpuor/2TopdRBu8QaaB4fGU+gz/bzyDWt0FtUbeJ8H1A==
   /@types/normalize-package-data/2.4.0:
     dev: true
     resolution:
@@ -1423,7 +1427,7 @@ packages:
       integrity: sha512-TbB0A8ACUWZt3Y6bQPstW9QNbhNeebdgLX4T/ZfkrswAfUzRiXrgd9seol+X379Wa589Pu4UEx9Uok0D4RjRCQ==
   /@types/serve-handler/6.1.0:
     dependencies:
-      '@types/node': 14.0.19
+      '@types/node': 14.0.20
     dev: true
     resolution:
       integrity: sha512-F9BpWotLZrQvq1CdE3oCnVmQUb6dWq20HSB/qjF4mG7WkZjPQ6fye8veznMKoBPhFJve4yz9C1NOITdTcoLngQ==
@@ -1526,6 +1530,15 @@ packages:
     dev: true
     resolution:
       integrity: sha512-tsFzPpcttalNjFBCFMqsKYQcWxxen1pgJR56by//QwvJc4/OUS3kPOOttx2tSIfjsylB0pYu7f5D3K1RCxUnUg==
+  /accepts/1.3.7:
+    dependencies:
+      mime-types: 2.1.27
+      negotiator: 0.6.2
+    dev: false
+    engines:
+      node: '>= 0.6'
+    resolution:
+      integrity: sha512-Il80Qs2WjYlJIBNzNkK6KYqlVMTbZLXgHx2oT0pU/fjRHyEp+PEfEPY0R3WCwAGVOtauxh1hOxNgIf5bv7dQpA==
   /acorn-globals/6.0.0:
     dependencies:
       acorn: 7.3.1
@@ -2237,12 +2250,6 @@ packages:
     dev: true
     resolution:
       integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==
-  /encodeurl/1.0.2:
-    dev: false
-    engines:
-      node: '>= 0.8'
-    resolution:
-      integrity: sha1-rT/0yG7C0CkyL1oCw6mmBslbP1k=
   /end-of-stream/1.4.4:
     dependencies:
       once: 1.4.0
@@ -3756,13 +3763,6 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==
-  /mime/2.4.6:
-    dev: false
-    engines:
-      node: '>=4.0.0'
-    hasBin: true
-    resolution:
-      integrity: sha512-RZKhC3EmpBchfTGBVb8fb+RL2cWyw/32lshnsETttkBAyAUXSGHxbEJWWRXc751DrIxG1q04b8QwMbAwkRPpUA==
   /mimic-fn/2.1.0:
     dev: true
     engines:
@@ -3824,6 +3824,12 @@ packages:
     dev: true
     resolution:
       integrity: sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
+  /negotiator/0.6.2:
+    dev: false
+    engines:
+      node: '>= 0.6'
+    resolution:
+      integrity: sha512-hZXc7K2e+PgeI1eDBe/10Ard4ekbfrrqG8Ep+8Jmf4JID2bNg7NvCPOZN+kfF574pFQI7mum2AUqDidoKqcTOw==
   /nice-try/1.0.5:
     dev: true
     resolution:
