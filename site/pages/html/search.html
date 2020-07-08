@@ -42,14 +42,14 @@
         const query = e.currentTarget.value
 
         const results = pkgs.filter(el => {
-          return el.name.indexOf(query.toLowerCase()) > -1
+          return el.indexOf(query.toLowerCase()) > -1
         })
 
         cont.innerHTML = results
           .map(
-            r => `<a class="mw_preview" href="/mw/${r.name}">
+            r => `<a class="mw_preview" href="/mw/${r}">
   <div>
-    <h3>${r.name}</h3>
+    <h3>${r}</h3>
   </div>
 </a>`
           )
