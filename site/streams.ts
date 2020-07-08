@@ -31,8 +31,8 @@ export const transformMWPageStream = (json: any) =>
     }
   })
 
-const MWPreviewTemplate = (mw: { name: string; html_url: string }) => `
-<a class="mw_preview" href="${mw.html_url}" target="_blank" rel="noopener noreferrer">
+const MWPreviewTemplate = (mw: { name: string }) => `
+<a class="mw_preview" href="/mw/${mw.name}" target="_blank" rel="noopener noreferrer">
   <div>
     <h3>${mw.name}</h3>
   </div>
