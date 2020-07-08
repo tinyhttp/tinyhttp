@@ -1,0 +1,40 @@
+main {
+  margin: 4rem auto;
+  width: 60vw;
+}
+
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.mw_preview {
+  text-decoration: none;
+  color: var(--fg);
+}
+
+input {
+  border: none;
+  width: 15rem;
+  margin-right: 1rem;
+}
+
+input,
+button {
+  font-size: 1.75rem;
+  padding: 10px 20px;
+}
+
+button {
+  border-style: none;
+  background: var(--gradient);
+  color: var(--bg);
+}
+
+h1 {
+  color: var(--fg);
+  font-size: calc(3rem + 3vw);
+  margin: 1rem 0;
+}

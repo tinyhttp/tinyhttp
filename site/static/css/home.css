@@ -7,6 +7,16 @@ main {
   grid-template-columns: 100%;
 }
 
+button {
+  background: transparent;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  box-shadow: var(--shadow);
+  border: none;
+  cursor: pointer;
+}
+
 #logo {
   margin-top: 2rem;
   width: calc(150px + 40vw);
@@ -23,7 +33,7 @@ header {
 header #to_get_started {
   border-color: var(--pink);
   color: var(--bg);
-  background: linear-gradient(150deg, var(--pink) 40%, var(--bright-pink) 72%);
+  background: var(--gradient);
   margin-right: 3rem;
 }
 

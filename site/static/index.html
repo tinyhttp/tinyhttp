@@ -4,21 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>tinyhttp</title>
-    <link rel="stylesheet" href="/shared.css" />
-    <link rel="stylesheet" href="/home.css" />
+    <link rel="stylesheet" href="/css/shared.css" />
+    <link rel="stylesheet" href="/css/home.css" />
     <link rel="stylesheet" href="/inter.css">
   </head>
   <body>
     <nav>
       <a href="/">Home</a>
-      <a href="https://github.com/talentlessguy/tinyhttp/tree/master/examples">Examples</a>
+      <a href="https://github.com/talentlessguy/tinyhttp/tree/master/examples" target="_blank" rel="noopener noreferrer">Examples</a>
       <a href="/learn">Learn</a>
       <a href="/docs">Docs</a>
-      <a href="https://v1rtl.site/donate">Donate</a>
+      <a href="/mw">Middleware</a>
+      <a href="/donate">Donate</a>
     </nav>
     <main>
       <header>
-        <img id="logo" src="/logo.svg" />
+        <img id="logo" src="/images/logo.svg" />
         <p>
           tinyhttp is a <strong>modern</strong>, <strong>lightweight</strong> and <strong>modular</strong> Express-like
           web framework for Node.js.
@@ -69,7 +70,7 @@ app
         <h2>Features</h2>
         <div>
           <div>
-            <h3>Same API without legacy dependencies</h2>
+            <h3>No legacy dependencies</h2>
             <p>
               tinyhttp uses a bare minimum of dependencies to avoid shipping useless ES6 polyfills (that Express has).
               <code>node_modules</code> is smaller in size and code executes faster. Also, it targets ES2019 (Node 12.4+) that allows to use modern syntax to ship as less code as possible.
@@ -103,6 +104,6 @@ app
     <footer>
       v1rtl (c) <a href="https://github.com/talentlessguy/tinyhttp/blob/master/LICENSE">MIT License</a>
     </footer>
-    <script src="/index.js"></script>
+    <script src="/js/index.js"></script>
   </body>
 </html>

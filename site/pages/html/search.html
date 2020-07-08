@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/shared.css" />
+    <link rel="stylesheet" href="/css/search.css" />
+    <link rel="stylesheet" href="/inter.css" />
+    <title>Middleware | tinyhttp</title>
+  </head>
+  <body>
+    <nav>
+      <a href="/">Home</a>
+      <a href="https://github.com/talentlessguy/tinyhttp/tree/master/examples" target="_blank" rel="noopener noreferrer"
+        >Examples</a
+      >
+      <a href="/learn">Learn</a>
+      <a href="/docs">Docs</a>
+      <a href="/mw">Middleware</a>
+      <a href="/donate">Donate</a>
+    </nav>
+    <main>
+      <form method="GET">
+        <h1>Search</h1>
+        <div>
+          <input id="search" name="q" />
+          <button>search</button>
+        </div>
+      </form>
+      <div id="pkgs">
+        {pkgTemplates}
+      </div>
+    </main>
+    <script type="module">
+      const pkgs = [{ pkgs }]
+
+      const inp = document.getElementById('search')
+
+      const cont = document.getElementById('pkgs')
+
+      inp.oninput = e => {
+        const query = e.currentTarget.value
+
+        const results = pkgs.filter(el => {
+          return el.name.indexOf(query.toLowerCase()) > -1
+        })
+
+        cont.innerHTML = results
+          .map(
+            r => `<a class="mw_preview" href="/mw/${r.name}">
+  <div>
+    <h3>${r.name}</h3>
+  </div>
+</a>`
+          )
+          .join('<br />')
+      }
+    </script>
+  </body>
+</html>

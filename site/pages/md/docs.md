@@ -1,6 +1,8 @@
-<link rel="stylesheet" href="/docs.css" />
-<link rel="stylesheet" href="/shared.css" />
+<link rel="stylesheet" href="/css/docs.css" />
+<link rel="stylesheet" href="/css/shared.css" />
 <link rel="stylesheet" href="/inter.css" />
+
+<title>Docs | tinyhttp</title>
 
 <nav>
   <a href="/">Home</a>

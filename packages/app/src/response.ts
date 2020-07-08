@@ -9,7 +9,7 @@ import { Request } from './request'
 
 export const json = (_req: Request, res: Response) => (body: any, ...args: any[]): Response => {
   res.setHeader('Content-Type', 'application/json')
-  if (typeof body === 'object' && body != 'null') {
+  if (typeof body === 'object' && body != null) {
     res.end(JSON.stringify(body, null, 2), ...args)
   } else if (typeof body === 'string') {
     res.end(body, ...args)
@@ -22,7 +22,7 @@ export const send = (req: Request, res: Response) => (body: any): Response => {
   let bodyToSend = body
 
   // in case of object - turn it to json
-  if (typeof body === 'object' && body !== 'null') {
+  if (typeof body === 'object' && body !== null) {
     bodyToSend = JSON.stringify(body, null, 2)
   } else {
     if (typeof body === 'string') {

@@ -1,9 +1,8 @@
-import { createServer, STATUS_CODES } from 'http'
+import { createServer } from 'http'
 import rg from 'regexparam'
 import { Request, getURLParams, getRouteFromApp } from './request'
 import { Response } from './response'
-import { notFound } from './notFound'
-import { onError } from './onError'
+import { onErrorHandler } from './onError'
 import { isAsync } from './utils/async'
 import { Middleware, Handler, NextFunction, Router, ErrorHandler } from './router'
 import { extendMiddleware } from './extend'
@@ -21,16 +20,12 @@ export class App extends Router {
   locals: { [key: string]: string }[]
   noMatchHandler: Handler
   onError: ErrorHandler
-  constructor(
-    options: Partial<{ noMatchHandler: Handler; onError: ErrorHandler }> = {
-      noMatchHandler: notFound(),
-      onError: onError
-    }
-  ) {
+  constructor(options: Partial<{ noMatchHandler: Handler; onError: ErrorHandler }> = {}) {
     super()
     this.locals = Object.create(null)
     this.middleware = []
-    this.noMatchHandler = options.noMatchHandler || this.onError.bind(null, { code: 404 })
+    this.onError = options?.onError || onErrorHandler
+    this.noMatchHandler = options?.noMatchHandler || this.onError.bind(null, { code: 404 })
   }
 
   async handler(mw: Middleware[], req: Request, res: Response) {
@@ -58,7 +53,9 @@ export class App extends Router {
 
       if (type === 'route') {
         if (req.method === method) {
-          if (rg(path).pattern.test(req.url)) {
+          const queryParamStart = req.url.indexOf('?')
+          const reqUrlWithoutParams = req.url.slice(0, queryParamStart === -1 ? req.url.length : queryParamStart)
+          if (rg(path).pattern.test(reqUrlWithoutParams)) {
             req.params = getURLParams(req.url, path)
             req.route = getRouteFromApp(this, handler)
 

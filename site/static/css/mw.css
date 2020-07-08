@@ -1,0 +1,61 @@
+main {
+  display: grid;
+  margin-top: 4rem;
+  padding: 4rem;
+  gap: 4rem;
+  grid-template-areas: 'readme meta';
+}
+
+@media (max-width: 1400px) {
+  main {
+    grid-template-areas: 'meta' 'readme';
+    grid-template-columns: 100%;
+  }
+}
+
+h1 {
+  color: var(--fg);
+  font-size: calc(2rem + 2vw);
+  font-style: italic;
+  margin-top: 0;
+}
+
+#readme {
+  grid-area: readme;
+}
+
+#meta {
+  grid-area: meta;
+}
+
+#meta_container {
+  position: sticky;
+  right: 0;
+  top: 4rem;
+}
+
+#meta h2 {
+  color: var(--fg);
+  font-weight: 500;
+  font-size: 24px;
+}
+
+#code {
+  background: #f0dae1;
+  border: 2px solid #9c7bba;
+  box-shadow: 0px 10px 20px rgba(191, 101, 177, 0.26);
+  border-radius: 20px;
+  padding: 20px;
+  color: #7c6195;
+  font-size: 18px;
+  width: max-content;
+}
+
+pre {
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+h3 {
+  color: var(--fg);
+}

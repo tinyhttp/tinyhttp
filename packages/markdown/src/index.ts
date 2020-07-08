@@ -15,16 +15,20 @@ export type MarkdownServerHandlerOptions = Partial<{
 
 export const markdownStaticHandler = (
   dir = process.cwd(),
-  { prefix, stripExtension, recursive, markedOptions, markedExtensions }: MarkdownServerHandlerOptions = {
-    prefix: '/',
-    stripExtension: true,
-    recursive: false,
-    markedOptions: null,
-    markedExtensions: []
-  }
+  {
+    prefix = '/',
+    stripExtension = true,
+    recursive = false,
+    markedOptions = null,
+    markedExtensions = []
+  }: MarkdownServerHandlerOptions
 ): AsyncHandler => async (req, res, next) => {
   if (req.url.startsWith(prefix)) {
-    const unPrefixedURL = req.url.replace(prefix, '').slice(1)
+    let unPrefixedURL = req.url.replace(prefix, '')
+
+    if (prefix !== '/') {
+      unPrefixedURL = unPrefixedURL.slice(1)
+    }
 
     if (req.url === prefix) {
       let idxFile: string
@@ -40,9 +44,11 @@ export const markdownStaticHandler = (
 
       idxFile = possibleIndexes.find(file => existsSync(file) && file)
 
-      const content = (await readFile(idxFile)).toString()
+      if (idxFile) {
+        const content = (await readFile(idxFile)).toString()
 
-      res.set('Content-Type', 'text/html').send(md(content))
+        res.set('Content-Type', 'text/html').send(md(content))
+      }
     }
 
     let files: string[]

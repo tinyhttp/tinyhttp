@@ -1,4 +1,4 @@
-import { METHODS } from 'http'
+// import { METHODS } from 'http'
 import { Request } from './request'
 import { Response } from './response'
 
@@ -12,7 +12,7 @@ export type Handler = AsyncHandler | SyncHandler
 
 export type ErrorHandler = (err: any, req: Request, res: Response) => void
 
-export type Method = typeof METHODS[number]
+type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'DELETE' | string
 
 type MiddlewareType = 'mw' | 'route'
 export interface Middleware {
@@ -92,8 +92,8 @@ export class Router {
     return this
   }
   all(path: string | Handler, handler?: Handler, ...handlers: Handler[]) {
-    for (const method of METHODS) {
-      pushMiddleware(this.middleware)({ path, handler, handlers, method, type: 'route' })
+    for (const method of ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']) {
+      pushMiddleware(this.middleware)({ path, handler, method, handlers, type: 'route' })
     }
     return this
   }

@@ -17,17 +17,17 @@ const loggerHandler = (methods: string[] = ['GET', 'POST', 'PUT']) => {
           case '2':
             status = colors.cyan.bold(s)
             msg = colors.cyan(msg)
-            console.log(`${status} ${msg} ${url}`)
+            console.log(`${method} ${status} ${msg} ${url}`)
             break
           case '4':
             status = colors.red.bold(s)
             msg = colors.red(msg)
-            console.log(`${status} ${msg} ${url}`)
+            console.log(`${method} ${status} ${msg} ${url}`)
             break
           case '5':
             status = colors.magenta.bold(s)
             msg = colors.magenta(msg)
-            console.error(`${status} ${msg} ${url}`)
+            console.error(`${method} ${status} ${msg} ${url}`)
             break
         }
       }

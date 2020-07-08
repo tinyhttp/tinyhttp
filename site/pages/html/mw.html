@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{name} | tinyhttp</title>
+    <link rel="stylesheet" href="/css/shared.css" />
+    <link rel="stylesheet" href="/inter.css" />
+    <link rel="stylesheet" href="/css/mw.css" />
+  </head>
+  <body>
+    <nav>
+      <a href="/">Home</a>
+      <a href="https://github.com/talentlessguy/tinyhttp/tree/master/examples">Examples</a>
+      <a href="/learn">Learn</a>
+      <a href="/docs">Docs</a>
+      <a href="https://v1rtl.site/donate">Donate</a>
+    </nav>
+    <main>
+      <div id="readme">
+        {readme}
+      </div>
+      <div id="meta">
+        <div id="meta_container">
+          <div>
+            <h2>Install</h2>
+            <div id="code">
+              <code> <img src="/images/prompt.svg" /> pnpm i {pkg} </code>
+            </div>
+          </div>
+          <div>
+            <h2>Version</h2>
+            {version}
+          </div>
+          <div>
+            <h2>Source</h2>
+            <a target="_blank" rel="noopener noreferrer" href="{link}">{dir}</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

@@ -9,13 +9,6 @@ main {
   }
 }
 
-blockquote {
-  margin: 0;
-  padding: 1rem;
-  font-style: italic;
-  background: #d1c6c6;
-}
-
 pre {
   margin: 1rem 0;
   overflow-x: auto;
@@ -48,7 +41,7 @@ main > h3 {
 
 main > h4 {
   font-size: calc(0.8vw + 0.8rem);
-  color: #3a3839;
+  color: var(--fg);
 }
 
 main > h5 {
