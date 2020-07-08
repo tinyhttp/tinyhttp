@@ -28,6 +28,7 @@
   },
   "scripts": {
     "prebuild": "rm -rf packages/*/dist",
+    "build:server": "rollup -c",
     "build": "rollup -c",
     "dev": "rollup -cw",
     "postbuild": "rm packages/*/dist/index.esm.d.ts",
