@@ -17,13 +17,13 @@ form {
 
 input {
   border: none;
-  width: 15rem;
+  width: calc(8rem + 8vw);
   margin-right: 1rem;
 }
 
 input,
 button {
-  font-size: 1.75rem;
+  font-size: calc(0.5rem + 1vw);
   padding: 10px 20px;
 }
 
@@ -37,4 +37,19 @@ h1 {
   color: var(--fg);
   font-size: calc(3rem + 3vw);
   margin: 1rem 0;
+}
+
+#pkgs {
+  width: 80%;
+  margin: 2rem auto;
+}
+
+#pkgs h3 {
+  margin: 0;
+}
+
+#pkgs a {
+  display: block;
+  background: rgb(224, 171, 208);
+  padding: 1rem;
 }
