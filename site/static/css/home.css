@@ -11,7 +11,7 @@ button {
   background: transparent;
   padding: 1rem 2rem;
   border-radius: 10px;
-  font-size: 1.5rem;
+  font-size: calc(1rem + 0.5vw);
   box-shadow: var(--shadow);
   border: none;
   cursor: pointer;
@@ -58,6 +58,7 @@ header p {
 }
 
 #get_started {
+  scroll-margin-top: 4rem;
   display: grid;
   gap: 3rem;
   grid-template-columns: 1fr 1fr;
@@ -140,5 +141,6 @@ header p {
 @media (max-width: 700px) {
   #features > div {
     grid-template-columns: 100%;
+    row-gap: 1rem;
   }
 }
