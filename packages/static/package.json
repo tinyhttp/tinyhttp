@@ -9,7 +9,9 @@
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.cjs.js"
-    }
+    },
+    "./package.json": "./package.json",
+    "./": "./"
   },
   "homepage": "https://github.com/talentlessguy/tinyhttp",
   "repository": {

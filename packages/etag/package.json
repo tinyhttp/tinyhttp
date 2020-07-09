@@ -15,7 +15,9 @@
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.cjs.js"
-    }
+    },
+    "./package.json": "./package.json",
+    "./": "./"
   },
   "keywords": [
     "tinyhttp",

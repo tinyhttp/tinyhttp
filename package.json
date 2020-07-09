@@ -38,7 +38,7 @@
     "build:server": "rollup -c",
     "build": "rollup -c",
     "dev": "rollup -cw",
-    "postbuild": "rm packages/*/dist/index.esm.d.ts",
+    "postbuild": "rm packages/*/dist/index.cjs.d.ts",
     "test": "jest"
   }
 }
