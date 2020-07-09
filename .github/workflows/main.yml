@@ -24,9 +24,10 @@ jobs:
 
     - name: Setup PNPM
       uses: pnpm/action-setup@v1.2.0
-    - name: Install deps
-      run: pnpm install
+      with:
+        version: 5.3.0
+        run_install: true
     - name: Build packages
-      run: pnpm run build
+      run: npm run build
     - name: Run tests
-      run: pnpm run test
+      run: npm run test
