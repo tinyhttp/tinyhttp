@@ -2,9 +2,11 @@
 
 [![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/cookie?style=flat-square)](npmjs.com/package/@tinyhttp/cookie) [![npm](https://img.shields.io/npm/dt/@tinyhttp/cookie?style=flat-square)](npmjs.com/package/@tinyhttp/cookie)
 
-HTTP cookie parser and serializer for Node.js. A rewrite of [cookie](https://github.com/jshttp/cookie) module.
+> A rewrite of [cookie](https://github.com/jshttp/cookie) module.
 
-## Installation
+HTTP cookie parser and serializer for Node.js.
+
+## Install
 
 ```sh
 pnpm i @tinyhttp/cookie
@@ -180,4 +182,4 @@ app.listen(3000)
 
 ## License
 
-MIT
+MIT © [v1rtl](https://v1rtl.site)

@@ -4,7 +4,7 @@
 
 HTTP cookie signing and unsigning. A rewrite of [cookie-signature](https://github.com/tj/node-cookie-signature) module.
 
-## Installation
+## Install
 
 ```sh
 pnpm i @tinyhttp/cookie-signature

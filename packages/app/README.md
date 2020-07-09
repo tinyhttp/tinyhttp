@@ -66,3 +66,7 @@ For more examples check [examples](https://github.com/talentlessguy/tinyhttp/blo
 tinyhttp offers a list of premade middleware for common tasks.
 
 Search and explore the full list at [middleware search page](https://tinyhttp.v1rtl.site/mw).
+
+## License
+
+MIT © [v1rtl](https://v1rtl.site)

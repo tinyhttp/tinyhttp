@@ -1,7 +1,7 @@
 import colors from 'colors'
-import { IncomingMessage as Request, ServerResponse as Response } from 'http'
+import { IncomingMessage as Request, ServerResponse as Response, METHODS } from 'http'
 
-const loggerHandler = (methods: string[] = ['GET', 'POST', 'PUT']) => {
+const loggerHandler = (methods: string[] = METHODS) => {
   const logger = (req: Request, res: Response, next?: () => void) => {
     res.on('finish', () => {
       const { method, url } = req

@@ -1,20 +1,44 @@
 # @tinyhttp/logger
 
-tinyhttp logger module
+[![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/logger?style=flat-square)](npmjs.com/package/@tinyhttp/logger) [![npm](https://img.shields.io/npm/dt/@tinyhttp/logger?style=flat-square)](npmjs.com/package/@tinyhttp/logger) [![](https://img.shields.io/badge/website-visit-hotpink?style=flat-square)](https://tinyhttp.v1rtl.site/mw/logger)
 
-## Installation
+Simple HTTP logger for tinyhttp. The module is very primitive, for advanced cases use [Pino](https://github.com/pinojs/pino).
 
-This is a [Node.js](https://nodejs.org/) module available through the
-[npm registry](https://www.npmjs.com/). It can be installed using the
-[`npm`](https://docs.npmjs.com/getting-started/installing-npm-packages-locally)
-or
-[`yarn`](https://yarnpkg.com/en/)
-command line tools.
+## Install
 
 ```sh
-pnpm i @tinyhttp/logger --save
+pnpm i @tinyhttp/logger
+```
+
+## API
+
+```ts
+import logger from '@tinyhttp/logger'
+```
+
+### `logger(methods)`
+
+Returns the middleware to log HTTP requests.
+
+#### Options
+
+- `methods` - a list of HTTP methods to log. Defaults to `http`'s `METHODS`
+
+## Example
+
+```ts
+import { App } from '@tinyhttp/app'
+import logger from '@tinyhttp/static'
+
+const app = new App()
+
+app
+  .use(logger(['GET', 'POST']))
+  .get('/', (req, res) => void res.send('Hello world'))
+  .post('/', (req, res) => void res.send('Sent POST'))
+  .listen(3000)
 ```
 
 ## License
 
-MIT
+MIT © [v1rtl](https://v1rtl.site)

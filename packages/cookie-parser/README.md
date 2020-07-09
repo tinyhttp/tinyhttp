@@ -1,6 +1,6 @@
 # @tinyhttp/cookie-parser
 
-[![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/cookie-parser?style=flat-square)](npmjs.com/package/@tinyhttp/cookie-parser) [![npm](https://img.shields.io/npm/dt/@tinyhttp/cookie-parser?style=flat-square)](npmjs.com/package/@tinyhttp/cookie-parser)
+[![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/cookie-parser?style=flat-square)](npmjs.com/package/@tinyhttp/cookie-parser) [![npm](https://img.shields.io/npm/dt/@tinyhttp/cookie-parser?style=flat-square)](npmjs.com/package/@tinyhttp/cookie-parser) [![](https://img.shields.io/badge/website-visit-hotpink?style=flat-square)](https://tinyhttp.v1rtl.site/mw/cors)
 
 > A rewrite of [cookie-parser](https://github.com/expressjs/cookie-parser) module.
 
@@ -9,7 +9,7 @@ cookie names. Optionally you may enable signed cookie support by passing a
 `secret` string, which assigns `req.secret` so it may be used by other
 middleware.
 
-## Installation
+## Install
 
 ```sh
 pnpm i @tinyhttp/cookie-parser
@@ -17,7 +17,7 @@ pnpm i @tinyhttp/cookie-parser
 
 ## API
 
-```js
+```ts
 import { cookieParser, JSONCookie, JSONCookies, signedCookie, signedCookies } from '@tinyhttp/cookie-parser'
 ```
 
@@ -84,7 +84,7 @@ unsign the cookie with each secret in order.
 
 ## Example
 
-```js
+```ts
 import { App } from '@tinyhttp/app'
 import { cookieParser } from '@tinyhttp/cookie-parser'
 
@@ -107,4 +107,4 @@ app.listen(8080)
 
 ## License
 
-MIT
+MIT © [v1rtl](https://v1rtl.site)

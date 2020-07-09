@@ -1,12 +1,12 @@
 # @tinyhttp/etag
 
-[![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/etag?style=flat-square)](npmjs.com/package/@tinyhttp/etag) [![npm](https://img.shields.io/npm/dt/@tinyhttp/etag?style=flat-square)](npmjs.com/package/@tinyhttp/etag)
+[![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/etag?style=flat-square)](npmjs.com/package/@tinyhttp/etag) [![npm](https://img.shields.io/npm/dt/@tinyhttp/etag?style=flat-square)](npmjs.com/package/@tinyhttp/etag) [![](https://img.shields.io/badge/website-visit-hotpink?style=flat-square)](https://tinyhttp.v1rtl.site/mw/etag)
 
 > A rewrite of [etag](https://www.npmjs.com/package/etag) module.
 
 This module generates HTTP ETags (as defined in RFC 7232) for use in HTTP responses.
 
-## Installation
+## Install
 
 ```sh
 pnpm i @tinyhttp/etag
@@ -36,4 +36,4 @@ Specifies if the generated ETag will include the weak validator mark (that is, t
 
 ## License
 
-[MIT](https://github.com/talentlessguy/tinyhttp/blob/master/LICENSE)
+MIT © [v1rtl](https://v1rtl.site)

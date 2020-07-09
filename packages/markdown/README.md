@@ -2,9 +2,9 @@
 
 [![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/markdown?style=flat-square)](npmjs.com/package/@tinyhttp/markdown) [![npm](https://img.shields.io/npm/dt/@tinyhttp/markdown?style=flat-square)](npmjs.com/package/@tinyhttp/markdown) [![](https://img.shields.io/badge/website-visit-hotpink?style=flat-square)](https://tinyhttp.v1rtl.site/mw/markdown)
 
-tinyhttp static markdown middleware Based on [marked](https://github.com/markedjs/marked) (markdown library) and [@tinyhttp/static](https://tinyhttp.v1rtl.site/mw/static). Useful for creating simple static Markdown sites with simple routing. Used by [tinyhttp website](https://tinyhttp.v1rtl.site).
+tinyhttp static markdown middleware Based on [marked](https://github.com/markedjs/marked) (markdown library) and [@tinyhttp/static](https://tinyhttp.v1rtl.site/mw/static). Useful for creating simple static Markdown sites with basic routing. Used by [tinyhttp website](https://tinyhttp.v1rtl.site).
 
-## Installation
+## Install
 
 ```sh
 pnpm i @tinyhttp/static
@@ -38,20 +38,7 @@ app.use(
     stripExtension: true,
     markedExtensions: [
       {
-        // @ts-ignore
-        renderer: {
-          heading(text, level) {
-            const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-')
-
-            return `
-                <h${level}>
-                  <a name="${escapedText}" class="anchor" href="#${escapedText}">
-                    <span class="header-link"></span>
-                  </a>
-                  ${text}
-                </h${level}>`
-          }
-        }
+        headerIds: true
       }
     ]
   })
@@ -62,4 +49,4 @@ app.listen(3000)
 
 ## License
 
-[MIT](https://github.com/talentlessguy/tinyhttp/blob/master/LICENSE)
+MIT © [v1rtl](https://v1rtl.site)
