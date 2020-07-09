@@ -1,5 +1,5 @@
 {
-  "name": "async",
+  "name": "dev-server",
   "private": true,
   "scripts": {
     "dev": "ts-node index.ts"

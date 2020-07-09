@@ -34,7 +34,7 @@
   },
   "scripts": {
     "prebuild": "rm -rf packages/*/dist",
-    "prepublish": "eslint ./packages/*/src/*.ts",
+    "prepare": "eslint ./packages/*/src/*.ts",
     "build:server": "rollup -c",
     "build": "rollup -c",
     "dev": "rollup -cw",

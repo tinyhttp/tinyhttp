@@ -6,7 +6,7 @@ import fs from 'fs'
 let cfg = []
 
 const swapPositions = (array, a, b) => {
-  ;[array[a], array[b]] = [array[b], array[a]]
+  return ([array[a], array[b]] = [array[b], array[a]])
 }
 
 const pkgList = fs.readdirSync('packages').sort((a, b) => a.localeCompare(b))

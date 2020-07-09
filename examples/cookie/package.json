@@ -1,11 +1,11 @@
 {
-  "name": "basic",
+  "name": "cookie",
   "private": true,
   "scripts": {
     "dev": "ts-node index.ts"
   },
   "dependencies": {
-    "@tinyhttp/app": "workspace:^0.1.24",
-    "@tinyhttp/cookie-parser": "workspace:^0.0.3"
+    "@tinyhttp/app": "workspace:*",
+    "@tinyhttp/cookie-parser": "workspace:*"
   }
 }

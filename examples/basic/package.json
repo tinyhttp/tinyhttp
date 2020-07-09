@@ -5,8 +5,8 @@
     "dev": "ts-node index.ts"
   },
   "dependencies": {
-    "@tinyhttp/app": "workspace:^0.1.24",
-    "@tinyhttp/logger": "workspace:^0.1.21",
-    "@tinyhttp/static": "workspace:^0.1.21"
+    "@tinyhttp/app": "workspace:*",
+    "@tinyhttp/logger": "workspace:*",
+    "@tinyhttp/static": "workspace:*"
   }
 }
