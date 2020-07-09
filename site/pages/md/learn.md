@@ -23,7 +23,8 @@
   </ul>
   <a href="#main-concepts"><h2>Main concepts</h2></a>
   <ul>
-   	<li><a></a></li>
+   	<li><a href="#middleware">Middleware</a></li>
+   	<li><a href="#routing">Routing</a></li>
   </ul>
 </aside>
 
