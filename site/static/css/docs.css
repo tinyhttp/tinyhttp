@@ -111,7 +111,7 @@ summary:hover {
 }
 
 @media (max-width: 500px) {
-  nav a:nth-of-type(5) {
+  nav a:nth-of-type(6) {
     display: none;
   }
 }

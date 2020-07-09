@@ -35,7 +35,7 @@ for (let pkg of pkgList) {
   cfg.push({
     ...defaultCfg,
     output: {
-      file: `packages/${pkg}/dist/index.js`,
+      file: `packages/${pkg}/dist/index.cjs.js`,
       format: 'cjs'
     },
     plugins: [auto(), ts(), terser()]
@@ -44,7 +44,7 @@ for (let pkg of pkgList) {
   cfg.push({
     ...defaultCfg,
     output: {
-      file: `packages/${pkg}/dist/index.esm.js`,
+      file: `packages/${pkg}/dist/index.js`,
       format: 'es'
     },
     plugins: [

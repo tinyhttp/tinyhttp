@@ -28,7 +28,7 @@ To get started, visit [tinyhttp website](https://tinyhttp.v1rtl.site).
 
 ## Install
 
-[Node.js 12.4.0 or newer](https://node.green/#ES2019) is required.
+tinyhttp requires [Node.js 12.4.0 or newer](https://node.green/#ES2019) or newer. It is recommended to use [pnpm](https://pnpm.js.org/) because tinyhttp reuses modules in some middlewares.
 
 ```sh
 # npm

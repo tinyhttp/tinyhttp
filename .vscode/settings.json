@@ -1,0 +1,4 @@
+{
+  "eslint.packageManager": "pnpm",
+  "prettier.packageManager": "pnpm"
+}

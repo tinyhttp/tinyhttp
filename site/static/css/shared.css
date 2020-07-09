@@ -79,3 +79,7 @@ main h2 {
 button:hover {
   cursor: pointer;
 }
+
+ul {
+  padding-left: 1rem;
+}
