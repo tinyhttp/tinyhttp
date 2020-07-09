@@ -3,8 +3,8 @@ import serve from 'serve-handler'
 import { markdownStaticHandler as md } from '../packages/markdown/src'
 import logger from '@tinyhttp/logger'
 import { createReadStream } from 'fs'
-import 'isomorphic-unfetch'
 import { transformMWPageStream, transformPageIndexStream } from './streams'
+import unfetch from 'isomorphic-unfetch'
 
 const app = new App()
 
@@ -18,7 +18,7 @@ app
     let json: any, status: number, msg: string
 
     try {
-      const res = await fetch('https://api.github.com/repos/talentlessguy/tinyhttp/contents/packages')
+      const res = await unfetch('https://api.github.com/repos/talentlessguy/tinyhttp/contents/packages')
 
       status = res.status
       msg = res.statusText
@@ -35,7 +35,7 @@ app
       let transformer = transformPageIndexStream(json.filter(e => !NON_MW_PKGS.includes(e.name)))
 
       if (req.query.q) {
-        const results = json.filter(el => {
+        const results = json.filter((el: any) => {
           const query = req.query.q as string
 
           return el.name.indexOf(query.toLowerCase()) > -1
@@ -53,7 +53,7 @@ app
       let json: any, status: number
 
       try {
-        const res = await fetch(`https://registry.npmjs.org/@tinyhttp/${req.params.mw}`)
+        const res = await unfetch(`https://registry.npmjs.org/@tinyhttp/${req.params.mw}`)
 
         status = res.status
         json = await res.json()

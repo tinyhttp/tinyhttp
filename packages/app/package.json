@@ -2,6 +2,7 @@
   "name": "@tinyhttp/app",
   "version": "0.1.38",
   "description": "tinyhttp core",
+  "type": "module",
   "homepage": "https://github.com/talentlessguy/tinyhttp",
   "repository": {
     "type": "git",
