@@ -35,7 +35,7 @@ for (let pkg of pkgList) {
   cfg.push({
     ...defaultCfg,
     output: {
-      file: `packages/${pkg}/dist/index.cjs.js`,
+      file: `packages/${pkg}/dist/index.cjs`,
       format: 'cjs'
     },
     plugins: [auto(), ts(), terser()]
