@@ -1,5 +1,5 @@
 import { App } from '@tinyhttp/app'
-import staticFolder from '@tinyhttp/static'
+import { staticHandler } from '@tinyhttp/static'
 import logger from '@tinyhttp/logger'
 
 const app = new App()
@@ -16,5 +16,5 @@ app
   `)
   })
   .use(logger())
-  .use(staticFolder())
+  .use(staticHandler('./'))
   .listen(3000)

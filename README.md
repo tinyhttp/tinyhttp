@@ -43,7 +43,9 @@ yarn add @tinyhttp/app
 
 You can see the documentation [here](https://tinyhttp.v1rtl.site/docs).
 
-## Example
+## Get Started
+
+The app structure is quite similar to Express, except that you need to import `App` from `@tinyhttp/app` instead of default import from `express`.
 
 ```ts
 import { App } from '@tinyhttp/app'
