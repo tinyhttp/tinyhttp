@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction, AsyncHandler } from '@tinyhttp/app'
+import { AsyncHandler } from '@tinyhttp/app'
 import { parse } from 'path'
 import { existsSync } from 'fs'
 import { readFile, readdir } from 'fs/promises'
@@ -31,8 +31,6 @@ export const markdownStaticHandler = (
     }
 
     if (req.url === prefix) {
-      let idxFile: string
-
       const possibleIndexes = [
         `${dir}/index.md`,
         `${dir}/index.markdown`,
@@ -42,7 +40,7 @@ export const markdownStaticHandler = (
         `${dir}/readme.md`
       ]
 
-      idxFile = possibleIndexes.find(file => existsSync(file) && file)
+      const idxFile = possibleIndexes.find(file => existsSync(file) && file)
 
       if (idxFile) {
         const content = (await readFile(idxFile)).toString()

@@ -34,7 +34,7 @@ export const send = (req: Request, res: Response) => (body: any): Response => {
   }
 
   // Set encoding
-  let encoding: 'utf8' | undefined = 'utf8'
+  const encoding: 'utf8' | undefined = 'utf8'
 
   // populate ETag
   let etag: string | undefined
@@ -85,7 +85,7 @@ export const status = (_req: Request, res: Response) => (status: number): Respon
 
 export const setCookie = (req: Request, res: Response) => (
   name: string,
-  value: string | object,
+  value: string | Record<string, unknown>,
   options?: SerializeOptions &
     Partial<{
       signed: boolean
@@ -127,7 +127,10 @@ export const clearCookie = (req: Request, res: Response) => (name: string, optio
 
 const charsetRegExp = /;\s*charset\s*=/
 
-export const setHeader = (_req: Request, res: Response) => (field: string | object, val: string | any[]) => {
+export const setHeader = (_req: Request, res: Response) => (
+  field: string | Record<string, string | number | string[]>,
+  val: string | any[]
+) => {
   if (typeof field === 'string') {
     let value = Array.isArray(val) ? val.map(String) : String(val)
 
@@ -192,14 +195,18 @@ export const sendStatus = (_req: Request, res: Response) => (statusCode: number)
 
 export interface Response extends ServerResponse {
   app: App
-  header(field: string | object, val: string | any[]): Response
-  set(field: string | object, val: string | any[]): Response
+  header(field: string | Record<string, unknown>, val: string | any[]): Response
+  set(field: string | Record<string, unknown>, val: string | any[]): Response
   get(field: string): string | number | string[]
   send(body: unknown): Response
   json(body: unknown): Response
   status(status: number): Response
   sendStatus(statusCode: number): Response
-  cookie(name: string, value: string | object, options?: SerializeOptions & Partial<{ signed: boolean }>): Response
+  cookie(
+    name: string,
+    value: string | Record<string, unknown>,
+    options?: SerializeOptions & Partial<{ signed: boolean }>
+  ): Response
   clearCookie(name: string, options?: SerializeOptions): Response
   location(url: string): Response
   links(links: { [key: string]: string }): Response

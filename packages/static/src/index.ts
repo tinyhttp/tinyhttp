@@ -33,7 +33,7 @@ export const staticHandler = (
     if (req.url.startsWith(prefix)) {
       const file = files.find(file => {
         // remove prefix from URL
-        let unPrefixedURL = req.url.replace(prefix, '')
+        const unPrefixedURL = req.url.replace(prefix, '')
 
         // strip extension for .html files
         if (unPrefixedURL) {

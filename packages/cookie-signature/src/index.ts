@@ -4,10 +4,7 @@ import { createHmac, timingSafeEqual } from 'crypto'
  * Sign the given `val` with `secret`.
  */
 export const sign = (val: string, secret: string) => {
-  return `${val}.${createHmac('sha256', secret)
-    .update(val)
-    .digest('base64')
-    .replace(/\=+$/, '')}`
+  return `${val}.${createHmac('sha256', secret).update(val).digest('base64').replace(/=+$/, '')}`
 }
 
 /**

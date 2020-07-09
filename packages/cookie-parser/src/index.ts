@@ -64,8 +64,8 @@ export function signedCookie(str: string | unknown, secret: string | string[]) {
  * pairs, while removing the signed key from obj.
  */
 export function signedCookies(obj: any, secret: string | string[]) {
-  let cookies = Object.keys(obj)
-  let ret = Object.create(null)
+  const cookies = Object.keys(obj)
+  const ret = Object.create(null)
 
   for (const key of cookies) {
     const val = obj[key]

@@ -8,6 +8,7 @@ const pairSplitRegExp = /; */
  * obs-text      = %x80-FF
  */
 
+// eslint-disable-next-line no-control-regex
 const fieldContentRegExp = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/
 
 function tryDecode(str: string, decode: (str: string) => any = decodeURIComponent) {
@@ -33,7 +34,7 @@ export function parse(
     decode: decodeURIComponent
   }
 ) {
-  let obj = {}
+  const obj = {}
   const pairs = str.split(pairSplitRegExp)
 
   for (const pair of pairs) {
@@ -83,7 +84,7 @@ export function serialize(
     throw new TypeError('argument val is invalid')
   }
 
-  var str = name + '=' + value
+  let str = name + '=' + value
 
   if (null != opt.maxAge) {
     const maxAge = opt.maxAge - 0

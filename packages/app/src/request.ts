@@ -1,4 +1,4 @@
-import { IncomingMessage, OutgoingHttpHeaders } from 'http'
+import { IncomingMessage } from 'http'
 import { ParsedUrlQuery } from 'querystring'
 import rg from 'regexparam'
 import { parse } from 'url'
@@ -83,8 +83,8 @@ export const getHostname = (req: Request): string | undefined => {
   if (!host) return
 
   // IPv6 literal support
-  var offset = host[0] === '[' ? host.indexOf(']') + 1 : 0
-  var index = host.indexOf(':', offset)
+  const offset = host[0] === '[' ? host.indexOf(']') + 1 : 0
+  const index = host.indexOf(':', offset)
 
   return index !== -1 ? host.substring(0, index) : host
 }

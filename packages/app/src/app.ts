@@ -36,7 +36,7 @@ export class App extends Router {
     if (!mw.includes(noMatchMW)) mw.push(noMatchMW)
 
     let idx = 0
-    let len = mw.length - 1
+    const len = mw.length - 1
 
     // skip handling if only one middleware
     // TODO: Implement next(err) function properly
@@ -89,8 +89,7 @@ export class App extends Router {
     loop()
   }
 
-  listen(port?: number, cb?: () => void, host: string = 'localhost', backlog?: number) {
-    // @ts-ignore
+  listen(port?: number, cb?: () => void, host = 'localhost', backlog?: number) {
     const server = createServer((req: Request, res: Response) => {
       this.handler(this.middleware, req, res)
     })
