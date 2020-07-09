@@ -211,7 +211,10 @@ app
 To handle all HTTP methods, use `app.all`:
 
 ```ts
-app.all('*', (req, res) => void res.send(`Made a request on ${req.url} via ${req.method}`))
+app.all(
+  '*',
+  (req, res) => void res.send(`Made a request on ${req.url} via ${req.method}`)
+)
 ```
 
 #### Route paths
@@ -257,4 +260,5 @@ app.get('/ab?cd', function (req, res) {
 ```
 
 The rest of the guide is coming soon... I need to rest a little bit.
+
 </main>

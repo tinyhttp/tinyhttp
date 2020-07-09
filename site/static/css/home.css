@@ -138,9 +138,33 @@ header p {
   color: var(--dark-fg);
 }
 
+#gh {
+	padding: 0.8rem;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	background: white;
+	box-shadow: var(--shadow);
+	border-radius: 10px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+
+#gh img {
+	height: 2rem;
+}
+
+#gh span {
+	padding: 0.5rem;
+	color: black;
+}
+
 @media (max-width: 700px) {
   #features > div {
     grid-template-columns: 100%;
     row-gap: 1rem;
   }
 }
+
