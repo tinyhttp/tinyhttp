@@ -19,9 +19,12 @@
     <li><a href="#introduction">Introduction</a></li>
     <li><a href="#differences-with-express">Differences with Express</a></li>
     <li><a href="#install">Install</a></li>
-    
+    <li><a href="#hello-world">Hello World</a></li>
   </ul>
-
+  <a href="#main-concepts"><h2>Main concepts</h2></a>
+  <ul>
+   	<li><a></a></li>
+  </ul>
 </aside>
 
 <main>
@@ -94,10 +97,163 @@ For more examples check [examples folder](https://github.com/talentlessguy/tinyh
 
 ### Application
 
-A tinyhttp app is an instance of `App` class containing middleware and router methods. All middleware executes in a loop. Once a middleware handler calls `next()` tinyhttp goes to the next middleware until the loop finishes.
+A tinyhttp app is an instance of `App` class containing middleware and router methods.
 
-tinyhttp middleware is almost the same as Express, Connect or Polka. Each middleware contains a handler that has access to Request and Response objects. Both are extended for additional functionality like `req.params` and `res.send`.
+```ts
+import { App } from '@tinyhttp/app'
 
-Even though tinyhttp has a lot of Express extensions (not all yet), the application itself keeps being small.
+const app = new App()
 
+app.use((req, res) => res.send('Hello World'))
+
+app.listen(3000)
+```
+
+App settings can be set inside a constructor.
+
+```ts
+const app = new App({
+  noMatchHandler: (req, res) => res.send('Oopsie, page cannot be found'),
+})
+```
+
+### Middleware
+
+Middleware is a an object containing a handler function and a path (optionally), just like in Express.
+
+```ts
+app
+  .use((req, _res, next) => {
+    console.log(`Made a request from ${req.url}!`)
+    next()
+  })
+  .use((_req, res) => void res.send('Hello World'))
+```
+
+#### Handler
+
+Handler is a function that accepts `Request` and `Response` object as arguments. These objects are extended versions of built-in `http`'s `IncomingMessage` and `ServerResponse`.
+
+```ts
+app.use((req, res) => {
+  res.send({ query: req.query })
+})
+```
+
+For a full list of of those extensions, check the [docs](/docs).
+
+#### Path
+
+the request URL starts with the specified path, the handler will process request and response objects. Middleware only can handle URLs that start with a specified path. For advanced paths (with params and exact match), go to [Routing](#routing) section.
+
+```ts
+app.use('/', (_req, _res, next) => void next()) // Will handle all routes
+app.use('/path', (_req, _res, next) => void next()) // Will handle routes starting with /path
+```
+
+`path` argument is optional (and defaults to `/`), so you can put your handler function as the first argument of `app.use`.
+
+#### Chaining
+
+tinyhttp app returns itself on any `app.use` call which allows us to do chaining:
+
+```ts
+app.use((_) => {}).use((_) => {})
+```
+
+Routing functions like `app.get` support chaining as well.
+
+#### Execution order
+
+All middleware executes in a loop. Once a middleware handler calls `next()` tinyhttp goes to the next middleware until the loop finishes.
+
+```ts
+app
+  .use((_req, res) => void res.end('Hello World'))
+  .use((_req, res) => void res.end('I am the unreachable middleware'))
+```
+
+Remember to call `next()` in your middleware chains because otherwise it will stick to a current handler and won't switch to next one.
+
+### Routing
+
+_**Routing**_ is defining how your application handles requests using with specific paths (e.g. `/` or `/test`) and methods (`GET`, `POST` etc).
+
+Each route can have one or many middlewares in it, which handle when the path matches the request URL.
+
+Routes usually have the following structure:
+
+```ts
+app.METHOD(path, handler, ...handlers)
+```
+
+Where `app` is tinyhttp `App` instance, `path` is the path that should match the request URL and `handler` (+ `handlers`) is a function that is executed when the specified paths matches the request URL.
+
+```ts
+import { App } from '@tinyhttp/app'
+
+const app = new App()
+
+app.get('/', (_req, res) => void res.send('Hello World'))
+```
+
+#### Router functions
+
+Most popular methods (e.g. `GET`, `POST`, `PUT`, `OPTIONS`) have pre-defined functions for routing. In the future releases of tinyhttp all methods will have their functions.
+
+```ts
+app
+  .get('/', (_req, res) => void res.send('Hello World'))
+  .post('/a/b', (req, res) => void res.send('Sent a POST request'))
+```
+
+To handle all HTTP methods, use `app.all`:
+
+```ts
+app.all('*', (req, res) => void res.send(`Made a request on ${req.url} via ${req.method}`))
+```
+
+#### Route paths
+
+Route paths, in combination with a request method, define the endpoints at which requests can be made. Route paths can be strings, string patterns, or regular expressions (not yet).
+
+> tinyhttp uses a [regexparam](https://github.com/lukeed/regexparam) module to do route matching. For more information about routing patterns, check its README.
+
+Note that query strings (symbols after last `?` in request URL) are stripped from the path.
+
+Here are some examples of route paths based on strings.
+
+This route path will match requests to the root route, /.
+
+```ts
+app.get('/', function (req, res) {
+  res.send('root')
+})
+```
+
+This route path will match requests to /about.
+
+```ts
+app.get('/about', function (req, res) {
+  res.send('about')
+})
+```
+
+This route path will match requests to /random.text.
+
+```ts
+app.get('/random.text', function (req, res) {
+  res.send('random.text')
+})
+```
+
+This route path will match acd and abcd.
+
+```ts
+app.get('/ab?cd', function (req, res) {
+  res.send('ab?cd')
+})
+```
+
+The rest of the guide is coming soon... I need to rest a little bit.
 </main>

@@ -1,4 +1,4 @@
-// import { METHODS } from 'http'
+import { METHODS } from 'http'
 import { Request } from './request'
 import { Response } from './response'
 
@@ -92,7 +92,7 @@ export class Router {
     return this
   }
   all(path: string | Handler, handler?: Handler, ...handlers: Handler[]) {
-    for (const method of ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']) {
+    for (const method of METHODS) {
       pushMiddleware(this.middleware)({ path, handler, method, handlers, type: 'route' })
     }
     return this

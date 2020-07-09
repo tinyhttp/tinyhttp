@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/app",
-  "version": "0.1.41",
+  "version": "0.1.42",
   "description": "tinyhttp core",
   "type": "module",
   "homepage": "https://github.com/talentlessguy/tinyhttp",
