@@ -1,7 +1,7 @@
-import supertest, { SuperTest, Request, Test, Response } from 'supertest'
+import supertest from 'supertest'
 import { App, Handler } from '../packages/app/src'
 
-export const InitAppAndTest = (handler: Handler, route?: string, method: string = 'get') => {
+export const InitAppAndTest = (handler: Handler, route?: string, method = 'get') => {
   const app = new App()
 
   if (route) {
@@ -33,7 +33,13 @@ describe('Testing App', () => {
   it('should chain middleware', () => {
     const app = new App()
 
-    app.use((_req, _res) => {}).use((_req, _res) => {})
+    app
+      .use(function (_req, _res, next) {
+        next()
+      })
+      .use((_req, _res, next) => {
+        next()
+      })
 
     expect(app.middleware.length).toBe(2)
   })
@@ -91,11 +97,11 @@ describe('Testing routes', () => {
   it('next function skips current middleware', done => {
     const app = new App()
 
-    app.locals['log'] = []
+    app.locals['log'] = 'test'
 
     app
       .use(async (req, _res, next) => {
-        app.locals['log'].push(req.url)
+        app.locals['log'] = req.url
         next()
       })
       .use((_req, res) => void res.json({ ...app.locals }))
@@ -106,7 +112,7 @@ describe('Testing routes', () => {
 
     request
       .get('/')
-      .expect(200, { log: ['/'] })
+      .expect(200, { log: '/' })
       .end((err: Error) => {
         server.close()
         if (err) return done(err)

@@ -17,7 +17,7 @@ export const applyHandler = (h: Handler): Handler => async (req, res, next?) => 
 
 export class App extends Router {
   middleware: Middleware[]
-  locals: { [key: string]: string }[]
+  locals: Record<string, string>
   noMatchHandler: Handler
   onError: ErrorHandler
   constructor(options: Partial<{ noMatchHandler: Handler; onError: ErrorHandler }> = {}) {

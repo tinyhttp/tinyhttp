@@ -41,7 +41,7 @@ export const getProtocol = (req: Request): Protocol => {
   return index !== -1 ? header.substring(0, index).trim() : header.trim()
 }
 
-export const getRequestHeader = (req: Request) => (header: string) => {
+export const getRequestHeader = (req: Request) => (header: string): string | string[] => {
   const lc = header.toLowerCase()
 
   switch (lc) {
@@ -54,7 +54,7 @@ export const getRequestHeader = (req: Request) => (header: string) => {
 }
 
 export const setRequestHeader = (req: Request) => (field: string, value: string) => {
-  return (req.headers[field] = value)
+  return (req.headers[field.toLowerCase()] = value)
 }
 
 export const getRangeFromHeader = (req: Request) => (size: number, options?: Options) => {
