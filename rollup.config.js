@@ -5,7 +5,6 @@ import fs from 'fs'
 
 let cfg = []
 
-/*
 const swapPositions = (array, a, b) => {
   return ([array[a], array[b]] = [array[b], array[a]])
 }
@@ -16,8 +15,7 @@ swapPositions(pkgList, pkgList.indexOf('app'), pkgList.indexOf('etag'))
 swapPositions(pkgList, pkgList.indexOf('cookie-parser'), pkgList.indexOf('cookie-signature'))
 swapPositions(pkgList, pkgList.indexOf('app'), pkgList.indexOf('cookie-parser'))
 
-*/
- const pkgList = [/* 'cookie', 'cookie-signature', 'etag', */ 'app', 'cors', 'logger']
+//  const pkgList = [/* 'cookie', 'cookie-signature', 'etag', */ 'app', 'cors', 'logger']
 
 for (let pkg of pkgList) {
   const pkgJson = JSON.parse(fs.readFileSync(`${__dirname}/packages/${pkg}/package.json`).toString())
