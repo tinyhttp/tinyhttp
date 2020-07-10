@@ -1,5 +1,5 @@
 main {
-  width: 67.5vw;
+  width: 50vw;
   margin: 4rem auto;
 }
 
@@ -98,7 +98,7 @@ summary:hover {
   cursor: pointer;
 }
 
-@media (max-width: 1050px) {
+@media (max-width: 800px) {
   main {
     width: 70vw;
   }
