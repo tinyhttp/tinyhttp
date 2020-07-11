@@ -32,7 +32,7 @@ MSI Laptop with 8GB RAM and Intel Core i7-4702MQ processor.
 
 ## Results
 
-At the moment, tinyhttp has the worst performance. This will be tried to be fixed during next versions (see []())
+At the moment, tinyhttp has the worst performance. This will be tried to be fixed during next versions (see [#2](https://github.com/talentlessguy/tinyhttp/issues/2))
 
 ### Node 14.4
 
