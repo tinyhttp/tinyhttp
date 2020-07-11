@@ -1,0 +1,17 @@
+{
+  "name": "bench",
+  "version": "1.0.0",
+  "description": "",
+  "main": "express.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "v1rtl",
+  "license": "ISC",
+  "devDependencies": {
+    "@tinyhttp/app": "workspace:^0.1.42",
+    "express": "4",
+    "polka": "^0.5.2"
+  }
+}
