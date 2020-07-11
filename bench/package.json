@@ -8,10 +8,5 @@
   },
   "keywords": [],
   "author": "v1rtl",
-  "license": "ISC",
-  "devDependencies": {
-    "@tinyhttp/app": "workspace:^0.1.42",
-    "express": "4",
-    "polka": "^0.5.2"
-  }
+  "license": "ISC"
 }
