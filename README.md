@@ -3,7 +3,7 @@
 <div align="center">
 <h1>tinyhttp</h1>
 
-[![](https://img.shields.io/badge/website-visit-hotpink?style=flat-square)](https://tinyhttp.v1rtl.site) [![Twitter](https://img.shields.io/twitter/follow/v1rtl.svg?label=sub%20to%20twitter&style=flat-square)](twitter.com/v1rtl) [![npm type definitions](https://img.shields.io/npm/types/@tinyhttp/app?style=flat-square)](npmjs.com/@tinyhttp/app) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/talentlessguy/tinyhttp/CI?style=flat-square)
+[![](https://img.shields.io/badge/website-visit-hotpink?style=flat-square)](https://tinyhttp.v1rtl.site) [![Twitter](https://img.shields.io/twitter/follow/v1rtl.svg?label=sub%20to%20twitter&style=flat-square)](twitter.com/v1rtl) [![npm](https://img.shields.io/npm/dt/@tinyhttp/app?style=flat-square)](https://npm.im/@tinyhttp/app) [![npm type definitions](https://img.shields.io/npm/types/@tinyhttp/app?style=flat-square)](npmjs.com/@tinyhttp/app) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/talentlessguy/tinyhttp/CI?style=flat-square)
 ![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/body-parsec.svg?style=flat-square) ![Codacy grade](https://img.shields.io/codacy/grade/239a8cc7bca24042940f018a1ccec72f?style=flat-square) ![David (path)](https://img.shields.io/david/talentlessguy/tinyhttp?path=packages%2Fapp&style=flat-square)
 ![Last commit](https://img.shields.io/github/last-commit/talentlessguy/tinyhttp.svg?style=flat-square) [![NPM](https://img.shields.io/npm/l/@tinyhttp/app?style=flat-square)](npmjs.com/@tinyhttp/app) [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
 
