@@ -1,13 +1,11 @@
-import { App } from '../packages/app/src'
-import supertest from 'supertest'
 import { InitAppAndTest } from './app.test'
 
 describe('Request extensions', () => {
-  it('should have default HTTP Request properties', done => {
+  it('should have default HTTP Request properties', (done) => {
     const { request, server } = InitAppAndTest((req, res) => {
       res.status(200).json({
         url: req.url,
-        complete: req.complete
+        complete: req.complete,
       })
     })
 
@@ -20,36 +18,16 @@ describe('Request extensions', () => {
         done()
       })
   })
-  it('req.app should equal the app itself', done => {
-    const app = new App()
-
-    app.get('*', (req, res) => {
-      req.app.locals['test'] = '123'
-
-      res.end(app.locals['test'])
-    })
-
-    const server = app.listen()
-
-    const request: any = supertest(server)
-
-    request
-      .get('/')
-      .expect(200, `123`)
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
-  })
-  it('req.query is being parsed properly', done => {
-    const { request, server } = InitAppAndTest((req, res) => void res.send(req.query))
+  it('req.query is being parsed properly', (done) => {
+    const { request, server } = InitAppAndTest(
+      (req, res) => void res.send(req.query)
+    )
 
     request
       .get('/?param1=val1&param2=val2')
       .expect(200, {
         param1: 'val1',
-        param2: 'val2'
+        param2: 'val2',
       })
       .end((err: Error) => {
         server.close()
@@ -57,14 +35,17 @@ describe('Request extensions', () => {
         done()
       })
   })
-  it('req.params is being parsed properly', done => {
-    const { request, server } = InitAppAndTest((req, res) => void res.send(req.params), '/:param1/:param2')
+  it('req.params is being parsed properly', (done) => {
+    const { request, server } = InitAppAndTest(
+      (req, res) => void res.send(req.params),
+      '/:param1/:param2'
+    )
 
     request
       .get('/val1/val2')
       .expect(200, {
         param1: 'val1',
-        param2: 'val2'
+        param2: 'val2',
       })
       .end((err: Error) => {
         server.close()
@@ -72,8 +53,10 @@ describe('Request extensions', () => {
         done()
       })
   })
-  it('default req.protocol is HTTP', done => {
-    const { request, server } = InitAppAndTest((req, res) => void res.send(req.protocol))
+  it('default req.protocol is HTTP', (done) => {
+    const { request, server } = InitAppAndTest(
+      (req, res) => void res.send(req.protocol)
+    )
 
     request
       .get('/')
@@ -85,8 +68,10 @@ describe('Request extensions', () => {
       })
   })
   // TODO: add the same test but for HTTPS
-  it('req.secure is false on HTTP', done => {
-    const { request, server } = InitAppAndTest((req, res) => void res.send(`HTTPS: ${req.secure ? 'yes' : 'no'}`))
+  it('req.secure is false on HTTP', (done) => {
+    const { request, server } = InitAppAndTest(
+      (req, res) => void res.send(`HTTPS: ${req.secure ? 'yes' : 'no'}`)
+    )
 
     request
       .get('/')
@@ -97,7 +82,7 @@ describe('Request extensions', () => {
         done()
       })
   })
-  it('req.set sets the header and req.get returns a header', done => {
+  it('req.set sets the header and req.get returns a header', (done) => {
     const { request, server } = InitAppAndTest((req, res) => {
       req.set('X-Header', '123')
       res.end(req.get('X-Header'))
@@ -112,7 +97,7 @@ describe('Request extensions', () => {
         done()
       })
   })
-  it('req.xhr is false because of node-superagent', done => {
+  it('req.xhr is false because of node-superagent', (done) => {
     const { request, server } = InitAppAndTest((req, res) => {
       res.send(`XMLHttpRequest: ${req.xhr ? 'yes' : 'no'}`)
     })
