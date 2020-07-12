@@ -21,5 +21,5 @@
     "allowSyntheticDefaultImports": true
   },
   "include": ["packages/**/*.ts"],
-  "exclude": ["__tests__", "examples"]
+  "exclude": ["__tests__", "examples", "packages/*/dist"]
 }

@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/static",
-  "version": "0.1.29",
+  "version": "0.1.30",
   "description": "tinyhttp static middleware",
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
@@ -31,7 +31,7 @@
   "license": "MIT",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "mime-types": "^2.1.27",
+    "es-mime-types": "^0.0.3",
     "readdirp": "^3.4.0"
   },
   "devDependencies": {
