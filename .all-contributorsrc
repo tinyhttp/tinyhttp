@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "BRA1L0R",
+      "name": "Matt",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/17928339?v=4",
+      "profile": "https://brailor.me/",
+      "contributions": [
+        "plugin"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "tinyhttp",
+  "projectOwner": "talentlessguy",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
