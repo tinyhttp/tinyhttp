@@ -24,7 +24,7 @@ export const getURLParams = (reqUrl = '/', url = '/'): URLParams => {
 }
 
 export const getRouteFromApp = (app: App, handler: Handler) => {
-  return app.middleware.find(h => h.handler.name === handler.name)
+  return app.middleware.find((h) => h.handler.name === handler.name)
 }
 
 export const getProtocol = (req: Request): Protocol => {
@@ -41,7 +41,9 @@ export const getProtocol = (req: Request): Protocol => {
   return index !== -1 ? header.substring(0, index).trim() : header.trim()
 }
 
-export const getRequestHeader = (req: Request) => (header: string): string | string[] => {
+export const getRequestHeader = (req: Request) => (
+  header: string
+): string | string[] => {
   const lc = header.toLowerCase()
 
   switch (lc) {
@@ -53,11 +55,17 @@ export const getRequestHeader = (req: Request) => (header: string): string | str
   }
 }
 
-export const setRequestHeader = (req: Request) => (field: string, value: string) => {
+export const setRequestHeader = (req: Request) => (
+  field: string,
+  value: string
+) => {
   return (req.headers[field.toLowerCase()] = value)
 }
 
-export const getRangeFromHeader = (req: Request) => (size: number, options?: Options) => {
+export const getRangeFromHeader = (req: Request) => (
+  size: number,
+  options?: Options
+) => {
   const range = req.get('Range') as string
 
   if (!range) return
@@ -74,7 +82,9 @@ export const checkIfXMLHttpRequest = (req: Request): boolean => {
 }
 
 export const getHostname = (req: Request): string | undefined => {
-  let host: string | undefined = req.get('X-Forwarded-Host') as string | undefined
+  let host: string | undefined = req.get('X-Forwarded-Host') as
+    | string
+    | undefined
 
   if (!host || !compileTrust(req.connection.remoteAddress)) {
     host = req.get('Host') as string | undefined
@@ -115,7 +125,7 @@ export const getFreshOrStale = (req: Request, res: Response) => {
   if ((status >= 200 && status < 300) || 304 === status) {
     const resHeaders = {
       etag: res.get('ETag'),
-      'last-modified': res.get('Last-Modified')
+      'last-modified': res.get('Last-Modified'),
     }
 
     return fresh(req.headers, resHeaders)
@@ -124,7 +134,9 @@ export const getFreshOrStale = (req: Request, res: Response) => {
   return false
 }
 
-export const getAccepts = (req: Request) => (...types: string[]): string | false | string[] => {
+export const getAccepts = (req: Request) => (
+  ...types: string[]
+): string | false | string[] => {
   return accepts(req).types(types)
 }
 
@@ -135,8 +147,6 @@ export type Connection = IncomingMessage['socket'] & {
 export type Protocol = 'http' | 'https' | string
 
 export interface Request extends IncomingMessage {
-  app: App
-
   query: ParsedUrlQuery
   params: URLParams
   connection: Connection
@@ -160,4 +170,6 @@ export interface Request extends IncomingMessage {
 
   fresh: boolean
   stale: boolean
+
+  body?: any
 }

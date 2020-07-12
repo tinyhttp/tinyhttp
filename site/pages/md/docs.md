@@ -52,7 +52,6 @@
       Properties
     </summary>
     <ul>
-      <li><a href="#reqapp">req.app</a></li>
       <li><a href="#reqhostname">req.hostname</a></li>
       <li><a href="#reqquery">req.query</a></li>
       <li><a href="#reqroute">req.route</a></li>
@@ -80,7 +79,6 @@
       Properties
     </summary>
     <ul>
-      <li><a href="#resapp">res.app</a></li>
     </ul>
   </details>
  <details>
@@ -144,7 +142,7 @@ import { App, Request, Response } from '@tinyhttp/app'
 const app = new App({
   noMatchHandler: (req: Request, res: Response) => {
     res.status(404).end('Not found :(')
-  }
+  },
 })
 
 app
@@ -166,9 +164,9 @@ import { App, Request, Response } from '@tinyhttp/app'
 const app = new App({
   onError: (err, req, res) => {
     res.status(500).send({
-      message: err.message
+      message: err.message,
     })
-  }
+  },
 })
 
 app
@@ -350,7 +348,7 @@ This property holds a reference to the instance of the tinyhttp application that
 ```ts
 app.get('/', (req, res) => {
   res.json({
-    ...req.app.middleware
+    ...req.app.middleware,
   })
 })
 ```
@@ -558,8 +556,15 @@ The `options` parameter is an object that can have the following properties.
 ##### Example
 
 ```ts
-res.cookie('name', 'tobi', { domain: '.example.com', path: '/admin', secure: true })
-res.cookie('rememberme', '1', { expires: new Date(Date.now() + 900000), httpOnly: true })
+res.cookie('name', 'tobi', {
+  domain: '.example.com',
+  path: '/admin',
+  secure: true,
+})
+res.cookie('rememberme', '1', {
+  expires: new Date(Date.now() + 900000),
+  httpOnly: true,
+})
 ```
 
 #### `res.clearCookie`
@@ -680,7 +685,7 @@ res.set('Content-Type', 'text/plain')
 res.set({
   'Content-Type': 'text/plain',
   'Content-Length': '123',
-  ETag: '12345'
+  ETag: '12345',
 })
 ```
 
@@ -695,7 +700,7 @@ For example, the following call:
 ```ts
 res.links({
   next: 'http://api.example.com/users?page=2',
-  last: 'http://api.example.com/users?page=5'
+  last: 'http://api.example.com/users?page=5',
 })
 ```
 
