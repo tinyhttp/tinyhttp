@@ -1,0 +1,32 @@
+{
+  "name": "@tinyhttp/jwt",
+  "version": "0.0.1",
+  "description": "JWT library for tinyhttp",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.esm.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json",
+    "./": "./"
+  },
+  "keywords": [
+    "tinyhttp",
+    "nodejs",
+    "web",
+    "backend",
+    "jwt"
+  ],
+  "author": "BRA1L0R",
+  "contributors": [
+    "BRA1L0R <https://brailor.me/>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@types/jsonwebtoken": "^8.5.0",
+    "jsonwebtoken": "^8.5.1"
+  }
+}

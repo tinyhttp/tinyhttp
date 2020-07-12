@@ -1,0 +1,15 @@
+{
+  "name": "cookie",
+  "private": true,
+  "scripts": {
+    "dev": "ts-node index.ts"
+  },
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*",
+    "@tinyhttp/jwt": "workspace:^0.0.1",
+    "@types/body-parser": "^1.19.0",
+    "@types/jsonwebtoken": "^8.5.0",
+    "body-parser": "^1.19.0",
+    "jsonwebtoken": "^8.5.1"
+  }
+}
