@@ -4,9 +4,6 @@
   "type": "module",
   "description": "HTTP cookie parser and serializer for Node.js",
   "homepage": "https://github.com/talentlessguy/tinyhttp",
-  "publishConfig": {
-    "access": "public"
-  },
   "engines": {
     "node": ">=12.4.0"
   },

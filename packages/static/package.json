@@ -30,7 +30,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/app": "workspace:^0.1.26",
+    "@tinyhttp/app": "workspace:*",
     "mime-types": "^2.1.27",
     "readdirp": "^3.4.0"
   },
