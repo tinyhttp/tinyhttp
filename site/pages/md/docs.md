@@ -192,7 +192,7 @@ console.dir(app.locals.email)
 
 Once set, the value of app.locals properties persist throughout the life of the application, in contrast with res.locals properties that are valid only for the lifetime of the request.
 
-You can access local variables in templates rendered within the application. This is useful for providing helper functions to templates, as well as application-level data. Local variables are available in middleware via `req.app.locals` (see [req.app](#reqapp))
+You can access local variables in templates rendered within the application. This is useful for providing helper functions to templates, as well as application-level data.
 
 ```ts
 app.locals.title = 'My App'
@@ -338,20 +338,6 @@ app.get('/user/:id', (req, res) => {
 The req object is an enhanced version of Node.js built-in [IncomingMessage](https://nodejs.org/api/http.html#http_class_http_incomingmessage) object.
 
 ### Properties
-
-#### `req.app`
-
-This property holds a reference to the instance of the tinyhttp application that is using the middleware.
-
-##### Example
-
-```ts
-app.get('/', (req, res) => {
-  res.json({
-    ...req.app.middleware,
-  })
-})
-```
 
 #### `req.hostname`
 
@@ -524,12 +510,6 @@ req.get('Something')
 The `res` object represents the HTTP response that an tinyhttp app sends when it gets an HTTP request.
 
 ### Properties
-
-#### `res.app`
-
-This property holds a reference to the instance of the tinyhttp app that is using the middleware.
-
-`res.app` is identical to the [`req.app`](#reqapp) property in the request object.
 
 ### Methods
 
