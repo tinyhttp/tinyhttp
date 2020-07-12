@@ -16,7 +16,7 @@ yay -S wrk
 Results are taken after 1 warm-up run. The tool used for results is the following:
 
 ```sh
-$ wrk -t8 -c100 -d30s http://localhost:3000/user/123
+wrk -t8 -c100 -d30s http://localhost:3000/user/123
 ```
 
 ## Information
@@ -36,21 +36,19 @@ At the moment, tinyhttp has the worst performance. This will be tried to be fixe
 
 ### Node 14.4
 
-| framework             | req/s | transfer/sec |
-| --------------------- | ----- | ------------ |
-| tinyhttp@0.1.42       | 7845  | 827.36KB     |
-| express@5.0.0-alpha.8 | 18172 | 2.27MB       |
-| express@4.17.1        | 18678 | 2.33MB       |
-| polka@0.5.2           | 22472 | 2.31MB       |
+| framework       | req/s | transfer/sec |
+| --------------- | ----- | ------------ |
+| tinyhttp@0.1.42 | 7845  | 827.36KB     |
+| express@4.17.1  | 18678 | 2.33MB       |
+| polka@0.5.2     | 22472 | 2.31MB       |
 
 ### Node 13.14
 
-| framework             | req/s | transfer/sec |
-| --------------------- | ----- | ------------ |
-| tinyhttp@0.1.42       | 7829  | 825.69KB     |
-| express@5.0.0-alpha.8 |       |              |
-| express@4.17.1        |       |              |
-| polka@0.5.2           |       |              |
+| framework       | req/s | transfer/sec |
+| --------------- | ----- | ------------ |
+| tinyhttp@0.1.42 | 7829  | 825.69KB     |
+| express@4.17.1  |       |              |
+| polka@0.5.2     |       |              |
 
 ## Detailed results
 
@@ -65,17 +63,6 @@ At the moment, tinyhttp has the worst performance. This will be tried to be fixe
   236105 requests in 30.10s, 24.32MB read
 Requests/sec:   7844.57
 Transfer/sec:    827.36KB
-```
-
-- express@5.0.0-alpha.8
-
-```
-Thread Stats   Avg      Stdev     Max   +/- Stdev
-  Latency     5.32ms    1.52ms  66.85ms   96.24%
-  Req/Sec     2.29k   269.69     3.95k    92.43%
-546628 requests in 30.08s, 68.29MB read
-Requests/sec:  18172.03
-Transfer/sec:      2.27MB
 ```
 
 - express@4.17.1
