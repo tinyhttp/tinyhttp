@@ -7,7 +7,7 @@
   "license": "MIT",
   "engines": {
     "node": ">=12.4.0",
-    "pnpm": ">=5.2.3"
+    "pnpm": ">=5.3.0"
   },
   "files": [
     "dist"
@@ -34,7 +34,7 @@
   },
   "scripts": {
     "prebuild": "rm -rf packages/*/dist",
-    "prepare": "eslint ./packages/*/src/*.ts",
+    "prepare": "eslint ./packages/*/src/*.ts && pnpm test",
     "build:server": "rollup -c",
     "build": "rollup -c",
     "dev": "rollup -cw",
