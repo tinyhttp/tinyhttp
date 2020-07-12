@@ -5,7 +5,7 @@ import { parse } from 'url'
 import parseRange, { Ranges, Options } from 'range-parser'
 import proxyAddr from 'proxy-addr'
 import fresh from '@foxify/fresh'
-import accepts from 'accepts'
+import Accepts from 'es-accepts'
 import { App } from './app'
 import { Middleware, Handler } from './router'
 import { compileTrust, rgExec } from './utils/request'
@@ -137,7 +137,7 @@ export const getFreshOrStale = (req: Request, res: Response) => {
 export const getAccepts = (req: Request) => (
   ...types: string[]
 ): string | false | string[] => {
-  return accepts(req).types(types)
+  return new Accepts(req).types(types)
 }
 
 export type Connection = IncomingMessage['socket'] & {

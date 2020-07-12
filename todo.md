@@ -10,10 +10,6 @@
 ### Methods
 
 - [x] `app.all()`
-- [ ] `app.disable()`
-- [ ] `app.disabled()`
-- [ ] `app.enable()`
-- [ ] `app.enabled()`
 - [ ] `app.engine()`
 - [x] `app.listen()`
 - [ ] `app.param()`

@@ -1,9 +1,8 @@
 import { ServerResponse, STATUS_CODES } from 'http'
 import { sign } from '@tinyhttp/cookie-signature'
-import mime from 'mime-types'
+import mime from 'es-mime-types'
 import cookie, { SerializeOptions } from '@tinyhttp/cookie'
 import { setCharset, createETag } from './utils/response'
-import { App } from './app'
 import { Request } from './request'
 
 export const json = (_req: Request, res: Response) => (
