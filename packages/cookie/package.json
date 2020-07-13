@@ -32,5 +32,14 @@
     "cookie"
   ],
   "author": "v1rtl",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "rollup": "^2.21.0",
+    "rollup-plugin-typescript2": "^0.27.1",
+    "typescript": "^3.9.6"
+  },
+  "dependencies": {},
+  "scripts": {
+    "build": "rollup -c"
+  }
 }

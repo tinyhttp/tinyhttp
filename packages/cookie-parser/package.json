@@ -38,5 +38,10 @@
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/cookie": "workspace:*",
     "@tinyhttp/cookie-signature": "workspace:*"
+  },
+  "devDependencies": {
+    "rollup": "^2.21.0",
+    "rollup-plugin-typescript2": "^0.27.1",
+    "typescript": "^3.9.6"
   }
 }

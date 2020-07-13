@@ -46,6 +46,8 @@ export const extendMiddleware = ({ networkExtensions }: AppSettings) => (
     req.connection = Object.assign(req.socket, {
       encrypted: secure,
     })
+
+    req.hostname = getHostname(req)
   }
 
   req.query = getQueryParams(req.url)
@@ -60,8 +62,6 @@ export const extendMiddleware = ({ networkExtensions }: AppSettings) => (
   req.accepts = getAccepts(req)
 
   req.xhr = checkIfXMLHttpRequest(req)
-
-  req.hostname = getHostname(req)
 
   /*
   Response extensions

@@ -29,6 +29,12 @@
     "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
-    "@types/jsonwebtoken": "^8.5.0"
+    "@types/jsonwebtoken": "^8.5.0",
+    "rollup": "^2.21.0",
+    "rollup-plugin-typescript2": "^0.27.1",
+    "typescript": "^3.9.6"
+  },
+  "scripts": {
+    "build": "rollup -c"
   }
 }

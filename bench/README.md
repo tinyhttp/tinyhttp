@@ -6,13 +6,6 @@ All apps employ two global middlewares with `req` mutations, an empty `GET` rout
 
 ## Benchmarking command
 
-`wrk` was used to perform benchmarks.
-
-```sh
-# Install on Arch / Manjaro / Artix Linux
-yay -S wrk
-```
-
 Results are taken after 1 warm-up run. The tool used for results is the following:
 
 ```sh

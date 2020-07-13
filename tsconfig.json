@@ -20,6 +20,5 @@
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["packages/**/*.ts"],
   "exclude": ["__tests__", "examples", "packages/*/dist"]
 }

@@ -48,6 +48,12 @@
   },
   "devDependencies": {
     "@types/proxy-addr": "^2.0.0",
-    "@types/range-parser": "^1.2.3"
+    "@types/range-parser": "^1.2.3",
+    "rollup": "^2.21.0",
+    "rollup-plugin-typescript2": "^0.27.1",
+    "typescript": "^3.9.6"
+  },
+  "scripts": {
+    "build": "rollup -c"
   }
 }
