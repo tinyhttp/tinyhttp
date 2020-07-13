@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/app",
-  "version": "0.1.47",
+  "version": "0.1.48",
   "description": "tinyhttp core",
   "type": "module",
   "homepage": "https://github.com/talentlessguy/tinyhttp",
@@ -36,7 +36,6 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@foxify/fresh": "^1.1.0",
     "@tinyhttp/cookie": "workspace:*",
     "@tinyhttp/cookie-signature": "workspace:*",
     "@tinyhttp/etag": "workspace:*",

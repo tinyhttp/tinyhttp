@@ -7,7 +7,7 @@ import {
   getHostname,
   getRequestHeader,
   setRequestHeader,
-  getFreshOrStale,
+  //  getFreshOrStale,
   getAccepts,
 } from './request'
 import {
@@ -23,8 +23,12 @@ import {
   setLinksHeader,
   sendStatus,
 } from './response'
+import { AppSettings } from './app'
 
-export const extendMiddleware = () => (req: Request, res: Response) => {
+export const extendMiddleware = ({ networkExtensions }: AppSettings) => (
+  req: Request,
+  res: Response
+) => {
   /// Define extensions
 
   res.get = getResponseHeader(req, res)
@@ -33,20 +37,22 @@ export const extendMiddleware = () => (req: Request, res: Response) => {
   Request extensions
   */
 
-  const proto = getProtocol(req)
-  const secure = proto === 'https'
+  if (networkExtensions) {
+    const proto = getProtocol(req)
+    const secure = proto === 'https'
 
-  req.protocol = proto
-  req.secure = secure
-  req.connection = Object.assign(req.socket, {
-    encrypted: secure,
-  })
+    req.protocol = proto
+    req.secure = secure
+    req.connection = Object.assign(req.socket, {
+      encrypted: secure,
+    })
+  }
 
   req.query = getQueryParams(req.url)
 
-  req.fresh = getFreshOrStale(req, res)
+  /*   req.fresh = getFreshOrStale(req, res)
 
-  req.stale = !req.fresh
+  req.stale = !req.fresh */
 
   req.get = getRequestHeader(req)
   req.set = setRequestHeader(req)

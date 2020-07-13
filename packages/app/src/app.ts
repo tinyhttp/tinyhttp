@@ -25,13 +25,22 @@ export const applyHandler = (h: Handler): Handler => async (
   }
 }
 
+export type AppSettings = Partial<{
+  networkExtensions: boolean
+}>
+
 export class App extends Router {
   middleware: Middleware[]
   locals: Record<string, string>
   noMatchHandler: Handler
   onError: ErrorHandler
+  settings: AppSettings
   constructor(
-    options: Partial<{ noMatchHandler: Handler; onError: ErrorHandler }> = {}
+    options: Partial<{
+      noMatchHandler: Handler
+      onError: ErrorHandler
+      settings: AppSettings
+    }> = {}
   ) {
     super()
     this.locals = Object.create(null)
@@ -39,10 +48,11 @@ export class App extends Router {
     this.onError = options?.onError || onErrorHandler
     this.noMatchHandler =
       options?.noMatchHandler || this.onError.bind(null, { code: 404 })
+    this.settings = options.settings || {}
   }
 
   async handler(mw: Middleware[], req: Request, res: Response) {
-    extendMiddleware()(req, res)
+    extendMiddleware(this.settings)(req, res)
 
     const noMatchMW: Middleware = {
       handler: this.noMatchHandler,

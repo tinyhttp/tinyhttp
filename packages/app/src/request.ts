@@ -4,7 +4,6 @@ import rg from 'regexparam'
 import { parse } from 'url'
 import parseRange, { Ranges, Options } from 'range-parser'
 import proxyAddr from 'proxy-addr'
-import fresh from '@foxify/fresh'
 import Accepts from 'es-accepts'
 import { App } from './app'
 import { Middleware, Handler } from './router'
@@ -114,7 +113,7 @@ export const getIP = (req: Request) => {
 //   }
 // }
 
-export const getFreshOrStale = (req: Request, res: Response) => {
+/* export const getFreshOrStale = (req: Request, res: Response) => {
   const method = req.method
   const status = res.statusCode
 
@@ -132,7 +131,7 @@ export const getFreshOrStale = (req: Request, res: Response) => {
   }
 
   return false
-}
+} */
 
 export const getAccepts = (req: Request) => (
   ...types: string[]
@@ -168,8 +167,8 @@ export interface Request extends IncomingMessage {
   signedCookies?: any
   secret?: string | string[]
 
-  fresh: boolean
+  /*   fresh: boolean
   stale: boolean
-
+ */
   body?: any
 }

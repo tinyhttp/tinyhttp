@@ -26,7 +26,6 @@
 		"prettier": "^2.0.5",
 		"rollup": "^2.21.0",
 		"rollup-plugin-auto-external": "^2.0.0",
-		"rollup-plugin-terser": "^6.1.0",
 		"supertest": "^4.0.2",
 		"ts-jest": "^26.1.1",
 		"tslib": "^2.0.0",
