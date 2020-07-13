@@ -31,6 +31,9 @@
   "engines": {
     "node": ">=12.4.0"
   },
+  "dependencies": {
+    "es-vary": "^0.0.1"
+  },
   "author": "v1rtl",
   "license": "MIT",
   "devDependencies": {
