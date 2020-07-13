@@ -26,10 +26,12 @@ Xiaomi Laptop with 16GB RAM and Intel Core i7-8550U processor.
 
 ## Results
 
+> Note that benchmarks aren't completely accurate and are different on every run.
+
 | framework           | req/s | transfer/sec |
 | ------------------- | ----- | ------------ |
-| @tinyhttp/app (esm) | 8780  | 948KB        |
-| @tinyhttp/app (cjs) | 8695  | 939KB        |
+| @tinyhttp/app (esm) | 8580  | 927KB        |
+| @tinyhttp/app (cjs) | 8067  | 871KB        |
 | express@4.17.1      | 6897  | 904KB        |
 | polka@0.5.2         | 22831 | 2.47MB       |
 

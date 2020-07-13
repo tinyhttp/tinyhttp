@@ -7,7 +7,7 @@ import {
   getHostname,
   getRequestHeader,
   setRequestHeader,
-  //  getFreshOrStale,
+  getFreshOrStale,
   getAccepts,
 } from './request'
 import {
@@ -25,10 +25,10 @@ import {
 } from './response'
 import { AppSettings } from './app'
 
-export const extendMiddleware = ({ networkExtensions }: AppSettings) => (
-  req: Request,
-  res: Response
-) => {
+export const extendMiddleware = ({
+  networkExtensions,
+  freshnessTesting,
+}: AppSettings) => (req: Request, res: Response) => {
   /// Define extensions
 
   res.get = getResponseHeader(req, res)
@@ -52,9 +52,11 @@ export const extendMiddleware = ({ networkExtensions }: AppSettings) => (
 
   req.query = getQueryParams(req.url)
 
-  /*   req.fresh = getFreshOrStale(req, res)
+  if (freshnessTesting) {
+    req.fresh = getFreshOrStale(req, res)
 
-  req.stale = !req.fresh */
+    req.stale = !req.fresh
+  }
 
   req.get = getRequestHeader(req)
   req.set = setRequestHeader(req)

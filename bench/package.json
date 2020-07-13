@@ -16,5 +16,8 @@
   },
   "devDependencies": {
     "autocannon": "^5.0.1"
+  },
+  "scripts": {
+  	"bench": "autocannon -c 100 -d 15 http://localhost:3000/user/123"
   }
 }

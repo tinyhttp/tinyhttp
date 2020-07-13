@@ -105,7 +105,7 @@
 
 ## Application
 
-The `app` object is the whole tinyhttp application with all the middleware, handlers and so on
+The `app` object is the whole tinyhttp application with all the middleware, handlers and settings.
 
 ```ts
 import { App } from '@tinyhttp/app'
@@ -134,8 +134,6 @@ The tinyhttp application object can be referred from the request object and the 
 
 Handler if none of the routes match. Should return 404 Not found.
 
-##### Example
-
 ```ts
 import { App, Request, Response } from '@tinyhttp/app'
 
@@ -156,8 +154,6 @@ app
 
 A middleware to catch server errors. Error can be anything. Should return 500 Internal Server Error.
 
-##### Example
-
 ```ts
 import { App, Request, Response } from '@tinyhttp/app'
 
@@ -175,6 +171,42 @@ app
   })
   .listen(3000)
 ```
+
+#### `settings`
+
+tinyhttp application has a list of settings to toggle various application parts. All of them are opted out by default to achieve the best performance (less extensions, better performance).
+
+```ts
+import { App } from '@tinyhttp/app'
+
+const app = new App({
+  settings: {
+    networkExtensions: true,
+  },
+})
+
+app.use((req, res) => void res.send(`Hostname: ${req.hostname}`)).listen(3000)
+```
+
+Here's a list of all of the settings:
+
+- `networkExtensions` - network `req` extensions
+- `freshnessTesting` - `req.fresh` and `req.stale` properties
+
+##### `networkExtensions`
+
+Enabled a list of Request object extensions related to network.
+
+- [`req.proto`](#reqproto)
+- [`req.secure`](#reqsecure)
+- [`req.hostname`](#reqhostname)
+
+##### `freshnessTesting`
+
+Enables 2 properties - `req.fresh` and `req.stale`
+
+- [`req.fresh`](#reqfresh)
+- [`req.stale`](#reqstale)
 
 ### Properties
 
@@ -435,6 +467,8 @@ console.dir(req.xhr)
 
 #### `req.fresh`
 
+> This property can be enabled via `freshnessTesting` setting
+
 When the response is still “fresh” in the client’s cache true is returned, otherwise false is returned to indicate that the client cache is now stale and the full response should be sent.
 
 When a client sends the `Cache-Control: no-cache` request header to indicate an end-to-end reload request, this module will return false to make handling these requests transparent.
@@ -447,6 +481,8 @@ console.dir(req.fresh)
 ```
 
 #### `req.stale`
+
+> This property can be enabled via `freshnessTesting` setting
 
 Indicates whether the request is “stale,” and is the opposite of `req.fresh`. For more information, see [`req.fresh`](#reqfresh).
 

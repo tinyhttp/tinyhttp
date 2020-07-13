@@ -27,6 +27,7 @@ export const applyHandler = (h: Handler): Handler => async (
 
 export type AppSettings = Partial<{
   networkExtensions: boolean
+  freshnessTesting: boolean
 }>
 
 export class App extends Router {

@@ -5,6 +5,7 @@ import { parse } from 'url'
 import parseRange, { Ranges, Options } from 'range-parser'
 import proxyAddr from 'proxy-addr'
 import Accepts from 'es-accepts'
+import fresh from 'es-fresh'
 import { App } from './app'
 import { Middleware, Handler } from './router'
 import { compileTrust, rgExec } from './utils/request'
@@ -113,7 +114,7 @@ export const getIP = (req: Request) => {
 //   }
 // }
 
-/* export const getFreshOrStale = (req: Request, res: Response) => {
+export const getFreshOrStale = (req: Request, res: Response) => {
   const method = req.method
   const status = res.statusCode
 
@@ -131,7 +132,7 @@ export const getIP = (req: Request) => {
   }
 
   return false
-} */
+}
 
 export const getAccepts = (req: Request) => (
   ...types: string[]
@@ -167,8 +168,8 @@ export interface Request extends IncomingMessage {
   signedCookies?: any
   secret?: string | string[]
 
-  /*   fresh: boolean
-  stale: boolean
- */
+  fresh?: boolean
+  stale?: boolean
+
   body?: any
 }
