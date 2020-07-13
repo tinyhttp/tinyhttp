@@ -1,7 +1,7 @@
 import { ServerResponse, STATUS_CODES } from 'http'
 import { sign } from '@tinyhttp/cookie-signature'
-import mime from 'es-mime-types'
-import cookie, { SerializeOptions } from '@tinyhttp/cookie'
+import * as mime from 'es-mime-types'
+import * as cookie from '@tinyhttp/cookie'
 import { setCharset, createETag } from './utils/response'
 import { Request } from './request'
 
@@ -92,7 +92,7 @@ export const status = (_req: Request, res: Response) => (
 export const setCookie = (req: Request, res: Response) => (
   name: string,
   value: string | Record<string, unknown>,
-  options?: SerializeOptions &
+  options?: cookie.SerializeOptions &
     Partial<{
       signed: boolean
     }>
@@ -128,7 +128,7 @@ export const setCookie = (req: Request, res: Response) => (
 
 export const clearCookie = (req: Request, res: Response) => (
   name: string,
-  options?: SerializeOptions
+  options?: cookie.SerializeOptions
 ): Response => {
   const opts = Object.assign({}, { expires: new Date(1), path: '/' }, options)
 
@@ -222,9 +222,9 @@ export interface Response extends ServerResponse {
   cookie(
     name: string,
     value: string | Record<string, unknown>,
-    options?: SerializeOptions & Partial<{ signed: boolean }>
+    options?: cookie.SerializeOptions & Partial<{ signed: boolean }>
   ): Response
-  clearCookie(name: string, options?: SerializeOptions): Response
+  clearCookie(name: string, options?: cookie.SerializeOptions): Response
   location(url: string): Response
   links(links: { [key: string]: string }): Response
 }

@@ -1,4 +1,4 @@
-const { App } = require('@tinyhttp/app')
+import { App } from '@tinyhttp/app'
 
 function one(req, res, next) {
   req.one = true
@@ -12,7 +12,7 @@ function two(req, res, next) {
 
 new App()
   .use(one, two)
-  .get('/favicon.ico', _ => {})
+  .get('/favicon.ico', (_) => {})
   .get('/', (_, res) => res.end('Hello'))
   .get('/user/:id', (req, res) => {
     res.end(`User: ${req.params.id}`)

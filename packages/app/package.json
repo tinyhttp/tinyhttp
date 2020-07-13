@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/app",
-  "version": "0.1.45",
+  "version": "0.1.47",
   "description": "tinyhttp core",
   "type": "module",
   "homepage": "https://github.com/talentlessguy/tinyhttp",
@@ -40,9 +40,9 @@
     "@tinyhttp/cookie": "workspace:*",
     "@tinyhttp/cookie-signature": "workspace:*",
     "@tinyhttp/etag": "workspace:*",
-    "es-accepts": "^0.0.5",
-    "es-content-type": "^0.0.1",
-    "es-mime-types": "^0.0.3",
+    "es-accepts": "^0.0.11",
+    "es-content-type": "^0.0.4",
+    "es-mime-types": "^0.0.6",
     "proxy-addr": "^2.0.6",
     "range-parser": "^1.2.1",
     "regexparam": "^1.3.0"

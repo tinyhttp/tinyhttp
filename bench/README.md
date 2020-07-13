@@ -39,8 +39,8 @@ At the moment, tinyhttp has the worst performance. This will be tried to be fixe
 | framework       | req/s | transfer/sec |
 | --------------- | ----- | ------------ |
 | tinyhttp@latest | 5149  | 543KB        |
-| express@4.17.1  | 5686  | 727KB        |
-| polka@0.5.2     | 14500 | 1.49MB       |
+| express@4.17.1  | 7619  | 0.95MB       |
+| polka@0.5.2     | 21674 | 2.23MB       |
 
 ## Detailed results
 
@@ -60,23 +60,22 @@ Transfer/sec:    550.64KB
 - express@4.17.1
 
 ```
-8 threads and 100 connections
-Thread Stats   Avg      Stdev     Max   +/- Stdev
-  Latency    17.31ms    8.16ms 192.57ms   93.93%
-  Req/Sec   717.38    167.62     1.69k    75.53%
-171131 requests in 30.09s, 21.38MB read
-Requests/sec:   5686.44
-Transfer/sec:    727.46KB
+  8 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    12.78ms    5.02ms 142.82ms   92.87%
+    Req/Sec     0.96k   183.29     1.21k    71.95%
+  228721 requests in 30.02s, 28.57MB read
+Requests/sec:   7619.76
+Transfer/sec:      0.95MB
 ```
 
 - polka@0.5.2
 
 ```
-  8 threads and 100 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency     7.25ms    7.12ms 166.57ms   96.63%
-    Req/Sec     1.83k   577.84     4.20k    64.55%
-  436415 requests in 30.10s, 44.95MB read
-Requests/sec:  14500.76
-Transfer/sec:      1.49MB
+    Latency     4.61ms    3.38ms 120.73ms   98.07%
+    Req/Sec     2.73k   467.45     5.04k    85.77%
+  650755 requests in 30.02s, 67.03MB read
+Requests/sec:  21674.38
+Transfer/sec:      2.23MB
 ```

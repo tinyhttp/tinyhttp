@@ -19,6 +19,8 @@
     "start": "ts-node ./*.ts"
   },
   "devDependencies": {
-    "@types/serve-handler": "^6.1.0"
+    "@types/serve-handler": "^6.1.0",
+    "esm": "^3.2.25",
+    "ts-node": "^8.10.2"
   }
 }
