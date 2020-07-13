@@ -53,7 +53,7 @@ describe('Request extensions', () => {
         done()
       })
   })
-  it('default req.protocol is HTTP', (done) => {
+  /*   it('default req.protocol is HTTP', (done) => {
     const { request, server } = InitAppAndTest(
       (req, res) => void res.send(req.protocol)
     )
@@ -81,7 +81,7 @@ describe('Request extensions', () => {
         if (err) return done(err)
         done()
       })
-  })
+  }) */
   it('req.set sets the header and req.get returns a header', (done) => {
     const { request, server } = InitAppAndTest((req, res) => {
       req.set('X-Header', '123')
