@@ -1,7 +1,7 @@
 {
   "name": "@tinyhttp/jwt",
-  "version": "0.0.1",
-  "description": "JWT library for tinyhttp",
+  "version": "0.0.2",
+  "description": "JWT middleware for tinyhttp",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "module": "dist/index.esm.js",
@@ -26,7 +26,9 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@types/jsonwebtoken": "^8.5.0",
     "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.0"
   }
 }

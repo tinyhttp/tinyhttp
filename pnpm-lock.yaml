@@ -85,8 +85,9 @@ importers:
     specifiers: {}
   packages/jwt:
     dependencies:
-      '@types/jsonwebtoken': 8.5.0
       jsonwebtoken: 8.5.1
+    devDependencies:
+      '@types/jsonwebtoken': 8.5.0
     specifiers:
       '@types/jsonwebtoken': ^8.5.0
       jsonwebtoken: ^8.5.1
@@ -1370,7 +1371,7 @@ packages:
   /@types/jsonwebtoken/8.5.0:
     dependencies:
       '@types/node': 14.0.22
-    dev: false
+    dev: true
     resolution:
       integrity: sha512-9bVao7LvyorRGZCw0VmH/dr7Og+NdjYSsKAxB43OQoComFbBgsEpoR9JW6+qSq/ogwVBg8GI2MfAlk4SYI4OLg==
   /@types/marked/1.1.0:
@@ -1378,6 +1379,7 @@ packages:
     resolution:
       integrity: sha512-j8XXj6/l9kFvCwMyVqozznqpd/nk80krrW+QiIJN60Uu9gX5Pvn4/qPJ2YngQrR3QREPwmrE1f9/EWKVTFzoEw==
   /@types/node/14.0.22:
+    dev: true
     resolution:
       integrity: sha512-emeGcJvdiZ4Z3ohbmw93E/64jRzUHAItSHt8nF7M4TGgQTiWqFVGB8KNpLGFmUHmHLvjvBgFwVlqNcq+VuGv9g==
   /@types/normalize-package-data/2.4.0:
