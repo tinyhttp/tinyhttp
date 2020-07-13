@@ -1,10 +1,10 @@
 # @tinyhttp/cors
 
-[![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/cors?style=flat-square)](npmjs.com/package/@tinyhttp/cors) [![npm](https://img.shields.io/npm/dt/@tinyhttp/cors?style=flat-square)](npmjs.com/package/@tinyhttp/cors) [![](https://img.shields.io/badge/website-visit-hotpink?style=flat-square)](https://tinyhttp.v1rtl.site/mw/cors)
+[![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/cors?style=flat-square)](npmjs.com/package/@tinyhttp/cors) [![npm](https://img.shields.io/npm/dt/@tinyhttp/cors?style=flat-square)](npmjs.com/package/@tinyhttp/cors)
 
-> A rewrite of [cors](https://github.com/expressjs/cors) module.
+> A rewrite of [expressjs/cors](https://github.com/expressjs/cors) module.
 
-CORS middleware for HTTP servers.
+HTTP cors header middleware
 
 ## Install
 
@@ -18,19 +18,28 @@ pnpm i @tinyhttp/cors
 import { cors } from '@tinyhttp/cors'
 ```
 
-### Options
+### `cors(options)`
 
-#### `host`
+Returns the Cors middleware with the settings specified in the parameters
 
-Host that is allowed to send cross-origin requests. Defaults to `'*'`.
+#### Options
+- `origin`: Can be a string defining the Access-Control-Allow-Origin value, a boolean which if set to true sets the header to `'*'` or a function which contains the request and response as parameters and must return the value for the Access-Control-Allow-Origin header
+- `methods`: Array of method names which define the Access-Control-Allow-Methods header, default to all the most common methods (get, head, put, patch, post, delete)
+- `allowedHeaders`: Configures the Access-Control-Allow-Headers CORS header. Expects an array (ex: ['Content-Type', 'Authorization']).
+- `exposedHeaders`: Configures the Access-Control-Expose-Headers CORS header. If not specified, no custom headers are exposed
+- `credentials`: Configures the Access-Control-Allow-Credentials CORS header. Set to true to pass the header, otherwise it is omitted.
+- `maxAge`: Configures the Access-Control-Max-Age CORS header. Set to an integer to pass the header, otherwise it is omitted.
+- `optionsSuccessStatus`: Provides a status code to use for successful OPTIONS requests, since some legacy browsers (IE11, various SmartTVs) choke on 204.
 
-#### `methods`
+The default configuration is:
 
-Allowed methods for performing a cross-origin request. Default ones are `['GET', 'POST', 'PUT', 'PATCH', 'HEAD']` and can be accessed with `defaultMethods`.
-
-#### `headers`
-
-Allowed HTTP headers that can be sent in a cross-origin request. Default ones are `['Origin', 'X-Requested-With', 'Content-Type']` and can be accessed with `defaultHeaders`.
+```json
+{
+  "origin": "*",
+  "methods": ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
+  "optionsSuccessStatus": 204
+}
+```
 
 ## Example
 
@@ -40,15 +49,16 @@ import { cors } from '@tinyhttp/cors'
 
 const app = new App()
 
-app
-  .use(
-    cors({
-      host: 'https://example.com'
-    })
-  )
-  .get('/', (_, res) => void res.end('Hello World'))
+app.use(cors({ origin: 'https://myfantastic.site/' }))
+app.options('*', cors())
+
+app.get('/', (req, res) => {
+  res.send('The headers contained in my response are defined in the cors middleware')
+})
+
+app.listen(8080)
 ```
 
 ## License
 
-MIT © [v1rtl](https://v1rtl.site)
+MIT © [BRA1L0R](https://brailor.me/)
