@@ -34,7 +34,7 @@
   },
   "scripts": {
     "prebuild": "rm -rf packages/*/dist",
-    "prepare": "eslint ./packages/*/src/*.ts && pnpm test",
+    "prepare": "eslint ./packages/*/src/*.ts && pnpm build && pnpm test",
     "build:server": "rollup -c",
     "build": "rollup -c",
     "dev": "rollup -cw",
