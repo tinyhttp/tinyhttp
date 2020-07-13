@@ -1,15 +1,15 @@
 {
   "name": "auth",
   "private": true,
-  "scripts": {
-    "dev": "ts-node index.ts"
-  },
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/jwt": "workspace:*",
-    "@types/body-parser": "^1.19.0",
     "@types/jsonwebtoken": "^8.5.0",
     "body-parser": "^1.19.0",
     "jsonwebtoken": "^8.5.1"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@types/body-parser": "^1.19.0"
   }
 }

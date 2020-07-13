@@ -1,9 +1,9 @@
-import { App } from '../../packages/app/src'
+import { App } from '@tinyhttp/app'
 import { readFile } from 'fs/promises'
 
 new App()
   .get('/', async (_, res, next) => {
-    let file: Buffer
+    let file
 
     try {
       file = await readFile(`${__dirname}/test.txt`)
