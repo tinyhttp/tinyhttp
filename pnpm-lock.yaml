@@ -101,11 +101,14 @@ importers:
       rollup-plugin-typescript2: ^0.27.1
       typescript: ^3.9.6
   packages/cors:
+    dependencies:
+      es-vary: 0.0.1
     devDependencies:
       rollup: 2.21.0
       rollup-plugin-typescript2: 0.27.1_rollup@2.21.0+typescript@3.9.6
       typescript: 3.9.6
     specifiers:
+      es-vary: ^0.0.1
       rollup: ^2.21.0
       rollup-plugin-typescript2: ^0.27.1
       typescript: ^3.9.6
@@ -2066,6 +2069,10 @@ packages:
       node: '>=13'
     resolution:
       integrity: sha512-Pci6sij9yBGvgicLgu81IboZ1p6w3kLBgEaa0+q6V5XCWH2OwOpytM3BPuAgwrYW7ucpkTt4DMgWw8hMSffa/w==
+  /es-vary/0.0.1:
+    dev: false
+    resolution:
+      integrity: sha512-RtBobeA0dnl7s2Zpte9cc9JNaTfgzasHKPCIBR9/v0+75D8qH8Mfc0qy0KFRdqyzyPY+PmfApDvCPcf+GABBnA==
   /escape-string-regexp/1.0.5:
     dev: true
     engines:
