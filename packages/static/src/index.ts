@@ -1,5 +1,5 @@
 import { stat, readFile, readdir } from 'fs/promises'
-import { contentType } from 'mime-types'
+import { contentType } from 'es-mime-types'
 import { Request, Response, NextFunction, AsyncHandler } from '@tinyhttp/app'
 import { promise as recursiveReaddir } from 'readdirp'
 import { parse } from 'path'
@@ -13,7 +13,10 @@ export type StaticHandlerOptions = Partial<{
   recursive: boolean
 }>
 
-export const staticHandler = (dir = process.cwd(), opts?: StaticHandlerOptions): AsyncHandler => {
+export const staticHandler = (
+  dir = process.cwd(),
+  opts?: StaticHandlerOptions
+): AsyncHandler => {
   return async (req: Request, res: Response, next?: NextFunction) => {
     let files: string[]
 
@@ -23,15 +26,15 @@ export const staticHandler = (dir = process.cwd(), opts?: StaticHandlerOptions):
     if (recursive) {
       files = (
         await recursiveReaddir(dir, {
-          type: 'all'
+          type: 'all',
         })
-      ).map(f => f.path)
+      ).map((f) => f.path)
     } else {
       files = await readdir(dir)
     }
 
     if (req.url.startsWith(prefix)) {
-      const file = files.find(file => {
+      const file = files.find((file) => {
         // remove prefix from URL
         const unPrefixedURL = req.url.replace(prefix, '')
 
@@ -43,7 +46,7 @@ export const staticHandler = (dir = process.cwd(), opts?: StaticHandlerOptions):
 
       // use index.* for root
       if (req.url === prefix) {
-        const indexFile = files.find(f => parse(f).name === 'index')
+        const indexFile = files.find((f) => parse(f).name === 'index')
         if (indexFile) {
           const fileContent = await fileToString(`${dir}/${indexFile}`)
           res.set('Content-Type', 'text/html; charset=utf-8').send(fileContent)
@@ -67,7 +70,9 @@ export const staticHandler = (dir = process.cwd(), opts?: StaticHandlerOptions):
           res.end('</ul>')
         } else {
           const fileContent = await fileToString(dirAndfilePath)
-          res.set('Content-Type', contentType(parse(file).ext) || 'text/plain').send(fileContent)
+          res
+            .set('Content-Type', contentType(parse(file).ext) || 'text/plain')
+            .send(fileContent)
         }
       }
     }
