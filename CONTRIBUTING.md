@@ -25,6 +25,12 @@ curl -fsSL https://github.com/Schniz/fnm/raw/master/.ci/install.sh | bash
 # Install latest Node.js version
 fnm install latest
 fnm use latest
+
+# Install pnpm
+curl -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | node
+
+# Or, via npm
+npm i -g pnpm
 ```
 
 - Install the dependencies at root and in the packages:
