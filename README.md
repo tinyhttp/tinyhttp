@@ -11,7 +11,7 @@
 
 </div>
 
-** ⚠ The project is in development. Please don't use in production. **
+**⚠ The project is in development. Please don't use in production.**
 
 _**tinyhttp**_ is a modern Express-like web framework for Node.js. It uses a bare minimum amount of dependencies trying to avoid legacy hell.
 
