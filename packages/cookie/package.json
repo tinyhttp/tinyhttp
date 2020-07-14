@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "description": "HTTP cookie parser and serializer for Node.js",
-  "homepage": "https://github.com/talentlessguy/tinyhttp",
+  "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
   "engines": {
     "node": ">=12.4.0"
   },

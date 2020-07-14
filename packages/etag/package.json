@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "type": "module",
   "description": "entity tag module",
-  "homepage": "https://github.com/talentlessguy/tinyhttp",
+  "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/talentlessguy/tinyhttp.git",

@@ -1,14 +1,17 @@
 {
   "name": "@tinyhttp/app",
-  "version": "0.2.1",
-  "description": "tinyhttp core",
+  "version": "0.2.2",
+  "description": "tinyhttp core with App, Request, Response and Router",
   "type": "module",
-  "homepage": "https://github.com/talentlessguy/tinyhttp",
+  "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/talentlessguy/tinyhttp.git",
     "directory": "packages/app"
   },
+  "contributors": [
+    "v1rtl <https://v1rtl.site>"
+  ],
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
   "module": "dist/index.js",
@@ -31,7 +34,12 @@
     "node.js",
     "web framework",
     "web",
-    "backend"
+    "backend",
+    "http",
+    "http framework",
+    "javascript",
+    "node",
+    "native-esm"
   ],
   "author": "v1rtl",
   "license": "MIT",
