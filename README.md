@@ -11,7 +11,7 @@
 
 </div>
 
-> ⚠ The project is in development. Please don't use in production.
+** ⚠ The project is in development. Please don't use in production. **
 
 _**tinyhttp**_ is a modern Express-like web framework for Node.js. It uses a bare minimum amount of dependencies trying to avoid legacy hell.
 
@@ -19,16 +19,16 @@ Here is a short list of most important features that tinyhttp has:
 
 - ⚙ Full Express middleware support
 - ↪ Async middleware support
-- 📦 8x smaller than Express
-- 🏃 No legacy dependencies
-- 🔨 Types out of the box
 - ☑ Native ESM and CommonJS support
+- 🚀 No legacy dependencies, just the JavaScript itself
+- 🔨 Types out of the box
+- 📦 8x smaller than Express
 
 To get started, visit [tinyhttp website](https://tinyhttp.v1rtl.site).
 
 ## Install
 
-tinyhttp requires [Node.js 12.4.0 or newer](https://node.green/#ES2019) or newer. It is recommended to use [pnpm](https://pnpm.js.org/) because tinyhttp reuses modules in some middlewares.
+tinyhttp requires [Node.js 12.4.0 or newer](https://node.green/#ES2019). It is recommended to use [pnpm](https://pnpm.js.org/), although it isn't required.
 
 ```sh
 # npm
@@ -75,6 +75,10 @@ For more examples, check [examples](https://github.com/talentlessguy/tinyhttp/bl
 tinyhttp offers a list of premade middleware for common tasks.
 
 Search and explore the full list at [middleware search page](https://tinyhttp.v1rtl.site/mw).
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
