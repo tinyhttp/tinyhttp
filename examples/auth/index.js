@@ -10,7 +10,7 @@ app.use(jwt({ secret: secretToken, algorithm: 'HS256' }))
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.get('/', (_req, res) => {
-  res.send('hello little penis')
+  res.send('Go to "/login" page to login')
 })
 
 app.post('/login', (req, res) => {
