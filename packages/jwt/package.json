@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/jwt",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "JWT middleware for tinyhttp",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
