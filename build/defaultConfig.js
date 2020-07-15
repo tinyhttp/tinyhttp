@@ -1,4 +1,5 @@
 import ts from 'rollup-plugin-typescript2'
+import { terser } from 'rollup-plugin-terser'
 
 export default {
   input: 'src/index.ts',
@@ -12,5 +13,23 @@ export default {
       format: 'esm',
     },
   ],
-  plugins: [ts()],
+  plugins: [
+    ts(),
+    terser({
+      warnings: 'verbose',
+      mangle: {
+        toplevel: true,
+        keep_fnames: true,
+        keep_classnames: true,
+        properties: true,
+      },
+      compress: {
+        toplevel: true,
+        dead_code: true,
+        sequences: false,
+        conditionals: false,
+        properties: false,
+      },
+    }),
+  ],
 }

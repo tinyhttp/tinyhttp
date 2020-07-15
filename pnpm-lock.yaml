@@ -12,6 +12,7 @@ importers:
       eslint-plugin-prettier: 3.1.4_eslint@7.4.0+prettier@2.0.5
       jest: 26.1.0
       prettier: 2.0.5
+      rollup-plugin-terser: 6.1.0
       supertest: 4.0.2
       ts-jest: 26.1.1_jest@26.1.0+typescript@3.9.6
       tslib: 2.0.0
@@ -28,6 +29,7 @@ importers:
       eslint-plugin-prettier: ^3.1.4
       jest: ^26.1.0
       prettier: ^2.0.5
+      rollup-plugin-terser: ^6.1.0
       supertest: ^4.0.2
       ts-jest: ^26.1.1
       tslib: ^2.0.0
@@ -1792,6 +1794,10 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==
+  /commander/2.20.3:
+    dev: true
+    resolution:
+      integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
   /commondir/1.0.1:
     dev: true
     resolution:
@@ -4656,6 +4662,12 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha1-Q2CxfGETatOAeDl/8RQW4Ybc+7g=
+  /randombytes/2.1.0:
+    dependencies:
+      safe-buffer: 5.2.1
+    dev: true
+    resolution:
+      integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==
   /range-parser/1.2.1:
     dev: false
     engines:
@@ -4924,6 +4936,17 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==
+  /rollup-plugin-terser/6.1.0:
+    dependencies:
+      '@babel/code-frame': 7.10.4
+      jest-worker: 26.1.0
+      serialize-javascript: 3.1.0
+      terser: 4.8.0
+    dev: true
+    peerDependencies:
+      rollup: ^2.0.0
+    resolution:
+      integrity: sha512-4fB3M9nuoWxrwm39habpd4hvrbrde2W2GG4zEGPQg1YITNkM3Tqur5jSuXlWNzbv/2aMLJ+dZJaySc3GCD8oDw==
   /rollup-plugin-typescript2/0.27.1_rollup@2.21.0+typescript@3.9.6:
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.21.0
@@ -5015,6 +5038,12 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-OrOb32TeeambH6UrhtShmF7CRDqhL6/5XpPNp2DuRH6+9QLw/orhp72j87v8Qa1ScDkvrrBNpZcDejAirJmfXQ==
+  /serialize-javascript/3.1.0:
+    dependencies:
+      randombytes: 2.1.0
+    dev: true
+    resolution:
+      integrity: sha512-JIJT1DGiWmIKhzRsG91aS6Ze4sFUrYbltlkg2onR5OrnNM02Kl/hnY/T4FN2omvyeBbQmMJv+K4cPOpGzOTFBg==
   /set-blocking/2.0.0:
     dev: true
     resolution:
@@ -5461,6 +5490,17 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-un0FmiRUQNr5PJqy9kP7c40F5BOfpGlYTrxonDChEZB7pzZxRNp/bt+ymiy9/npwXya9KH99nJ/GXFIiUkYGFQ==
+  /terser/4.8.0:
+    dependencies:
+      commander: 2.20.3
+      source-map: 0.6.1
+      source-map-support: 0.5.19
+    dev: true
+    engines:
+      node: '>=6.0.0'
+    hasBin: true
+    resolution:
+      integrity: sha512-EAPipTNeWsb/3wLPeup1tVPaXfIaU68xMnVdPafIL1TV05OhASArYyIfFvnvJCNrR2NIOvDVNNTFRa+Re2MWyw==
   /test-exclude/6.0.0:
     dependencies:
       '@istanbuljs/schema': 0.1.2

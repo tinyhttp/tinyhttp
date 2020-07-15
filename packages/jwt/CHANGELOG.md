@@ -1,5 +1,11 @@
 # @tinyhttp/jwt
 
+## 0.1.2
+
+### Patch Changes
+
+- Remove console.logs from code
+
 ## 0.1.1
 
 ### Patch Changes
