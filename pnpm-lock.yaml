@@ -82,6 +82,18 @@ importers:
       rollup: ^2.21.0
       rollup-plugin-typescript2: ^0.27.1
       typescript: ^3.9.6
+  packages/cli:
+    dependencies:
+      cac: 6.6.1
+    devDependencies:
+      rollup: 2.21.0
+      rollup-plugin-typescript2: 0.27.1_rollup@2.21.0+typescript@3.9.6
+      typescript: 3.9.6
+    specifiers:
+      cac: ^6.6.1
+      rollup: ^2.21.0
+      rollup-plugin-typescript2: ^0.27.1
+      typescript: ^3.9.6
   packages/cookie:
     devDependencies:
       rollup: 2.21.0
@@ -1587,6 +1599,12 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha512-zauLjrfCG+xvoyaqLoV8bLVXXNGC4JqlxFCutSDWA6fJrTo2ZuvLYTqZ7aHBLZSMOopbzwv8f+wZcVzfVTI2Dg==
+  /cac/6.6.1:
+    dev: false
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha512-uhki4T3Ax68hw7Dufi0bATVAF8ayBSwOKUEJHjObPrUN4tlQ8Lf7oljpTje/mArLxYN0D743c2zJt4C1bVTCqg==
   /cache-base/1.0.1:
     dependencies:
       collection-visit: 1.0.0

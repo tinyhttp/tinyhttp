@@ -68,13 +68,17 @@ app
   .listen(3000)
 ```
 
-For more examples, check [examples](https://github.com/talentlessguy/tinyhttp/blob/master/examples) folder.
+For more examples, check [examples](examples) folder.
 
 ## Middlewares
 
 tinyhttp offers a list of premade middleware for common tasks.
 
 Search and explore the full list at [middleware search page](https://tinyhttp.v1rtl.site/mw).
+
+## Benchmarks
+
+To see benchmark comparison between tinyhttp, polka and express, check [benchmark](benchmark) folder.
 
 ## Contributing
 
