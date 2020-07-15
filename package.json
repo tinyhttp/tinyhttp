@@ -34,7 +34,7 @@
     "build": "pnpm build -r",
     "chgset:run": "changeset",
     "chgset:version": "changeset version",
-    "prepublishOnly": "pnpm chgset:run && pnpm chgset:version",
+    "chgset": "pnpm chgset:run && pnpm chgset:version",
     "publish": "changeset publish",
     "test": "jest"
   }

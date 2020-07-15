@@ -2,18 +2,18 @@ import { METHODS } from 'http'
 import { Request } from './request'
 import { Response } from './response'
 
-export type NextFunction = (err?: any) => void
+export type NextFunction = (err?: any) => void | undefined
 
 export type SyncHandler = (
   req: Request,
   res: Response,
-  next?: NextFunction | undefined
+  next?: NextFunction
 ) => void
 
 export type AsyncHandler = (
   req: Request,
   res: Response,
-  next?: NextFunction | undefined
+  next?: NextFunction
 ) => Promise<void>
 
 export type Handler = AsyncHandler | SyncHandler

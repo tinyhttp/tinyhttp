@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.2.5
+
+### Patch Changes
+
+- Put undefined in the next function
+
 ## 0.2.4
 
 ### Patch Changes
