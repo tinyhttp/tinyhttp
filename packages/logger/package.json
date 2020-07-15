@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/logger",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "type": "module",
   "description": "tinyhttp logger module",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",

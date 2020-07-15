@@ -1,5 +1,15 @@
 # @tinyhttp/app
 
+## 0.2.7
+
+### Patch Changes
+
+- Fix Terser options
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.1.3
+  - @tinyhttp/cookie-signature@0.1.3
+  - @tinyhttp/etag@0.2.3
+
 ## 0.2.6
 
 ### Patch Changes

@@ -16,20 +16,9 @@ export default {
   plugins: [
     ts(),
     terser({
-      warnings: 'verbose',
-      mangle: {
-        toplevel: true,
-        keep_fnames: true,
-        keep_classnames: true,
-        properties: true,
-      },
-      compress: {
-        toplevel: true,
-        dead_code: true,
-        sequences: false,
-        conditionals: false,
-        properties: false,
-      },
+      keep_classnames: true,
+      keep_fnames: true,
+      ecma: 2019,
     }),
   ],
 }

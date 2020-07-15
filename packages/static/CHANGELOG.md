@@ -1,5 +1,13 @@
 # @tinyhttp/static
 
+## 0.2.5
+
+### Patch Changes
+
+- Fix Terser options
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.7
+
 ## 0.2.4
 
 ### Patch Changes

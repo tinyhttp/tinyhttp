@@ -1,5 +1,11 @@
 # @tinyhttp/cors
 
+## 0.2.4
+
+### Patch Changes
+
+- Fix Terser options
+
 ## 0.2.3
 
 ### Patch Changes

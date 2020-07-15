@@ -1,5 +1,11 @@
 # @tinyhttp/cookie
 
+## 0.1.3
+
+### Patch Changes
+
+- Fix Terser options
+
 ## 0.1.2
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @tinyhttp/logger
 
+## 0.2.3
+
+### Patch Changes
+
+- Fix Terser options
+
 ## 0.2.2
 
 ### Patch Changes

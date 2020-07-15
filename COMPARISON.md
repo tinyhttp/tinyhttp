@@ -13,4 +13,4 @@ Below there is a table comparing `tinyhttp`, `express` and `polka`.
 | Tested                    | in progress | yes        | yes        |
 | Compiled to native ESM    | yes         | no         | no         |
 | TypeScript support        | yes         | no         | no         |
-| Package size (core only)  | 49.7 kB     | 208 kB     | 25.5 kB    |
+| Package size (core only)  | 30.2 kB     | 208 kB     | 25.5 kB    |
