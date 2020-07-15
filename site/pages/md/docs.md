@@ -282,7 +282,7 @@ Routes HTTP GET requests to the specified path with the specified handler functi
 ##### Example
 
 ```ts
-app.post('/', (req, res) => {
+app.get('/', (req, res) => {
   res.send(`${req.method || 'GET'} request to homepage`
 })
 ```
@@ -423,7 +423,7 @@ Example output would be something like this:
   path: '/user/:id?',
   method: 'GET',
   handler: [Function: userIdHandler],
-  tyoe: 'route'
+  type: 'route'
 }
 ```
 
