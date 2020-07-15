@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/cookie-signature",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "HTTP cookie signing and unsigning",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
   "repository": {

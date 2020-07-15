@@ -1,5 +1,15 @@
 # @tinyhttp/app
 
+## 0.2.6
+
+### Patch Changes
+
+- Return compression back
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.1.2
+  - @tinyhttp/cookie-signature@0.1.2
+  - @tinyhttp/etag@0.2.2
+
 ## 0.2.5
 
 ### Patch Changes

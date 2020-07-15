@@ -1,5 +1,11 @@
 # @tinyhttp/cors
 
+## 0.2.3
+
+### Patch Changes
+
+- Return compression back
+
 ## 0.2.2
 
 ### Patch Changes

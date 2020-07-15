@@ -1,5 +1,11 @@
 # @tinyhttp/logger
 
+## 0.2.2
+
+### Patch Changes
+
+- Return compression back
+
 ## 0.2.1
 
 ### Patch Changes

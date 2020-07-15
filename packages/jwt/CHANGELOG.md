@@ -1,5 +1,11 @@
 # @tinyhttp/jwt
 
+## 0.1.3
+
+### Patch Changes
+
+- Return compression back
+
 ## 0.1.2
 
 ### Patch Changes

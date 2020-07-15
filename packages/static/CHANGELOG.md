@@ -1,5 +1,13 @@
 # @tinyhttp/static
 
+## 0.2.4
+
+### Patch Changes
+
+- Return compression back
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.6
+
 ## 0.2.3
 
 ### Patch Changes
