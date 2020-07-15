@@ -62,7 +62,7 @@ app
     res.send('<h1>Hello World</h1>')
   })
   .get('/page/:page/', (req, res) => {
-    res.status(200).send(`${JSON.stringify(req.params, null, 2)}`)
+    res.status(200).send(`You just opened ${req.params.page}`)
   })
   .use(logger())
   .listen(3000)
@@ -75,6 +75,10 @@ For more examples, check [examples](examples) folder.
 tinyhttp offers a list of premade middleware for common tasks.
 
 Search and explore the full list at [middleware search page](https://tinyhttp.v1rtl.site/mw).
+
+## Comparison
+
+To compare tinyhttp with Express and Polka (another Express-like framework), see [COMPARISON.md](COMPARISON.md)
 
 ## Benchmarks
 
@@ -104,6 +108,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

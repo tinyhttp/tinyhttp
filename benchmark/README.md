@@ -6,11 +6,13 @@ All apps employ two global middlewares with `req` mutations, an empty `GET` rout
 
 ## Benchmarking command
 
-Results are taken after 1 warm-up run. The tool used for results is the following:
+Results are taken after 1 warm-up run. The command used for results is the following:
 
 ```sh
 node run.mjs
 ```
+
+`run.mjs` is a script that launches a child process with the app and runs benchmarks against it, recursively, going to the next app in the list.
 
 ## Information
 
@@ -121,5 +123,4 @@ Req/Bytes counts sampled once per second.
 Req/Bytes counts sampled once per second.
 
 172k requests in 5.05s, 18.6 MB read
-200 errors (0 timeouts)
 ```
