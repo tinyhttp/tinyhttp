@@ -12,6 +12,7 @@
     "polka": "^0.5.2"
   },
   "devDependencies": {
+    "@types/autocannon": "^4.1.0",
     "autocannon": "^5.0.1"
   },
   "scripts": {
