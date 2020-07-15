@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.2.4
+
+### Patch Changes
+
+- Fix #12 issue with type conflict
+
 ## 0.2.3
 
 ### Patch Changes

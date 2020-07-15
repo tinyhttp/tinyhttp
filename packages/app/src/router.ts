@@ -7,13 +7,13 @@ export type NextFunction = (err?: any) => void
 export type SyncHandler = (
   req: Request,
   res: Response,
-  next?: NextFunction
+  next?: NextFunction | undefined
 ) => void
 
 export type AsyncHandler = (
   req: Request,
   res: Response,
-  next?: NextFunction
+  next?: NextFunction | undefined
 ) => Promise<void>
 
 export type Handler = AsyncHandler | SyncHandler

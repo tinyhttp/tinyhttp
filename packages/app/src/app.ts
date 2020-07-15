@@ -52,7 +52,9 @@ export class App extends Router {
     this.settings = options.settings || {}
   }
 
-  async handler(mw: Middleware[], req: Request, res: Response) {
+  async handler(req: Request, res: Response) {
+    const mw = this.middleware
+
     extendMiddleware(this.settings)(req, res)
 
     const noMatchMW: Middleware = {
@@ -66,8 +68,6 @@ export class App extends Router {
     let idx = 0
     const len = mw.length - 1
 
-    // skip handling if only one middleware
-    // TODO: Implement next(err) function properly
     const next = (err) => {
       if (err) {
         this.onError(err, req, res)
@@ -85,7 +85,8 @@ export class App extends Router {
 
       if (type === 'route') {
         if (req.method === method) {
-          const queryParamStart = req.url.indexOf('?')
+          // strip query parameters for req.params
+          const queryParamStart = req.url.lastIndexOf('?')
           const reqUrlWithoutParams = req.url.slice(
             0,
             queryParamStart === -1 ? req.url.length : queryParamStart
@@ -126,7 +127,7 @@ export class App extends Router {
 
   listen(port?: number, cb?: () => void, host = 'localhost', backlog?: number) {
     const server = createServer((req: Request, res: Response) => {
-      this.handler(this.middleware, req, res)
+      this.handler(req, res)
     })
 
     return server.listen(port, host, backlog, cb)
