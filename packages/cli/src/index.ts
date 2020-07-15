@@ -67,6 +67,7 @@ const TS_CONFIG_CJS = `
   "compilerOptions": {
     "target": "ES2019",
     "module": "CommonJS",
+    "outFile": "dist/index.js",
     "preserveSymlinks": true,
     "isolatedModules": true,
     "esModuleInterop": true,
@@ -89,6 +90,7 @@ const TS_CONFIG_ESM = `
   "compilerOptions": {
     "target": "ES2019",
     "module": "ESNext",
+    "outFile": "dist/index.js",
     "preserveSymlinks": true,
     "isolatedModules": true,
     "esModuleInterop": true,
