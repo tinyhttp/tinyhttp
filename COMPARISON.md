@@ -2,13 +2,13 @@
 
 > This section is in progress
 
-Below there is a table comparing `tinyhttp`, `express` and `polka`.
+Below there is a table comparing tinyhttp, [Express](https://expressjs.com) and [polka](https://github.com/lukeed/polka).
 
 - (?) - not sure
 
 | criteria                             | tinyhttp    | express v4  | polka      |
 | ------------------------------------ | ----------- | ----------- | ---------- |
-| Minimum supported Node.js version    | 12.4.0      | 0.10.0      | 10.4.0 (?) |
+| Minimum supported Node.js version    | 12.4.0      | 0.10.0      | 6.0.0      |
 | Minimum supported ECMAScript version | ES2019      | >ES2015 (?) | ES2015     |
 | All req / res extensions             | in progress | yes         | no         |
 | Tested                               | in progress | yes         | yes        |
