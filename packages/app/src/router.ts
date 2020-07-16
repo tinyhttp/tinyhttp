@@ -18,7 +18,7 @@ export type AsyncHandler = (
 
 export type Handler = AsyncHandler | SyncHandler
 
-export type ErrorHandler = (err: any, req: Request, res: Response) => void
+export type ErrorHandler = (err: any) => (req: Request, res: Response) => void
 
 type Method =
   | 'GET'

@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.2.8
+
+### Patch Changes
+
+- Fix first no matcj
+
 ## 0.2.7
 
 ### Patch Changes

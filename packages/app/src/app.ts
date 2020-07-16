@@ -47,8 +47,7 @@ export class App extends Router {
     this.locals = Object.create(null)
     this.middleware = []
     this.onError = options?.onError || onErrorHandler
-    this.noMatchHandler =
-      options?.noMatchHandler || this.onError.bind(null, { code: 404 })
+    this.noMatchHandler = options?.noMatchHandler || this.onError({ code: 404 })
     this.settings = options.settings || {}
   }
 
@@ -70,7 +69,7 @@ export class App extends Router {
 
     const next = (err) => {
       if (err) {
-        this.onError(err, req, res)
+        this.onError(err)(req, res)
       } else {
         loop()
       }
