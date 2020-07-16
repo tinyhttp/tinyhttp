@@ -13,7 +13,7 @@
 
 **⚠ The project is in development. Please don't use in production.**
 
-_**tinyhttp**_ is a modern Express-like web framework for Node.js. It uses a bare minimum amount of dependencies trying to avoid legacy hell.
+_**tinyhttp**_ is a modern [Express](https://expressjs.com)-like web framework for Node.js. It uses a bare minimum amount of dependencies trying to avoid legacy hell.
 
 Here is a short list of most important features that tinyhttp has:
 
@@ -22,7 +22,7 @@ Here is a short list of most important features that tinyhttp has:
 - ☑ Native ESM and CommonJS support
 - 🚀 No legacy dependencies, just the JavaScript itself
 - 🔨 Types out of the box
-- 📦 8x smaller than Express
+- 📦 6x smaller than Express
 
 To get started, visit [tinyhttp website](https://tinyhttp.v1rtl.site).
 
