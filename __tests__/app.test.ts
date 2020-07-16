@@ -1,7 +1,11 @@
 import supertest from 'supertest'
 import { App, Handler } from '../packages/app/src'
 
-export const InitAppAndTest = (handler: Handler, route?: string, method = 'get') => {
+export const InitAppAndTest = (
+  handler: Handler,
+  route?: string,
+  method = 'get'
+) => {
   const app = new App()
 
   if (route) {
@@ -12,14 +16,16 @@ export const InitAppAndTest = (handler: Handler, route?: string, method = 'get')
 
   const server = app.listen()
 
-  const request: any = supertest(server)
+  const request = supertest(server)
 
   return { request, server }
 }
 
 describe('Testing App', () => {
-  it('should launch a basic server', done => {
-    const { request, server } = InitAppAndTest((_req, res) => void res.send('Hello world'))
+  it('should launch a basic server', (done) => {
+    const { request, server } = InitAppAndTest(
+      (_req, res) => void res.send('Hello world')
+    )
 
     request
       .get('/')
@@ -43,11 +49,21 @@ describe('Testing App', () => {
 
     expect(app.middleware.length).toBe(2)
   })
+  it('app.locals are get and set', () => {
+    const app = new App()
+
+    app.locals.hello = 'world'
+
+    expect(app.locals.hello).toBe('world')
+  })
 })
 
 describe('Testing routes', () => {
-  it('should respond on matched route', done => {
-    const { request, server } = InitAppAndTest((_req, res) => void res.send('Hello world'), '/route')
+  it('should respond on matched route', (done) => {
+    const { request, server } = InitAppAndTest(
+      (_req, res) => void res.send('Hello world'),
+      '/route'
+    )
 
     request
       .get('/route')
@@ -58,7 +74,7 @@ describe('Testing routes', () => {
         done()
       })
   })
-  it('"*" should catch all undefined routes', done => {
+  it('"*" should catch all undefined routes', (done) => {
     const app = new App()
 
     app
@@ -78,7 +94,7 @@ describe('Testing routes', () => {
         done()
       })
   })
-  it('should throw 404 on no routes', done => {
+  it('should throw 404 on no routes', (done) => {
     const app = new App()
 
     const server = app.listen()
@@ -94,7 +110,7 @@ describe('Testing routes', () => {
         done()
       })
   })
-  it('next function skips current middleware', done => {
+  it('next function skips current middleware', (done) => {
     const app = new App()
 
     app.locals['log'] = 'test'
@@ -119,7 +135,7 @@ describe('Testing routes', () => {
         done()
       })
   })
-  it('next function handles errors', done => {
+  it('next function handles errors', (done) => {
     const app = new App()
 
     app.use((req, res, next) => {

@@ -2,6 +2,16 @@
 <link rel="stylesheet" href="/css/shared.css" />
 <link rel="stylesheet" href="/inter.css" />
 
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<meta property="og:title" content="tinyhttp">
+<meta property="og:site_name" content="tinyhttp.v1rtl.site">
+<meta property="og:url" content="https://tinyhttp.v1rtl.site">
+<meta property="og:description" content="tinyhttp is a modern Express-like web framework for Node.js. It uses a bare minimum amount of dependencies trying to avoid legacy hell.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://tinyhttp.v1rtl.site/cover.jpg">
+
 <title>Docs | tinyhttp</title>
 
 <nav>
@@ -99,7 +109,7 @@
 
 <main>
 
-# 0.1.X API
+# 0.X API
 
 > Note: tinyhttp is not yet finished. Therefore, documentation is incomplete.
 

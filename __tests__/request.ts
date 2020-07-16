@@ -1,6 +1,6 @@
 import { InitAppAndTest } from './app.test'
 
-describe('Request extensions', () => {
+describe('Request properties', () => {
   it('should have default HTTP Request properties', (done) => {
     const { request, server } = InitAppAndTest((req, res) => {
       res.status(200).json({
@@ -53,35 +53,23 @@ describe('Request extensions', () => {
         done()
       })
   })
-  /*   it('default req.protocol is HTTP', (done) => {
-    const { request, server } = InitAppAndTest(
-      (req, res) => void res.send(req.protocol)
-    )
+  it('req.xhr is false because of node-superagent', (done) => {
+    const { request, server } = InitAppAndTest((req, res) => {
+      res.send(`XMLHttpRequest: ${req.xhr ? 'yes' : 'no'}`)
+    })
 
     request
       .get('/')
-      .expect(200, `http`)
+      .expect(200, `XMLHttpRequest: no`)
       .end((err: Error) => {
         server.close()
         if (err) return done(err)
         done()
       })
   })
-  // TODO: add the same test but for HTTPS
-  it('req.secure is false on HTTP', (done) => {
-    const { request, server } = InitAppAndTest(
-      (req, res) => void res.send(`HTTPS: ${req.secure ? 'yes' : 'no'}`)
-    )
+})
 
-    request
-      .get('/')
-      .expect(200, `HTTPS: no`)
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
-  }) */
+describe('Request methods', () => {
   it('req.set sets the header and req.get returns a header', (done) => {
     const { request, server } = InitAppAndTest((req, res) => {
       req.set('X-Header', '123')
@@ -91,20 +79,6 @@ describe('Request extensions', () => {
     request
       .get('/')
       .expect(200, `123`)
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
-  })
-  it('req.xhr is false because of node-superagent', (done) => {
-    const { request, server } = InitAppAndTest((req, res) => {
-      res.send(`XMLHttpRequest: ${req.xhr ? 'yes' : 'no'}`)
-    })
-
-    request
-      .get('/')
-      .expect(200, `XMLHttpRequest: no`)
       .end((err: Error) => {
         server.close()
         if (err) return done(err)
