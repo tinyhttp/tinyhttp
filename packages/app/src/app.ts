@@ -63,7 +63,7 @@ export class App extends Router {
       path: '/',
     }
 
-    if (!mw.includes(noMatchMW)) mw.push(noMatchMW)
+    mw.push(noMatchMW)
 
     let idx = 0
     const len = mw.length - 1
@@ -99,21 +99,21 @@ export class App extends Router {
             res.statusCode = 200
 
             applyHandler(handler)(req, res, next)
-          } else {
-            loop()
           }
         }
       } else {
         if (req.url.startsWith(path)) {
           applyHandler(handler)(req, res, next)
-        } else {
-          loop()
         }
       }
+
+      loop()
     }
 
     // If there was only one middleware + 404 handler
-    if (mw.length === 2) handle(mw[1])(req, res)
+    if (mw.length === 2) {
+      handle(mw[1])(req, res)
+    }
 
     const loop = () => {
       if (!res.writableEnded) {

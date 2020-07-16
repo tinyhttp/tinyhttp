@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.2.11
+
+### Patch Changes
+
+- Fix another similar bug
+
 ## 0.2.10
 
 ### Patch Changes
