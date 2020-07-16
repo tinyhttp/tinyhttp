@@ -7,13 +7,8 @@ const { html } = preact
 
 const app = new App()
 
-const PreactApp = ({ page }) => {
-  if (page) {
-    return html`<h1>You visited ${page}</h1>`
-  } else {
-    return html`<h1>Hello World</h1>`
-  }
-}
+const PreactApp = ({ page }) =>
+  page ? html`<h1>You visited ${page}</h1>` : html`<h1>Hello World</h1>`
 
 app
   .get('/app.js', async (_req, res) => {
