@@ -50,6 +50,22 @@ importers:
       autocannon: ^5.0.1
       express: ^4.17.1
       polka: ^0.5.2
+  examples/auth:
+    dependencies:
+      '@tinyhttp/app': 'link:../../packages/app'
+      '@tinyhttp/jwt': 'link:../../packages/jwt'
+      '@types/jsonwebtoken': 8.5.0
+      body-parser: 1.19.0
+      jsonwebtoken: 8.5.1
+    devDependencies:
+      '@types/body-parser': 1.19.0
+    specifiers:
+      '@tinyhttp/app': 'workspace:*'
+      '@tinyhttp/jwt': 'workspace:*'
+      '@types/body-parser': ^1.19.0
+      '@types/jsonwebtoken': ^8.5.0
+      body-parser: ^1.19.0
+      jsonwebtoken: ^8.5.1
   examples/dev-server:
     dependencies:
       '@tinyhttp/app': 'link:../../packages/app'
@@ -1001,10 +1017,23 @@ packages:
     dev: true
     resolution:
       integrity: sha512-i+zS7t6/s9cdQvbqKDARrcbrPvtJGlbYsMkazo03nTAK3RX9FNrLllXys22uiTGJapPOTZTQ35nHh4ISph4SLQ==
+  /@types/body-parser/1.19.0:
+    dependencies:
+      '@types/connect': 3.4.33
+      '@types/node': 14.0.23
+    dev: true
+    resolution:
+      integrity: sha512-W98JrE0j2K78swW4ukqMleo8R7h/pFETjM2DQ90MF6XK2i4LO4W3gQ71Lt4w3bfm2EvVSyWHplECvB5sK22yFQ==
   /@types/color-name/1.1.1:
     dev: true
     resolution:
       integrity: sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ==
+  /@types/connect/3.4.33:
+    dependencies:
+      '@types/node': 14.0.23
+    dev: true
+    resolution:
+      integrity: sha512-2+FrkXY4zllzTNfJth7jOqEHC+enpLeGslEhpnTAkg21GkRrWV4SsAtqchtT4YS9/nODBU2/ZfsBY2X4J/dX7A==
   /@types/cookiejar/2.1.1:
     dev: true
     resolution:
@@ -1054,7 +1083,6 @@ packages:
   /@types/jsonwebtoken/8.5.0:
     dependencies:
       '@types/node': 14.0.23
-    dev: true
     resolution:
       integrity: sha512-9bVao7LvyorRGZCw0VmH/dr7Og+NdjYSsKAxB43OQoComFbBgsEpoR9JW6+qSq/ogwVBg8GI2MfAlk4SYI4OLg==
   /@types/marked/1.1.0:
@@ -1070,7 +1098,6 @@ packages:
     resolution:
       integrity: sha512-emeGcJvdiZ4Z3ohbmw93E/64jRzUHAItSHt8nF7M4TGgQTiWqFVGB8KNpLGFmUHmHLvjvBgFwVlqNcq+VuGv9g==
   /@types/node/14.0.23:
-    dev: true
     resolution:
       integrity: sha512-Z4U8yDAl5TFkmYsZdFPdjeMa57NOvnaf1tljHzhouaPEp7LCj2JKkejpI1ODviIAQuW4CcQmxkQ77rnLsOOoKw==
   /@types/normalize-package-data/2.4.0:

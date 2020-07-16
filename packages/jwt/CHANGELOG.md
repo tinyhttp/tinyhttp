@@ -1,5 +1,11 @@
 # @tinyhttp/jwt
 
+## 0.1.5
+
+### Patch Changes
+
+- Fix wrong "main" and "module" fields
+
 ## 0.1.4
 
 ### Patch Changes
