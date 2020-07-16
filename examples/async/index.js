@@ -14,5 +14,4 @@ app.get('/', async (_, res, next) => {
   res.send(file.toString())
 })
 
-console.log(app.middleware)
 app.listen(3000, () => console.log('Started on http://localhost:3000'))

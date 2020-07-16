@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/static",
-  "version": "0.2.6",
+  "version": "0.2.8",
   "description": "tinyhttp static middleware",
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",

@@ -1,5 +1,20 @@
 # @tinyhttp/static
 
+## 0.2.8
+
+### Patch Changes
+
+- FINALLY FIX THAT BUG WHERE 404 COULDN'T BE FOUND
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.10
+
+## 0.2.7
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.9
+
 ## 0.2.6
 
 ### Patch Changes

@@ -47,7 +47,8 @@ export class App extends Router {
     this.locals = Object.create(null)
     this.middleware = []
     this.onError = options?.onError || onErrorHandler
-    this.noMatchHandler = options?.noMatchHandler || this.onError({ code: 404 })
+    this.noMatchHandler =
+      options?.noMatchHandler || this.onError.bind(null, { code: 404 })
     this.settings = options.settings || {}
   }
 
@@ -69,7 +70,7 @@ export class App extends Router {
 
     const next = (err) => {
       if (err) {
-        this.onError(err)(req, res)
+        this.onError(err, req, res)
       } else {
         loop()
       }
@@ -111,7 +112,8 @@ export class App extends Router {
       }
     }
 
-    if (mw.length === 1) handle(mw[0])(req, res)
+    // If there was only one middleware + 404 handler
+    if (mw.length === 2) handle(mw[1])(req, res)
 
     const loop = () => {
       if (!res.writableEnded) {
