@@ -61,14 +61,14 @@ importers:
     dependencies:
       '@tinyhttp/app': 'link:../../packages/app'
       serve-handler: 6.1.3
-      sosse: 0.5.0
+      sosse: 0.6.0
     devDependencies:
       '@types/serve-handler': 6.1.0
     specifiers:
       '@tinyhttp/app': 'workspace:^0.2.7'
       '@types/serve-handler': ^6.1.0
       serve-handler: ^6.1.3
-      sosse: ^0.5.0
+      sosse: ^0.6.0
   examples/preact-ssr:
     dependencies:
       '@tinyhttp/app': 'link:../../packages/app'
@@ -5376,7 +5376,7 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-FtyOnWN/wCHTVXOMwvSv26d+ko5vWlIDD6zoUJ7LW8vh+ZBC8QdljveRP+crNrtBwioEUWy/4dMtbBjA4ioNlg==
-  /sosse/0.5.0:
+  /sosse/0.6.0:
     dev: false
     optionalDependencies:
       clear-module: 4.1.1
@@ -5395,7 +5395,7 @@ packages:
       ws:
         optional: true
     resolution:
-      integrity: sha512-lJ5Wta/x/R7OR7E88w2V7nzto27YVkSUqw+se87Kn+VxKV9h68Z1HnB/Cp2dSlSkOZGDnNHeGFt5chPA49qN1w==
+      integrity: sha512-L2KcZGN8LNggiEfA+d5UX8cfJHFTFwPBIm0hCYiDLyAIlbEAGmO1A+EsLaCmqWsPu45IwhEvfyK5fQt8mrUWbA==
   /source-map-resolve/0.5.3:
     dependencies:
       atob: 2.1.2
