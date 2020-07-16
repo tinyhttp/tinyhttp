@@ -1,5 +1,11 @@
 # @tinyhttp/jwt
 
+## 0.1.6
+
+### Patch Changes
+
+- Add missing "type": "module" field
+
 ## 0.1.5
 
 ### Patch Changes

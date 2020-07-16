@@ -6,7 +6,7 @@ new App()
     let file
 
     try {
-      file = await readFile(`${__dirname}/test.txt`)
+      file = await readFile(`${process.cwd()}/test.txt`)
     } catch (e) {
       next(e)
     }
