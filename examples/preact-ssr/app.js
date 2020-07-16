@@ -1,5 +1,11 @@
-import { html } from './node_modules/htm/preact/index.module.js'
+/* eslint-disable  */
 
-const App = () => html`<h1>Hello World</h1>`
+// @ts-ignore
+import { html, render } from 'https://unpkg.com/htm/preact/standalone.module.js'
 
-export default App
+const App = () => {
+  return html`<h1>Hello World</h1>
+    <p>Your user-agent is: ${navigator.userAgent}</p>`
+}
+
+render(html`<${App} />`, document.getElementById('app'))
