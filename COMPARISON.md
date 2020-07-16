@@ -9,7 +9,7 @@ Below there is a table comparing tinyhttp, [Express](https://expressjs.com) and 
 | criteria                             | tinyhttp    | express v4  | polka      |
 | ------------------------------------ | ----------- | ----------- | ---------- |
 | Minimum supported Node.js version    | 12.4.0      | 0.10.0      | 6.0.0      |
-| Minimum supported ECMAScript version | ES2019      | >ES2015 (?) | ES2015     |
+| Minimum supported ECMAScript version | ES2019      | ES5 (?)     | ES5        |
 | All req / res extensions             | in progress | yes         | no         |
 | Tested                               | in progress | yes         | yes        |
 | Compiled to native ESM               | yes         | no          | no         |
