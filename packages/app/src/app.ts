@@ -106,18 +106,12 @@ export class App extends Router {
           applyHandler(handler)(req, res, next)
         }
       }
-
       loop()
-    }
-
-    // If there was only one middleware + 404 handler
-    if (mw.length === 2) {
-      handle(mw[1])(req, res)
     }
 
     const loop = () => {
       if (!res.writableEnded) {
-        if (idx < len) {
+        if (idx <= len) {
           handle(mw[idx++])(req, res, next)
         }
       }

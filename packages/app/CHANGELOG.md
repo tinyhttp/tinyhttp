@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.2.12
+
+### Patch Changes
+
+- Still trying to fix that bug
+
 ## 0.2.11
 
 ### Patch Changes

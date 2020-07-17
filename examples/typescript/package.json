@@ -5,7 +5,7 @@
     "start": "ts-node index.ts"
   },
   "dependencies": {
-    "@tinyhttp/app": "workspace:^0.2.9"
+    "@tinyhttp/app": "workspace:^0.2.11"
   },
   "devDependencies": {
     "ts-node": "^8.10.2"

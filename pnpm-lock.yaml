@@ -86,7 +86,7 @@ importers:
     devDependencies:
       ts-node: 8.10.2
     specifiers:
-      '@tinyhttp/app': 'workspace:^0.2.9'
+      '@tinyhttp/app': 'workspace:^0.2.11'
       ts-node: ^8.10.2
   packages/app:
     dependencies:

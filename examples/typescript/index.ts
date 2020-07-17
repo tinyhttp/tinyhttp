@@ -1,4 +1,4 @@
-import { App } from '@tinyhttp/app'
+import { App } from '../../packages/app/src'
 
 const app = new App()
 
