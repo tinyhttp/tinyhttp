@@ -14,7 +14,9 @@ app.get('/', (_req, res) => {
 })
 
 app.post('/login', (req, res) => {
-  if (req['body'].username !== 'admin' || req['body'].password !== 'admin') {
+  const { body } = req
+
+  if (body.user !== 'admin' || body.pwd !== 'admin') {
     res.send('Incorrect login')
     return
   }
