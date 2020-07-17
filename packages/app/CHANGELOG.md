@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.2.13
+
+### Patch Changes
+
+- Fix async/await bug
+
 ## 0.2.12
 
 ### Patch Changes

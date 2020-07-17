@@ -13,11 +13,7 @@ import {
 } from './router'
 import { extendMiddleware } from './extend'
 
-export const applyHandler = (h: Handler): Handler => async (
-  req,
-  res,
-  next?
-) => {
+export const applyHandler = (h: Handler) => async (req, res, next?) => {
   if (isAsync(h)) {
     await h(req, res, next)
   } else {
@@ -98,12 +94,12 @@ export class App extends Router {
             // route found, send Success 200
             res.statusCode = 200
 
-            applyHandler(handler)(req, res, next)
+            await applyHandler(handler)(req, res, next)
           }
         }
       } else {
         if (req.url.startsWith(path)) {
-          applyHandler(handler)(req, res, next)
+          await applyHandler(handler)(req, res, next)
         }
       }
       loop()
