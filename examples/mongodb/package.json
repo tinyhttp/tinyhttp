@@ -1,0 +1,11 @@
+{
+  "name": "mongodb",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@tinyhttp/app": "workspace:^0.2.12",
+    "body-parsec": "^2.0.11",
+    "dotenv": "^8.2.0",
+    "mongodb": "^3.5.9"
+  }
+}
