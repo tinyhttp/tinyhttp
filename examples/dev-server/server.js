@@ -1,9 +1,11 @@
-import { App } from '@tinyhttp/app'
-import { createServer } from 'http'
-import { devSocket, useCtx } from 'sosse'
-import serve from 'serve-handler'
+/* eslint-disable @typescript-eslint/no-var-requires */
 
-export default async () => {
+const { App } = require('@tinyhttp/app')
+const { createServer } = require('http')
+const { devSocket, useCtx } = require('sosse')
+const serve = require('serve-handler')
+
+module.exports = async () => {
   const ctx = useCtx()
 
   const app = new App()
