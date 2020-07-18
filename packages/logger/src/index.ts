@@ -13,9 +13,6 @@ interface LoggerProperties {
 
 const loggerHandler = (props: LoggerProperties) => {
   props = {
-    timestamp: {
-      format: 'HH:mm:ss'
-    },
     methods: METHODS,
     ...props
   };
