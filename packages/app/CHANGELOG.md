@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.2.19
+
+### Patch Changes
+
+- Add JSDoc declarations and fix Promise error
+
 ## 0.2.18
 
 ### Patch Changes
