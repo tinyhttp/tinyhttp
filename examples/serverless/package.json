@@ -2,6 +2,6 @@
   "name": "serverless",
   "private": true,
   "dependencies": {
-    "@tinyhttp/app": "latest"
+    "@tinyhttp/app": "workspace:^0.2.16"
   }
 }

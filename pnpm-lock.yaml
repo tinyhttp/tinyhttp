@@ -40,16 +40,16 @@ importers:
     dependencies:
       '@tinyhttp/app': 'link:../../packages/app'
     specifiers:
-      '@tinyhttp/app': 'workspace:*'
+      '@tinyhttp/app': 'workspace:^0.2.16'
   packages/app:
     dependencies:
       '@tinyhttp/cookie': 'link:../cookie'
       '@tinyhttp/cookie-signature': 'link:../cookie-signature'
       '@tinyhttp/etag': 'link:../etag'
-      es-accepts: 0.0.13
+      es-accepts: 0.0.14
       es-content-type: 0.0.6
       es-fresh: 0.0.4
-      es-mime-types: 0.0.9
+      es-mime-types: 0.0.10
       proxy-addr: 2.0.6
       range-parser: 1.2.1
       regexparam: 1.3.0
@@ -65,10 +65,10 @@ importers:
       '@tinyhttp/etag': 'workspace:*'
       '@types/proxy-addr': ^2.0.0
       '@types/range-parser': ^1.2.3
-      es-accepts: ^0.0.13
+      es-accepts: ^0.0.14
       es-content-type: ^0.0.6
       es-fresh: ^0.0.4
-      es-mime-types: ^0.0.9
+      es-mime-types: ^0.0.10
       proxy-addr: ^2.0.6
       range-parser: ^1.2.1
       regexparam: ^1.3.0
@@ -2107,15 +2107,15 @@ packages:
     dev: true
     resolution:
       integrity: sha512-7dFHNmqeFSEt2ZBsCriorKnn3Z2pj+fd9kmI6QoWw4//DL+icEBfc0U7qJCisqrTsKTjw4fNFy2pW9OqStD84g==
-  /es-accepts/0.0.13:
+  /es-accepts/0.0.14:
     dependencies:
-      es-mime-types: 0.0.6
+      es-mime-types: 0.0.10
       negotiator: 0.6.2
     dev: false
     engines:
       node: '>=12.x'
     resolution:
-      integrity: sha512-NNractR3FIrrmqebeJ8gAa7ZtQ9YhkJXXRxzRXEELa1+soyn6iL7W26B0STw4Z5FwV5qJSYlC9u64x4RNDcF7Q==
+      integrity: sha512-98tLSobCn/vb818dvsATikNH2fNAGCqtnAsqZJR1++uK0HfXqfjrY+1oz+vzleI8Z1eU0b9tXHYns6/KoRNciQ==
   /es-content-type/0.0.6:
     dev: false
     engines:
@@ -2128,6 +2128,14 @@ packages:
       node: '>=12.x'
     resolution:
       integrity: sha512-fNCPxm2ipl+htJpOF+BFIzS0JP3qU2SAE9eyx9TIDuE8yjClY3qGrCmGKIR3ZmO3itKSE6blpecQl5+iSqpKzw==
+  /es-mime-types/0.0.10:
+    dependencies:
+      mime-db: 1.44.0
+    dev: false
+    engines:
+      node: '>=12.x'
+    resolution:
+      integrity: sha512-tGMLNZZFVRzD0kxNxnf3O4Z2LTC4/gYoXd4J4DbfL8LeZif7jGR5cmPb8SkLckRWe8PkGy+yfwjdg99kyOet3Q==
   /es-mime-types/0.0.4:
     dependencies:
       mime-db: 1.44.0
@@ -2136,22 +2144,6 @@ packages:
       node: '>=13'
     resolution:
       integrity: sha512-141FhcsKgGW/Df3pi08MprqD5mfH6UIvUBYYN0HDo/O//PI99r9+uqyGd1wUi9TZ2LZ2OLxO/gpW9CEbpq20vQ==
-  /es-mime-types/0.0.6:
-    dependencies:
-      mime-db: 1.44.0
-    dev: false
-    engines:
-      node: '>=13'
-    resolution:
-      integrity: sha512-o/sKJwNL6RC9olVLh8RMdyzczRbFHa1T0+ko/3jeOBz3MdF9PsWmmoejL109gR3R01yRwByvDEM3kjfZTSxlpQ==
-  /es-mime-types/0.0.9:
-    dependencies:
-      mime-db: 1.44.0
-    dev: false
-    engines:
-      node: '>=12.x'
-    resolution:
-      integrity: sha512-SKYjacE19rIJSixd1QRy+2C+pcr8GZfEleTXpAJV+HBYbq8R4BWNxS1hAlxYc+5Vft9srDGmo/as2wb8RIoSvA==
   /es-vary/0.0.1:
     dev: false
     resolution:
