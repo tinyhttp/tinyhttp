@@ -41,6 +41,7 @@ module.exports = async () => {
     server.listen(port)
 
     console.log(`Started http://localhost:${port}`)
-    return () => new Promise((res, rej) => server.close((e) => (e ? rej(e) : res())))
+    return () =>
+      new Promise((res, rej) => server.close((e) => (e ? rej(e) : res())))
   }
 }
