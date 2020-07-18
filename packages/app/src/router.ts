@@ -4,31 +4,15 @@ import { Response } from './response'
 
 export type NextFunction = (err?: any) => void | undefined
 
-export type SyncHandler = (
-  req: Request,
-  res: Response,
-  next?: NextFunction
-) => void
+export type SyncHandler = (req: Request, res: Response, next?: NextFunction) => void
 
-export type AsyncHandler = (
-  req: Request,
-  res: Response,
-  next?: NextFunction
-) => Promise<void>
+export type AsyncHandler = (req: Request, res: Response, next?: NextFunction) => Promise<void>
 
 export type Handler = AsyncHandler | SyncHandler
 
 export type ErrorHandler = (err: any, req: Request, res: Response) => void
 
-type Method =
-  | 'GET'
-  | 'POST'
-  | 'PUT'
-  | 'PATCH'
-  | 'HEAD'
-  | 'OPTIONS'
-  | 'DELETE'
-  | string
+type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'DELETE' | string
 
 type MiddlewareType = 'mw' | 'route'
 export interface Middleware {
@@ -76,7 +60,9 @@ const pushMiddleware = (mw: Middleware[]) => ({
     mw.push({ ...mdw, type })
   }
 }
-
+/**
+ * tinyhttp Router. Manages middleware and has HTTP methods aliases, e.g. `app.get`, `app.put`
+ */
 export class Router {
   middleware: Middleware[]
 
@@ -163,6 +149,12 @@ export class Router {
     }
     return this
   }
+  /**
+   * Push middleware to the stack
+   * @param path path that middleware will handle if request URL starts with it
+   * @param handler handler function
+   * @param handlers the rest handler functions
+   */
   use(path: string | Handler, handler?: Handler, ...handlers: Handler[]) {
     pushMiddleware(this.middleware)({
       path,
