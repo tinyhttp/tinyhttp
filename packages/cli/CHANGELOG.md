@@ -1,5 +1,11 @@
 # @tinyhttp/cli
 
+## 0.0.4
+
+### Patch Changes
+
+- Upgrade dependencies of all of the packages
+
 ## 0.0.3
 
 ### Patch Changes
