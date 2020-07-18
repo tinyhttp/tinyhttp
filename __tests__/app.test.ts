@@ -180,10 +180,8 @@ describe('Testing routes', () => {
     request
       .get('/')
       .expect(404)
-      .end((err: Error) => {
+      .end(() => {
         server.close()
-        if (err) return done(err)
-        done()
       })
   })
 })
