@@ -8,7 +8,7 @@ import { Middleware, Handler, NextFunction, Router, ErrorHandler } from './route
 import { extendMiddleware } from './extend'
 
 export const applyHandler = (h: Handler) => async (req, res, next?) => {
-  if (isAsync(h) || h instanceof Promise) {
+  if (isAsync(h)) {
     await h(req, res, next)
   } else {
     h(req, res, next)
