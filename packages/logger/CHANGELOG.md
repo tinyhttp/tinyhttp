@@ -1,5 +1,11 @@
 # @tinyhttp/logger
 
+## 0.3.1
+
+### Patch Changes
+
+- Refactor logger
+
 ## 0.3.0
 
 ### Patch Changes

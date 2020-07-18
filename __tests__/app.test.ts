@@ -1,12 +1,7 @@
 import supertest from 'supertest'
 import { App, Handler } from '../packages/app/src'
-import logger from '../packages/logger/src'
 
-export const InitAppAndTest = (
-  handler: Handler,
-  route?: string,
-  method = 'get'
-) => {
+export const InitAppAndTest = (handler: Handler, route?: string, method = 'get') => {
   const app = new App()
 
   if (route) {
@@ -24,9 +19,7 @@ export const InitAppAndTest = (
 
 describe('Testing App', () => {
   it('should launch a basic server', (done) => {
-    const { request, server } = InitAppAndTest(
-      (_req, res) => void res.send('Hello world')
-    )
+    const { request, server } = InitAppAndTest((_req, res) => void res.send('Hello world'))
 
     request
       .get('/')
@@ -61,10 +54,7 @@ describe('Testing App', () => {
 
 describe('Testing routes', () => {
   it('should respond on matched route', (done) => {
-    const { request, server } = InitAppAndTest(
-      (_req, res) => void res.send('Hello world'),
-      '/route'
-    )
+    const { request, server } = InitAppAndTest((_req, res) => void res.send('Hello world'), '/route')
 
     request
       .get('/route')
@@ -78,9 +68,7 @@ describe('Testing routes', () => {
   it('"*" should catch all undefined routes', (done) => {
     const app = new App()
 
-    app
-      .get('/route', (_req, res) => void res.send('A different route'))
-      .all('*', (_req, res) => void res.send('Hello world'))
+    app.get('/route', (_req, res) => void res.send('A different route')).all('*', (_req, res) => void res.send('Hello world'))
 
     const server = app.listen()
 

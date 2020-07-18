@@ -2,14 +2,14 @@ import colors from 'colors'
 import dayjs from 'dayjs'
 import { IncomingMessage as Request, ServerResponse as Response, METHODS } from 'http'
 
-type LoggerProperties = Partial<{
+export type LoggerProperties = Partial<{
   methods: string[]
   timestamp: {
     format: string
   }
 }>
 
-const loggerHandler = ({ timestamp, methods = METHODS }: LoggerProperties) => {
+export const logger = ({ timestamp, methods = METHODS }: LoggerProperties) => {
   const logger = (req: Request, res: Response, next?: () => void) => {
     res.on('finish', () => {
       const { method, url } = req
@@ -51,5 +51,3 @@ const loggerHandler = ({ timestamp, methods = METHODS }: LoggerProperties) => {
 
   return logger
 }
-
-export default loggerHandler

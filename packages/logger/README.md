@@ -13,7 +13,7 @@ pnpm i @tinyhttp/logger
 ## API
 
 ```ts
-import logger from '@tinyhttp/logger'
+import { logger } from '@tinyhttp/logger'
 ```
 
 ### `logger(methods)`
@@ -23,17 +23,18 @@ Returns the middleware to log HTTP requests.
 #### Options
 
 - `methods` - a list of HTTP methods to log. Defaults to `http`'s `METHODS`
+- `timestamp.format` - timestamp format. Gets consumed by [dayjs](https://day.js.org) library. If a string specified, used as a format, otherwise just eables it.
 
 ## Example
 
 ```ts
 import { App } from '@tinyhttp/app'
-import logger from '@tinyhttp/logger'
+import { logger } from '@tinyhttp/logger'
 
 const app = new App()
 
 app
-  .use(logger({ methods: ['GET', 'POST'], timestamp: { format: 'HH:mm:ss'} }))
+  .use(logger({ methods: ['GET', 'POST'], timestamp: { format: 'HH:mm:ss' } }))
   .get('/', (req, res) => void res.send('Hello world'))
   .post('/', (req, res) => void res.send('Sent POST'))
   .listen(3000)

@@ -50,7 +50,7 @@ The app structure is quite similar to Express, except that you need to import `A
 
 ```ts
 import { App } from '@tinyhttp/app'
-import logger from '@tinyhttp/logger'
+import { logger } from '@tinyhttp/logger'
 
 const app = new App()
 
