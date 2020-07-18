@@ -1,5 +1,6 @@
 import supertest from 'supertest'
 import { App, Handler } from '../packages/app/src'
+import logger from '../packages/logger/src'
 
 export const InitAppAndTest = (
   handler: Handler,
@@ -153,6 +154,32 @@ describe('Testing routes', () => {
     request
       .get('/broken')
       .expect(500, 'Your appearance destroyed this world.')
+      .end((err: Error) => {
+        server.close()
+        if (err) return done(err)
+        done()
+      })
+  })
+
+  it('should use the logger middleware', (done) => {
+    const originalConsoleLog = console.log;
+
+    console.log = (log) => {
+      expect(log.split(' ')[2]).toBe('GET');
+      console.log = originalConsoleLog;
+      done();
+    }
+    
+    const app = new App()
+    app.use(logger({ timestamp: { format: 'HH:mm:ss' } }))
+
+    const server = app.listen()
+
+    const request: any = supertest(server)
+
+    request
+      .get('/')
+      .expect(404)
       .end((err: Error) => {
         server.close()
         if (err) return done(err)
