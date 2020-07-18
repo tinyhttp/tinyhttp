@@ -1,5 +1,12 @@
 # @tinyhttp/logger
 
+## 0.3.0
+
+### Patch Changes
+
+- Added LoggerProperties interface for instantiating the logger
+- Added timestamp option with formatting.
+
 ## 0.2.4
 
 ### Patch Changes

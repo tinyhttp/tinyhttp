@@ -1,5 +1,6 @@
 import supertest from 'supertest'
 import { App, Handler } from '../packages/app/src'
+import logger from '../packages/logger/src'
 
 export const InitAppAndTest = (
   handler: Handler,
