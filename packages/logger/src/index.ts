@@ -11,9 +11,9 @@ export type LoggerProperties = Partial<{
     | boolean
 }>
 
-export const logger = (options?: LoggerProperties) => {
-  const methods = options ? options.methods : METHODS
-  const timestamp = options ? options.timestamp : false
+export const logger = (options: LoggerProperties = {}) => {
+  const methods = options.methods || METHODS
+  const timestamp = options.timestamp || false
 
   const logger = (req: Request, res: Response, next?: () => void) => {
     res.on('finish', () => {

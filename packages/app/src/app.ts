@@ -78,11 +78,11 @@ export class App extends Router {
       const { path, method, handler, type } = mw
 
       if (type === 'route') {
-        // strip query parameters for req.params
-        const queryParamStart = req.url.lastIndexOf('?')
-        const reqUrlWithoutParams = req.url.slice(0, queryParamStart === -1 ? req.url.length : queryParamStart)
-
         if (req.method === method) {
+          // strip query parameters for req.params
+          const queryParamStart = req.url.lastIndexOf('?')
+          const reqUrlWithoutParams = req.url.slice(0, queryParamStart === -1 ? req.url.length : queryParamStart)
+
           if (rg(path).pattern.test(reqUrlWithoutParams)) {
             req.params = getURLParams(req.url, path)
             req.route = getRouteFromApp(this, handler)
@@ -91,14 +91,17 @@ export class App extends Router {
             res.statusCode = 200
 
             await applyHandler(handler)(req, res, next)
+          } else {
+            loop()
           }
         }
       } else {
         if (req.url.startsWith(path)) {
           await applyHandler(handler)(req, res, next)
+        } else {
+          loop()
         }
       }
-      loop()
     }
 
     const loop = () => {

@@ -16,7 +16,7 @@ app.get('/', (_req, res) => {
 app.post('/login', (req, res) => {
   const { body } = req
 
-  console.log(`Received body: ${req}`)
+  console.log(`Received body: ${JSON.stringify(req.body)}`)
 
   if (body.user !== 'admin' || body.pwd !== 'admin') {
     res.send('Incorrect login')
