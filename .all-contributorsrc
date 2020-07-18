@@ -31,6 +31,15 @@
       "contributions": [
         "example"
       ]
+    },
+    {
+      "login": "katywings",
+      "name": "Katja Lutz",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/4012401?v=4",
+      "profile": "https://nitropage.com",
+      "contributions": [
+        "example"
+      ]
     }
   ],
   "contributorsPerLine": 7,
