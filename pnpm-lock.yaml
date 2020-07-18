@@ -36,6 +36,11 @@ importers:
       ts-jest: ^26.1.1
       tslib: ^2.0.0
       typescript: ^3.9.6
+  examples/http2:
+    dependencies:
+      '@tinyhttp/app': 'link:../../packages/app'
+    specifiers:
+      '@tinyhttp/app': 'workspace:^0.2.18'
   packages/app:
     dependencies:
       '@tinyhttp/cookie': 'link:../cookie'
