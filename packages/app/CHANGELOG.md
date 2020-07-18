@@ -1,5 +1,15 @@
 # @tinyhttp/app
 
+## 0.2.18
+
+### Patch Changes
+
+- Upgrade dependencies of all of the packages
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.1.4
+  - @tinyhttp/cookie-signature@0.1.4
+  - @tinyhttp/etag@0.2.4
+
 ## 0.2.13
 
 ### Patch Changes

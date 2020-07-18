@@ -1,0 +1,11 @@
+{
+  "name": "serverless",
+  "private": true,
+  "dependencies": {
+    "@tinyhttp/app": "latest"
+  },
+  "scripts": {
+    "deploy": "vc --prod",
+    "dev": "vc dev"
+  }
+}

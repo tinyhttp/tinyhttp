@@ -31,23 +31,26 @@ const loggerHandler = (props: LoggerProperties) => {
         let status: string = s
         let msg: string = statusMessage
 
-        const timestamp = dayjs().format(props.timestamp.format).toString()
+        let timestamp = ''
+        if (props.timestamp) {
+          timestamp += `${dayjs().format(props.timestamp.format).toString()} - `
+        }
 
         switch (s[0]) {
           case '2':
             status = colors.cyan.bold(s)
             msg = colors.cyan(msg)
-            console.log(`${timestamp} - ${method} ${status} ${msg} ${url}`)
+            console.log(timestamp + `${method} ${status} ${msg} ${url}`)
             break
           case '4':
             status = colors.red.bold(s)
             msg = colors.red(msg)
-            console.log(`${timestamp} - ${method} ${status} ${msg} ${url}`)
+            console.log(timestamp + `${method} ${status} ${msg} ${url}`)
             break
           case '5':
             status = colors.magenta.bold(s)
             msg = colors.magenta(msg)
-            console.error(`${timestamp} - ${method} ${status} ${msg} ${url}`)
+            console.error(timestamp + `${method} ${status} ${msg} ${url}`)
             break
         }
       }

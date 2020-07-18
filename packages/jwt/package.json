@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/jwt",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "JWT middleware for tinyhttp",
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
@@ -31,9 +31,9 @@
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^8.5.0",
-    "rollup": "^2.21.0",
+    "rollup": "^2.22.0",
     "rollup-plugin-typescript2": "^0.27.1",
-    "typescript": "^3.9.6"
+    "typescript": "^3.9.7"
   },
   "scripts": {
     "build": "rollup -c"

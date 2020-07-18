@@ -1,5 +1,11 @@
 # @tinyhttp/logger
 
+## 0.2.4
+
+### Patch Changes
+
+- Upgrade dependencies of all of the packages
+
 ## 0.2.3
 
 ### Patch Changes
