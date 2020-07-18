@@ -40,6 +40,18 @@
       "contributions": [
         "example"
       ]
+    },
+    {
+      "login": "talentlessguy",
+      "name": "v 1 r t l",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/35937217?v=4",
+      "profile": "https://v1rtl.site",
+      "contributions": [
+        "example",
+        "plugin",
+        "projectManagement",
+        "maintenance"
+      ]
     }
   ],
   "contributorsPerLine": 7,
