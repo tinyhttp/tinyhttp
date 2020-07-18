@@ -6,17 +6,17 @@ import jsonwebtoken from 'jsonwebtoken'
 const app = new App()
 const secretToken = 'very secret key'
 
+app.use(jwt({ secret: secretToken, algorithm: 'HS256' }))
+app.use(bodyParser.urlencoded({ extended: false }))
+
 app.get('/', (_req, res) => {
   res.send('Go to "/login" page to login')
 })
 
-app.use(jwt({ secret: secretToken, algorithm: 'HS256' }))
-app.use(bodyParser.urlencoded({ extended: false }))
-
 app.post('/login', (req, res) => {
   const { body } = req
 
-  console.log(`Received body: ${JSON.stringify(body)}`)
+  console.log(`Received body: ${req}`)
 
   if (body.user !== 'admin' || body.pwd !== 'admin') {
     res.send('Incorrect login')

@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@tinyhttp/app": "0.2.13",
+    "@tinyhttp/app": "workspace:*",
     "body-parsec": "^2.0.12",
     "dotenv": "^8.2.0",
     "mongodb": "^3.5.9"

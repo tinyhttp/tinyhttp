@@ -4,12 +4,17 @@ import { IncomingMessage as Request, ServerResponse as Response, METHODS } from 
 
 export type LoggerProperties = Partial<{
   methods: string[]
-  timestamp: {
-    format: string
-  }
+  timestamp:
+    | {
+        format?: string
+      }
+    | boolean
 }>
 
-export const logger = ({ timestamp, methods = METHODS }: LoggerProperties) => {
+export const logger = (options?: LoggerProperties) => {
+  const methods = options ? options.methods : METHODS
+  const timestamp = options ? options.timestamp : false
+
   const logger = (req: Request, res: Response, next?: () => void) => {
     res.on('finish', () => {
       const { method, url } = req
@@ -23,7 +28,11 @@ export const logger = ({ timestamp, methods = METHODS }: LoggerProperties) => {
 
         let time = ''
         if (timestamp) {
-          time += `${dayjs().format(timestamp.format).toString()} - `
+          if (typeof timestamp !== 'boolean' && timestamp.format) {
+            time += `${dayjs().format(timestamp.format).toString()} - `
+          } else {
+            time += `${dayjs().toString()} - `
+          }
         }
 
         switch (s[0]) {

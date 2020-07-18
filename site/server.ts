@@ -13,7 +13,13 @@ const HTML_PATH = `${process.cwd()}/pages/html`
 const NON_MW_PKGS = ['app', 'etag', 'cookie', 'cookie-signature']
 
 app
-  .use(logger())
+  .use(
+    logger({
+      timestamp: {
+        format: 'MM:SS',
+      },
+    })
+  )
   .get('/mw', async (req, res, next) => {
     let json: any, status: number, msg: string
 

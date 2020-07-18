@@ -10,7 +10,7 @@ export type AsyncHandler = (req: Request, res: Response, next?: NextFunction) =>
 
 export type Handler = AsyncHandler | SyncHandler
 
-export type ErrorHandler = (err: any, req: Request, res: Response) => void
+export type ErrorHandler = (err: any, req: Request, res: Response, next?: NextFunction) => void
 
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'DELETE' | string
 

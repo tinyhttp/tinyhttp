@@ -8,9 +8,5 @@
     "body-parser": "^1.19.0",
     "jsonwebtoken": "^8.5.1"
   },
-  "type": "module",
-  "devDependencies": {
-    "@types/body-parser": "^1.19.0",
-    "@types/mongodb": "^3.5.25"
-  }
+  "type": "module"
 }
