@@ -1,0 +1,7 @@
+{
+  "name": "serverless",
+  "private": true,
+  "dependencies": {
+    "@tinyhttp/app": "latest"
+  }
+}
