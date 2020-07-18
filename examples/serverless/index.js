@@ -15,8 +15,7 @@ body {
 }
 </style>
 <h1>Hello from Serverless!</h1>
-
-<p><a href="https://github.com/talentlessguy/tinyhttp/tree/master/examples/serverless">This example</a> was deployed on <a href="https://vercel.com">Vercel</a>.</p>
+<p>This is a <a href="https://github.com/talentlessguy/tinyhttp">tinyhttp</a> serverless app deployed on <a href="https://vercel.com">Vercel</a>.</p>
 `
 
 app.use((_, res) => {
