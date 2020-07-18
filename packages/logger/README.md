@@ -28,12 +28,12 @@ Returns the middleware to log HTTP requests.
 
 ```ts
 import { App } from '@tinyhttp/app'
-import logger from '@tinyhttp/static'
+import logger from '@tinyhttp/logger'
 
 const app = new App()
 
 app
-  .use(logger(['GET', 'POST']))
+  .use(logger({ methods: ['GET', 'POST'], timestamp: { format: 'HH:mm:ss'} }))
   .get('/', (req, res) => void res.send('Hello world'))
   .post('/', (req, res) => void res.send('Sent POST'))
   .listen(3000)

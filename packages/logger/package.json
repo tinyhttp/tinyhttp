@@ -31,7 +31,8 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "colors": "^1.4.0"
+    "colors": "^1.4.0",
+    "dayjs": "^1.8.29"
   },
   "engines": {
     "node": ">=12.4.0"
