@@ -1,5 +1,11 @@
 # @tinyhttp/cookie-signature
 
+## 0.1.4
+
+### Patch Changes
+
+- Upgrade dependencies of all of the packages
+
 ## 0.1.3
 
 ### Patch Changes
