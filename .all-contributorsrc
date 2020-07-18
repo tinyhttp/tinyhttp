@@ -6,6 +6,18 @@
   "commit": false,
   "contributors": [
     {
+      "login": "talentlessguy",
+      "name": "v 1 r t l",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/35937217?v=4",
+      "profile": "https://v1rtl.site",
+      "contributions": [
+        "example",
+        "plugin",
+        "projectManagement",
+        "maintenance"
+      ]
+    },
+    {
       "login": "BRA1L0R",
       "name": "Matt",
       "avatar_url": "https://avatars3.githubusercontent.com/u/17928339?v=4",
@@ -39,18 +51,6 @@
       "profile": "https://nitropage.com",
       "contributions": [
         "example"
-      ]
-    },
-    {
-      "login": "talentlessguy",
-      "name": "v 1 r t l",
-      "avatar_url": "https://avatars0.githubusercontent.com/u/35937217?v=4",
-      "profile": "https://v1rtl.site",
-      "contributions": [
-        "example",
-        "plugin",
-        "projectManagement",
-        "maintenance"
       ]
     },
     {
