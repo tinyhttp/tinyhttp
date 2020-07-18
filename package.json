@@ -37,7 +37,7 @@
     "chgset:run": "changeset",
     "chgset:version": "changeset version",
     "chgset": "pnpm chgset:run && pnpm chgset:version",
-    "release": "changeset publish",
+    "release": "pnpm publish",
     "test": "jest"
   }
 }
