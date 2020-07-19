@@ -72,7 +72,9 @@ describe('Testing App', () => {
   it('App works with HTTP 1.1', (done) => {
     const app = new App()
 
-    const server = http.createServer(app.handler)
+    const server = http.createServer()
+
+    server.on('request', (req, res) => app.handler(req, res))
 
     const request = supertest(server)
 
