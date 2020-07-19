@@ -70,4 +70,32 @@ describe('Response methods', () => {
         done()
       })
   })
+  it('res.status sends status', (done) => {
+    const { request, server } = InitAppAndTest((_req, res) => {
+      res.status(418).end()
+    })
+
+    request
+      .get('/')
+      .expect(418)
+      .end((err: Error) => {
+        server.close()
+        if (err) return done(err)
+        done()
+      })
+  })
+  it('res.sendStatus sends status + text', (done) => {
+    const { request, server } = InitAppAndTest((_req, res) => {
+      res.sendStatus(418)
+    })
+
+    request
+      .get('/')
+      .expect(418, "I'm a Teapot")
+      .end((err: Error) => {
+        server.close()
+        if (err) return done(err)
+        done()
+      })
+  })
 })
