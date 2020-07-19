@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.2.26
+
+### Patch Changes
+
+- Fix options being undefined
+
 ## 0.2.21
 
 ### Patch Changes

@@ -26,7 +26,7 @@ export const extendMiddleware = (options: AppSettings) => (req: Request, res: Re
   Request extensions
   */
 
-  if (options.networkExtensions) {
+  if (options?.networkExtensions) {
     const proto = getProtocol(req)
     const secure = proto === 'https'
 
@@ -41,7 +41,7 @@ export const extendMiddleware = (options: AppSettings) => (req: Request, res: Re
 
   req.query = getQueryParams(req.url)
 
-  if (options.freshnessTesting) {
+  if (options?.freshnessTesting) {
     req.fresh = getFreshOrStale(req, res)
 
     req.stale = !req.fresh

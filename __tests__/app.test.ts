@@ -1,4 +1,5 @@
 import supertest from 'supertest'
+import http from 'http'
 import { App, Handler } from '../packages/app/src'
 
 export const InitAppAndTest = (handler: Handler, route?: string, method = 'get') => {
@@ -62,6 +63,22 @@ describe('Testing App', () => {
     request
       .get('/')
       .expect(404, 'Oopsie! Page / is lost.')
+      .end((err: Error) => {
+        server.close()
+        if (err) return done(err)
+        done()
+      })
+  })
+  it('App works with HTTP 1.1', (done) => {
+    const app = new App()
+
+    const server = http.createServer(app.handler)
+
+    const request = supertest(server)
+
+    request
+      .get('/')
+      .expect(404)
       .end((err: Error) => {
         server.close()
         if (err) return done(err)
