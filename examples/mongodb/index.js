@@ -1,41 +1,50 @@
 // @ts-nocheck
 import { App } from '@tinyhttp/app'
 import dotenv from 'dotenv'
+import { once } from 'events'
+import * as qs from 'querystring'
 import mongodb from 'mongodb'
 import assert from 'assert'
-import * as parser from 'body-parsec'
 
 dotenv.config()
 
+const parser = async (req, _res, next) => {
+  req.body = await once(req, 'data').then((r) => qs.parse(r.toString()))
+  next()
+}
+
 const app = new App()
 let db
+let coll
 
 // connect to mongodb
 const client = new mongodb.MongoClient(process.env.DB_URI, {
   useUnifiedTopology: true,
 })
 const dbName = 'notes'
-client.connect((err) => {
+client.connect(async (err) => {
   assert.equal(null, err)
   console.log('successfully connected with mongodb')
   db = client.db(dbName)
+  coll = await db.collection('notes')
 })
 
 // get all notes
 app.get('/notes', async (_, res, next) => {
   try {
-    const r = await db.collection('notes').find({}).toArray()
+    const r = await coll.find({}).toArray()
     res.send(r)
+    next()
   } catch (err) {
     next(err)
   }
 })
 
+app.use(parser)
 // add new note
 app.post('/notes', async (req, res, next) => {
-  await parser.form()(req, res)
   try {
-    const r = await db.collection('notes').insertOne({ title: req.body.title, desc: req.body.desc })
+    const r = await coll.insertOne({ title: req.body.title, desc: req.body.desc })
     assert.equal(1, r.insertedCount)
     res.send(`Note with title of "${req.body.title}" has been added`)
   } catch (err) {
@@ -46,9 +55,9 @@ app.post('/notes', async (req, res, next) => {
 // delete note
 app.delete('/notes', async (req, res, next) => {
   try {
-    const r = await db.collection('notes').deleteOne({ _id: new mongodb.ObjectId(req.query.id) })
+    const r = await coll.deleteOne({ _id: new mongodb.ObjectId(req.body.id) })
     assert.equal(1, r.deletedCount)
-    res.send(`Note with id of ${req.query.id} has been deleted`)
+    res.send(`Note with id of ${req.body.id} has been deleted`)
   } catch (err) {
     next(err)
   }
@@ -57,10 +66,8 @@ app.delete('/notes', async (req, res, next) => {
 // update existing note
 app.put('/notes', async (req, res, next) => {
   try {
-    await db
-      .collection('notes')
-      .findOneAndUpdate({ _id: new mongodb.ObjectId(req.query.id) }, { $set: { title: req.query.title, desc: req.query.desc } }, { returnOriginal: false, upsert: true })
-    res.send(`Note with title of ${req.query.title} has been updated`)
+    await coll.findOneAndUpdate({ _id: new mongodb.ObjectId(req.body.id) }, { $set: { title: req.body.title, desc: req.body.desc } }, { returnOriginal: false, upsert: true })
+    res.send(`Note with title of ${req.body.title} has been updated`)
   } catch (err) {
     next(err)
   }

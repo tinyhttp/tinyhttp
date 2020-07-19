@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.2.30
+
+### Patch Changes
+
+- Mess with dispatch and fix undefined props
+
 ## 0.2.28
 
 ### Patch Changes

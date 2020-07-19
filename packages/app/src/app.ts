@@ -66,11 +66,11 @@ export class App extends Router {
     let idx = 0
     const len = mw.length - 1
 
-    const next = (err) => {
+    const nextWithReqAndRes = (req: Request, res: Response) => (err) => {
       if (err) {
         this.onError(err, req, res)
       } else {
-        loop()
+        loop(req, res)
       }
     }
 
@@ -90,29 +90,32 @@ export class App extends Router {
             // route found, send Success 200
             res.statusCode = 200
 
-            await applyHandler(handler)(req, res, next)
+            applyHandler(handler)(req, res, next).then(() => loop(req, res))
           } else {
-            loop()
+            loop(req, res)
           }
+        } else {
+          loop(req, res)
         }
       } else {
         if (req.url.startsWith(path)) {
           await applyHandler(handler)(req, res, next)
         } else {
-          loop()
+          loop(req, res)
         }
       }
     }
 
-    const loop = () => {
+    const loop = (req: Request, res: Response) => {
       if (res.writableEnded) return
-
-      if (idx <= len) {
-        handle(mw[idx++])(req, res, next)
+      else if (idx <= len) {
+        handle(mw[idx++])(req, res, nextWithReqAndRes(req, res))
+      } else {
+        return
       }
     }
 
-    loop()
+    loop(req, res)
   }
 
   /**

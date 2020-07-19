@@ -1,6 +1,7 @@
 import { App } from '../packages/app/src'
 import serve from 'serve-handler'
 import { markdownStaticHandler as md } from '../packages/markdown/src'
+import { staticHandler } from '../packages/static/src'
 import { logger } from '@tinyhttp/logger'
 import { createReadStream } from 'fs'
 import { transformMWPageStream, transformPageIndexStream } from './streams'
@@ -13,13 +14,31 @@ const HTML_PATH = `${process.cwd()}/pages/html`
 const NON_MW_PKGS = ['app', 'etag', 'cookie', 'cookie-signature']
 
 app
-  .use(
-    logger({
-      timestamp: {
-        format: 'MM:SS',
-      },
-    })
-  )
+  .use(logger())
+  .get('/mw/:mw', async (req, res, next) => {
+    if (NON_MW_PKGS.includes(req.params.mw)) {
+      next()
+    } else {
+      let json: any, status: number
+
+      try {
+        const res = await unfetch(`https://registry.npmjs.org/@tinyhttp/${req.params.mw}`)
+
+        status = res.status
+        json = await res.json()
+      } catch (e) {
+        next(e)
+      }
+
+      if (status === 404) {
+        next()
+      } else {
+        const readStream = createReadStream(`${HTML_PATH}/mw.html`)
+
+        readStream.pipe(transformMWPageStream(json)).pipe(res)
+      }
+    }
+  })
   .get('/mw', async (req, res, next) => {
     let json: any, status: number, msg: string
 
@@ -52,30 +71,7 @@ app
       readStream.pipe(transformer).pipe(res)
     }
   })
-  .get('/mw/:mw', async (req, res, next) => {
-    if (NON_MW_PKGS.includes(req.params.mw)) {
-      next()
-    } else {
-      let json: any, status: number
 
-      try {
-        const res = await unfetch(`https://registry.npmjs.org/@tinyhttp/${req.params.mw}`)
-
-        status = res.status
-        json = await res.json()
-      } catch (e) {
-        next(e)
-      }
-
-      if (status === 404) {
-        next()
-      } else {
-        const readStream = createReadStream(`${HTML_PATH}/mw.html`)
-
-        readStream.pipe(transformMWPageStream(json)).pipe(res)
-      }
-    }
-  })
   .use(
     md('pages/md', {
       stripExtension: true,
@@ -86,10 +82,10 @@ app
       ],
     })
   )
-  .use((req, res) =>
-    serve(req, res, {
+  .use(async (req, res) => {
+    await serve(req, res, {
       public: 'static',
     })
-  )
+  })
 
 app.listen(3000, () => console.log(`Running on http://localhost:3000`))
