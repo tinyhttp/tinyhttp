@@ -126,4 +126,19 @@ describe('Response methods', () => {
         done()
       })
   })
+  it('res.send sets proper headers', (done) => {
+    const { request, server } = InitAppAndTest((_req, res) => {
+      res.send({ hello: 'world' })
+    })
+
+    request
+      .get('/')
+      .expect('Content-Type', 'application/json')
+      .expect('Content-Length', '22')
+      .end((err: Error) => {
+        server.close()
+        if (err) return done(err)
+        done()
+      })
+  })
 })
