@@ -2,7 +2,7 @@ import colors from 'colors'
 import dayjs from 'dayjs'
 import { IncomingMessage as Request, ServerResponse as Response, METHODS } from 'http'
 
-interface LoggerProperties {
+export interface LoggerOptions {
   methods?: string[]
   output?: {
     color: boolean
@@ -11,7 +11,7 @@ interface LoggerProperties {
   timestamp?: boolean | { format?: string }
 }
 
-export const logger = (options: LoggerProperties = {}) => {
+export const logger = (options: LoggerOptions = {}) => {
   const methods = options.methods ?? METHODS
   const timestamp = options.timestamp ?? false
   const output = options.output ?? { callback: console.log, color: true }
