@@ -132,4 +132,6 @@ These amazing people supported tinyhttp financially:
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
 
-[Site-URL]: [https://tinyhttp.v1rtl.site][npm-url]: https://npmjs.com/package/@tinyhttp/app
+[Site-URL]: [https://tinyhttp.v1rtl.site]
+
+[NPM-URL]: [https://npmjs.com/package/@tinyhttp/app]
