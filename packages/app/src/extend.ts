@@ -21,6 +21,7 @@ export const extendMiddleware = (options: AppSettings) => (req: Request, res: Re
   /// Define extensions
 
   res.get = getResponseHeader(req, res)
+  req.get = getRequestHeader(req)
 
   /*
   Request extensions
@@ -47,7 +48,6 @@ export const extendMiddleware = (options: AppSettings) => (req: Request, res: Re
     req.stale = !req.fresh
   }
 
-  req.get = getRequestHeader(req)
   req.set = setRequestHeader(req)
   req.range = getRangeFromHeader(req)
   req.accepts = getAccepts(req)
