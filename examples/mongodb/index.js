@@ -1,17 +1,11 @@
 // @ts-nocheck
 import { App } from '@tinyhttp/app'
 import dotenv from 'dotenv'
-import { once } from 'events'
-import * as qs from 'querystring'
+import { form as parser } from 'body-parsec'
 import mongodb from 'mongodb'
 import assert from 'assert'
 
 dotenv.config()
-
-const parser = async (req, _res, next) => {
-  req.body = await once(req, 'data').then((r) => qs.parse(r.toString()))
-  next()
-}
 
 const app = new App()
 let db
@@ -40,7 +34,7 @@ app.get('/notes', async (_, res, next) => {
   }
 })
 
-app.use(parser)
+app.use('/notes', parser())
 // add new note
 app.post('/notes', async (req, res, next) => {
   try {
