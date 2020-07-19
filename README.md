@@ -18,12 +18,12 @@ _**tinyhttp**_ is a modern [Express](https://expressjs.com/)-like web framework 
 
 Here is a short list of most important features that tinyhttp has:
 
+- ⚡ 2.5x faster than Express
 - ⚙ Full Express middleware support
 - ↪ Async middleware support
 - ☑ Native ESM and CommonJS support
 - 🚀 No legacy dependencies, just the JavaScript itself
 - 🔨 Types out of the box
-- ⚡ 2.5x faster than Express
 - 🗜 4x smaller than Express
 
 To get started, visit [tinyhttp website](https://tinyhttp.v1rtl.site).
@@ -103,7 +103,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-  <td align="center"><a href="https://v1rtl.site"><img src="https://avatars0.githubusercontent.com/u/35937217?v=4" width="100px;" alt=""/><br /><sub><b>v 1 r t l</b></sub></a><br /><a href="#example-talentlessguy" title="Examples">💡</a> <a href="#plugin-talentlessguy" title="Plugin/utility libraries">🔌</a> <a href="#projectManagement-talentlessguy" title="Project Management">📆</a> <a href="#maintenance-talentlessguy" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="https://v1rtl.site"><img src="https://avatars0.githubusercontent.com/u/35937217?v=4" width="100px;" alt=""/><br /><sub><b>v 1 r t l</b></sub></a><br /><a href="#example-talentlessguy" title="Examples">💡</a> <a href="#plugin-talentlessguy" title="Plugin/utility libraries">🔌</a> <a href="#projectManagement-talentlessguy" title="Project Management">📆</a> <a href="#maintenance-talentlessguy" title="Maintenance">🚧</a></td>
     <td align="center"><a href="https://brailor.me/"><img src="https://avatars3.githubusercontent.com/u/17928339?v=4" width="100px;" alt=""/><br /><sub><b>Matt</b></sub></a><br /><a href="#plugin-BRA1L0R" title="Plugin/utility libraries">🔌</a></td>
     <td align="center"><a href="https://github.com/Betelgeuse1"><img src="https://avatars1.githubusercontent.com/u/45435407?v=4" width="100px;" alt=""/><br /><sub><b>Nasmevka</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=Betelgeuse1" title="Documentation">📖</a></td>
     <td align="center"><a href="http://elianiva.github.io"><img src="https://avatars0.githubusercontent.com/u/51877647?v=4" width="100px;" alt=""/><br /><sub><b>elianiva</b></sub></a><br /><a href="#example-elianiva" title="Examples">💡</a></td>
