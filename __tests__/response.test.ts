@@ -42,4 +42,32 @@ describe('Response methods', () => {
         done()
       })
   })
+  it('res.send sends plain text data', (done) => {
+    const { request, server } = InitAppAndTest((_req, res) => {
+      res.send('Hello world')
+    })
+
+    request
+      .get('/')
+      .expect('Hello world')
+      .end((err: Error) => {
+        server.close()
+        if (err) return done(err)
+        done()
+      })
+  })
+  it('res.send falls back to res.json when sending objects', (done) => {
+    const { request, server } = InitAppAndTest((_req, res) => {
+      res.send({ hello: 'world' })
+    })
+
+    request
+      .get('/')
+      .expect({ hello: 'world' })
+      .end((err: Error) => {
+        server.close()
+        if (err) return done(err)
+        done()
+      })
+  })
 })

@@ -50,6 +50,24 @@ describe('Testing App', () => {
 
     expect(app.locals.hello).toBe('world')
   })
+  it('Custom noMatchHandler works', (done) => {
+    const app = new App({
+      noMatchHandler: (req, res) => res.status(404).end(`Oopsie! Page ${req.url} is lost.`),
+    })
+
+    const server = app.listen()
+
+    const request = supertest(server)
+
+    request
+      .get('/')
+      .expect(404, 'Oopsie! Page / is lost.')
+      .end((err: Error) => {
+        server.close()
+        if (err) return done(err)
+        done()
+      })
+  })
 })
 
 describe('Testing routes', () => {
