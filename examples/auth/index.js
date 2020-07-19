@@ -16,16 +16,15 @@ app.get('/', (_req, res) => {
 app.post('/login', (req, res) => {
   const { body } = req
 
+  console.log(`Received body: ${JSON.stringify(req.body)}`)
+
   if (body.user !== 'admin' || body.pwd !== 'admin') {
     res.send('Incorrect login')
     return
   }
 
   res
-    .set(
-      'X-Token',
-      jsonwebtoken.sign({ cool: true }, secretToken, { algorithm: 'HS256' })
-    )
+    .set('X-Token', jsonwebtoken.sign({ cool: true }, secretToken, { algorithm: 'HS256' }))
     .status(204)
     .end()
 })

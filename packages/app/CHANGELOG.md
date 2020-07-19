@@ -1,5 +1,45 @@
 # @tinyhttp/app
 
+## 0.2.28
+
+### Patch Changes
+
+- Fix extend func order
+
+## 0.2.27
+
+### Patch Changes
+
+- Still mess with the loop()
+
+## 0.2.26
+
+### Patch Changes
+
+- Fix options being undefined
+
+## 0.2.21
+
+### Patch Changes
+
+- Refactor logger
+
+## 0.2.19
+
+### Patch Changes
+
+- Add JSDoc declarations and fix Promise error
+
+## 0.2.18
+
+### Patch Changes
+
+- Upgrade dependencies of all of the packages
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.1.4
+  - @tinyhttp/cookie-signature@0.1.4
+  - @tinyhttp/etag@0.2.4
+
 ## 0.2.13
 
 ### Patch Changes

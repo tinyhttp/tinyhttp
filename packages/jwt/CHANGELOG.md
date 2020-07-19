@@ -1,5 +1,11 @@
 # @tinyhttp/jwt
 
+## 0.1.7
+
+### Patch Changes
+
+- Upgrade dependencies of all of the packages
+
 ## 0.1.6
 
 ### Patch Changes

@@ -6,6 +6,18 @@
   "commit": false,
   "contributors": [
     {
+      "login": "talentlessguy",
+      "name": "v 1 r t l",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/35937217?v=4",
+      "profile": "https://v1rtl.site",
+      "contributions": [
+        "example",
+        "plugin",
+        "projectManagement",
+        "maintenance"
+      ]
+    },
+    {
       "login": "BRA1L0R",
       "name": "Matt",
       "avatar_url": "https://avatars3.githubusercontent.com/u/17928339?v=4",
@@ -32,6 +44,24 @@
         "example",
         "maintenance",
         "code"
+      ]
+    },
+    {
+      "login": "katywings",
+      "name": "Katja Lutz",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/4012401?v=4",
+      "profile": "https://nitropage.com",
+      "contributions": [
+        "example"
+      ]
+    },
+    {
+      "login": "Arnovsky",
+      "name": "Arnovsky",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/7084871?v=4",
+      "profile": "https://github.com/Arnovsky",
+      "contributions": [
+        "plugin"
       ]
     }
   ],

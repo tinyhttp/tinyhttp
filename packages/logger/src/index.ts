@@ -1,7 +1,20 @@
 import colors from 'colors'
+import dayjs from 'dayjs'
 import { IncomingMessage as Request, ServerResponse as Response, METHODS } from 'http'
 
-const loggerHandler = (methods: string[] = METHODS) => {
+export type LoggerProperties = Partial<{
+  methods: string[]
+  timestamp:
+    | {
+        format?: string
+      }
+    | boolean
+}>
+
+export const logger = (options: LoggerProperties = {}) => {
+  const methods = options.methods || METHODS
+  const timestamp = options.timestamp || false
+
   const logger = (req: Request, res: Response, next?: () => void) => {
     res.on('finish', () => {
       const { method, url } = req
@@ -13,21 +26,30 @@ const loggerHandler = (methods: string[] = METHODS) => {
         let status: string = s
         let msg: string = statusMessage
 
+        let time = ''
+        if (timestamp) {
+          if (typeof timestamp !== 'boolean' && timestamp.format) {
+            time += `${dayjs().format(timestamp.format).toString()} - `
+          } else {
+            time += `${dayjs().format('HH:mm:ss').toString()} - `
+          }
+        }
+
         switch (s[0]) {
           case '2':
             status = colors.cyan.bold(s)
             msg = colors.cyan(msg)
-            console.log(`${method} ${status} ${msg} ${url}`)
+            console.log(time + `${method} ${status} ${msg} ${url}`)
             break
           case '4':
             status = colors.red.bold(s)
             msg = colors.red(msg)
-            console.log(`${method} ${status} ${msg} ${url}`)
+            console.log(time + `${method} ${status} ${msg} ${url}`)
             break
           case '5':
             status = colors.magenta.bold(s)
             msg = colors.magenta(msg)
-            console.error(`${method} ${status} ${msg} ${url}`)
+            console.error(time + `${method} ${status} ${msg} ${url}`)
             break
         }
       }
@@ -38,5 +60,3 @@ const loggerHandler = (methods: string[] = METHODS) => {
 
   return logger
 }
-
-export default loggerHandler

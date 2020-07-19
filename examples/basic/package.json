@@ -1,9 +1,6 @@
 {
   "name": "basic",
   "private": true,
-  "scripts": {
-    "dev": "ts-node index.ts"
-  },
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/logger": "workspace:*"

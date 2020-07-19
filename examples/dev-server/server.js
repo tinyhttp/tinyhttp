@@ -2,21 +2,36 @@
 
 const { App } = require('@tinyhttp/app')
 const { createServer } = require('http')
-const { devSocket, useCtx } = require('sosse')
 const serve = require('serve-handler')
+const { devSocket, html, useCtx } = require('sosse')
 
 module.exports = async () => {
   const ctx = useCtx()
-
   const app = new App()
 
-  app.use((req, res) =>
-    serve(req, res, {
-      public: ctx.publicDir,
-    })
+  app.get('/', (req, res) => {
+    res.status(200).send(
+      html({
+        body: `
+        <h1>Some cool page</h1>
+        <h2>URL</h2>
+        ${req.url}
+        <h2>Params</h2>
+        ${JSON.stringify(req.params, null, 2)}`,
+        ctx,
+      })
+    )
+  })
+
+  app.use(
+    async (req, res) =>
+      await serve(req, res, {
+        directoryListing: false,
+        public: ctx.publicDir,
+      })
   )
 
-  const server = createServer(app.handler)
+  const server = createServer(app.handler.bind(app))
 
   const port = 3000
 

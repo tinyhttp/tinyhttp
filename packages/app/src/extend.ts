@@ -10,34 +10,24 @@ import {
   getFreshOrStale,
   getAccepts,
 } from './request'
-import {
-  Response,
-  send,
-  json,
-  status,
-  setCookie,
-  clearCookie,
-  setHeader,
-  getResponseHeader,
-  setLocationHeader,
-  setLinksHeader,
-  sendStatus,
-} from './response'
+import { Response, send, json, status, setCookie, clearCookie, setHeader, getResponseHeader, setLocationHeader, setLinksHeader, sendStatus } from './response'
 import { AppSettings } from './app'
 
-export const extendMiddleware = ({
-  networkExtensions,
-  freshnessTesting,
-}: AppSettings) => (req: Request, res: Response) => {
+/**
+ * Extends Request and Response objects with custom properties and methods
+ * @param options App settings
+ */
+export const extendMiddleware = (options: AppSettings) => (req: Request, res: Response) => {
   /// Define extensions
 
   res.get = getResponseHeader(req, res)
+  req.get = getRequestHeader(req)
 
   /*
   Request extensions
   */
 
-  if (networkExtensions) {
+  if (options?.networkExtensions) {
     const proto = getProtocol(req)
     const secure = proto === 'https'
 
@@ -52,13 +42,12 @@ export const extendMiddleware = ({
 
   req.query = getQueryParams(req.url)
 
-  if (freshnessTesting) {
+  if (options?.freshnessTesting) {
     req.fresh = getFreshOrStale(req, res)
 
     req.stale = !req.fresh
   }
 
-  req.get = getRequestHeader(req)
   req.set = setRequestHeader(req)
   req.range = getRangeFromHeader(req)
   req.accepts = getAccepts(req)

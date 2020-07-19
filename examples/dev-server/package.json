@@ -8,7 +8,7 @@
     "@tinyhttp/app": "workspace:*",
     "chokidar": "^3.4.1",
     "serve-handler": "^6.1.3",
-    "sosse": "^0.6.0"
+    "sosse": "^0.7.0"
   },
   "keywords": [],
   "author": "",

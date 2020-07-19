@@ -1,7 +1,7 @@
 import { App } from '../packages/app/src'
 import serve from 'serve-handler'
 import { markdownStaticHandler as md } from '../packages/markdown/src'
-import logger from '@tinyhttp/logger'
+import { logger } from '@tinyhttp/logger'
 import { createReadStream } from 'fs'
 import { transformMWPageStream, transformPageIndexStream } from './streams'
 import unfetch from 'isomorphic-unfetch'
@@ -13,7 +13,13 @@ const HTML_PATH = `${process.cwd()}/pages/html`
 const NON_MW_PKGS = ['app', 'etag', 'cookie', 'cookie-signature']
 
 app
-  .use(logger())
+  .use(
+    logger({
+      timestamp: {
+        format: 'MM:SS',
+      },
+    })
+  )
   .get('/mw', async (req, res, next) => {
     let json: any, status: number, msg: string
 
@@ -32,7 +38,7 @@ app
     } else {
       const readStream = createReadStream(`${HTML_PATH}/search.html`)
 
-      let transformer = transformPageIndexStream(json.filter(e => !NON_MW_PKGS.includes(e.name)))
+      let transformer = transformPageIndexStream(json.filter((e) => !NON_MW_PKGS.includes(e.name)))
 
       if (req.query.q) {
         const results = json.filter((el: any) => {
@@ -40,7 +46,7 @@ app
 
           return el.name.indexOf(query.toLowerCase()) > -1
         })
-        transformer = transformPageIndexStream(results.filter(e => !NON_MW_PKGS.includes(e.name)))
+        transformer = transformPageIndexStream(results.filter((e) => !NON_MW_PKGS.includes(e.name)))
       }
 
       readStream.pipe(transformer).pipe(res)
@@ -75,14 +81,14 @@ app
       stripExtension: true,
       markedExtensions: [
         {
-          headerIds: true
-        }
-      ]
+          headerIds: true,
+        },
+      ],
     })
   )
   .use((req, res) =>
     serve(req, res, {
-      public: 'static'
+      public: 'static',
     })
   )
 

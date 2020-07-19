@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/cli",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "description": "CLI geneator for creating tinyhttp apps",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -36,9 +36,9 @@
   "author": "v1rtl",
   "license": "MIT",
   "devDependencies": {
-    "rollup": "^2.21.0",
+    "rollup": "^2.22.0",
     "rollup-plugin-typescript2": "^0.27.1",
-    "typescript": "^3.9.6"
+    "typescript": "^3.9.7"
   },
   "scripts": {
     "build": "rollup -c"

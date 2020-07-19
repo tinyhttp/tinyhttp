@@ -1,5 +1,11 @@
 # @tinyhttp/cors
 
+## 0.2.5
+
+### Patch Changes
+
+- Upgrade dependencies of all of the packages
+
 ## 0.2.4
 
 ### Patch Changes

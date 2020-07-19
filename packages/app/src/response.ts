@@ -5,10 +5,7 @@ import * as cookie from '@tinyhttp/cookie'
 import { setCharset, createETag } from './utils/response'
 import { Request } from './request'
 
-export const json = (_req: Request, res: Response) => (
-  body: any,
-  ...args: any[]
-): Response => {
+export const json = (_req: Request, res: Response) => (body: any, ...args: any[]): Response => {
   res.setHeader('Content-Type', 'application/json')
   if (typeof body === 'object' && body != null) {
     res.end(JSON.stringify(body, null, 2), ...args)
@@ -64,9 +61,7 @@ export const send = (req: Request, res: Response) => (body: any): Response => {
         res.setHeader('content-type', 'application/octet-stream')
       }
     } else {
-      encoding
-        ? json(req, res)(bodyToSend, encoding)
-        : json(req, res)(bodyToSend)
+      encoding ? json(req, res)(bodyToSend, encoding) : json(req, res)(bodyToSend)
     }
   } else {
     if (encoding) {
@@ -81,9 +76,7 @@ export const send = (req: Request, res: Response) => (body: any): Response => {
   return res
 }
 
-export const status = (_req: Request, res: Response) => (
-  status: number
-): Response => {
+export const status = (_req: Request, res: Response) => (status: number): Response => {
   res.statusCode = status
 
   return res
@@ -92,21 +85,20 @@ export const status = (_req: Request, res: Response) => (
 export const setCookie = (req: Request, res: Response) => (
   name: string,
   value: string | Record<string, unknown>,
-  options?: cookie.SerializeOptions &
+  options: cookie.SerializeOptions &
     Partial<{
       signed: boolean
-    }>
+    }> = {}
 ): Response => {
   const secret = req.secret as string
 
-  const signed = options.signed
+  const signed = options.signed || false
 
   if (signed && !secret) {
     throw new Error('cookieParser("secret") required for signed cookies')
   }
 
-  let val =
-    typeof value === 'object' ? 'j:' + JSON.stringify(value) : String(value)
+  let val = typeof value === 'object' ? 'j:' + JSON.stringify(value) : String(value)
 
   if (signed) {
     val = 's:' + sign(val, secret)
@@ -126,10 +118,7 @@ export const setCookie = (req: Request, res: Response) => (
   return res
 }
 
-export const clearCookie = (req: Request, res: Response) => (
-  name: string,
-  options?: cookie.SerializeOptions
-): Response => {
+export const clearCookie = (req: Request, res: Response) => (name: string, options?: cookie.SerializeOptions): Response => {
   const opts = Object.assign({}, { expires: new Date(1), path: '/' }, options)
 
   return setCookie(req, res)(name, '', opts)
@@ -137,10 +126,7 @@ export const clearCookie = (req: Request, res: Response) => (
 
 const charsetRegExp = /;\s*charset\s*=/
 
-export const setHeader = (_req: Request, res: Response) => (
-  field: string | Record<string, string | number | string[]>,
-  val: string | any[]
-) => {
+export const setHeader = (_req: Request, res: Response) => (field: string | Record<string, string | number | string[]>, val: string | any[]) => {
   if (typeof field === 'string') {
     let value = Array.isArray(val) ? val.map(String) : String(val)
 
@@ -164,9 +150,7 @@ export const setHeader = (_req: Request, res: Response) => (
   return res
 }
 
-export const setLocationHeader = (req: Request, res: Response) => (
-  url: string
-): Response => {
+export const setLocationHeader = (req: Request, res: Response) => (url: string): Response => {
   let loc = url
 
   // "back" is an alias for the referrer
@@ -179,15 +163,11 @@ export const setLocationHeader = (req: Request, res: Response) => (
   return res
 }
 
-export const getResponseHeader = (_req: Request, res: Response) => (
-  field: string
-): string | number | string[] => {
+export const getResponseHeader = (_req: Request, res: Response) => (field: string): string | number | string[] => {
   return res.getHeader(field)
 }
 
-export const setLinksHeader = (_req: Request, res: Response) => (links: {
-  [key: string]: string
-}): Response => {
+export const setLinksHeader = (_req: Request, res: Response) => (links: { [key: string]: string }): Response => {
   let link = res.get('Link') || ''
   if (link) link += ', '
   return res.set(
@@ -199,9 +179,7 @@ export const setLinksHeader = (_req: Request, res: Response) => (links: {
   )
 }
 
-export const sendStatus = (_req: Request, res: Response) => (
-  statusCode: number
-): Response => {
+export const sendStatus = (_req: Request, res: Response) => (statusCode: number): Response => {
   const body = STATUS_CODES[statusCode] || String(statusCode)
 
   res.statusCode = statusCode
@@ -219,11 +197,7 @@ export interface Response extends ServerResponse {
   json(body: unknown): Response
   status(status: number): Response
   sendStatus(statusCode: number): Response
-  cookie(
-    name: string,
-    value: string | Record<string, unknown>,
-    options?: cookie.SerializeOptions & Partial<{ signed: boolean }>
-  ): Response
+  cookie(name: string, value: string | Record<string, unknown>, options?: cookie.SerializeOptions & Partial<{ signed: boolean }>): Response
   clearCookie(name: string, options?: cookie.SerializeOptions): Response
   location(url: string): Response
   links(links: { [key: string]: string }): Response
