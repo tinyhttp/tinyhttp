@@ -4,16 +4,21 @@ import { IncomingMessage as Request, ServerResponse as Response, METHODS } from 
 
 export type LoggerProperties = Partial<{
   methods: string[]
+  outputConfiguration: {
+    color: boolean
+    output: (string) => void
+  }
   timestamp:
-    | {
-        format?: string
-      }
-    | boolean
+  | {
+    format?: string
+  }
+  | boolean
 }>
 
 export const logger = (options: LoggerProperties = {}) => {
-  const methods = options.methods || METHODS
-  const timestamp = options.timestamp || false
+  const methods = options.methods ?? METHODS
+  const timestamp = options.timestamp ?? false
+  const outputConfiguration = options.outputConfiguration ?? { output: console.log, color: true }
 
   const logger = (req: Request, res: Response, next?: () => void) => {
     res.on('finish', () => {
@@ -35,23 +40,27 @@ export const logger = (options: LoggerProperties = {}) => {
           }
         }
 
-        switch (s[0]) {
-          case '2':
-            status = colors.cyan.bold(s)
-            msg = colors.cyan(msg)
-            console.log(time + `${method} ${status} ${msg} ${url}`)
-            break
-          case '4':
-            status = colors.red.bold(s)
-            msg = colors.red(msg)
-            console.log(time + `${method} ${status} ${msg} ${url}`)
-            break
-          case '5':
-            status = colors.magenta.bold(s)
-            msg = colors.magenta(msg)
-            console.error(time + `${method} ${status} ${msg} ${url}`)
-            break
-        }
+        if (!outputConfiguration.color) {
+          outputConfiguration.output(`${time}${method} ${status} ${msg} ${url}`)
+        } else {
+          switch (s[0]) {
+            case '2':
+              status = colors.cyan.bold(s)
+              msg = colors.cyan(msg)
+              outputConfiguration.output(`${time}${method} ${status} ${msg} ${url}`)
+              break
+            case '4':
+              status = colors.red.bold(s)
+              msg = colors.red(msg)
+              outputConfiguration.output(`${time}${method} ${status} ${msg} ${url}`)
+              break
+            case '5':
+              status = colors.magenta.bold(s)
+              msg = colors.magenta(msg)
+              outputConfiguration.output(`${time}${method} ${status} ${msg} ${url}`)
+              break
+          }
+        }        
       }
     })
 

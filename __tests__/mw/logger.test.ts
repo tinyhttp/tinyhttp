@@ -8,7 +8,7 @@ describe('Logger tests', () => {
     const originalConsoleLog = console.log
 
     console.log = (log: string) => {
-      expect(log.split(' ')[0]).toMatch(/[0-9]{2}\:[0-9]{2}/)
+      expect(log.split(' ')[0]).toMatch(/[0-9]{2}:[0-9]{2}/)
       console.log = originalConsoleLog
       done()
     }
@@ -31,13 +31,35 @@ describe('Logger tests', () => {
     const originalConsoleLog = console.log
 
     console.log = (log: string) => {
-      expect(log.split(' ')[0]).toMatch(/[0-9]{2}\:[0-9]{2}\:[0-9]{2}/)
+      expect(log.split(' ')[0]).toMatch(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)
       console.log = originalConsoleLog
       done()
     }
 
     const app = new App()
     app.use(logger({ timestamp: true }))
+
+    const server = app.listen()
+
+    const request = supertest(server)
+
+    request
+      .get('/')
+      .expect(404)
+      .end(() => {
+        server.close()
+      })
+  })
+
+  it('should call my custom output function', (done) => {
+
+    const customOutput = (log: string) => {
+      expect(log).toMatch('GET 404 Not Found /')
+      done()
+    }
+
+    const app = new App()
+    app.use(logger({ outputConfiguration: { output: customOutput, color: false } }))
 
     const server = app.listen()
 
