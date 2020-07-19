@@ -23,7 +23,7 @@ Here is a short list of most important features that tinyhttp has:
 - ☑ Native ESM and CommonJS support
 - 🚀 No legacy dependencies, just the JavaScript itself
 - 🔨 Types out of the box
-- 📦 2.5x faster than Express
+- ⚡ 2.5x faster than Express
 
 To get started, visit [tinyhttp website](https://tinyhttp.v1rtl.site).
 
