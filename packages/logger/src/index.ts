@@ -2,18 +2,14 @@ import colors from 'colors'
 import dayjs from 'dayjs'
 import { IncomingMessage as Request, ServerResponse as Response, METHODS } from 'http'
 
-export type LoggerProperties = Partial<{
-  methods: string[]
-  output: {
+interface LoggerProperties {
+  methods?: string[]
+  output?: {
     color: boolean
     callback: (string) => void
   }
-  timestamp:
-  | {
-    format?: string
-  }
-  | boolean
-}>
+  timestamp?: boolean | { format?: string }
+}
 
 export const logger = (options: LoggerProperties = {}) => {
   const methods = options.methods ?? METHODS
@@ -60,7 +56,7 @@ export const logger = (options: LoggerProperties = {}) => {
               output.callback(`${time}${method} ${status} ${msg} ${url}`)
               break
           }
-        }        
+        }
       }
     })
 

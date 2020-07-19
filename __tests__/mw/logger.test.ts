@@ -1,5 +1,6 @@
 import { App } from '../../packages/app/src'
 import { logger } from '../../packages/logger/src'
+import colors from 'colors'
 import supertest from 'supertest'
 
 
@@ -27,7 +28,7 @@ describe('Logger tests', () => {
         server.close()
       })
   })
-  it('should enable timestamp if it is true', (done) => {
+  it('should enable timestamp if `timestanmp` propery is true', (done) => {
     const originalConsoleLog = console.log
 
     console.log = (log: string) => {
@@ -51,7 +52,7 @@ describe('Logger tests', () => {
       })
   })
 
-  it('should call my custom output function', (done) => {
+  it('should call a custom output function', (done) => {
 
     const customOutput = (log: string) => {
       expect(log).toMatch('GET 404 Not Found /')
@@ -71,5 +72,45 @@ describe('Logger tests', () => {
       .end(() => {
         server.close()
       })
+  })
+
+  describe('Color logs', () => {
+
+    const createColorTest = (status, color, done) => {
+      return () => {
+        const customOutput = (log: string) => {
+          expect(log.split(' ')[1]).toMatch(colors[color].bold(status))
+          done()
+        }
+  
+        const app = new App()
+
+        app.use(logger({ output: { callback: customOutput, color: true } }))
+        app.get('/', (_, res) => res.status(status).send(''))
+
+        const server = app.listen()
+  
+        const request = supertest(server)
+  
+        request
+          .get('/')
+          .expect(status)
+          .end(() => {
+            server.close()
+          })
+      };
+    };
+
+    it('should color 2xx cyan', (done) => {
+      createColorTest(200, 'cyan', done)();
+    })
+
+    it('should color 4xx red', (done) => {
+      createColorTest(400, 'red', done)();
+    })
+    
+    it('should color 5xx magenta', (done) => {
+      createColorTest(500, 'magenta', done)();
+    })
   })
 })
