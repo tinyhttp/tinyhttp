@@ -112,4 +112,18 @@ describe('Response methods', () => {
         done()
       })
   })
+  it('res.set sets headers', (done) => {
+    const { request, server } = InitAppAndTest((_req, res) => {
+      res.set('X-Header', 'Hello World').end()
+    })
+
+    request
+      .get('/')
+      .expect('X-Header', 'Hello World')
+      .end((err: Error) => {
+        server.close()
+        if (err) return done(err)
+        done()
+      })
+  })
 })
