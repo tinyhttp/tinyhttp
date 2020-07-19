@@ -24,6 +24,7 @@ Here is a short list of most important features that tinyhttp has:
 - 🚀 No legacy dependencies, just the JavaScript itself
 - 🔨 Types out of the box
 - ⚡ 2.5x faster than Express
+- 🗜 4x smaller than Express
 
 To get started, visit [tinyhttp website](https://tinyhttp.v1rtl.site).
 
