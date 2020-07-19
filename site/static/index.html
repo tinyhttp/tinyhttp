@@ -65,13 +65,13 @@
           
           app
             .use(logger())
-            .get('/', (_, res) => void res.send('<h1>Hello World</h1>'))
-            .get('/page/:page/', (req, res) => {
+            .get('/', (_, res) =&gt; void res.send('&lt;h1&gt;Hello World&lt;/h1&gt;'))
+            .get('/page/:page/', (req, res) =&gt; {
               res.status(200).send(`
-              <h1>Some cool page</h1>
-              <h2>URL</h2>
+              &lt;h1&gt;Some cool page&lt;/h1&gt;
+              &lt;h2&gt;URL&lt;/h2&gt;
               ${req.url}
-              <h2>Params</h2>
+              &lt;h2&gt;Params&lt;/h2&gt;
               ${JSON.stringify(req.params, null, 2)}
             `)
             })
