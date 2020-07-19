@@ -1,5 +1,11 @@
 # @tinyhttp/logger
 
+## 0.3.4
+
+### Patch Changes
+
+- Add --compact flag
+
 ## 0.3.3
 
 ### Patch Changes

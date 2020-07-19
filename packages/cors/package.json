@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/cors",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "tinyhttp CORS module",
   "type": "module",
   "main": "dist/index.cjs",
@@ -42,6 +42,6 @@
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c --compact"
   }
 }

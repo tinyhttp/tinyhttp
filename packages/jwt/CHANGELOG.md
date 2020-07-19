@@ -1,5 +1,11 @@
 # @tinyhttp/jwt
 
+## 0.1.9
+
+### Patch Changes
+
+- Add --compact flag
+
 ## 0.1.7
 
 ### Patch Changes

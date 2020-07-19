@@ -1,5 +1,11 @@
 # @tinyhttp/cli
 
+## 0.0.5
+
+### Patch Changes
+
+- Add --compact flag
+
 ## 0.0.4
 
 ### Patch Changes

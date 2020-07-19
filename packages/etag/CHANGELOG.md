@@ -1,5 +1,11 @@
 # @tinyhttp/etag
 
+## 0.2.5
+
+### Patch Changes
+
+- Add --compact flag
+
 ## 0.2.4
 
 ### Patch Changes
