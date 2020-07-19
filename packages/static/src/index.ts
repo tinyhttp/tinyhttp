@@ -13,15 +13,12 @@ export type StaticHandlerOptions = Partial<{
   recursive: boolean
 }>
 
-export const staticHandler = (
-  dir = process.cwd(),
-  opts?: StaticHandlerOptions
-): AsyncHandler => {
+export const staticHandler = (dir = process.cwd(), opts?: StaticHandlerOptions): AsyncHandler => {
   return async (req: Request, res: Response, next?: NextFunction) => {
     let files: string[]
 
-    const prefix = opts.prefix || '/'
-    const recursive = opts.recursive || false
+    const prefix = opts?.prefix ?? '/'
+    const recursive = opts?.recursive ?? false
 
     if (recursive) {
       files = (
@@ -70,9 +67,7 @@ export const staticHandler = (
           res.end('</ul>')
         } else {
           const fileContent = await fileToString(dirAndfilePath)
-          res
-            .set('Content-Type', contentType(parse(file).ext) || 'text/plain')
-            .send(fileContent)
+          res.set('Content-Type', contentType(parse(file).ext) || 'text/plain').send(fileContent)
         }
       }
     }

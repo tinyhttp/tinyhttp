@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from '@tinyhttp/app'
-import cookie from '@tinyhttp/cookie'
-import signature from '@tinyhttp/cookie-signature'
+import * as cookie from '@tinyhttp/cookie'
+import * as signature from '@tinyhttp/cookie-signature'
 
 /**
  * Parse JSON cookie string.

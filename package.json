@@ -25,7 +25,6 @@
     "eslint-plugin-prettier": "^3.1.4",
     "jest": "^26.1.0",
     "prettier": "^2.0.5",
-    "rollup-plugin-terser": "^6.1.0",
     "supertest": "^4.0.2",
     "ts-jest": "^26.1.1",
     "tslib": "^2.0.0",
@@ -37,7 +36,7 @@
     "chgset:run": "changeset",
     "chgset:version": "changeset version",
     "chgset": "pnpm chgset:run && pnpm chgset:version",
-    "publish": "changeset publish",
+    "release": "pnpm publish -r",
     "test": "jest"
   }
 }

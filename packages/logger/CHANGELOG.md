@@ -1,5 +1,23 @@
 # @tinyhttp/logger
 
+## 0.3.3
+
+### Patch Changes
+
+- Added outputConfiguration for setting custom output functions.
+
+## 0.3.2
+
+### Patch Changes
+
+- Update cookie-parser imports
+
+## 0.3.1
+
+### Patch Changes
+
+- Refactor logger
+
 ## 0.3.0
 
 ### Patch Changes

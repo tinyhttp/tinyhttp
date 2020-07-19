@@ -1,12 +1,9 @@
 import supertest from 'supertest'
+import http from 'http'
+import { readFile } from 'fs/promises'
 import { App, Handler } from '../packages/app/src'
-import logger from '../packages/logger/src'
 
-export const InitAppAndTest = (
-  handler: Handler,
-  route?: string,
-  method = 'get'
-) => {
+export const InitAppAndTest = (handler: Handler, route?: string, method = 'get') => {
   const app = new App()
 
   if (route) {
@@ -24,9 +21,7 @@ export const InitAppAndTest = (
 
 describe('Testing App', () => {
   it('should launch a basic server', (done) => {
-    const { request, server } = InitAppAndTest(
-      (_req, res) => void res.send('Hello world')
-    )
+    const { request, server } = InitAppAndTest((_req, res) => void res.send('Hello world'))
 
     request
       .get('/')
@@ -57,50 +52,54 @@ describe('Testing App', () => {
 
     expect(app.locals.hello).toBe('world')
   })
-})
-
-describe('Testing routes', () => {
-  it('should respond on matched route', (done) => {
-    const { request, server } = InitAppAndTest(
-      (_req, res) => void res.send('Hello world'),
-      '/route'
-    )
-
-    request
-      .get('/route')
-      .expect(200, 'Hello world')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
-  })
-  it('"*" should catch all undefined routes', (done) => {
-    const app = new App()
-
-    app
-      .get('/route', (_req, res) => void res.send('A different route'))
-      .all('*', (_req, res) => void res.send('Hello world'))
+  it('Custom noMatchHandler works', (done) => {
+    const app = new App({
+      noMatchHandler: (req, res) => res.status(404).end(`Oopsie! Page ${req.url} is lost.`),
+    })
 
     const server = app.listen()
 
     const request = supertest(server)
 
     request
-      .get('/route')
-      .expect(200, 'A different route')
+      .get('/')
+      .expect(404, 'Oopsie! Page / is lost.')
       .end((err: Error) => {
         server.close()
         if (err) return done(err)
         done()
       })
   })
-  it('should throw 404 on no routes', (done) => {
-    const app = new App()
+  it('Custom onError works', (done) => {
+    const app = new App({
+      onError: (err, req, res) => res.status(500).end(`Ouch, ${err} hurt me on ${req.url} page.`),
+    })
+
+    app.use((_req, _res, next) => {
+      next('you')
+    })
 
     const server = app.listen()
 
-    const request: any = supertest(server)
+    const request = supertest(server)
+
+    request
+      .get('/')
+      .expect(500, 'Ouch, you hurt me on / page.')
+      .end((err: Error) => {
+        server.close()
+        if (err) return done(err)
+        done()
+      })
+  })
+  it('App works with HTTP 1.1', (done) => {
+    const app = new App()
+
+    const server = http.createServer()
+
+    server.on('request', (req, res) => app.handler(req, res))
+
+    const request = supertest(server)
 
     request
       .get('/')
@@ -111,17 +110,17 @@ describe('Testing routes', () => {
         done()
       })
   })
-  it('next function skips current middleware', (done) => {
+  it('req and res inherit properties from previous middlewares', (done) => {
     const app = new App()
 
-    app.locals['log'] = 'test'
-
     app
-      .use(async (req, _res, next) => {
-        app.locals['log'] = req.url
+      .use((req, _res, next) => {
+        req.body = { hello: 'world' }
         next()
       })
-      .use((_req, res) => void res.json({ ...app.locals }))
+      .use((req, res) => {
+        res.json(req.body)
+      })
 
     const server = app.listen()
 
@@ -129,31 +128,32 @@ describe('Testing routes', () => {
 
     request
       .get('/')
-      .expect(200, { log: '/' })
+      .expect(200, { hello: 'world' })
       .end((err: Error) => {
         server.close()
         if (err) return done(err)
         done()
       })
   })
-  it('next function handles errors', (done) => {
+  it('req and res inherit properties from previous middlewares asynchronously', (done) => {
     const app = new App()
 
-    app.use((req, res, next) => {
-      if (req.url === '/broken') {
-        next('Your appearance destroyed this world.')
-      } else {
-        res.send('Welcome back')
-      }
-    })
+    app
+      .use(async (req, _res, next) => {
+        req.body = await readFile(`${process.cwd()}/__tests__/fixtures/test.txt`)
+        next()
+      })
+      .use((req, res) => {
+        res.send(req.body.toString())
+      })
 
     const server = app.listen()
 
     const request: any = supertest(server)
 
     request
-      .get('/broken')
-      .expect(500, 'Your appearance destroyed this world.')
+      .get('/')
+      .expect(200, 'I am a text file.')
       .end((err: Error) => {
         server.close()
         if (err) return done(err)

@@ -20,7 +20,7 @@ export const transformMWPageStream = (json: any) =>
 
       const doc = chunk
         .toString()
-        .replace('{readme}', marked(readme))
+        .replace('{readme}', readme ? marked(readme) : '')
         .replace('{name}', name.slice(name.indexOf('/') + 1, name.length))
         .replace('{pkg}', name)
         .replace('{version}', version)
@@ -28,7 +28,7 @@ export const transformMWPageStream = (json: any) =>
         .replace('{link}', `${link}/blob/master/${dir}`)
 
       cb(null, doc)
-    }
+    },
   })
 
 const MWPreviewTemplate = (mw: { name: string }) => `
@@ -44,10 +44,10 @@ export const transformPageIndexStream = (pkgs: any[]) => {
     transform(chunk: Buffer, _, cb) {
       const doc = chunk
         .toString()
-        .replace('{pkgTemplates}', pkgs.map(pkg => MWPreviewTemplate(pkg)).join('<br />'))
-        .replace('{ pkgs }', pkgs.map(p => `'${p.name}'`).join(', '))
+        .replace('{pkgTemplates}', pkgs.map((pkg) => MWPreviewTemplate(pkg)).join('<br />'))
+        .replace('{ pkgs }', pkgs.map((p) => `'${p.name}'`).join(', '))
 
       cb(null, doc)
-    }
+    },
   })
 }

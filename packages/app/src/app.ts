@@ -4,13 +4,7 @@ import { Request, getURLParams, getRouteFromApp } from './request'
 import { Response } from './response'
 import { onErrorHandler } from './onError'
 import { isAsync } from './utils/async'
-import {
-  Middleware,
-  Handler,
-  NextFunction,
-  Router,
-  ErrorHandler,
-} from './router'
+import { Middleware, Handler, NextFunction, Router, ErrorHandler } from './router'
 import { extendMiddleware } from './extend'
 
 export const applyHandler = (h: Handler) => async (req, res, next?) => {
@@ -20,12 +14,16 @@ export const applyHandler = (h: Handler) => async (req, res, next?) => {
     h(req, res, next)
   }
 }
-
+/**
+ * tinyhttp App has a few settings for toggling features
+ */
 export type AppSettings = Partial<{
   networkExtensions: boolean
   freshnessTesting: boolean
 }>
-
+/**
+ * App class - the starting point of tinyhttp app. It's instance contains all the middleware put in it, app settings, 404 and 500 handlers and locals.
+ */
 export class App extends Router {
   middleware: Middleware[]
   locals: Record<string, string>
@@ -43,11 +41,15 @@ export class App extends Router {
     this.locals = Object.create(null)
     this.middleware = []
     this.onError = options?.onError || onErrorHandler
-    this.noMatchHandler =
-      options?.noMatchHandler || this.onError.bind(null, { code: 404 })
+    this.noMatchHandler = options?.noMatchHandler || this.onError.bind(null, { code: 404 })
     this.settings = options.settings || {}
   }
 
+  /**
+   * Extends Request / Response objects, pushes 404 and 500 handlers, dispatches middleware
+   * @param req Request object
+   * @param res Response object
+   */
   async handler(req: Request, res: Response) {
     const mw = this.middleware
 
@@ -64,29 +66,23 @@ export class App extends Router {
     let idx = 0
     const len = mw.length - 1
 
-    const next = (err) => {
+    const nextWithReqAndRes = (req: Request, res: Response) => (err) => {
       if (err) {
         this.onError(err, req, res)
       } else {
-        loop()
+        loop(req, res)
       }
     }
 
-    const handle = (mw: Middleware) => async (
-      req: Request,
-      res: Response,
-      next?: NextFunction
-    ) => {
+    const handle = (mw: Middleware) => async (req: Request, res: Response, next?: NextFunction) => {
       const { path, method, handler, type } = mw
 
       if (type === 'route') {
         if (req.method === method) {
           // strip query parameters for req.params
           const queryParamStart = req.url.lastIndexOf('?')
-          const reqUrlWithoutParams = req.url.slice(
-            0,
-            queryParamStart === -1 ? req.url.length : queryParamStart
-          )
+          const reqUrlWithoutParams = req.url.slice(0, queryParamStart === -1 ? req.url.length : queryParamStart)
+
           if (rg(path).pattern.test(reqUrlWithoutParams)) {
             req.params = getURLParams(req.url, path)
             req.route = getRouteFromApp(this, handler)
@@ -94,33 +90,45 @@ export class App extends Router {
             // route found, send Success 200
             res.statusCode = 200
 
-            await applyHandler(handler)(req, res, next)
+            applyHandler(handler)(req, res, next).then(() => loop(req, res))
+          } else {
+            loop(req, res)
           }
+        } else {
+          loop(req, res)
         }
       } else {
         if (req.url.startsWith(path)) {
           await applyHandler(handler)(req, res, next)
-        }
-      }
-      loop()
-    }
-
-    const loop = () => {
-      if (!res.writableEnded) {
-        if (idx <= len) {
-          handle(mw[idx++])(req, res, next)
+        } else {
+          loop(req, res)
         }
       }
     }
 
-    loop()
+    const loop = (req: Request, res: Response) => {
+      if (res.writableEnded) return
+      else if (idx <= len) {
+        handle(mw[idx++])(req, res, nextWithReqAndRes(req, res))
+      } else {
+        return
+      }
+    }
+
+    loop(req, res)
   }
 
-  listen(port?: number, cb?: () => void, host = 'localhost', backlog?: number) {
-    const server = createServer((req: Request, res: Response) => {
-      this.handler(req, res)
-    })
+  /**
+   * Creates HTTP server and dispatches middleware
+   * @param port server listening port
+   * @param Server callback after server starts listening
+   * @param host server listening host
+   */
+  listen(port?: number, cb?: () => void, host = 'localhost') {
+    const server = createServer()
 
-    return server.listen(port, host, backlog, cb)
+    server.on('request', (req, res) => this.handler(req, res))
+
+    return server.listen(port, host, cb)
   }
 }

@@ -1,5 +1,41 @@
 # @tinyhttp/app
 
+## 0.2.30
+
+### Patch Changes
+
+- Mess with dispatch and fix undefined props
+
+## 0.2.28
+
+### Patch Changes
+
+- Fix extend func order
+
+## 0.2.27
+
+### Patch Changes
+
+- Still mess with the loop()
+
+## 0.2.26
+
+### Patch Changes
+
+- Fix options being undefined
+
+## 0.2.21
+
+### Patch Changes
+
+- Refactor logger
+
+## 0.2.19
+
+### Patch Changes
+
+- Add JSDoc declarations and fix Promise error
+
 ## 0.2.18
 
 ### Patch Changes

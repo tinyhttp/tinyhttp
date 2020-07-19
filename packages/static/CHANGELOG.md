@@ -1,5 +1,48 @@
 # @tinyhttp/static
 
+## 0.2.18
+
+### Patch Changes
+
+- Mess with dispatch and fix undefined props
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.30
+
+## 0.2.17
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.28
+
+## 0.2.16
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.27
+
+## 0.2.15
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.26
+
+## 0.2.14
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.21
+
+## 0.2.13
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.19
+
 ## 0.2.12
 
 ### Patch Changes

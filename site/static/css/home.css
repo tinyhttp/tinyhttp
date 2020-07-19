@@ -42,6 +42,10 @@ header #to_docs {
   color: var(--fg);
 }
 
+header * {
+  text-decoration: none;
+}
+
 header p {
   margin: 2rem 0;
   color: var(--fg);
@@ -139,26 +143,25 @@ header p {
 }
 
 #gh {
-	padding: 0.8rem;
-	position: fixed;
-	bottom: 20px;
-	right: 20px;
-	background: white;
-	box-shadow: var(--shadow);
-	border-radius: 10px;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
+  padding: 0.8rem;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: white;
+  box-shadow: var(--shadow);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-
 #gh img {
-	height: 2rem;
+  height: 2rem;
 }
 
 #gh span {
-	padding: 0.5rem;
-	color: black;
+  padding: 0.5rem;
+  color: black;
 }
 
 @media (max-width: 700px) {
@@ -167,4 +170,3 @@ header p {
     row-gap: 1rem;
   }
 }
-
