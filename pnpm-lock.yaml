@@ -34,6 +34,13 @@ importers:
       ts-jest: ^26.1.1
       tslib: ^2.0.0
       typescript: ^3.9.6
+  examples/cookie:
+    dependencies:
+      '@tinyhttp/app': 'link:../../packages/app'
+      '@tinyhttp/cookie-parser': 'link:../../packages/cookie-parser'
+    specifiers:
+      '@tinyhttp/app': 'workspace:*'
+      '@tinyhttp/cookie-parser': 'workspace:*'
   packages/app:
     dependencies:
       '@tinyhttp/cookie': 'link:../cookie'

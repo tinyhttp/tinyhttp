@@ -1,5 +1,4 @@
 import { App } from '@tinyhttp/app'
-
 import { cookieParser } from '@tinyhttp/cookie-parser'
 
 const app = new App()

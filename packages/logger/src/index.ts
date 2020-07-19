@@ -31,7 +31,7 @@ export const logger = (options: LoggerProperties = {}) => {
           if (typeof timestamp !== 'boolean' && timestamp.format) {
             time += `${dayjs().format(timestamp.format).toString()} - `
           } else {
-            time += `${dayjs().toString()} - `
+            time += `${dayjs().format('HH:mm:ss').toString()} - `
           }
         }
 

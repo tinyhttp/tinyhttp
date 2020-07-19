@@ -13,3 +13,9 @@ pnpm install
 ```sh
 node index.js
 ```
+
+And then in another terminal, run:
+
+```sh
+curl --cookie "user=user;password=pwd" http://localhost:3000
+```

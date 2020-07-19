@@ -1,5 +1,11 @@
 # @tinyhttp/logger
 
+## 0.3.8
+
+### Patch Changes
+
+- Update cookie-parser imports
+
 ## 0.3.1
 
 ### Patch Changes
