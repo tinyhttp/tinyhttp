@@ -69,6 +69,28 @@ describe('Testing App', () => {
         done()
       })
   })
+  it('Custom onError works', (done) => {
+    const app = new App({
+      onError: (err, req, res) => res.status(500).end(`Ouch, ${err} hurt me on ${req.url} page.`),
+    })
+
+    app.use((_req, _res, next) => {
+      next('you')
+    })
+
+    const server = app.listen()
+
+    const request = supertest(server)
+
+    request
+      .get('/')
+      .expect(500, 'Ouch, you hurt me on / page.')
+      .end((err: Error) => {
+        server.close()
+        if (err) return done(err)
+        done()
+      })
+  })
   it('App works with HTTP 1.1', (done) => {
     const app = new App()
 
