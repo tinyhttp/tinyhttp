@@ -161,4 +161,18 @@ describe('Response methods', () => {
         done()
       })
   })
+  it('res.cookie sends cookies to client', (done) => {
+    const { request, server } = InitAppAndTest((_req, res) => {
+      res.cookie('Hello', 'World').end()
+    })
+
+    request
+      .get('/')
+      .expect('Set-Cookie', 'Hello=World; Path=/')
+      .end((err: Error) => {
+        server.close()
+        if (err) return done(err)
+        done()
+      })
+  })
 })
