@@ -5,7 +5,7 @@
 
 [![](https://img.shields.io/badge/website-visit-hotpink?style=flat-square)][site-url] [![npm](https://img.shields.io/npm/dt/@tinyhttp/app?style=flat-square)][npm-url] [![npm type definitions](https://img.shields.io/npm/types/@tinyhttp/app?style=flat-square)][npm-url] [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/talentlessguy/tinyhttp/CI?style=flat-square)][github-actions]
 [![Codecov](https://img.shields.io/codecov/c/gh/talentlessguy/tinyhttp?style=flat-square)][codecov]
-![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/body-parsec.svg?style=flat-square) ![Codacy grade](https://img.shields.io/codacy/grade/239a8cc7bca24042940f018a1ccec72f?style=flat-square)
+![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/body-parsec.svg?style=flat-square) [![Codacy grade](https://img.shields.io/codacy/grade/239a8cc7bca24042940f018a1ccec72f?style=flat-square)][codacy-url]
 [![Last commit](https://img.shields.io/github/last-commit/talentlessguy/tinyhttp.svg?style=flat-square)][gh-url] [![NPM](https://img.shields.io/npm/l/@tinyhttp/app?style=flat-square)][license] [![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
 
 <p>⚡ Tiny web framework as a replacement of Express</p>
@@ -138,3 +138,4 @@ These amazing people supported tinyhttp financially:
 [github-actions]: https://github.com/talentlessguy/tinyhttp/actions
 [license]: https://github.com/talentlessguy/tinyhttp/blob/master/LICENSE
 [gh-url]: https://github.com/talentlessguy/tinyhttp
+[codacy-url]: https://www.codacy.com/manual/talentlessguy/tinyhttp
