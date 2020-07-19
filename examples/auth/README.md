@@ -2,8 +2,6 @@
 
 Simple authentification example using [JWT](https://jwt.io/) and tinyhttp.
 
-> Doesn't work yet because of [#25](https://github.com/talentlessguy/tinyhttp/issues/25)
-
 ## Setup
 
 ```sh
