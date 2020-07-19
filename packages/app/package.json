@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/app",
-  "version": "0.2.26",
+  "version": "0.2.27",
   "description": "tinyhttp core with App, Request, Response and Router",
   "type": "module",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -23,9 +23,7 @@
     "./package.json": "./package.json",
     "./": "./"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "engines": {
     "node": ">=12.x"
   },

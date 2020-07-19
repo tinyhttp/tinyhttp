@@ -98,4 +98,18 @@ describe('Response methods', () => {
         done()
       })
   })
+  it('res.location sends "Location" header', (done) => {
+    const { request, server } = InitAppAndTest((_req, res) => {
+      res.location('example.com').end()
+    })
+
+    request
+      .get('/')
+      .expect('Location', 'example.com')
+      .end((err: Error) => {
+        server.close()
+        if (err) return done(err)
+        done()
+      })
+  })
 })

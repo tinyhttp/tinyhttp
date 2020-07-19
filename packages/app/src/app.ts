@@ -105,10 +105,10 @@ export class App extends Router {
     }
 
     const loop = () => {
-      if (!res.writableEnded) {
-        if (idx <= len) {
-          handle(mw[idx++])(req, res, next)
-        }
+      if (res.writableEnded) return
+
+      if (idx <= len) {
+        handle(mw[idx++])(req, res, next)
       }
     }
 

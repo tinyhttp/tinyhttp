@@ -1,5 +1,6 @@
 import supertest from 'supertest'
 import http from 'http'
+import { readFile } from 'fs/promises'
 import { App, Handler } from '../packages/app/src'
 
 export const InitAppAndTest = (handler: Handler, route?: string, method = 'get') => {
@@ -201,6 +202,56 @@ describe('Testing routes', () => {
     request
       .get('/broken')
       .expect(500, 'Your appearance destroyed this world.')
+      .end((err: Error) => {
+        server.close()
+        if (err) return done(err)
+        done()
+      })
+  })
+  it('req and res inherit properties from previous middlewares', (done) => {
+    const app = new App()
+
+    app
+      .use((req, _res, next) => {
+        req.body = { hello: 'world' }
+        next()
+      })
+      .use((req, res) => {
+        res.json(req.body)
+      })
+
+    const server = app.listen()
+
+    const request: any = supertest(server)
+
+    request
+      .get('/')
+      .expect(200, { hello: 'world' })
+      .end((err: Error) => {
+        server.close()
+        if (err) return done(err)
+        done()
+      })
+  })
+  it('req and res inherit properties from previous middlewares asynchronously', (done) => {
+    const app = new App()
+
+    app
+      .use(async (req, _res, next) => {
+        req.body = await readFile(`${process.cwd()}/__tests__/fixtures/test.txt`)
+        next()
+      })
+      .use((req, res) => {
+        res.send(req.body.toString())
+      })
+
+    const server = app.listen()
+
+    const request: any = supertest(server)
+
+    request
+      .get('/')
+      .expect(200, 'I am a text file.')
       .end((err: Error) => {
         server.close()
         if (err) return done(err)

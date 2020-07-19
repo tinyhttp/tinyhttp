@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.2.27
+
+### Patch Changes
+
+- Still mess with the loop()
+
 ## 0.2.26
 
 ### Patch Changes
