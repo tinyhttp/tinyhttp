@@ -59,7 +59,7 @@ describe('Logger tests', () => {
     }
 
     const app = new App()
-    app.use(logger({ outputConfiguration: { output: customOutput, color: false } }))
+    app.use(logger({ output: { callback: customOutput, color: false } }))
 
     const server = app.listen()
 

@@ -4,9 +4,9 @@ import { IncomingMessage as Request, ServerResponse as Response, METHODS } from 
 
 export type LoggerProperties = Partial<{
   methods: string[]
-  outputConfiguration: {
+  output: {
     color: boolean
-    output: (string) => void
+    callback: (string) => void
   }
   timestamp:
   | {
@@ -18,7 +18,7 @@ export type LoggerProperties = Partial<{
 export const logger = (options: LoggerProperties = {}) => {
   const methods = options.methods ?? METHODS
   const timestamp = options.timestamp ?? false
-  const outputConfiguration = options.outputConfiguration ?? { output: console.log, color: true }
+  const output = options.output ?? { callback: console.log, color: true }
 
   const logger = (req: Request, res: Response, next?: () => void) => {
     res.on('finish', () => {
@@ -40,24 +40,24 @@ export const logger = (options: LoggerProperties = {}) => {
           }
         }
 
-        if (!outputConfiguration.color) {
-          outputConfiguration.output(`${time}${method} ${status} ${msg} ${url}`)
+        if (!output.color) {
+          output.callback(`${time}${method} ${status} ${msg} ${url}`)
         } else {
           switch (s[0]) {
             case '2':
               status = colors.cyan.bold(s)
               msg = colors.cyan(msg)
-              outputConfiguration.output(`${time}${method} ${status} ${msg} ${url}`)
+              output.callback(`${time}${method} ${status} ${msg} ${url}`)
               break
             case '4':
               status = colors.red.bold(s)
               msg = colors.red(msg)
-              outputConfiguration.output(`${time}${method} ${status} ${msg} ${url}`)
+              output.callback(`${time}${method} ${status} ${msg} ${url}`)
               break
             case '5':
               status = colors.magenta.bold(s)
               msg = colors.magenta(msg)
-              outputConfiguration.output(`${time}${method} ${status} ${msg} ${url}`)
+              output.callback(`${time}${method} ${status} ${msg} ${url}`)
               break
           }
         }        
