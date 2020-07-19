@@ -1,4 +1,6 @@
 import ts from 'rollup-plugin-typescript2'
+import filesize from 'rollup-plugin-filesize'
+import closure from '@ampproject/rollup-plugin-closure-compiler'
 
 export default {
   input: 'src/index.ts',
@@ -12,5 +14,11 @@ export default {
       format: 'esm',
     },
   ],
-  plugins: [ts()],
+  plugins: [
+    ts(),
+    closure({
+      compilationLevel: 'WHITESPACE_ONLY',
+    }),
+    filesize(),
+  ],
 }

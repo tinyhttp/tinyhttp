@@ -1,5 +1,11 @@
 # @tinyhttp/cli
 
+## 0.0.6
+
+### Patch Changes
+
+- Compress whitespace
+
 ## 0.0.5
 
 ### Patch Changes

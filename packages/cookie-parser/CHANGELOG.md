@@ -1,5 +1,15 @@
 # @tinyhttp/cookie-parser
 
+## 0.1.21
+
+### Patch Changes
+
+- Compress whitespace
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.32
+  - @tinyhttp/cookie@0.1.6
+  - @tinyhttp/cookie-signature@0.1.6
+
 ## 0.1.20
 
 ### Patch Changes

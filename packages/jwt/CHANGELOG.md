@@ -1,5 +1,11 @@
 # @tinyhttp/jwt
 
+## 0.1.10
+
+### Patch Changes
+
+- Compress whitespace
+
 ## 0.1.9
 
 ### Patch Changes

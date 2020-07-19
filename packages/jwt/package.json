@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/jwt",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "JWT middleware for tinyhttp",
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
@@ -31,8 +31,10 @@
     "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
+    "@ampproject/rollup-plugin-closure-compiler": "^0.26.0",
     "@types/jsonwebtoken": "^8.5.0",
     "rollup": "^2.22.0",
+    "rollup-plugin-filesize": "^9.0.2",
     "rollup-plugin-typescript2": "^0.27.1",
     "typescript": "^3.9.7"
   },

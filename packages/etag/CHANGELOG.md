@@ -1,5 +1,11 @@
 # @tinyhttp/etag
 
+## 0.2.6
+
+### Patch Changes
+
+- Compress whitespace
+
 ## 0.2.5
 
 ### Patch Changes

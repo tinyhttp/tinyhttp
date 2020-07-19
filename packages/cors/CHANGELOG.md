@@ -1,5 +1,11 @@
 # @tinyhttp/cors
 
+## 0.2.7
+
+### Patch Changes
+
+- Compress whitespace
+
 ## 0.2.6
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @tinyhttp/logger
 
+## 0.3.5
+
+### Patch Changes
+
+- Compress whitespace
+
 ## 0.3.4
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/logger",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "type": "module",
   "description": "simple HTTP logger for tinyhttp",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -38,7 +38,9 @@
     "node": ">=12.4.0"
   },
   "devDependencies": {
+    "@ampproject/rollup-plugin-closure-compiler": "^0.26.0",
     "rollup": "^2.22.0",
+    "rollup-plugin-filesize": "^9.0.2",
     "rollup-plugin-typescript2": "^0.27.1",
     "typescript": "^3.9.7"
   },
