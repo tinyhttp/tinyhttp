@@ -21,6 +21,11 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.1.0
+        with:
+          node-version: 14.5.0
 
       - name: Setup PNPM + build packages + run tests
         uses: pnpm/action-setup@v1.2.0
