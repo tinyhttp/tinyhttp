@@ -2,18 +2,19 @@ import colors from 'colors'
 import dayjs from 'dayjs'
 import { IncomingMessage as Request, ServerResponse as Response, METHODS } from 'http'
 
-export type LoggerProperties = Partial<{
-  methods: string[]
-  timestamp:
-    | {
-        format?: string
-      }
-    | boolean
-}>
+export interface LoggerOptions {
+  methods?: string[]
+  output?: {
+    color: boolean
+    callback: (string) => void
+  }
+  timestamp?: boolean | { format?: string }
+}
 
-export const logger = (options: LoggerProperties = {}) => {
-  const methods = options.methods || METHODS
-  const timestamp = options.timestamp || false
+export const logger = (options: LoggerOptions = {}) => {
+  const methods = options.methods ?? METHODS
+  const timestamp = options.timestamp ?? false
+  const output = options.output ?? { callback: console.log, color: true }
 
   const logger = (req: Request, res: Response, next?: () => void) => {
     res.on('finish', () => {
@@ -35,22 +36,26 @@ export const logger = (options: LoggerProperties = {}) => {
           }
         }
 
-        switch (s[0]) {
-          case '2':
-            status = colors.cyan.bold(s)
-            msg = colors.cyan(msg)
-            console.log(time + `${method} ${status} ${msg} ${url}`)
-            break
-          case '4':
-            status = colors.red.bold(s)
-            msg = colors.red(msg)
-            console.log(time + `${method} ${status} ${msg} ${url}`)
-            break
-          case '5':
-            status = colors.magenta.bold(s)
-            msg = colors.magenta(msg)
-            console.error(time + `${method} ${status} ${msg} ${url}`)
-            break
+        if (!output.color) {
+          output.callback(`${time}${method} ${status} ${msg} ${url}`)
+        } else {
+          switch (s[0]) {
+            case '2':
+              status = colors.cyan.bold(s)
+              msg = colors.cyan(msg)
+              output.callback(`${time}${method} ${status} ${msg} ${url}`)
+              break
+            case '4':
+              status = colors.red.bold(s)
+              msg = colors.red(msg)
+              output.callback(`${time}${method} ${status} ${msg} ${url}`)
+              break
+            case '5':
+              status = colors.magenta.bold(s)
+              msg = colors.magenta(msg)
+              output.callback(`${time}${method} ${status} ${msg} ${url}`)
+              break
+          }
         }
       }
     })

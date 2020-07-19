@@ -1,6 +1,12 @@
 # @tinyhttp/logger
 
-## 0.3.8
+## 0.3.3
+
+### Patch Changes
+
+- Added outputConfiguration for setting custom output functions.
+
+## 0.3.2
 
 ### Patch Changes
 
