@@ -58,25 +58,25 @@
         <pre id="install">pnpm add @tinyhttp/app @tinyhttp/logger</pre>
     
         <pre id="code">
-          import { App } from '@tinyhttp/app'
-          import { logger } from '@tinyhttp/logger'
-          
-          const app = new App()
-          
-          app
-            .use(logger())
-            .get('/', (_, res) =&gt; void res.send('&lt;h1&gt;Hello World&lt;/h1&gt;'))
-            .get('/page/:page/', (req, res) =&gt; {
-              res.status(200).send(`
-              &lt;h1&gt;Some cool page&lt;/h1&gt;
-              &lt;h2&gt;URL&lt;/h2&gt;
-              ${req.url}
-              &lt;h2&gt;Params&lt;/h2&gt;
-              ${JSON.stringify(req.params, null, 2)}
-            `)
-            })
-          
-            .listen(3000)
+import { App } from '@tinyhttp/app'
+import { logger } from '@tinyhttp/logger'
+
+const app = new App()
+
+app
+  .use(logger())
+  .get('/', (_, res) =&gt; void res.send('&lt;h1&gt;Hello World&lt;/h1&gt;'))
+  .get('/page/:page/', (req, res) =&gt; {
+    res.status(200).send(`
+    &lt;h1&gt;Some cool page&lt;/h1&gt;
+    &lt;h2&gt;URL&lt;/h2&gt;
+    ${req.url}
+    &lt;h2&gt;Params&lt;/h2&gt;
+    ${JSON.stringify(req.params, null, 2)}
+  `)
+  })
+
+  .listen(3000)
         </pre>
         <div id="window">
           <div id="address">http://localhost:3000/<input id="editable" type="text" value="page/test" /></div>
