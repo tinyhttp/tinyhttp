@@ -3,7 +3,7 @@
 <div align="center">
 <h1>tinyhttp</h1>
 
-[![](https://img.shields.io/badge/website-visit-hotpink?style=flat-square)][site-url] [![npm](https://img.shields.io/npm/dt/@tinyhttp/app?style=flat-square)](https://npm.im/@tinyhttp/app) [![npm type definitions](https://img.shields.io/npm/types/@tinyhttp/app?style=flat-square)](https://npmjs.com/package/@tinyhttp/app) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/talentlessguy/tinyhttp/CI?style=flat-square)
+[![](https://img.shields.io/badge/website-visit-hotpink?style=flat-square)][site-url] [![npm](https://img.shields.io/npm/dt/@tinyhttp/app?style=flat-square)][npm-url] [![npm type definitions](https://img.shields.io/npm/types/@tinyhttp/app?style=flat-square)][npm-url] ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/talentlessguy/tinyhttp/CI?style=flat-square)
 ![Codecov](https://img.shields.io/codecov/c/gh/talentlessguy/tinyhttp?style=flat-square)
 ![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/body-parsec.svg?style=flat-square) ![Codacy grade](https://img.shields.io/codacy/grade/239a8cc7bca24042940f018a1ccec72f?style=flat-square)
 ![Last commit](https://img.shields.io/github/last-commit/talentlessguy/tinyhttp.svg?style=flat-square) [![NPM](https://img.shields.io/npm/l/@tinyhttp/app?style=flat-square)](npmjs.com/@tinyhttp/app) [![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
@@ -132,4 +132,4 @@ These amazing people supported tinyhttp financially:
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
 
-[Site-URL]: [https://tinyhttp.v1rtl.site]
+[Site-URL]: [https://tinyhttp.v1rtl.site][npm-url]: https://npmjs.com/package/@tinyhttp/app
