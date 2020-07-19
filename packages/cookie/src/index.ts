@@ -31,22 +31,22 @@ export function parse(
   options: {
     decode: (str: string) => any
   } = {
-    decode: decodeURIComponent
+    decode: decodeURIComponent,
   }
 ) {
   const obj = {}
   const pairs = str.split(pairSplitRegExp)
 
   for (const pair of pairs) {
-    let eq_idx = pair.indexOf('=')
+    let eqIdx = pair.indexOf('=')
 
     // skip things that don't look like key=value
-    if (eq_idx < 0) {
+    if (eqIdx < 0) {
       continue
     }
 
-    const key = pair.substr(0, eq_idx).trim()
-    let val = pair.substr(++eq_idx, pair.length).trim()
+    const key = pair.substr(0, eqIdx).trim()
+    let val = pair.substr(++eqIdx, pair.length).trim()
 
     // quoted values
     if ('"' == val[0]) val = val.slice(1, -1)
@@ -69,11 +69,7 @@ export type SerializeOptions = Partial<{
   expires: Date
 }>
 
-export function serialize(
-  name: string,
-  val: string,
-  { encode = encodeURIComponent, domain, secure, httpOnly, expires, path, ...opt }: SerializeOptions
-) {
+export function serialize(name: string, val: string, { encode = encodeURIComponent, domain, secure, httpOnly, expires, path, ...opt }: SerializeOptions) {
   if (!fieldContentRegExp.test(name)) {
     throw new TypeError('argument name is invalid')
   }

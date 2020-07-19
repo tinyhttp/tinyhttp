@@ -5,7 +5,7 @@ export const compileTrust = (val: any) => {
 
   if (val === true) {
     // Support plain true/false
-    return function() {
+    return function () {
       return true
     }
   }
@@ -34,9 +34,9 @@ export const rgExec = (
     keys: string[]
   }
 ) => {
-  let i = 0,
-    out = {}
-  let matches = result.pattern.exec(path)
+  let i = 0
+  const out = {}
+  const matches = result.pattern.exec(path)
   while (i < result.keys.length) {
     out[result.keys[i]] = matches?.[++i] || null
   }
