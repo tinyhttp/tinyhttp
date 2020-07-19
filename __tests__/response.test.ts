@@ -141,4 +141,24 @@ describe('Response methods', () => {
         done()
       })
   })
+  it('res.links sends links', (done) => {
+    const { request, server } = InitAppAndTest((_req, res) => {
+      res
+        .links({
+          next: 'http://api.example.com/users?page=2',
+          last: 'http://api.example.com/users?page=5',
+        })
+        .end()
+    })
+
+    request
+      .get('/')
+      .expect('Link', '<http://api.example.com/users?page=2>; rel="next", <http://api.example.com/users?page=5>; rel="last"')
+
+      .end((err: Error) => {
+        server.close()
+        if (err) return done(err)
+        done()
+      })
+  })
 })
