@@ -44,7 +44,8 @@
       "contributions": [
         "example",
         "maintenance",
-        "code"
+        "code",
+        "test"
       ]
     },
     {
