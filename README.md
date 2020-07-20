@@ -103,10 +103,10 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://v1rtl.site"><img src="https://avatars0.githubusercontent.com/u/35937217?v=4" width="100px;" alt=""/><br /><sub><b>v 1 r t l</b></sub></a><br /><a href="#example-talentlessguy" title="Examples">💡</a> <a href="#plugin-talentlessguy" title="Plugin/utility libraries">🔌</a> <a href="#projectManagement-talentlessguy" title="Project Management">📆</a> <a href="#maintenance-talentlessguy" title="Maintenance">🚧</a> <a href="https://github.com/talentlessguy/tinyhttp/commits?author=Arnovsky" title="Code">💻</a></td>
+    <td align="center"><a href="https://v1rtl.site"><img src="https://avatars0.githubusercontent.com/u/35937217?v=4" width="100px;" alt=""/><br /><sub><b>v 1 r t l</b></sub></a><br /><a href="#example-talentlessguy" title="Examples">💡</a> <a href="#plugin-talentlessguy" title="Plugin/utility libraries">🔌</a> <a href="#projectManagement-talentlessguy" title="Project Management">📆</a> <a href="#maintenance-talentlessguy" title="Maintenance">🚧</a> <a href="https://github.com/talentlessguy/tinyhttp/commits?author=talentlessguy" title="Code">💻</a></td>
     <td align="center"><a href="https://brailor.me/"><img src="https://avatars3.githubusercontent.com/u/17928339?v=4" width="100px;" alt=""/><br /><sub><b>Matt</b></sub></a><br /><a href="#plugin-BRA1L0R" title="Plugin/utility libraries">🔌</a></td>
     <td align="center"><a href="https://github.com/Betelgeuse1"><img src="https://avatars1.githubusercontent.com/u/45435407?v=4" width="100px;" alt=""/><br /><sub><b>Nasmevka</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=Betelgeuse1" title="Documentation">📖</a></td>
-    <td align="center"><a href="http://elianiva.github.io"><img src="https://avatars0.githubusercontent.com/u/51877647?v=4" width="100px;" alt=""/><br /><sub><b>elianiva</b></sub></a><br /><a href="#example-elianiva" title="Examples">💡</a> <a href="https://github.com/talentlessguy/tinyhttp/commits?author=Arnovsky" title="Code">💻</a></td>
+    <td align="center"><a href="http://elianiva.github.io"><img src="https://avatars0.githubusercontent.com/u/51877647?v=4" width="100px;" alt=""/><br /><sub><b>elianiva</b></sub></a><br /><a href="#example-elianiva" title="Examples">💡</a> <a href="#maintenance-elianiva" title="Maintenance">🚧</a> <a href="https://github.com/talentlessguy/tinyhttp/commits?author=elianiva" title="Code">💻</a> <a href="https://github.com/talentlessguy/tinyhttp/commits?author=elianiva" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://nitropage.com"><img src="https://avatars0.githubusercontent.com/u/4012401?v=4" width="100px;" alt=""/><br /><sub><b>Katja Lutz</b></sub></a><br /><a href="#example-katywings" title="Examples">💡</a></td>
     <td align="center"><a href="https://github.com/Arnovsky"><img src="https://avatars1.githubusercontent.com/u/7084871?v=4" width="100px;" alt=""/><br /><sub><b>Arnovsky</b></sub></a><br /><a href="#plugin-Arnovsky" title="Plugin/utility libraries">🔌</a> <a href="https://github.com/talentlessguy/tinyhttp/commits?author=Arnovsky" title="Code">💻</a></td>
   </tr>
@@ -114,7 +114,6 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
-
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
