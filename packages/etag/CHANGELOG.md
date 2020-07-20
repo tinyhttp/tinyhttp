@@ -1,5 +1,17 @@
 # @tinyhttp/etag
 
+## 0.2.8
+
+### Patch Changes
+
+- Remove looping
+
+## 0.2.7
+
+### Patch Changes
+
+- Remove --compact flag
+
 ## 0.2.6
 
 ### Patch Changes

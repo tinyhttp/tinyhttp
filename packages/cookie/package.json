@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/cookie",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "type": "module",
   "description": "HTTP cookie parser and serializer for Node.js",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -41,6 +41,6 @@
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "build": "rollup -c --compact"
+    "build": "rollup -c"
   }
 }

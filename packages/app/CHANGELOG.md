@@ -1,5 +1,25 @@
 # @tinyhttp/app
 
+## 0.2.34
+
+### Patch Changes
+
+- Remove looping
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.1.8
+  - @tinyhttp/cookie-signature@0.1.8
+  - @tinyhttp/etag@0.2.8
+
+## 0.2.33
+
+### Patch Changes
+
+- Remove --compact flag
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.1.7
+  - @tinyhttp/cookie-signature@0.1.7
+  - @tinyhttp/etag@0.2.7
+
 ## 0.2.32
 
 ### Patch Changes

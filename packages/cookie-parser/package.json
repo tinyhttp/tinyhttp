@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/cookie-parser",
-  "version": "0.1.21",
+  "version": "0.1.23",
   "type": "module",
   "description": "tinyhttp cookie parsing middleware",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -47,6 +47,6 @@
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "build": "rollup -c --compact"
+    "build": "rollup -c"
   }
 }

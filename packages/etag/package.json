@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/etag",
-  "version": "0.2.6",
+  "version": "0.2.8",
   "type": "module",
   "description": "entity tag module",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -41,6 +41,6 @@
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "build": "rollup -c --compact"
+    "build": "rollup -c"
   }
 }

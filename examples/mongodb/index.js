@@ -8,6 +8,7 @@ import assert from 'assert'
 dotenv.config()
 
 const app = new App()
+const port = process.env.PORT || 3000
 let db
 let coll
 
@@ -18,7 +19,7 @@ const client = new mongodb.MongoClient(process.env.DB_URI, {
 const dbName = 'notes'
 client.connect(async (err) => {
   assert.equal(null, err)
-  console.log('successfully connected with mongodb')
+  console.log('successfully connected to MongoDB')
   db = client.db(dbName)
   coll = await db.collection('notes')
 })
@@ -67,4 +68,4 @@ app.put('/notes', async (req, res, next) => {
   }
 })
 
-app.listen(3000, () => console.log('successfully connected on port 3000'))
+app.listen(port, () => console.log(`Started on http://localhost:${port}`))

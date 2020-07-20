@@ -1,5 +1,21 @@
 # @tinyhttp/static
 
+## 0.2.22
+
+### Patch Changes
+
+- Remove looping
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.34
+
+## 0.2.21
+
+### Patch Changes
+
+- Remove --compact flag
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.33
+
 ## 0.2.20
 
 ### Patch Changes

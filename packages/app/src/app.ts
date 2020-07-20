@@ -90,7 +90,7 @@ export class App extends Router {
             // route found, send Success 200
             res.statusCode = 200
 
-            applyHandler(handler)(req, res, next).then(() => loop(req, res))
+            await applyHandler(handler)(req, res, next)
           } else {
             loop(req, res)
           }

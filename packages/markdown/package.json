@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/markdown",
-  "version": "0.1.20",
+  "version": "0.1.22",
   "description": "tinyhttp static markdown middleware",
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
@@ -47,6 +47,6 @@
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "build": "rollup -c --compact"
+    "build": "rollup -c"
   }
 }

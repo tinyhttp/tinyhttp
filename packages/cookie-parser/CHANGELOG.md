@@ -1,5 +1,25 @@
 # @tinyhttp/cookie-parser
 
+## 0.1.23
+
+### Patch Changes
+
+- Remove looping
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.34
+  - @tinyhttp/cookie@0.1.8
+  - @tinyhttp/cookie-signature@0.1.8
+
+## 0.1.22
+
+### Patch Changes
+
+- Remove --compact flag
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.33
+  - @tinyhttp/cookie@0.1.7
+  - @tinyhttp/cookie-signature@0.1.7
+
 ## 0.1.21
 
 ### Patch Changes

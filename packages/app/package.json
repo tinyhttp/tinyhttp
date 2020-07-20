@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/app",
-  "version": "0.2.32",
+  "version": "0.2.38",
   "description": "tinyhttp core with App, Request, Response and Router",
   "type": "module",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -65,6 +65,6 @@
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "build": "rollup -c --compact"
+    "build": "rollup -c"
   }
 }

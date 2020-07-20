@@ -1,5 +1,17 @@
 # @tinyhttp/cli
 
+## 0.0.8
+
+### Patch Changes
+
+- Remove looping
+
+## 0.0.7
+
+### Patch Changes
+
+- Remove --compact flag
+
 ## 0.0.6
 
 ### Patch Changes

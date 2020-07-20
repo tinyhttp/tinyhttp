@@ -1,5 +1,17 @@
 # @tinyhttp/cookie-signature
 
+## 0.1.8
+
+### Patch Changes
+
+- Remove looping
+
+## 0.1.7
+
+### Patch Changes
+
+- Remove --compact flag
+
 ## 0.1.6
 
 ### Patch Changes

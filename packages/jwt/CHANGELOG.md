@@ -1,5 +1,17 @@
 # @tinyhttp/jwt
 
+## 0.1.12
+
+### Patch Changes
+
+- Remove looping
+
+## 0.1.11
+
+### Patch Changes
+
+- Remove --compact flag
+
 ## 0.1.10
 
 ### Patch Changes
