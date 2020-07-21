@@ -3,3 +3,4 @@ dist
 log.txt
 coverage
 .env
+pnpm-lock.yaml
