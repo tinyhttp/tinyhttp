@@ -16,7 +16,7 @@ pnpm i @tinyhttp/logger
 import { logger } from '@tinyhttp/logger'
 ```
 
-### `logger(methods)`
+### `logger(options)`
 
 Returns the middleware to log HTTP requests.
 
