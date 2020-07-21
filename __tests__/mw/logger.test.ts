@@ -27,7 +27,7 @@ describe('Logger tests', () => {
         server.close()
       })
   })
-  it('should enable timestamp if `timestanmp` propery is true', (done) => {
+  it('should enable timestamp if `timestamp` propery is true', (done) => {
     const originalConsoleLog = console.log
 
     console.log = (log: string) => {
@@ -77,11 +77,11 @@ describe('Logger tests', () => {
       return () => {
         const customOutput = (log: string) => {
           if (color === 'cyan') {
-            expect(log.split(' ')[1]).toMatch(cyan(bold(status)))
+            expect(log.split(' ')[1]).toMatch(cyan(bold(status).toString()))
           } else if (color === 'red') {
-            expect(log.split(' ')[1]).toMatch(red(bold(status)))
+            expect(log.split(' ')[1]).toMatch(red(bold(status).toString()))
           } else if (color === 'magenta') {
-            expect(log.split(' ')[1]).toMatch(magenta(bold(status)))
+            expect(log.split(' ')[1]).toMatch(magenta(bold(status).toString()))
           }
           done()
         }
