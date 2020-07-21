@@ -39,7 +39,6 @@
   "devDependencies": {
     "@ampproject/rollup-plugin-closure-compiler": "^0.26.0",
     "rollup": "^2.22.0",
-    "rollup-plugin-filesize": "^9.0.2",
     "rollup-plugin-typescript2": "^0.27.1",
     "typescript": "^3.9.7"
   },

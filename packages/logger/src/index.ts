@@ -16,7 +16,7 @@ export const logger = (options: LoggerOptions = {}) => {
   const timestamp = options.timestamp ?? false
   const output = options.output ?? { callback: console.log, color: true }
 
-  const logger = (req: Request, res: Response, next?: () => void) => {
+  return (req: Request, res: Response, next?: () => void) => {
     res.on('finish', () => {
       const { method, url } = req
       const { statusCode, statusMessage } = res
@@ -62,6 +62,4 @@ export const logger = (options: LoggerOptions = {}) => {
 
     next?.()
   }
-
-  return logger
 }
