@@ -1,8 +1,7 @@
 import { App } from '../../packages/app/src'
 import { logger } from '../../packages/logger/src'
-import colors from 'colors'
+import { cyan, red, magenta, bold } from 'colorette'
 import supertest from 'supertest'
-
 
 describe('Logger tests', () => {
   it('should use the timestamp format specified in the `format` property', (done) => {
@@ -53,7 +52,6 @@ describe('Logger tests', () => {
   })
 
   it('should call a custom output function', (done) => {
-
     const customOutput = (log: string) => {
       expect(log).toMatch('GET 404 Not Found /')
       done()
@@ -75,42 +73,47 @@ describe('Logger tests', () => {
   })
 
   describe('Color logs', () => {
-
     const createColorTest = (status, color, done) => {
       return () => {
         const customOutput = (log: string) => {
-          expect(log.split(' ')[1]).toMatch(colors[color].bold(status))
+          if (color === 'cyan') {
+            expect(log.split(' ')[1]).toMatch(cyan(bold(status)))
+          } else if (color === 'red') {
+            expect(log.split(' ')[1]).toMatch(red(bold(status)))
+          } else if (color === 'magenta') {
+            expect(log.split(' ')[1]).toMatch(magenta(bold(status)))
+          }
           done()
         }
-  
+
         const app = new App()
 
         app.use(logger({ output: { callback: customOutput, color: true } }))
         app.get('/', (_, res) => res.status(status).send(''))
 
         const server = app.listen()
-  
+
         const request = supertest(server)
-  
+
         request
           .get('/')
           .expect(status)
           .end(() => {
             server.close()
           })
-      };
-    };
+      }
+    }
 
     it('should color 2xx cyan', (done) => {
-      createColorTest(200, 'cyan', done)();
+      createColorTest(200, 'cyan', done)()
     })
 
     it('should color 4xx red', (done) => {
-      createColorTest(400, 'red', done)();
+      createColorTest(400, 'red', done)()
     })
-    
+
     it('should color 5xx magenta', (done) => {
-      createColorTest(500, 'magenta', done)();
+      createColorTest(500, 'magenta', done)()
     })
   })
 })

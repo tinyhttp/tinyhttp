@@ -1,4 +1,4 @@
-import colors from 'colors'
+import { cyan, red, magenta, bold } from 'colorette'
 import dayjs from 'dayjs'
 import { IncomingMessage as Request, ServerResponse as Response, METHODS } from 'http'
 
@@ -41,18 +41,18 @@ export const logger = (options: LoggerOptions = {}) => {
         } else {
           switch (s[0]) {
             case '2':
-              status = colors.cyan.bold(s)
-              msg = colors.cyan(msg)
+              status = cyan(bold(s))
+              msg = cyan(msg)
               output.callback(`${time}${method} ${status} ${msg} ${url}`)
               break
             case '4':
-              status = colors.red.bold(s)
-              msg = colors.red(msg)
+              status = red(bold(s))
+              msg = red(msg)
               output.callback(`${time}${method} ${status} ${msg} ${url}`)
               break
             case '5':
-              status = colors.magenta.bold(s)
-              msg = colors.magenta(msg)
+              status = magenta(bold(s))
+              msg = magenta(msg)
               output.callback(`${time}${method} ${status} ${msg} ${url}`)
               break
           }
