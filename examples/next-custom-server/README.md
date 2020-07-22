@@ -1,8 +1,8 @@
-# NextJS Custom Server example
+# Next.js Custom Server example
 
 [![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/talentlessguy/tinyhttp/blob/master/examples/next-custom-server)
 
-Example of next custom server with tinyhttp and [Vercel](https://vercel.com).
+Example of [Next.js](https://nextjs.org) custom server with tinyhttp, deployed on [Vercel](https://vercel.com).
 
 ## Setup
 
@@ -22,7 +22,7 @@ vc
 ## Run
 
 ```sh
-# Launches Vercel dev server
+# Launches Next.js in development mode
 pnpm dev
 ```
 
