@@ -4,3 +4,4 @@ log.txt
 coverage
 .env
 pnpm-lock.yaml
+.next

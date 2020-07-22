@@ -1,0 +1,10 @@
+{
+  "name": "nextjs-custom-server",
+  "dependencies": {
+    "@tinyhttp/app": "workspace:^0.2.38",
+    "body-parser": "^1.19.0",
+    "next": "^9.4.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  }
+}
