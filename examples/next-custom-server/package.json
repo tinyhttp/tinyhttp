@@ -9,6 +9,8 @@
   },
   "scripts": {
     "deploy": "vc --prod",
-    "dev": "vc dev"
+    "dev": "next",
+    "build": "next build",
+    "start": "NODE_ENV=production next start"
   }
 }
