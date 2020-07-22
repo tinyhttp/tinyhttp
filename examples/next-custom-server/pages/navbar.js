@@ -21,9 +21,9 @@ export default function Navbar() {
         </li>
         <hr />
         <h2>List of posts</h2>
-        {blogs.map((blog) => (
-          <li>
-            <Link href={`/blog/${blog.slug}`}>
+        {blogs.map((blog, index) => (
+          <li key={index}>
+            <Link href="/blog/[slug]" as={`/blog/${blog.slug}`}>
               <a style={{ fontSize: `1.25rem`, textDecoration: 'none' }}>{blog.title}</a>
             </Link>
           </li>
