@@ -1,5 +1,11 @@
 # @tinyhttp/cookie-signature
 
+## 0.1.9
+
+### Patch Changes
+
+- Move from rollup to tsup
+
 ## 0.1.8
 
 ### Patch Changes

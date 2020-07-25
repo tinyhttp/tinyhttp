@@ -1,5 +1,13 @@
 # @tinyhttp/static
 
+## 0.2.23
+
+### Patch Changes
+
+- Move from rollup to tsup
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.39
+
 ## 0.2.22
 
 ### Patch Changes

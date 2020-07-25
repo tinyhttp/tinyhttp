@@ -1,5 +1,15 @@
 # @tinyhttp/app
 
+## 0.2.39
+
+### Patch Changes
+
+- Move from rollup to tsup
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.1.9
+  - @tinyhttp/cookie-signature@0.1.9
+  - @tinyhttp/etag@0.2.9
+
 ## 0.2.34
 
 ### Patch Changes

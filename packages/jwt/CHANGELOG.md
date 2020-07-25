@@ -1,5 +1,11 @@
 # @tinyhttp/jwt
 
+## 0.1.13
+
+### Patch Changes
+
+- Move from rollup to tsup
+
 ## 0.1.12
 
 ### Patch Changes

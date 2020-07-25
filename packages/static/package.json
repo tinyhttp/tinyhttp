@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/static",
-  "version": "0.2.22",
+  "version": "0.2.23",
   "description": "tinyhttp static middleware",
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
@@ -39,12 +39,10 @@
     "node": ">=12.4.0"
   },
   "devDependencies": {
-    "@ampproject/rollup-plugin-closure-compiler": "^0.26.0",
-    "rollup": "^2.22.0",
-    "rollup-plugin-typescript2": "^0.27.1",
+    "tsup": "^3.4.2",
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "build": "rollup -c"
+    "build": "tsup src/index.ts --minify-whitespace --format cjs,esm --dts"
   }
 }

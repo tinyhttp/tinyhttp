@@ -1,5 +1,15 @@
 # @tinyhttp/cookie-parser
 
+## 0.1.24
+
+### Patch Changes
+
+- Move from rollup to tsup
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.39
+  - @tinyhttp/cookie@0.1.9
+  - @tinyhttp/cookie-signature@0.1.9
+
 ## 0.1.23
 
 ### Patch Changes

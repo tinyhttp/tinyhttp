@@ -1,5 +1,11 @@
 # @tinyhttp/logger
 
+## 0.3.12
+
+### Patch Changes
+
+- Move from rollup to tsup
+
 ## 0.3.7
 
 ### Patch Changes

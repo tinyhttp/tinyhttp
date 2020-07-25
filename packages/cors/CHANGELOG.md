@@ -1,5 +1,11 @@
 # @tinyhttp/cors
 
+## 0.2.10
+
+### Patch Changes
+
+- Move from rollup to tsup
+
 ## 0.2.9
 
 ### Patch Changes

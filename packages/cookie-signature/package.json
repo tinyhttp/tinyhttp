@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/cookie-signature",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "HTTP cookie signing and unsigning",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
   "repository": {
@@ -35,12 +35,10 @@
   "author": "v1rtl",
   "license": "MIT",
   "devDependencies": {
-    "@ampproject/rollup-plugin-closure-compiler": "^0.26.0",
-    "rollup": "^2.22.0",
-    "rollup-plugin-typescript2": "^0.27.1",
+    "tsup": "^3.4.2",
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "build": "rollup -c"
+    "build": "tsup src/index.ts --minify-whitespace --format cjs,esm --dts"
   }
 }

@@ -1,5 +1,11 @@
 # @tinyhttp/cli
 
+## 0.0.9
+
+### Patch Changes
+
+- Move from rollup to tsup
+
 ## 0.0.8
 
 ### Patch Changes

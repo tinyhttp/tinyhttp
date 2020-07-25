@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/cookie-parser",
-  "version": "0.1.23",
+  "version": "0.1.24",
   "type": "module",
   "description": "tinyhttp cookie parsing middleware",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -40,12 +40,10 @@
     "@tinyhttp/cookie-signature": "workspace:*"
   },
   "devDependencies": {
-    "@ampproject/rollup-plugin-closure-compiler": "^0.26.0",
-    "rollup": "^2.22.0",
-    "rollup-plugin-typescript2": "^0.27.1",
+    "tsup": "^3.4.2",
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "build": "rollup -c"
+    "build": "tsup src/index.ts --minify-whitespace --format cjs,esm --dts"
   }
 }
