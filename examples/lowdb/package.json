@@ -1,0 +1,7 @@
+{
+  "name": "lowdb",
+  "dependencies": {
+    "@tinyhttp/app": "workspace:^0.2.39",
+    "lowdb": "^1.0.0"
+  }
+}
