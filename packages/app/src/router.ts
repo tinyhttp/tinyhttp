@@ -1,6 +1,7 @@
 import { METHODS } from 'http'
 import { Request } from './request'
 import { Response } from './response'
+import { App } from './app'
 
 export type NextFunction = (err?: any) => void | undefined
 
@@ -100,6 +101,8 @@ const pushMiddleware = (mw: Middleware[]) => ({
  */
 export class Router {
   middleware: Middleware[]
+  mountpath = '/'
+  apps: Record<string, App> = {}
 
   get(path: string | Handler, handler?: Handler, ...handlers: Handler[]) {
     pushMiddleware(this.middleware)({
@@ -460,13 +463,20 @@ export class Router {
    * @param handler handler function
    * @param handlers the rest handler functions
    */
-  use(path: string | Handler, handler?: Handler, ...handlers: Handler[]) {
-    pushMiddleware(this.middleware)({
-      path,
-      handler: typeof path === 'string' ? handler : path,
-      handlers,
-      type: 'mw',
-    })
+  use(path: string | Handler, handler?: Handler | App, ...handlers: Handler[]) {
+    if (handler instanceof Router && typeof path === 'string') {
+      console.log(`⚠️ sub-app support is experimental`)
+      handler.mountpath = path
+      this.apps[path] = handler
+    } else if (!(handler instanceof Router)) {
+      pushMiddleware(this.middleware)({
+        path,
+        handler: typeof path === 'string' ? handler : path,
+        handlers,
+        type: 'mw',
+      })
+    }
+
     return this
   }
 }

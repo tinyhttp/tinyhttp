@@ -92,6 +92,37 @@ describe('Testing App', () => {
         done()
       })
   })
+  it('sub-app mounts on a specific path', () => {
+    const app = new App()
+
+    const subApp = new App()
+
+    app.use('/subapp', subApp)
+
+    expect(subApp.mountpath).toBe('/subapp')
+  })
+  it('sub-app handles its own path', (done) => {
+    const app = new App()
+
+    const subApp = new App()
+
+    subApp.use((_, res) => void res.send('Hello World!'))
+
+    app.use('/subapp', subApp)
+
+    const server = app.listen()
+
+    const request = supertest(server)
+
+    request
+      .get('/subapp')
+      .expect(200, 'Hello World!')
+      .end((err: Error) => {
+        server.close()
+        if (err) return done(err)
+        done()
+      })
+  })
   it('App works with HTTP 1.1', (done) => {
     const app = new App()
 

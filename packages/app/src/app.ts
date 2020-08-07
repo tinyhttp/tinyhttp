@@ -25,11 +25,11 @@ export type AppSettings = Partial<{
  * App class - the starting point of tinyhttp app. It's instance contains all the middleware put in it, app settings, 404 and 500 handlers and locals.
  */
 export class App extends Router {
-  middleware: Middleware[]
-  locals: Record<string, string>
+  middleware: Middleware[] = []
+  locals: Record<string, string> = Object.create(null)
   noMatchHandler: Handler
   onError: ErrorHandler
-  settings: AppSettings
+  settings: AppSettings = {}
   constructor(
     options: Partial<{
       noMatchHandler: Handler
@@ -38,11 +38,9 @@ export class App extends Router {
     }> = {}
   ) {
     super()
-    this.locals = Object.create(null)
-    this.middleware = []
     this.onError = options?.onError || onErrorHandler
     this.noMatchHandler = options?.noMatchHandler || this.onError.bind(null, { code: 404 })
-    this.settings = options.settings || {}
+    this.settings = options.settings
   }
 
   /**
@@ -52,6 +50,10 @@ export class App extends Router {
    */
   async handler(req: Request, res: Response) {
     const mw = this.middleware
+
+    const subapp = Object.keys(this.apps).find((x) => req.url.startsWith(x))
+
+    if (subapp) this.apps[subapp].handler(req, res)
 
     extendMiddleware(this.settings)(req, res)
 
