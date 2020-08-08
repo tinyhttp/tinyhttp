@@ -9,9 +9,6 @@
     "node": ">=12.4.0",
     "pnpm": ">=5.3.0"
   },
-  "files": [
-    "dist"
-  ],
   "devDependencies": {
     "@changesets/cli": "^2.9.2",
     "@types/jest": "^26.0.5",
