@@ -1,0 +1,12 @@
+{
+  "name": "dotenv",
+  "version": "0.0.1",
+  "description": "Dotenv wrapper for tinyhttp same as dotenv",
+  "main": "rollup.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
