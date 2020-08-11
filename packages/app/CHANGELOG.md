@@ -1,5 +1,14 @@
 # @tinyhttp/app
 
+## 0.2.41
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.1.10
+  - @tinyhttp/cookie-signature@0.1.10
+  - @tinyhttp/etag@0.2.10
+
 ## 0.2.39
 
 ### Patch Changes

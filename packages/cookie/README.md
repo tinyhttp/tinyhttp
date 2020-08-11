@@ -1,6 +1,6 @@
 # @tinyhttp/cookie
 
-[![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/cookie?style=flat-square)](npmjs.com/package/@tinyhttp/cookie) [![npm](https://img.shields.io/npm/dt/@tinyhttp/cookie?style=flat-square)](npmjs.com/package/@tinyhttp/cookie)
+[![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/cookie?style=flat-square)](https://npmjs.com/package/@tinyhttp/cookie) [![npm](https://img.shields.io/npm/dt/@tinyhttp/cookie?style=flat-square)](https://npmjs.com/package/@tinyhttp/cookie)
 
 > A rewrite of [cookie](https://github.com/jshttp/cookie) module.
 
@@ -150,7 +150,7 @@ app.use((req, res) => {
       'Set-Cookie',
       cookie.serialize('name', String(query.name), {
         httpOnly: true,
-        maxAge: 60 * 60 * 24 * 7 // 1 week
+        maxAge: 60 * 60 * 24 * 7, // 1 week
       })
     )
 

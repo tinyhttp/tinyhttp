@@ -1,5 +1,12 @@
 # @tinyhttp/static
 
+## 0.2.24
+
+### Patch Changes
+
+- Fix link
+  - @tinyhttp/app@0.2.41
+
 ## 0.2.23
 
 ### Patch Changes

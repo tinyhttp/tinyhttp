@@ -1,6 +1,6 @@
 # @tinyhttp/cors
 
-[![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/cors?style=flat-square)](npmjs.com/package/@tinyhttp/cors) [![npm](https://img.shields.io/npm/dt/@tinyhttp/cors?style=flat-square)](npmjs.com/package/@tinyhttp/cors)
+[![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/cors?style=flat-square)](https://npmjs.com/package/@tinyhttp/cors) [![npm](https://img.shields.io/npm/dt/@tinyhttp/cors?style=flat-square)](https://npmjs.com/package/@tinyhttp/cors)
 
 > A rewrite of [expressjs/cors](https://github.com/expressjs/cors) module.
 
@@ -23,6 +23,7 @@ import { cors } from '@tinyhttp/cors'
 Returns the Cors middleware with the settings specified in the parameters
 
 #### Options
+
 - `origin`: Can be a string defining the Access-Control-Allow-Origin value, a boolean which if set to true sets the header to `'*'` or a function which contains the request and response as parameters and must return the value for the Access-Control-Allow-Origin header
 - `methods`: Array of method names which define the Access-Control-Allow-Methods header, default to all the most common methods (get, head, put, patch, post, delete)
 - `allowedHeaders`: Configures the Access-Control-Allow-Headers CORS header. Expects an array (ex: ['Content-Type', 'Authorization']).

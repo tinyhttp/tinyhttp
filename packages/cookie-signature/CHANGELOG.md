@@ -1,5 +1,11 @@
 # @tinyhttp/cookie-signature
 
+## 0.1.10
+
+### Patch Changes
+
+- Fix link
+
 ## 0.1.9
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @tinyhttp/etag
 
+## 0.2.10
+
+### Patch Changes
+
+- Fix link
+
 ## 0.2.9
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 # @tinyhttp/dotenv
 
-[![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/dotenv?style=flat-square)](npmjs.com/package/@tinyhttp/dotenv) [![npm](https://img.shields.io/npm/dt/@tinyhttp/dotenv?style=flat-square)](npmjs.com/package/@tinyhttp/dotenv)
+[![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/dotenv?style=flat-square)](https://npmjs.com/package/@tinyhttp/dotenv) [![npm](https://img.shields.io/npm/dt/@tinyhttp/dotenv?style=flat-square)](https://npmjs.com/package/@tinyhttp/dotenv)
 
 > A rewrite of [dotenv](https://github.com/motdotla/dotenv) module.
 

@@ -1,6 +1,6 @@
 # @tinyhttp/jwt
 
-[![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/jwt?style=flat-square)](npmjs.com/package/@tinyhttp/jwt) [![npm](https://img.shields.io/npm/dt/@tinyhttp/jwt?style=flat-square)](npmjs.com/package/@tinyhttp/jwt) [![](https://img.shields.io/badge/website-visit-hotpink?style=flat-square)](https://tinyhttp.v1rtl.site/mw/jwt)
+[![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/jwt?style=flat-square)](https://npmjs.com/package/@tinyhttp/jwt) [![npm](https://img.shields.io/npm/dt/@tinyhttp/jwt?style=flat-square)](https://npmjs.com/package/@tinyhttp/jwt) [![](https://img.shields.io/badge/website-visit-hotpink?style=flat-square)](https://tinyhttp.v1rtl.site/mw/jwt)
 
 JWT middleware for HTTP servers.
 
