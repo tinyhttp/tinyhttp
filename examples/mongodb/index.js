@@ -1,5 +1,5 @@
 import { App } from '@tinyhttp/app'
-import dotenv from 'dotenv'
+import * as dotenv from '@tinyhttp/dotenv'
 import { form as parser } from 'body-parsec'
 import mongodb from 'mongodb'
 import assert from 'assert'

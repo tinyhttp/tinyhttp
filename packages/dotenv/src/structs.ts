@@ -18,7 +18,7 @@ export type DotenvConfigOptions = {
   /**
    * You may specify the encoding of your file containing environment variables.
    */
-  encoding: string
+  encoding: BufferEncoding
 
   /**
    * You may turn on logging to help debug why certain keys or values are not being set as you expect.

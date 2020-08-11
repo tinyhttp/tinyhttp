@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { DotenvParseOptions, DotenvParseOutput, DotenvConfigOptions, DotenvConfigOutput } from './types'
+import { DotenvParseOptions, DotenvParseOutput, DotenvConfigOptions, DotenvConfigOutput } from './structs'
 
 const log = (message: string) => console.log(`[dotenv][DEBUG] ${message}`)
 
@@ -84,7 +84,7 @@ export function config(options?: Partial<DotenvConfigOptions>): DotenvConfigOutp
     })
 
     return { parsed }
-  } catch (err) {
-    return { error: err }
+  } catch (error) {
+    return { error }
   }
 }

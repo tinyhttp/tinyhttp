@@ -1,12 +1,43 @@
 {
-  "name": "dotenv",
+  "name": "@tinyhttp/dotenv",
   "version": "0.0.1",
-  "description": "Dotenv wrapper for tinyhttp same as dotenv",
-  "main": "rollup.config.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "description": "",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json",
+    "./": "./"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/talentlessguy/tinyhttp.git",
+    "directory": "packages/dotenv"
+  },
+  "author": "v1rtl",
+  "license": "MIT",
+  "keywords": [
+    "tinyhttp",
+    "node.js",
+    "web framework",
+    "web",
+    "backend",
+    "dotenv"
+  ],
+  "engines": {
+    "node": ">=12.4.0"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --minify-whitespace --format cjs,esm --dts"
+  },
+  "devDependencies": {
+    "tsup": "^3.4.2",
+    "typescript": "^3.9.7"
+  }
 }
