@@ -16,21 +16,14 @@ export const InitAppAndTest = (handler: Handler, route?: string, method = 'get')
 
   const request = supertest(server)
 
-  return { request, server }
+  return { request }
 }
 
 describe('Testing App', () => {
   it('should launch a basic server', (done) => {
-    const { request, server } = InitAppAndTest((_req, res) => void res.send('Hello world'))
+    const { request } = InitAppAndTest((_req, res) => void res.send('Hello world'))
 
-    request
-      .get('/')
-      .expect(200, 'Hello world')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    request.get('/').expect(200, 'Hello world', done)
   })
   it('should chain middleware', () => {
     const app = new App()
@@ -61,14 +54,7 @@ describe('Testing App', () => {
 
     const request = supertest(server)
 
-    request
-      .get('/')
-      .expect(404, 'Oopsie! Page / is lost.')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    request.get('/').expect(404, 'Oopsie! Page / is lost.', done)
   })
   it('Custom onError works', (done) => {
     const app = new App({
@@ -83,14 +69,7 @@ describe('Testing App', () => {
 
     const request = supertest(server)
 
-    request
-      .get('/')
-      .expect(500, 'Ouch, you hurt me on / page.')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    request.get('/').expect(500, 'Ouch, you hurt me on / page.', done)
   })
   it('sub-app mounts on a specific path', () => {
     const app = new App()
@@ -114,14 +93,7 @@ describe('Testing App', () => {
 
     const request = supertest(server)
 
-    request
-      .get('/subapp')
-      .expect(200, 'Hello World!')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    request.get('/subapp').expect(200, 'Hello World!', done)
   })
   it('App works with HTTP 1.1', (done) => {
     const app = new App()
@@ -132,14 +104,7 @@ describe('Testing App', () => {
 
     const request = supertest(server)
 
-    request
-      .get('/')
-      .expect(404)
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    request.get('/').expect(404, done)
   })
   it('req and res inherit properties from previous middlewares', (done) => {
     const app = new App()
@@ -155,16 +120,9 @@ describe('Testing App', () => {
 
     const server = app.listen()
 
-    const request: any = supertest(server)
+    const request = supertest(server)
 
-    request
-      .get('/')
-      .expect(200, { hello: 'world' })
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    request.get('/').expect(200, { hello: 'world' }, done)
   })
   it('req and res inherit properties from previous middlewares asynchronously', (done) => {
     const app = new App()
@@ -180,15 +138,8 @@ describe('Testing App', () => {
 
     const server = app.listen()
 
-    const request: any = supertest(server)
+    const request = supertest(server)
 
-    request
-      .get('/')
-      .expect(200, 'I am a text file.')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    request.get('/').expect(200, 'I am a text file.', done)
   })
 })

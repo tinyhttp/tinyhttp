@@ -4,16 +4,9 @@ import { InitAppAndTest } from './app.test'
 
 describe('Testing Router', () => {
   it('should respond on matched route', (done) => {
-    const { request, server } = InitAppAndTest((_req, res) => void res.send('Hello world'), '/route')
+    const { request } = InitAppAndTest((_req, res) => void res.send('Hello world'), '/route')
 
-    request
-      .get('/route')
-      .expect(200, 'Hello world')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    request.get('/route').expect(200, 'Hello world', done)
   })
   it('"*" should catch all undefined routes', (done) => {
     const app = new App()
@@ -24,14 +17,7 @@ describe('Testing Router', () => {
 
     const request = supertest(server)
 
-    request
-      .get('/route')
-      .expect(200, 'A different route')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    request.get('/route').expect(200, 'A different route', done)
   })
   it('should throw 404 on no routes', (done) => {
     const app = new App()
@@ -40,14 +26,7 @@ describe('Testing Router', () => {
 
     const request: any = supertest(server)
 
-    request
-      .get('/')
-      .expect(404)
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    request.get('/').expect(404, done)
   })
   it('next function skips current middleware', (done) => {
     const app = new App()
@@ -65,14 +44,7 @@ describe('Testing Router', () => {
 
     const request: any = supertest(server)
 
-    request
-      .get('/')
-      .expect(200, { log: '/' })
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    request.get('/').expect(200, { log: '/' }, done)
   })
   it('next function handles errors', (done) => {
     const app = new App()
@@ -89,14 +61,7 @@ describe('Testing Router', () => {
 
     const request: any = supertest(server)
 
-    request
-      .get('/broken')
-      .expect(500, 'Your appearance destroyed this world.')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    request.get('/broken').expect(500, 'Your appearance destroyed this world.', done)
   })
 })
 
@@ -109,14 +74,7 @@ describe('Route methods', () => {
     const server = app.listen()
     const request = supertest(server)
 
-    request
-      .get('/')
-      .expect(200, 'GET')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    request.get('/').expect(200, 'GET', done)
   })
   it('app.post handles post request', (done) => {
     const app = new App()
@@ -177,14 +135,7 @@ describe('Route methods', () => {
     const server = app.listen()
     const request = supertest(server)
 
-    request
-      .head('/')
-      .expect(200, '' || undefined)
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    request.head('/').expect(200, '' || undefined, done)
   })
   it('app.delete handles delete request', (done) => {
     const app = new App()
@@ -194,14 +145,7 @@ describe('Route methods', () => {
     const server = app.listen()
     const request = supertest(server)
 
-    request
-      .delete('/')
-      .expect(200, 'DELETE')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    request.delete('/').expect(200, 'DELETE', done)
   })
   it('app.checkout handles checkout request', (done) => {
     const app = new App()
