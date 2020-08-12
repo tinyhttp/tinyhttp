@@ -100,8 +100,6 @@ const pushMiddleware = (mw: Middleware[]) => ({
   for (const mdw of [m, ...waresFromHandlers]) {
     mw.push({ ...mdw, type })
   }
-
-  console.log(mw)
 }
 /**
  * tinyhttp Router. Manages middleware and has HTTP methods aliases, e.g. `app.get`, `app.put`
@@ -472,7 +470,7 @@ export class Router {
    */
   use(path: string | Handler, handler?: Handler | App, ...handlers: Handler[]) {
     if (handler instanceof Router && typeof path === 'string') {
-      console.log(`⚠️ sub-app support is experimental`)
+      console.log(`⚠️ sub-app support is experimental!`)
       handler.mountpath = path
       this.apps[path] = handler
     } else if (!(handler instanceof Router)) {

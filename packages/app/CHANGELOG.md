@@ -1,5 +1,17 @@
 # @tinyhttp/app
 
+## 0.2.45
+
+### Patch Changes
+
+- add "!"
+
+## 0.2.43
+
+### Patch Changes
+
+- remove console.log
+
 ## 0.2.42
 
 ### Patch Changes
