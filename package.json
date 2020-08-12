@@ -35,6 +35,6 @@
     "chgset": "pnpm chgset:run && pnpm chgset:version",
     "release": "pnpm publish -r",
     "release-no-git-checks": "pnpm publish -r --no-git-checks",
-    "test": "jest"
+    "test": "jest --detectOpenHandles"
   }
 }
