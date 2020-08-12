@@ -28,7 +28,7 @@
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "prepare": "eslint ./packages/*/src/*.ts && pnpm build && pnpm test",
+    "prepublishOnly": "eslint ./packages/*/src/*.ts && pnpm build && pnpm test",
     "build": "pnpm build -r",
     "chgset:run": "changeset",
     "chgset:version": "changeset version",

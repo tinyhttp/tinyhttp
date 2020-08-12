@@ -88,13 +88,20 @@ const pushMiddleware = (mw: Middleware[]) => ({
 }) => {
   const m = createMiddlewareFromRoute({ path, handler, method, type })
 
-  const waresFromHandlers: { handler: Handler }[] = handlers.map((handler) => ({
-    handler,
-  }))
+  const waresFromHandlers: { handler: Handler }[] = handlers.map((handler) =>
+    createMiddlewareFromRoute({
+      path,
+      handler,
+      method,
+      type,
+    })
+  )
 
   for (const mdw of [m, ...waresFromHandlers]) {
     mw.push({ ...mdw, type })
   }
+
+  console.log(mw)
 }
 /**
  * tinyhttp Router. Manages middleware and has HTTP methods aliases, e.g. `app.get`, `app.put`
