@@ -32,9 +32,12 @@ jobs:
         with:
           version: 5.3.0
           run_install: true
+      
       - name: Build packages
         run: pnpm build -r
+        
       - name: Run tests
         run: pnpm test
+      
       - name: Collect coverage
         uses: codecov/codecov-action@v1.0.10
