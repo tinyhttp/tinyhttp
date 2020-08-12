@@ -27,10 +27,14 @@ jobs:
         with:
           node-version: 14.5.0
 
-      - name: Setup PNPM + build packages + run tests
+      - name: Setup PNPM
         uses: pnpm/action-setup@v1.2.0
         with:
           version: 5.3.0
           run_install: true
+      - name: Build packages
+        run: pnpm build -r
+      - name: Run tests
+        run: pnpm test
       - name: Collect coverage
         uses: codecov/codecov-action@v1.0.10
