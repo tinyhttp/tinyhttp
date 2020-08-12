@@ -1,7 +1,12 @@
 {
   "name": "lowdb",
+  "type": "module",
   "dependencies": {
-    "@tinyhttp/app": "workspace:^0.2.39",
+    "@tinyhttp/app": "workspace:*",
+    "body-parsec": "^2.0.19",
     "lowdb": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/lowdb": "^1.0.9"
   }
 }
