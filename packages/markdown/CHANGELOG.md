@@ -1,5 +1,13 @@
 # @tinyhttp/markdown
 
+## 0.1.28
+
+### Patch Changes
+
+- Upgrade deps
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.46
+
 ## 0.1.27
 
 ### Patch Changes

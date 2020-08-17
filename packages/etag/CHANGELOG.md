@@ -1,5 +1,11 @@
 # @tinyhttp/etag
 
+## 0.2.11
+
+### Patch Changes
+
+- Upgrade deps
+
 ## 0.2.10
 
 ### Patch Changes

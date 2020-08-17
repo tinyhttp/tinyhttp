@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/dotenv",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "0-dependency module to load envinronmental variables from .env to process.env",
   "type": "module",
   "main": "dist/index.cjs",
@@ -37,7 +37,7 @@
     "build": "tsup src/index.ts --minify-whitespace --format cjs,esm --dts"
   },
   "devDependencies": {
-    "tsup": "^3.4.2",
+    "tsup": "^3.6.1",
     "typescript": "^3.9.7"
   }
 }

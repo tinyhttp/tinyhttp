@@ -1,5 +1,11 @@
 # @tinyhttp/cookie-signature
 
+## 0.1.11
+
+### Patch Changes
+
+- Upgrade deps
+
 ## 0.1.10
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/cors",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "description": "tinyhttp CORS module",
   "type": "module",
   "main": "dist/index.cjs",
@@ -37,7 +37,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "devDependencies": {
-    "tsup": "^3.4.2",
+    "tsup": "^3.6.1",
     "typescript": "^3.9.7"
   },
   "scripts": {

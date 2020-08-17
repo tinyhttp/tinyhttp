@@ -1,5 +1,11 @@
 # @tinyhttp/logger
 
+## 0.3.16
+
+### Patch Changes
+
+- Upgrade deps
+
 ## 0.3.15
 
 ### Patch Changes

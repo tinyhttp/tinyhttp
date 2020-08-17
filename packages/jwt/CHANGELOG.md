@@ -1,5 +1,11 @@
 # @tinyhttp/jwt
 
+## 0.1.15
+
+### Patch Changes
+
+- Upgrade deps
+
 ## 0.1.14
 
 ### Patch Changes

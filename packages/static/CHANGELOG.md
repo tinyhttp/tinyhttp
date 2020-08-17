@@ -1,5 +1,13 @@
 # @tinyhttp/static
 
+## 0.2.28
+
+### Patch Changes
+
+- Upgrade deps
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.46
+
 ## 0.2.27
 
 ### Patch Changes
