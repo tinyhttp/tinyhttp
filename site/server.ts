@@ -1,5 +1,5 @@
 import { App } from '../packages/app/src'
-import serve from 'serve-handler'
+import serve from 'sirv'
 import { markdownStaticHandler as md } from '../packages/markdown/src'
 import { logger } from '@tinyhttp/logger'
 import { createReadStream } from 'fs'
@@ -80,10 +80,11 @@ app
       ],
     })
   )
-  .use(async (req, res) => {
-    await serve(req, res, {
-      public: 'static',
+  .use(
+    serve('static', {
+      maxAge: 31536000,
+      immutable: true,
     })
-  })
+  )
 
 app.listen(3000, () => console.log(`Running on http://localhost:3000`))

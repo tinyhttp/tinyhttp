@@ -1,5 +1,11 @@
 # @tinyhttp/static
 
+## 0.2.29
+
+### Patch Changes
+
+- Update readmes
+
 ## 0.2.28
 
 ### Patch Changes

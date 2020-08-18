@@ -2,7 +2,7 @@
 
 [![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/logger?style=flat-square)](https://npmjs.com/package/@tinyhttp/logger) [![npm](https://img.shields.io/npm/dt/@tinyhttp/logger?style=flat-square)](https://npmjs.com/package/@tinyhttp/logger) [![](https://img.shields.io/badge/website-visit-hotpink?style=flat-square)](https://tinyhttp.v1rtl.site/mw/logger)
 
-Simple HTTP logger for tinyhttp. The module is very primitive, for advanced cases use [Pino](https://github.com/pinojs/pino).
+Simple HTTP logger for tinyhttp.
 
 ## Install
 
@@ -41,6 +41,11 @@ app
   .post('/', (req, res) => void res.send('Sent POST'))
   .listen(3000)
 ```
+
+## Alternatives
+
+- [Pino](https://github.com/pinojs/pino)
+- [Zoya](https://github.com/WoLfulus/zoya)
 
 ## License
 

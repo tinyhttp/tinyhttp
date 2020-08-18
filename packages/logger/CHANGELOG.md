@@ -1,5 +1,11 @@
 # @tinyhttp/logger
 
+## 0.3.17
+
+### Patch Changes
+
+- Update readmes
+
 ## 0.3.16
 
 ### Patch Changes
