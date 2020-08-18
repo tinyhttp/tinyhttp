@@ -10,10 +10,14 @@ on:
   pull_request:
     branches: [master]
 
+env:
+  PNPM_CACHE_FOLDER: .pnpm-store
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
   build:
+    timeout-minutes: 10
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -21,7 +25,15 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      
+
+       - name: setup caching
+         uses: actions/cache@v2
+         with:
+          path: ${{ env.PNPM_CACHE_FOLDER }}
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.1.0
         with:
@@ -31,13 +43,19 @@ jobs:
         uses: pnpm/action-setup@v1.2.0
         with:
           version: 5.3.0
-          run_install: true
-      
+          run_install: false
+
+      - name: Setup pnpm config
+        run: pnpm config set store-dir $PNPM_CACHE_FOLDER
+
+      - name: Install dependencies
+        run: pnpm install
+
       - name: Build packages
         run: pnpm build -r
-        
+
       - name: Run tests
         run: pnpm test
-      
+
       - name: Collect coverage
         uses: codecov/codecov-action@v1.0.10
