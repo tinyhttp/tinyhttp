@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.2.48
+
+### Patch Changes
+
+- Upgrade some es-\* deps even more
+
 ## 0.2.47
 
 ### Patch Changes
