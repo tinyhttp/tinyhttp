@@ -1,5 +1,11 @@
 # @tinyhttp/cookie-signature
 
+## 0.1.12
+
+### Patch Changes
+
+- Upgrade some es-\* packages
+
 ## 0.1.11
 
 ### Patch Changes

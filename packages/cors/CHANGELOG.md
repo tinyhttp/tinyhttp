@@ -1,5 +1,11 @@
 # @tinyhttp/cors
 
+## 0.2.13
+
+### Patch Changes
+
+- Upgrade some es-\* packages
+
 ## 0.2.12
 
 ### Patch Changes

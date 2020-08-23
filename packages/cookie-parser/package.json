@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/cookie-parser",
-  "version": "0.1.29",
+  "version": "0.1.30",
   "type": "module",
   "description": "tinyhttp cookie parsing middleware",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "tsup": "^3.6.1",
-    "typescript": "^3.9.7"
+    "typescript": "^4.0.2"
   },
   "scripts": {
     "build": "tsup src/index.ts --minify-whitespace --format cjs,esm --dts"

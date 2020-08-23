@@ -1,5 +1,11 @@
 # @tinyhttp/logger
 
+## 0.3.18
+
+### Patch Changes
+
+- Upgrade some es-\* packages
+
 ## 0.3.17
 
 ### Patch Changes

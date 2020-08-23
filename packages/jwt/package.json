@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/jwt",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "description": "JWT middleware for tinyhttp",
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
@@ -33,7 +33,7 @@
   "devDependencies": {
     "@types/jsonwebtoken": "^8.5.0",
     "tsup": "^3.6.1",
-    "typescript": "^3.9.7"
+    "typescript": "^4.0.2"
   },
   "scripts": {
     "build": "tsup src/index.ts --minify-whitespace --format cjs,esm --dts"

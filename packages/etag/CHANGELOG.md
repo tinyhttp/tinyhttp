@@ -1,5 +1,11 @@
 # @tinyhttp/etag
 
+## 0.2.12
+
+### Patch Changes
+
+- Upgrade some es-\* packages
+
 ## 0.2.11
 
 ### Patch Changes

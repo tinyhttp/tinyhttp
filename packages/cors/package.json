@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/cors",
-  "version": "0.2.12",
+  "version": "0.2.13",
   "description": "tinyhttp CORS module",
   "type": "module",
   "main": "dist/index.cjs",
@@ -32,13 +32,13 @@
     "node": ">=12.4.0"
   },
   "dependencies": {
-    "es-vary": "^0.0.3"
+    "es-vary": "^0.0.4"
   },
   "author": "v1rtl",
   "license": "MIT",
   "devDependencies": {
     "tsup": "^3.6.1",
-    "typescript": "^3.9.7"
+    "typescript": "^4.0.2"
   },
   "scripts": {
     "build": "tsup src/index.ts --minify-whitespace --format cjs,esm --dts"

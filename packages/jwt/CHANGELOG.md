@@ -1,5 +1,11 @@
 # @tinyhttp/jwt
 
+## 0.1.16
+
+### Patch Changes
+
+- Upgrade some es-\* packages
+
 ## 0.1.15
 
 ### Patch Changes
