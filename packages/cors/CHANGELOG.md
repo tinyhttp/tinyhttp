@@ -1,5 +1,11 @@
 # @tinyhttp/cors
 
+## 0.2.14
+
+### Patch Changes
+
+- Fix versions
+
 ## 0.2.13
 
 ### Patch Changes
