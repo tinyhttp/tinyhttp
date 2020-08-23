@@ -1,5 +1,12 @@
 # @tinyhttp/cookie-parser
 
+## 0.1.32
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.49
+
 ## 0.1.31
 
 ### Patch Changes
