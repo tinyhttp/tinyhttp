@@ -17,7 +17,6 @@ env:
 jobs:
   # This workflow contains a single job called "build"
   build:
-    timeout-minutes: 10
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
