@@ -5,6 +5,7 @@ import { logger } from '@tinyhttp/logger'
 import { createReadStream } from 'fs'
 import { transformMWPageStream, transformPageIndexStream } from './streams'
 import unfetch from 'isomorphic-unfetch'
+import hljs from 'highlight.js'
 
 const app = new App()
 
@@ -78,12 +79,19 @@ app
           headerIds: true,
         },
       ],
+      markedOptions: {
+        highlight: function (code, lang) {
+          if (!lang) lang = 'txt'
+
+          return hljs.highlight(lang, code).value
+        },
+      },
     })
   )
   .use(
     serve('static', {
-      maxAge: 31536000,
-      immutable: true,
+      dev: process.env.NODE_ENV !== 'production',
+      immutable: process.env.NODE_ENV === 'production',
     })
   )
 

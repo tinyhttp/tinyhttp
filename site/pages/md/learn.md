@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="/css/docs.css" />
 <link rel="stylesheet" href="/css/shared.css" />
 <link rel="stylesheet" href="/inter.css" />
+<link rel="stylesheet" href="/hljs.css" />
 
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -80,11 +81,14 @@ fnm use latest
 mkdir app
 cd app
 
-# Init npm package
-pnpm init -y
+# Init npm package (with ESM support)
+echo '{ "type": "module" }' > package.json
 
 # Install `app` module
 pnpm i @tinyhttp/app
+
+# Create the JavaScript file
+touch app.js
 
 # Run your app
 node app.js
@@ -94,7 +98,7 @@ node app.js
 
 Here is a very basic example of a tinyhttp app:
 
-```ts
+```js
 import { App } from '@tinyhttp/app'
 
 const app = new App()
@@ -114,7 +118,7 @@ For more examples check [examples folder](https://github.com/talentlessguy/tinyh
 
 A tinyhttp app is an instance of `App` class containing middleware and router methods.
 
-```ts
+```js
 import { App } from '@tinyhttp/app'
 
 const app = new App()
@@ -126,7 +130,7 @@ app.listen(3000)
 
 App settings can be set inside a constructor.
 
-```ts
+```js
 const app = new App({
   noMatchHandler: (req, res) => res.send('Oopsie, page cannot be found'),
 })
@@ -136,7 +140,7 @@ const app = new App({
 
 Middleware is a an object containing a handler function and a path (optionally), just like in Express.
 
-```ts
+```js
 app
   .use((req, _res, next) => {
     console.log(`Made a request from ${req.url}!`)
@@ -149,7 +153,7 @@ app
 
 Handler is a function that accepts `Request` and `Response` object as arguments. These objects are extended versions of built-in `http`'s `IncomingMessage` and `ServerResponse`.
 
-```ts
+```js
 app.use((req, res) => {
   res.send({ query: req.query })
 })
@@ -161,7 +165,7 @@ For a full list of of those extensions, check the [docs](/docs).
 
 the request URL starts with the specified path, the handler will process request and response objects. Middleware only can handle URLs that start with a specified path. For advanced paths (with params and exact match), go to [Routing](#routing) section.
 
-```ts
+```js
 app.use('/', (_req, _res, next) => void next()) // Will handle all routes
 app.use('/path', (_req, _res, next) => void next()) // Will handle routes starting with /path
 ```
@@ -172,7 +176,7 @@ app.use('/path', (_req, _res, next) => void next()) // Will handle routes starti
 
 tinyhttp app returns itself on any `app.use` call which allows us to do chaining:
 
-```ts
+```js
 app.use((_) => {}).use((_) => {})
 ```
 
@@ -182,10 +186,8 @@ Routing functions like `app.get` support chaining as well.
 
 All middleware executes in a loop. Once a middleware handler calls `next()` tinyhttp goes to the next middleware until the loop finishes.
 
-```ts
-app
-  .use((_req, res) => void res.end('Hello World'))
-  .use((_req, res) => void res.end('I am the unreachable middleware'))
+```js
+app.use((_req, res) => void res.end('Hello World')).use((_req, res) => void res.end('I am the unreachable middleware'))
 ```
 
 Remember to call `next()` in your middleware chains because otherwise it will stick to a current handler and won't switch to next one.
@@ -198,13 +200,13 @@ Each route can have one or many middlewares in it, which handle when the path ma
 
 Routes usually have the following structure:
 
-```ts
+```js
 app.METHOD(path, handler, ...handlers)
 ```
 
 Where `app` is tinyhttp `App` instance, `path` is the path that should match the request URL and `handler` (+ `handlers`) is a function that is executed when the specified paths matches the request URL.
 
-```ts
+```js
 import { App } from '@tinyhttp/app'
 
 const app = new App()
@@ -216,19 +218,14 @@ app.get('/', (_req, res) => void res.send('Hello World'))
 
 Most popular methods (e.g. `GET`, `POST`, `PUT`, `OPTIONS`) have pre-defined functions for routing. In the future releases of tinyhttp all methods will have their functions.
 
-```ts
-app
-  .get('/', (_req, res) => void res.send('Hello World'))
-  .post('/a/b', (req, res) => void res.send('Sent a POST request'))
+```js
+app.get('/', (_req, res) => void res.send('Hello World')).post('/a/b', (req, res) => void res.send('Sent a POST request'))
 ```
 
 To handle all HTTP methods, use `app.all`:
 
-```ts
-app.all(
-  '*',
-  (req, res) => void res.send(`Made a request on ${req.url} via ${req.method}`)
-)
+```js
+app.all('*', (req, res) => void res.send(`Made a request on ${req.url} via ${req.method}`))
 ```
 
 #### Route paths
@@ -243,7 +240,7 @@ Here are some examples of route paths based on strings.
 
 This route path will match requests to the root route, /.
 
-```ts
+```js
 app.get('/', function (req, res) {
   res.send('root')
 })
@@ -251,7 +248,7 @@ app.get('/', function (req, res) {
 
 This route path will match requests to /about.
 
-```ts
+```js
 app.get('/about', function (req, res) {
   res.send('about')
 })
@@ -259,7 +256,7 @@ app.get('/about', function (req, res) {
 
 This route path will match requests to /random.text.
 
-```ts
+```js
 app.get('/random.text', function (req, res) {
   res.send('random.text')
 })
@@ -267,12 +264,26 @@ app.get('/random.text', function (req, res) {
 
 This route path will match acd and abcd.
 
-```ts
+```js
 app.get('/ab?cd', function (req, res) {
   res.send('ab?cd')
 })
 ```
 
-The rest of the guide is coming soon... I need to rest a little bit.
+#### Route parameters
+
+Route parameters are named URL segments that are used to capture the values specified at their position in the URL. The captured values are populated in the `req.params` object, with the name of the route parameter specified in the path as their keys.
+
+```
+Route path: /users/:userId/books/:bookId
+Request URL: http://localhost:3000/users/34/books/8989
+req.params: { "userId": "34", "bookId": "8989" }
+```
+
+To define routes with route parameters, simply specify the route parameters in the path of the route:
+
+```js
+app.get('/users/:userId/books/:bookId', (req, res) => void res.send(req.params))
+```
 
 </main>

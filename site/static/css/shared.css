@@ -4,7 +4,8 @@
   --bright-pink: #9e7eba;
   --fg: #633240;
   --dark-fg: #1d1b1c;
-  --shadow: 5px 10px 30px rgba(0, 0, 0, 0.3);
+  --shadow: 0px 10px 60px rgba(0, 0, 0, 0.2);
+  --shadow-hover: 0px 10px 60px rgba(0, 0, 0, 0.486);
   --gradient: linear-gradient(150deg, var(--pink) 40%, var(--bright-pink) 72%);
 }
 
@@ -13,19 +14,15 @@ body {
   background-color: var(--bg);
 }
 
-@supports (font-variation-settings: normal) {
-  * {
-    font-family: 'Inter var', sans-serif !important;
-  }
-}
-
 * {
   font-family: 'Inter', sans-serif;
   scroll-behavior: smooth;
 }
 
 pre,
-code {
+code,
+pre *,
+code * {
   font-family: 'Fira Code', 'Inconsolata', 'Iosevka', monospace !important;
 }
 

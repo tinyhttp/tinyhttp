@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="/css/docs.css" />
 <link rel="stylesheet" href="/css/shared.css" />
 <link rel="stylesheet" href="/inter.css" />
+<link rel="stylesheet" href="/hljs.css" />
 
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
