@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.2.55
+
+### Patch Changes
+
+- Support system errors (not only http)
+
 ## 0.2.54
 
 ### Patch Changes
