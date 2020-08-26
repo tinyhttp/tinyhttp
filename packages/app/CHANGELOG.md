@@ -1,5 +1,17 @@
 # @tinyhttp/app
 
+## 0.2.54
+
+### Patch Changes
+
+- Fix error handler
+
+## 0.2.53
+
+### Patch Changes
+
+- Fix import
+
 ## 0.2.51
 
 ### Patch Changes

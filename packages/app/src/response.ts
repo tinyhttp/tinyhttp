@@ -1,6 +1,6 @@
 import { ServerResponse, STATUS_CODES } from 'http'
 import { sign } from '@tinyhttp/cookie-signature'
-import mime from 'es-mime-types'
+import * as mime from 'es-mime-types'
 import * as cookie from '@tinyhttp/cookie'
 import { setCharset, createETag } from './utils/response'
 import { Request } from './request'
