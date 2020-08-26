@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.2.51
+
+### Patch Changes
+
+- Fix es-mime-types strange build
+
 ## 0.2.50
 
 ### Patch Changes
