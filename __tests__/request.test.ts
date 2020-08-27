@@ -42,6 +42,22 @@ describe('Request properties', () => {
 
     request.get('/').expect(200, `XMLHttpRequest: no`, done)
   })
+  it('req.protocol is http by default', (done) => {
+    const { request } = InitAppAndTest(
+      (req, res) => {
+        res.send(`protocol: ${req.protocol}`)
+      },
+      '/',
+      'GET',
+      {
+        settings: {
+          networkExtensions: true,
+        },
+      }
+    )
+
+    request.get('/').expect(200, `protocol: http`, done)
+  })
 })
 
 describe('Request methods', () => {

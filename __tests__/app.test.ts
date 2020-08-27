@@ -3,11 +3,11 @@ import http from 'http'
 import { readFile } from 'fs/promises'
 import { App, Handler } from '../packages/app/src'
 
-export const InitAppAndTest = (handler: Handler, route?: string, method = 'get') => {
-  const app = new App()
+export const InitAppAndTest = (handler: Handler, route?: string, method = 'get', settings = {}) => {
+  const app = new App(settings)
 
   if (route) {
-    app[method](route, handler)
+    app[method.toLowerCase()](route, handler)
   } else {
     app.use(handler)
   }
