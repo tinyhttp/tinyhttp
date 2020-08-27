@@ -32,4 +32,8 @@ describe('Dotenv parsing', () => {
   it('expands newlines but only if double quoted', () => {
     expect(parsed.DONT_EXPAND_UNQUOTED).toBe('dontexpand\\nnewlines')
   })
+  it('should parse a buffer into an object', () => {
+    const payload = dotenv.parse(Buffer.from('BUFFER=true'))
+    expect(payload.BUFFER).toBe('true')
+  })
 })
