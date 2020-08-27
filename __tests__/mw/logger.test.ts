@@ -116,4 +116,11 @@ describe('Logger tests', () => {
       createColorTest(500, 'magenta', done)()
     })
   })
+  describe('Badge Log', () => {
+    it('should not output anything if not passing badge config')
+    it('should display emoji');
+    it('should display caption');
+    it('should display both emoji and caption');
+    it('should output correct type of emoji based on status code');
+  })
 })
