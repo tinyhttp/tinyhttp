@@ -22,4 +22,20 @@ describe('Cookie parsing', () => {
   it('should ignore non values', () => {
     expect(cookie.parse('foo=%1;bar=bar;HttpOnly;Secure')).toStrictEqual({ foo: '%1', bar: 'bar' })
   })
+  it('should assign only once', () => {
+    expect(cookie.parse('foo=%1;bar=bar;foo=boo')).toStrictEqual({ foo: '%1', bar: 'bar' })
+  })
+})
+
+describe('Cookie serializing', () => {
+  it('should serialize basic cookie', () => {
+    expect(cookie.serialize('foo', 'bar')).toBe('foo=bar')
+  })
+  it('should serialize path', () => {
+    expect(
+      cookie.serialize('foo', 'bar', {
+        path: '/',
+      })
+    ).toBe('foo=bar; Path=/')
+  })
 })

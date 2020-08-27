@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/app",
-  "version": "0.2.55",
+  "version": "0.2.56",
   "description": "tinyhttp core with App, Request, Response and Router",
   "type": "module",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -42,7 +42,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/cookie": "0.1.12",
+    "@tinyhttp/cookie": "0.1.13",
     "@tinyhttp/cookie-signature": "0.1.12",
     "@tinyhttp/etag": "0.2.12",
     "es-accepts": "^0.0.21",

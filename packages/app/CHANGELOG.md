@@ -1,5 +1,12 @@
 # @tinyhttp/app
 
+## 0.2.56
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.1.13
+
 ## 0.2.55
 
 ### Patch Changes
