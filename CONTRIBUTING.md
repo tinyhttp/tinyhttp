@@ -36,7 +36,7 @@ npm i -g pnpm
 - Install the dependencies at root and in the packages:
 
 ```sh
-pnpm install && pnpm recursive install
+pnpm i && pnpm i -r
 ```
 
 - Build fresh packages
@@ -73,7 +73,6 @@ Here's a small list of requirements for your PR:
 - Pull request!
 
 ### Adding new example
-
 
 - Create a `[name]` folder in `examples` folder
 - Create `package.json` with these fields:
