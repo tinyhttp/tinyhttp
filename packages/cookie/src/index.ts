@@ -65,7 +65,7 @@ export type SerializeOptions = Partial<{
   path: string
   httpOnly: boolean
   secure: boolean
-  sameSite: boolean | string
+  sameSite: boolean | 'Strict' | 'strict' | 'Lax' | 'lax' | 'None' | 'none' | string
   expires: Date
 }>
 

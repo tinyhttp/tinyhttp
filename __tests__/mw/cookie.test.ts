@@ -73,4 +73,24 @@ describe('Cookie serializing', () => {
       expect((e as TypeError).message).toBe('option maxAge is invalid')
     }
   })
+  it('should properly set "sameSite" parameter', () => {
+    expect(
+      cookie.serialize('foo', 'bar', {
+        sameSite: true,
+      })
+    ).toBe('foo=bar; SameSite=Strict')
+    expect(
+      cookie.serialize('foo', 'bar', {
+        sameSite: 'Lax',
+      })
+    ).toBe('foo=bar; SameSite=Lax')
+    expect(
+      cookie.serialize('foo', 'bar', {
+        sameSite: 'None',
+      })
+    ).toBe('foo=bar; SameSite=None')
+  })
+  it('should do escaping', () => {
+    expect(cookie.serialize('cat', '+ ')).toBe('cat=%2B%20')
+  })
 })
