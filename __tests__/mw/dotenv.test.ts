@@ -20,4 +20,16 @@ describe('Dotenv parsing', () => {
   it('respects surrounding spaces in single quotes', () => {
     expect(parsed.SINGLE_QUOTES_SPACED).toBe('    single quotes    ')
   })
+  it('escapes double quoted values', () => {
+    expect(parsed.DOUBLE_QUOTES).toBe('double_quotes')
+  })
+  it('respects surrounding spaces in double quotes', () => {
+    expect(parsed.DOUBLE_QUOTES_SPACED).toBe('    double quotes    ')
+  })
+  it('expands newlines but only if double quoted', () => {
+    expect(parsed.EXPAND_NEWLINES).toBe('expand\nnew\nlines')
+  })
+  it('expands newlines but only if double quoted', () => {
+    expect(parsed.DONT_EXPAND_UNQUOTED).toBe('dontexpand\\nnewlines')
+  })
 })
