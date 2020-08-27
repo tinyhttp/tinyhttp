@@ -5,7 +5,7 @@ import * as signature from '@tinyhttp/cookie-signature'
 /**
  * Parse JSON cookie string.
  */
-export function JSONCookie(str: string | unknown) {
+export function JSONCookie(str?: string | unknown) {
   if (typeof str !== 'string' || str.substr(0, 2) !== 'j:') {
     return undefined
   }
