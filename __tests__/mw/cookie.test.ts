@@ -91,7 +91,7 @@ describe('Cookie serializing', () => {
     ).toBe('foo=bar; SameSite=None')
   })
   it('should do escaping', () => {
-    expect(cookie.serialize('cat', '+')).toBe('cat=%2B')
+    expect(cookie.serialize('cat', '+ ')).toBe('cat=%2B%20')
   })
   it('should parse serialized cookies', () => {
     expect(cookie.parse(cookie.serialize('cat', 'foo=123&name=baz five'))).toStrictEqual({ cat: 'foo=123&name=baz five' })

@@ -1,5 +1,11 @@
 # @tinyhttp/cookie
 
+## 0.1.14
+
+### Patch Changes
+
+- Fix encoding in @tinyhttp/cookie
+
 ## 0.1.13
 
 ### Patch Changes

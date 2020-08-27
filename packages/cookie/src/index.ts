@@ -70,7 +70,7 @@ export type SerializeOptions = Partial<{
 }>
 
 export function serialize(name: string, val: string, opt: SerializeOptions = {}) {
-  if (!opt.encode) opt.encode = encodeURI
+  if (!opt.encode) opt.encode = encodeURIComponent
 
   if (!fieldContentRegExp.test(name)) {
     throw new TypeError('argument name is invalid')
