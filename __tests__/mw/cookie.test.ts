@@ -31,11 +31,46 @@ describe('Cookie serializing', () => {
   it('should serialize basic cookie', () => {
     expect(cookie.serialize('foo', 'bar')).toBe('foo=bar')
   })
-  it('should serialize path', () => {
+  it('should "Path" in cookie', () => {
     expect(
       cookie.serialize('foo', 'bar', {
         path: '/',
       })
     ).toBe('foo=bar; Path=/')
+  })
+  it('should put "Secure" in cookie', () => {
+    expect(
+      cookie.serialize('foo', 'bar', {
+        secure: true,
+      })
+    ).toBe('foo=bar; Secure')
+    expect(
+      cookie.serialize('foo', 'bar', {
+        secure: false,
+      })
+    ).toBe('foo=bar')
+  })
+  it('should put "httpOnly" in cookie', () => {
+    expect(
+      cookie.serialize('foo', 'bar', {
+        httpOnly: true,
+      })
+    ).toBe('foo=bar; HttpOnly')
+  })
+  it('should put valid "maxAge" in cookie', () => {
+    expect(
+      cookie.serialize('foo', 'bar', {
+        maxAge: 1000,
+      })
+    ).toBe('foo=bar; Max-Age=1000')
+  })
+  it('should throw on infinite "maxAge" parameter', () => {
+    try {
+      cookie.serialize('foo', 'bar', {
+        maxAge: Infinity,
+      })
+    } catch (e) {
+      expect((e as TypeError).message).toBe('option maxAge is invalid')
+    }
   })
 })
