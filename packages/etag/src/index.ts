@@ -24,7 +24,7 @@ const statTag = ({ mtime, size }: Stats) => {
   return '"' + mtime.getTime().toString(16) + '-' + size.toString(16) + '"'
 }
 
-const etag = (entity: string | Buffer | Stats, options: { weak: boolean }) => {
+const etag = (entity: string | Buffer | Stats, options?: { weak: boolean }) => {
   if (entity == null) {
     throw new TypeError('argument entity is required')
   }

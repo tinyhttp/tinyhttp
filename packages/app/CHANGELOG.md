@@ -1,5 +1,12 @@
 # @tinyhttp/app
 
+## 0.2.58
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/etag@0.2.13
+
 ## 0.2.57
 
 ### Patch Changes
