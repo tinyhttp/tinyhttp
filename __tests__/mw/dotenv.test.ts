@@ -17,4 +17,7 @@ describe('Dotenv parsing', () => {
   it('escapes single quoted values', () => {
     expect(parsed.SINGLE_QUOTES).toBe('single_quotes')
   })
+  it('respects surrounding spaces in single quotes', () => {
+    expect(parsed.SINGLE_QUOTES_SPACED).toBe('    single quotes    ')
+  })
 })
