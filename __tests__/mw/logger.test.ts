@@ -117,10 +117,35 @@ describe('Logger tests', () => {
     })
   })
   describe('Badge Log', () => {
-    it('should not output anything if not passing badge config')
-    it('should display emoji');
-    it('should display caption');
-    it('should display both emoji and caption');
-    it('should output correct type of emoji based on status code');
+    it('should display emoji', (done) => {
+      const app = new App();
+
+      const customOutput = (log: string) => {
+        expect(log).toMatch(/🆗/);
+        done();
+      };
+
+      app.use(logger({
+        badges: { emoji: true, captions: false },
+        output: { callback: customOutput, color: false },
+      }));
+
+      app.get('/', (_, res) => res.status(200).send(''));
+
+      const server = app.listen();
+
+      const request = supertest(server);
+
+      request.get('/')
+        .expect(200)
+        .end(() => {
+          server.close();
+        });
+
+    });
+    it.todo('should display caption');
+    it.todo('should not output anything if not passing badge config')
+    it.todo('should display both emoji and caption');
+    it.todo('should output correct type of emoji based on status code');
   })
 })

@@ -9,12 +9,17 @@ export interface LoggerOptions {
     callback: (string) => void
   }
   timestamp?: boolean | { format?: string }
+  badges?: {
+    emoji: boolean
+    captions: boolean
+  }
 }
 
 export const logger = (options: LoggerOptions = {}) => {
   const methods = options.methods ?? METHODS
   const timestamp = options.timestamp ?? false
   const output = options.output ?? { callback: console.log, color: true }
+  const badge = options.badges ?? { emoji: false, captions: false };
 
   return (req: Request, res: Response, next?: () => void) => {
     res.on('finish', () => {
@@ -36,8 +41,17 @@ export const logger = (options: LoggerOptions = {}) => {
           }
         }
 
+        let badges = '';
+        if (badge.emoji) {
+          switch(s[0]) {
+            case '2':
+              badges = '🆗';
+              break;
+          }
+        } 
+
         if (!output.color) {
-          output.callback(`${time}${method} ${status} ${msg} ${url}`)
+          output.callback(`${badges} ${time}${method} ${status} ${msg} ${url}`)
         } else {
           switch (s[0]) {
             case '2':
