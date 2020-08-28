@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.2.59
+
+### Patch Changes
+
+- Remove warning not to spam in tests
+
 ## 0.2.58
 
 ### Patch Changes

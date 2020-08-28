@@ -470,7 +470,6 @@ export class Router {
    */
   use(path: string | Handler, handler?: Handler | App, ...handlers: Handler[]) {
     if (handler instanceof Router && typeof path === 'string') {
-      console.log(`⚠️ sub-app support is experimental!`)
       handler.mountpath = path
       this.apps[path] = handler
     } else if (!(handler instanceof Router)) {
