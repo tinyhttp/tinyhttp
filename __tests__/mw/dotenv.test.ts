@@ -2,7 +2,11 @@ import fs from 'fs'
 import path from 'path'
 import * as dotenv from '../../packages/dotenv/src'
 
-const parsed = dotenv.parse(fs.readFileSync(path.join(__dirname, '../fixtures/.env'), { encoding: 'utf8' }))
+const envPath = path.join(__dirname, '../fixtures/.env')
+
+const envFile = fs.readFileSync(envPath, { encoding: 'utf8' })
+
+const parsed = dotenv.parse(envFile)
 
 describe('Dotenv parsing', () => {
   it('sets basic environment variable', () => {
@@ -35,5 +39,21 @@ describe('Dotenv parsing', () => {
   it('should parse a buffer into an object', () => {
     const payload = dotenv.parse(Buffer.from('BUFFER=true'))
     expect(payload.BUFFER).toBe('true')
+  })
+})
+
+describe('Dotenv config', () => {
+  afterEach(() => {
+    process.env = {}
+  })
+  it('takes path as option', () => {
+    const parsed = dotenv.config({ path: envPath })
+
+    expect(parsed.parsed.BASIC).toBe('basic')
+  })
+  it('populates process.env', () => {
+    dotenv.config({ path: envPath })
+
+    expect(process.env.BASIC).toBe('basic')
   })
 })
