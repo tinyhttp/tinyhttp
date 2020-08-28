@@ -10,7 +10,7 @@ export const transformMWPageStream = (json: any) =>
 
       const pkgBody = json.versions[version]
 
-      const readme = pkgBody.readme
+      const readme = json.readme
 
       const repo = pkgBody.repository
 
