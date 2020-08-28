@@ -47,6 +47,16 @@ export const logger = (options: LoggerOptions = {}) => {
             case '2':
               badges = '🆗';
               break;
+            case '4':
+              if (s === '404') {
+                badges = '🔎';
+              } else {
+                badges = '⚠️';
+              }
+              break;
+            case '5':
+              badges = '❌';
+              break;
           }
         } 
 
@@ -54,31 +64,39 @@ export const logger = (options: LoggerOptions = {}) => {
         if(badge.captions) {
           switch(s[0]) {
             case '2':
-              captions = 'OK';
+              captions = 'ok';
               break;
+            case '4': 
+              if (s === '404') {
+                  captions = 'mag_right'
+              } else {
+                captions = 'warning'
+              }
+              break;
+            case '5':
+              captions = 'x';
           }
         }
 
-        const m = `${badges} ${captions} ${time}${method} ${status} ${msg} ${url}`;
-
         if (!output.color) {
+          const m = `${badges} ${captions} ${time}${method} ${status} ${msg} ${url}`;
           output.callback(m)
         } else {
           switch (s[0]) {
             case '2':
               status = cyan(bold(s))
               msg = cyan(msg)
-              output.callback(m)
+              output.callback(`${badges} ${captions} ${time}${method} ${status} ${msg} ${url}`)
               break
             case '4':
               status = red(bold(s))
               msg = red(msg)
-              output.callback(m)
+              output.callback(`${badges} ${captions} ${time}${method} ${status} ${msg} ${url}`)
               break
             case '5':
               status = magenta(bold(s))
               msg = magenta(msg)
-              output.callback(m)
+              output.callback(`${badges} ${captions} ${time}${method} ${status} ${msg} ${url}`)
               break
           }
         }
@@ -88,3 +106,4 @@ export const logger = (options: LoggerOptions = {}) => {
     next?.()
   }
 }
+

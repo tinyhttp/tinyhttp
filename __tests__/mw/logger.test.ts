@@ -147,7 +147,7 @@ describe('Logger tests', () => {
       const app = new App();
 
       const customOutput = (log: string) => {
-        expect(log.split(' ')[1]).toMatch(/OK/)
+        expect(log.split(' ')[1]).toMatch(/ok/)
         done();
       };
 
@@ -190,7 +190,67 @@ describe('Logger tests', () => {
           server.close();
         })
     })
-    it.todo('should display both emoji and caption');
-    it.todo('should output correct type of emoji based on status code');
+    it('should display both emoji and caption', (done) => {
+      const app = new App();
+      const customOutput = (log: string) => {
+        expect(log).toMatch('🆗 ok GET 200 OK /');
+        done();
+      }
+
+      app.use(logger({
+        badges: { emoji: true, captions: true },
+        output: { callback: customOutput, color: false },
+      }));
+
+      app.get('/', (_, res) => res.status(200).send(''));
+
+      const server = app.listen();
+
+      const request = supertest(server);
+
+      request.get('/')
+        .expect(200)
+        .end(() => {
+          server.close();
+        })
+    });
+    const createEmojiTest = (status: number, expected: string, done: () => void) => {
+      const app = new App();
+      const customOutput = (log: string) => {
+        expect(log.split(' ').slice(0, 2).join(' ')).toMatch(expected);
+        done();
+      }
+
+      app.use(logger({
+        badges: { emoji: true, captions: true },
+        output: { callback: customOutput, color: false },
+      }));
+
+      app.get('/', (_, res) => res.status(status).send(''));
+
+      const server = app.listen();
+
+      const request = supertest(server);
+
+      request.get('/')
+        .expect(status)
+        .end(() => {
+          server.close();
+        })
+    }
+    it('should output correct 2XX log', (done) => {
+      createEmojiTest(200, '🆗 ok', done);
+    });
+    it('should output correct 4XX log', (done) => {
+      createEmojiTest(400, '⚠️ warning', done);
+    });
+    it('should output correct 404 log', (done) => {
+      createEmojiTest(404, '🔎 mag_right', done);
+    });
+    it('should output correct 5XX log', (done) => {
+      createEmojiTest(500, '❌ x', done);
+    });
   })
 })
+
+
