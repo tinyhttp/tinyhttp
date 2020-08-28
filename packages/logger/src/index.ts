@@ -50,24 +50,35 @@ export const logger = (options: LoggerOptions = {}) => {
           }
         } 
 
+        let captions = '';
+        if(badge.captions) {
+          switch(s[0]) {
+            case '2':
+              captions = 'OK';
+              break;
+          }
+        }
+
+        const m = `${badges} ${captions} ${time}${method} ${status} ${msg} ${url}`;
+
         if (!output.color) {
-          output.callback(`${badges} ${time}${method} ${status} ${msg} ${url}`)
+          output.callback(m)
         } else {
           switch (s[0]) {
             case '2':
               status = cyan(bold(s))
               msg = cyan(msg)
-              output.callback(`${time}${method} ${status} ${msg} ${url}`)
+              output.callback(m)
               break
             case '4':
               status = red(bold(s))
               msg = red(msg)
-              output.callback(`${time}${method} ${status} ${msg} ${url}`)
+              output.callback(m)
               break
             case '5':
               status = magenta(bold(s))
               msg = magenta(msg)
-              output.callback(`${time}${method} ${status} ${msg} ${url}`)
+              output.callback(m)
               break
           }
         }

@@ -8,7 +8,7 @@ describe('Logger tests', () => {
     const originalConsoleLog = console.log
 
     console.log = (log: string) => {
-      expect(log.split(' ')[0]).toMatch(/[0-9]{2}:[0-9]{2}/)
+      expect(log.split(' ')[2]).toMatch(/[0-9]{2}:[0-9]{2}/)
       console.log = originalConsoleLog
       done()
     }
@@ -31,7 +31,7 @@ describe('Logger tests', () => {
     const originalConsoleLog = console.log
 
     console.log = (log: string) => {
-      expect(log.split(' ')[0]).toMatch(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)
+      expect(log.split(' ')[2]).toMatch(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)
       console.log = originalConsoleLog
       done()
     }
@@ -77,11 +77,11 @@ describe('Logger tests', () => {
       return () => {
         const customOutput = (log: string) => {
           if (color === 'cyan') {
-            expect(log.split(' ')[1]).toMatch(cyan(bold(status).toString()))
+            expect(log.split(' ')[3]).toMatch(cyan(bold(status).toString()))
           } else if (color === 'red') {
-            expect(log.split(' ')[1]).toMatch(red(bold(status).toString()))
+            expect(log.split(' ')[3]).toMatch(red(bold(status).toString()))
           } else if (color === 'magenta') {
-            expect(log.split(' ')[1]).toMatch(magenta(bold(status).toString()))
+            expect(log.split(' ')[3]).toMatch(magenta(bold(status).toString()))
           }
           done()
         }
@@ -143,8 +143,53 @@ describe('Logger tests', () => {
         });
 
     });
-    it.todo('should display caption');
-    it.todo('should not output anything if not passing badge config')
+    it('should display caption', (done) => {
+      const app = new App();
+
+      const customOutput = (log: string) => {
+        expect(log.split(' ')[1]).toMatch(/OK/)
+        done();
+      };
+
+      app.use(logger({
+        badges: { emoji: false, captions: true },
+        output: { callback: customOutput, color: false },
+      }));
+
+      app.get('/', (_, res) => res.status(200).send(''));
+
+      const server = app.listen();
+
+      const request = supertest(server);
+
+      request.get('/')
+        .expect(200)
+        .end(() => {
+          server.close();
+      });
+
+    });
+    it('should not output anything if not passing badge config', (done) => {
+      const app = new App();
+      const customOutput = (log: string) => {
+        expect(log).toMatch('GET 200 OK /');
+        done();
+      }
+
+      app.use(logger({ output: { callback: customOutput, color: false } }));
+
+      app.get('/', (_, res) => res.status(200).send(''));
+
+      const server = app.listen();
+
+      const request = supertest(server);
+
+      request.get('/')
+        .expect(200)
+        .end(() => {
+          server.close();
+        })
+    })
     it.todo('should display both emoji and caption');
     it.todo('should output correct type of emoji based on status code');
   })
