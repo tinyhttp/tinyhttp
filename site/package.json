@@ -16,7 +16,7 @@
   },
   "scripts": {
     "dev": "pnpm start",
-    "start": "node -r esm -r ts-node/register ./*.ts"
+    "start": "node -r esm -r ts-node/register server.ts"
   },
   "devDependencies": {
     "esm": "^3.2.25",
