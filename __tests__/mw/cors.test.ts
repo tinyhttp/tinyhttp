@@ -12,4 +12,9 @@ describe('CORS headers tests', () => {
 
     request.get('/').expect('Access-Control-Allow-Origin', 'example.com', done)
   })
+  it('should set custom methods', (done) => {
+    const { request } = InitAppAndTest(cors({ methods: ['GET'] }))
+
+    request.get('/').expect('Access-Control-Allow-Methods', 'GET', done)
+  })
 })
