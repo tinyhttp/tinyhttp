@@ -58,6 +58,22 @@ describe('Request properties', () => {
 
     request.get('/').expect(200, `protocol: http`, done)
   })
+  it('req.secure is false by default', (done) => {
+    const { request } = InitAppAndTest(
+      (req, res) => {
+        res.send(`secure: ${req.secure}`)
+      },
+      '/',
+      'GET',
+      {
+        settings: {
+          networkExtensions: true,
+        },
+      }
+    )
+
+    request.get('/').expect(200, `secure: false`, done)
+  })
 })
 
 describe('Request methods', () => {
