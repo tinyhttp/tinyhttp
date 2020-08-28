@@ -39,6 +39,6 @@
   },
   "scripts": {
     "build": "tsup src/index.ts --minify-whitespace --format cjs,esm --dts",
-    "prepare": "pnpm build"
+    "prepublishOnly": "pnpm build"
   }
 }
