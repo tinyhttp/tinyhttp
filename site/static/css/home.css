@@ -60,7 +60,7 @@ header p {
   scroll-margin-top: 4rem;
 }
 
-#get_started > *:not(h2) {
+#get_started>*:not(h2) {
   padding: 2rem;
   box-shadow: var(--shadow);
   border-radius: 10px;
@@ -74,7 +74,7 @@ h3 {
   font-size: calc(0.75rem + 0.75vw);
 }
 
-#get_started > pre {
+#get_started>pre {
   margin: 0;
   overflow-x: auto;
   padding: calc(1rem + 1vw);
@@ -150,4 +150,47 @@ h3 {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+
+/* Media queries */
+@media(max-width: 800px) {
+  #grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  #get_started>pre {
+    white-space: break-spaces;
+  }
+
+  #get_started #address {
+    padding: 0.5rem 1rem;
+    font-size: 12px;
+  }
+
+  #get_started #address {
+    background-color: #f1f1f1;
+    color: #575757;
+    display: block;
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    font-size: 12px;
+  }
+
+  #get_started>*:not(h2) {
+    padding: 1rem;
+    box-shadow: var(--shadow);
+    border-radius: 10px;
+  }
+
+  #get_started #content h1 {
+    font-size: 2rem;
+    margin: 1.5rem 0;
+  }
+
+  #get_started #content h2 {
+    font-size: 1.2rem;
+    margin: 1rem 0;
+    color: #959595;
+  }
 }

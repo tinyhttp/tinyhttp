@@ -5,7 +5,7 @@ main {
 
 @media (max-width: 350px) {
   main {
-    width: 80vw;
+    width: 90vw;
   }
 }
 
@@ -14,6 +14,7 @@ pre {
   overflow-x: auto;
   box-shadow: none;
   padding: 1rem;
+  border-radius: 5px;
 }
 
 main > h1 {
@@ -100,11 +101,12 @@ summary:hover {
 
 @media (max-width: 800px) {
   main {
-    width: 70vw;
+    width: 90vw;
   }
+
   aside {
     position: static;
-    width: 70vw;
+    width: 90vw;
     margin: 4rem auto;
     padding: 0;
   }
