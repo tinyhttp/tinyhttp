@@ -1,4 +1,5 @@
 import { cyan, red, magenta, bold } from 'colorette'
+import statusEmoji from 'http-status-emojis';
 import dayjs from 'dayjs'
 import { IncomingMessage as Request, ServerResponse as Response, METHODS } from 'http'
 
@@ -43,60 +44,28 @@ export const logger = (options: LoggerOptions = {}) => {
 
         let badges = '';
         if (badge.emoji) {
-          switch(s[0]) {
-            case '2':
-              badges = '🆗';
-              break;
-            case '4':
-              if (s === '404') {
-                badges = '🔎';
-              } else {
-                badges = '⚠️';
-              }
-              break;
-            case '5':
-              badges = '❌';
-              break;
-          }
+          badges = statusEmoji[s];
         } 
 
-        let captions = '';
-        if(badge.captions) {
-          switch(s[0]) {
-            case '2':
-              captions = 'ok';
-              break;
-            case '4': 
-              if (s === '404') {
-                  captions = 'mag_right'
-              } else {
-                captions = 'warning'
-              }
-              break;
-            case '5':
-              captions = 'x';
-          }
-        }
-
         if (!output.color) {
-          const m = `${badges} ${captions} ${time}${method} ${status} ${msg} ${url}`;
+          const m = `${badges} ${time}${method} ${status} ${msg} ${url}`;
           output.callback(m)
         } else {
           switch (s[0]) {
             case '2':
               status = cyan(bold(s))
               msg = cyan(msg)
-              output.callback(`${badges} ${captions} ${time}${method} ${status} ${msg} ${url}`)
+              output.callback(`${badges} ${time}${method} ${status} ${msg} ${url}`)
               break
             case '4':
               status = red(bold(s))
               msg = red(msg)
-              output.callback(`${badges} ${captions} ${time}${method} ${status} ${msg} ${url}`)
+              output.callback(`${badges} ${time}${method} ${status} ${msg} ${url}`)
               break
             case '5':
               status = magenta(bold(s))
               msg = magenta(msg)
-              output.callback(`${badges} ${captions} ${time}${method} ${status} ${msg} ${url}`)
+              output.callback(`${badges} ${time}${method} ${status} ${msg} ${url}`)
               break
           }
         }
