@@ -1,5 +1,11 @@
 # @tinyhttp/cookie
 
+## 0.1.15
+
+### Patch Changes
+
+- Add proper sub-app support
+
 ## 0.1.14
 
 ### Patch Changes

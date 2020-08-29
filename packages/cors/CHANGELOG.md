@@ -1,5 +1,11 @@
 # @tinyhttp/cors
 
+## 0.2.15
+
+### Patch Changes
+
+- Add proper sub-app support
+
 ## 0.2.14
 
 ### Patch Changes

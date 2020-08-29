@@ -1,5 +1,13 @@
 # @tinyhttp/static
 
+## 0.2.43
+
+### Patch Changes
+
+- Add proper sub-app support
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.61
+
 ## 0.2.42
 
 ### Patch Changes

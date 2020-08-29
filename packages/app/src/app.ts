@@ -51,9 +51,13 @@ export class App extends Router {
   async handler(req: Request, res: Response) {
     const mw = this.middleware
 
-    const subapp = Object.keys(this.apps).find((x) => req.url.startsWith(x))
+    const subappPath = Object.keys(this.apps).find((x) => req.url.startsWith(x))
 
-    if (subapp) this.apps[subapp].handler(req, res)
+    if (subappPath) {
+      const app = this.apps[subappPath]
+
+      app.handler(req, res)
+    }
 
     extendMiddleware(this.settings)(req, res)
 

@@ -1,5 +1,11 @@
 # @tinyhttp/etag
 
+## 0.2.14
+
+### Patch Changes
+
+- Add proper sub-app support
+
 ## 0.2.13
 
 ### Patch Changes

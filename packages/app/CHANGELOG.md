@@ -1,5 +1,15 @@
 # @tinyhttp/app
 
+## 0.2.61
+
+### Patch Changes
+
+- Add proper sub-app support
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.1.15
+  - @tinyhttp/cookie-signature@0.1.13
+  - @tinyhttp/etag@0.2.14
+
 ## 0.2.60
 
 ### Patch Changes

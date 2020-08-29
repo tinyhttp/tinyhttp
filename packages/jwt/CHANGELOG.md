@@ -1,5 +1,11 @@
 # @tinyhttp/jwt
 
+## 0.1.17
+
+### Patch Changes
+
+- Add proper sub-app support
+
 ## 0.1.16
 
 ### Patch Changes

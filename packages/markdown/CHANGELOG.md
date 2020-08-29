@@ -1,5 +1,13 @@
 # @tinyhttp/markdown
 
+## 0.1.42
+
+### Patch Changes
+
+- Add proper sub-app support
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.61
+
 ## 0.1.41
 
 ### Patch Changes

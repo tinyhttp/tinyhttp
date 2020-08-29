@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/cors",
-  "version": "0.2.14",
+  "version": "0.2.15",
   "description": "tinyhttp CORS module",
   "type": "module",
   "main": "dist/index.cjs",
@@ -41,6 +41,6 @@
     "typescript": "^4.0.2"
   },
   "scripts": {
-    "build": "tsup src/index.ts --minify-whitespace --format cjs,esm --dts"
+    "build": "tsup src/index.ts  --format cjs,esm --dts"
   }
 }

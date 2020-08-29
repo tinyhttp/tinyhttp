@@ -1,5 +1,11 @@
 # @tinyhttp/logger
 
+## 0.3.21
+
+### Patch Changes
+
+- Add proper sub-app support
+
 ## 0.3.20
 
 ### Patch Changes

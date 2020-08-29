@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/cookie-signature",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "HTTP cookie signing and unsigning",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
   "repository": {
@@ -39,6 +39,6 @@
     "typescript": "^4.0.2"
   },
   "scripts": {
-    "build": "tsup src/index.ts --minify-whitespace --format cjs,esm --dts"
+    "build": "tsup src/index.ts  --format cjs,esm --dts"
   }
 }

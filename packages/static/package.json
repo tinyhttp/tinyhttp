@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/static",
-  "version": "0.2.42",
+  "version": "0.2.43",
   "description": "tinyhttp static middleware",
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
@@ -43,6 +43,6 @@
     "typescript": "^4.0.2"
   },
   "scripts": {
-    "build": "tsup src/index.ts --minify-whitespace --format cjs,esm --dts"
+    "build": "tsup src/index.ts  --format cjs,esm --dts"
   }
 }

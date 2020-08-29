@@ -468,11 +468,23 @@ export class Router {
    * @param handler handler function
    * @param handlers the rest handler functions
    */
-  use(path: string | Handler, handler?: Handler | App, ...handlers: Handler[]) {
-    if (handler instanceof Router && typeof path === 'string') {
+  use(path: string | Handler | App, handler?: Handler | App, ...handlers: Handler[]) {
+    // app.use('/subapp', subApp)
+    if (typeof path === 'string' && handler instanceof App) {
       handler.mountpath = path
+      handler.middleware.forEach((mw) => {
+        const patchedPath = mw.path === '/' ? handler.mountpath : handler.mountpath + mw.path
+
+        return (mw.path = patchedPath)
+      })
       this.apps[path] = handler
-    } else if (!(handler instanceof Router)) {
+    }
+    // app.use(subApp)
+    else if (path instanceof App) {
+      path.mountpath = '/'
+
+      this.apps['/'] = path
+    } else if (!(handler instanceof App)) {
       pushMiddleware(this.middleware)({
         path,
         handler: typeof path === 'string' ? handler : path,

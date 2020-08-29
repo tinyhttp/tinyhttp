@@ -1,5 +1,11 @@
 # @tinyhttp/cookie-signature
 
+## 0.1.13
+
+### Patch Changes
+
+- Add proper sub-app support
+
 ## 0.1.12
 
 ### Patch Changes

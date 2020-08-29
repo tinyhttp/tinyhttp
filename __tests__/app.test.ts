@@ -95,6 +95,21 @@ describe('Testing App', () => {
 
     request.get('/subapp').expect(200, 'Hello World!', done)
   })
+  it('sub-app paths get prefixed with the mount path', (done) => {
+    const app = new App()
+
+    const subApp = new App()
+
+    subApp.get('/route', (_, res) => res.send(`Hello from ${subApp.mountpath}`))
+
+    app.use('/subapp', subApp)
+
+    const server = app.listen()
+
+    const request = supertest(server)
+
+    request.get('/subapp/route').expect(200, 'Hello from /subapp', done)
+  })
   it('App works with HTTP 1.1', (done) => {
     const app = new App()
 
