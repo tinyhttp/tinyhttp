@@ -107,6 +107,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/Arnovsky"><img src="https://avatars1.githubusercontent.com/u/7084871?v=4" width="100px;" alt=""/><br /><sub><b>Arnovsky</b></sub></a><br /><a href="#plugin-Arnovsky" title="Plugin/utility libraries">🔌</a> <a href="https://github.com/talentlessguy/tinyhttp/commits?author=Arnovsky" title="Code">💻</a></td>
     <td align="center"><a href="https://rocktim.xyz"><img src="https://avatars1.githubusercontent.com/u/33410545?v=4" width="100px;" alt=""/><br /><sub><b>Rocktim Saikia</b></sub></a><br /><a href="#infra-RocktimSaikia" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/talentlessguy/tinyhttp/commits?author=RocktimSaikia" title="Code">💻</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/ahmad"><img src="https://avatars1.githubusercontent.com/u/2223785?v=4" width="100px;" alt=""/><br /><sub><b>Ahmad Amin</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=ahmad" title="Code">💻</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-enable -->
