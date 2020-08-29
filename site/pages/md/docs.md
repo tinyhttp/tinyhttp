@@ -108,6 +108,7 @@
     <li><a href="#resset">res.set</a></li>
     <li><a href="#reslinks">res.links</a></li>
     <li><a href="#reslocation">res.location</a></li>
+    <li><a href="#ressendstatus">res.sendStatus</a></li>
   </ul>
  </details>
 </aside>
@@ -755,5 +756,16 @@ res.location('back')
 A `path` value of `"back"` has a special meaning, it refers to the URL specified in the `Referer` header of the request. If the Referer header was not specified, it refers to `"/"`.
 
 > After encoding the URL, if not encoded already, tinyhttp passes the specified URL to the browser in the `Location` header, without any validation. Browsers take the responsibility of deriving the intended URL from the current URL or the referring URL, and the URL specified in the Location header; and redirect the user accordingly.
+
+#### `res.sendStatus`
+
+Sets the response HTTP status code to statusCode and send its string representation as the response body.
+
+```ts
+res.sendStatus(200) // equivalent to res.status(200).send('OK')
+res.sendStatus(403) // equivalent to res.status(403).send('Forbidden')
+res.sendStatus(404) // equivalent to res.status(404).send('Not Found')
+res.sendStatus(500) // equivalent to res.status(500).send('Internal Server Error')
+```
 
 </main>
