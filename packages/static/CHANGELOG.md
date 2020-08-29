@@ -1,5 +1,13 @@
 # @tinyhttp/static
 
+## 0.2.44
+
+### Patch Changes
+
+- Fix weird problems with internet that I couldn't publish normally
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.62
+
 ## 0.2.43
 
 ### Patch Changes

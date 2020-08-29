@@ -1,5 +1,11 @@
 # @tinyhttp/dotenv
 
+## 0.0.7
+
+### Patch Changes
+
+- Fix weird problems with internet that I couldn't publish normally
+
 ## 0.0.6
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @tinyhttp/etag
 
+## 0.2.15
+
+### Patch Changes
+
+- Fix weird problems with internet that I couldn't publish normally
+
 ## 0.2.14
 
 ### Patch Changes

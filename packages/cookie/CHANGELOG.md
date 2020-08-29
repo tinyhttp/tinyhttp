@@ -1,5 +1,11 @@
 # @tinyhttp/cookie
 
+## 0.1.16
+
+### Patch Changes
+
+- Fix weird problems with internet that I couldn't publish normally
+
 ## 0.1.15
 
 ### Patch Changes

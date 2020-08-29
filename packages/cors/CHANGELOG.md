@@ -1,5 +1,11 @@
 # @tinyhttp/cors
 
+## 0.2.16
+
+### Patch Changes
+
+- Fix weird problems with internet that I couldn't publish normally
+
 ## 0.2.15
 
 ### Patch Changes

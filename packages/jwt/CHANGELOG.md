@@ -1,5 +1,11 @@
 # @tinyhttp/jwt
 
+## 0.1.18
+
+### Patch Changes
+
+- Fix weird problems with internet that I couldn't publish normally
+
 ## 0.1.17
 
 ### Patch Changes

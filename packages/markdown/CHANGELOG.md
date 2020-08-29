@@ -1,5 +1,13 @@
 # @tinyhttp/markdown
 
+## 0.1.43
+
+### Patch Changes
+
+- Fix weird problems with internet that I couldn't publish normally
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.62
+
 ## 0.1.42
 
 ### Patch Changes

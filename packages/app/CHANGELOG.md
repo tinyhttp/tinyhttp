@@ -1,5 +1,15 @@
 # @tinyhttp/app
 
+## 0.2.62
+
+### Patch Changes
+
+- Fix weird problems with internet that I couldn't publish normally
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.1.16
+  - @tinyhttp/cookie-signature@0.1.14
+  - @tinyhttp/etag@0.2.15
+
 ## 0.2.61
 
 ### Patch Changes

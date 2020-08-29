@@ -1,5 +1,11 @@
 # @tinyhttp/logger
 
+## 0.3.22
+
+### Patch Changes
+
+- Fix weird problems with internet that I couldn't publish normally
+
 ## 0.3.21
 
 ### Patch Changes
