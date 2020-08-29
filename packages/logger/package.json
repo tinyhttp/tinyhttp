@@ -32,7 +32,8 @@
   "license": "MIT",
   "dependencies": {
     "colorette": "^1.2.1",
-    "dayjs": "^1.8.34"
+    "dayjs": "^1.8.34",
+    "http-status-emojis": "^2.2.0"
   },
   "engines": {
     "node": ">=12.4.0"
