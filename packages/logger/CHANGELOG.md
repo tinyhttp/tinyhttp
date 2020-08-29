@@ -1,5 +1,17 @@
 # @tinyhttp/logger
 
+## 0.3.20
+
+### Patch Changes
+
+- Refactor emoji option
+
+## 0.3.19
+
+### Patch Changes
+
+- Add badges to logger
+
 ## 0.3.18
 
 ### Patch Changes

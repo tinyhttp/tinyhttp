@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/logger",
-  "version": "0.3.18",
+  "version": "0.3.20",
   "type": "module",
   "description": "simple HTTP logger for tinyhttp",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -43,7 +43,6 @@
     "typescript": "^4.0.2"
   },
   "scripts": {
-    "build": "tsup src/index.ts --minify-whitespace --format cjs,esm --dts",
-    "prepublishOnly": "pnpm build"
+    "build": "tsup src/index.ts --minify-whitespace --format cjs,esm --dts"
   }
 }

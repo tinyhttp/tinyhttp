@@ -37,6 +37,6 @@
     "release": "pnpm publish -r",
     "release-no-git-checks": "pnpm publish -r --no-git-checks",
     "test": "jest --detectOpenHandles",
-    "lint": "eslint ./packages/*/src/*.{ts,js}"
+    "lint": "eslint ./packages/**/src/*.ts"
   }
 }

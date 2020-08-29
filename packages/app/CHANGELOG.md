@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.2.60
+
+### Patch Changes
+
+- Refactor emoji option
+
 ## 0.2.59
 
 ### Patch Changes

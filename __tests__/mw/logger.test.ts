@@ -118,113 +118,120 @@ describe('Logger tests', () => {
   })
   describe('Badge Log', () => {
     it('should display emoji', (done) => {
-      const app = new App();
+      const app = new App()
 
       const customOutput = (log: string) => {
-        expect(log).toMatch(/✅/);
-        done();
-      };
-
-      app.use(logger({
-        badges: { emoji: true, captions: false },
-        output: { callback: customOutput, color: false },
-      }));
-
-      app.get('/', (_, res) => res.status(200).send(''));
-
-      const server = app.listen();
-
-      const request = supertest(server);
-
-      request.get('/')
-        .expect(200)
-        .end(() => {
-          server.close();
-        });
-
-    });
-    it('should not output anything if not passing badge config', (done) => {
-      const app = new App();
-      const customOutput = (log: string) => {
-        expect(log).toMatch('GET 200 OK /');
-        done();
+        expect(log).toMatch(/✅/)
+        done()
       }
 
-      app.use(logger({ output: { callback: customOutput, color: false } }));
+      app.use(
+        logger({
+          emoji: true,
+          output: { callback: customOutput, color: false },
+        })
+      )
 
-      app.get('/', (_, res) => res.status(200).send(''));
+      app.get('/', (_, res) => res.status(200).send(''))
 
-      const server = app.listen();
+      const server = app.listen()
 
-      const request = supertest(server);
+      const request = supertest(server)
 
-      request.get('/')
+      request
+        .get('/')
         .expect(200)
         .end(() => {
-          server.close();
+          server.close()
+        })
+    })
+    it('should not output anything if not passing badge config', (done) => {
+      const app = new App()
+      const customOutput = (log: string) => {
+        expect(log).toMatch('GET 200 OK /')
+        done()
+      }
+
+      app.use(logger({ output: { callback: customOutput, color: false } }))
+
+      app.get('/', (_, res) => res.status(200).send(''))
+
+      const server = app.listen()
+
+      const request = supertest(server)
+
+      request
+        .get('/')
+        .expect(200)
+        .end(() => {
+          server.close()
         })
     })
     it('should display both emoji and caption', (done) => {
-      const app = new App();
+      const app = new App()
       const customOutput = (log: string) => {
-        expect(log).toMatch('✅ GET 200 OK /');
-        done();
+        expect(log).toMatch('✅ GET 200 OK /')
+        done()
       }
 
-      app.use(logger({
-        badges: { emoji: true, captions: true },
-        output: { callback: customOutput, color: false },
-      }));
+      app.use(
+        logger({
+          emoji: true,
+          output: { callback: customOutput, color: false },
+        })
+      )
 
-      app.get('/', (_, res) => res.status(200).send(''));
+      app.get('/', (_, res) => res.status(200).send(''))
 
-      const server = app.listen();
+      const server = app.listen()
 
-      const request = supertest(server);
+      const request = supertest(server)
 
-      request.get('/')
+      request
+        .get('/')
         .expect(200)
         .end(() => {
-          server.close();
+          server.close()
         })
-    });
+    })
     const createEmojiTest = (status: number, expected: string, done: () => void) => {
-      const app = new App();
+      const app = new App()
       const customOutput = (log: string) => {
-        expect(log.split(' ')[0]).toMatch(expected);
-        done();
+        expect(log.split(' ')[0]).toMatch(expected)
+        done()
       }
 
-      app.use(logger({
-        badges: { emoji: true, captions: true },
-        output: { callback: customOutput, color: false },
-      }));
+      app.use(
+        logger({
+          emoji: true,
+          output: { callback: customOutput, color: false },
+        })
+      )
 
-      app.get('/', (_, res) => res.status(status).send(''));
+      app.get('/', (_, res) => res.status(status).send(''))
 
-      const server = app.listen();
+      const server = app.listen()
 
-      const request = supertest(server);
+      const request = supertest(server)
 
-      request.get('/')
+      request
+        .get('/')
         .expect(status)
         .end(() => {
-          server.close();
+          server.close()
         })
     }
     it('should output correct 2XX log', (done) => {
-      createEmojiTest(200, '✅', done);
-    });
+      createEmojiTest(200, '✅', done)
+    })
     it('should output correct 4XX log', (done) => {
-      createEmojiTest(400, '🚫', done);
-    });
+      createEmojiTest(400, '🚫', done)
+    })
     it('should output correct 404 log', (done) => {
-      createEmojiTest(404, '❓', done);
-    });
+      createEmojiTest(404, '❓', done)
+    })
     it('should output correct 5XX log', (done) => {
-      createEmojiTest(500, '💣', done);
-    });
+      createEmojiTest(500, '💣', done)
+    })
   })
 })
-
-
