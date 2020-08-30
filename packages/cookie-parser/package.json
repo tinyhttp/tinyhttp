@@ -1,9 +1,9 @@
 {
   "name": "@tinyhttp/cookie-parser",
-  "version": "0.1.45",
+  "version": "0.1.46",
   "type": "module",
   "description": "tinyhttp cookie parsing middleware",
-  "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
+  "homepage": "https://github.com/talentlessguy/tinyhttp/tree/master/packages/cookie-parser#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/talentlessguy/tinyhttp.git",

@@ -2,15 +2,12 @@
 
 <div align="center">
 <h1>tinyhttp</h1>
+<p>⚡ Tiny web framework as a replacement of Express</p>
+</div>
 
 [![](https://img.shields.io/badge/website-visit-hotpink?style=flat-square)][site-url] [![npm](https://img.shields.io/npm/dt/@tinyhttp/app?style=flat-square)][npm-url] [![npm type definitions](https://img.shields.io/npm/types/@tinyhttp/app?style=flat-square)][npm-url] [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/talentlessguy/tinyhttp/CI?style=flat-square)][github-actions]
 [![Codecov](https://img.shields.io/codecov/c/gh/talentlessguy/tinyhttp?style=flat-square)][codecov]
-![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/body-parsec.svg?style=flat-square) [![Codacy grade](https://img.shields.io/codacy/grade/239a8cc7bca24042940f018a1ccec72f?style=flat-square)][codacy-url]
-[![Last commit](https://img.shields.io/github/last-commit/talentlessguy/tinyhttp.svg?style=flat-square)][gh-url] [![NPM](https://img.shields.io/npm/l/@tinyhttp/app?style=flat-square)][license] [![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
-
-<p>⚡ Tiny web framework as a replacement of Express</p>
-
-</div>
+![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/@tinyhttp/app.svg?style=flat-square) [![Codacy grade](https://img.shields.io/codacy/grade/239a8cc7bca24042940f018a1ccec72f?style=flat-square)][codacy-url] [![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-) [![Last commit](https://img.shields.io/github/last-commit/talentlessguy/tinyhttp.svg?style=flat-square)][gh-url] [![NPM](https://img.shields.io/npm/l/@tinyhttp/app?style=flat-square)][license]
 
 **⚠ The project is in development. Please don't use in production.**
 
@@ -108,6 +105,10 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="http://elianiva.github.io"><img src="https://avatars0.githubusercontent.com/u/51877647?v=4" width="100px;" alt=""/><br /><sub><b>elianiva</b></sub></a><br /><a href="#example-elianiva" title="Examples">💡</a> <a href="#maintenance-elianiva" title="Maintenance">🚧</a> <a href="https://github.com/talentlessguy/tinyhttp/commits?author=elianiva" title="Code">💻</a> <a href="https://github.com/talentlessguy/tinyhttp/commits?author=elianiva" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://nitropage.com"><img src="https://avatars0.githubusercontent.com/u/4012401?v=4" width="100px;" alt=""/><br /><sub><b>Katja Lutz</b></sub></a><br /><a href="#example-katywings" title="Examples">💡</a></td>
     <td align="center"><a href="https://github.com/Arnovsky"><img src="https://avatars1.githubusercontent.com/u/7084871?v=4" width="100px;" alt=""/><br /><sub><b>Arnovsky</b></sub></a><br /><a href="#plugin-Arnovsky" title="Plugin/utility libraries">🔌</a> <a href="https://github.com/talentlessguy/tinyhttp/commits?author=Arnovsky" title="Code">💻</a></td>
+    <td align="center"><a href="https://rocktim.xyz"><img src="https://avatars1.githubusercontent.com/u/33410545?v=4" width="100px;" alt=""/><br /><sub><b>Rocktim Saikia</b></sub></a><br /><a href="#infra-RocktimSaikia" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/talentlessguy/tinyhttp/commits?author=RocktimSaikia" title="Code">💻</a> <a href="#example-RocktimSaikia" title="Examples">💡</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/ahmad-reza619"><img src="https://avatars1.githubusercontent.com/u/52902060?v=4" width="100px;" alt=""/><br /><sub><b>Ahmad Reza</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=ahmad-reza619" title="Code">💻</a></td>
   </tr>
 </table>
 

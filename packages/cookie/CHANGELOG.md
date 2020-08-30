@@ -1,5 +1,11 @@
 # @tinyhttp/cookie
 
+## 0.1.17
+
+### Patch Changes
+
+- Fix some readme fields
+
 ## 0.1.16
 
 ### Patch Changes
