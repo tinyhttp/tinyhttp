@@ -48,7 +48,6 @@ pnpm build -r
 ### Formating
 
 If you use VS Code, please install Prettier and ESLint plugins for proper linting and code formatting.
-If you don't use VS Code or any other editor that has support of those, run `pnpm lint` before committing (todo: add pre-commit hook).
 
 ## Submitting PRs
 
