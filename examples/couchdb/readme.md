@@ -10,7 +10,9 @@ A simple Todo app using tinyhttp and [CouchDB Nano](https://github.com/apache/co
 pnpm install
 ```
 <br>
+
 > [Download the couchDB](https://docs.couchdb.org/en/stable/install/index.html) in your local machine and set up the local enviornment accordingly.
+
 > Skip if you already have it installed;
 
 ### Run
