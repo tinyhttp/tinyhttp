@@ -3,7 +3,7 @@
   "type": "module",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "body-parsec": "^2.0.19",
+    "body-parsec": "^2.1.0",
     "lowdb": "^1.0.0"
   },
   "devDependencies": {

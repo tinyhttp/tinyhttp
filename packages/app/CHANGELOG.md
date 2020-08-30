@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.2.63
+
+### Patch Changes
+
+- Upgrade examples' body-parsec dep
+
 ## 0.2.62
 
 ### Patch Changes

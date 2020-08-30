@@ -5,10 +5,10 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/dotenv": "workspace:*",
-    "body-parsec": "^2.0.20",
-    "mongodb": "^3.5.9"
+    "body-parsec": "^2.1.0",
+    "mongodb": "^3.6.0"
   },
   "devDependencies": {
-    "@types/mongodb": "^3.5.25"
+    "@types/mongodb": "^3.5.26"
   }
 }

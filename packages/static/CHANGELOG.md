@@ -1,5 +1,13 @@
 # @tinyhttp/static
 
+## 0.2.45
+
+### Patch Changes
+
+- Upgrade examples' body-parsec dep
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.63
+
 ## 0.2.44
 
 ### Patch Changes
