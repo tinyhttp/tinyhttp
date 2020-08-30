@@ -1,6 +1,6 @@
 # CouchDB example
 
-A simple todo app  using tinyhttp and [CouchDB Nano](https://github.com/apache/couchdb-nano)
+A simple Todo app using tinyhttp and [CouchDB Nano](https://github.com/apache/couchdb-nano)
 
 > [Nano](https://github.com/apache/couchdb-nano) is the Offical Apache CouchDB library for [Node.js](https://nodejs.org/en/)
 
