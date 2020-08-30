@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/logger",
-  "version": "0.3.18",
+  "version": "0.3.22",
   "type": "module",
   "description": "simple HTTP logger for tinyhttp",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -32,7 +32,8 @@
   "license": "MIT",
   "dependencies": {
     "colorette": "^1.2.1",
-    "dayjs": "^1.8.34"
+    "dayjs": "^1.8.34",
+    "http-status-emojis": "^2.2.0"
   },
   "engines": {
     "node": ">=12.4.0"
@@ -42,7 +43,6 @@
     "typescript": "^4.0.2"
   },
   "scripts": {
-    "build": "tsup src/index.ts --minify-whitespace --format cjs,esm --dts",
-    "prepublishOnly": "pnpm build"
+    "build": "tsup src/index.ts  --format cjs,esm --dts"
   }
 }

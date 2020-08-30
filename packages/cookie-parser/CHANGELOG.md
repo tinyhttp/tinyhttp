@@ -1,5 +1,32 @@
 # @tinyhttp/cookie-parser
 
+## 0.1.44
+
+### Patch Changes
+
+- Fix weird problems with internet that I couldn't publish normally
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.62
+  - @tinyhttp/cookie@0.1.16
+  - @tinyhttp/cookie-signature@0.1.14
+
+## 0.1.43
+
+### Patch Changes
+
+- Add proper sub-app support
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.61
+  - @tinyhttp/cookie@0.1.15
+  - @tinyhttp/cookie-signature@0.1.13
+
+## 0.1.42
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.60
+
 ## 0.1.41
 
 ### Patch Changes

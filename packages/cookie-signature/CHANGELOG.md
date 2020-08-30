@@ -1,5 +1,17 @@
 # @tinyhttp/cookie-signature
 
+## 0.1.14
+
+### Patch Changes
+
+- Fix weird problems with internet that I couldn't publish normally
+
+## 0.1.13
+
+### Patch Changes
+
+- Add proper sub-app support
+
 ## 0.1.12
 
 ### Patch Changes

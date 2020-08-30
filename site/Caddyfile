@@ -1,8 +1,0 @@
-:5000
-
-route /tinyhttp* {
-  uri strip_prefix /tinyhttp
-  reverse_proxy :3000
-}
-
-respond 404

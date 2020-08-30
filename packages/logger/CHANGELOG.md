@@ -1,5 +1,29 @@
 # @tinyhttp/logger
 
+## 0.3.22
+
+### Patch Changes
+
+- Fix weird problems with internet that I couldn't publish normally
+
+## 0.3.21
+
+### Patch Changes
+
+- Add proper sub-app support
+
+## 0.3.20
+
+### Patch Changes
+
+- Refactor emoji option
+
+## 0.3.19
+
+### Patch Changes
+
+- Add badges to logger
+
 ## 0.3.18
 
 ### Patch Changes

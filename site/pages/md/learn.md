@@ -270,7 +270,7 @@ app.get('/ab?cd', function (req, res) {
 })
 ```
 
-#### Route parameters
+##### Route parameters
 
 Route parameters are named URL segments that are used to capture the values specified at their position in the URL. The captured values are populated in the `req.params` object, with the name of the route parameter specified in the path as their keys.
 
@@ -284,6 +284,88 @@ To define routes with route parameters, simply specify the route parameters in t
 
 ```js
 app.get('/users/:userId/books/:bookId', (req, res) => void res.send(req.params))
+```
+
+#### Route handlers
+
+You can provide multiple callback functions that behave like [middleware](#middleware) to handle a request. The only exception is that these callbacks might invoke `next()` to bypass the remaining route callbacks. You can use this technique to conditionally switch or skip middlewares when it's not required anymore to stay in the current middleware.
+
+Route handlers can be in the form of a function or a list of functions, as shown in the following examples.
+
+A single callback function can handle a route. For example:
+
+```js
+app.get('/example/a', (req, res) => {
+  res.send('Hello from A!')
+})
+```
+
+More than one callback function can handle a route (make sure you specify the `next` function). For example:
+
+```js
+app.get(
+  '/example/b',
+  (req, res, next) => {
+    console.log('the response will be sent by the next function ...')
+    next()
+  },
+  (req, res) => {
+    res.send('Hello from B!')
+  }
+)
+```
+
+An list of callback functions can handle a route. For example:
+
+```js
+const one = (req, res, next) => {
+  console.log('Callback one!')
+  next()
+}
+
+const two = (req, res, next) => {
+  console.log('Callback two!')
+  next()
+}
+
+const three = (req, res) => {
+  res.send('Hello from Callback three!')
+}
+
+app.get('/example/c', cb0, cb1, cb2)
+```
+
+#### Response methods
+
+The methods on the response object (res) in the table above can send a response to the client, and terminate the request-response cycle. If none of these methods are called from a route handler, the client request will be left hanging infinitely, so don't forget to use at least one of them!
+
+| Method                                    | Description                                                          |
+| ----------------------------------------- | -------------------------------------------------------------------- |
+| [`res.end()`](/docs/#resend)              | End response with some data                                          |
+| [`res.json()`](/docs#resjson)             | Send a JSON response                                                 |
+| [`res.send()`](/docs#ressend)             | Send a response of various types                                     |
+| [`res.status()`](/docs#resstatus)         | Send a response status code                                          |
+| [`res.sendStatus()`](/docs#ressendstatus) | Send a response status code and its string sign as the response body |
+| more coming soon...                       |                                                                      |
+
+#### Sub-apps
+
+You can use tinyhttp's `App`s to create a modular group of handlers and then bind them to another "main" App.
+
+Each app has it's own pack of middleware, settings and locales in it. Currently the support is experimental and probably will not work as expected (not all cases are tested yet), but you still could try it:
+
+```js
+import { App } from '@tinyhttp/app'
+
+const app = new App()
+
+const subApp = new App()
+
+subApp.get('/route', (req, res) => void res.send(`Hello from ${subApp.mountpath}`))
+
+app.use('/subapp', subApp).listen(3000)
+
+// localhost:3000/subapp/route will send "Hello from /subapp"
 ```
 
 </main>

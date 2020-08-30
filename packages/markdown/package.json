@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/markdown",
-  "version": "0.1.40",
+  "version": "0.1.43",
   "description": "tinyhttp static markdown middleware",
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
@@ -44,6 +44,6 @@
     "typescript": "^4.0.2"
   },
   "scripts": {
-    "build": "tsup src/index.ts --minify-whitespace --format cjs,esm --dts"
+    "build": "tsup src/index.ts  --format cjs,esm --dts"
   }
 }

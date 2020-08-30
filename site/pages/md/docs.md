@@ -560,7 +560,7 @@ req.get('Something')
 
 ## Response
 
-The `res` object represents the HTTP response that an tinyhttp app sends when it gets an HTTP request.
+The `res` object represents the HTTP response that a tinyhttp app sends when it gets an HTTP request.
 
 ### Properties
 
@@ -594,6 +594,8 @@ res.cookie('name', 'tobi', {
   path: '/admin',
   secure: true,
 })
+
+// Enable "httpOnly" and "expires" parameters
 res.cookie('rememberme', '1', {
   expires: new Date(Date.now() + 900000),
   httpOnly: true,

@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/jwt",
-  "version": "0.1.16",
+  "version": "0.1.18",
   "description": "JWT middleware for tinyhttp",
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
@@ -36,7 +36,7 @@
     "typescript": "^4.0.2"
   },
   "scripts": {
-    "build": "tsup src/index.ts --minify-whitespace --format cjs,esm --dts"
+    "build": "tsup src/index.ts  --format cjs,esm --dts"
   },
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
   "repository": {

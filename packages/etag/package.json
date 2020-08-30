@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/etag",
-  "version": "0.2.13",
+  "version": "0.2.15",
   "type": "module",
   "description": "entity tag module",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -38,6 +38,6 @@
     "typescript": "^4.0.2"
   },
   "scripts": {
-    "build": "tsup src/index.ts --minify-whitespace --format cjs,esm --dts"
+    "build": "tsup src/index.ts  --format cjs,esm --dts"
   }
 }

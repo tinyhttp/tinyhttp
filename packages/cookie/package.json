@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/cookie",
-  "version": "0.1.14",
+  "version": "0.1.16",
   "type": "module",
   "description": "HTTP cookie parser and serializer for Node.js",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -38,7 +38,7 @@
     "typescript": "^4.0.2"
   },
   "scripts": {
-    "build": "tsup src/index.ts --minify-whitespace --format cjs,esm --dts",
+    "build": "tsup src/index.ts  --format cjs,esm --dts",
     "prepublishOnly": "pnpm build"
   }
 }
