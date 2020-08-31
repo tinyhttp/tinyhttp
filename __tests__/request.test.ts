@@ -23,6 +23,34 @@ describe('Request properties', () => {
       done
     )
   })
+
+  it('req.ip & req.ips is being parsed properly', (done) => {
+    const { request } = InitAppAndTest(
+      (req, res) => {
+        res.json({
+          ip: req.ip,
+          ips: req.ips,
+        })
+      },
+      '/',
+      'GET',
+      {
+        settings: {
+          networkExtensions: true,
+        },
+      }
+    )
+
+    request.get('/').expect(
+      200,
+      {
+        ip: '127.0.0.1',
+        ips: ['::ffff:127.0.0.1'],
+      },
+      done
+    )
+  })
+
   it('req.params is being parsed properly', (done) => {
     const { request } = InitAppAndTest((req, res) => void res.send(req.params), '/:param1/:param2')
 

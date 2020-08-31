@@ -21,7 +21,8 @@ export const compileTrust = (val: any) => {
 
   if (typeof val === 'string') {
     // Support comma-separated values
-    val = val.split(/ *, */)
+    const vals = val.split(',').map((it) => it.trim())
+    return proxyAddr.compile(vals)
   }
 
   return proxyAddr.compile(val || [])
