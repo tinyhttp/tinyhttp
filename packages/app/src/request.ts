@@ -41,9 +41,7 @@ export const getProtocol = (req: Request): Protocol => {
   return index !== -1 ? header.substring(0, index).trim() : header.trim()
 }
 
-export const getRequestHeader = (req: Request) => (
-  header: string
-): string | string[] => {
+export const getRequestHeader = (req: Request) => (header: string): string | string[] => {
   const lc = header.toLowerCase()
 
   switch (lc) {
@@ -55,17 +53,11 @@ export const getRequestHeader = (req: Request) => (
   }
 }
 
-export const setRequestHeader = (req: Request) => (
-  field: string,
-  value: string
-) => {
+export const setRequestHeader = (req: Request) => (field: string, value: string) => {
   return (req.headers[field.toLowerCase()] = value)
 }
 
-export const getRangeFromHeader = (req: Request) => (
-  size: number,
-  options?: Options
-) => {
+export const getRangeFromHeader = (req: Request) => (size: number, options?: Options) => {
   const range = req.get('Range') as string
 
   if (!range) return
@@ -82,9 +74,7 @@ export const checkIfXMLHttpRequest = (req: Request): boolean => {
 }
 
 export const getHostname = (req: Request): string | undefined => {
-  let host: string | undefined = req.get('X-Forwarded-Host') as
-    | string
-    | undefined
+  let host: string | undefined = req.get('X-Forwarded-Host') as string | undefined
 
   if (!host || !compileTrust(req.connection.remoteAddress)) {
     host = req.get('Host') as string | undefined
@@ -99,8 +89,16 @@ export const getHostname = (req: Request): string | undefined => {
   return index !== -1 ? host.substring(0, index) : host
 }
 
-export const getIP = (req: Request) => {
-  return proxyAddr(req, compileTrust)
+export const getIP = (req: Request): string | undefined => {
+  const proxyFn = compileTrust(req.connection.remoteAddress)
+  const ip: string = proxyAddr(req, proxyFn).replace(/^.*:/, '') // striping the redundant prefix addeded by OS to IPv4 address
+  return ip
+}
+
+export const getIPs = (req: Request): string[] | undefined => {
+  const proxyFn = compileTrust(req.connection.remoteAddress)
+  const addrs: string[] = proxyAddr.all(req, proxyFn)
+  return addrs
 }
 
 // export const getRequestIs = (types: string | string[], ...args: string[]) => (req: Request) => {
@@ -134,9 +132,7 @@ export const getFreshOrStale = (req: Request, res: Response) => {
   return false
 }
 
-export const getAccepts = (req: Request) => (
-  ...types: string[]
-): string | false | string[] => {
+export const getAccepts = (req: Request) => (...types: string[]): string | false | string[] => {
   return new Accepts(req).types(types)
 }
 
@@ -158,6 +154,8 @@ export interface Request extends IncomingMessage {
 
   xhr: boolean
   hostname: string | undefined
+  ip?: string
+  ips?: string[]
 
   get: (header: string) => string | string[] | undefined
   set: (field: string, value: string) => string

@@ -5,6 +5,8 @@ import {
   getRangeFromHeader,
   checkIfXMLHttpRequest,
   getHostname,
+  getIP,
+  getIPs,
   getRequestHeader,
   setRequestHeader,
   getFreshOrStale,
@@ -38,6 +40,8 @@ export const extendMiddleware = (options: AppSettings) => (req: Request, res: Re
     })
 
     req.hostname = getHostname(req)
+    req.ip = getIP(req)
+    req.ips = getIPs(req)
   }
 
   req.query = getQueryParams(req.url)
