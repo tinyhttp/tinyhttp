@@ -21,6 +21,14 @@ main > h1 {
   font-size: calc(2vw + 2rem);
 }
 
+main > h1,
+main > h2,
+main > h3,
+main > h4,
+main > h5 {
+  color: var(--dark-fg);
+}
+
 main > * {
   scroll-margin-top: 4rem;
 }
@@ -32,12 +40,10 @@ main li {
 
 main > h2 {
   font-size: calc(1.25vw + 1.25rem);
-  color: var(--dark-fg);
 }
 
 main > h3 {
   font-size: calc(1vw + 1rem);
-  color: #242323;
 }
 
 main > h4 {
@@ -47,7 +53,6 @@ main > h4 {
 
 main > h5 {
   font-size: calc(0.6vw + 0.6rem);
-  color: #424142;
   margin-top: 1.5rem;
   margin-bottom: 0.25rem;
 }
