@@ -76,6 +76,8 @@
       <li><a href="#reqxhr">req.xhr</a></li>
       <li><a href="#reqfresh">req.fresh</a></li>
       <li><a href="#reqstale">req.stale</a></li>
+      <li><a href="#reqip">req.ip</a></li>
+      <li><a href="#reqips">req.ips</a></li>
     </ul>
   </details>
  
@@ -506,6 +508,24 @@ Indicates whether the request is “stale,” and is the opposite of `req.fresh`
 ```ts
 console.dir(req.stale)
 // => true
+```
+
+#### `req.ip`
+
+Contains the remote IP address of the request.
+
+```ts
+console.log(req.ip)
+// => '127.0.0.1'
+```
+
+#### `req.ips`
+
+Contains an array of remote IP addresses of the request.
+
+```ts
+console.log(req.ip)
+// => [127.0.0.1']
 ```
 
 ### Methods
