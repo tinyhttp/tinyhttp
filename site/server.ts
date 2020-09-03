@@ -1,20 +1,24 @@
 import { App } from '../packages/app/src'
 import serve from 'sirv'
 import { markdownStaticHandler as md } from '../packages/markdown/src'
-import { logger } from '@tinyhttp/logger'
+import { logger } from '../packages/logger/src'
 import { createReadStream } from 'fs'
 import { transformMWPageStream, transformPageIndexStream } from './streams'
 import unfetch from 'isomorphic-unfetch'
 import hljs from 'highlight.js'
 
-const app = new App()
+const app = new App({
+  settings: {
+    networkExtensions: true,
+  },
+})
 
 const HTML_PATH = `${process.cwd()}/pages/html`
 
 const NON_MW_PKGS = ['app', 'etag', 'cookie', 'cookie-signature', 'dotenv']
 
 app
-  .use(logger())
+  .use(logger({ ip: true }))
   .get('/mw', async (req, res, next) => {
     let json: any, status: number, msg: string
 

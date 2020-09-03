@@ -8,7 +8,7 @@ describe('Logger tests', () => {
     const originalConsoleLog = console.log
 
     console.log = (log: string) => {
-      expect(log.split(' ')[1]).toMatch(/[0-9]{2}:[0-9]{2}/)
+      expect(log.split(' ')[0]).toMatch(/[0-9]{2}:[0-9]{2}/)
       console.log = originalConsoleLog
       done()
     }
@@ -31,7 +31,7 @@ describe('Logger tests', () => {
     const originalConsoleLog = console.log
 
     console.log = (log: string) => {
-      expect(log.split(' ')[1]).toMatch(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)
+      expect(log.split(' ')[0]).toMatch(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)
       console.log = originalConsoleLog
       done()
     }
@@ -77,11 +77,11 @@ describe('Logger tests', () => {
       return () => {
         const customOutput = (log: string) => {
           if (color === 'cyan') {
-            expect(log.split(' ')[2]).toMatch(cyan(bold(status).toString()))
+            expect(log.split(' ')[1]).toMatch(cyan(bold(status).toString()))
           } else if (color === 'red') {
-            expect(log.split(' ')[2]).toMatch(red(bold(status).toString()))
+            expect(log.split(' ')[1]).toMatch(red(bold(status).toString()))
           } else if (color === 'magenta') {
-            expect(log.split(' ')[2]).toMatch(magenta(bold(status).toString()))
+            expect(log.split(' ')[1]).toMatch(magenta(bold(status).toString()))
           }
           done()
         }

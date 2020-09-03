@@ -1,5 +1,11 @@
 # @tinyhttp/logger
 
+## 0.3.23
+
+### Patch Changes
+
+- Add ip option to a logger
+
 ## 0.3.22
 
 ### Patch Changes

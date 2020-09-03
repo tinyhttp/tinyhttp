@@ -1,7 +1,8 @@
 import { cyan, red, magenta, bold } from 'colorette'
 import statusEmoji from 'http-status-emojis'
 import dayjs from 'dayjs'
-import { IncomingMessage as Request, ServerResponse as Response, METHODS } from 'http'
+import { METHODS } from 'http'
+import { Request, Response } from '@tinyhttp/app'
 
 export interface LoggerOptions {
   methods?: string[]
@@ -11,55 +12,66 @@ export interface LoggerOptions {
   }
   timestamp?: boolean | { format?: string }
   emoji?: boolean
+  ip?: boolean
+}
+
+const joinOutputArgs = (args: (string | number)[], req: Request, res: Response, options: LoggerOptions = {}, status?: string, msg?: string) => {
+  const { method, url } = req
+  const { statusCode } = res
+
+  const methods = options.methods ?? METHODS
+  const timestamp = options.timestamp ?? false
+  const emojiEnabled = options.emoji
+
+  if (methods.includes(method)) {
+    if (timestamp) {
+      if (typeof timestamp !== 'boolean' && timestamp.format) {
+        args.push(`${dayjs().format(timestamp.format).toString()} - `)
+      } else {
+        args.push(`${dayjs().format('HH:mm:ss').toString()} - `)
+      }
+    }
+  }
+
+  if (options.ip) args.push(req.ip)
+
+  if (emojiEnabled) args.push(statusEmoji[statusCode])
+
+  args.push(method)
+
+  args.push(status || res.statusCode)
+  args.push(msg || res.statusMessage)
+  args.push(url)
 }
 
 export const logger = (options: LoggerOptions = {}) => {
   const methods = options.methods ?? METHODS
-  const timestamp = options.timestamp ?? false
   const output = options.output ?? { callback: console.log, color: true }
-  const emojiEnabled = options.emoji
 
   return (req: Request, res: Response, next?: () => void) => {
     res.on('finish', () => {
-      const { method, url } = req
-      const { statusCode, statusMessage } = res
+      const args: (string | number)[] = []
 
-      if (method && methods.includes(method)) {
-        const s = statusCode.toString()
-
-        let status: string = s
-        let msg: string = statusMessage
-
-        let time = ''
-        if (timestamp) {
-          if (typeof timestamp !== 'boolean' && timestamp.format) {
-            time += `${dayjs().format(timestamp.format).toString()} - `
-          } else {
-            time += `${dayjs().format('HH:mm:ss').toString()} - `
-          }
-        }
-
-        const emoji = emojiEnabled ? statusEmoji[s] : ''
+      if (methods.includes(req.method)) {
+        const s = res.statusCode.toString()
 
         if (!output.color) {
-          const m = `${emoji} ${time}${method} ${status} ${msg} ${url}`
+          joinOutputArgs(args, req, res, options)
+          const m = args.join(' ')
           output.callback(m)
         } else {
           switch (s[0]) {
             case '2':
-              status = cyan(bold(s))
-              msg = cyan(msg)
-              output.callback(`${emoji} ${time}${method} ${status} ${msg} ${url}`)
+              joinOutputArgs(args, req, res, options, cyan(bold(s)), cyan(res.statusMessage))
+              output.callback(args.join(' '))
               break
             case '4':
-              status = red(bold(s))
-              msg = red(msg)
-              output.callback(`${emoji} ${time}${method} ${status} ${msg} ${url}`)
+              joinOutputArgs(args, req, res, options, red(bold(s)), red(res.statusMessage))
+              output.callback(args.join(' '))
               break
             case '5':
-              status = magenta(bold(s))
-              msg = magenta(msg)
-              output.callback(`${emoji} ${time}${method} ${status} ${msg} ${url}`)
+              joinOutputArgs(args, req, res, options, magenta(bold(s)), magenta(res.statusMessage))
+              output.callback(args.join(' '))
               break
           }
         }
