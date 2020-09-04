@@ -1,4 +1,4 @@
-# @tinyhttp/cors
+# @tinyhttp/ip-filter
 
 [![npm (scoped)][badge-url]][npm-url] [![npm][dl-badge-url]][npm-url]
 
@@ -38,7 +38,7 @@ const app = new App()
 app.use(ipFilter({ forbidden: 'Get the fuck out of my server!', filter: [`*.example.com`], strict: true }))
 
 app.get('/', (req, res) => {
-  res.send('The headers contained in my response are defined in the cors middleware')
+  res.send('Hello World!')
 })
 
 app.listen(3000)
@@ -48,6 +48,6 @@ app.listen(3000)
 
 MIT © [v1rtl](https://v1rtl.site)
 
-[badge-url]: https://img.shields.io/npm/v/@tinyhttp/cors?style=flat-square
-[npm-url]: https://npmjs.com/package/@tinyhttp/cors
-[dl-badge-url]: https://img.shields.io/npm/dt/@tinyhttp/cors?style=flat-square
+[badge-url]: https://img.shields.io/npm/v/@tinyhttp/ip-filter?style=flat-square
+[npm-url]: https://npmjs.com/package/@tinyhttp/ip-filter
+[dl-badge-url]: https://img.shields.io/npm/dt/@tinyhttp/ip-filter?style=flat-square
