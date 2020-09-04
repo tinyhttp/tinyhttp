@@ -1,5 +1,11 @@
 # @tinyhttp/cors
 
+## 0.2.17
+
+### Patch Changes
+
+- Create ip-filter package
+
 ## 0.2.16
 
 ### Patch Changes

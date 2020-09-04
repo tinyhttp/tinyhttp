@@ -1,11 +1,11 @@
 {
-  "name": "@tinyhttp/cors",
-  "version": "0.2.17",
-  "description": "tinyhttp CORS module",
-  "type": "module",
+  "name": "@tinyhttp/ip-filter",
+  "version": "0.0.2",
+  "description": "tinyhttp IP filtering middleware",
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
   "module": "dist/index.js",
+  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -18,7 +18,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/talentlessguy/tinyhttp.git",
-    "directory": "packages/cors"
+    "directory": "packages/ip-filter"
   },
   "keywords": [
     "tinyhttp",
@@ -26,16 +26,24 @@
     "web framework",
     "web",
     "backend",
-    "cors"
+    "filter",
+    "ip",
+    "ip-filter",
+    "antispam",
+    "security",
+    "network"
   ],
+  "author": "v1rtl",
+  "license": "MIT",
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*",
+    "es-mime-types": "^0.0.15",
+    "ip-regex": "^4.1.0",
+    "readdirp": "^3.4.0"
+  },
   "engines": {
     "node": ">=12.4.0"
   },
-  "dependencies": {
-    "es-vary": "^0.0.6"
-  },
-  "author": "v1rtl",
-  "license": "MIT",
   "devDependencies": {
     "tsup": "^3.6.1",
     "typescript": "^4.0.2"

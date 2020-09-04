@@ -15,7 +15,7 @@ const app = new App({
 
 const HTML_PATH = `${process.cwd()}/pages/html`
 
-const NON_MW_PKGS = ['app', 'etag', 'cookie', 'cookie-signature', 'dotenv']
+const NON_MW_PKGS: string[] = ['app', 'etag', 'cookie', 'cookie-signature', 'dotenv']
 
 app
   .use(logger({ ip: true }))
