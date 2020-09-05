@@ -18,7 +18,16 @@ const HTML_PATH = `${process.cwd()}/pages/html`
 const NON_MW_PKGS: string[] = ['app', 'etag', 'cookie', 'cookie-signature', 'dotenv']
 
 app
-  .use(logger({ ip: true }))
+  .use(
+    logger({
+      ip: true,
+      timestamp: true,
+      output: {
+        callback: console.log,
+        color: false,
+      },
+    })
+  )
   .get('/mw', async (req, res, next) => {
     let json: any, status: number, msg: string
 
