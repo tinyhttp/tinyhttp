@@ -40,7 +40,10 @@
   <ul>
    	<li><a href="#middleware">Middleware</a></li>
    	<li><a href="#routing">Routing</a></li>
+    <li><a href="#subapps">Subapps</a></li>
+    <li><a href="#error-handling">Error handling</a></li>
   </ul>
+  <a href="#advanced-topics"><h2>Advanced topics</h2></a>
 </aside>
 
 <main>
@@ -335,20 +338,7 @@ const three = (req, res) => {
 app.get('/example/c', cb0, cb1, cb2)
 ```
 
-#### Response methods
-
-The methods on the response object (res) in the table above can send a response to the client, and terminate the request-response cycle. If none of these methods are called from a route handler, the client request will be left hanging infinitely, so don't forget to use at least one of them!
-
-| Method                                    | Description                                                          |
-| ----------------------------------------- | -------------------------------------------------------------------- |
-| [`res.end()`](/docs/#resend)              | End response with some data                                          |
-| [`res.json()`](/docs#resjson)             | Send a JSON response                                                 |
-| [`res.send()`](/docs#ressend)             | Send a response of various types                                     |
-| [`res.status()`](/docs#resstatus)         | Send a response status code                                          |
-| [`res.sendStatus()`](/docs#ressendstatus) | Send a response status code and its string sign as the response body |
-| more coming soon...                       |                                                                      |
-
-#### Sub-apps
+### Subapps
 
 You can use tinyhttp's `App`s to create a modular group of handlers and then bind them to another "main" App.
 
@@ -367,5 +357,39 @@ app.use('/subapp', subApp).listen(3000)
 
 // localhost:3000/subapp/route will send "Hello from /subapp"
 ```
+
+### Error handling
+
+To handle errors created during handler execution (inside `app.METHOD`) you should use `try { ... } catch (e) { ... }` structure and pass the error to `next`. In this case, the app will keep running but an internal server error will be sent in response. You can also log the error in the console to get more info about it.
+
+```js
+import { App } from '@tinyhttp/app'
+import { readFile } from 'fs/promises'
+
+const app = new App({
+  // Custom error handler
+  onError: (err, _req, res) => {
+    console.log(err)
+    res.status(500).send(`Something bad happened`)
+  },
+})
+
+app.get('/', async (_, res, next) => {
+  let file
+
+  // Wrap critical part into try...catch
+  try {
+    file = await readFile(`non_existent_file`)
+  } catch (e) {
+    // Pass error object to next() function
+    next(e)
+  }
+  res.send(file.toString())
+})
+
+app.listen(3000, () => console.log('Started on http://localhost:3000'))
+```
+
+Wrapping into `try...catch` works on both sync and async handlers.
 
 </main>
