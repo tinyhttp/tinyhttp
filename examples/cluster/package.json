@@ -1,0 +1,8 @@
+{
+  "name": "cluster",
+  "private": true,
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*"
+  },
+  "type": "module"
+}
