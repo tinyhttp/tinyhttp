@@ -19,52 +19,51 @@ const nano = Nano(COUCHDB_URI)
 const todoDB = nano.db.use('todos')
 
 // parse
-app.use('/todos', bodyParser.urlencoded({ extended: false }));
-app.use('/todos', bodyParser.json());
+app.use('/todos', bodyParser.urlencoded({ extended: false }))
+app.use('/todos', bodyParser.json())
 
 // get all tasks
-app.get('/todos', async (_, res,next) => {
+app.get('/todos', async (_, res, next) => {
   try {
     const { rows } = await todoDB.list({ include_docs: true })
     res.send(rows)
     next()
-  } catch (error) {
-    next(error)
+  } catch (e) {
+    next(e)
   }
 })
 
 // add a new task
-app.post('/todos', async(req, res,next) => {
+app.post('/todos', async (req, res, next) => {
   try {
-    const {task,date} = req.body;
-    await todoDB.insert({ task, date });
-    res.send(`New task "${task}" has been added!`);
-  } catch (error) {
-    next(error);
+    const { task, date } = req.body
+    await todoDB.insert({ task, date })
+    res.send(`New task "${task}" has been added!`)
+  } catch (e) {
+    next(e)
   }
 })
 
-// update an existing task 
-app.put('/todos',async(req,res,next)=>{
+// update an existing task
+app.put('/todos', async (req, res, next) => {
   try {
-    const { _id, _rev, task, date } = req.body;
-    await todoDB.insert({ _id, _rev, task, date});
-    res.send(`Task ${task} has been updated!`);
-  } catch (error) {
-    next(error);
+    const { _id, _rev, task, date } = req.body
+    await todoDB.insert({ _id, _rev, task, date })
+    res.send(`Task ${task} has been updated!`)
+  } catch (e) {
+    next(e)
   }
 })
 
 // delete a existing task
-app.delete("/todos", async (req, res,next) => {
+app.delete('/todos', async (req, res, next) => {
   try {
-    const { _id, _rev, task } = req.body;
-    await todoDB.destroy(_id, _rev);
-    res.send(`Task "${task} has been removed!"`);
-  } catch (error) {
-    next(error);
+    const { _id, _rev, task } = req.body
+    await todoDB.destroy(_id, _rev)
+    res.send(`Task "${task} has been removed!"`)
+  } catch (e) {
+    next(e)
   }
-});
-
+})
 
 app.listen(PORT, () => console.log(`server is live at ${PORT}`))

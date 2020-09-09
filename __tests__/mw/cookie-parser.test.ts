@@ -56,7 +56,7 @@ describe('cookieParser()', function () {
   }) */
 
   describe('when a secret is given', function () {
-    var val = signature.sign('foobarbaz', 'keyboard cat')
+    const val = signature.sign('foobarbaz', 'keyboard cat')
     // TODO: "bar" fails...
 
     it('should populate req.signedCookies', function (done) {
@@ -74,7 +74,7 @@ describe('cookieParser()', function () {
     })
 
     it('should omit invalid signatures', function (done) {
-      var server = createServer('keyboard cat')
+      const server = createServer('keyboard cat')
 
       request(server)
         .get('/signed')
