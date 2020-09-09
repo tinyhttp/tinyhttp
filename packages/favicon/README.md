@@ -4,7 +4,7 @@
 
 > A rewrite of [serve-favicon](https://github.com/expressjs/serve-favicon) module.
 
-This module generates HTTP favicons (as defined in RFC 7232) for use in HTTP responses.
+Favicon middleware to serve `favicon.ico` file.
 
 ## Install
 

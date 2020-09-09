@@ -2,7 +2,7 @@
   "name": "@tinyhttp/favicon",
   "version": "0.0.1",
   "type": "module",
-  "description": "entity tag module",
+  "description": "favicon middleware",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
   "repository": {
     "type": "git",
@@ -27,8 +27,7 @@
     "web",
     "backend",
     "favicon",
-    "icon",
-    "media"
+    "icon"
   ],
   "engines": {
     "node": ">=12.4.0"
