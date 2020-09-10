@@ -35,7 +35,7 @@ import { ipFilter } from '@tinyhttp/ip-filter'
 
 const app = new App()
 
-app.use(ipFilter({ forbidden: 'Get the fuck out of my server!', filter: [`*.example.com`], strict: true }))
+app.use(ipFilter({ forbidden: 'Get the f*ck out of my server!', filter: [`*.example.com`], strict: true }))
 
 app.get('/', (req, res) => {
   res.send('Hello World!')

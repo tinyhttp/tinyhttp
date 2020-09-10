@@ -44,6 +44,10 @@
     <li><a href="#error-handling">Error handling</a></li>
   </ul>
   <a href="#advanced-topics"><h2>Advanced topics</h2></a>
+  <ul>
+    <li><a href="#database-integration">Database integration</a></li>
+    <li><a href="#deployment">Deployment</a></li>
+  </ul>
 </aside>
 
 <main>
@@ -392,6 +396,147 @@ app.get('/', async (_, res, next) => {
 app.listen(3000, () => console.log('Started on http://localhost:3000'))
 ```
 
-Wrapping into `try...catch` works on both sync and async handlers.
+Wrapping into `try...catch` works with both sync and async handlers.
+
+## Advanced topics
+
+### Database integration
+
+As any other web framework, tinyhttp works well with databases. There is a plenty of [examples](https://github.com/talentlessguy/tinyhttp/tree/master/examples) for tinyhttp, including MongoDB, FaunaDB, CouchDB and LowDB ones.
+
+#### Example
+
+Usually, in a tinyhttp app you initiatialize a client for your database and later query with it inside middlewares.
+
+Here's a simple [example](https://github.com/talentlessguy/tinyhttp/tree/master/examples/mongodb) with MongoDB:
+
+```js
+import { App } from '@tinyhttp/app'
+import * as dotenv from '@tinyhttp/dotenv'
+import { urlencoded as parser } from 'body-parsec'
+import mongodb from 'mongodb'
+import assert from 'assert'
+
+dotenv.config()
+
+const app = new App()
+
+let db
+let coll
+
+// create mongo client
+const client = new mongodb.MongoClient(process.env.DB_URI, {
+  useUnifiedTopology: true,
+})
+
+// connect to mongodb
+client.connect(async (err) => {
+  assert.notStrictEqual(null, err)
+  console.log('successfully connected to MongoDB')
+  db = client.db('notes')
+  coll = db.collection('notes')
+})
+
+// get all notes
+app.get('/notes', async (_, res, next) => {
+  try {
+    const r = await coll.find({}).toArray()
+    res.send(r)
+    next()
+  } catch (err) {
+    next(err)
+  }
+})
+
+app.use('/notes', parser())
+
+// add new note
+app.post('/notes', async (req, res, next) => {
+  try {
+    const { title, desc } = req.body
+    const r = await coll.insertOne({ title, desc })
+    assert.strictEqual(1, r.insertedCount)
+    res.send(`Note with title of "${title}" has been added`)
+  } catch (err) {
+    next(err)
+  }
+})
+
+app.listen(3000)
+```
+
+There are some of the middlewares for databases to be able to use a databases through `req.db` property but currently they are in progress. You still can use tinyhttp with any database, as shown in the example.
+
+### Deployment
+
+There are a lot of ways to deploy tinyhttp. You can use a serverless platform, or a VPS, or anything else that has Node.js runtime. We'll look into the most common ways and break them down.
+
+#### Serverless
+
+As for Serverless, you can pick any of the serverless platforms. Here is a table of some popular ones:
+
+| **Platform**    | **Website**            | **Free**       |
+| --------------- | ---------------------- | -------------- |
+| Heroku          | https://heroku.com     | Yes            |
+| Vercel (Lambda) | https://vercel.com     | Yes            |
+| AWS             | https://aws.amazon.com | Yes (one year) |
+
+You can check out the Vercel [example](https://github.com/talentlessguy/tinyhttp/tree/master/examples/vercel) in the tinyhttp repo.
+
+If you know any of the good serverless platforms to deploy tinyhttp on, feel free to PR on the docs.
+
+#### Self-hosted
+
+There is a list of self-hosted serverless deployments tools that you can install on your VPS and use it, making it similar to "real" serverless.
+
+| **Tool** | **Website**                            |
+| -------- | -------------------------------------- |
+| Exoframe | https://github.com/exoframejs/exoframe |
+
+#### Custom
+
+##### CI/CD
+
+If you prefer doing customized deployments you can try to use a combination of a CI/CD service, process manager and a web server (or only of them).
+
+**CI/CD**
+
+| Name           | Website                             | Free |
+| -------------- | ----------------------------------- | ---- |
+| Github Actions | https://github.com/features/actions | Yes  |
+| Travis         | https://travis-ci.org               | Yes  |
+
+Any CI will work for tinyhttp because it doesn't set any limits.
+
+**Process managers / Unit systems**
+
+| Name    | Website                              | Load balancer built-in2 |
+| ------- | ------------------------------------ | ----------------------- |
+| PM2     | https://pm2.io                       | Yes                     |
+| systemd | https://systemd.io                   | No                      |
+| z1      | https://github.com/robojones/z1      | Yes                     |
+| Forever | https://github.com/foreversd/forever | Yes                     |
+
+As a rule, the target server runs on Linux. All of the major distros have [systemd](https://systemd.io). You can use it to create a service for your tinyhttp app.
+
+The most popular process manager for Node.js is [PM2](https://pm2.io/). It has a clustering feature built-in so it's very easy to make your app multi-process. However, using pm2 is not required to have clustering. You can do the same with systemd but you'll need to use a [`cluster`](https://nodejs.org/api/cluster.html) module. Check the cluster [example](https://github.com/talentlessguy/tinyhttp/tree/master/examples/cluster) for more info.
+
+**Web servers**
+
+It is common to use a web server as reverse proxy from 3000 (or any other) port to 80 HTTP port. A web server also could be used for load balancing.
+
+| Name  | Website                 | Load balancer built-in | Docs                                                                                                                                      |
+| ----- | ----------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| nginx | https://nginx.com       | Yes                    | [Load Balancing Node.js Application Servers with NGINX](https://docs.nginx.com/nginx/deployment-guides/load-balance-third-party/node-js/) |
+| Caddy | https://caddyserver.com | Yes                    | [Caddy Reverse Proxy](https://caddyserver.com/docs/caddyfile/directives/reverse_proxy)                                                    |
+
+##### Docker
+
+Docker has a lot of images to run a Node.js app in a container. One of the most popular images is [node](https://hub.docker.com/_/node/).
+
+There are articles of deploying an Express app with Docker. You can use these tutorials to deploy tinyhttp (it's almost the same).
+
+- [Run Express in Docker](https://dev.to/tirthaguha/run-express-in-docker-2o44)
+- [Dockerizing a Node.js web app](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/)
 
 </main>

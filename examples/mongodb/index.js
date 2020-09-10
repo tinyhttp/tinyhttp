@@ -1,6 +1,6 @@
 import { App } from '@tinyhttp/app'
 import * as dotenv from '@tinyhttp/dotenv'
-import { form as parser } from 'body-parsec'
+import { urlencoded as parser } from 'body-parsec'
 import mongodb from 'mongodb'
 import assert from 'assert'
 
@@ -16,12 +16,10 @@ const client = new mongodb.MongoClient(process.env.DB_URI, {
   useUnifiedTopology: true,
 })
 
-const dbName = 'notes'
-
 client.connect(async (err) => {
-  assert.equal(null, err)
+  assert.notStrictEqual(null, err)
   console.log('successfully connected to MongoDB')
-  db = client.db(dbName)
+  db = client.db('notes')
   coll = db.collection('notes')
 })
 
@@ -43,7 +41,7 @@ app.post('/notes', async (req, res, next) => {
   try {
     const { title, desc } = req.body
     const r = await coll.insertOne({ title, desc })
-    assert.equal(1, r.insertedCount)
+    assert.strictEqual(1, r.insertedCount)
     res.send(`Note with title of "${title}" has been added`)
   } catch (err) {
     next(err)
@@ -55,7 +53,7 @@ app.delete('/notes', async (req, res, next) => {
   try {
     const { id } = req.body
     const r = await coll.deleteOne({ _id: new mongodb.ObjectId(id) })
-    assert.equal(1, r.deletedCount)
+    assert.strictEqual(1, r.deletedCount)
     res.send(`Note with id of ${id} has been deleted`)
   } catch (err) {
     next(err)
