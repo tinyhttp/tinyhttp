@@ -70,10 +70,6 @@ blockquote {
   background: #d1c6c6;
 }
 
-main h2 {
-  color: var(--dark-fg);
-}
-
 button:hover {
   cursor: pointer;
 }

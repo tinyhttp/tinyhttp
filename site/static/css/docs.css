@@ -48,7 +48,6 @@ main > h3 {
 
 main > h4 {
   font-size: calc(0.8vw + 0.8rem);
-  color: var(--fg);
 }
 
 main > h5 {
@@ -102,6 +101,22 @@ aside a:hover {
 
 summary:hover {
   cursor: pointer;
+}
+
+table {
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+table th {
+  font-weight: 500;
+}
+
+table th,
+table td {
+  border: 1px solid var(--fg);
+  margin: 0;
+  padding: 0.5rem;
 }
 
 @media (max-width: 800px) {

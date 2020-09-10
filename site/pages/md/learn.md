@@ -64,13 +64,11 @@ _**tinyhttp**_ is a modern Express-like web framework for Node.js written in Typ
 
 Although tinyhttp tries to be as close to Express as possible, there are some key differences between these two frameworks.
 
-- **tinyhttp doesn't have the same settings**. All `App` settings are initialized in the constructor. You can see a list of them [here](/docs#constructor).
+- **tinyhttp doesn't have the same settings**. All `App` settings are initialized in the constructor. You can see a list of them [here](/docs#settings).
 - **tinyhttp doesn't put `err` object in middleware if the previous one passed error**. Instead, it uses a [generic error handler](/docs#onerrorerr-req-res).
 - **tinyhttp doesn't include static server and body parser out of the box**. To reduce module size these things were put in separate middleware modules, such as [`@tinyhttp/static`](https://tinyhttp.v1rtl.site/mw/static) and [`parsec`](https://github.com/talentlessguy/parsec).
 
 Note that maximum compatability is in progress so some of the points might change.
-
-See [Migration from Express](#migrationfromexpress) section to learn how to move from Express to tinyhttp.
 
 ### Install
 
@@ -475,11 +473,11 @@ There are a lot of ways to deploy tinyhttp. You can use a serverless platform, o
 
 As for Serverless, you can pick any of the serverless platforms. Here is a table of some popular ones:
 
-| **Platform**    | **Website**            | **Free**       |
-| --------------- | ---------------------- | -------------- |
-| Heroku          | https://heroku.com     | Yes            |
-| Vercel (Lambda) | https://vercel.com     | Yes            |
-| AWS             | https://aws.amazon.com | Yes (one year) |
+| **Platform**                          | **Free**       |
+| ------------------------------------- | -------------- |
+| [Heroku](https://heroku.com)          | Yes            |
+| [Vercel (Lambda)](https://vercel.com) | Yes            |
+| [AWS](https://aws.amazon.com)         | Yes (one year) |
 
 You can check out the Vercel [example](https://github.com/talentlessguy/tinyhttp/tree/master/examples/vercel) in the tinyhttp repo.
 
@@ -489,9 +487,9 @@ If you know any of the good serverless platforms to deploy tinyhttp on, feel fre
 
 There is a list of self-hosted serverless deployments tools that you can install on your VPS and use it, making it similar to "real" serverless.
 
-| **Tool** | **Website**                            |
-| -------- | -------------------------------------- |
-| Exoframe | https://github.com/exoframejs/exoframe |
+| **Tool**                                           |
+| -------------------------------------------------- |
+| [Exoframe](https://github.com/exoframejs/exoframe) |
 
 #### Custom
 
@@ -501,21 +499,21 @@ If you prefer doing customized deployments you can try to use a combination of a
 
 **CI/CD**
 
-| Name           | Website                             | Free |
-| -------------- | ----------------------------------- | ---- |
-| Github Actions | https://github.com/features/actions | Yes  |
-| Travis         | https://travis-ci.org               | Yes  |
+| CI/CD                                                 | Free |
+| ----------------------------------------------------- | ---- |
+| [Github Actions](https://github.com/features/actions) | Yes  |
+| [Travis](https://travis-ci.org)                       | Yes  |
 
 Any CI will work for tinyhttp because it doesn't set any limits.
 
 **Process managers / Unit systems**
 
-| Name    | Website                              | Load balancer built-in2 |
-| ------- | ------------------------------------ | ----------------------- |
-| PM2     | https://pm2.io                       | Yes                     |
-| systemd | https://systemd.io                   | No                      |
-| z1      | https://github.com/robojones/z1      | Yes                     |
-| Forever | https://github.com/foreversd/forever | Yes                     |
+| PM / Unit system                                | Cross-platform | Load balancer built-in2 |
+| ----------------------------------------------- | -------------- | ----------------------- |
+| [PM2](https://pm2.io)                           | Yes            | Yes                     |
+| [systemd](https://systemd.io)                   | No             | No                      |
+| [z1](https://github.com/robojones/z1)           | Yes            | Yes                     |
+| [Forever](https://github.com/foreversd/forever) | Yes            | Yes                     |
 
 As a rule, the target server runs on Linux. All of the major distros have [systemd](https://systemd.io). You can use it to create a service for your tinyhttp app.
 
@@ -525,10 +523,10 @@ The most popular process manager for Node.js is [PM2](https://pm2.io/). It has a
 
 It is common to use a web server as reverse proxy from 3000 (or any other) port to 80 HTTP port. A web server also could be used for load balancing.
 
-| Name  | Website                 | Load balancer built-in | Docs                                                                                                                                      |
-| ----- | ----------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| nginx | https://nginx.com       | Yes                    | [Load Balancing Node.js Application Servers with NGINX](https://docs.nginx.com/nginx/deployment-guides/load-balance-third-party/node-js/) |
-| Caddy | https://caddyserver.com | Yes                    | [Caddy Reverse Proxy](https://caddyserver.com/docs/caddyfile/directives/reverse_proxy)                                                    |
+| Web server                       | Load balancer built-in | Docs                                                                                                                                      |
+| -------------------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| [nginx](https://nginx.com)       | Yes                    | [Load Balancing Node.js Application Servers with NGINX](https://docs.nginx.com/nginx/deployment-guides/load-balance-third-party/node-js/) |
+| [Caddy](https://caddyserver.com) | Yes                    | [Caddy Reverse Proxy](https://caddyserver.com/docs/caddyfile/directives/reverse_proxy)                                                    |
 
 ##### Docker
 
