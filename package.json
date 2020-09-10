@@ -36,7 +36,7 @@
     "chgset": "pnpm chgset:run && pnpm chgset:version",
     "release": "pnpm publish -r",
     "release-no-git-checks": "pnpm publish -r --no-git-checks",
-    "test": "jest --runInBand --detectOpenHandles",
+    "test": "jest --detectOpenHandles",
     "lint": "eslint ./packages/**/src/*.ts"
   }
 }
