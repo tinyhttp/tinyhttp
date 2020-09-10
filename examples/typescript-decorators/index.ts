@@ -1,11 +1,11 @@
-import { App } from '@tinyhttp/app';
+import { App, Request, Response } from '@tinyhttp/app';
 import { basePath, get, register } from 'express-decorators';
 
 @basePath('/hello')
 class TestController {
 
     @get('/world')
-    async sayHelloAction(request, response) {
+    async sayHelloAction(request: Request, response: Response) {
         response.send('<h1>Hello World</h1>');
     }
 
