@@ -5,7 +5,7 @@
 ### Properties
 
 - [x] `app.locals`
-- [ ] `app.mountpath`
+- [x] `app.mountpath`
 
 ### Methods
 
@@ -51,12 +51,12 @@ HTTP Methods
 ### Properties
 
 - [x] `req.app`
-- [ ] `req.body`
+- [x] `req.body`
 - [x] `req.cookies`
 - [x] `req.fresh`
 - [x] `req.hostname`
 - [x] `req.ip`
-- [ ] `req.ips`
+- [x] `req.ips`
 - [x] `req.method`
 - [x] `req.params`
 - [ ] `req.path`
