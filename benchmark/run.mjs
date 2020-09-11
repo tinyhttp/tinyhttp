@@ -16,7 +16,7 @@ const run = (apps) => {
     {
       connections: 100,
       duration: 5,
-      url: 'http://localhost:3000/user/123',
+      url: 'http://localhost:8000/user/123',
       title: apps[0],
     },
     () => {
