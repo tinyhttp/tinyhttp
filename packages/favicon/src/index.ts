@@ -10,7 +10,6 @@ import { IncomingMessage, ServerResponse } from 'http'
  * Favicon options
  */
 export type FaviconOptions = {
-  path: string | Buffer
   maxAge?: number | string
 }
 
@@ -100,11 +99,9 @@ function send(req, res, icon) {
  * Serves the favicon located by the given `path`.
  */
 
-export async function favicon(options: FaviconOptions) {
+export async function favicon(path: string | Buffer, options?: FaviconOptions) {
   let icon: FaviconBody // favicon cache
   const maxAge = calcMaxAge(options?.maxAge)
-
-  let path = options?.path
 
   if (!path) throw new TypeError('path to favicon.ico is required')
 

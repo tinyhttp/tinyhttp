@@ -37,14 +37,7 @@ import { favicon } from '@tinyhttp/favicon'
 import { createServer } from 'http'
 import path from 'path'
 
-const server = http.createServer(
-  async (req, res) =>
-    void (
-      await favicon({
-        path: path.join(process.cwd(), 'public', 'favicon.ico'),
-      })
-    )(req, res)
-)
+const server = http.createServer(async (req, res) => void (await favicon(path.join(process.cwd(), 'public', 'favicon.ico')))(req, res))
 
 server.listen(3000)
 ```
