@@ -9,6 +9,11 @@
     "node": ">=12.4.0",
     "pnpm": ">=5.3.0"
   },
+  "lint-staged": {
+    "./**/*.{js,ts,cjs,mjs}": [
+      "eslint --fix"
+    ]
+  },
   "devDependencies": {
     "@changesets/cli": "^2.10.2",
     "@types/jest": "^26.0.10",
@@ -21,6 +26,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "husky": "4.2.5",
     "jest": "^26.4.2",
+    "lint-staged": "^10.3.0",
     "prettier": "^2.1.1",
     "supertest": "^4.0.2",
     "ts-jest": "^26.3.0",
