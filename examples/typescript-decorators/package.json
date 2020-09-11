@@ -1,5 +1,5 @@
 {
-  "name": "typescript",
+  "name": "decorators",
   "private": true,
   "scripts": {
     "start": "ts-node index.ts"
