@@ -7,7 +7,7 @@ import { isAsync } from './utils/async'
 import { Middleware, Handler, NextFunction, Router, ErrorHandler } from './router'
 import { extendMiddleware } from './extend'
 
-export const applyHandler = (h: Handler) => async (req, res, next?) => {
+export const applyHandler = (h: Handler) => async (req: Request, res: Response, next?: NextFunction) => {
   if (isAsync(h)) {
     await h(req, res, next)
   } else {
@@ -72,7 +72,7 @@ export class App extends Router {
     let idx = 0
     const len = mw.length - 1
 
-    const nextWithReqAndRes = (req: Request, res: Response) => (err) => {
+    const nextWithReqAndRes = (req: Request, res: Response) => (err: any) => {
       if (err) {
         this.onError(err, req, res)
       } else {

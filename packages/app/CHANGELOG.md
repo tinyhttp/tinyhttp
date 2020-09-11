@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.2.65
+
+### Patch Changes
+
+- Create ping module
+
 ## 0.2.64
 
 ### Patch Changes

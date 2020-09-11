@@ -1,5 +1,11 @@
 # @tinyhttp/favicon
 
+## 0.0.3
+
+### Patch Changes
+
+- Create ping module
+
 ## 0.0.2
 
 ### Patch Changes

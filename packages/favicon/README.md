@@ -24,11 +24,11 @@ import { favicon } from '@tinyhttp/favicon'
 
 #### `path`
 
-Path to icon, required.
+Path to icon, required. Passed as the first argument.
 
 #### `maxAge`
 
-Sets `Cache-Control: maxAge=` header, optional. Default is one year.
+Sets `Cache-Control: maxAge=` header, optional. Default is one year. Passed with object in the second argument.
 
 ## Example
 
@@ -37,7 +37,9 @@ import { favicon } from '@tinyhttp/favicon'
 import { createServer } from 'http'
 import path from 'path'
 
-const server = http.createServer(async (req, res) => void (await favicon(path.join(process.cwd(), 'public', 'favicon.ico')))(req, res))
+const server = http.createServer(async (req, res) => {
+  return (await favicon(path.join(process.cwd(), 'public', 'favicon.ico')))(req, res)
+})
 
 server.listen(3000)
 ```
