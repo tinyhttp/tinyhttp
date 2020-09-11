@@ -9,10 +9,7 @@ const options = {
   cert: fs.readFileSync('localhost-cert.pem'),
 }
 
-app.get(
-  '/',
-  (req, res) => void res.send(`Hello from HTTP ${req.httpVersion} server!`)
-)
+app.get('/', (req, res) => void res.send(`Hello from HTTP ${req.httpVersion} server!`))
 
 http2
   .createSecureServer(options, async (req, res) => {

@@ -1,7 +1,7 @@
 import low from 'lowdb'
 import FileSync from 'lowdb/adapters/FileSync.js'
 import { App } from '@tinyhttp/app'
-import { form as parser } from 'body-parsec'
+import { urlencoded } from 'body-parsec'
 
 const app = new App()
 const adapter = new FileSync('db.json')
@@ -9,7 +9,7 @@ const db = low(adapter)
 
 // get all posts
 
-app.use(parser())
+app.use(urlencoded())
 
 app.get('/', (_, res) => {
   res.send(db.getState().posts)
@@ -40,6 +40,7 @@ app.post('/', (req, res) => {
 app.put('/:id', (req, res) => {
   const currentPost = db
     .get('posts')
+
     // @ts-ignore
     .find({ id: parseInt(req.params.id) })
     .value()
@@ -51,7 +52,8 @@ app.put('/:id', (req, res) => {
 // delete a post
 app.delete('/:id', (req, res) => {
   db.get('posts')
-    // @ts-ignore
+
+    //@ts-ignore
     .remove({ id: parseInt(req.params.id) })
     .write()
   res.send({ msg: `A post with an id of ${req.params.id} has been deleted` })

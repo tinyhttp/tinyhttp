@@ -37,21 +37,15 @@ export const jwt = ({
   getToken = getTokenFromHeader,
 }: JwtMwProps) => {
   return function (req: Request, res: Response, next?: () => void) {
-    const token: string = getToken(
-      (req.headers[requestHeaderName] as string) ?? ''
-    )
+    const token: string = getToken((req.headers[requestHeaderName] as string) ?? '')
 
     try {
       // Verify the JWT token
-      const verify = jwtoken.verify(
-        token,
-        Array.isArray(secret) ? secret[1] : secret,
-        {
-          algorithms: [algorithm],
-          audience,
-          issuer,
-        }
-      )
+      const verify = jwtoken.verify(token, Array.isArray(secret) ? secret[1] : secret, {
+        algorithms: [algorithm],
+        audience,
+        issuer,
+      })
 
       req.user = verify
 

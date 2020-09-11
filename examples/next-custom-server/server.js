@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 const next = require('next')
 const { App } = require('@tinyhttp/app')
 const bodyParser = require('body-parser')
