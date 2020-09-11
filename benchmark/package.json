@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "@types/autocannon": "^4.1.0",
-    "autocannon": "5"
+    "autocannon": "^6.3.0"
   },
   "scripts": {
     "bench": "autocannon -c 100 -d 15 http://localhost:3000/user/123"
