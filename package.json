@@ -10,7 +10,7 @@
     "pnpm": ">=5.3.0"
   },
   "lint-staged": {
-    "./**/*.{js,ts,cjs,mjs}": [
+    "*.{js,ts,cjs,mjs}": [
       "eslint --fix"
     ]
   },
