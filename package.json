@@ -38,6 +38,6 @@
     "release-no-git-checks": "pnpm publish -r --no-git-checks",
     "test": "jest --detectOpenHandles",
     "lint": "eslint ./packages/**/src/*.ts",
-    "format": "prettier ./**/*.{ts,js}"
+    "format": "prettier --check ./**/*.{ts,js}"
   }
 }
