@@ -1,5 +1,5 @@
 {
-    "hooks": {
-        "pre-commit": "pnpm lint && pnpm test"
-    }
+  "hooks": {
+    "pre-commit": "pnpm format && pnpm lint && pnpm test"
+  }
 }
