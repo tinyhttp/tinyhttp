@@ -2,7 +2,7 @@ const cnt = document.getElementById('content')
 
 const regex = /page\/.*/g
 
-document.getElementById('editable').oninput = e => {
+document.getElementById('editable').oninput = (e) => {
   const v = e.currentTarget.value
 
   const m = v.match(regex)
