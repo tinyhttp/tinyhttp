@@ -4,8 +4,8 @@ import { basePath, get, register } from 'express-decorators'
 @basePath('/hello')
 class TestController {
   @get('/world')
-  async sayHelloAction(request: Request, response: Response) {
-    response.send('<h1>Hello World</h1>')
+  async sayHelloAction(_: Request, res: Response) {
+    res.send('<h1>Hello World</h1>')
   }
 }
 
