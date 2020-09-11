@@ -15,7 +15,7 @@ const run = (apps) => {
   const b = bench(
     {
       connections: 100,
-      duration: 5,
+      duration: 15,
       url: 'http://localhost:8000/user/123',
       title: apps[0],
     },
