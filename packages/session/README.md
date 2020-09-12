@@ -87,6 +87,11 @@ app.use(async (req, res) => {
 server.listen(3000)
 ```
 
+## Alternatives
+
+- [express-session](https://github.com/expressjs/session)
+- [micro-session](https://github.com/meyer9/micro-session)
+
 ## License
 
 MIT © [v1rtl](https://v1rtl.site)
