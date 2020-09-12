@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.2.66
+
+### Patch Changes
+
+- Create @tinyhttp/sesson
+
 ## 0.2.65
 
 ### Patch Changes

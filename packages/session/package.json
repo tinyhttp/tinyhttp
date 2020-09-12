@@ -1,16 +1,13 @@
 {
-  "name": "@tinyhttp/cookie-parser",
-  "version": "0.1.48",
+  "name": "@tinyhttp/session",
+  "version": "0.0.2",
   "type": "module",
-  "description": "tinyhttp cookie parsing middleware",
-  "homepage": "https://github.com/talentlessguy/tinyhttp/tree/master/packages/cookie-parser#readme",
+  "description": "Response time checker middleware",
+  "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/talentlessguy/tinyhttp.git",
-    "directory": "packages/cookie-parser"
-  },
-  "engines": {
-    "node": ">=12.4.0"
+    "directory": "packages/session"
   },
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
@@ -29,21 +26,25 @@
     "web framework",
     "web",
     "backend",
-    "cookie",
-    "cookie-parser"
+    "session"
   ],
+  "engines": {
+    "node": ">=12.4.0"
+  },
   "author": "v1rtl",
   "license": "MIT",
-  "dependencies": {
-    "@tinyhttp/app": "workspace:*",
-    "@tinyhttp/cookie": "workspace:*",
-    "@tinyhttp/cookie-signature": "workspace:*"
-  },
   "devDependencies": {
+    "@types/express-session": "^1.17.0",
     "tsup": "^3.6.1",
     "typescript": "^4.0.2"
   },
   "scripts": {
     "build": "tsup src/index.ts  --format cjs,esm --dts"
+  },
+  "dependencies": {
+    "@tinyhttp/cookie": "workspace:*",
+    "@tinyhttp/cookie-signature": "workspace:*",
+    "nanoid": "^3.1.12",
+    "on-headers": "^1.0.2"
   }
 }
