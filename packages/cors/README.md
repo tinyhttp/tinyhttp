@@ -60,6 +60,10 @@ app.get('/', (req, res) => {
 app.listen(3000)
 ```
 
+## Alternatives
+
+- [cors](https://github.com/expressjs/cors)
+
 ## License
 
 MIT © [BRA1L0R](https://brailor.me/)
