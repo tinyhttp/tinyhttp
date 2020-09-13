@@ -80,7 +80,7 @@ To compare tinyhttp with Express and Polka (another Express-like framework), see
 
 ## Benchmarks
 
-To see benchmark comparison between tinyhttp, polka and express, check [benchmark](benchmark) folder.
+To see benchmark comparison between tinyhttp, polka, express and koa, check [benchmark](benchmark) folder.
 
 ## Contributing
 
