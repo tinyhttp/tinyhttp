@@ -1,5 +1,17 @@
 # @tinyhttp/app
 
+## 0.2.71
+
+### Patch Changes
+
+- oopsie
+
+## 0.2.70
+
+### Patch Changes
+
+- Fix smol options error
+
 ## 0.2.69
 
 ### Patch Changes

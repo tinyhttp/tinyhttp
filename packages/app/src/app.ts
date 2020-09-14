@@ -69,7 +69,7 @@ export class App extends Router {
    * @param options Template engine options
    * @param cb Callback that consumes error and html
    */
-  render(file: string, data: Record<string, any> = {}, cb: (err: unknown, html: unknown) => void, options?: TemplateEngineOptions) {
+  render(file: string, data: Record<string, any> = {}, cb: (err: unknown, html: unknown) => void, options: TemplateEngineOptions = {}) {
     options.viewsFolder = options.viewsFolder || `${process.cwd()}/views`
     options.ext = options.ext || 'ejs'
     options._locals = options._locals || {}

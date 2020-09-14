@@ -1,5 +1,21 @@
 # @tinyhttp/cookie-parser
 
+## 0.1.53
+
+### Patch Changes
+
+- oopsie
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.71
+
+## 0.1.52
+
+### Patch Changes
+
+- Fix smol options error
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.70
+
 ## 0.1.51
 
 ### Patch Changes
