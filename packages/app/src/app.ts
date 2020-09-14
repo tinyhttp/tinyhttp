@@ -71,7 +71,7 @@ export class App extends Router {
    */
   render(file: string, data: Record<string, any> = {}, cb: (err: unknown, html: unknown) => void, options: TemplateEngineOptions = {}) {
     options.viewsFolder = options.viewsFolder || `${process.cwd()}/views`
-    options.ext = options.ext || 'ejs'
+    options.ext = options.ext || file.slice(file.lastIndexOf('.') + 1) || 'ejs'
     options._locals = options._locals || {}
 
     let locals = { ...data, ...this.locals }

@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.2.72
+
+### Patch Changes
+
+- Fix little bug with `render` ext
+
 ## 0.2.71
 
 ### Patch Changes
