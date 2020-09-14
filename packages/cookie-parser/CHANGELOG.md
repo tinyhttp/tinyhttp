@@ -1,19 +1,26 @@
 # @tinyhttp/cookie-parser
 
+## 0.1.51
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.69
+
 ## 0.1.50
 
 ### Patch Changes
 
 <<<<<<< HEAD
+
 - something weird, pnpm doesn't want to publish
 - Updated dependencies [undefined]
   - @tinyhttp/app@0.2.68
   - @tinyhttp/cookie@0.1.18
-  - @tinyhttp/cookie-signature@0.1.15
-=======
+  - # @tinyhttp/cookie-signature@0.1.15
 - Updated dependencies [undefined]
   - @tinyhttp/app@0.2.68
->>>>>>> eb274516b639d61f78b94fc2c278bc75d511a2a9
+    > > > > > > > eb274516b639d61f78b94fc2c278bc75d511a2a9
 
 ## 0.1.49
 
