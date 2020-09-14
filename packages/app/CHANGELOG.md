@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.2.68
+
+### Patch Changes
+
+- Experimental template support
+
 ## 0.2.67
 
 ### Patch Changes
