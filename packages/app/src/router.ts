@@ -51,6 +51,9 @@ type Method =
   | string
 
 type MiddlewareType = 'mw' | 'route'
+
+export type RoutePath = string | RegExp
+
 export interface Middleware {
   method?: Method
   handler: Handler
@@ -101,6 +104,11 @@ const pushMiddleware = (mw: Middleware[]) => ({
     mw.push({ ...mdw, type })
   }
 }
+
+type RouterHandler = Handler | Handler[]
+
+type RouterPathOrHandler = string | RouterHandler
+
 /**
  * tinyhttp Router. Manages middleware and has HTTP methods aliases, e.g. `app.get`, `app.put`
  */
@@ -468,7 +476,7 @@ export class Router {
    * @param handler handler function
    * @param handlers the rest handler functions
    */
-  use(path: string | Handler | App, handler?: Handler | App, ...handlers: Handler[]) {
+  use(path: RouterPathOrHandler | App, handler?: RouterHandler | App, ...handlers: RouterHandler[]) {
     // app.use('/subapp', subApp)
     if (typeof path === 'string' && handler instanceof App) {
       handler.mountpath = path
@@ -485,10 +493,44 @@ export class Router {
 
       this.apps['/'] = path
     } else if (!(handler instanceof App)) {
+      let totalHandlers: Handler[] = []
+
+      if (typeof path !== 'string') {
+        if (Array.isArray(path)) {
+          path.slice(1).map((h) => totalHandlers.push(h))
+        }
+      }
+
+      if (handler) {
+        if (Array.isArray(handler)) {
+          handler.slice(1).map((h) => {
+            totalHandlers.push(h)
+          })
+        }
+      }
+
+      totalHandlers = totalHandlers.concat(handlers.flat() as Handler[])
+
+      let mainHandler: Handler
+
+      if (typeof path === 'string') {
+        if (Array.isArray(handler)) {
+          mainHandler = handler[0]
+        } else {
+          mainHandler = handler
+        }
+      } else {
+        if (Array.isArray(path)) {
+          mainHandler = path[0]
+        } else {
+          mainHandler = path as Handler
+        }
+      }
+
       pushMiddleware(this.middleware)({
-        path,
-        handler: typeof path === 'string' ? handler : path,
-        handlers,
+        path: path as string,
+        handler: mainHandler,
+        handlers: totalHandlers,
         type: 'mw',
       })
     }

@@ -386,3 +386,121 @@ describe('Route methods', () => {
       })
   })
 })
+
+describe('Route handlers', () => {
+  it('router accepts array of middlewares', (done) => {
+    const app = new App()
+
+    app.use('/', [
+      function m1(req, _, n) {
+        req.body = ''
+        n()
+      },
+      function m2(req, _, n) {
+        req.body += 'hello'
+        n()
+      },
+      (req, _, n) => {
+        req.body += ' '
+        n()
+      },
+      (req, _, n) => {
+        req.body += 'world'
+        n()
+      },
+      (req, res) => {
+        res.send(req.body)
+      },
+    ])
+
+    const server = app.listen()
+
+    const request = supertest(server)
+
+    request
+      .get('/')
+      .expect(200, 'hello world')
+      .end((err: Error) => {
+        server.close()
+        if (err) return done(err)
+        done()
+      })
+  })
+  it('router accepts path as array of middlewares', (done) => {
+    const app = new App()
+
+    app.use([
+      function m1(req, _, n) {
+        req.body = ''
+        n()
+      },
+      function m2(req, _, n) {
+        req.body += 'hello'
+        n()
+      },
+      (req, _, n) => {
+        req.body += ' '
+        n()
+      },
+      (req, _, n) => {
+        req.body += 'world'
+        n()
+      },
+      (req, res) => {
+        res.send(req.body)
+      },
+    ])
+
+    const server = app.listen()
+
+    const request = supertest(server)
+
+    request
+      .get('/')
+      .expect(200, 'hello world')
+      .end((err: Error) => {
+        server.close()
+        if (err) return done(err)
+        done()
+      })
+  })
+  it('sub-app mounts on a specific path', () => {
+    const app = new App()
+
+    const subApp = new App()
+
+    app.use('/subapp', subApp)
+
+    expect(subApp.mountpath).toBe('/subapp')
+  })
+  it('sub-app handles its own path', (done) => {
+    const app = new App()
+
+    const subApp = new App()
+
+    subApp.use((_, res) => void res.send('Hello World!'))
+
+    app.use('/subapp', subApp)
+
+    const server = app.listen()
+
+    const request = supertest(server)
+
+    request.get('/subapp').expect(200, 'Hello World!', done)
+  })
+  it('sub-app paths get prefixed with the mount path', (done) => {
+    const app = new App()
+
+    const subApp = new App()
+
+    subApp.get('/route', (_, res) => res.send(`Hello from ${subApp.mountpath}`))
+
+    app.use('/subapp', subApp)
+
+    const server = app.listen()
+
+    const request = supertest(server)
+
+    request.get('/subapp/route').expect(200, 'Hello from /subapp', done)
+  })
+})

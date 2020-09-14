@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.2.67
+
+### Patch Changes
+
+- Add array is middleware support
+
 ## 0.2.66
 
 ### Patch Changes

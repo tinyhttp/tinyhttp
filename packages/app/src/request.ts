@@ -7,9 +7,9 @@ import proxyAddr from 'proxy-addr'
 import Accepts from 'es-accepts'
 import fresh from 'es-fresh'
 import { App } from './app'
-import { Middleware, Handler } from './router'
+import type { Middleware, Handler } from './router'
 import { compileTrust, rgExec } from './utils/request'
-import { Response } from './response'
+import type { Response } from './response'
 
 export const getQueryParams = (url = '/'): ParsedUrlQuery => {
   return parse(url, true).query

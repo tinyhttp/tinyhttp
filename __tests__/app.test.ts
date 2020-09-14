@@ -71,45 +71,7 @@ describe('Testing App', () => {
 
     request.get('/').expect(500, 'Ouch, you hurt me on / page.', done)
   })
-  it('sub-app mounts on a specific path', () => {
-    const app = new App()
 
-    const subApp = new App()
-
-    app.use('/subapp', subApp)
-
-    expect(subApp.mountpath).toBe('/subapp')
-  })
-  it('sub-app handles its own path', (done) => {
-    const app = new App()
-
-    const subApp = new App()
-
-    subApp.use((_, res) => void res.send('Hello World!'))
-
-    app.use('/subapp', subApp)
-
-    const server = app.listen()
-
-    const request = supertest(server)
-
-    request.get('/subapp').expect(200, 'Hello World!', done)
-  })
-  it('sub-app paths get prefixed with the mount path', (done) => {
-    const app = new App()
-
-    const subApp = new App()
-
-    subApp.get('/route', (_, res) => res.send(`Hello from ${subApp.mountpath}`))
-
-    app.use('/subapp', subApp)
-
-    const server = app.listen()
-
-    const request = supertest(server)
-
-    request.get('/subapp/route').expect(200, 'Hello from /subapp', done)
-  })
   it('App works with HTTP 1.1', (done) => {
     const app = new App()
 

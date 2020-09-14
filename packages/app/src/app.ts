@@ -8,6 +8,7 @@ import { Middleware, Handler, NextFunction, Router, ErrorHandler } from './route
 import { extendMiddleware } from './extend'
 
 export const applyHandler = (h: Handler) => async (req: Request, res: Response, next?: NextFunction) => {
+  // console.log(h)
   if (isAsync(h)) {
     await h(req, res, next)
   } else {
@@ -91,12 +92,12 @@ export class App extends Router {
 
           if (rg(path).pattern.test(reqUrlWithoutParams)) {
             req.params = getURLParams(req.url, path)
-            req.route = getRouteFromApp(this, handler)
+            req.route = getRouteFromApp(this, handler as Handler)
 
             // route found, send Success 200
             res.statusCode = 200
 
-            await applyHandler(handler)(req, res, next)
+            await applyHandler(handler as Handler)(req, res, next)
           } else {
             loop(req, res)
           }
@@ -105,7 +106,7 @@ export class App extends Router {
         }
       } else {
         if (req.url.startsWith(path)) {
-          await applyHandler(handler)(req, res, next)
+          await applyHandler(handler as Handler)(req, res, next)
         } else {
           loop(req, res)
         }
