@@ -12,14 +12,16 @@ import {
   getFreshOrStale,
   getAccepts,
 } from './request'
-import { Response, send, json, status, setCookie, clearCookie, setHeader, getResponseHeader, setLocationHeader, setLinksHeader, sendStatus } from './response'
-import { AppSettings } from './app'
+import { Response, send, json, status, setCookie, clearCookie, setHeader, getResponseHeader, setLocationHeader, setLinksHeader, sendStatus, renderTemplate } from './response'
+import { App } from './app'
 
 /**
  * Extends Request and Response objects with custom properties and methods
  * @param options App settings
  */
-export const extendMiddleware = (options: AppSettings) => (req: Request, res: Response) => {
+export const extendMiddleware = (app: App) => (req: Request, res: Response) => {
+  const options = app.settings
+
   /// Define extensions
 
   res.get = getResponseHeader(req, res)
@@ -73,4 +75,6 @@ export const extendMiddleware = (options: AppSettings) => (req: Request, res: Re
 
   res.cookie = setCookie(req, res)
   res.clearCookie = clearCookie(req, res)
+
+  res.render = renderTemplate(req, res, app)
 }

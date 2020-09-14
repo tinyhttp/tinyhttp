@@ -1,4 +1,5 @@
 import { createServer } from 'http'
+import path from 'path'
 import rg from 'regexparam'
 import { Request, getURLParams, getRouteFromApp } from './request'
 import { Response } from './response'
@@ -22,15 +23,32 @@ export type AppSettings = Partial<{
   networkExtensions: boolean
   freshnessTesting: boolean
 }>
+
+/**
+ * Function that processes the template
+ */
+type TemplateFunc = (path: string, locals: Record<string, any>, opts: TemplateEngineOptions, cb: (err: Error, html: unknown) => void) => void
+
+export type TemplateEngineOptions = Partial<{
+  cache: unknown
+  ext: string
+  renderOptions: unknown
+  viewsFolder: string
+  _locals: Record<string, any>
+}> &
+  Record<string, any>
+
 /**
  * App class - the starting point of tinyhttp app. It's instance contains all the middleware put in it, app settings, 404 and 500 handlers and locals.
  */
 export class App extends Router {
   middleware: Middleware[] = []
-  locals: Record<string, string> = Object.create(null)
+  locals: Record<string, string> = {}
   noMatchHandler: Handler
   onError: ErrorHandler
   settings: AppSettings = {}
+  engines: Record<string, TemplateFunc> = {}
+
   constructor(
     options: Partial<{
       noMatchHandler: Handler
@@ -42,6 +60,41 @@ export class App extends Router {
     this.onError = options?.onError || onErrorHandler
     this.noMatchHandler = options?.noMatchHandler || this.onError.bind(null, { code: 404 })
     this.settings = options.settings
+  }
+
+  /**
+   * Render a template
+   * @param name What to render
+   * @param data data that is passed to a template
+   * @param options Template engine options
+   * @param cb Callback that consumes error and html
+   */
+  render(file: string, data: Record<string, any> = {}, cb: (err: unknown, html: unknown) => void, options?: TemplateEngineOptions) {
+    options.viewsFolder = options.viewsFolder || `${process.cwd()}/views`
+    options.ext = options.ext || 'ejs'
+    options._locals = options._locals || {}
+
+    let locals = { ...data, ...this.locals }
+
+    if (options._locals) locals = { ...locals, ...options._locals }
+
+    if (typeof file !== 'string') throw new Error('File must be a string.')
+
+    if (!file.endsWith(`.${options.ext}`)) file = file + `.${options.ext}`
+
+    return this.engines[options.ext](options.viewsFolder ? path.join(options.viewsFolder, file) : file, locals, options.renderOptions, cb)
+  }
+  /**
+   * Register a template engine with extension
+   */
+  engine(ext: string, fn: TemplateFunc) {
+    if (typeof fn !== 'function') {
+      throw new Error('callback function required')
+    }
+
+    this.engines[ext] = fn
+
+    return this
   }
 
   /**
@@ -60,7 +113,7 @@ export class App extends Router {
       app.handler(req, res)
     }
 
-    extendMiddleware(this.settings)(req, res)
+    extendMiddleware(this)(req, res)
 
     const noMatchMW: Middleware = {
       handler: this.noMatchHandler,

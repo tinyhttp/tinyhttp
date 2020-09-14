@@ -1,9 +1,11 @@
 import { ServerResponse, STATUS_CODES } from 'http'
+import path from 'path'
 import { sign } from '@tinyhttp/cookie-signature'
 import * as mime from 'es-mime-types'
 import * as cookie from '@tinyhttp/cookie'
 import { setCharset, createETag } from './utils/response'
 import { Request } from './request'
+import { App, TemplateEngineOptions } from './app'
 
 export const json = (_req: Request, res: Response) => (body: any, ...args: any[]): Response => {
   res.setHeader('Content-Type', 'application/json')
@@ -189,6 +191,20 @@ export const sendStatus = (_req: Request, res: Response) => (statusCode: number)
   return res.send(body)
 }
 
+export const renderTemplate = (_req: Request, res: Response, app: App) => (file: string, data?: Record<string, any>, options?: TemplateEngineOptions): Response => {
+  app.render(
+    file,
+    data,
+    (err: unknown, html: unknown) => {
+      if (err) throw err
+      res.send(html)
+    },
+    options
+  )
+
+  return res
+}
+
 export interface Response extends ServerResponse {
   header(field: string | Record<string, unknown>, val: string | any[]): Response
   set(field: string | Record<string, unknown>, val: string | any[]): Response
@@ -201,4 +217,5 @@ export interface Response extends ServerResponse {
   clearCookie(name: string, options?: cookie.SerializeOptions): Response
   location(url: string): Response
   links(links: { [key: string]: string }): Response
+  render(file: string, data?: Record<string, any>, options?: TemplateEngineOptions): Response
 }

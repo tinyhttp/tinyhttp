@@ -1,7 +1,9 @@
 import supertest from 'supertest'
 import http from 'http'
+import path from 'path'
 import { readFile } from 'fs/promises'
 import { App, Handler } from '../packages/app/src'
+import { renderFile as ejs } from 'ejs'
 
 export const InitAppAndTest = (handler: Handler, route?: string, method = 'get', settings = {}) => {
   const app = new App(settings)
@@ -118,5 +120,31 @@ describe('Testing App', () => {
     const request = supertest(server)
 
     request.get('/').expect(200, 'I am a text file.', done)
+  })
+})
+
+describe('Template engines', () => {
+  it('Works with ejs out of the box', (done) => {
+    const app = new App()
+
+    app.engine('ejs', ejs)
+
+    app.use((_, res) => {
+      res.render(
+        'index.ejs',
+        {
+          name: 'EJS',
+        },
+        {
+          viewsFolder: `${process.cwd()}/__tests__/fixtures/views`,
+        }
+      )
+    })
+
+    const server = app.listen()
+
+    const request = supertest(server)
+
+    request.get('/').expect(200, 'Hello from EJS!\n', done)
   })
 })
