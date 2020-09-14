@@ -1,5 +1,11 @@
 # @tinyhttp/jwt
 
+## 0.1.19
+
+### Patch Changes
+
+- something weird, pnpm doesn't want to publish
+
 ## 0.1.18
 
 ### Patch Changes

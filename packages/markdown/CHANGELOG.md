@@ -1,5 +1,13 @@
 # @tinyhttp/markdown
 
+## 0.1.49
+
+### Patch Changes
+
+- something weird, pnpm doesn't want to publish
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.68
+
 ## 0.1.48
 
 ### Patch Changes

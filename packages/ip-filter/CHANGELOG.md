@@ -1,5 +1,13 @@
 # @tinyhttp/ip-filter
 
+## 0.0.8
+
+### Patch Changes
+
+- something weird, pnpm doesn't want to publish
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.68
+
 ## 0.0.7
 
 ### Patch Changes

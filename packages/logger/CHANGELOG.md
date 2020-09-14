@@ -1,5 +1,13 @@
 # @tinyhttp/logger
 
+## 0.3.27
+
+### Patch Changes
+
+- something weird, pnpm doesn't want to publish
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.68
+
 ## 0.3.26
 
 ### Patch Changes

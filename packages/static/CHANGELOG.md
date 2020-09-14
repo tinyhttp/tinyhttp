@@ -1,5 +1,13 @@
 # @tinyhttp/static
 
+## 0.2.50
+
+### Patch Changes
+
+- something weird, pnpm doesn't want to publish
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.68
+
 ## 0.2.49
 
 ### Patch Changes

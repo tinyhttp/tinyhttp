@@ -1,5 +1,11 @@
 # @tinyhttp/etag
 
+## 0.2.16
+
+### Patch Changes
+
+- something weird, pnpm doesn't want to publish
+
 ## 0.2.15
 
 ### Patch Changes

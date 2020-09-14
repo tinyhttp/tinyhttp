@@ -1,5 +1,15 @@
 # @tinyhttp/app
 
+## 0.2.68
+
+### Patch Changes
+
+- something weird, pnpm doesn't want to publish
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.1.18
+  - @tinyhttp/cookie-signature@0.1.15
+  - @tinyhttp/etag@0.2.16
+
 ## 0.2.67
 
 ### Patch Changes

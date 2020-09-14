@@ -1,5 +1,13 @@
 # @tinyhttp/favicon
 
+## 0.0.4
+
+### Patch Changes
+
+- something weird, pnpm doesn't want to publish
+- Updated dependencies [undefined]
+  - @tinyhttp/etag@0.2.16
+
 ## 0.0.3
 
 ### Patch Changes

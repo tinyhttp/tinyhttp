@@ -1,5 +1,11 @@
 # @tinyhttp/cookie
 
+## 0.1.18
+
+### Patch Changes
+
+- something weird, pnpm doesn't want to publish
+
 ## 0.1.17
 
 ### Patch Changes

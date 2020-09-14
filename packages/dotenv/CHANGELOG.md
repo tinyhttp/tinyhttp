@@ -1,5 +1,11 @@
 # @tinyhttp/dotenv
 
+## 0.0.8
+
+### Patch Changes
+
+- something weird, pnpm doesn't want to publish
+
 ## 0.0.7
 
 ### Patch Changes

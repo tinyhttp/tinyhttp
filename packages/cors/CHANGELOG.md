@@ -1,5 +1,11 @@
 # @tinyhttp/cors
 
+## 0.2.19
+
+### Patch Changes
+
+- something weird, pnpm doesn't want to publish
+
 ## 0.2.17
 
 ### Patch Changes
