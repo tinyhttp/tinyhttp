@@ -6,6 +6,7 @@ import { onErrorHandler } from './onError'
 import { isAsync } from './utils/async'
 import { Middleware, Handler, NextFunction, Router, ErrorHandler } from './router'
 import { extendMiddleware } from './extend'
+import { View } from './view'
 
 export const applyHandler = (h: Handler) => async (req: Request, res: Response, next?: NextFunction) => {
   // console.log(h)
@@ -22,15 +23,19 @@ export type AppSettings = Partial<{
   networkExtensions: boolean
   freshnessTesting: boolean
 }>
+
+type anyFunc = (...args: any[]) => any
+
 /**
  * App class - the starting point of tinyhttp app. It's instance contains all the middleware put in it, app settings, 404 and 500 handlers and locals.
  */
 export class App extends Router {
   middleware: Middleware[] = []
-  locals: Record<string, string> = Object.create(null)
+  locals: Record<string, string> = {}
   noMatchHandler: Handler
   onError: ErrorHandler
   settings: AppSettings = {}
+  engines: Record<string, anyFunc>
   constructor(
     options: Partial<{
       noMatchHandler: Handler
@@ -43,6 +48,38 @@ export class App extends Router {
     this.noMatchHandler = options?.noMatchHandler || this.onError.bind(null, { code: 404 })
     this.settings = options.settings
   }
+
+  /**
+   * Register a template engine with extension
+   */
+  engine(ext: string, fn: anyFunc) {
+    if (typeof fn !== 'function') {
+      throw new Error('callback function required')
+    }
+
+    const extension = ext[0] !== '.' ? '.' + ext : ext
+
+    this.engines[extension] = fn
+
+    return this
+  }
+
+  /*   render(name: string, options: Record<string, any> | anyFunc, cb: anyFunc) {
+    const engines = this.engines
+
+    let done: anyFunc
+    let opts: Record<string, any> = options
+    let renderOptions: Record<string, any> = { ...this.locals }
+
+    if (typeof options === 'function') {
+      done = options as anyFunc
+      opts = {}
+    } else {
+      renderOptions = { ...renderOptions, ...opts }
+    }
+
+    if (opts._locals) renderOptions = { ...opts._locals }
+  } */
 
   /**
    * Extends Request / Response objects, pushes 404 and 500 handlers, dispatches middleware
