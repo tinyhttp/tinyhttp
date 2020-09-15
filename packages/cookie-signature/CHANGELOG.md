@@ -1,5 +1,11 @@
 # @tinyhttp/cookie-signature
 
+## 0.1.16
+
+### Patch Changes
+
+- Split app into req, res, send and router
+
 ## 0.1.15
 
 ### Patch Changes

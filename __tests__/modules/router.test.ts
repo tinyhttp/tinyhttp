@@ -1,10 +1,10 @@
 import supertest from 'supertest'
-import { App } from '../packages/app/src'
-import { InitAppAndTest } from './app.test'
+import { App } from '../../packages/app/src'
+import { InitAppAndTest } from '../app.test'
 
 describe('Testing Router', () => {
   it('should respond on matched route', (done) => {
-    const { request } = InitAppAndTest((_req, res) => void res.send('Hello world'), '/route')
+    const { request, app } = InitAppAndTest((_req, res) => void res.send('Hello world'), '/route')
 
     request.get('/route').expect(200, 'Hello world', done)
   })

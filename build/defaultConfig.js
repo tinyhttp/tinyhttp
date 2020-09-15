@@ -1,5 +1,5 @@
 import ts from 'rollup-plugin-typescript2'
-import closure from '@ampproject/rollup-plugin-closure-compiler'
+import deps from './deps'
 
 export default {
   input: 'src/index.ts',
@@ -13,10 +13,6 @@ export default {
       format: 'esm',
     },
   ],
-  plugins: [
-    ts(),
-    closure({
-      compilationLevel: 'WHITESPACE_ONLY',
-    }),
-  ],
+  plugins: [ts()],
+  external: deps(),
 }

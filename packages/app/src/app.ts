@@ -1,15 +1,16 @@
 import { createServer } from 'http'
 import path from 'path'
 import rg from 'regexparam'
-import { Request, getURLParams, getRouteFromApp } from './request'
-import { Response } from './response'
+import { getURLParams, getRouteFromApp } from './request'
+import type { Request } from './request'
+import type { Response } from './response'
+import type { ErrorHandler } from './onError'
 import { onErrorHandler } from './onError'
 import { isAsync } from './utils/async'
-import { Middleware, Handler, NextFunction, Router, ErrorHandler } from './router'
+import { Middleware, Handler, NextFunction, Router } from '@tinyhttp/router'
 import { extendMiddleware } from './extend'
 
 export const applyHandler = (h: Handler) => async (req: Request, res: Response, next?: NextFunction) => {
-  // console.log(h)
   if (isAsync(h)) {
     await h(req, res, next)
   } else {
@@ -41,7 +42,7 @@ export type TemplateEngineOptions = Partial<{
 /**
  * App class - the starting point of tinyhttp app. It's instance contains all the middleware put in it, app settings, 404 and 500 handlers and locals.
  */
-export class App extends Router {
+export class App extends Router<App, Request, Response> {
   middleware: Middleware[] = []
   locals: Record<string, string> = {}
   noMatchHandler: Handler
@@ -51,7 +52,7 @@ export class App extends Router {
 
   constructor(
     options: Partial<{
-      noMatchHandler: Handler
+      noMatchHandler: Handler<Request, Response>
       onError: ErrorHandler
       settings: AppSettings
     }> = {}
@@ -145,12 +146,12 @@ export class App extends Router {
 
           if (rg(path).pattern.test(reqUrlWithoutParams)) {
             req.params = getURLParams(req.url, path)
-            req.route = getRouteFromApp(this, handler as Handler)
+            req.route = getRouteFromApp(this, handler as Handler<Request, Response>)
 
             // route found, send Success 200
             res.statusCode = 200
 
-            await applyHandler(handler as Handler)(req, res, next)
+            await applyHandler(handler as Handler<Request, Response>)(req, res, next)
           } else {
             loop(req, res)
           }
@@ -159,7 +160,7 @@ export class App extends Router {
         }
       } else {
         if (req.url.startsWith(path)) {
-          await applyHandler(handler as Handler)(req, res, next)
+          await applyHandler(handler as Handler<Request, Response>)(req, res, next)
         } else {
           loop(req, res)
         }

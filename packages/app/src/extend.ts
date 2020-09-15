@@ -1,5 +1,7 @@
+import { getRouteFromApp, Request } from './request'
+import type { Response } from './response'
+
 import {
-  Request,
   getQueryParams,
   getProtocol,
   getRangeFromHeader,
@@ -12,7 +14,7 @@ import {
   getFreshOrStale,
   getAccepts,
 } from './request'
-import { Response, send, json, status, setCookie, clearCookie, setHeader, getResponseHeader, setLocationHeader, setLinksHeader, sendStatus, renderTemplate } from './response'
+import { send, json, status, setCookie, clearCookie, setHeader, getResponseHeader, setLocationHeader, setLinksHeader, sendStatus, renderTemplate } from './response'
 import { App } from './app'
 
 /**
@@ -64,17 +66,19 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response) => {
   Response extensions
   */
 
-  res.header = res.set = setHeader(req, res)
+  res.header = setHeader<Request, Response>(req, res)
 
-  res.send = send(req, res)
-  res.json = json(req, res)
-  res.status = status(req, res)
-  res.sendStatus = sendStatus(req, res)
-  res.location = setLocationHeader(req, res)
-  res.links = setLinksHeader(req, res)
+  res.header = res.set = setHeader<Request, Response>(req, res)
 
-  res.cookie = setCookie(req, res)
-  res.clearCookie = clearCookie(req, res)
+  res.send = send<Request, Response>(req, res)
+  res.json = json<Request, Response>(req, res)
+  res.status = status<Request, Response>(req, res)
+  res.sendStatus = sendStatus<Request, Response>(req, res)
+  res.location = setLocationHeader<Request, Response>(req, res)
+  res.links = setLinksHeader<Request, Response>(req, res)
+
+  res.cookie = setCookie<Request, Response>(req, res)
+  res.clearCookie = clearCookie<Request, Response>(req, res)
 
   res.render = renderTemplate(req, res, app)
 }

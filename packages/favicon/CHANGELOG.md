@@ -1,5 +1,13 @@
 # @tinyhttp/favicon
 
+## 0.0.5
+
+### Patch Changes
+
+- Split app into req, res, send and router
+- Updated dependencies [undefined]
+  - @tinyhttp/etag@0.2.17
+
 ## 0.0.4
 
 ### Patch Changes

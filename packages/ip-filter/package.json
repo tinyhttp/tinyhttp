@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/ip-filter",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "tinyhttp IP filtering middleware",
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
@@ -44,11 +44,7 @@
   "engines": {
     "node": ">=12.4.0"
   },
-  "devDependencies": {
-    "tsup": "^3.6.1",
-    "typescript": "^4.0.2"
-  },
   "scripts": {
-    "build": "tsup src/index.ts  --format cjs,esm --dts"
+    "build": "rollup -c ../../build/defaultConfig.js"
   }
 }

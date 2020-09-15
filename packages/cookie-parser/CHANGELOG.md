@@ -1,5 +1,15 @@
 # @tinyhttp/cookie-parser
 
+## 0.1.55
+
+### Patch Changes
+
+- Split app into req, res, send and router
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.73
+  - @tinyhttp/cookie@0.1.19
+  - @tinyhttp/cookie-signature@0.1.16
+
 ## 0.1.54
 
 ### Patch Changes

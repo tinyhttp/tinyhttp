@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/etag",
-  "version": "0.2.16",
+  "version": "0.2.17",
   "type": "module",
   "description": "entity tag module",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -33,11 +33,7 @@
   },
   "author": "v1rtl",
   "license": "MIT",
-  "devDependencies": {
-    "tsup": "^3.6.1",
-    "typescript": "^4.0.2"
-  },
   "scripts": {
-    "build": "tsup src/index.ts  --format cjs,esm --dts"
+    "build": "rollup -c ../../build/defaultConfig.js"
   }
 }

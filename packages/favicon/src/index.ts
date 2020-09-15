@@ -1,10 +1,10 @@
 import { readFile, stat } from 'fs/promises'
-import etag from '@tinyhttp/etag'
+import { eTag } from '@tinyhttp/etag'
 import fresh from 'es-fresh'
 import { resolve } from 'path'
 import ms from 'ms'
 import url from 'url'
-import { IncomingMessage, ServerResponse } from 'http'
+import { IncomingMessage as Request, ServerResponse as Response } from 'http'
 
 /**
  * Favicon options
@@ -34,7 +34,7 @@ const createIcon = (buf: Buffer, maxAge: number): FaviconBody => ({
   body: buf,
   headers: {
     'Cache-Control': 'public, max-age=' + Math.floor(maxAge / 1000),
-    ETag: etag(buf),
+    ETag: eTag(buf),
   },
 })
 
@@ -47,7 +47,7 @@ function createIsDirError(path: string) {
   return error
 }
 
-function getPathname(req: IncomingMessage) {
+function getPathname(req: Request) {
   try {
     return url.parse(req.url).pathname
   } catch (e) {
@@ -55,7 +55,7 @@ function getPathname(req: IncomingMessage) {
   }
 }
 
-function isFresh(req: IncomingMessage, res: ServerResponse) {
+function isFresh(req: Request, res: Response) {
   return fresh(req.headers, {
     etag: res.getHeader('ETag'),
     'last-modified': res.getHeader('Last-Modified'),
@@ -73,7 +73,7 @@ async function resolveSync(iconPath: string) {
   return path
 }
 
-function send(req, res, icon) {
+function send(req: Request, res: Response, icon: any) {
   // Set headers
   const headers = icon.headers
   const keys = Object.keys(headers)
@@ -97,6 +97,9 @@ function send(req, res, icon) {
 
 /**
  * Serves the favicon located by the given `path`.
+ *
+ * @param path Path to icon or a buffer source
+ * @param options Middleware options
  */
 
 export async function favicon(path: string | Buffer, options?: FaviconOptions) {
@@ -109,7 +112,7 @@ export async function favicon(path: string | Buffer, options?: FaviconOptions) {
   else if (typeof path === 'string') path = await resolveSync(path)
   else throw new TypeError('path to favicon.ico must be string or buffer')
 
-  return async function favicon(req: IncomingMessage, res: ServerResponse, next?: (err?: any) => void) {
+  return async function favicon(req: Request, res: Response, next?: (err?: any) => void) {
     if (getPathname(req) !== '/favicon.ico') {
       next?.()
       return

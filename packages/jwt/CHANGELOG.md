@@ -1,5 +1,11 @@
 # @tinyhttp/jwt
 
+## 0.1.20
+
+### Patch Changes
+
+- Split app into req, res, send and router
+
 ## 0.1.19
 
 ### Patch Changes

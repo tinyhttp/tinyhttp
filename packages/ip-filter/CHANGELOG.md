@@ -1,5 +1,13 @@
 # @tinyhttp/ip-filter
 
+## 0.0.13
+
+### Patch Changes
+
+- Split app into req, res, send and router
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.73
+
 ## 0.0.12
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @tinyhttp/app
 
+## 0.2.73
+
+### Patch Changes
+
+- Split app into req, res, send and router
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.1.19
+  - @tinyhttp/req@0.0.1
+  - @tinyhttp/res@0.0.1
+  - @tinyhttp/router@0.0.1
+
 ## 0.2.72
 
 ### Patch Changes

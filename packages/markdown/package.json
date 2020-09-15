@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/markdown",
-  "version": "0.1.53",
+  "version": "0.1.54",
   "description": "tinyhttp static markdown middleware",
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
@@ -39,11 +39,9 @@
     "node": ">=12.4.0"
   },
   "devDependencies": {
-    "@types/marked": "^1.1.0",
-    "tsup": "^3.6.1",
-    "typescript": "^4.0.2"
+    "@types/marked": "^1.1.0"
   },
   "scripts": {
-    "build": "tsup src/index.ts  --format cjs,esm --dts"
+    "build": "rollup -c ../../build/defaultConfig.js"
   }
 }

@@ -1,9 +1,9 @@
 import { parse, format } from 'es-content-type'
-import etag from '@tinyhttp/etag'
+import { eTag } from '@tinyhttp/etag'
 
 export const createETag = (body: Buffer | string, encoding: 'utf8' | undefined) => {
   const buf = !Buffer.isBuffer(body) ? Buffer.from(body, encoding) : body
-  return etag(buf, { weak: true })
+  return eTag(buf, { weak: true })
 }
 
 export function setCharset(type: string, charset: string) {

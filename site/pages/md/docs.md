@@ -704,6 +704,8 @@ res.send([1, 2, 3])
 
 Sets the HTTP status for the response. It is a chainable alias of Node’s `response.statusCode`.
 
+##### Example
+
 ```ts
 res.status(403).end()
 res.status(400).send('Bad Request')
@@ -712,6 +714,8 @@ res.status(400).send('Bad Request')
 #### `res.sendStatus`
 
 Sets the response HTTP status code to statusCode and send its string representation as the response body.
+
+##### Example
 
 ```ts
 res.sendStatus(200) // equivalent to res.status(200).send('OK')

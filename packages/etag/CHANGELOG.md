@@ -1,5 +1,11 @@
 # @tinyhttp/etag
 
+## 0.2.17
+
+### Patch Changes
+
+- Split app into req, res, send and router
+
 ## 0.2.16
 
 ### Patch Changes

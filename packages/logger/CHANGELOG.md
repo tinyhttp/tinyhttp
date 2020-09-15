@@ -1,5 +1,13 @@
 # @tinyhttp/logger
 
+## 0.3.32
+
+### Patch Changes
+
+- Split app into req, res, send and router
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.73
+
 ## 0.3.31
 
 ### Patch Changes

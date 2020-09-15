@@ -1,11 +1,12 @@
 import supertest from 'supertest'
 import http from 'http'
-import path from 'path'
 import { readFile } from 'fs/promises'
-import { App, Handler } from '../packages/app/src'
+import { App } from '../packages/app/src'
 import { renderFile as ejs } from 'ejs'
+import type { Handler } from '../packages/router/src'
+import type { Request, Response } from '../packages/app/src'
 
-export const InitAppAndTest = (handler: Handler, route?: string, method = 'get', settings = {}) => {
+export const InitAppAndTest = (handler: Handler<Request, Response>, route?: string, method = 'get', settings = {}) => {
   const app = new App(settings)
 
   if (route) {
@@ -18,7 +19,7 @@ export const InitAppAndTest = (handler: Handler, route?: string, method = 'get',
 
   const request = supertest(server)
 
-  return { request }
+  return { request, app }
 }
 
 describe('Testing App', () => {

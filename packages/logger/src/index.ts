@@ -1,5 +1,5 @@
 import { cyan, red, magenta, bold } from 'colorette'
-import statusEmoji from 'http-status-emojis'
+import * as statusEmoji from 'http-status-emojis'
 import dayjs from 'dayjs'
 import { METHODS } from 'http'
 import { Request, Response } from '@tinyhttp/app'

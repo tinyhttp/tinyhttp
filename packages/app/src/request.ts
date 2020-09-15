@@ -2,14 +2,14 @@ import { IncomingMessage } from 'http'
 import { ParsedUrlQuery } from 'querystring'
 import rg from 'regexparam'
 import { parse } from 'url'
-import parseRange, { Ranges, Options } from 'range-parser'
+import { Ranges } from 'range-parser'
 import proxyAddr from 'proxy-addr'
-import Accepts from 'es-accepts'
-import fresh from 'es-fresh'
 import { App } from './app'
-import type { Middleware, Handler } from './router'
-import { compileTrust, rgExec } from './utils/request'
+import type { Middleware, Handler } from '@tinyhttp/router'
 import type { Response } from './response'
+import { compileTrust, rgExec } from './utils/request'
+
+export * from '@tinyhttp/req'
 
 export const getQueryParams = (url = '/'): ParsedUrlQuery => {
   return parse(url, true).query
@@ -23,7 +23,7 @@ export const getURLParams = (reqUrl = '/', url = '/'): URLParams => {
   return rgExec(reqUrl, rg(url))
 }
 
-export const getRouteFromApp = (app: App, handler: Handler) => {
+export const getRouteFromApp = (app: App, handler: Handler<Request, Response>) => {
   return app.middleware.find((h) => h.handler.name === handler.name)
 }
 
@@ -39,38 +39,6 @@ export const getProtocol = (req: Request): Protocol => {
   const index = header.indexOf(',')
 
   return index !== -1 ? header.substring(0, index).trim() : header.trim()
-}
-
-export const getRequestHeader = (req: Request) => (header: string): string | string[] => {
-  const lc = header.toLowerCase()
-
-  switch (lc) {
-    case 'referer':
-    case 'referrer':
-      return req.headers.referrer || req.headers.referer
-    default:
-      return req.headers[lc]
-  }
-}
-
-export const setRequestHeader = (req: Request) => (field: string, value: string) => {
-  return (req.headers[field.toLowerCase()] = value)
-}
-
-export const getRangeFromHeader = (req: Request) => (size: number, options?: Options) => {
-  const range = req.get('Range') as string
-
-  if (!range) return
-
-  return parseRange(size, range, options)
-}
-
-export const checkIfXMLHttpRequest = (req: Request): boolean => {
-  if (req.headers['X-Requested-With'] === 'XMLHttpRequest') {
-    return true
-  } else {
-    return false
-  }
 }
 
 export const getHostname = (req: Request): string | undefined => {
@@ -111,30 +79,6 @@ export const getIPs = (req: Request): string[] | undefined => {
 //     }
 //   }
 // }
-
-export const getFreshOrStale = (req: Request, res: Response) => {
-  const method = req.method
-  const status = res.statusCode
-
-  // GET or HEAD for weak freshness validation only
-  if (method !== 'GET' && method !== 'HEAD') return false
-
-  // 2xx or 304 as per rfc2616 14.26
-  if ((status >= 200 && status < 300) || 304 === status) {
-    const resHeaders = {
-      etag: res.get('ETag'),
-      'last-modified': res.get('Last-Modified'),
-    }
-
-    return fresh(req.headers, resHeaders)
-  }
-
-  return false
-}
-
-export const getAccepts = (req: Request) => (...types: string[]): string | false | string[] => {
-  return new Accepts(req).types(types)
-}
 
 export type Connection = IncomingMessage['socket'] & {
   encrypted: boolean

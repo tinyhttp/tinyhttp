@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/favicon",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "description": "favicon middleware",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -35,12 +35,10 @@
   "author": "v1rtl",
   "license": "MIT",
   "devDependencies": {
-    "@types/ms": "^0.7.31",
-    "tsup": "^3.6.1",
-    "typescript": "^4.0.2"
+    "@types/ms": "^0.7.31"
   },
   "scripts": {
-    "build": "tsup src/index.ts  --format cjs,esm --dts"
+    "build": "rollup -c ../../build/defaultConfig.js"
   },
   "dependencies": {
     "@tinyhttp/etag": "workspace:*",

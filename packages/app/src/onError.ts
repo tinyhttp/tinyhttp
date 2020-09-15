@@ -1,7 +1,9 @@
+import { NextFunction } from '@tinyhttp/router'
 import { STATUS_CODES } from 'http'
-import { ErrorHandler } from './router'
 import { Request } from './request'
 import { Response } from './response'
+
+export type ErrorHandler = (err: any, req: Request, res: Response, next?: NextFunction) => void
 
 export const onErrorHandler: ErrorHandler = (err: any, _req: Request, res: Response) => {
   if (!res.writableEnded) {

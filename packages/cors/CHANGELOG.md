@@ -1,5 +1,11 @@
 # @tinyhttp/cors
 
+## 0.2.20
+
+### Patch Changes
+
+- Split app into req, res, send and router
+
 ## 0.2.19
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/cookie",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "type": "module",
   "description": "HTTP cookie parser and serializer for Node.js",
   "homepage": "https://github.com/talentlessguy/tinyhttp/tree/master/packages/cookie#readme",
@@ -33,12 +33,8 @@
   ],
   "author": "v1rtl",
   "license": "MIT",
-  "devDependencies": {
-    "tsup": "^3.6.1",
-    "typescript": "^4.0.2"
-  },
   "scripts": {
-    "build": "tsup src/index.ts  --format cjs,esm --dts",
+    "build": "rollup -c ../../build/defaultConfig.js",
     "prepublishOnly": "pnpm build"
   }
 }
