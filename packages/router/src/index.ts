@@ -1,4 +1,7 @@
 import { METHODS, IncomingMessage as I, ServerResponse as R } from 'http'
+
+/* HELPER TYPES */
+
 export type NextFunction = (err?: any) => void | undefined
 
 export type SyncHandler<Request extends I = I, Response extends R = R> = (req: Request, res: Response, next?: NextFunction) => void
@@ -46,18 +49,36 @@ type Method =
 
 type MiddlewareType = 'mw' | 'route'
 
-export interface Middleware<Request extends I = I, Response extends R = R> {
+export interface Middleware<Req extends I = I, Res extends R = R> {
   method?: Method
-  handler: Handler<Request, Response>
+  handler: Handler<Req, Res>
   path?: string
   type: MiddlewareType
 }
 
-type MethodHandler<Request extends I = I, Response extends R = R> = {
-  path?: string | Handler<Request, Response>
-  handler?: Handler<Request, Response>
+type MethodHandler<Req extends I = I, Res extends R = R> = {
+  path?: string | Handler<Req, Res>
+  handler?: Handler<Req, Res>
   type: MiddlewareType
 }
+
+type RouterHandler<Req extends I = I, Res extends R = R> = Handler<Req, Res> | Handler<Req, Res>[]
+
+type RouterPathOrHandler<Req extends I = I, Res extends R = R> = string | RouterHandler<Req, Res>
+
+type RouterMethod<Req extends I = I, Res extends R = R> = (path: string | Handler<Req, Res>, handler?: Handler<Req, Res>, ...handlers: Handler<Req, Res>[]) => any
+
+type RouterMethodParams<Req extends I = I, Res extends R = R> = Parameters<RouterMethod<Req, Res>>
+
+type UseMethod<Req extends I = I, Res extends R = R, App extends Router = any> = (
+  path: RouterPathOrHandler<Req, Res> | App,
+  handler?: RouterHandler<Req, Res> | App,
+  ...handlers: RouterHandler<Req, Res>[]
+) => any
+
+type UseMethodParams<Req extends I = I, Res extends R = R, App extends Router = any> = Parameters<UseMethod<Req, Res, App>>
+
+/** HELPER METHODS */
 
 const createMiddlewareFromRoute = <Req extends I = I, Res extends R = R>({
   path,
@@ -101,23 +122,11 @@ const pushMiddleware = <Req extends I = I, Res extends R = R>(mw: Middleware[]) 
   }
 }
 
-type RouterHandler<Request extends I = I, Response extends R = R> = Handler<Request, Response> | Handler<Request, Response>[]
-
-type RouterPathOrHandler<Request extends I = I, Response extends R = R> = string | RouterHandler<Request, Response>
-
-type RouterMethod<Request extends I = I, Response extends R = R> = (
-  path: string | Handler<Request, Response>,
-  handler?: Handler<Request, Response>,
-  ...handlers: Handler<Request, Response>[]
-) => any
-
-type RouterMethodParams<Request extends I = I, Response extends R = R> = Parameters<RouterMethod<Request, Response>>
-
 /**
  * tinyhttp Router. Manages middleware and has HTTP methods aliases, e.g. `app.get`, `app.put`
  */
 export class Router<App extends Router = any, Req extends I = I, Res extends R = R> {
-  middleware: Middleware[]
+  middleware: Middleware[] = []
   mountpath = '/'
   apps: Record<string, App> = {}
 
@@ -478,7 +487,13 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
    * @param handler handler function
    * @param handlers the rest handler functions
    */
-  use(path: RouterPathOrHandler<Req, Res> | App, handler?: RouterHandler<Req, Res> | App, ...handlers: RouterHandler<Req, Res>[]) {
+  use(...args: UseMethodParams<Req, Res, App>) {
+    const path = args[0]
+
+    const handler = args[1]
+
+    const handlers = args.slice(2)
+
     // app.use('/subapp', subApp)
     if (typeof path === 'string' && handler instanceof Router) {
       handler.mountpath = path

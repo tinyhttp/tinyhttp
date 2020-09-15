@@ -1,5 +1,15 @@
 # @tinyhttp/app
 
+## 0.2.74
+
+### Patch Changes
+
+- Fix minor issues in the router
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.1.20
+  - @tinyhttp/router@0.0.2
+  - @tinyhttp/res@0.0.2
+
 ## 0.2.73
 
 ### Patch Changes

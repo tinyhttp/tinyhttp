@@ -5,8 +5,6 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/app": "workspace:*",
-    "@tinyhttp/logger": "workspace:*",
     "@tinyhttp/markdown": "workspace:*",
     "@tinyhttp/static": "workspace:*",
     "highlight.js": "^10.1.2",

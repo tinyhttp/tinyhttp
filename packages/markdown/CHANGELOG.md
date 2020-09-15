@@ -1,5 +1,13 @@
 # @tinyhttp/markdown
 
+## 0.1.55
+
+### Patch Changes
+
+- Fix minor issues in the router
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.74
+
 ## 0.1.54
 
 ### Patch Changes

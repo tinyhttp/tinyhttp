@@ -1,5 +1,12 @@
 # @tinyhttp/session
 
+## 0.0.5
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.1.20
+
 ## 0.0.4
 
 ### Patch Changes

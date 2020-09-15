@@ -1,4 +1,4 @@
-import { AsyncHandler } from '@tinyhttp/app'
+import type { AsyncHandler } from '@tinyhttp/app'
 import { parse } from 'path'
 import { existsSync } from 'fs'
 import { readFile, readdir } from 'fs/promises'

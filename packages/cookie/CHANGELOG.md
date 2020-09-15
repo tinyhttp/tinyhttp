@@ -1,5 +1,11 @@
 # @tinyhttp/cookie
 
+## 0.1.20
+
+### Patch Changes
+
+- Fix minor issues in the router
+
 ## 0.1.19
 
 ### Patch Changes

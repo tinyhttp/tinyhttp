@@ -1,7 +1,7 @@
 import { App } from '../packages/app/src'
 import serve from 'sirv'
 import { markdownStaticHandler as md } from '../packages/markdown/src'
-import { logger } from '../packages/logger'
+import { logger } from '../packages/logger/src'
 import { createReadStream } from 'fs'
 import { transformMWPageStream, transformPageIndexStream } from './streams'
 import unfetch from 'isomorphic-unfetch'

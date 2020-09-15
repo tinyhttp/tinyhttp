@@ -1,5 +1,13 @@
 # @tinyhttp/ip-filter
 
+## 0.0.14
+
+### Patch Changes
+
+- Fix minor issues in the router
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.74
+
 ## 0.0.13
 
 ### Patch Changes

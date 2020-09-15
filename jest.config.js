@@ -7,6 +7,6 @@ module.exports = {
       packageJson: 'package.json',
     },
   },
-  collectCoverageFrom: ['packages/**/src/*.{js,ts}', '!/node_modules/', '!examples/*.{js,ts}'],
+  collectCoverageFrom: ['packages/**/src/*.{js,ts}', '!/node_modules/', '!examples/*.{js,ts}', '!packages/**/dist'],
   modulePathIgnorePatterns: ['examples'],
 }
