@@ -8,8 +8,8 @@
     "@tinyhttp/markdown": "workspace:*",
     "@tinyhttp/static": "workspace:*",
     "highlight.js": "^10.1.2",
-    "isomorphic-unfetch": "^3.0.0",
     "marked": "^1.1.1",
+    "node-fetch-cache": "^1.0.4",
     "sirv": "^1.0.6"
   },
   "scripts": {

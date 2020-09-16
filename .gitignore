@@ -5,3 +5,4 @@ coverage
 examples/*/.env
 pnpm-lock.yaml
 .next
+.cache
