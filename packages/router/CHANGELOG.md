@@ -1,5 +1,11 @@
 # @tinyhttp/router
 
+## 0.0.4
+
+### Patch Changes
+
+- Forgot to build :(
+
 ## 0.0.3
 
 ### Patch Changes
