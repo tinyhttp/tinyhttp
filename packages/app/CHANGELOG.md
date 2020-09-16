@@ -1,5 +1,18 @@
 # @tinyhttp/app
 
+## 0.2.76
+
+### Patch Changes
+
+- Fix send content-type bug
+  - @tinyhttp/res@0.0.3
+
+## 0.2.75
+
+### Patch Changes
+
+- Add more generic options to app, create bot-detector, pug
+
 ## 0.2.74
 
 ### Patch Changes

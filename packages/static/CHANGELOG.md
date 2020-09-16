@@ -1,5 +1,20 @@
 # @tinyhttp/static
 
+## 0.2.58
+
+### Patch Changes
+
+- Fix send content-type bug
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.76
+
+## 0.2.57
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.75
+
 ## 0.2.56
 
 ### Patch Changes

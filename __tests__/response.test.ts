@@ -20,26 +20,23 @@ describe('Response properties', () => {
 })
 
 describe('Response methods', () => {
-  it('res.json stringifies the object', (done) => {
+  it('res.json stringifies the object', async () => {
     const { request } = InitAppAndTest((_req, res) => {
-      res.json({
-        hello: 'world',
-      })
+      res.json({ hello: 'world' })
     })
 
-    request.get('/').expect(
-      {
-        hello: 'world',
-      },
-      done
-    )
+    const res = await request.get('/')
+
+    expect(res.body).toStrictEqual({ hello: 'world' })
   })
-  it('res.send sends plain text data', (done) => {
+  it('res.send sends plain text data', async () => {
     const { request } = InitAppAndTest((_req, res) => {
       res.send('Hello world')
     })
 
-    request.get('/').expect('Hello world', done)
+    const res = await request.get('/')
+
+    expect(res.text).toBe('Hello world')
   })
   it('res.send falls back to res.json when sending objects', (done) => {
     const { request } = InitAppAndTest((_req, res) => {

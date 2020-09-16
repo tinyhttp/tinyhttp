@@ -3,10 +3,9 @@ import http from 'http'
 import { readFile } from 'fs/promises'
 import { App } from '../packages/app/src'
 import { renderFile as ejs } from 'ejs'
-import type { Handler } from '../packages/router/src'
-import type { Request, Response } from '../packages/app/src'
+import type { Handler } from '../packages/app/src'
 
-export const InitAppAndTest = (handler: Handler<Request, Response>, route?: string, method = 'get', settings = {}) => {
+export const InitAppAndTest = (handler: Handler, route?: string, method = 'get', settings = {}) => {
   const app = new App(settings)
 
   if (route) {
@@ -19,14 +18,14 @@ export const InitAppAndTest = (handler: Handler<Request, Response>, route?: stri
 
   const request = supertest(server)
 
-  return { request, app }
+  return { request, app, server }
 }
 
 describe('Testing App', () => {
-  it('should launch a basic server', (done) => {
-    const { request } = InitAppAndTest((_req, res) => void res.send('Hello world'))
+  it('should launch a basic server', async () => {
+    const { request } = InitAppAndTest((_req, res) => void res.send('Hello World'))
 
-    request.get('/').expect(200, 'Hello world', done)
+    await request.get('/').expect(200, 'Hello World')
   })
   it('should chain middleware', () => {
     const app = new App()

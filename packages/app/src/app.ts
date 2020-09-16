@@ -28,31 +28,54 @@ export type AppSettings = Partial<{
 /**
  * Function that processes the template
  */
-type TemplateFunc = (path: string, locals: Record<string, any>, opts: TemplateEngineOptions, cb: (err: Error, html: unknown) => void) => void
+export type TemplateFunc<O> = (path: string, locals: Record<string, any>, opts: TemplateEngineOptions<O>, cb: (err: Error, html: unknown) => void) => void
 
-export type TemplateEngineOptions = Partial<{
-  cache: unknown
+export type TemplateEngineOptions<O = any> = Partial<{
+  cache: boolean
   ext: string
-  renderOptions: unknown
+  renderOptions: O
   viewsFolder: string
   _locals: Record<string, any>
 }> &
   Record<string, any>
 
 /**
- * App class - the starting point of tinyhttp app. It's instance contains all the middleware put in it, app settings, 404 and 500 handlers and locals.
+ * `App` class - the starting point of tinyhttp app.
+ *
+ * With the `App` you can:
+ * * use routing methods and `.use(...)`
+ * * set no match (404) and error (500) handlers
+ * * configure template engines
+ * * store data in locals
+ * * listen the http server on a specified port
+ *
+ * In case you use TypeScript, you can pass custom types to this class because it is also a generic class.
+ *
+ * The first generic argument is template engine options type, usually taken from engine typings.
+ *
+ * First and third are `Request` and `Response` objects, respectively. Both extend the tinyhttp's `Request` and `Response` so you can add custom properties without pain.
+ *
+ * Example:
+ *
+ * ```ts
+ * interface CoolReq extends Request {
+ *  genericsAreDope: boolean
+ * }
+ *
+ * const app = App<any, CoolReq, Response>()
+ * ```
  */
-export class App extends Router<App, Request, Response> {
+export class App<RenderOptions = any, Req extends Request = Request, Res extends Response = Response> extends Router<App, Request, Response> {
   middleware: Middleware[] = []
   locals: Record<string, string> = {}
   noMatchHandler: Handler
   onError: ErrorHandler
   settings: AppSettings = {}
-  engines: Record<string, TemplateFunc> = {}
+  engines: Record<string, TemplateFunc<RenderOptions>> = {}
 
   constructor(
     options: Partial<{
-      noMatchHandler: Handler<Request, Response>
+      noMatchHandler: Handler<Req, Res>
       onError: ErrorHandler
       settings: AppSettings
     }> = {}
@@ -70,10 +93,12 @@ export class App extends Router<App, Request, Response> {
    * @param options Template engine options
    * @param cb Callback that consumes error and html
    */
-  render(file: string, data: Record<string, any> = {}, cb: (err: unknown, html: unknown) => void, options: TemplateEngineOptions = {}) {
+  render(file: string, data: Record<string, any> = {}, cb: (err: unknown, html: unknown) => void, options: TemplateEngineOptions<RenderOptions> = {}) {
     options.viewsFolder = options.viewsFolder || `${process.cwd()}/views`
     options.ext = options.ext || file.slice(file.lastIndexOf('.') + 1) || 'ejs'
     options._locals = options._locals || {}
+
+    options.cache = options.cache || process.env.NODE_ENV === 'production'
 
     let locals = { ...data, ...this.locals }
 
@@ -88,7 +113,7 @@ export class App extends Router<App, Request, Response> {
   /**
    * Register a template engine with extension
    */
-  engine(ext: string, fn: TemplateFunc) {
+  engine(ext: string, fn: TemplateFunc<RenderOptions>) {
     if (typeof fn !== 'function') {
       throw new Error('callback function required')
     }
@@ -99,11 +124,11 @@ export class App extends Router<App, Request, Response> {
   }
 
   /**
-   * Extends Request / Response objects, pushes 404 and 500 handlers, dispatches middleware
-   * @param req Request object
-   * @param res Response object
+   * Extends Req / Res objects, pushes 404 and 500 handlers, dispatches middleware
+   * @param req Req object
+   * @param res Res object
    */
-  async handler(req: Request, res: Response) {
+  async handler(req: Req, res: Res) {
     const mw = this.middleware
 
     const subappPath = Object.keys(this.apps).find((x) => req.url.startsWith(x))
@@ -127,7 +152,7 @@ export class App extends Router<App, Request, Response> {
     let idx = 0
     const len = mw.length - 1
 
-    const nextWithReqAndRes = (req: Request, res: Response) => (err: any) => {
+    const nextWithReqAndRes = (req: Req, res: Res) => (err: any) => {
       if (err) {
         this.onError(err, req, res)
       } else {
@@ -135,7 +160,7 @@ export class App extends Router<App, Request, Response> {
       }
     }
 
-    const handle = (mw: Middleware) => async (req: Request, res: Response, next?: NextFunction) => {
+    const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
       const { path, method, handler, type } = mw
 
       if (type === 'route') {
@@ -146,12 +171,12 @@ export class App extends Router<App, Request, Response> {
 
           if (rg(path).pattern.test(reqUrlWithoutParams)) {
             req.params = getURLParams(req.url, path)
-            req.route = getRouteFromApp(this, handler as Handler<Request, Response>)
+            req.route = getRouteFromApp(this, handler as Handler<Req, Res>)
 
             // route found, send Success 200
             res.statusCode = 200
 
-            await applyHandler(handler as Handler<Request, Response>)(req, res, next)
+            await applyHandler(handler as Handler<Req, Res>)(req, res, next)
           } else {
             loop(req, res)
           }
@@ -160,14 +185,14 @@ export class App extends Router<App, Request, Response> {
         }
       } else {
         if (req.url.startsWith(path)) {
-          await applyHandler(handler as Handler<Request, Response>)(req, res, next)
+          await applyHandler(handler as Handler<Req, Res>)(req, res, next)
         } else {
           loop(req, res)
         }
       }
     }
 
-    const loop = (req: Request, res: Response) => {
+    const loop = (req: Req, res: Res) => {
       if (res.writableEnded) return
       else if (idx <= len) {
         handle(mw[idx++])(req, res, nextWithReqAndRes(req, res))

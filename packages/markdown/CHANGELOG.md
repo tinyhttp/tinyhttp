@@ -1,5 +1,20 @@
 # @tinyhttp/markdown
 
+## 0.1.57
+
+### Patch Changes
+
+- Fix send content-type bug
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.76
+
+## 0.1.56
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.75
+
 ## 0.1.55
 
 ### Patch Changes

@@ -1,16 +1,13 @@
 {
-  "name": "@tinyhttp/cookie-parser",
-  "version": "0.1.58",
+  "name": "@tinyhttp/bot-detector",
+  "version": "0.0.2",
   "type": "module",
-  "description": "tinyhttp cookie parsing middleware",
-  "homepage": "https://github.com/talentlessguy/tinyhttp/tree/master/packages/cookie-parser#readme",
+  "description": "Detect bots among users in your tinyhttp app.",
+  "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/talentlessguy/tinyhttp.git",
-    "directory": "packages/cookie-parser"
-  },
-  "engines": {
-    "node": ">=12.4.0"
+    "directory": "packages/bot-detector"
   },
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
@@ -29,17 +26,24 @@
     "web framework",
     "web",
     "backend",
-    "cookie",
-    "cookie-parser"
+    "bot-detector",
+    "bot",
+    "antispam",
+    "bot-detect",
+    "antibot",
+    "security"
   ],
+  "engines": {
+    "node": ">=12.4.0"
+  },
   "author": "v1rtl",
   "license": "MIT",
+  "scripts": {
+    "build": "rollup -c ./rollup.config.js"
+  },
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "@tinyhttp/cookie": "workspace:*",
-    "@tinyhttp/cookie-signature": "workspace:*"
-  },
-  "scripts": {
-    "build": "rollup -c ../../build/defaultConfig.js"
+    "@tinyhttp/router": "workspace:*",
+    "isbot": "^3.0.8"
   }
 }

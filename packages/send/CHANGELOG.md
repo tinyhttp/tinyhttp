@@ -1,6 +1,13 @@
 # @tinyhttp/send
 
+## 0.0.2
+
+### Patch Changes
+
+- Fix send content-type bug
+
 ## 0.0.1
+
 ### Patch Changes
 
 - Split app into req, res, send and router

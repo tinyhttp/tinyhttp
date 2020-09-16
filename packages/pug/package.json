@@ -1,16 +1,13 @@
 {
-  "name": "@tinyhttp/cookie-parser",
-  "version": "0.1.58",
+  "name": "@tinyhttp/pug",
+  "version": "0.0.2",
   "type": "module",
-  "description": "tinyhttp cookie parsing middleware",
-  "homepage": "https://github.com/talentlessguy/tinyhttp/tree/master/packages/cookie-parser#readme",
+  "description": "Pug wrapped in a helper function for tinyhttp.",
+  "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/talentlessguy/tinyhttp.git",
-    "directory": "packages/cookie-parser"
-  },
-  "engines": {
-    "node": ">=12.4.0"
+    "directory": "packages/pug"
   },
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
@@ -29,17 +26,25 @@
     "web framework",
     "web",
     "backend",
-    "cookie",
-    "cookie-parser"
+    "pug",
+    "templates",
+    "template",
+    "template-engine",
+    "html"
   ],
+  "engines": {
+    "node": ">=12.4.0"
+  },
   "author": "v1rtl",
   "license": "MIT",
+  "scripts": {
+    "build": "rollup -c ./rollup.config.js"
+  },
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "@tinyhttp/cookie": "workspace:*",
-    "@tinyhttp/cookie-signature": "workspace:*"
+    "pug": "^3.0.0"
   },
-  "scripts": {
-    "build": "rollup -c ../../build/defaultConfig.js"
+  "devDependencies": {
+    "@types/pug": "^2.0.4"
   }
 }

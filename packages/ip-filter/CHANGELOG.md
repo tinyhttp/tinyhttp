@@ -1,5 +1,20 @@
 # @tinyhttp/ip-filter
 
+## 0.0.16
+
+### Patch Changes
+
+- Fix send content-type bug
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.76
+
+## 0.0.15
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.75
+
 ## 0.0.14
 
 ### Patch Changes

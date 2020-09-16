@@ -23,8 +23,11 @@ export const send = <Request extends I = I, Response extends S = S>(req: Request
     if (typeof body === 'string') {
       // reflect this in content-type
       const type = res.getHeader('Content-Type')
-      if (typeof type === 'string') {
+
+      if (type && typeof type === 'string') {
         res.setHeader('Content-Type', setCharset(type, 'utf-8'))
+      } else {
+        res.setHeader('Content-Type', setCharset('text/html', 'utf-8'))
       }
     }
   }

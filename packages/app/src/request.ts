@@ -9,7 +9,7 @@ import type { Middleware, Handler } from '@tinyhttp/router'
 import type { Response } from './response'
 import { compileTrust, rgExec } from './utils/request'
 
-export * from '@tinyhttp/req'
+export { getAccepts, getFreshOrStale, getRangeFromHeader, getRequestHeader, checkIfXMLHttpRequest, setRequestHeader } from '@tinyhttp/req'
 
 export const getQueryParams = (url = '/'): ParsedUrlQuery => {
   return parse(url, true).query

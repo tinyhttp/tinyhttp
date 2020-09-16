@@ -3,7 +3,7 @@ import * as cookie from '@tinyhttp/cookie'
 import { Request } from './request'
 import { App, TemplateEngineOptions } from './app'
 
-export * from '@tinyhttp/res'
+export { send, sendStatus, setCookie, setHeader, setLinksHeader, setLocationHeader, status, clearCookie, getResponseHeader, json } from '@tinyhttp/res'
 
 export const renderTemplate = (_req: Request, res: Response, app: App) => (file: string, data?: Record<string, any>, options?: TemplateEngineOptions): Response => {
   app.render(

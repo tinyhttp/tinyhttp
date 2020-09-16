@@ -1,5 +1,20 @@
 # @tinyhttp/logger
 
+## 0.3.35
+
+### Patch Changes
+
+- Fix send content-type bug
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.76
+
+## 0.3.34
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.75
+
 ## 0.3.33
 
 ### Patch Changes
