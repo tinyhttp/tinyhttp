@@ -43,6 +43,7 @@
    	<li><a href="#routing">Routing</a></li>
     <li><a href="#subapps">Subapps</a></li>
     <li><a href="#error-handling">Error handling</a></li>
+    <li><a href="#template-engines">Template engines></a></li>
   </ul>
   <a href="#advanced-topics"><h2>Advanced topics</h2></a>
   <ul>
