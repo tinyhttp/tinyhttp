@@ -1,5 +1,11 @@
 # @tinyhttp/router
 
+## 0.0.3
+
+### Patch Changes
+
+- Export _all_ types in router
+
 ## 0.0.2
 
 ### Patch Changes

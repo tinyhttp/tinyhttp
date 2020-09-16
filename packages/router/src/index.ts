@@ -10,7 +10,7 @@ export type AsyncHandler<Request extends I = I, Response extends R = R> = (req: 
 
 export type Handler<Request extends I = I, Response extends R = R> = AsyncHandler<Request, Response> | SyncHandler<Request, Response>
 
-type Method =
+export type Method =
   | 'GET'
   | 'POST'
   | 'PUT'
@@ -47,7 +47,7 @@ type Method =
   | 'SOURCE'
   | string
 
-type MiddlewareType = 'mw' | 'route'
+export type MiddlewareType = 'mw' | 'route'
 
 export interface Middleware<Req extends I = I, Res extends R = R> {
   method?: Method
@@ -56,27 +56,27 @@ export interface Middleware<Req extends I = I, Res extends R = R> {
   type: MiddlewareType
 }
 
-type MethodHandler<Req extends I = I, Res extends R = R> = {
+export type MethodHandler<Req extends I = I, Res extends R = R> = {
   path?: string | Handler<Req, Res>
   handler?: Handler<Req, Res>
   type: MiddlewareType
 }
 
-type RouterHandler<Req extends I = I, Res extends R = R> = Handler<Req, Res> | Handler<Req, Res>[]
+export type RouterHandler<Req extends I = I, Res extends R = R> = Handler<Req, Res> | Handler<Req, Res>[]
 
-type RouterPathOrHandler<Req extends I = I, Res extends R = R> = string | RouterHandler<Req, Res>
+export type RouterPathOrHandler<Req extends I = I, Res extends R = R> = string | RouterHandler<Req, Res>
 
-type RouterMethod<Req extends I = I, Res extends R = R> = (path: string | Handler<Req, Res>, handler?: Handler<Req, Res>, ...handlers: Handler<Req, Res>[]) => any
+export type RouterMethod<Req extends I = I, Res extends R = R> = (path: string | Handler<Req, Res>, handler?: Handler<Req, Res>, ...handlers: Handler<Req, Res>[]) => any
 
 type RouterMethodParams<Req extends I = I, Res extends R = R> = Parameters<RouterMethod<Req, Res>>
 
-type UseMethod<Req extends I = I, Res extends R = R, App extends Router = any> = (
+export type UseMethod<Req extends I = I, Res extends R = R, App extends Router = any> = (
   path: RouterPathOrHandler<Req, Res> | App,
   handler?: RouterHandler<Req, Res> | App,
   ...handlers: RouterHandler<Req, Res>[]
 ) => any
 
-type UseMethodParams<Req extends I = I, Res extends R = R, App extends Router = any> = Parameters<UseMethod<Req, Res, App>>
+export type UseMethodParams<Req extends I = I, Res extends R = R, App extends Router = any> = Parameters<UseMethod<Req, Res, App>>
 
 /** HELPER METHODS */
 

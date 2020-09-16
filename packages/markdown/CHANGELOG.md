@@ -1,5 +1,11 @@
 # @tinyhttp/markdown
 
+## 0.1.58
+
+### Patch Changes
+
+- @tinyhttp/app@0.2.77
+
 ## 0.1.57
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @tinyhttp/logger
 
+## 0.3.36
+
+### Patch Changes
+
+- @tinyhttp/app@0.2.77
+
 ## 0.3.35
 
 ### Patch Changes
