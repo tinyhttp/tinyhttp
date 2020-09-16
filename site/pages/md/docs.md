@@ -3,21 +3,22 @@
 <link rel="stylesheet" href="/inter.css" />
 <link rel="stylesheet" href="/hljs.css" />
 
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-<meta property="og:title" content="tinyhttp">
-<meta property="og:site_name" content="tinyhttp.v1rtl.site">
-<meta property="og:url" content="https://tinyhttp.v1rtl.site">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="Docs 📖 | tinyhttp — 0-legacy, tiny & fast web framework as a replacement of Express">
+<meta property="og:site_name" content="tinyhttp.v1rtl.site" >
+<meta property="og:url" content="https://tinyhttp.v1rtl.site" >
 <meta
-      name="description"
-      content="tinyhttp is a modern Express-like web framework for Node.js. It uses a bare minimum amount of dependencies trying to avoid legacy hell."
-    />
-<meta property="og:description" content="tinyhttp is a modern Express-like web framework for Node.js. It uses a bare minimum amount of dependencies trying to avoid legacy hell.">
-<meta property="og:type" content="website">
-<meta property="og:image" content="https://tinyhttp.v1rtl.site/cover.jpg">
+  name="description"
+  content="tinyhttp is a modern Express-like web framework written in TypeScript and compiled to native ESM, that uses a bare minimum amount of dependencies trying to avoid legacy hell.">
+<meta
+  property="og:description"
+  content="tinyhttp is a modern Express-like web framework written in TypeScript and compiled to native ESM, that uses a bare minimum amount of dependencies trying to avoid legacy hell."
+/>
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://tinyhttp.v1rtl.site/cover.jpg" >
 
-<title>Docs | tinyhttp</title>
+<title>Docs 📖 | tinyhttp — 0-legacy, tiny & fast web framework as a replacement of Express</title>
 
 <nav>
   <a href="/">Home</a>
@@ -57,6 +58,8 @@
     <li><a href="#appput">app.put</a></li>
     <li><a href="#appdelete">app.delete</a></li>
     <li><a href="#appuse">app.use</a></li>
+    <li><a href="#appengine">app.engine</a></li>
+    <li><a href="#apprender">app.render</a></li>
   </ul>
   </details>
 
@@ -111,7 +114,7 @@
     <li><a href="#resset">res.set</a></li>
     <li><a href="#reslinks">res.links</a></li>
     <li><a href="#reslocation">res.location</a></li>
-
+    <li><a href="#resrender">res.render</a></li>
   </ul>
  </details>
 </aside>
@@ -142,8 +145,8 @@ The app object has methods for
 
 - Routing HTTP requests; see for example, `app.METHOD` and `app.param`.
 - **NOT IMPLEMENTED** Configuring middleware; see `app.route`.
-- **NOT IMPLEMENTED** Rendering HTML views; see `app.render`.
-- **NOT IMPLEMENTED** Registering a template engine; see `app.engine`.
+- Rendering HTML views; see [`app.render`](#apprender).
+- Registering a template engine; see [`app.engine`](#appengine).
 
 The tinyhttp application object can be referred from the request object and the response object as `req.app`, and `res.app`, respectively.
 
@@ -354,7 +357,7 @@ Since path defaults to `/,` middleware mounted without a path will be executed f
 For example, this middleware function will be executed for every request to the app:
 
 ```ts
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   console.log('Time: %d', Date.now())
   next()
 })
@@ -364,14 +367,69 @@ Middleware functions are executed sequentially, therefore the order of middlewar
 
 ```ts
 // this middleware will not allow the request to go beyond it
-app.use(function (req, res, next) {
-  res.send('Hello World')
-})
+app.use((req, res, next) => void res.send('Hello World'))
 
 // requests will never reach this route
-app.get('/', function (req, res) {
-  res.send('Welcome')
-})
+app.get('/', (req, res) => res.send('Welcome'))
+```
+
+#### `app.engine`
+
+Register a template engine. Works with any Express template engines that contain a `renderFile` function.
+
+##### Example
+
+```js
+import { App } from '@tinyhttp/app'
+import ejs from 'ejs'
+
+const app = new App()
+
+app.engine('ejs', ejs.renderFile) // map app.engines['ejs'] to ejs.renderFile
+```
+
+#### `app.render`
+
+Render a file with the engine that was set previously via [`app.engine`](#appengine). To render and respond with the result, use [`res.render`](#resrender)
+
+```js
+import { App } from '@tinyhttp/app'
+import ejs from 'ejs'
+
+const app = new App()
+
+app.engine('ejs', ejs.renderFile)
+
+app.render(
+  'index.ejs',
+  { name: 'EJS' },
+  (err, html) => {
+    if (err) throw err
+    doSomethingWithHTML(html)
+  },
+  {
+    /* some options */
+  }
+)
+```
+
+Almost every engine is supported if it can render a single file. Some engines may have different arguments (for example Pug doesn't require a `data` object) but you can write a function to have the same arguments.
+
+##### Example
+
+```js
+import { App } from '@tinyhttp/app'
+import pug from 'pug'
+
+const app = new App()
+
+const renderPug = (path, _, options, cb) => pug.renderFile(path, options, cb)
+
+app.engine('pug', renderPug)
+
+app.use((_, res) => void res.render('index.pug'))
+
+app.listen(3000, () => console.log(`Listening on http://localhost:3000`))
 ```
 
 ## Request
@@ -783,5 +841,7 @@ res.location('back')
 A `path` value of `"back"` has a special meaning, it refers to the URL specified in the `Referer` header of the request. If the Referer header was not specified, it refers to `"/"`.
 
 > After encoding the URL, if not encoded already, tinyhttp passes the specified URL to the browser in the `Location` header, without any validation. Browsers take the responsibility of deriving the intended URL from the current URL or the referring URL, and the URL specified in the Location header; and redirect the user accordingly.
+
+#### `res.render`
 
 </main>

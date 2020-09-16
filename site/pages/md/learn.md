@@ -3,21 +3,22 @@
 <link rel="stylesheet" href="/inter.css" />
 <link rel="stylesheet" href="/hljs.css" />
 
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-<meta property="og:title" content="tinyhttp">
-<meta property="og:site_name" content="tinyhttp.v1rtl.site">
-<meta property="og:url" content="https://tinyhttp.v1rtl.site">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="Learn 📚 | tinyhttp — 0-legacy, tiny & fast web framework as a replacement of Express">
+<meta property="og:site_name" content="tinyhttp.v1rtl.site" >
+<meta property="og:url" content="https://tinyhttp.v1rtl.site" >
 <meta
-      name="description"
-      content="tinyhttp is a modern Express-like web framework for Node.js. It uses a bare minimum amount of dependencies trying to avoid legacy hell."
-    />
-<meta property="og:description" content="tinyhttp is a modern Express-like web framework for Node.js. It uses a bare minimum amount of dependencies trying to avoid legacy hell.">
-<meta property="og:type" content="website">
-<meta property="og:image" content="https://tinyhttp.v1rtl.site/cover.jpg">
+  name="description"
+  content="tinyhttp is a modern Express-like web framework written in TypeScript and compiled to native ESM, that uses a bare minimum amount of dependencies trying to avoid legacy hell.">
+<meta
+  property="og:description"
+  content="tinyhttp is a modern Express-like web framework written in TypeScript and compiled to native ESM, that uses a bare minimum amount of dependencies trying to avoid legacy hell."
+/>
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://tinyhttp.v1rtl.site/cover.jpg" >
 
-<title>Learn | tinyhttp</title>
+<title>Learn 📚 | tinyhttp — 0-legacy, tiny & fast web framework as a replacement of Express</title>
 
 <nav>
   <a href="/">Home</a>
@@ -395,6 +396,46 @@ app.listen(3000, () => console.log('Started on http://localhost:3000'))
 ```
 
 Wrapping into `try...catch` works with both sync and async handlers.
+
+### Template engines
+
+Starting from v0.2.70, tinyhttp supports template engines and provides special methods to work with them, such as [`app.engine`](/docs#appengine), [`app.render`](/docs#apprender) and [`res.render`](/docs#resrender).
+
+Anything that can be wrapped in this function:
+
+```ts
+function engine(file: string, data, options, callback: (err: unknown, html: unknown) => void) {
+  // ...
+}
+```
+
+can be used as a middleware.
+
+In order to use an engine, you should first register it so later the render function can be used inside tinyhttp.
+
+```js
+import { App } from '@tinyhttp/app'
+import ejs from 'ejs'
+
+const app = new App()
+
+app.engine('ejs', ejs.renderFile) // maps app.engines['ejs'] to ejs.renderFile function
+```
+
+And now we can render any template file using `res.render`:
+
+```js
+import { App } from '@tinyhttp/app'
+import ejs from 'ejs'
+
+const app = new App()
+
+app.engine('ejs', ejs.renderFile)
+
+app.use((_, res) => void res.render('index.ejs', { name: 'EJS' }))
+
+app.listen(3000, () => console.log(`Listening on http://localhost:3000`))
+```
 
 ## Advanced topics
 
