@@ -1,14 +1,6 @@
 import supertest from 'supertest'
-import { createServer, IncomingMessage as Request, ServerResponse as Response } from 'http'
 import { json, send, sendStatus, status } from '../../packages/send/src'
-
-const runServer = (func: (req: Request, res: Response) => any) => {
-  const s = createServer((req, res) => {
-    func(req, res)
-  })
-
-  return s
-}
+import { runServer } from '../helpers/runServer'
 
 describe('Testing @tinyhttp/send', () => {
   describe('json(body)', () => {
