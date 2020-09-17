@@ -492,7 +492,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
 
     const handler = args[1]
 
-    const handlers = args.slice(2)
+    const handlers = args.slice(2).flat()
 
     // app.use('/subapp', subApp)
     if (typeof path === 'string' && handler instanceof Router) {
@@ -520,13 +520,19 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
 
       if (handler) {
         if (Array.isArray(handler)) {
-          handler.slice(1).map((h) => {
-            totalHandlers.push(h)
-          })
+          if (typeof path === 'string') {
+            handler.slice(1).map((h) => {
+              totalHandlers.push(h)
+            })
+          } else {
+            for (const h of handler) {
+              totalHandlers.push(h)
+            }
+          }
         }
       }
 
-      totalHandlers = totalHandlers.concat(handlers.flat() as Handler[])
+      totalHandlers = totalHandlers.concat(handlers as Handler[])
 
       let mainHandler: Handler
 
@@ -541,6 +547,10 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
           mainHandler = path[0]
         } else {
           mainHandler = path as Handler
+        }
+
+        if (typeof handler === 'function') {
+          totalHandlers.unshift(handler)
         }
       }
 

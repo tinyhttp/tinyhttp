@@ -1,5 +1,11 @@
 # @tinyhttp/router
 
+## 0.0.5
+
+### Patch Changes
+
+- fix bugs in the use func
+
 ## 0.0.4
 
 ### Patch Changes

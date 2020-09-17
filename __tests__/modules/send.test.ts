@@ -1,6 +1,6 @@
 import supertest from 'supertest'
 import { createServer, IncomingMessage as Request, ServerResponse as Response } from 'http'
-import { json, send } from '../../packages/send/src'
+import { json, send, sendStatus, status } from '../../packages/send/src'
 
 const runServer = (func: (req: Request, res: Response) => any) => {
   const s = createServer((req, res) => {
@@ -11,7 +11,7 @@ const runServer = (func: (req: Request, res: Response) => any) => {
 }
 
 describe('Testing @tinyhttp/send', () => {
-  describe('Testing json()', () => {
+  describe('json(body)', () => {
     it('should send a json-stringified reply when an object is passed', async () => {
       const app = runServer((req, res) => json(req, res)({ hello: 'world' }))
 
@@ -27,7 +27,7 @@ describe('Testing @tinyhttp/send', () => {
       expect(res.header['content-type']).toBe('application/json')
     })
   })
-  describe('Testing send()', () => {
+  describe('send(body)', () => {
     it('should send a plain text', async () => {
       const app = runServer((req, res) => send(req, res)('Hello World'))
 
@@ -48,6 +48,26 @@ describe('Testing @tinyhttp/send', () => {
       const res = await supertest(app).get('/')
 
       expect(res.header['etag']).not.toBeUndefined()
+    })
+  })
+
+  describe('status(status)', () => {
+    it('sets response status', async () => {
+      const app = runServer((req, res) => status(req, res)(418).end())
+
+      const res = await supertest(app).get('/')
+
+      expect(res.status).toBe(418)
+    })
+  })
+
+  describe('sendStatus(status)', () => {
+    it(`should send "I'm a teapot" when argument is 418`, async () => {
+      const app = runServer((req, res) => sendStatus(req, res)(418).end())
+
+      const res = await supertest(app).get('/')
+
+      expect(res.text).toBe("I'm a Teapot")
     })
   })
 })
