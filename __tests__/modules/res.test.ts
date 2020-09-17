@@ -1,6 +1,6 @@
 import supertest from 'supertest'
 import { setHeader } from '../../packages/res/src'
-import { runServer } from '../helpers/runServer'
+import { runServer } from '../../test_helpers/runServer'
 
 describe('setHeader(field, val)', () => {
   it('should set a string header with a string value', async () => {

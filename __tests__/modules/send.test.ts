@@ -1,6 +1,6 @@
 import supertest from 'supertest'
 import { json, send, sendStatus, status } from '../../packages/send/src'
-import { runServer } from '../helpers/runServer'
+import { runServer } from '../../test_helpers/runServer'
 
 describe('Testing @tinyhttp/send', () => {
   describe('json(body)', () => {
