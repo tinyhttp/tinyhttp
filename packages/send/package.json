@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/send",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "description": "json, send, sendFile, status and sendStatus methods for tinyhttp",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -40,6 +40,7 @@
   },
   "dependencies": {
     "@tinyhttp/etag": "workspace:*",
-    "es-content-type": "^0.0.10"
+    "es-content-type": "^0.0.10",
+    "es-mime-types": "^0.0.15"
   }
 }

@@ -1,5 +1,11 @@
 # @tinyhttp/send
 
+## 0.0.3
+
+### Patch Changes
+
+- Implement res.sendFile
+
 ## 0.0.2
 
 ### Patch Changes

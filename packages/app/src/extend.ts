@@ -16,6 +16,7 @@ import {
 } from './request'
 import { send, json, status, setCookie, clearCookie, setHeader, getResponseHeader, setLocationHeader, setLinksHeader, sendStatus, renderTemplate } from './response'
 import { App } from './app'
+import { sendFile } from '@tinyhttp/res'
 
 /**
  * Extends Request and Response objects with custom properties and methods
@@ -74,6 +75,8 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response) => {
   res.json = json<Request, Response>(req, res)
   res.status = status<Request, Response>(req, res)
   res.sendStatus = sendStatus<Request, Response>(req, res)
+  res.sendFile = sendFile<Request, Response>(req, res)
+
   res.location = setLocationHeader<Request, Response>(req, res)
   res.links = setLinksHeader<Request, Response>(req, res)
 

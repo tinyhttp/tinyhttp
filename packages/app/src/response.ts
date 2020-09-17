@@ -3,7 +3,9 @@ import * as cookie from '@tinyhttp/cookie'
 import { Request } from './request'
 import { App, TemplateEngineOptions } from './app'
 
-export { send, sendStatus, setCookie, setHeader, setLinksHeader, setLocationHeader, status, clearCookie, getResponseHeader, json } from '@tinyhttp/res'
+import type { ReadStreamOptions } from '@tinyhttp/res'
+
+export { send, sendStatus, setCookie, setHeader, setLinksHeader, setLocationHeader, status, clearCookie, getResponseHeader, json, sendFile } from '@tinyhttp/res'
 
 export const renderTemplate = (_req: Request, res: Response, app: App) => (file: string, data?: Record<string, any>, options?: TemplateEngineOptions): Response => {
   app.render(
@@ -24,6 +26,7 @@ export interface Response extends ServerResponse {
   set(field: string | Record<string, unknown>, val: string | any[]): Response
   get(field: string): string | number | string[]
   send(body: unknown): Response
+  sendFile(path: string, options: ReadStreamOptions, cb: (err?: any) => void): Response
   json(body: unknown): Response
   status(status: number): Response
   sendStatus(statusCode: number): Response

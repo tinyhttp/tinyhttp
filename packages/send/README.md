@@ -2,9 +2,7 @@
 
 [![npm (scoped)][npm-badge]](https://npmjs.com/package/@tinyhttp/send) [![npm][dl-badge]](https://npmjs.com/package/@tinyhttp/send) [![][web-badge]](https://tinyhttp.v1rtl.site/mw/send)
 
-Extensions for sending a response, including `send`, `sendStatus`, `status` and `json`. Works with any backend framework.
-
-> `sendFile` is in the works, track the progress [in this issue](https://github.com/talentlessguy/tinyhttp/issues/17).
+Extensions for sending a response, including `send`, `sendStatus`, `status`, `sendFile` and `json`. Works with any backend framework.
 
 ## Install
 

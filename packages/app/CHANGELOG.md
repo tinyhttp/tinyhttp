@@ -1,5 +1,12 @@
 # @tinyhttp/app
 
+## 0.2.80
+
+### Patch Changes
+
+- Implement res.sendFile
+  - @tinyhttp/res@0.0.4
+
 ## 0.2.79
 
 ### Patch Changes
