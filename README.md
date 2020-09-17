@@ -92,7 +92,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://brailor.me/"><img src="https://avatars3.githubusercontent.com/u/17928339?v=4" width="100px;" alt=""/><br /><sub><b>Matt</b></sub></a><br /><a href="#plugin-BRA1L0R" title="Plugin/utility libraries">🔌</a></td>
+    <td align="center"><a href="https://brailor.me/"><img src="https://avatars3.githubusercontent.com/u/17928339?v=4" width="100px;" alt=""/><br /><sub><b>Matt</b></sub></a><br /><a href="#plugin-BRA1L0R" title="Plugin/utility libraries">🔌</a> <a href="https://github.com/talentlessguy/tinyhttp/commits?author=BRA1L0R" title="Tests">⚠️</a></td>
   </tr>
 </table>
 
