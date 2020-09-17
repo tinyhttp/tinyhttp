@@ -1,6 +1,6 @@
 # @tinyhttp/cookie-parser
 
-[![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/cookie-parser?style=flat-square)](npmjs.com/package/@tinyhttp/cookie-parser) [![npm](https://img.shields.io/npm/dt/@tinyhttp/cookie-parser?style=flat-square)](npmjs.com/package/@tinyhttp/cookie-parser) [![](https://img.shields.io/badge/website-visit-hotpink?style=flat-square)](https://tinyhttp.v1rtl.site/mw/cors)
+[![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/cookie-parser?style=flat-square)](https://npmjs.com/package/@tinyhttp/cookie-parser) [![npm](https://img.shields.io/npm/dt/@tinyhttp/cookie-parser?style=flat-square)](https://npmjs.com/package/@tinyhttp/cookie-parser) [![](https://img.shields.io/badge/website-visit-hotpink?style=flat-square)](https://tinyhttp.v1rtl.site/mw/cors)
 
 > A rewrite of [cookie-parser](https://github.com/expressjs/cookie-parser) module.
 

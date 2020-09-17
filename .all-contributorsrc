@@ -6,6 +6,19 @@
   "commit": false,
   "contributors": [
     {
+      "login": "talentlessguy",
+      "name": "v 1 r t l",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/35937217?v=4",
+      "profile": "https://v1rtl.site",
+      "contributions": [
+        "example",
+        "plugin",
+        "projectManagement",
+        "maintenance",
+        "code"
+      ]
+    },
+    {
       "login": "BRA1L0R",
       "name": "Matt",
       "avatar_url": "https://avatars3.githubusercontent.com/u/17928339?v=4",
@@ -13,6 +26,75 @@
       "contributions": [
         "plugin",
         "test"
+      ]
+    },
+    {
+      "login": "Betelgeuse1",
+      "name": "Nasmevka",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/45435407?v=4",
+      "profile": "https://github.com/Betelgeuse1",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "elianiva",
+      "name": "elianiva",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/51877647?v=4",
+      "profile": "http://elianiva.github.io",
+      "contributions": [
+        "example",
+        "maintenance",
+        "code",
+        "test"
+      ]
+    },
+    {
+      "login": "katywings",
+      "name": "Katja Lutz",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/4012401?v=4",
+      "profile": "https://nitropage.com",
+      "contributions": [
+        "example"
+      ]
+    },
+    {
+      "login": "Arnovsky",
+      "name": "Arnovsky",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/7084871?v=4",
+      "profile": "https://github.com/Arnovsky",
+      "contributions": [
+        "plugin",
+        "code"
+      ]
+    },
+    {
+      "login": "RocktimSaikia",
+      "name": "Rocktim Saikia",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/33410545?v=4",
+      "profile": "https://rocktim.xyz",
+      "contributions": [
+        "infra",
+        "code",
+        "example"
+      ]
+    },
+    {
+      "login": "ahmad-reza619",
+      "name": "Ahmad Reza",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/52902060?v=4",
+      "profile": "https://github.com/ahmad-reza619",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "IonelLupu",
+      "name": "Ionel lupu",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/4083652?v=4",
+      "profile": "https://typetron.org/",
+      "contributions": [
+        "example"
       ]
     }
   ],

@@ -31,22 +31,22 @@ export function parse(
   options: {
     decode: (str: string) => any
   } = {
-    decode: decodeURIComponent
+    decode: decodeURIComponent,
   }
 ) {
   const obj = {}
   const pairs = str.split(pairSplitRegExp)
 
   for (const pair of pairs) {
-    let eq_idx = pair.indexOf('=')
+    let eqIdx = pair.indexOf('=')
 
     // skip things that don't look like key=value
-    if (eq_idx < 0) {
+    if (eqIdx < 0) {
       continue
     }
 
-    const key = pair.substr(0, eq_idx).trim()
-    let val = pair.substr(++eq_idx, pair.length).trim()
+    const key = pair.substr(0, eqIdx).trim()
+    let val = pair.substr(++eqIdx, pair.length).trim()
 
     // quoted values
     if ('"' == val[0]) val = val.slice(1, -1)
@@ -65,20 +65,18 @@ export type SerializeOptions = Partial<{
   path: string
   httpOnly: boolean
   secure: boolean
-  sameSite: boolean | string
+  sameSite: boolean | 'Strict' | 'strict' | 'Lax' | 'lax' | 'None' | 'none' | string
   expires: Date
 }>
 
-export function serialize(
-  name: string,
-  val: string,
-  { encode = encodeURIComponent, domain, secure, httpOnly, expires, path, ...opt }: SerializeOptions
-) {
+export function serialize(name: string, val: string, opt: SerializeOptions = {}) {
+  if (!opt.encode) opt.encode = encodeURIComponent
+
   if (!fieldContentRegExp.test(name)) {
     throw new TypeError('argument name is invalid')
   }
 
-  const value = encode(val)
+  const value = opt.encode(val)
 
   if (value && !fieldContentRegExp.test(value)) {
     throw new TypeError('argument val is invalid')
@@ -96,35 +94,35 @@ export function serialize(
     str += '; Max-Age=' + Math.floor(maxAge)
   }
 
-  if (domain) {
-    if (!fieldContentRegExp.test(domain)) {
+  if (opt.domain) {
+    if (!fieldContentRegExp.test(opt.domain)) {
       throw new TypeError('option domain is invalid')
     }
 
-    str += '; Domain=' + domain
+    str += '; Domain=' + opt.domain
   }
 
-  if (path) {
-    if (!fieldContentRegExp.test(path)) {
+  if (opt.path) {
+    if (!fieldContentRegExp.test(opt.path)) {
       throw new TypeError('option path is invalid')
     }
 
-    str += '; Path=' + path
+    str += '; Path=' + opt.path
   }
 
-  if (expires) {
-    if (typeof expires.toUTCString !== 'function') {
+  if (opt.expires) {
+    if (typeof opt.expires.toUTCString !== 'function') {
       throw new TypeError('option expires is invalid')
     }
 
-    str += '; Expires=' + expires.toUTCString()
+    str += '; Expires=' + opt.expires.toUTCString()
   }
 
-  if (httpOnly) {
+  if (opt.httpOnly) {
     str += '; HttpOnly'
   }
 
-  if (secure) {
+  if (opt.secure) {
     str += '; Secure'
   }
 

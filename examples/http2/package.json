@@ -1,0 +1,7 @@
+{
+  "name": "http2",
+  "type": "module",
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*"
+  }
+}

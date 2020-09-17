@@ -1,0 +1,45 @@
+{
+  "name": "@tinyhttp/jwt",
+  "version": "0.1.20",
+  "description": "JWT middleware for tinyhttp",
+  "main": "dist/index.cjs",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json",
+    "./": "./"
+  },
+  "keywords": [
+    "tinyhttp",
+    "nodejs",
+    "web",
+    "backend",
+    "jwt"
+  ],
+  "author": "BRA1L0R",
+  "contributors": [
+    "BRA1L0R <https://brailor.me>",
+    "v1rtl <https://v1rtl.site>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.0"
+  },
+  "scripts": {
+    "build": "rollup -c ../../build/defaultConfig.js"
+  },
+  "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/talentlessguy/tinyhttp.git",
+    "directory": "packages/jwt"
+  }
+}

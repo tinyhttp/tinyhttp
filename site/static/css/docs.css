@@ -5,7 +5,7 @@ main {
 
 @media (max-width: 350px) {
   main {
-    width: 80vw;
+    width: 90vw;
   }
 }
 
@@ -14,10 +14,19 @@ pre {
   overflow-x: auto;
   box-shadow: none;
   padding: 1rem;
+  border-radius: 5px;
 }
 
 main > h1 {
   font-size: calc(2vw + 2rem);
+}
+
+main > h1,
+main > h2,
+main > h3,
+main > h4,
+main > h5 {
+  color: var(--fg);
 }
 
 main > * {
@@ -31,22 +40,18 @@ main li {
 
 main > h2 {
   font-size: calc(1.25vw + 1.25rem);
-  color: var(--dark-fg);
 }
 
 main > h3 {
   font-size: calc(1vw + 1rem);
-  color: #242323;
 }
 
 main > h4 {
   font-size: calc(0.8vw + 0.8rem);
-  color: var(--fg);
 }
 
 main > h5 {
   font-size: calc(0.6vw + 0.6rem);
-  color: #424142;
   margin-top: 1.5rem;
   margin-bottom: 0.25rem;
 }
@@ -98,13 +103,30 @@ summary:hover {
   cursor: pointer;
 }
 
+table {
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+table th {
+  font-weight: 500;
+}
+
+table th,
+table td {
+  border: 1px solid var(--fg);
+  margin: 0;
+  padding: 0.5rem;
+}
+
 @media (max-width: 800px) {
   main {
-    width: 70vw;
+    width: 90vw;
   }
+
   aside {
     position: static;
-    width: 70vw;
+    width: 90vw;
     margin: 4rem auto;
     padding: 0;
   }

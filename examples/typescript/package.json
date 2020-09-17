@@ -1,0 +1,14 @@
+{
+  "name": "typescript",
+  "private": true,
+  "scripts": {
+    "start": "node -r esm -r ts-node/register ./*.ts"
+  },
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*"
+  },
+  "devDependencies": {
+    "esm": "^3.2.25",
+    "ts-node": "^8.10.2"
+  }
+}

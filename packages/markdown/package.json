@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/markdown",
-  "version": "0.0.7",
+  "version": "0.1.60",
   "description": "tinyhttp static markdown middleware",
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
@@ -13,7 +13,7 @@
     "./package.json": "./package.json",
     "./": "./"
   },
-  "homepage": "https://github.com/talentlessguy/tinyhttp",
+  "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/talentlessguy/tinyhttp.git",
@@ -32,7 +32,7 @@
   "license": "MIT",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "marked": "^1.1.0",
+    "marked": "^1.1.1",
     "readdirp": "^3.4.0"
   },
   "engines": {
@@ -40,5 +40,8 @@
   },
   "devDependencies": {
     "@types/marked": "^1.1.0"
+  },
+  "scripts": {
+    "build": "rollup -c ../../build/defaultConfig.js"
   }
 }

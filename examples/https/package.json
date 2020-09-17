@@ -1,0 +1,7 @@
+{
+  "name": "https",
+  "type": "module",
+  "dependencies": {
+    "@tinyhttp/app": "^0.2.29"
+  }
+}

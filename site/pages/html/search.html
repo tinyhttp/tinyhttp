@@ -3,6 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta property="og:title" content="tinyhttp" />
+    <meta property="og:site_name" content="tinyhttp.v1rtl.site" />
+    <meta property="og:url" content="https://tinyhttp.v1rtl.site" />
+    <meta
+      name="description"
+      content="tinyhttp is a modern Express-like web framework for Node.js. It uses a bare minimum amount of dependencies trying to avoid legacy hell."
+    />
+    <meta
+      property="og:description"
+      content="tinyhttp is a modern Express-like web framework for Node.js. It uses a bare minimum amount of dependencies trying to avoid legacy hell."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://tinyhttp.v1rtl.site/cover.jpg" />
     <link rel="stylesheet" href="/css/shared.css" />
     <link rel="stylesheet" href="/css/search.css" />
     <link rel="stylesheet" href="/inter.css" />
@@ -11,7 +25,10 @@
   <body>
     <nav>
       <a href="/">Home</a>
-      <a href="https://github.com/talentlessguy/tinyhttp/tree/master/examples" target="_blank" rel="noopener noreferrer"
+      <a
+        href="https://github.com/talentlessguy/tinyhttp/tree/master/examples"
+        target="_blank"
+        rel="noopener noreferrer"
         >Examples</a
       >
       <a href="/learn">Learn</a>
@@ -38,16 +55,16 @@
 
       const cont = document.getElementById('pkgs')
 
-      inp.oninput = e => {
+      inp.oninput = (e) => {
         const query = e.currentTarget.value
 
-        const results = pkgs.filter(el => {
+        const results = pkgs.filter((el) => {
           return el.indexOf(query.toLowerCase()) > -1
         })
 
         cont.innerHTML = results
           .map(
-            r => `<a class="mw_preview" href="/mw/${r}">
+            (r) => `<a class="mw_preview" href="/mw/${r}">
   <div>
     <h3>${r}</h3>
   </div>

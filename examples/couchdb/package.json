@@ -1,0 +1,14 @@
+{
+  "name": "couchdb",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*",
+    "@tinyhttp/dotenv": "workspace:*",
+    "body-parser": "1.19.0",
+    "nano": "8.2.2"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.0"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "name": "@tinyhttp/ping",
+  "version": "0.0.3",
+  "type": "module",
+  "description": "Response time checker middleware",
+  "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/talentlessguy/tinyhttp.git",
+    "directory": "packages/ping"
+  },
+  "main": "dist/index.cjs",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json",
+    "./": "./"
+  },
+  "keywords": [
+    "tinyhttp",
+    "node.js",
+    "web framework",
+    "web",
+    "backend",
+    "ping",
+    "response-time",
+    "response",
+    "ping-time"
+  ],
+  "engines": {
+    "node": ">=12.4.0"
+  },
+  "author": "v1rtl",
+  "license": "MIT",
+  "scripts": {
+    "build": "rollup -c ../../build/defaultConfig.js"
+  }
+}

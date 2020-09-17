@@ -1,0 +1,13 @@
+<html>
+  <head>
+    <!-- use double mustache for HTML-escaped interpolation -->
+    <title>{{ title }}</title>
+
+    <!-- use triple mustache for non-HTML-escaped interpolation -->
+    {{{ meta }}}
+  </head>
+  <body>
+    <h1>{{ title }}</h1>
+    <!--vue-ssr-outlet-->
+  </body>
+</html>

@@ -1,12 +1,9 @@
 {
   "name": "@tinyhttp/cookie-parser",
-  "version": "0.0.10",
+  "version": "0.1.61",
   "type": "module",
   "description": "tinyhttp cookie parsing middleware",
-  "homepage": "https://github.com/talentlessguy/tinyhttp",
-  "publishConfig": {
-    "access": "public"
-  },
+  "homepage": "https://github.com/talentlessguy/tinyhttp/tree/master/packages/cookie-parser#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/talentlessguy/tinyhttp.git",
@@ -41,5 +38,8 @@
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/cookie": "workspace:*",
     "@tinyhttp/cookie-signature": "workspace:*"
+  },
+  "scripts": {
+    "build": "rollup -c ../../build/defaultConfig.js"
   }
 }

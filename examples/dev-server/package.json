@@ -1,0 +1,19 @@
+{
+  "name": "dev-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "type": "commonjs",
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*",
+    "chokidar": "^3.4.1",
+    "serve-handler": "^6.1.3",
+    "sosse": "^0.7.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/serve-handler": "^6.1.0"
+  }
+}

@@ -1,2 +1,8 @@
 node_modules
 dist
+log.txt
+coverage
+examples/*/.env
+pnpm-lock.yaml
+.next
+.cache

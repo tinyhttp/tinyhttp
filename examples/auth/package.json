@@ -1,0 +1,12 @@
+{
+  "name": "auth",
+  "private": true,
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*",
+    "@tinyhttp/jwt": "workspace:*",
+    "@types/jsonwebtoken": "^8.5.0",
+    "body-parsec": "^2.0.16",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "type": "module"
+}

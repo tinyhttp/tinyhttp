@@ -1,0 +1,9 @@
+{
+  "name": "ejs",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*",
+    "ejs": "^3.1.5"
+  }
+}

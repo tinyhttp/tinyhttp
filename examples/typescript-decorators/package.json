@@ -1,0 +1,14 @@
+{
+  "name": "decorators",
+  "private": true,
+  "scripts": {
+    "start": "ts-node index.ts"
+  },
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*",
+    "express-decorators": "^1.2.1"
+  },
+  "devDependencies": {
+    "ts-node": "^8.10.2"
+  }
+}

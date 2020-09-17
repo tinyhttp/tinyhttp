@@ -1,9 +1,9 @@
 {
   "name": "@tinyhttp/etag",
-  "version": "0.1.26",
+  "version": "0.2.17",
   "type": "module",
   "description": "entity tag module",
-  "homepage": "https://github.com/talentlessguy/tinyhttp",
+  "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/talentlessguy/tinyhttp.git",
@@ -32,5 +32,8 @@
     "node": ">=12.4.0"
   },
   "author": "v1rtl",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build": "rollup -c ../../build/defaultConfig.js"
+  }
 }

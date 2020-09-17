@@ -1,9 +1,6 @@
 {
   "name": "no-match-handler",
   "private": true,
-  "scripts": {
-    "dev": "ts-node index.ts"
-  },
   "dependencies": {
     "@tinyhttp/app": "workspace:*"
   }

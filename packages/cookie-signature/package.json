@@ -1,11 +1,8 @@
 {
   "name": "@tinyhttp/cookie-signature",
-  "version": "0.0.10",
+  "version": "0.1.16",
   "description": "HTTP cookie signing and unsigning",
-  "homepage": "https://github.com/talentlessguy/tinyhttp",
-  "publishConfig": {
-    "access": "public"
-  },
+  "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/talentlessguy/tinyhttp.git",
@@ -36,5 +33,8 @@
     "cookie"
   ],
   "author": "v1rtl",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build": "rollup -c ../../build/defaultConfig.js"
+  }
 }

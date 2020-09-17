@@ -1,4 +1,4 @@
-import { AsyncHandler } from '@tinyhttp/app'
+import type { AsyncHandler } from '@tinyhttp/app'
 import { parse } from 'path'
 import { existsSync } from 'fs'
 import { readFile, readdir } from 'fs/promises'
@@ -15,13 +15,7 @@ export type MarkdownServerHandlerOptions = Partial<{
 
 export const markdownStaticHandler = (
   dir = process.cwd(),
-  {
-    prefix = '/',
-    stripExtension = true,
-    recursive = false,
-    markedOptions = null,
-    markedExtensions = []
-  }: MarkdownServerHandlerOptions
+  { prefix = '/', stripExtension = true, recursive = false, markedOptions = null, markedExtensions = [] }: MarkdownServerHandlerOptions
 ): AsyncHandler => async (req, res, next) => {
   if (req.url.startsWith(prefix)) {
     let unPrefixedURL = req.url.replace(prefix, '')
@@ -31,16 +25,9 @@ export const markdownStaticHandler = (
     }
 
     if (req.url === prefix) {
-      const possibleIndexes = [
-        `${dir}/index.md`,
-        `${dir}/index.markdown`,
-        `${dir}/readme.md`,
-        `${dir}/README.md`,
-        `${dir}/readme.markdown`,
-        `${dir}/readme.md`
-      ]
+      const possibleIndexes = [`${dir}/index.md`, `${dir}/index.markdown`, `${dir}/readme.md`, `${dir}/README.md`, `${dir}/readme.markdown`, `${dir}/readme.md`]
 
-      const idxFile = possibleIndexes.find(file => existsSync(file) && file)
+      const idxFile = possibleIndexes.find((file) => existsSync(file) && file)
 
       if (idxFile) {
         const content = (await readFile(idxFile)).toString()
@@ -52,7 +39,7 @@ export const markdownStaticHandler = (
     let files: string[]
 
     if (recursive) {
-      files = (await recursiveReaddir(dir)).map(f => f.path)
+      files = (await recursiveReaddir(dir)).map((f) => f.path)
     } else {
       files = await readdir(dir)
     }
@@ -60,14 +47,14 @@ export const markdownStaticHandler = (
     let file: string
 
     if (stripExtension) {
-      file = files.find(f => {
+      file = files.find((f) => {
         const ext = parse(f).ext
         const name = parse(f).name
 
         return /\.(md|markdown)/.test(ext) && unPrefixedURL === name
       })
     } else {
-      file = files.find(f => {
+      file = files.find((f) => {
         return f === decodeURI(unPrefixedURL).slice(1)
       })
     }

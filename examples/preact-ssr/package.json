@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "name": "preact-ssr",
+  "type": "module",
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*",
+    "htm": "^3.0.4",
+    "preact": "^10.4.6",
+    "preact-render-to-string": "^5.1.10"
+  }
+}

@@ -1,8 +1,24 @@
 <link rel="stylesheet" href="/css/docs.css" />
 <link rel="stylesheet" href="/css/shared.css" />
 <link rel="stylesheet" href="/inter.css" />
+<link rel="stylesheet" href="/hljs.css" />
 
-<title>Docs | tinyhttp</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="Docs 📖 | tinyhttp — 0-legacy, tiny & fast web framework as a replacement of Express">
+<meta property="og:site_name" content="tinyhttp.v1rtl.site" >
+<meta property="og:url" content="https://tinyhttp.v1rtl.site" >
+<meta
+  name="description"
+  content="tinyhttp is a modern Express-like web framework written in TypeScript and compiled to native ESM, that uses a bare minimum amount of dependencies trying to avoid legacy hell.">
+<meta
+  property="og:description"
+  content="tinyhttp is a modern Express-like web framework written in TypeScript and compiled to native ESM, that uses a bare minimum amount of dependencies trying to avoid legacy hell."
+/>
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://tinyhttp.v1rtl.site/cover.jpg" >
+
+<title>Docs 📖 | tinyhttp — 0-legacy, tiny & fast web framework as a replacement of Express</title>
 
 <nav>
   <a href="/">Home</a>
@@ -42,6 +58,8 @@
     <li><a href="#appput">app.put</a></li>
     <li><a href="#appdelete">app.delete</a></li>
     <li><a href="#appuse">app.use</a></li>
+    <li><a href="#appengine">app.engine</a></li>
+    <li><a href="#apprender">app.render</a></li>
   </ul>
   </details>
 
@@ -61,6 +79,8 @@
       <li><a href="#reqxhr">req.xhr</a></li>
       <li><a href="#reqfresh">req.fresh</a></li>
       <li><a href="#reqstale">req.stale</a></li>
+      <li><a href="#reqip">req.ip</a></li>
+      <li><a href="#reqips">req.ips</a></li>
     </ul>
   </details>
  
@@ -90,22 +110,24 @@
     <li><a href="#resjson">res.json</a></li>
     <li><a href="#ressend">res.send</a></li>
     <li><a href="#resstatus">res.status</a></li>
+    <li><a href="#ressendstatus">res.sendStatus</a></li>
     <li><a href="#resset">res.set</a></li>
     <li><a href="#reslinks">res.links</a></li>
     <li><a href="#reslocation">res.location</a></li>
+    <li><a href="#resrender">res.render</a></li>
   </ul>
  </details>
 </aside>
 
 <main>
 
-# 0.1.X API
+# 0.X API
 
 > Note: tinyhttp is not yet finished. Therefore, documentation is incomplete.
 
 ## Application
 
-The `app` object is the whole tinyhttp application with all the middleware, handlers and so on
+The `app` object is the whole tinyhttp application with all the middleware, handlers and settings.
 
 ```ts
 import { App } from '@tinyhttp/app'
@@ -123,8 +145,8 @@ The app object has methods for
 
 - Routing HTTP requests; see for example, `app.METHOD` and `app.param`.
 - **NOT IMPLEMENTED** Configuring middleware; see `app.route`.
-- **NOT IMPLEMENTED** Rendering HTML views; see `app.render`.
-- **NOT IMPLEMENTED** Registering a template engine; see `app.engine`.
+- Rendering HTML views; see [`app.render`](#apprender).
+- Registering a template engine; see [`app.engine`](#appengine).
 
 The tinyhttp application object can be referred from the request object and the response object as `req.app`, and `res.app`, respectively.
 
@@ -133,8 +155,6 @@ The tinyhttp application object can be referred from the request object and the 
 #### `noMatchHandler(req, res)`
 
 Handler if none of the routes match. Should return 404 Not found.
-
-##### Example
 
 ```ts
 import { App, Request, Response } from '@tinyhttp/app'
@@ -156,8 +176,6 @@ app
 
 A middleware to catch server errors. Error can be anything. Should return 500 Internal Server Error.
 
-##### Example
-
 ```ts
 import { App, Request, Response } from '@tinyhttp/app'
 
@@ -176,6 +194,42 @@ app
   .listen(3000)
 ```
 
+#### `settings`
+
+tinyhttp application has a list of settings to toggle various application parts. All of them are opted out by default to achieve the best performance (less extensions, better performance).
+
+```ts
+import { App } from '@tinyhttp/app'
+
+const app = new App({
+  settings: {
+    networkExtensions: true,
+  },
+})
+
+app.use((req, res) => void res.send(`Hostname: ${req.hostname}`)).listen(3000)
+```
+
+Here's a list of all of the settings:
+
+- `networkExtensions` - network `req` extensions
+- `freshnessTesting` - `req.fresh` and `req.stale` properties
+
+##### `networkExtensions`
+
+Enabled a list of Request object extensions related to network.
+
+- [`req.proto`](#reqproto)
+- [`req.secure`](#reqsecure)
+- [`req.hostname`](#reqhostname)
+
+##### `freshnessTesting`
+
+Enables 2 properties - `req.fresh` and `req.stale`
+
+- [`req.fresh`](#reqfresh)
+- [`req.stale`](#reqstale)
+
 ### Properties
 
 #### `app.locals`
@@ -192,7 +246,7 @@ console.dir(app.locals.email)
 
 Once set, the value of app.locals properties persist throughout the life of the application, in contrast with res.locals properties that are valid only for the lifetime of the request.
 
-You can access local variables in templates rendered within the application. This is useful for providing helper functions to templates, as well as application-level data. Local variables are available in middleware via `req.app.locals` (see [req.app](#reqapp))
+You can access local variables in templates rendered within the application. This is useful for providing helper functions to templates, as well as application-level data.
 
 ```ts
 app.locals.title = 'My App'
@@ -250,7 +304,7 @@ Routes HTTP GET requests to the specified path with the specified handler functi
 ##### Example
 
 ```ts
-app.post('/', (req, res) => {
+app.get('/', (req, res) => {
   res.send(`${req.method || 'GET'} request to homepage`
 })
 ```
@@ -303,7 +357,7 @@ Since path defaults to `/,` middleware mounted without a path will be executed f
 For example, this middleware function will be executed for every request to the app:
 
 ```ts
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   console.log('Time: %d', Date.now())
   next()
 })
@@ -313,14 +367,69 @@ Middleware functions are executed sequentially, therefore the order of middlewar
 
 ```ts
 // this middleware will not allow the request to go beyond it
-app.use(function (req, res, next) {
-  res.send('Hello World')
-})
+app.use((req, res, next) => void res.send('Hello World'))
 
 // requests will never reach this route
-app.get('/', function (req, res) {
-  res.send('Welcome')
-})
+app.get('/', (req, res) => res.send('Welcome'))
+```
+
+#### `app.engine`
+
+Register a template engine. Works with any Express template engines that contain a `renderFile` function.
+
+##### Example
+
+```js
+import { App } from '@tinyhttp/app'
+import ejs from 'ejs'
+
+const app = new App()
+
+app.engine('ejs', ejs.renderFile) // map app.engines['ejs'] to ejs.renderFile
+```
+
+#### `app.render`
+
+Render a file with the engine that was set previously via [`app.engine`](#appengine). To render and respond with the result, use [`res.render`](#resrender)
+
+```js
+import { App } from '@tinyhttp/app'
+import ejs from 'ejs'
+
+const app = new App()
+
+app.engine('ejs', ejs.renderFile)
+
+app.render(
+  'index.ejs',
+  { name: 'EJS' },
+  (err, html) => {
+    if (err) throw err
+    doSomethingWithHTML(html)
+  },
+  {
+    /* some options */
+  }
+)
+```
+
+Almost every engine is supported if it can render a single file. Some engines may have different arguments (for example Pug doesn't require a `data` object) but you can write a function to have the same arguments.
+
+##### Example
+
+```js
+import { App } from '@tinyhttp/app'
+import pug from 'pug'
+
+const app = new App()
+
+const renderPug = (path, _, options, cb) => pug.renderFile(path, options, cb)
+
+app.engine('pug', renderPug)
+
+app.use((_, res) => void res.render('index.pug'))
+
+app.listen(3000, () => console.log(`Listening on http://localhost:3000`))
 ```
 
 ## Request
@@ -338,20 +447,6 @@ app.get('/user/:id', (req, res) => {
 The req object is an enhanced version of Node.js built-in [IncomingMessage](https://nodejs.org/api/http.html#http_class_http_incomingmessage) object.
 
 ### Properties
-
-#### `req.app`
-
-This property holds a reference to the instance of the tinyhttp application that is using the middleware.
-
-##### Example
-
-```ts
-app.get('/', (req, res) => {
-  res.json({
-    ...req.app.middleware,
-  })
-})
-```
 
 #### `req.hostname`
 
@@ -405,7 +500,7 @@ Example output would be something like this:
   path: '/user/:id?',
   method: 'GET',
   handler: [Function: userIdHandler],
-  tyoe: 'route'
+  type: 'route'
 }
 ```
 
@@ -449,6 +544,8 @@ console.dir(req.xhr)
 
 #### `req.fresh`
 
+> This property can be enabled via `freshnessTesting` setting
+
 When the response is still “fresh” in the client’s cache true is returned, otherwise false is returned to indicate that the client cache is now stale and the full response should be sent.
 
 When a client sends the `Cache-Control: no-cache` request header to indicate an end-to-end reload request, this module will return false to make handling these requests transparent.
@@ -462,11 +559,31 @@ console.dir(req.fresh)
 
 #### `req.stale`
 
+> This property can be enabled via `freshnessTesting` setting
+
 Indicates whether the request is “stale,” and is the opposite of `req.fresh`. For more information, see [`req.fresh`](#reqfresh).
 
 ```ts
 console.dir(req.stale)
 // => true
+```
+
+#### `req.ip`
+
+Contains the remote IP address of the request.
+
+```ts
+console.log(req.ip)
+// => '127.0.0.1'
+```
+
+#### `req.ips`
+
+Contains an array of remote IP addresses of the request.
+
+```ts
+console.log(req.ip)
+// => [127.0.0.1']
 ```
 
 ### Methods
@@ -521,15 +638,9 @@ req.get('Something')
 
 ## Response
 
-The `res` object represents the HTTP response that an tinyhttp app sends when it gets an HTTP request.
+The `res` object represents the HTTP response that a tinyhttp app sends when it gets an HTTP request.
 
 ### Properties
-
-#### `res.app`
-
-This property holds a reference to the instance of the tinyhttp app that is using the middleware.
-
-`res.app` is identical to the [`req.app`](#reqapp) property in the request object.
 
 ### Methods
 
@@ -561,6 +672,8 @@ res.cookie('name', 'tobi', {
   path: '/admin',
   secure: true,
 })
+
+// Enable "httpOnly" and "expires" parameters
 res.cookie('rememberme', '1', {
   expires: new Date(Date.now() + 900000),
   httpOnly: true,
@@ -649,6 +762,8 @@ res.send([1, 2, 3])
 
 Sets the HTTP status for the response. It is a chainable alias of Node’s `response.statusCode`.
 
+##### Example
+
 ```ts
 res.status(403).end()
 res.status(400).send('Bad Request')
@@ -657,6 +772,8 @@ res.status(400).send('Bad Request')
 #### `res.sendStatus`
 
 Sets the response HTTP status code to statusCode and send its string representation as the response body.
+
+##### Example
 
 ```ts
 res.sendStatus(200) // equivalent to res.status(200).send('OK')
@@ -724,5 +841,24 @@ res.location('back')
 A `path` value of `"back"` has a special meaning, it refers to the URL specified in the `Referer` header of the request. If the Referer header was not specified, it refers to `"/"`.
 
 > After encoding the URL, if not encoded already, tinyhttp passes the specified URL to the browser in the `Location` header, without any validation. Browsers take the responsibility of deriving the intended URL from the current URL or the referring URL, and the URL specified in the Location header; and redirect the user accordingly.
+
+#### `res.render`
+
+Render a template using a pre-defined engine and respond with the result.
+
+##### Example
+
+```js
+import { App } from '@tinyhttp/app'
+import ejs from 'ejs'
+
+const app = new App()
+
+app.engine('ejs', ejs.renderFile)
+
+app.use((_, res) => void res.render('index.ejs', { name: 'EJS' }))
+
+app.listen(3000, () => console.log(`Listening on http://localhost:3000`))
+```
 
 </main>

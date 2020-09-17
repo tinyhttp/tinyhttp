@@ -1,0 +1,447 @@
+# @tinyhttp/markdown
+
+## 0.1.60
+
+### Patch Changes
+
+- @tinyhttp/app@0.2.79
+
+## 0.1.59
+
+### Patch Changes
+
+- @tinyhttp/app@0.2.78
+
+## 0.1.58
+
+### Patch Changes
+
+- @tinyhttp/app@0.2.77
+
+## 0.1.57
+
+### Patch Changes
+
+- Fix send content-type bug
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.76
+
+## 0.1.56
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.75
+
+## 0.1.55
+
+### Patch Changes
+
+- Fix minor issues in the router
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.74
+
+## 0.1.54
+
+### Patch Changes
+
+- Split app into req, res, send and router
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.73
+
+## 0.1.53
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.72
+
+## 0.1.52
+
+### Patch Changes
+
+- oopsie
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.71
+
+## 0.1.51
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.70
+
+## 0.1.50
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.69
+
+## 0.1.49
+
+### Patch Changes
+
+- something weird, pnpm doesn't want to publish
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.68
+
+## 0.1.48
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.67
+
+## 0.1.47
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.66
+
+## 0.1.46
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.65
+
+## 0.1.45
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.64
+
+## 0.1.44
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.63
+
+## 0.1.43
+
+### Patch Changes
+
+- Fix weird problems with internet that I couldn't publish normally
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.62
+
+## 0.1.42
+
+### Patch Changes
+
+- Add proper sub-app support
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.61
+
+## 0.1.41
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.60
+
+## 0.1.40
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.59
+
+## 0.1.39
+
+### Patch Changes
+
+- @tinyhttp/app@0.2.58
+
+## 0.1.38
+
+### Patch Changes
+
+- @tinyhttp/app@0.2.57
+
+## 0.1.37
+
+### Patch Changes
+
+- @tinyhttp/app@0.2.56
+
+## 0.1.36
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.55
+
+## 0.1.35
+
+### Patch Changes
+
+- Fix error handler
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.54
+
+## 0.1.34
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.53
+
+## 0.1.33
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.51
+
+## 0.1.32
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.50
+
+## 0.1.31
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.49
+
+## 0.1.30
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.48
+
+## 0.1.29
+
+### Patch Changes
+
+- Upgrade some es-\* packages
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.47
+
+## 0.1.28
+
+### Patch Changes
+
+- Upgrade deps
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.46
+
+## 0.1.27
+
+### Patch Changes
+
+- add "!"
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.45
+
+## 0.1.26
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.43
+
+## 0.1.25
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.42
+
+## 0.1.24
+
+### Patch Changes
+
+- Fix link
+  - @tinyhttp/app@0.2.41
+
+## 0.1.23
+
+### Patch Changes
+
+- Move from rollup to tsup
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.39
+
+## 0.1.22
+
+### Patch Changes
+
+- Remove looping
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.34
+
+## 0.1.21
+
+### Patch Changes
+
+- Remove --compact flag
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.33
+
+## 0.1.20
+
+### Patch Changes
+
+- Compress whitespace
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.32
+
+## 0.1.19
+
+### Patch Changes
+
+- Add --compact flag
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.31
+
+## 0.1.18
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.30
+
+## 0.1.17
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.28
+
+## 0.1.16
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.27
+
+## 0.1.15
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.26
+
+## 0.1.14
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.21
+
+## 0.1.13
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.19
+
+## 0.1.12
+
+### Patch Changes
+
+- Upgrade dependencies of all of the packages
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.18
+
+## 0.1.11
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.13
+
+## 0.1.10
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.12
+
+## 0.1.9
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.11
+
+## 0.1.8
+
+### Patch Changes
+
+- FINALLY FIX THAT BUG WHERE 404 COULDN'T BE FOUND
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.10
+
+## 0.1.7
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.9
+
+## 0.1.6
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.8
+
+## 0.1.5
+
+### Patch Changes
+
+- Fix Terser options
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.7
+
+## 0.1.4
+
+### Patch Changes
+
+- Return compression back
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.6
+
+## 0.1.3
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.5
+
+## 0.1.2
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.4
+
+## 0.1.1
+
+### Patch Changes
+
+- Fix readme field
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.3
+
+## 0.1.0
+
+### Minor Changes
+
+- Move to changesets
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.2.0

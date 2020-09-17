@@ -1,0 +1,50 @@
+{
+  "name": "@tinyhttp/pug",
+  "version": "0.0.5",
+  "type": "module",
+  "description": "Pug wrapped in a helper function for tinyhttp.",
+  "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/talentlessguy/tinyhttp.git",
+    "directory": "packages/pug"
+  },
+  "main": "dist/index.cjs",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json",
+    "./": "./"
+  },
+  "keywords": [
+    "tinyhttp",
+    "node.js",
+    "web framework",
+    "web",
+    "backend",
+    "pug",
+    "templates",
+    "template",
+    "template-engine",
+    "html"
+  ],
+  "engines": {
+    "node": ">=12.4.0"
+  },
+  "author": "v1rtl",
+  "license": "MIT",
+  "scripts": {
+    "build": "rollup -c ./rollup.config.js"
+  },
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*",
+    "pug": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/pug": "^2.0.4"
+  }
+}

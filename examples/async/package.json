@@ -1,10 +1,9 @@
 {
   "name": "async",
   "private": true,
-  "scripts": {
-    "dev": "ts-node index.ts"
-  },
   "dependencies": {
     "@tinyhttp/app": "workspace:*"
-  }
+  },
+  "type": "module",
+  "module": "index.js"
 }

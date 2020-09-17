@@ -1,0 +1,8 @@
+{
+  "name": "subapps",
+  "private": true,
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*"
+  },
+  "type": "module"
+}

@@ -3,18 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>tinyhttp</title>
+
+    <meta property="og:title — 0-legacy, tiny & fast web framework as a replacement of Express " content="tinyhttp" />
+    <meta property="og:site_name" content="tinyhttp.v1rtl.site" />
+    <meta property="og:url" content="https://tinyhttp.v1rtl.site" />
+    <meta
+      name="description"
+      content="tinyhttp is a modern Express-like web framework written in TypeScript and compiled to native ESM, that uses a bare minimum amount of dependencies trying to avoid legacy hell."
+    />
+    <meta
+      property="og:description"
+      content="tinyhttp is a modern Express-like web framework written in TypeScript and compiled to native ESM, that uses a bare minimum amount of dependencies trying to avoid legacy hell."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://tinyhttp.v1rtl.site/cover.jpg" />
+    <title>tinyhttp — 0-legacy, tiny & fast web framework as a replacement of Express</title>
     <link rel="stylesheet" href="/css/shared.css" />
     <link rel="stylesheet" href="/css/home.css" />
-    <link rel="stylesheet" href="/inter.css">
+    <link rel="stylesheet" href="/inter.css" />
+    <link rel="stylesheet" href="/hljs.css" />
   </head>
   <body>
-   <a  href="https://github.com/talentlessguy/tinyhttp" target="_blank" rel="noopener noreferrer">
-  <div id="gh">
- 
-<img src="/images/github.svg" /><span>Star on GitHub</span>
-
-  </div>
+    <a href="https://github.com/talentlessguy/tinyhttp" target="_blank" rel="noopener noreferrer">
+      <div id="gh"><img src="/images/github.svg" alt="github" aria-hidden="true" /><span>Star on GitHub</span></div>
     </a>
     <nav>
       <a href="/">Home</a>
@@ -26,11 +37,8 @@
     </nav>
     <main>
       <header>
-        <img id="logo" src="/images/logo.svg" />
-        <p>
-          tinyhttp is a <strong>modern</strong>, <strong>lightweight</strong> and <strong>modular</strong> Express-like
-          web framework for Node.js.
-        </p>
+        <img id="logo" src="/images/logo.svg" alt="logo" />
+        <p>tinyhttp is a <strong>modern</strong>, <strong>lightweight</strong> and <strong>modular</strong> Express-like web framework for Node.js.</p>
         <div>
           <a href="#get_started">
             <button id="to_get_started">Get Started</button>
@@ -40,79 +48,87 @@
           </a>
         </div>
       </header>
-      <section id="get_started">
-        <pre id="install">pnpm add @tinyhttp/app @tinyhttp/logger</pre>
-    
-        <pre id="code">
-import { App } from '@tinyhttp/app'
-import logger from '@tinyhttp/logger'
+      <div id="grid">
+        <section id="get_started">
+          <h2>Quick start</h2>
+          <pre id="install">pnpm i @tinyhttp/app @tinyhttp/logger</pre>
+          <pre id="code">
+<code class="language-js"><span class="hljs-keyword">import</span> { App } <span class="hljs-keyword">from</span> <span class="hljs-string">'@tinyhttp/app'</span>
+<span class="hljs-keyword">import</span> { logger } <span class="hljs-keyword">from</span> <span class="hljs-string">'@tinyhttp/logger'</span>
 
-const app = new App()
+<span class="hljs-keyword">const</span> app = <span class="hljs-keyword">new</span> App()
 
 app
-  .get('/', (_, res) => void res.send('Hello World'))
-  .get('/page/:page/', (req, res) => {
-    res.status(200).send(`
-    Some cool page
-    URL
-    ${req.url}
-    Params
-    ${JSON.stringify(req.params, null, 2)}
-  `)
-  })
   .use(logger())
-  .listen(3000, () => console.log('Started on http://localhost:3000'))
-
-        </pre>
-        <div id="window">
-          <div id="address">http://localhost:3000/<input id="editable" value="page/test" /></div>
-          <div id="content">
-            <h1>Some cool page</h1>
-            <h2>URL</h2>
-            /page/test
-            <h2>Params</h2>
-            { "page": "test" }
+  .get(<span class="hljs-string">'/'</span>, (_, res) =&gt; <span class="hljs-keyword">void</span> res.send(<span class="hljs-string">'&lt;h1&gt;Hello World&lt;/h1&gt;'</span>))
+  .get(<span class="hljs-string">'/page/:page/'</span>, (req, res) =&gt; {
+    res.status(<span class="hljs-number">200</span>).send(<span class="hljs-string">`
+    &lt;h1&gt;Some cool page&lt;/h1&gt;
+    &lt;h2&gt;URL&lt;/h2&gt;
+    <span class="hljs-subst">${req.url}</span>
+    &lt;h2&gt;Params&lt;/h2&gt;
+    <span class="hljs-subst">${<span class="hljs-built_in">JSON</span>.stringify(req.params, <span class="hljs-literal">null</span>, <span class="hljs-number">2</span>)}</span>
+  `</span>)
+}).listen(<span class="hljs-number">3000</span>)</code>
+          </pre>
+          <div id="window">
+            <div id="address">http://localhost:3000/<input id="editable" type="text" value="page/test" /></div>
+            <div id="content">
+              <h1>Some cool page</h1>
+              <h2>URL</h2>
+              /page/test
+              <h2>Params</h2>
+              { "page": "test" }
+            </div>
           </div>
-        </div>
-      </section>
-      <section id="features">
-        <h2>Features</h2>
-        <div>
-          <div>
-            <h3>No legacy dependencies</h2>
-            <p>
-              tinyhttp uses a bare minimum of dependencies to avoid shipping useless ES6 polyfills (that Express has).
-              <code>node_modules</code> is smaller in size and code executes faster. Also, it targets ES2019 (Node 12.4+) that allows to use modern syntax to ship as less code as possible.
-            </p>
-          </div>
-          <div>
-            <h3>Compatible with Express</h2>
-            <p>All middleware for Express works the same for tinyhttp. Explore <a href="https://github.com/talentlessguy/tinyhttp/blob/master/examples">examples</a> with using Express-oriented middleware.</p>
-          </div>
-          <div>
-            <h3>Premade popular middleware</h3>
-            <p>tinyhttp offers a list of popularly used middleware as separate packages. See <a href="/mw">full middleware list</a>.</p>
-          </div>
-          <div>
-            <h3>Supports Deno [not yet]</h3>
-            <p>tinyhttp is planned to be available as a Deno module [soon]</p>
-          </div>
-          <div>
-            <h3>Completely modular</h2>
-            <p>Every piece of tinyhttp is published separately as a package that you can use outside of tinyhttp.
-              For example, you can use these modules with built-in `http` module.</p>
-          </div>
-          <div>
-            <h3>Async support</h3>
-            <p>In comparison to Express, tinyhttp handles <code>async / await</code> without any extra setup with keeping a proper middleware handling loop.</p>
-          </div>
-        </div>
-        
-      </section>
+        </section>
+        <section>
+          <h2>Features</h2>
+          <p>
+            <strong><i>tinyhttp</i></strong> is a modern <a href="https://expressjs.com/">Express</a>-like web framework written in TypeScript and compiled to native ESM, that uses
+            a bare minimum amount of dependencies trying to avoid legacy hell. With depending only on <a href="https://www.npmjs.com/package/@tinyhttp/app">10 modules</a> (3 of
+            which are tinyhttp's), it gives you <strong>routing</strong>, <strong><code>req</code> / <code>res</code> extensions</strong>, <strong>eTag generation</strong> and
+            more.
+          </p>
+          <h3>Full compatability with Express</h3>
+          <p>
+            All middleware that was created for Express, works flawlessly with Express, including typings. In fact, any middleware that uses
+            <code>(req: IncomingMessage, res: ServerResponse, next?: (err?: any) => void)</code> for function arguments, will work with tinyhttp. Check out
+            <a href="https://github.com/talentlessguy/tinyhttp/tree/master/examples/graphql">tinyhttp + express-graphql </a> integration for an example of using Express middleware.
+          </p>
+          <h3>Async middleware support</h3>
+          <p>
+            Unlike Express, tinyhttp supports async / await for routes. There are proper typings for async handlers, and a function checker inside tinyhttp to resolve async
+            functions, and execute sync ones. To say shorter, both sync and async work fine. Check
+            <a href="https://github.com/talentlessguy/tinyhttp/tree/master/examples/async">async</a> or
+            <a href="https://github.com/talentlessguy/tinyhttp/tree/master/examples/mongodb">mongodb</a> examples to see how to make async handlers.
+          </p>
+          <h3>Prebuilt middleware for the smoothest experience</h3>
+          <p>
+            A majority of express middlewares is quite old and don't provide ESM versions and possibly may have type conflicts (even though 90% of the time Express wares' types are
+            ok w/ tinyhttp). So, because of this, we've built a list of our own middlewares for most common tasks in backend development, including
+            <a href="https://github.com/talentlessguy/tinyhttp/tree/master/packages/logger">logger</a>,
+            <a href="https://github.com/talentlessguy/tinyhttp/tree/master/packages/jwt">JWT</a> and
+            <a href="https://github.com/talentlessguy/tinyhttp/tree/master/packages/cors">CORS</a> middlewares.
+          </p>
+          <h3>Completely modular</h3>
+          <p>
+            (Almost) all parts of tinyhttp are splitted into modules. Feel free to use
+            <a href="https://github.com/talentlessguy/tinyhttp/tree/master/packages/etag"><code>@tinyhttp/etag</code></a> or
+            <a href="https://github.com/talentlessguy/tinyhttp/tree/master/packages/cookie"><code>@tinyhttp/cookie</code></a> in any other HTTP application with any web framework
+            (or even without a framework). Same goes to (almost) all of the middlewares.
+          </p>
+        </section>
+      </div>
+      <div id="users">
+        <h2>Projects using tinyhttp</h2>
+        <ul>
+          <li><a href="https://github.com/n1ru4l/graphql-live-queries">graphql-live-queries</a></li>
+          <li>...you?</li>
+        </ul>
+      </div>
     </main>
-    <footer>
-      v1rtl (c) <a href="https://github.com/talentlessguy/tinyhttp/blob/master/LICENSE">MIT License</a>
-    </footer>
+    <footer>v1rtl (c) <a href="https://github.com/talentlessguy/tinyhttp/blob/master/LICENSE">MIT License</a></footer>
     <script src="/js/index.js"></script>
   </body>
 </html>

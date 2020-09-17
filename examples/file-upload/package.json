@@ -1,0 +1,9 @@
+{
+  "name": "file-upload",
+  "private": true,
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*",
+    "formidable": "^1.2.2"
+  },
+  "type": "module"
+}

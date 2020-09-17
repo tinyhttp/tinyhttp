@@ -1,0 +1,10 @@
+{
+  "name": "graphql",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*",
+    "express-graphql": "^0.11.0",
+    "graphql": "^15.3.0"
+  }
+}
