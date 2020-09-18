@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/res",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "type": "module",
   "description": "response extensions for tinyhttp",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -39,7 +39,7 @@
   "dependencies": {
     "@tinyhttp/cookie": "workspace:*",
     "@tinyhttp/cookie-signature": "workspace:*",
-    "@tinyhttp/req": "workspace:^0.0.1",
+    "@tinyhttp/req": "workspace:^0.1.0",
     "@tinyhttp/send": "workspace:*",
     "es-mime-types": "^0.0.15"
   }
