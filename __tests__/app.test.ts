@@ -1,31 +1,15 @@
-import supertest from 'supertest'
 import http from 'http'
 import { readFile } from 'fs/promises'
 import { App } from '../packages/app/src'
 import { renderFile as ejs } from 'ejs'
-import type { Handler } from '../packages/app/src'
-
-export const InitAppAndTest = (handler: Handler, route?: string, method = 'get', settings = {}) => {
-  const app = new App(settings)
-
-  if (route) {
-    app[method.toLowerCase()](route, handler)
-  } else {
-    app.use(handler)
-  }
-
-  const server = app.listen()
-
-  const request = supertest(server)
-
-  return { request, app, server }
-}
+import { InitAppAndTest } from '../test_helpers/initAppAndTest'
+import { makeFetch } from 'supertest-fetch'
 
 describe('Testing App', () => {
   it('should launch a basic server', async () => {
-    const { request } = InitAppAndTest((_req, res) => void res.send('Hello World'))
+    const { fetch } = InitAppAndTest((_req, res) => void res.send('Hello World'))
 
-    await request.get('/').expect(200, 'Hello World')
+    await fetch('/').expect(200, 'Hello World')
   })
   it('should chain middleware', () => {
     const app = new App()
@@ -47,18 +31,18 @@ describe('Testing App', () => {
 
     expect(app.locals.hello).toBe('world')
   })
-  it('Custom noMatchHandler works', (done) => {
+  it('Custom noMatchHandler works', async () => {
     const app = new App({
       noMatchHandler: (req, res) => res.status(404).end(`Oopsie! Page ${req.url} is lost.`),
     })
 
     const server = app.listen()
 
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request.get('/').expect(404, 'Oopsie! Page / is lost.', done)
+    await fetch('/').expect(404, 'Oopsie! Page / is lost.')
   })
-  it('Custom onError works', (done) => {
+  it('Custom onError works', async () => {
     const app = new App({
       onError: (err, req, res) => res.status(500).end(`Ouch, ${err} hurt me on ${req.url} page.`),
     })
@@ -68,24 +52,23 @@ describe('Testing App', () => {
     })
 
     const server = app.listen()
+    const fetch = makeFetch(server)
 
-    const request = supertest(server)
-
-    request.get('/').expect(500, 'Ouch, you hurt me on / page.', done)
+    await fetch('/').expect(500, 'Ouch, you hurt me on / page.')
   })
 
-  it('App works with HTTP 1.1', (done) => {
+  it('App works with HTTP 1.1', async () => {
     const app = new App()
 
     const server = http.createServer()
 
     server.on('request', (req, res) => app.handler(req, res))
 
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request.get('/').expect(404, done)
+    await fetch('/').expect(404)
   })
-  it('req and res inherit properties from previous middlewares', (done) => {
+  it('req and res inherit properties from previous middlewares', async () => {
     const app = new App()
 
     app
@@ -99,11 +82,11 @@ describe('Testing App', () => {
 
     const server = app.listen()
 
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request.get('/').expect(200, { hello: 'world' }, done)
+    await fetch('/').expect(200, { hello: 'world' })
   })
-  it('req and res inherit properties from previous middlewares asynchronously', (done) => {
+  it('req and res inherit properties from previous middlewares asynchronously', async () => {
     const app = new App()
 
     app
@@ -117,29 +100,29 @@ describe('Testing App', () => {
 
     const server = app.listen()
 
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request.get('/').expect(200, 'I am a text file.', done)
+    await fetch('/').expect(200, 'I am a text file.')
   })
 })
 
 describe('Testing App routing', () => {
-  it('should respond on matched route', (done) => {
-    const { request } = InitAppAndTest((_req, res) => void res.send('Hello world'), '/route')
+  it('should respond on matched route', async () => {
+    const { fetch } = InitAppAndTest((_req, res) => void res.send('Hello world'), '/route')
 
-    request.get('/route').expect(200, 'Hello world', done)
+    await fetch('/route').expect(200, 'Hello world')
   })
-  it('"*" should catch all undefined routes', (done) => {
+  it('"*" should catch all undefined routes', async () => {
     const app = new App()
 
     app.get('/route', (_req, res) => void res.send('A different route')).all('*', (_req, res) => void res.send('Hello world'))
 
-    supertest(app.listen()).get('/route').expect(200, 'A different route', done)
+    await makeFetch(app.listen())('/route').expect(200, 'A different route')
   })
-  it('should throw 404 on no routes', (done) => {
-    supertest(new App().listen()).get('/').expect(404, done)
+  it('should throw 404 on no routes', async () => {
+    await makeFetch(new App().listen())('/').expect(404)
   })
-  it('next function skips current middleware', (done) => {
+  it('next function skips current middleware', async () => {
     const app = new App()
 
     app.locals['log'] = 'test'
@@ -151,13 +134,9 @@ describe('Testing App routing', () => {
       })
       .use((_req, res) => void res.json({ ...app.locals }))
 
-    const server = app.listen()
-
-    const request: any = supertest(server)
-
-    request.get('/').expect(200, { log: '/' }, done)
+    await makeFetch(app.listen())('/').expect(200, { log: '/' })
   })
-  it('next function handles errors', (done) => {
+  it('next function handles errors', async () => {
     const app = new App()
 
     app.use((req, res, next) => {
@@ -168,295 +147,202 @@ describe('Testing App routing', () => {
       }
     })
 
-    supertest(app.listen()).get('/broken').expect(500, 'Your appearance destroyed this world.', done)
+    await makeFetch(app.listen())('/broken').expect(500, 'Your appearance destroyed this world.')
   })
 })
 
 describe('Route methods', () => {
-  it('app.get handles get request', (done) => {
+  it('app.get handles get request', async () => {
     const app = new App()
 
     app.get('/', (req, res) => void res.send(req.method))
 
-    supertest(app.listen()).get('/').expect(200, 'GET', done)
+    await makeFetch(app.listen())('/').expect(200, 'GET')
   })
-  it('app.post handles post request', (done) => {
-    const { request } = InitAppAndTest((req, res) => void res.send(req.method), '/', 'POST')
+  it('app.post handles post request', async () => {
+    const { fetch } = InitAppAndTest((req, res) => void res.send(req.method), '/', 'POST')
 
-    request.post('/').expect(200, 'POST', done)
+    await fetch('/', {
+      method: 'POST',
+    }).expect(200, 'POST')
   })
-  it('app.put handles put request', (done) => {
-    const { request } = InitAppAndTest((req, res) => void res.send(req.method), '/', 'PUT')
+  it('app.put handles put request', async () => {
+    const { fetch } = InitAppAndTest((req, res) => void res.send(req.method), '/', 'PUT')
 
-    request.put('/').expect(200, 'PUT', done)
+    await fetch('/', {
+      method: 'PUT',
+    }).expect(200, 'PUT')
   })
-  it('app.patch handles patch request', (done) => {
-    const { request } = InitAppAndTest((req, res) => void res.send(req.method), '/', 'PATCH')
+  it('app.patch handles patch request', async () => {
+    const { fetch } = InitAppAndTest((req, res) => void res.send(req.method), '/', 'PATCH')
 
-    request.patch('/').expect(200, 'PATCH', done)
+    await fetch('/', { method: 'PATCH' }).expect(200, 'PATCH')
   })
-  it('app.head handles head request', (done) => {
+  it('app.head handles head request', async () => {
     const app = new App()
 
     app.head('/', (req, res) => void res.end(req.method))
 
     const server = app.listen()
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request.head('/').expect(200, '' || undefined, done)
+    await fetch('/', { method: 'HEAD' }).expect(200, '' || undefined)
   })
-  it('app.delete handles delete request', (done) => {
+  it('app.delete handles delete request', async () => {
     const app = new App()
 
     app.delete('/', (req, res) => void res.send(req.method))
 
     const server = app.listen()
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request.delete('/').expect(200, 'DELETE', done)
+    await fetch('/', { method: 'DELETE' }).expect(200, 'DELETE')
   })
-  it('app.checkout handles checkout request', (done) => {
+  it('app.checkout handles checkout request', async () => {
     const app = new App()
 
     app.checkout('/', (req, res) => void res.send(req.method))
 
     const server = app.listen()
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request
-      .checkout('/')
-      .expect(200, 'CHECKOUT')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    await fetch('/', { method: 'CHECKOUT' }).expect(200, 'CHECKOUT')
   })
-  it('app.copy handles copy request', (done) => {
+  it('app.copy handles copy request', async () => {
     const app = new App()
 
     app.copy('/', (req, res) => void res.send(req.method))
 
     const server = app.listen()
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request
-      .copy('/')
-      .expect(200, 'COPY')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    await fetch('/', { method: 'COPY' }).expect(200, 'COPY')
   })
-  it('app.lock handles lock request', (done) => {
+  it('app.lock handles lock request', async () => {
     const app = new App()
 
     app.lock('/', (req, res) => void res.send(req.method))
 
     const server = app.listen()
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request
-      .lock('/')
-      .expect(200, 'LOCK')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    await fetch('/', { method: 'LOCK' }).expect(200, 'LOCK')
   })
-  it('app.merge handles merge request', (done) => {
+  it('app.merge handles merge request', async () => {
     const app = new App()
 
     app.merge('/', (req, res) => void res.send(req.method))
 
     const server = app.listen()
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request
-      .merge('/')
-      .expect(200, 'MERGE')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    await fetch('/', { method: 'MERGE' }).expect(200, 'MERGE')
   })
-  it('app.mkactivity handles mkactivity request', (done) => {
+  it('app.mkactivity handles mkactivity request', async () => {
     const app = new App()
 
     app.mkactivity('/', (req, res) => void res.send(req.method))
 
     const server = app.listen()
-    const request = supertest(server)
 
-    request
-      .mkactivity('/')
-      .expect(200, 'MKACTIVITY')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    const fetch = makeFetch(server)
+
+    await fetch('/', { method: 'MKACTIVITY' }).expect(200, 'MKACTIVITY')
   })
-  it('app.mkcol handles mkcol request', (done) => {
+  it('app.mkcol handles mkcol request', async () => {
     const app = new App()
 
     app.mkcol('/', (req, res) => void res.send(req.method))
 
     const server = app.listen()
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request
-      .mkcol('/')
-      .expect(200, 'MKCOL')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    await fetch('/', { method: 'MKCOL' }).expect(200, 'MKCOL')
   })
-  it('app.move handles move request', (done) => {
+  it('app.move handles move request', async () => {
     const app = new App()
 
     app.move('/', (req, res) => void res.send(req.method))
 
     const server = app.listen()
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request
-      .move('/')
-      .expect(200, 'MOVE')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    await fetch('/', { method: 'MOVE' }).expect(200, 'MOVE')
   })
-  it('app.search handles search request', (done) => {
+  it('app.search handles search request', async () => {
     const app = new App()
 
     app.search('/', (req, res) => void res.send(req.method))
 
     const server = app.listen()
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request
-      .search('/')
-      .expect(200, 'SEARCH')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    await fetch('/', { method: 'SEARCH' }).expect(200, 'SEARCH')
   })
-  it('app.notify handles notify request', (done) => {
+  it('app.notify handles notify request', async () => {
     const app = new App()
 
     app.notify('/', (req, res) => void res.send(req.method))
 
     const server = app.listen()
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request
-      .notify('/')
-      .expect(200, 'NOTIFY')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    await fetch('/', { method: 'NOTIFY' }).expect(200, 'NOTIFY')
   })
-  it('app.purge handles purge request', (done) => {
+  it('app.purge handles purge request', async () => {
     const app = new App()
 
     app.purge('/', (req, res) => void res.send(req.method))
 
     const server = app.listen()
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request
-      .purge('/')
-      .expect(200, 'PURGE')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    await fetch('/', { method: 'PURGE' }).expect(200, 'PURGE')
   })
-  it('app.report handles report request', (done) => {
+  it('app.report handles report request', async () => {
     const app = new App()
 
     app.report('/', (req, res) => void res.send(req.method))
 
     const server = app.listen()
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request
-      .report('/')
-      .expect(200, 'REPORT')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    await fetch('/', { method: 'REPORT' }).expect(200, 'REPORT')
   })
-  it('app.subscribe handles subscribe request', (done) => {
+  it('app.subscribe handles subscribe request', async () => {
     const app = new App()
 
     app.subscribe('/', (req, res) => void res.send(req.method))
 
     const server = app.listen()
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request
-      .subscribe('/')
-      .expect(200, 'SUBSCRIBE')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    await fetch('/', { method: 'SUBSCRIBE' }).expect(200, 'SUBSCRIBE')
   })
-  it('app.unsubscribe handles unsubscribe request', (done) => {
+  it('app.unsubscribe handles unsubscribe request', async () => {
     const app = new App()
 
     app.unsubscribe('/', (req, res) => void res.send(req.method))
 
     const server = app.listen()
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request
-      .unsubscribe('/')
-      .expect(200, 'UNSUBSCRIBE')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    await fetch('/', { method: 'UNSUBSCRIBE' }).expect(200, 'UNSUBSCRIBE')
   })
-  it('app.trace handles trace request', (done) => {
+  it('app.trace handles trace request', async () => {
     const app = new App()
 
     app.trace('/', (req, res) => void res.send(req.method))
 
     const server = app.listen()
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request
-      .trace('/')
-      .expect(200, 'TRACE')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    await fetch('/', { method: 'TRACE' }).expect(200, 'TRACE')
   })
 })
 
 describe('Route handlers', () => {
-  it('router accepts array of middlewares', (done) => {
+  it('router accepts array of middlewares', async () => {
     const app = new App()
 
     app.use('/', [
@@ -483,18 +369,11 @@ describe('Route handlers', () => {
 
     const server = app.listen()
 
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request
-      .get('/')
-      .expect(200, 'hello world')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    await fetch('/').expect(200, 'hello world')
   })
-  it('router accepts path as array of middlewares', (done) => {
+  it('router accepts path as array of middlewares', async () => {
     const app = new App()
 
     app.use([
@@ -521,16 +400,9 @@ describe('Route handlers', () => {
 
     const server = app.listen()
 
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request
-      .get('/')
-      .expect(200, 'hello world')
-      .end((err: Error) => {
-        server.close()
-        if (err) return done(err)
-        done()
-      })
+    await fetch('/').expect(200, 'hello world')
   })
   it('sub-app mounts on a specific path', () => {
     const app = new App()
@@ -541,7 +413,7 @@ describe('Route handlers', () => {
 
     expect(subApp.mountpath).toBe('/subapp')
   })
-  it('sub-app handles its own path', (done) => {
+  it('sub-app handles its own path', async () => {
     const app = new App()
 
     const subApp = new App()
@@ -552,11 +424,11 @@ describe('Route handlers', () => {
 
     const server = app.listen()
 
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request.get('/subapp').expect(200, 'Hello World!', done)
+    await fetch('/subapp').expect(200, 'Hello World!')
   })
-  it('sub-app paths get prefixed with the mount path', (done) => {
+  it('sub-app paths get prefixed with the mount path', async () => {
     const app = new App()
 
     const subApp = new App()
@@ -567,14 +439,14 @@ describe('Route handlers', () => {
 
     const server = app.listen()
 
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request.get('/subapp/route').expect(200, 'Hello from /subapp', done)
+    await fetch('/subapp/route').expect(200, 'Hello from /subapp')
   })
 })
 
 describe('Template engines', () => {
-  it('Works with ejs out of the box', (done) => {
+  it('Works with ejs out of the box', async () => {
     const app = new App()
 
     app.engine('ejs', ejs)
@@ -593,8 +465,8 @@ describe('Template engines', () => {
 
     const server = app.listen()
 
-    const request = supertest(server)
+    const fetch = makeFetch(server)
 
-    request.get('/').expect(200, 'Hello from EJS!\n', done)
+    await fetch('/').expect(200, 'Hello from EJS!\n')
   })
 })

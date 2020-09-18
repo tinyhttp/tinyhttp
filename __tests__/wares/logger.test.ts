@@ -1,10 +1,10 @@
 import { App } from '../../packages/app/src'
 import { logger } from '../../packages/logger/src'
 import { cyan, red, magenta, bold } from 'colorette'
-import supertest from 'supertest'
+import { makeFetch } from 'supertest-fetch'
 
 describe('Logger tests', () => {
-  it('should use the timestamp format specified in the `format` property', (done) => {
+  it('should use the timestamp format specified in the `format` property', async (done) => {
     const originalConsoleLog = console.log
 
     console.log = (log: string) => {
@@ -18,16 +18,9 @@ describe('Logger tests', () => {
 
     const server = app.listen()
 
-    const request = supertest(server)
-
-    request
-      .get('/')
-      .expect(404)
-      .end(() => {
-        server.close()
-      })
+    await makeFetch(server)('/').expect(404)
   })
-  it('should enable timestamp if `timestamp` propery is true', (done) => {
+  it('should enable timestamp if `timestamp` propery is true', async (done) => {
     const originalConsoleLog = console.log
 
     console.log = (log: string) => {
@@ -41,17 +34,10 @@ describe('Logger tests', () => {
 
     const server = app.listen()
 
-    const request = supertest(server)
-
-    request
-      .get('/')
-      .expect(404)
-      .end(() => {
-        server.close()
-      })
+    await makeFetch(server)('/').expect(404)
   })
 
-  it('should call a custom output function', (done) => {
+  it('should call a custom output function', async (done) => {
     const customOutput = (log: string) => {
       expect(log).toMatch('GET 404 Not Found /')
       done()
@@ -62,19 +48,12 @@ describe('Logger tests', () => {
 
     const server = app.listen()
 
-    const request = supertest(server)
-
-    request
-      .get('/')
-      .expect(404)
-      .end(() => {
-        server.close()
-      })
+    await makeFetch(server)('/').expect(404)
   })
 
   describe('Color logs', () => {
     const createColorTest = (status, color, done) => {
-      return () => {
+      return async () => {
         const customOutput = (log: string) => {
           if (color === 'cyan') {
             expect(log.split(' ')[1]).toMatch(cyan(bold(status).toString()))
@@ -93,14 +72,7 @@ describe('Logger tests', () => {
 
         const server = app.listen()
 
-        const request = supertest(server)
-
-        request
-          .get('/')
-          .expect(status)
-          .end(() => {
-            server.close()
-          })
+        await makeFetch(server)('/').expect(status)
       }
     }
 
@@ -117,7 +89,7 @@ describe('Logger tests', () => {
     })
   })
   describe('Badge Log', () => {
-    it('should display emoji', (done) => {
+    it('should display emoji', async (done) => {
       const app = new App()
 
       const customOutput = (log: string) => {
@@ -136,16 +108,9 @@ describe('Logger tests', () => {
 
       const server = app.listen()
 
-      const request = supertest(server)
-
-      request
-        .get('/')
-        .expect(200)
-        .end(() => {
-          server.close()
-        })
+      await makeFetch(server)('/').expect(200)
     })
-    it('should not output anything if not passing badge config', (done) => {
+    it('should not output anything if not passing badge config', async (done) => {
       const app = new App()
       const customOutput = (log: string) => {
         expect(log).toMatch('GET 200 OK /')
@@ -158,16 +123,9 @@ describe('Logger tests', () => {
 
       const server = app.listen()
 
-      const request = supertest(server)
-
-      request
-        .get('/')
-        .expect(200)
-        .end(() => {
-          server.close()
-        })
+      await makeFetch(server)('/').expect(200)
     })
-    it('should display both emoji and caption', (done) => {
+    it('should display both emoji and caption', async (done) => {
       const app = new App()
       const customOutput = (log: string) => {
         expect(log).toMatch('✅ GET 200 OK /')
@@ -185,16 +143,9 @@ describe('Logger tests', () => {
 
       const server = app.listen()
 
-      const request = supertest(server)
-
-      request
-        .get('/')
-        .expect(200)
-        .end(() => {
-          server.close()
-        })
+      await makeFetch(server)('/').expect(200)
     })
-    const createEmojiTest = (status: number, expected: string, done: () => void) => {
+    const createEmojiTest = async (status: number, expected: string, done: () => void) => {
       const app = new App()
       const customOutput = (log: string) => {
         expect(log.split(' ')[0]).toMatch(expected)
@@ -212,14 +163,7 @@ describe('Logger tests', () => {
 
       const server = app.listen()
 
-      const request = supertest(server)
-
-      request
-        .get('/')
-        .expect(status)
-        .end(() => {
-          server.close()
-        })
+      await makeFetch(server)('/').expect(status)
     }
     it('should output correct 2XX log', (done) => {
       createEmojiTest(200, '✅', done)

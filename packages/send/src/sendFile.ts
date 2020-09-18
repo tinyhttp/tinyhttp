@@ -3,35 +3,34 @@ import { createReadStream } from 'fs'
 import { isAbsolute, extname } from 'path'
 import { contentType } from 'es-mime-types'
 
-export type SendFileOptions = Partial<{
-  root: string
+export type ReadStreamOptions = Partial<{
+  flags: string
+  encoding: BufferEncoding
+  fd: number
+  mode: number
+  autoClose: boolean
+  emitClose: boolean
+  start: number
+  end: number
+  highWaterMark: number
 }>
 
-export type ReadStreamOptions = {
-  flags?: string
-  encoding?: BufferEncoding
-  fd?: number
-  mode?: number
-  autoClose?: boolean
-  emitClose?: boolean
-  start?: number
-  end?: number
-  highWaterMark?: number
-}
+export type SendFileOptions = ReadStreamOptions &
+  Partial<{
+    root: string
+  }>
 
-export const sendFile = <Request extends I = I, Response extends S = S>(_: Request, res: Response) => (path: string, options?: any, cb?: (err?: any) => void) => {
+export const sendFile = <Request extends I = I, Response extends S = S>(_: Request, res: Response) => (path: string, opts: SendFileOptions, cb?: (err?: any) => void) => {
+  const { root, ...options } = opts
+
   if (!path) {
-    if (typeof path !== 'string') {
-      throw new TypeError('path must be a string to res.sendFile')
-    }
+    if (typeof path !== 'string') throw new TypeError('path must be a string to res.sendFile')
     throw new TypeError('path argument is required to res.sendFile')
   }
 
-  if (!isAbsolute(path)) {
-    throw new TypeError('path must be absolute')
-  }
+  if (!isAbsolute(path)) throw new TypeError('path must be absolute')
 
-  const stream = createReadStream(path, options)
+  const stream = createReadStream(root ? root + path : path, options)
 
   stream.on('error', (err) => void cb(err))
 

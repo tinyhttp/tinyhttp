@@ -1,15 +1,15 @@
 import { SessionManager, MemoryStore } from '../../packages/session/src'
-import { InitAppAndTest } from '../app.test'
+import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 
 describe('session()', () => {
-  it('should work', async (done) => {
+  it('should work', async () => {
     const store = new MemoryStore()
     const getSession = SessionManager({
       store,
       secret: 'test',
     })
 
-    const { request } = InitAppAndTest(async (req, res) => {
+    const { fetch } = InitAppAndTest(async (req, res) => {
       const session = await getSession(req, res)
 
       if (!session.test) {
@@ -21,6 +21,6 @@ describe('session()', () => {
       res.json({ t: session.test })
     })
 
-    request.get('/').expect({ t: 1 }, done)
+    await fetch('/').expect({ t: 1 })
   })
 })

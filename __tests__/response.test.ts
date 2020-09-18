@@ -1,87 +1,80 @@
-import { InitAppAndTest } from './app.test'
+import { InitAppAndTest } from '../test_helpers/initAppAndTest'
 
 describe('Response properties', () => {
-  it('should have default HTTP Response properties', (done) => {
-    const { request } = InitAppAndTest((_req, res) => {
+  it('should have default HTTP Response properties', async () => {
+    const { fetch } = InitAppAndTest((_req, res) => {
       res.status(200).json({
         statusCode: res.statusCode,
         chunkedEncoding: res.chunkedEncoding,
       })
     })
 
-    request.get('/').expect(
-      {
-        statusCode: 200,
-        chunkedEncoding: false,
-      },
-      done
-    )
+    await fetch('/').expect({
+      statusCode: 200,
+      chunkedEncoding: false,
+    })
   })
 })
 
 describe('Response methods', () => {
   it('res.json stringifies the object', async () => {
-    const { request } = InitAppAndTest((_req, res) => {
+    const { fetch } = InitAppAndTest((_req, res) => {
       res.json({ hello: 'world' })
     })
 
-    const res = await request.get('/')
-
-    expect(res.body).toStrictEqual({ hello: 'world' })
+    await fetch('/').expect({ hello: 'world' })
   })
   it('res.send sends plain text data', async () => {
-    const { request } = InitAppAndTest((_req, res) => {
+    const { fetch } = InitAppAndTest((_req, res) => {
       res.send('Hello world')
     })
 
-    const res = await request.get('/')
-
-    expect(res.text).toBe('Hello world')
+    await fetch('/').expect('Hello world')
   })
-  it('res.send falls back to res.json when sending objects', (done) => {
-    const { request } = InitAppAndTest((_req, res) => {
+  it('res.send falls back to res.json when sending objects', async () => {
+    const { fetch } = InitAppAndTest((_req, res) => {
       res.send({ hello: 'world' })
     })
 
-    request.get('/').expect({ hello: 'world' }, done)
+    await fetch('/').expect({ hello: 'world' })
   })
-  it('res.status sends status', (done) => {
-    const { request } = InitAppAndTest((_req, res) => {
+  it('res.status sends status', async () => {
+    const { fetch } = InitAppAndTest((_req, res) => {
       res.status(418).end()
     })
 
-    request.get('/').expect(418, done)
+    await fetch('/').expect(418)
   })
-  it('res.sendStatus sends status + text', (done) => {
-    const { request } = InitAppAndTest((_req, res) => {
+  it('res.sendStatus sends status + text', async () => {
+    const { fetch } = InitAppAndTest((_req, res) => {
       res.sendStatus(418)
     })
 
-    request.get('/').expect(418, "I'm a Teapot", done)
+    await fetch('/').expect(418, "I'm a Teapot")
   })
-  it('res.location sends "Location" header', (done) => {
-    const { request } = InitAppAndTest((_req, res) => {
+  it('res.location sends "Location" header', async () => {
+    const { fetch } = InitAppAndTest((_req, res) => {
       res.location('example.com').end()
     })
 
-    request.get('/').expect('Location', 'example.com', done)
+    await fetch('/').expect('Location', 'example.com')
   })
-  it('res.set sets headers', (done) => {
-    const { request } = InitAppAndTest((_req, res) => {
+  it('res.set sets headers', async () => {
+    const { fetch } = InitAppAndTest((_req, res) => {
       res.set('X-Header', 'Hello World').end()
     })
 
-    request.get('/').expect('X-Header', 'Hello World', done)
+    await fetch('/').expect('X-Header', 'Hello World')
   })
-  it('res.send sets proper headers', (done) => {
-    const { request } = InitAppAndTest((_req, res) => {
+  it('res.send sets proper headers', async () => {
+    const { fetch } = InitAppAndTest((_req, res) => {
       res.send({ hello: 'world' })
     })
 
-    request.get('/').expect('Content-Type', 'application/json').expect('Content-Length', '22', done)
+    await fetch('/').expect('Content-Type', 'application/json').expect('Content-Length', '22')
   })
-  it('res.links sends links', (done) => {
-    const { request } = InitAppAndTest((_req, res) => {
+  it('res.links sends links', async () => {
+    const { fetch } = InitAppAndTest((_req, res) => {
       res
         .links({
           next: 'http://api.example.com/users?page=2',
@@ -90,13 +83,13 @@ describe('Response methods', () => {
         .end()
     })
 
-    request.get('/').expect('Link', '<http://api.example.com/users?page=2>; rel="next", <http://api.example.com/users?page=5>; rel="last"', done)
+    await fetch('/').expect('Link', '<http://api.example.com/users?page=2>; rel="next", <http://api.example.com/users?page=5>; rel="last"')
   })
-  it('res.cookie sends cookies to client', (done) => {
-    const { request } = InitAppAndTest((_req, res) => {
+  it('res.cookie sends cookies to client', async () => {
+    const { fetch } = InitAppAndTest((_req, res) => {
       res.cookie('Hello', 'World').end()
     })
 
-    request.get('/').expect('Set-Cookie', 'Hello=World; Path=/', done)
+    await fetch('/').expect('Set-Cookie', 'Hello=World; Path=/')
   })
 })
