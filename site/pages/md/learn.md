@@ -43,7 +43,14 @@
    	<li><a href="#routing">Routing</a></li>
     <li><a href="#subapps">Subapps</a></li>
     <li><a href="#error-handling">Error handling</a></li>
-    <li><a href="#template-engines">Template engines></a></li>
+    <li><a href="#template-engines">Template engines</a></li>
+  </ul>
+  <a href="#common-tasks"><h2>Common tasks</h2></a>
+  <ul>
+    <li><a href="#static-server">Static server</a></li>
+    <li><a href="#template-engine">Template engine</a></li>
+    <li><a href="#logger">Logger</a></li>
+    <li><a href="#session">Session</a></li>
   </ul>
   <a href="#advanced-topics"><h2>Advanced topics</h2></a>
   <ul>
