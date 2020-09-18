@@ -1,5 +1,11 @@
 # @tinyhttp/session
 
+## 0.0.6
+
+### Patch Changes
+
+- Add more alternatives to logger and session modules
+
 ## 0.0.5
 
 ### Patch Changes

@@ -46,8 +46,11 @@ app
 
 ## Alternatives
 
-- [Pino](https://github.com/pinojs/pino)
-- [Zoya](https://github.com/WoLfulus/zoya)
+- [Pino](https://getpino.io) - super fast, all natural json logger.
+- [Zoya](https://github.com/WoLfulus/zoya) - Truly highly composable logging utility.
+- [Morgan](https://github.com/expressjs/morgan) - HTTP request logger middleware for node.js
+- [concurrency-logger](https://github.com/pablosichert/concurrency-logger) - Log HTTP requests/responses separately, visualize their concurrency and report logs/errors in context of a request
+- [Volleyball](https://github.com/glebec/volleyball) - Tiny HTTP logger for Express showing asynchronous requests and responses
 
 ## License
 

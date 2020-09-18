@@ -88,7 +88,7 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
 
   /**
    * Render a template
-   * @param name What to render
+   * @param file What to render
    * @param data data that is passed to a template
    * @param options Template engine options
    * @param cb Callback that consumes error and html
@@ -96,6 +96,7 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
   render(file: string, data: Record<string, any> = {}, cb: (err: unknown, html: unknown) => void, options: TemplateEngineOptions<RenderOptions> = {}) {
     options.viewsFolder = options.viewsFolder || `${process.cwd()}/views`
     options.ext = options.ext || file.slice(file.lastIndexOf('.') + 1) || 'ejs'
+
     options._locals = options._locals || {}
 
     options.cache = options.cache || process.env.NODE_ENV === 'production'
@@ -108,7 +109,13 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
 
     if (!file.endsWith(`.${options.ext}`)) file = file + `.${options.ext}`
 
-    return this.engines[options.ext](options.viewsFolder ? path.join(options.viewsFolder, file) : file, locals, options.renderOptions, cb)
+    const dest = options.viewsFolder ? path.join(options.viewsFolder, file) : file
+
+    const engine = this.engines[options.ext]
+
+    const result = engine(dest, locals, options.renderOptions, cb)
+
+    return result
   }
   /**
    * Register a template engine with extension

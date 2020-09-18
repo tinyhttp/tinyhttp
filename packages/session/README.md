@@ -89,8 +89,10 @@ server.listen(3000)
 
 ## Alternatives
 
-- [express-session](https://github.com/expressjs/session)
-- [micro-session](https://github.com/meyer9/micro-session)
+- [express-session](https://github.com/expressjs/session) - Simple session middleware for Express
+- [micro-session](https://github.com/meyer9/micro-session) - Session middleware for micro
+- [next-session](https://github.com/hoangvvo/next-session) - Simple promise-based session middleware for Next.js, micro, Express, and more
+- [node-client-sessions](https://github.com/mozilla/node-client-sessions) - secure sessions stored in cookies
 
 ## License
 

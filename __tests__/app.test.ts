@@ -1,7 +1,8 @@
 import http from 'http'
 import { readFile } from 'fs/promises'
 import { App } from '../packages/app/src'
-import { renderFile as ejs } from 'ejs'
+import { renderFile } from 'eta'
+import type { EtaConfig } from 'eta/dist/types/config'
 import { InitAppAndTest } from '../test_helpers/initAppAndTest'
 import { makeFetch } from 'supertest-fetch'
 
@@ -446,16 +447,16 @@ describe('Route handlers', () => {
 })
 
 describe('Template engines', () => {
-  it('Works with ejs out of the box', async () => {
-    const app = new App()
+  it('Works with eta out of the box', async () => {
+    const app = new App<EtaConfig>()
 
-    app.engine('ejs', ejs)
+    app.engine('eta', renderFile)
 
     app.use((_, res) => {
       res.render(
-        'index.ejs',
+        'index.eta',
         {
-          name: 'EJS',
+          name: 'Eta',
         },
         {
           viewsFolder: `${process.cwd()}/__tests__/fixtures/views`,
@@ -467,6 +468,6 @@ describe('Template engines', () => {
 
     const fetch = makeFetch(server)
 
-    await fetch('/').expect(200, 'Hello from EJS!\n')
+    await fetch('/').expectBody('Hello from Eta')
   })
 })

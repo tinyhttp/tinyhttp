@@ -416,27 +416,60 @@ In order to use an engine, you should first register it so later the render func
 
 ```js
 import { App } from '@tinyhttp/app'
-import ejs from 'ejs'
+import eta from 'eta'
 
 const app = new App()
 
-app.engine('ejs', ejs.renderFile) // maps app.engines['ejs'] to ejs.renderFile function
+app.engine('eta', eta.renderFile) // maps app.engines['eta'] to eta.renderFile function
 ```
 
 And now we can render any template file using `res.render`:
 
 ```js
 import { App } from '@tinyhttp/app'
-import ejs from 'ejs'
+import eta from 'eta'
 
 const app = new App()
 
-app.engine('ejs', ejs.renderFile)
+app.engine('eta', eta.renderFile)
 
-app.use((_, res) => void res.render('index.ejs', { name: 'EJS' }))
+app.use((_, res) => void res.render('index.eta', { name: 'Eta' }))
 
 app.listen(3000, () => console.log(`Listening on http://localhost:3000`))
 ```
+
+## Common tasks
+
+As a rule, when you develop web applications, a web framework is not enough. This section will show some of the options to solve common problems, such as static serving, logging, etc.
+
+### Static server
+
+- [sirv](https://github.com/lukeed/sirv) - An optimized middleware & CLI application for serving static files
+- [serve-handler](https://github.com/vercel/serve-handler) - The foundation of `serve`
+- [serve-static](https://github.com/expressjs/serve-static) - Serve static files
+
+### Template engine
+
+- [Eta](https://eta.js.org/) - Embedded JS template engine for Node, Deno, and the browser. Lighweight, fast, and pluggable. Written in TypeScript
+- [express-handlebars](https://github.com/ericf/express-handlebars) - A Handlebars view engine for Express which doesn't suck
+- [EJS](https://github.com/tj/ejs) - Embedded JavaScript templates for node
+
+### Logger
+
+- [@tinyhttp/logger](https://tinyhttp.v1rtl.site/mw/logger) - Simple HTTP logger for tinyhttp
+- [Pino](https://getpino.io) - super fast, all natural json logger
+- [Zoya](https://github.com/WoLfulus/zoya) - Truly highly composable logging utility
+- [Morgan](https://github.com/expressjs/morgan) - HTTP request logger middleware for Node.js
+- [concurrency-logger](https://github.com/pablosichert/concurrency-logger) - Log HTTP requests/responses separately, visualize their concurrency and report logs/errors in context of a request
+- [Volleyball](https://github.com/glebec/volleyball) - Tiny HTTP logger for Express showing asynchronous requests and responses
+
+### Session
+
+- [@tinyhttp/session](https://tinyhttp.v1rtl.site/mw/session) - Session middleware for tinyhttp. A rewrite of [micro-session](https://github.com/meyer9/micro-session).
+- [express-session](https://github.com/expressjs/session) - Simple session middleware for Express
+- [micro-session](https://github.com/meyer9/micro-session) - Session middleware for micro
+- [next-session](https://github.com/hoangvvo/next-session) - Simple promise-based session middleware for Next.js, micro, Express, and more
+- [node-client-sessions](https://github.com/mozilla/node-client-sessions) - secure sessions stored in cookies
 
 ## Advanced topics
 

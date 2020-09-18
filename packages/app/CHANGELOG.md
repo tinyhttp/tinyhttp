@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.2.81
+
+### Patch Changes
+
+- Add more alternatives to logger and session modules
+
 ## 0.2.80
 
 ### Patch Changes
