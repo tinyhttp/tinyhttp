@@ -1,4 +1,4 @@
-![](https://tinyhttp.v1rtl.site/cover.jpg)
+![](tinyhttp.v1rtl.site/cover.jpg)
 
 <div align="center">
 <h1>tinyhttp</h1>
