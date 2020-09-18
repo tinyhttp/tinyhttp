@@ -1,5 +1,11 @@
 # @tinyhttp/res
 
+## 0.1.2
+
+### Patch Changes
+
+- Fix typings and make val optional
+
 ## 0.1.1
 
 ### Patch Changes

@@ -6,7 +6,7 @@ const charsetRegExp = /;\s*charset\s*=/
 
 export const setHeader = <Request extends I = I, Response extends S = S>(_req: Request, res: Response) => (
   field: string | Record<string, string | number | string[]>,
-  val: string | any[]
+  val?: string | any[]
 ) => {
   if (typeof field === 'string') {
     let value = Array.isArray(val) ? val.map(String) : String(val)
