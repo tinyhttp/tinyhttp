@@ -91,14 +91,3 @@ describe('Request properties', () => {
     await fetch('/').expect(200, `secure: false`)
   })
 })
-
-describe('Request methods', () => {
-  it('req.set sets the header and req.get returns a header', async () => {
-    const { fetch } = InitAppAndTest((req, res) => {
-      req.set('X-Header', '123')
-      res.end(req.get('X-Header'))
-    })
-
-    await fetch('/').expect(200, `123`)
-  })
-})

@@ -1,19 +1,7 @@
-import { getRouteFromApp, Request } from './request'
+import { Request } from './request'
 import type { Response } from './response'
 
-import {
-  getQueryParams,
-  getProtocol,
-  getRangeFromHeader,
-  checkIfXMLHttpRequest,
-  getHostname,
-  getIP,
-  getIPs,
-  getRequestHeader,
-  setRequestHeader,
-  getFreshOrStale,
-  getAccepts,
-} from './request'
+import { getQueryParams, getProtocol, getRangeFromHeader, checkIfXMLHttpRequest, getHostname, getIP, getIPs, getRequestHeader, getFreshOrStale, getAccepts } from './request'
 import { send, json, status, setCookie, clearCookie, setHeader, getResponseHeader, setLocationHeader, setLinksHeader, sendStatus, renderTemplate } from './response'
 import { App } from './app'
 import { sendFile } from '@tinyhttp/res'
@@ -57,7 +45,6 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response) => {
     req.stale = !req.fresh
   }
 
-  req.set = setRequestHeader(req)
   req.range = getRangeFromHeader(req)
   req.accepts = getAccepts(req)
 

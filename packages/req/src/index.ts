@@ -15,10 +15,6 @@ export const getRequestHeader = (req: Request) => (header: string): string | str
   }
 }
 
-export const setRequestHeader = (req: Request) => (field: string, value: string) => {
-  return (req.headers[field.toLowerCase()] = value)
-}
-
 export const getRangeFromHeader = (req: Request) => (size: number, options?: Options) => {
   const range = getRequestHeader(req)('Range') as string
 

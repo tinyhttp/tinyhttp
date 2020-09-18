@@ -1,5 +1,14 @@
 # @tinyhttp/app
 
+## 0.3.3
+
+### Patch Changes
+
+- minor fixes
+- Updated dependencies [undefined]
+  - @tinyhttp/req@0.1.1
+  - @tinyhttp/res@0.1.3
+
 ## 0.3.2
 
 ### Patch Changes

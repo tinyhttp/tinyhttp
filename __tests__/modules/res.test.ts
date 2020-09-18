@@ -3,7 +3,7 @@ import { getResponseHeader, setHeader } from '../../packages/res/src'
 import { runServer } from '../../test_helpers/runServer'
 
 describe('Response extensions', () => {
-  describe('setHeader(field, val)', () => {
+  describe('res.set(field, val)', () => {
     it('should set a string header with a string value', async () => {
       const app = runServer((req, res) => {
         setHeader(req, res)('hello', 'World')
@@ -39,7 +39,7 @@ describe('Response extensions', () => {
       await makeFetch(app)('/').expectHeader('foo', 'bar')
     })
   })
-  describe('getHeader(field)', () => {
+  describe('res.get(field)', () => {
     it('should get a header with a specified field', async () => {
       const app = runServer((req, res) => {
         setHeader(req, res)('hello', 'World')
