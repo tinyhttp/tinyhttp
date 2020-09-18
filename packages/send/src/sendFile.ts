@@ -20,6 +20,16 @@ export type SendFileOptions = ReadStreamOptions &
     root: string
   }>
 
+/**
+ * Sends a file by piping a stream to response.
+ *
+ * It also checks for extension to set a proper `Content-Type` header.
+ *
+ * Path argument must be absolute. To use a relative path, specify the `root` option first.
+ *
+ * @param _ Request
+ * @param res Response
+ */
 export const sendFile = <Request extends I = I, Response extends S = S>(_: Request, res: Response) => (path: string, opts: SendFileOptions, cb?: (err?: any) => void) => {
   const { root, ...options } = opts
 

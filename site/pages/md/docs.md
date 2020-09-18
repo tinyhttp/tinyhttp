@@ -111,6 +111,7 @@
     <li><a href="#ressend">res.send</a></li>
     <li><a href="#resstatus">res.status</a></li>
     <li><a href="#ressendstatus">res.sendStatus</a></li>
+    <li><a href="#ressendfile">res.sendFile</a></li>
     <li><a href="#resset">res.set</a></li>
     <li><a href="#reslinks">res.links</a></li>
     <li><a href="#reslocation">res.location</a></li>
@@ -786,6 +787,18 @@ If an unsupported status code is specified, the HTTP status is still set to stat
 
 ```ts
 res.sendStatus(9999) // equivalent to res.status(9999).send('9999')
+```
+
+#### `res.sendFile`
+
+Sends a file by piping a stream to response. It also checks for extension to set a proper `Content-Type` header.
+
+> Path argument must be absolute. To use a relative path, specify the `root` option first.
+
+##### Example
+
+```js
+res.sendFile('song.mp3', { root: process.cwd() }, (err) => console.log(err))
 ```
 
 [More about HTTP Status Codes](http://en.wikipedia.org/wiki/List_of_HTTP_status_codes)

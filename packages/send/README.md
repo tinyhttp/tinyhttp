@@ -46,7 +46,7 @@ res.json({ user: 'tobi' })
 res.status(500).json({ error: 'message' })
 ```
 
-### `status(number)`
+### `status(number)` [![][doc-badge]](https://tinyhttp.v1rtl.site/docs#resstatus)
 
 Sets the HTTP status for the response. It is a chainable alias of Node’s `response.statusCode`.
 
@@ -57,7 +57,7 @@ res.status(403).end()
 res.status(400).send('Bad Request')
 ```
 
-### `sendStatus`
+### `sendStatus` [![][doc-badge]](https://tinyhttp.v1rtl.site/docs#ressendstatus)
 
 Sets the response HTTP status code to statusCode and send its string representation as the response body.
 
@@ -71,6 +71,18 @@ res.sendStatus(500) // equivalent to res.status(500).send('Internal Server Error
 ```
 
 If an unsupported status code is specified, the HTTP status is still set to statusCode and the string version of the code is sent as the response body.
+
+### `sendFile` [![][doc-badge]](https://tinyhttp.v1rtl.site/docs#ressendfile)
+
+Sends a file by piping a stream to response. It also checks for extension to set a proper `Content-Type` header.
+
+> Path argument must be absolute. To use a relative path, specify the `root` option first.
+
+##### Example
+
+```js
+res.sendFile('song.mp3', { root: process.cwd() }, (err) => console.log(err))
+```
 
 ## Example
 

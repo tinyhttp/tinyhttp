@@ -1,5 +1,11 @@
 # @tinyhttp/send
 
+## 0.0.4
+
+### Patch Changes
+
+- Add jsdoc comments to sendFile
+
 ## 0.0.3
 
 ### Patch Changes
