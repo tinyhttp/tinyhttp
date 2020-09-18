@@ -1,5 +1,11 @@
 # @tinyhttp/cookie
 
+## 0.2.1
+
+### Patch Changes
+
+- Format switch case in @tinyhttp/cookie
+
 ## 0.2.0
 
 ### Minor Changes

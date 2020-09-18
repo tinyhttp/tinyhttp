@@ -131,13 +131,11 @@ export function serialize(name: string, val: string, opt: SerializeOptions = {})
 
     switch (sameSite) {
       case true:
+      case 'strict':
         str += '; SameSite=Strict'
         break
       case 'lax':
         str += '; SameSite=Lax'
-        break
-      case 'strict':
-        str += '; SameSite=Strict'
         break
       case 'none':
         str += '; SameSite=None'

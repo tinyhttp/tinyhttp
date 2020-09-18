@@ -90,10 +90,29 @@ describe('Cookie serializing', () => {
       })
     ).toBe('foo=bar; SameSite=None')
   })
+  it('should throw on invalid "sameSite" option', () => {
+    try {
+      cookie.serialize('foo', 'bar', {
+        sameSite: 'blah blah',
+      })
+    } catch (e) {
+      expect((e as TypeError).message).toBe('option sameSite is invalid')
+    }
+  })
   it('should do escaping', () => {
     expect(cookie.serialize('cat', '+ ')).toBe('cat=%2B%20')
   })
   it('should parse serialized cookies', () => {
     expect(cookie.parse(cookie.serialize('cat', 'foo=123&name=baz five'))).toStrictEqual({ cat: 'foo=123&name=baz five' })
+  })
+  it('should throw on invalid `expires` format', () => {
+    try {
+      cookie.serialize('foo', 'bar', {
+        // @ts-ignore
+        expires: 'foobar',
+      })
+    } catch (e) {
+      expect((e as TypeError).message).toBe('option expires is invalid')
+    }
   })
 })
