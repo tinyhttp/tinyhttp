@@ -1,4 +1,4 @@
-import supertest from 'supertest'
+import { makeFetch } from 'supertest-fetch'
 import { setHeader } from '../../packages/res/src'
 import { runServer } from '../../test_helpers/runServer'
 
@@ -9,8 +9,8 @@ describe('setHeader(field, val)', () => {
       res.end()
     })
 
-    const res = await supertest(app).get('/')
+    const res = await makeFetch(app)('/')
 
-    expect(res.headers['hello']).toBe('World')
+    expect(res.headers.get('hello')).toBe('World')
   })
 })

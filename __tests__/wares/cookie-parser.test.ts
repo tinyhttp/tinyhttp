@@ -1,8 +1,8 @@
 import { Response, Request } from '../../packages/app/src'
 import { cookieParser, JSONCookie, signedCookie, signedCookies } from '../../packages/cookie-parser/src'
 import * as signature from '../../packages/cookie-signature/src'
-import request from 'supertest'
 import http from 'http'
+import { makeFetch } from 'supertest-fetch'
 
 function createServer(secret?: any) {
   const _parser = cookieParser(secret)
@@ -20,25 +20,37 @@ function createServer(secret?: any) {
   })
 }
 
-describe('cookieParser()', function () {
+describe('cookieParser()', () => {
   describe('when cookies are sent', function () {
-    it('should populate req.cookies', function (done) {
-      request(createServer('keyboard cat')).get('/').set('Cookie', 'foo=bar; bar=baz').expect(200, '{"foo":"bar","bar":"baz"}', done)
+    it('should populate req.cookies', async () => {
+      await makeFetch(createServer('keyboard cat'))('/', {
+        headers: {
+          Cookie: 'foo=bar; bar=baz',
+        },
+      }).expect(200, '{"foo":"bar","bar":"baz"}')
     })
 
-    it('should inflate JSON cookies', function (done) {
-      request(createServer('keyboard cat')).get('/').set('Cookie', 'foo=j:{"foo":"bar"}').expect(200, '{"foo":{"foo":"bar"}}', done)
+    it('should inflate JSON cookies', async () => {
+      await makeFetch(createServer('keyboard cat'))('/', {
+        headers: {
+          Cookie: 'foo=j:{"foo":"bar"}',
+        },
+      }).expect(200, '{"foo":{"foo":"bar"}}')
     })
 
-    it('should not inflate invalid JSON cookies', function (done) {
-      request(createServer('keyboard cat')).get('/').set('Cookie', 'foo=j:{"foo":').expect(200, '{"foo":"j:{\\"foo\\":"}', done)
+    it('should not inflate invalid JSON cookies', async () => {
+      await makeFetch(createServer('keyboard cat'))('/', {
+        headers: {
+          Cookie: 'foo=j:{"foo":',
+        },
+      }).expect(200, '{"foo":"j:{\\"foo\\":"}')
     })
   })
 
   /*  describe('when req.cookies exists', function () {
-    it('should do nothing', function (done) {
+    it('should do nothing', async () => {
       const _parser = cookieParser()
-      const server = http.createServer(function (req: Request, res: Response) {
+      const server = http.createServer(function (req: await makeFetch, res: Response) {
         req.cookies = { fizz: 'buzz' }
         _parser(req, res, function (err) {
           if (err) {
@@ -51,7 +63,7 @@ describe('cookieParser()', function () {
         })
       })
 
-      request(server).get('/').set('Cookie', 'foo=bar; bar=baz').expect(200, '{"fizz":"buzz"}', done)
+      await makeFetch(server).get('/').set('Cookie', 'foo=bar; bar=baz').expect(200, '{"fizz":"buzz"}', done)
     })
   }) */
 
@@ -59,42 +71,46 @@ describe('cookieParser()', function () {
     const val = signature.sign('foobarbaz', 'keyboard cat')
     // TODO: "bar" fails...
 
-    it('should populate req.signedCookies', function (done) {
-      request(createServer('keyboard cat'))
-        .get('/signed')
-        .set('Cookie', 'foo=s:' + val)
-        .expect(200, '{"foo":"foobarbaz"}', done)
+    it('should populate req.signedCookies', async () => {
+      await makeFetch(createServer('keyboard cat'))('/signed', {
+        headers: {
+          Cookie: 'foo=s:' + val,
+        },
+      }).expect(200, '{"foo":"foobarbaz"}')
     })
 
-    it('should remove the signed value from req.cookies', function (done) {
-      request(createServer('keyboard cat'))
-        .get('/')
-        .set('Cookie', 'foo=s:' + val)
-        .expect(200, '{}', done)
+    it('should remove the signed value from req.cookies', async () => {
+      await makeFetch(createServer('keyboard cat'))('/', {
+        headers: {
+          Cookie: 'foo=s:' + val,
+        },
+      }).expect(200, '{}')
     })
 
-    it('should omit invalid signatures', function (done) {
+    it('should omit invalid signatures', async () => {
       const server = createServer('keyboard cat')
 
-      request(server)
-        .get('/signed')
-        .set('Cookie', 'foo=' + val + '3')
-        .expect(200, '{}', function (err) {
-          if (err) return done(err)
-          request(server)
-            .get('/')
-            .set('Cookie', 'foo=' + val + '3')
-            .expect(200, '{"foo":"foobarbaz.CP7AWaXDfAKIRfH49dQzKJx7sKzzSoPq7/AcBBRVwlI3"}', done)
-        })
+      await makeFetch(server)('/signed', {
+        headers: {
+          Cookie: `foo=${val}3`,
+        },
+      }).expect(200, '{}')
+
+      await makeFetch(server)('/', {
+        headers: {
+          Cookie: `foo=${val}3`,
+        },
+      }).expect(200, '{"foo":"foobarbaz.CP7AWaXDfAKIRfH49dQzKJx7sKzzSoPq7/AcBBRVwlI3"}')
     })
   })
 
   describe('when multiple secrets are given', function () {
-    it('should populate req.signedCookies', function (done) {
-      request(createServer(['keyboard cat', 'nyan cat']))
-        .get('/signed')
-        .set('Cookie', 'buzz=s:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE; fizz=s:foobar.JTCAgiMWsnuZpN3mrYnEUjXlGxmDi4POCBnWbRxse88')
-        .expect(200, '{"buzz":"foobar","fizz":"foobar"}', done)
+    it('should populate req.signedCookies', async () => {
+      await makeFetch(createServer(['keyboard cat', 'nyan cat']))('/signed', {
+        headers: {
+          Cookie: 'buzz=s:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE; fizz=s:foobar.JTCAgiMWsnuZpN3mrYnEUjXlGxmDi4POCBnWbRxse88',
+        },
+      }).expect(200, '{"buzz":"foobar","fizz":"foobar"}')
     })
   })
 
@@ -103,13 +119,13 @@ describe('cookieParser()', function () {
 
     beforeEach(() => (server = createServer()))
 
-    it('should populate req.cookies', function (done) {
-      request(server).get('/').set('Cookie', 'foo=bar; bar=baz').expect(200, '{"foo":"bar","bar":"baz"}', done)
+    it('should populate req.cookies', async () => {
+      await makeFetch(server).get('/').set('Cookie', 'foo=bar; bar=baz').expect(200, '{"foo":"bar","bar":"baz"}', done)
     })
 
-    it('should not populate req.signedCookies', function (done) {
+    it('should not populate req.signedCookies', async () => {
       var val = signature.sign('foobarbaz', 'keyboard cat')
-      request(server)
+      await makeFetch(server)
         .get('/signed')
         .set('Cookie', 'foo=s:' + val)
         .expect(200, '{}', done)
