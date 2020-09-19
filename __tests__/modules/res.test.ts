@@ -1,5 +1,6 @@
 import { makeFetch } from 'supertest-fetch'
-import { getResponseHeader, setHeader, setVaryHeader } from '../../packages/res/src'
+import { Request, Response } from '../../packages/app/src'
+import { formatResponse, getResponseHeader, redirect, setHeader, setVaryHeader } from '../../packages/res/src'
 import { runServer } from '../../test_helpers/runServer'
 
 describe('Response extensions', () => {
@@ -52,11 +53,65 @@ describe('Response extensions', () => {
   describe('res.vary(field)', () => {
     it('should set a "Vary" header properly', async () => {
       const app = runServer((req, res) => {
-        setVaryHeader(req, res)('User-Agent')
-        res.end()
+        setVaryHeader(req, res)('User-Agent').end()
       })
 
       await makeFetch(app)('/').expect('Vary', 'User-Agent')
+    })
+  })
+  describe('res.redirect(url, status)', () => {
+    it('should set 302 status and message about redirecting', async () => {
+      const app = runServer((req, res) => {
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        redirect(req, res, () => {})('/abc').end()
+      })
+
+      await makeFetch(app)('/', {
+        redirect: 'manual',
+      }).expect(302, 'Found. Redirecting to /abc')
+    })
+    it('should follow the redirect', async () => {
+      const app = runServer((req, res) => {
+        if (req.url === '/abc') {
+          res.writeHead(200).end('Hello World')
+        } else {
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          redirect(req, res, () => {})('/abc').end()
+        }
+      })
+
+      await makeFetch(app)('/', {
+        redirect: 'follow',
+      }).expect(200, 'Hello World')
+    })
+  })
+  describe('res.format(obj)', () => {
+    it('should send text by default', async () => {
+      const app = runServer((req, res) => {
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        formatResponse(req, res, () => {})({
+          text: (_: Request, res: Response) => res.end(`Hello World`),
+        }).end()
+      })
+
+      await makeFetch(app)('/').expect(200, 'Hello World')
+    })
+    it('should send HTML if specified in "Accepts" header', async () => {
+      const app = runServer((req, res) => {
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        formatResponse(req, res, () => {})({
+          text: (_: Request, res: Response) => res.end(`Hello World`),
+          html: (_: Request, res: Response) => res.end('<h1>Hello World</h1>'),
+        }).end()
+      })
+
+      await makeFetch(app)('/', {
+        headers: {
+          Accept: 'text/html',
+        },
+      })
+        .expect(200, '<h1>Hello World</h1>')
+        .expectHeader('Content-Type', 'text/html')
     })
   })
 })

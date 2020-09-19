@@ -1,5 +1,18 @@
 # @tinyhttp/req
 
+## 0.1.3
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/accepts@0.1.2
+
+## 0.1.2
+
+### Patch Changes
+
+- add res.redirect and res.format, transfer es-accepts to @tinyhttp/accepts
+
 ## 0.1.1
 
 ### Patch Changes

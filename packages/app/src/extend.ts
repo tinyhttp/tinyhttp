@@ -1,9 +1,25 @@
 import { Request } from './request'
+import type { NextFunction } from '@tinyhttp/router'
 import type { Response } from './response'
 
 import { getAccepts, getFreshOrStale, getRangeFromHeader, getRequestHeader, checkIfXMLHttpRequest } from '@tinyhttp/req'
 import { getQueryParams, getProtocol, getHostname, getIP, getIPs } from './request'
-import { send, json, status, setCookie, clearCookie, setHeader, getResponseHeader, setLocationHeader, setLinksHeader, sendStatus, setVaryHeader, sendFile } from '@tinyhttp/res'
+import {
+  send,
+  json,
+  status,
+  setCookie,
+  clearCookie,
+  setHeader,
+  getResponseHeader,
+  setLocationHeader,
+  setLinksHeader,
+  sendStatus,
+  setVaryHeader,
+  sendFile,
+  formatResponse,
+  redirect,
+} from '@tinyhttp/res'
 import { renderTemplate } from './response'
 import { App } from './app'
 
@@ -11,7 +27,7 @@ import { App } from './app'
  * Extends Request and Response objects with custom properties and methods
  * @param options App settings
  */
-export const extendMiddleware = (app: App) => (req: Request, res: Response) => {
+export const extendMiddleware = (app: App) => (req: Request, res: Response, next: NextFunction) => {
   const options = app.settings
 
   /// Define extensions
@@ -73,4 +89,8 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response) => {
   res.clearCookie = clearCookie<Request, Response>(req, res)
 
   res.render = renderTemplate(req, res, app)
+
+  res.format = formatResponse(req, res, next)
+
+  res.redirect = redirect(req, res, next)
 }

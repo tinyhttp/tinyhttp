@@ -146,8 +146,6 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
       app.handler(req, res)
     }
 
-    extendMiddleware(this)(req, res)
-
     const noMatchMW: Middleware = {
       handler: this.noMatchHandler,
       type: 'mw',
@@ -169,6 +167,8 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
 
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
       const { path, method, handler, type } = mw
+
+      extendMiddleware(this)(req, res, next)
 
       if (type === 'route') {
         if (req.method === method) {

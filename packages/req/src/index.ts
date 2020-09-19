@@ -1,7 +1,7 @@
 import { IncomingMessage as Request, ServerResponse as Response } from 'http'
 import parseRange, { Options } from 'range-parser'
 import fresh from 'es-fresh'
-import Accepts from 'es-accepts'
+import { Accepts } from '@tinyhttp/accepts'
 
 export const getRequestHeader = (req: Request) => (header: string): string | string[] => {
   const lc = header.toLowerCase()
@@ -48,5 +48,7 @@ export const checkIfXMLHttpRequest = (req: Request): boolean => {
 }
 
 export const getAccepts = (req: Request) => (...types: string[]): string | false | string[] => {
-  return new Accepts(req).types(types)
+  const accepts = new Accepts(req)
+
+  return accepts.types(types)
 }

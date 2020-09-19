@@ -41,7 +41,7 @@ export const setLocationHeader = <Request extends I = I, Response extends S = S>
   }
 
   // set location
-  res.setHeader('Location', encodeURIComponent(loc))
+  res.setHeader('Location', loc[0] + encodeURIComponent(loc.slice(1)))
   return res
 }
 
