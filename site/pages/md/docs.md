@@ -45,6 +45,7 @@
     <summary>Properties</summary>
     <ul>
       <li><a href="#applocals">app.locals</a></li>
+      <li><a href="#appparent">app.parent</a></li>
     </ul>
   </details>
 
@@ -60,6 +61,7 @@
     <li><a href="#appuse">app.use</a></li>
     <li><a href="#appengine">app.engine</a></li>
     <li><a href="#apprender">app.render</a></li>
+    <li><a href="#apppath">app.path</a></li>
   </ul>
   </details>
 
@@ -116,6 +118,7 @@
     <li><a href="#reslinks">res.links</a></li>
     <li><a href="#reslocation">res.location</a></li>
     <li><a href="#resrender">res.render</a></li>
+    <li><a href="#resvary">res.vary</a></li>
   </ul>
  </details>
 </aside>
@@ -237,6 +240,8 @@ Enables 2 properties - `req.fresh` and `req.stale`
 
 The `app.locals` object has properties that are local variables within the application.
 
+##### Example
+
 ```ts
 console.dir(app.locals.title)
 // => 'My App'
@@ -253,6 +258,37 @@ You can access local variables in templates rendered within the application. Thi
 app.locals.title = 'My App'
 app.locals.strftime = require('strftime')
 app.locals.email = 'me@myapp.com'
+```
+
+#### `app.parent`
+
+`app.parent` points to a parent `App` object, e.g. the app that was mounted to.
+
+##### Example
+
+```js
+const app = new App()
+
+const subapp = new App()
+
+app.use(subapp)
+
+console.log(app.parent)
+
+/*
+<ref *1> App {
+  middleware: [],
+  mountpath: '/',
+  apps: {
+    '/': App {
+      middleware: [],
+      mountpath: '/',
+      apps: {},
+      parent: [Circular *1]
+    }
+  }
+}
+*/
 ```
 
 ### Events
@@ -281,7 +317,7 @@ Not all methods aren't added yet.
 
 This method is like the standard [`app.METHOD()`](#appmethod) methods, except it matches all HTTP verbs.
 
-##### Examples
+##### Example
 
 The following callback is executed for requests to `/secret` whether using GET, POST, PUT, DELETE, or any other HTTP request method:
 
@@ -431,6 +467,25 @@ app.engine('pug', renderPug)
 app.use((_, res) => void res.render('index.pug'))
 
 app.listen(3000, () => console.log(`Listening on http://localhost:3000`))
+```
+
+#### `app.path`
+
+Returns the mountpath of the app.
+
+##### Example
+
+```js
+const app = new App()
+const blog = new App()
+const blogAdmin = new App()
+
+app.use('/blog', blog)
+blog.use('/admin', blogAdmin)
+
+console.dir(app.path()) // ''
+console.dir(blog.path()) // '/blog'
+console.dir(blogAdmin.path()) // '/blog/admin'
 ```
 
 ## Request
@@ -872,6 +927,16 @@ app.engine('ejs', ejs.renderFile)
 app.use((_, res) => void res.render('index.ejs', { name: 'EJS' }))
 
 app.listen(3000, () => console.log(`Listening on http://localhost:3000`))
+```
+
+#### `res.vary`
+
+Adds the field to the Vary response header, if it is not there already.
+
+##### Example
+
+```js
+res.vary('User-Agent').render('docs')
 ```
 
 </main>
