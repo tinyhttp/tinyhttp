@@ -5,8 +5,6 @@ import { App, TemplateEngineOptions } from './app'
 
 import type { ReadStreamOptions } from '@tinyhttp/res'
 
-export { send, sendStatus, setCookie, setHeader, setLinksHeader, setLocationHeader, status, clearCookie, getResponseHeader, json, sendFile } from '@tinyhttp/res'
-
 export const renderTemplate = (_req: Request, res: Response, app: App) => (file: string, data?: Record<string, any>, options?: TemplateEngineOptions): Response => {
   app.render(
     file,
@@ -35,4 +33,5 @@ export interface Response extends ServerResponse {
   location(url: string): Response
   links(links: { [key: string]: string }): Response
   render(file: string, data?: Record<string, any>, options?: TemplateEngineOptions): Response
+  vary(field: string): Response
 }

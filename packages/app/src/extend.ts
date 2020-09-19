@@ -1,10 +1,11 @@
 import { Request } from './request'
 import type { Response } from './response'
 
-import { getQueryParams, getProtocol, getRangeFromHeader, checkIfXMLHttpRequest, getHostname, getIP, getIPs, getRequestHeader, getFreshOrStale, getAccepts } from './request'
-import { send, json, status, setCookie, clearCookie, setHeader, getResponseHeader, setLocationHeader, setLinksHeader, sendStatus, renderTemplate } from './response'
+import { getAccepts, getFreshOrStale, getRangeFromHeader, getRequestHeader, checkIfXMLHttpRequest } from '@tinyhttp/req'
+import { getQueryParams, getProtocol, getHostname, getIP, getIPs } from './request'
+import { send, json, status, setCookie, clearCookie, setHeader, getResponseHeader, setLocationHeader, setLinksHeader, sendStatus, setVaryHeader, sendFile } from '@tinyhttp/res'
+import { renderTemplate } from './response'
 import { App } from './app'
-import { sendFile } from '@tinyhttp/res'
 
 /**
  * Extends Request and Response objects with custom properties and methods
@@ -66,6 +67,7 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response) => {
 
   res.location = setLocationHeader<Request, Response>(req, res)
   res.links = setLinksHeader<Request, Response>(req, res)
+  res.vary = setVaryHeader<Request, Response>(req, res)
 
   res.cookie = setCookie<Request, Response>(req, res)
   res.clearCookie = clearCookie<Request, Response>(req, res)

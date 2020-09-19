@@ -1,5 +1,11 @@
 # @tinyhttp/res
 
+## 0.1.4
+
+### Patch Changes
+
+- Add res.vary() method and upgrade module deps
+
 ## 0.1.3
 
 ### Patch Changes

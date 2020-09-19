@@ -1,6 +1,7 @@
 import { IncomingMessage as I, ServerResponse as S } from 'http'
 import * as mime from 'es-mime-types'
 import { getRequestHeader } from '@tinyhttp/req'
+import { vary } from 'es-vary'
 
 const charsetRegExp = /;\s*charset\s*=/
 
@@ -58,6 +59,12 @@ export const setLinksHeader = <Request extends I = I, Response extends S = S>(_r
         .map((rel) => '<' + links[rel] + '>; rel="' + rel + '"')
         .join(', ')
   )
+
+  return res
+}
+
+export const setVaryHeader = <Request extends I = I, Response extends S = S>(_req: Request, res: Response) => (field: string) => {
+  vary(res, field)
 
   return res
 }

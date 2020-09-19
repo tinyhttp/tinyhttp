@@ -1,5 +1,11 @@
 # @tinyhttp/cors
 
+## 0.3.1
+
+### Patch Changes
+
+- Add res.vary() method and upgrade module deps
+
 ## 0.3.0
 
 ### Minor Changes

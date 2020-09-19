@@ -1,5 +1,5 @@
 import { makeFetch } from 'supertest-fetch'
-import { getResponseHeader, setHeader } from '../../packages/res/src'
+import { getResponseHeader, setHeader, setVaryHeader } from '../../packages/res/src'
 import { runServer } from '../../test_helpers/runServer'
 
 describe('Response extensions', () => {
@@ -47,6 +47,16 @@ describe('Response extensions', () => {
       })
 
       await makeFetch(app)('/').expect('World')
+    })
+  })
+  describe('res.vary(field)', () => {
+    it('should set a "Vary" header properly', async () => {
+      const app = runServer((req, res) => {
+        setVaryHeader(req, res)('User-Agent')
+        res.end()
+      })
+
+      await makeFetch(app)('/').expect('Vary', 'User-Agent')
     })
   })
 })
