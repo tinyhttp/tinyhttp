@@ -1,5 +1,13 @@
 # @tinyhttp/req
 
+## 0.1.4
+
+### Patch Changes
+
+- Fix broken release
+- Updated dependencies [undefined]
+  - @tinyhttp/accepts@0.0.22
+
 ## 0.1.3
 
 ### Patch Changes

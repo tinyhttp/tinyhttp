@@ -1,5 +1,13 @@
 # @tinyhttp/send
 
+## 0.1.1
+
+### Patch Changes
+
+- Fix broken release
+- Updated dependencies [undefined]
+  - @tinyhttp/etag@0.3.1
+
 ## 0.1.0
 
 ### Minor Changes

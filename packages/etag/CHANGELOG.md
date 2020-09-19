@@ -1,5 +1,11 @@
 # @tinyhttp/etag
 
+## 0.3.1
+
+### Patch Changes
+
+- Fix broken release
+
 ## 0.3.0
 
 ### Minor Changes

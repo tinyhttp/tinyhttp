@@ -1,5 +1,11 @@
 # @tinyhttp/cookie-signature
 
+## 0.2.1
+
+### Patch Changes
+
+- Fix broken release
+
 ## 0.2.0
 
 ### Minor Changes

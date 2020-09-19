@@ -1,5 +1,16 @@
 # @tinyhttp/res
 
+## 0.1.7
+
+### Patch Changes
+
+- Fix broken release
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.2.2
+  - @tinyhttp/cookie-signature@0.2.1
+  - @tinyhttp/req@0.1.4
+  - @tinyhttp/send@0.1.1
+
 ## 0.1.6
 
 ### Patch Changes

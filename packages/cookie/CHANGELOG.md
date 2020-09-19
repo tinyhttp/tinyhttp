@@ -1,5 +1,11 @@
 # @tinyhttp/cookie
 
+## 0.2.2
+
+### Patch Changes
+
+- Fix broken release
+
 ## 0.2.1
 
 ### Patch Changes
