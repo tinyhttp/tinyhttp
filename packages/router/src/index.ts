@@ -128,6 +128,7 @@ const pushMiddleware = <Req extends I = I, Res extends R = R>(mw: Middleware[]) 
 export class Router<App extends Router = any, Req extends I = I, Res extends R = R> {
   middleware: Middleware[] = []
   mountpath = '/'
+  parent: App
   apps: Record<string, App> = {}
 
   get(...args: RouterMethodParams<Req, Res>) {
@@ -481,6 +482,22 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
     }
     return this
   }
+
+  /**
+   * Return the app's absolute pathname
+   * based on the parent(s) that have
+   * mounted it.
+   *
+   * For example if the application was
+   * mounted as "/admin", which itself
+   * was mounted as "/blog" then the
+   * return value would be "/blog/admin".
+   *
+   */
+  path(): string {
+    return this.parent ? this.parent.path() + this.mountpath : ''
+  }
+
   /**
    * Push middleware to the stack
    * @param path path that middleware will handle if request URL starts with it
@@ -496,7 +513,12 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
 
     // app.use('/subapp', subApp)
     if (typeof path === 'string' && handler instanceof Router) {
+      // Set mountpath to the specified path
       handler.mountpath = path
+      // Set App parent to current App
+      handler.parent = this
+
+      // Prefix paths with a mountpath
       handler.middleware.forEach((mw) => {
         const patchedPath = mw.path === '/' ? handler.mountpath : handler.mountpath + mw.path
 
@@ -506,6 +528,10 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
     }
     // app.use(subApp)
     else if (path instanceof Router) {
+      // Set App parent to current App
+      path.parent = this
+
+      // Mount on root
       path.mountpath = '/'
 
       this.apps['/'] = path

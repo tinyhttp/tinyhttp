@@ -1,5 +1,11 @@
 # @tinyhttp/router
 
+## 0.1.1
+
+### Patch Changes
+
+- Add path() and .parent to router
+
 ## 0.1.0
 
 ### Minor Changes

@@ -58,4 +58,55 @@ describe('Testing Router', () => {
       expect(app.middleware).toHaveLength(3)
     })
   })
+  describe('Subapps', () => {
+    it('should mount app on a specified path', () => {
+      const app = new Router<Router>()
+
+      const subapp = new Router()
+
+      app.use('/subapp', subapp)
+
+      expect(subapp.mountpath).toBe('/subapp')
+    })
+    it('should mount on "/" if path is not specified', () => {
+      const app = new Router<Router>()
+
+      const subapp = new Router()
+
+      app.use(subapp)
+
+      expect(subapp.mountpath).toBe('/')
+    })
+    it('app.parent should reference to the app it was mounted on', () => {
+      const app = new Router<Router>()
+
+      const subapp = new Router()
+
+      app.use(subapp)
+
+      expect(subapp.parent).toBe(app)
+    })
+    it('app.path() should return the mountpath', () => {
+      const app = new Router<Router>()
+
+      const subapp = new Router()
+
+      app.use('/subapp', subapp)
+
+      expect(subapp.path()).toBe('/subapp')
+    })
+    it('app.path() should nest mountpaths', () => {
+      const app = new Router<Router>()
+
+      const subapp = new Router<Router>()
+
+      const subsubapp = new Router()
+
+      subapp.use('/admin', subsubapp)
+
+      app.use('/blog', subapp)
+
+      expect(subsubapp.path()).toBe('/blog/admin')
+    })
+  })
 })
