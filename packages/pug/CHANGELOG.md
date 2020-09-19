@@ -1,5 +1,13 @@
 # @tinyhttp/pug
 
+## 0.1.9
+
+### Patch Changes
+
+- Fix missing accepts
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.3.9
+
 ## 0.1.8
 
 ### Patch Changes

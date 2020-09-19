@@ -1,5 +1,11 @@
 # @tinyhttp/cookie-signature
 
+## 0.2.2
+
+### Patch Changes
+
+- Fix missing accepts
+
 ## 0.2.1
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @tinyhttp/cookie
 
+## 0.2.3
+
+### Patch Changes
+
+- Fix missing accepts
+
 ## 0.2.2
 
 ### Patch Changes

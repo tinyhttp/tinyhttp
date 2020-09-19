@@ -1,5 +1,11 @@
 # @tinyhttp/cors
 
+## 0.3.3
+
+### Patch Changes
+
+- Fix missing accepts
+
 ## 0.3.2
 
 ### Patch Changes

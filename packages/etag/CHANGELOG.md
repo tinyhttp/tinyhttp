@@ -1,5 +1,11 @@
 # @tinyhttp/etag
 
+## 0.3.2
+
+### Patch Changes
+
+- Fix missing accepts
+
 ## 0.3.1
 
 ### Patch Changes

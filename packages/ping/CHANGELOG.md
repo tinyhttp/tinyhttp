@@ -1,5 +1,11 @@
 # @tinyhttp/ping
 
+## 0.1.2
+
+### Patch Changes
+
+- Fix missing accepts
+
 ## 0.1.1
 
 ### Patch Changes

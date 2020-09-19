@@ -1,5 +1,16 @@
 # @tinyhttp/app
 
+## 0.3.9
+
+### Patch Changes
+
+- Fix missing accepts
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.2.3
+  - @tinyhttp/req@0.1.5
+  - @tinyhttp/res@0.1.8
+  - @tinyhttp/router@0.1.3
+
 ## 0.3.8
 
 ### Patch Changes

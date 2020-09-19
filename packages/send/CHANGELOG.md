@@ -1,5 +1,13 @@
 # @tinyhttp/send
 
+## 0.1.2
+
+### Patch Changes
+
+- Fix missing accepts
+- Updated dependencies [undefined]
+  - @tinyhttp/etag@0.3.2
+
 ## 0.1.1
 
 ### Patch Changes

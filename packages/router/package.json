@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/router",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "type": "module",
   "description": "Router for tinyhttp",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",

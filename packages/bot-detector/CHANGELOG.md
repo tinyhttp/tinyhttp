@@ -1,5 +1,14 @@
 # @tinyhttp/bot-detector
 
+## 0.1.9
+
+### Patch Changes
+
+- Fix missing accepts
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.3.9
+  - @tinyhttp/router@0.1.3
+
 ## 0.1.8
 
 ### Patch Changes
