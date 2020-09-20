@@ -4,9 +4,6 @@
   "type": "module",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "pug": "^3.0.0"
-  },
-  "devDependencies": {
-    "@types/pug": "^2.0.4"
+    "@tinyhttp/pug": "workspace:^0.1.11"
   }
 }
