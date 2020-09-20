@@ -1,5 +1,14 @@
 # @tinyhttp/res
 
+## 0.1.10
+
+### Patch Changes
+
+- Upgrade es-mime-types to fix res.format
+- Updated dependencies [undefined]
+  - @tinyhttp/send@0.1.3
+  - @tinyhttp/req@0.1.7
+
 ## 0.1.9
 
 ### Patch Changes

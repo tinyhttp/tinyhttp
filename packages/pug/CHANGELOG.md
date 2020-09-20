@@ -1,5 +1,12 @@
 # @tinyhttp/pug
 
+## 0.1.11
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.3.11
+
 ## 0.1.10
 
 ### Patch Changes

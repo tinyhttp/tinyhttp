@@ -1,5 +1,11 @@
 # @tinyhttp/send
 
+## 0.1.3
+
+### Patch Changes
+
+- Upgrade es-mime-types to fix res.format
+
 ## 0.1.2
 
 ### Patch Changes
