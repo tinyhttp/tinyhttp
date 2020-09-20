@@ -1,7 +1,6 @@
 import { createServer } from 'http'
 import path from 'path'
-import rg from 'regexparam'
-import { getURLParams, getRouteFromApp } from './request'
+import { getRouteFromApp, getURLParams } from './request'
 import type { Request } from './request'
 import type { Response } from './response'
 import type { ErrorHandler } from './onError'
@@ -9,6 +8,7 @@ import { onErrorHandler } from './onError'
 import { isAsync } from './utils/async'
 import { Middleware, Handler, NextFunction, Router } from '@tinyhttp/router'
 import { extendMiddleware } from './extend'
+import { matchParams } from '@tinyhttp/req'
 
 export const applyHandler = (h: Handler) => async (req: Request, res: Response, next?: NextFunction) => {
   if (isAsync(h)) {
@@ -176,7 +176,7 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
           const queryParamStart = req.url.lastIndexOf('?')
           const reqUrlWithoutParams = req.url.slice(0, queryParamStart === -1 ? req.url.length : queryParamStart)
 
-          if (rg(path).pattern.test(reqUrlWithoutParams)) {
+          if (matchParams(path, reqUrlWithoutParams)) {
             req.params = getURLParams(req.url, path)
             req.route = getRouteFromApp(this, handler as Handler<Req, Res>)
 

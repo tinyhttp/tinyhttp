@@ -2,8 +2,8 @@ import { Request } from './request'
 import type { NextFunction } from '@tinyhttp/router'
 import type { Response } from './response'
 
-import { getAccepts, getFreshOrStale, getRangeFromHeader, getRequestHeader, checkIfXMLHttpRequest } from '@tinyhttp/req'
-import { getQueryParams, getProtocol, getHostname, getIP, getIPs } from './request'
+import { getAccepts, getFreshOrStale, getRangeFromHeader, getRequestHeader, checkIfXMLHttpRequest, getQueryParams } from '@tinyhttp/req'
+import { getProtocol, getHostname, getIP, getIPs } from './request'
 import {
   send,
   json,

@@ -27,19 +27,3 @@ export const compileTrust = (val: any) => {
 
   return proxyAddr.compile(val || [])
 }
-
-export const rgExec = (
-  path: string,
-  result: {
-    pattern: RegExp
-    keys: string[]
-  }
-) => {
-  let i = 0
-  const out = {}
-  const matches = result.pattern.exec(path)
-  while (i < result.keys.length) {
-    out[result.keys[i]] = matches?.[++i] || null
-  }
-  return out
-}

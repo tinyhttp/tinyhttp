@@ -52,3 +52,5 @@ export const getAccepts = (req: Request) => (...types: string[]): string | false
 
   return accepts.types(types)
 }
+
+export * from '@tinyhttp/url'

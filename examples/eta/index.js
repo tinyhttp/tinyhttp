@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { App } = require('@tinyhttp/app')
-const eta = require('eta')
+import { App } from '@tinyhttp/app'
+import { renderFile as eta } from 'eta'
 
 const app = new App()
 
-app.engine('eta', eta.renderFile)
+app.engine('eta', eta)
 
 app.use((_, res) => void res.render('index.eta', { name: 'Eta' }))
 

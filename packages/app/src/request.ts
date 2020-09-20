@@ -1,25 +1,16 @@
 import { IncomingMessage } from 'http'
 import { ParsedUrlQuery } from 'querystring'
-import rg from 'regexparam'
-import { parse } from 'url'
+
 import { Ranges } from 'range-parser'
 import proxyAddr from 'proxy-addr'
 import { App } from './app'
 import type { Middleware, Handler } from '@tinyhttp/router'
 import type { Response } from './response'
-import { compileTrust, rgExec } from './utils/request'
+import { compileTrust } from './utils/request'
 
-export const getQueryParams = (url = '/'): ParsedUrlQuery => {
-  return parse(url, true).query
-}
+import type { URLParams } from '@tinyhttp/req'
 
-export type URLParams = {
-  [key: string]: string
-}
-
-export const getURLParams = (reqUrl = '/', url = '/'): URLParams => {
-  return rgExec(reqUrl, rg(url))
-}
+export { getURLParams } from '@tinyhttp/req'
 
 export const getRouteFromApp = (app: App, handler: Handler<Request, Response>) => {
   return app.middleware.find((h) => h.handler.name === handler.name)
@@ -83,6 +74,8 @@ export type Connection = IncomingMessage['socket'] & {
 }
 
 export type Protocol = 'http' | 'https' | string
+
+export type { URLParams }
 
 export interface Request extends IncomingMessage {
   query: ParsedUrlQuery

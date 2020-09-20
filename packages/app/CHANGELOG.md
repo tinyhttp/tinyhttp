@@ -1,5 +1,14 @@
 # @tinyhttp/app
 
+## 0.3.10
+
+### Patch Changes
+
+- Move URL extensions to @tinyhttp/url
+- Updated dependencies [undefined]
+  - @tinyhttp/req@0.1.6
+  - @tinyhttp/res@0.1.9
+
 ## 0.3.9
 
 ### Patch Changes

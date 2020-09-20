@@ -1,5 +1,11 @@
 # @tinyhttp/req
 
+## 0.1.6
+
+### Patch Changes
+
+- Move URL extensions to @tinyhttp/url
+
 ## 0.1.5
 
 ### Patch Changes

@@ -119,6 +119,8 @@
     <li><a href="#reslocation">res.location</a></li>
     <li><a href="#resrender">res.render</a></li>
     <li><a href="#resvary">res.vary</a></li>
+    <li><a href="#resformat">res.format</a></li>
+    <li><a href="#resredirect">res.redirect</a></li>
   </ul>
  </details>
 </aside>
@@ -240,8 +242,6 @@ Enables 2 properties - `req.fresh` and `req.stale`
 
 The `app.locals` object has properties that are local variables within the application.
 
-##### Example
-
 ```ts
 console.dir(app.locals.title)
 // => 'My App'
@@ -263,8 +263,6 @@ app.locals.email = 'me@myapp.com'
 #### `app.parent`
 
 `app.parent` points to a parent `App` object, e.g. the app that was mounted to.
-
-##### Example
 
 ```js
 const app = new App()
@@ -317,8 +315,6 @@ Not all methods aren't added yet.
 
 This method is like the standard [`app.METHOD()`](#appmethod) methods, except it matches all HTTP verbs.
 
-##### Example
-
 The following callback is executed for requests to `/secret` whether using GET, POST, PUT, DELETE, or any other HTTP request method:
 
 ```ts
@@ -338,8 +334,6 @@ app.all('*', requireAuthentication, loadUser)
 
 Routes HTTP GET requests to the specified path with the specified handler functions.
 
-##### Example
-
 ```ts
 app.get('/', (req, res) => {
   res.send(`${req.method || 'GET'} request to homepage`
@@ -349,8 +343,6 @@ app.get('/', (req, res) => {
 #### `app.post`
 
 Routes HTTP POST requests to the specified path with the specified handler functions.
-
-##### Example
 
 ```ts
 app.post('/', (req, res) => {
@@ -362,8 +354,6 @@ app.post('/', (req, res) => {
 
 Routes HTTP PUT requests to the specified path with the specified handler functions.
 
-##### Example
-
 ```ts
 app.put('/', (req, res) => {
   res.send(`${req.method || 'PUT'} request to homepage`)
@@ -373,8 +363,6 @@ app.put('/', (req, res) => {
 #### `app.delete`
 
 Routes HTTP DELETE requests to the specified path with the specified handler functions.
-
-##### Example
 
 ```ts
 app.put('/', (req, res) => {
@@ -414,8 +402,6 @@ app.get('/', (req, res) => res.send('Welcome'))
 
 Register a template engine. Works with any Express template engines that contain a `renderFile` function.
 
-##### Example
-
 ```js
 import { App } from '@tinyhttp/app'
 import ejs from 'ejs'
@@ -452,8 +438,6 @@ app.render(
 
 Almost every engine is supported if it can render a single file. Some engines may have different arguments (for example Pug doesn't require a `data` object) but you can write a function to have the same arguments.
 
-##### Example
-
 ```js
 import { App } from '@tinyhttp/app'
 import pug from 'pug'
@@ -473,8 +457,6 @@ app.listen(3000, () => console.log(`Listening on http://localhost:3000`))
 
 Returns the mountpath of the app.
 
-##### Example
-
 ```js
 const app = new App()
 const blog = new App()
@@ -491,8 +473,6 @@ console.dir(blogAdmin.path()) // '/blog/admin'
 ## Request
 
 The `req` object represents the HTTP request and has properties for the request query string, parameters, body, HTTP headers, and so on.
-
-##### Example
 
 ```ts
 app.get('/user/:id', (req, res) => {
@@ -720,8 +700,6 @@ The `options` parameter is an object that can have the following properties.
 
 > All `res.cookie()` does is set the HTTP Set-Cookie header with the options provided. Any option not specified defaults to the value stated in RFC 6265.
 
-##### Example
-
 ```ts
 res.cookie('name', 'tobi', {
   domain: '.example.com',
@@ -742,8 +720,6 @@ Clears the cookie specified by `name`. For details about the `options` object, s
 
 > Web browsers and other compliant clients will only clear the cookie if the given options is identical to those given to res.cookie(), excluding expires and maxAge.
 
-##### Example
-
 ```ts
 res.cookie('name', 'tobi', { path: '/admin' })
 res.clearCookie('name', { path: '/admin' })
@@ -754,8 +730,6 @@ res.clearCookie('name', { path: '/admin' })
 Ends the response process. The method comes from [response.end() of http.ServerResponse.](https://nodejs.org/api/http.html#http_response_end_data_encoding_callback).
 
 Can be used to send raw data or end the response without any data at all. If you need to respond with data with proper content type headers set and so on, instead use methods such as [`res.send()`](#ressend) and [`res.json()`](#resjson).
-
-##### Example
 
 ```ts
 res.end()
@@ -768,8 +742,6 @@ Sends a JSON response. This method sends a response (with the correct content-ty
 
 The parameter can be any JSON type, including object, array, string, boolean, number, or null, and you can also use it to convert other values to JSON.
 
-##### Example
-
 ```ts
 res.json(null)
 res.json({ user: 'tobi' })
@@ -781,8 +753,6 @@ res.status(500).json({ error: 'message' })
 Sends the HTTP response.
 
 The body parameter can be a `Buffer` object, a string, an object, or an array.
-
-##### Example
 
 ```ts
 res.send(Buffer.from('whoop'))
@@ -818,8 +788,6 @@ res.send([1, 2, 3])
 
 Sets the HTTP status for the response. It is a chainable alias of Node’s `response.statusCode`.
 
-##### Example
-
 ```ts
 res.status(403).end()
 res.status(400).send('Bad Request')
@@ -828,8 +796,6 @@ res.status(400).send('Bad Request')
 #### `res.sendStatus`
 
 Sets the response HTTP status code to statusCode and send its string representation as the response body.
-
-##### Example
 
 ```ts
 res.sendStatus(200) // equivalent to res.status(200).send('OK')
@@ -850,8 +816,6 @@ Sends a file by piping a stream to response. It also checks for extension to set
 
 > Path argument must be absolute. To use a relative path, specify the `root` option first.
 
-##### Example
-
 ```js
 res.sendFile('song.mp3', { root: process.cwd() }, (err) => console.log(err))
 ```
@@ -861,8 +825,6 @@ res.sendFile('song.mp3', { root: process.cwd() }, (err) => console.log(err))
 #### `res.set`
 
 Sets the response’s HTTP header `field` to `value`. To set multiple fields at once, pass an object as the parameter.
-
-##### Example
 
 ```ts
 res.set('Content-Type', 'text/plain')
@@ -914,8 +876,6 @@ A `path` value of `"back"` has a special meaning, it refers to the URL specified
 
 Render a template using a pre-defined engine and respond with the result.
 
-##### Example
-
 ```js
 import { App } from '@tinyhttp/app'
 import ejs from 'ejs'
@@ -933,10 +893,40 @@ app.listen(3000, () => console.log(`Listening on http://localhost:3000`))
 
 Adds the field to the Vary response header, if it is not there already.
 
-##### Example
-
 ```js
 res.vary('User-Agent').render('docs')
+```
+
+#### `res.format`
+
+Sends a conditional response based on the value in `Accept` header. For example, if `Accept` contains `html`, the HTML option will be sent.
+
+```js
+res.format({
+  html: (req, res) => void res.send('<h1>Hello World for HTML</h1>')
+  text: (req, res) => void res.send('Hello World for text')
+})
+```
+
+and depending on the `Accept` header, it will send different responses:
+
+```sh
+curl -H "Accept: text/html" localhost:3000
+# <h1>Hello World for HTML</h1>
+
+curl localhost:3000
+# Hello World for text
+```
+
+#### `res.redirect`
+
+Redirect to a URL by sending a 302 (or any other) status code and `Location` header with the specified URL.
+
+```js
+res.redirect('/another-page')
+
+// custom status
+res.redirect('/some-other-page', 300)
 ```
 
 </main>

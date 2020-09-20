@@ -1,5 +1,12 @@
 # @tinyhttp/ip-filter
 
+## 0.1.10
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.3.10
+
 ## 0.1.9
 
 ### Patch Changes

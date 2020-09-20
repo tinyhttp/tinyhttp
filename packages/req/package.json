@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/req",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "type": "module",
   "description": "request extensions for tinyhttp",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@tinyhttp/accepts": "workspace:*",
+    "@tinyhttp/url": "workspace:^0.0.0",
     "es-fresh": "^0.0.8",
     "range-parser": "^1.2.1"
   },
