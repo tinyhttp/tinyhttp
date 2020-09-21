@@ -1,6 +1,6 @@
 import { makeFetch } from 'supertest-fetch'
 import { Request, Response } from '../../packages/app/src'
-import { formatResponse, getResponseHeader, redirect, setHeader, setVaryHeader } from '../../packages/res/src'
+import { formatResponse, getResponseHeader, redirect, setHeader, setVaryHeader, setContentType } from '../../packages/res/src'
 import { runServer } from '../../test_helpers/runServer'
 
 describe('Response extensions', () => {
@@ -112,6 +112,22 @@ describe('Response extensions', () => {
       })
         .expect(200, '<h1>Hello World</h1>')
         .expectHeader('Content-Type', 'text/html')
+    })
+  })
+  describe('res.type(type)', () => {
+    it('should detect MIME type', async () => {
+      const app = runServer((req, res) => {
+        setContentType(req, res)('html').end()
+      })
+
+      await makeFetch(app)('/').expect('Content-Type', 'text/html')
+    })
+    it('should detect MIME type by extension', async () => {
+      const app = runServer((req, res) => {
+        setContentType(req, res)('.html').end()
+      })
+
+      await makeFetch(app)('/').expect('Content-Type', 'text/html')
     })
   })
 })

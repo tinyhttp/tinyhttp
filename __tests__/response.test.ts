@@ -92,4 +92,20 @@ describe('Response methods', () => {
 
     await fetch('/').expect('Set-Cookie', 'Hello=World; Path=/')
   })
+  describe('res.type(type)', () => {
+    it('should detect MIME type', async () => {
+      const { fetch } = InitAppAndTest((_req, res) => {
+        res.type('html').end()
+      })
+
+      await fetch('/').expect('Content-Type', 'text/html')
+    })
+    it('should detect MIME type by extension', async () => {
+      const { fetch } = InitAppAndTest((_req, res) => {
+        res.type('.html').end()
+      })
+
+      await fetch('/').expect('Content-Type', 'text/html')
+    })
+  })
 })
