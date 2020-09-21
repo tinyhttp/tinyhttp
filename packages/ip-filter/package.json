@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/ip-filter",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "tinyhttp IP filtering middleware",
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",

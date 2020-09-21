@@ -1,5 +1,11 @@
 # @tinyhttp/res
 
+## 0.1.11
+
+### Patch Changes
+
+- Add res.type()
+
 ## 0.1.10
 
 ### Patch Changes

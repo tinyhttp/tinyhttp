@@ -1,5 +1,13 @@
 # @tinyhttp/app
 
+## 0.3.12
+
+### Patch Changes
+
+- Add res.type()
+- Updated dependencies [undefined]
+  - @tinyhttp/res@0.1.11
+
 ## 0.3.11
 
 ### Patch Changes

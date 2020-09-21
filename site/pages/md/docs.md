@@ -121,6 +121,7 @@
     <li><a href="#resvary">res.vary</a></li>
     <li><a href="#resformat">res.format</a></li>
     <li><a href="#resredirect">res.redirect</a></li>
+    <li><a href="#restype">res.type</a></li>
   </ul>
  </details>
 </aside>
@@ -927,6 +928,23 @@ res.redirect('/another-page')
 
 // custom status
 res.redirect('/some-other-page', 300)
+```
+
+#### `res.type`
+
+Sets the `Content-Type` HTTP header to the MIME type as determined by [mime.lookup()](https://github.com/talentlessguy/es-mime-types/blob/master/src/index.ts#L123) for the specified type. If type contains the `/` character, then it sets the `Content-Type` to type.
+
+```js
+res.type('.html')
+// => 'text/html'
+res.type('html')
+// => 'text/html'
+res.type('json')
+// => 'application/json'
+res.type('application/json')
+// => 'application/json'
+res.type('png')
+// => 'image/png'
 ```
 
 </main>

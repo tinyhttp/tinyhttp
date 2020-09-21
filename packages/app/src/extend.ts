@@ -19,6 +19,7 @@ import {
   sendFile,
   formatResponse,
   redirect,
+  setContentType,
 } from '@tinyhttp/res'
 import { renderTemplate } from './response'
 import { App } from './app'
@@ -71,8 +72,6 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response, next
   Response extensions
   */
 
-  res.header = setHeader<Request, Response>(req, res)
-
   res.header = res.set = setHeader<Request, Response>(req, res)
 
   res.send = send<Request, Response>(req, res)
@@ -81,6 +80,7 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response, next
   res.sendStatus = sendStatus<Request, Response>(req, res)
   res.sendFile = sendFile<Request, Response>(req, res)
 
+  res.type = setContentType<Request, Response>(req, res)
   res.location = setLocationHeader<Request, Response>(req, res)
   res.links = setLinksHeader<Request, Response>(req, res)
   res.vary = setVaryHeader<Request, Response>(req, res)
