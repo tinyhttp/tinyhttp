@@ -77,6 +77,8 @@ export type Protocol = 'http' | 'https' | string
 
 export type { URLParams }
 
+type AcceptsReturns = string | false | string[]
+
 export interface Request extends IncomingMessage {
   query: ParsedUrlQuery
   params: URLParams
@@ -95,7 +97,9 @@ export interface Request extends IncomingMessage {
   get: (header: string) => string | string[] | undefined
 
   range: (size: number, options?: any) => -1 | -2 | Ranges | undefined
-  accepts: (...types: string[]) => string | false | string[]
+  accepts: (...types: string[]) => AcceptsReturns
+  acceptsEncodings: (...encodings: string[]) => AcceptsReturns
+  acceptsCharsets: (...charsets: string[]) => AcceptsReturns
 
   cookies?: any
   signedCookies?: any

@@ -90,6 +90,8 @@
   <summary>Methods</summary>
   <ul>
     <li><a href="#reqaccepts">req.accepts</a></li>
+    <li><a href="#reqacceptsencodings">req.acceptsEncodings</a></li>
+    <li><a href="#reqacceptscharsets">req.acceptsCharsets</a></li>
     <li><a href="#reqget">req.get</a></li>  
   </ul>
  </details>
@@ -657,6 +659,14 @@ req.accepts(['html', 'json'])
 ```
 
 For more information, or if you have issues or concerns, see [accepts](https://github.com/jshttp/accepts).
+
+#### `req.acceptsEncodings`
+
+Returns the first accepted encoding of the specified encodings, based on the request’s Accept-Encoding HTTP header field. If none of the specified encodings is accepted, returns `false`.
+
+#### `req.acceptsCharsets`
+
+Returns the first accepted charset of the specified character sets, based on the request’s Accept-Charset HTTP header field. If none of the specified charsets is accepted, returns .`false`
 
 #### `req.get`
 

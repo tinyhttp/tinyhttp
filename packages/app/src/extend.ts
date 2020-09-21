@@ -2,7 +2,7 @@ import { Request } from './request'
 import type { NextFunction } from '@tinyhttp/router'
 import type { Response } from './response'
 
-import { getAccepts, getFreshOrStale, getRangeFromHeader, getRequestHeader, checkIfXMLHttpRequest, getQueryParams } from '@tinyhttp/req'
+import { getFreshOrStale, getRangeFromHeader, getRequestHeader, checkIfXMLHttpRequest, getQueryParams, getAccepts, getAcceptsCharsets, getAcceptsEncodings } from '@tinyhttp/req'
 import { getProtocol, getHostname, getIP, getIPs } from './request'
 import {
   send,
@@ -64,7 +64,10 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response, next
   }
 
   req.range = getRangeFromHeader(req)
+
   req.accepts = getAccepts(req)
+  req.acceptsCharsets = getAcceptsCharsets(req)
+  req.acceptsEncodings = getAcceptsEncodings(req)
 
   req.xhr = checkIfXMLHttpRequest(req)
 

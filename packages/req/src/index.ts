@@ -3,6 +3,8 @@ import parseRange, { Options } from 'range-parser'
 import fresh from 'es-fresh'
 import { Accepts } from '@tinyhttp/accepts'
 
+export * from '@tinyhttp/url'
+
 export const getRequestHeader = (req: Request) => (header: string): string | string[] => {
   const lc = header.toLowerCase()
 
@@ -53,4 +55,14 @@ export const getAccepts = (req: Request) => (...types: string[]): string | false
   return accepts.types(types)
 }
 
-export * from '@tinyhttp/url'
+export const getAcceptsEncodings = (req: Request) => (...encodings: string[]) => {
+  const accepts = new Accepts(req)
+
+  return accepts.encodings(encodings)
+}
+
+export const getAcceptsCharsets = (req: Request) => (...charsets: string[]) => {
+  const accepts = new Accepts(req)
+
+  return accepts.charsets(charsets)
+}

@@ -1,5 +1,14 @@
 # @tinyhttp/app
 
+## 0.3.13
+
+### Patch Changes
+
+- Add `req.acceptsCharsets` and `req.acceptsEncodings`
+- Updated dependencies [undefined]
+  - @tinyhttp/req@0.1.8
+  - @tinyhttp/res@0.1.12
+
 ## 0.3.12
 
 ### Patch Changes

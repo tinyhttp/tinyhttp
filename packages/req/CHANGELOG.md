@@ -1,5 +1,11 @@
 # @tinyhttp/req
 
+## 0.1.8
+
+### Patch Changes
+
+- Add `req.acceptsCharsets` and `req.acceptsEncodings`
+
 ## 0.1.7
 
 ### Patch Changes
