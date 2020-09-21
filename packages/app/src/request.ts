@@ -9,6 +9,7 @@ import type { Response } from './response'
 import { compileTrust } from './utils/request'
 
 import type { URLParams } from '@tinyhttp/req'
+import { isIP } from 'net'
 
 export { getURLParams } from '@tinyhttp/req'
 
@@ -58,6 +59,18 @@ export const getIPs = (req: Request): string[] | undefined => {
   return addrs
 }
 
+export const getSubdomains = (app: App, req: Request): string[] => {
+  const hostname = getHostname(req)
+
+  if (!hostname) return []
+
+  const offset = app.settings.subdomainOffset || 2
+
+  const subdomains = isIP(hostname) ? [hostname] : hostname.split('.').reverse()
+
+  return subdomains.slice(offset)
+}
+
 // export const getRequestIs = (types: string | string[], ...args: string[]) => (req: Request) => {
 //   let arr = types
 
@@ -93,6 +106,7 @@ export interface Request extends IncomingMessage {
   hostname: string | undefined
   ip?: string
   ips?: string[]
+  subdomains?: string[]
 
   get: (header: string) => string | string[] | undefined
 

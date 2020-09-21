@@ -1,4 +1,4 @@
-import { Request } from './request'
+import { getSubdomains, Request } from './request'
 import type { NextFunction } from '@tinyhttp/router'
 import type { Response } from './response'
 
@@ -51,6 +51,7 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response, next
     })
 
     req.hostname = getHostname(req)
+    req.subdomains = getSubdomains(app, req)
     req.ip = getIP(req)
     req.ips = getIPs(req)
   }

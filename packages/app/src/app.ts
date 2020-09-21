@@ -23,6 +23,7 @@ export const applyHandler = (h: Handler) => async (req: Request, res: Response, 
 export type AppSettings = Partial<{
   networkExtensions: boolean
   freshnessTesting: boolean
+  subdomainOffset: number
 }>
 
 /**
