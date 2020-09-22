@@ -1,5 +1,11 @@
 # @tinyhttp/bot-detector
 
+## 0.1.17
+
+### Patch Changes
+
+- @tinyhttp/app@0.3.17
+
 ## 0.1.16
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @tinyhttp/req
 
+## 0.1.10
+
+### Patch Changes
+
+- Fix versions
+
 ## 0.1.9
 
 ### Patch Changes
