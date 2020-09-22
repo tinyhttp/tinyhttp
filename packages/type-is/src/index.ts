@@ -1,5 +1,5 @@
 import * as mime from 'es-mime-types'
-import * as typer from 'media-typer'
+import typer from 'media-typer'
 
 function normalizeType(value: string) {
   // parse the type
