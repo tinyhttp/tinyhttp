@@ -1,5 +1,19 @@
 # @tinyhttp/app
 
+## 0.4.0
+
+### Minor Changes
+
+- Release v0.4
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.4.0
+  - @tinyhttp/req@0.4.0
+  - @tinyhttp/res@0.4.0
+  - @tinyhttp/router@0.4.0
+
 ## 0.3.18
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @tinyhttp/etag
 
+## 0.4.0
+
+### Minor Changes
+
+- Release v0.4
+
 ## 0.3.2
 
 ### Patch Changes

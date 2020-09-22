@@ -1,5 +1,11 @@
 # @tinyhttp/dotenv
 
+## 0.4.0
+
+### Minor Changes
+
+- Release v0.4
+
 ## 0.1.2
 
 ### Patch Changes

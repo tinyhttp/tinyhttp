@@ -1,5 +1,18 @@
 # @tinyhttp/req
 
+## 0.4.0
+
+### Minor Changes
+
+- Release v0.4
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/accepts@0.4.0
+  - @tinyhttp/type-is@0.4.0
+  - @tinyhttp/url@0.4.0
+
 ## 0.1.11
 
 ### Patch Changes

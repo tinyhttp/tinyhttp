@@ -1,5 +1,11 @@
 # @tinyhttp/cors
 
+## 0.4.0
+
+### Minor Changes
+
+- Release v0.4
+
 ## 0.3.3
 
 ### Patch Changes

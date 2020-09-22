@@ -1,5 +1,16 @@
 # @tinyhttp/pug
 
+## 0.4.0
+
+### Minor Changes
+
+- Release v0.4
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.4.0
+
 ## 0.1.19
 
 ### Patch Changes
