@@ -37,4 +37,6 @@ export interface Response extends ServerResponse {
   format(obj: FormatProps): Response
   redirect(url: string, status?: number): Response
   type(type: string): Response
+
+  app?: App
 }

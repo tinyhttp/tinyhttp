@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/pug",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "type": "module",
   "description": "Pug wrapped in a helper function for tinyhttp.",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",

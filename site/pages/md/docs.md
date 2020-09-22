@@ -83,6 +83,8 @@
       <li><a href="#reqstale">req.stale</a></li>
       <li><a href="#reqip">req.ip</a></li>
       <li><a href="#reqips">req.ips</a></li>
+      <li><a href="#subdomains">req.subdomains</a></li>
+      <li><a href="#reqapp">req.app</a></li>
     </ul>
   </details>
  
@@ -103,6 +105,7 @@
       Properties
     </summary>
     <ul>
+    <li><a href="#resapp">res.app</a></li>
     </ul>
   </details>
  <details>
@@ -228,16 +231,27 @@ Here's a list of all of the settings:
 
 Enabled a list of Request object extensions related to network.
 
-- [`req.proto`](#reqproto)
+- [`req.protocol`](#reqprotocol)
 - [`req.secure`](#reqsecure)
 - [`req.hostname`](#reqhostname)
+- [`req.ip`](#reqip)
+- [`req.ips`](#reqips)
+- [`req.subdomains`](#reqsubdomains)
 
 ##### `freshnessTesting`
 
-Enables 2 properties - `req.fresh` and `req.stale`
+Enables 2 properties - `req.fresh` and `req.stale`:
 
 - [`req.fresh`](#reqfresh)
 - [`req.stale`](#reqstale)
+
+##### `subdomainOffset`
+
+Subdomain offset for `req.subdomains`. Defaults to `2`.
+
+##### `bindAppToReqRes`
+
+Bind the app as a reference to the actual app to `req.app` and `res.app`. Disabled by default.
 
 ### Properties
 
@@ -625,6 +639,32 @@ console.log(req.ip)
 // => [127.0.0.1']
 ```
 
+#### `req.subdomains`
+
+> This property can be enabled via `networkExtensions` setting
+
+Contains an array of subdomains. Subdomain offset can be set via `subdomainOffset`
+
+```ts
+console.log(req.hostname)
+// dev.node0.example.com
+
+console.log(req.subdomains)
+// ['node0', 'dev']
+```
+
+#### `req.app`
+
+> This property can be enabled via `bindAppToReqRes` setting
+
+Points to a reference of the currently used app.
+
+```ts
+app.use((req, res) => {
+  res.json(req.app.middleware) // send a current middleware array, dunno why but this is just an example
+})
+```
+
 ### Methods
 
 #### `req.accepts`
@@ -688,6 +728,18 @@ req.get('Something')
 The `res` object represents the HTTP response that a tinyhttp app sends when it gets an HTTP request.
 
 ### Properties
+
+#### `res.app`
+
+> This property can be enabled via `bindAppToReqRes` setting
+
+Points to a reference of the currently used app.
+
+```js
+app.use((req, res) => {
+  res.json(res.app.settings)
+})
+```
 
 ### Methods
 

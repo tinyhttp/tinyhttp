@@ -59,12 +59,12 @@ export const getIPs = (req: Request): string[] | undefined => {
   return addrs
 }
 
-export const getSubdomains = (app: App, req: Request): string[] => {
+export const getSubdomains = (req: Request, subdomainOffset = 2): string[] => {
   const hostname = getHostname(req)
 
   if (!hostname) return []
 
-  const offset = app.settings.subdomainOffset || 2
+  const offset = subdomainOffset
 
   const subdomains = isIP(hostname) ? [hostname] : hostname.split('.').reverse()
 
@@ -123,4 +123,6 @@ export interface Request extends IncomingMessage {
   stale?: boolean
 
   body?: any
+
+  app?: App
 }

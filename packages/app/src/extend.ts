@@ -36,6 +36,14 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response, next
   res.get = getResponseHeader(req, res)
   req.get = getRequestHeader(req)
 
+  /**
+    Bind `app` to `req` / `res`
+   */
+  if (options?.bindAppToReqRes) {
+    req.app = app
+    res.app = app
+  }
+
   /*
   Request extensions
   */
@@ -51,7 +59,7 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response, next
     })
 
     req.hostname = getHostname(req)
-    req.subdomains = getSubdomains(app, req)
+    req.subdomains = getSubdomains(req, options.subdomainOffset)
     req.ip = getIP(req)
     req.ips = getIPs(req)
   }

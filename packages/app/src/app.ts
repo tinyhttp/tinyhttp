@@ -24,6 +24,7 @@ export type AppSettings = Partial<{
   networkExtensions: boolean
   freshnessTesting: boolean
   subdomainOffset: number
+  bindAppToReqRes: boolean
 }>
 
 /**

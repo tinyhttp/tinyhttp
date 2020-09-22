@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.3.15
+
+### Patch Changes
+
+- Add req.subdomains, req.app and res.app
+
 ## 0.3.14
 
 ### Patch Changes
