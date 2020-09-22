@@ -1,5 +1,14 @@
 # @tinyhttp/app
 
+## 0.3.16
+
+### Patch Changes
+
+- Add req.acceptsLanguages, req.is and res.locals
+- Updated dependencies [undefined]
+  - @tinyhttp/req@0.1.9
+  - @tinyhttp/res@0.1.13
+
 ## 0.3.15
 
 ### Patch Changes

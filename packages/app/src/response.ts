@@ -39,4 +39,6 @@ export interface Response extends ServerResponse {
   type(type: string): Response
 
   app?: App
+
+  locals?: Record<string, any>
 }

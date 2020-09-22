@@ -1,7 +1,9 @@
 import { IncomingMessage as Request, ServerResponse as Response } from 'http'
 import parseRange, { Options } from 'range-parser'
 import fresh from 'es-fresh'
-import { Accepts } from '@tinyhttp/accepts'
+import { typeIs } from '@tinyhttp/type-is'
+
+export * from './accepts'
 
 export * from '@tinyhttp/url'
 
@@ -49,20 +51,6 @@ export const checkIfXMLHttpRequest = (req: Request): boolean => {
   return req.headers['X-Requested-With'] === 'XMLHttpRequest'
 }
 
-export const getAccepts = (req: Request) => (...types: string[]): string | false | string[] => {
-  const accepts = new Accepts(req)
-
-  return accepts.types(types)
-}
-
-export const getAcceptsEncodings = (req: Request) => (...encodings: string[]) => {
-  const accepts = new Accepts(req)
-
-  return accepts.encodings(encodings)
-}
-
-export const getAcceptsCharsets = (req: Request) => (...charsets: string[]) => {
-  const accepts = new Accepts(req)
-
-  return accepts.charsets(charsets)
+export const reqIs = (req: Request) => (...types: string[]): boolean => {
+  return typeIs(req.headers['content-type'], ...types)
 }

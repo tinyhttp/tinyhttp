@@ -115,6 +115,8 @@ export interface Request extends IncomingMessage {
   acceptsEncodings: (...encodings: string[]) => AcceptsReturns
   acceptsCharsets: (...charsets: string[]) => AcceptsReturns
 
+  is: (...types: string[]) => boolean
+
   cookies?: any
   signedCookies?: any
   secret?: string | string[]

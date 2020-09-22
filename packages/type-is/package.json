@@ -1,13 +1,13 @@
 {
-  "name": "@tinyhttp/pug",
-  "version": "0.1.17",
+  "name": "@tinyhttp/type-is",
+  "version": "0.0.0",
   "type": "module",
-  "description": "Pug wrapped in a helper function for tinyhttp.",
+  "description": "TypeScript rewrite of type-is with CJS and ESM targets",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/talentlessguy/tinyhttp.git",
-    "directory": "packages/pug"
+    "directory": "packages/type-is"
   },
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
@@ -26,11 +26,10 @@
     "web framework",
     "web",
     "backend",
-    "pug",
-    "templates",
-    "template",
-    "template-engine",
-    "html"
+    "req",
+    "request",
+    "type-is",
+    "javascript"
   ],
   "engines": {
     "node": ">=12.4.0"
@@ -38,13 +37,13 @@
   "author": "v1rtl",
   "license": "MIT",
   "scripts": {
-    "build": "rollup -c ./rollup.config.js"
+    "build": "rollup -c"
   },
   "dependencies": {
-    "@tinyhttp/app": "workspace:*",
-    "pug": "^3.0.0"
+    "es-mime-types": "^0.0.16",
+    "media-typer": "^1.1.0"
   },
   "devDependencies": {
-    "@types/pug": "^2.0.4"
+    "@types/media-typer": "^1.1.0"
   }
 }

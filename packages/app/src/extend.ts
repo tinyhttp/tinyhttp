@@ -105,4 +105,6 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response, next
   res.format = formatResponse(req, res, next)
 
   res.redirect = redirect(req, res, next)
+
+  res.locals = res.locals || Object.create(null)
 }
