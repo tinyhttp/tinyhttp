@@ -13,7 +13,6 @@ export default (cfg) => ({
       format: 'esm',
     },
   ],
-  ...cfg,
   plugins: [ts(), ...(cfg.plugins || [])],
-  external: deps(cfg.external),
+  external: [...deps(cfg.external)],
 })

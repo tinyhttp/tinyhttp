@@ -20,6 +20,8 @@ import {
   formatResponse,
   redirect,
   setContentType,
+  attachment,
+  download,
 } from '@tinyhttp/res'
 import { renderTemplate } from './response'
 import { App } from './app'
@@ -105,6 +107,9 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response, next
   res.format = formatResponse(req, res, next)
 
   res.redirect = redirect(req, res, next)
+
+  res.attachment = attachment(req, res)
+  res.download = download(req, res)
 
   res.locals = res.locals || Object.create(null)
 }

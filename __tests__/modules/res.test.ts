@@ -1,6 +1,7 @@
 import { makeFetch } from 'supertest-fetch'
+import path from 'path'
 import { Request, Response } from '../../packages/app/src'
-import { formatResponse, getResponseHeader, redirect, setHeader, setVaryHeader, setContentType } from '../../packages/res/src'
+import { formatResponse, getResponseHeader, redirect, setHeader, setVaryHeader, setContentType, attachment } from '../../packages/res/src'
 import { runServer } from '../../test_helpers/runServer'
 
 describe('Response extensions', () => {
@@ -128,6 +129,22 @@ describe('Response extensions', () => {
       })
 
       await makeFetch(app)('/').expect('Content-Type', 'text/html')
+    })
+  })
+  describe('res.attachment(filename)', () => {
+    it('should set Content-Disposition without a filename specified', async () => {
+      const app = runServer((req, res) => {
+        attachment(req, res)().end()
+      })
+
+      await makeFetch(app)('/').expect('Content-Disposition', 'attachment')
+    })
+    it('should set Content-Disposition with a filename specified', async () => {
+      const app = runServer((req, res) => {
+        attachment(req, res)(path.join(__dirname, '../fixtures', 'favicon.ico')).end()
+      })
+
+      await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename="favicon.ico"')
     })
   })
 })

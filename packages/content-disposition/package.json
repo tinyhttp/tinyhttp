@@ -1,6 +1,6 @@
 {
-  "name": "@tinyhttp/accepts",
-  "description": "accepts rewrite in TypeScript with ESM and CommonJS targets",
+  "name": "@tinyhttp/content-disposition",
+  "description": "content-disposition rewrite in TypeScript with ESM and CommonJS targets",
   "version": "0.4.0",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
   "repository": {
@@ -23,14 +23,7 @@
     "./package.json": "./package.json",
     "./": "./"
   },
-  "devDependencies": {
-    "@types/negotiator": "^0.6.1"
-  },
-  "dependencies": {
-    "es-mime-types": "^0.0.16",
-    "negotiator": "^0.6.2"
-  },
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c ../../build/defaultConfig.js"
   }
 }

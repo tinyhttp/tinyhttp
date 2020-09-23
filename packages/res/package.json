@@ -37,6 +37,7 @@
     "build": "rollup -c"
   },
   "dependencies": {
+    "@tinyhttp/content-disposition": "workspace:^0.4.0",
     "@tinyhttp/cookie": "workspace:*",
     "@tinyhttp/cookie-signature": "workspace:*",
     "@tinyhttp/req": "workspace:*",

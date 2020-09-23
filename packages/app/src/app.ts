@@ -25,6 +25,7 @@ export type AppSettings = Partial<{
   freshnessTesting: boolean
   subdomainOffset: number
   bindAppToReqRes: boolean
+  xPoweredBy: boolean
 }>
 
 /**
@@ -89,6 +90,22 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
   }
 
   /**
+   * Enable app setting
+   * @param setting Setting name
+   */
+  enable(setting: string) {
+    this.settings[setting] = true
+  }
+
+  /**
+   * Disable app setting
+   * @param setting
+   */
+  disable(setting: string) {
+    this.settings[setting] = false
+  }
+
+  /**
    * Render a template
    * @param file What to render
    * @param data data that is passed to a template
@@ -138,6 +155,9 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
    * @param res Res object
    */
   async handler(req: Req, res: Res) {
+    /* Set X-Powered-By header */
+    if (this.settings?.xPoweredBy) res.setHeader('X-Powered-By', 'tinyhttp')
+
     const mw = this.middleware
 
     const subappPath = Object.keys(this.apps).find((x) => req.url.startsWith(x))
