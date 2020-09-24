@@ -63,7 +63,7 @@ Here's a small list of requirements for your PR:
 
 ### Adding new middleware
 
-- Create a `[name]` folder in `packages` folder
+- Create a `<name>` folder in `packages` folder
 - Copy `package.json`, `README.md` and `rollup.config.js` from any near folder and edit the `name`, `version` etc fields
 - Create `src/index.ts` file
 - Write some code
@@ -71,14 +71,21 @@ Here's a small list of requirements for your PR:
 - Write some tests
 - Pull request!
 
+### Adding new non-middleware module
+
+- Same 4 fields as for middleware
+- Go to `__tests__/modules` folder
+- Write some tests
+- Pull request!
+
 ### Adding new example
 
-- Create a `[name]` folder in `examples` folder
+- Create a folder with the package name in `examples` folder
 - Create `package.json` with these fields:
 
 ```json
 {
-  "name": "[name]",
+  "name": "<name>",
   "private": true,
   "type": "module",
   "module": "index.js"
