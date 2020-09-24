@@ -42,12 +42,14 @@ pnpm i && pnpm i -r
 - Build fresh packages
 
 ```sh
-pnpm build -r
+pnpm build
 ```
 
 ### Formating
 
 If you use VS Code, please install Prettier and ESLint plugins for proper linting and code formatting.
+
+If you use a text editor that doesn't have Prettier integration, you can run `pnpx prettier --write \"./**/*.{ts,js,mjs,cjs}\"`
 
 ## Submitting PRs
 
