@@ -53,8 +53,6 @@ export const download = <Request extends I = I, Response extends S = S>(req: Req
   // Resolve the full path for sendFile
   const fullPath = resolve(path)
 
-  console.log(fullPath, name)
-
   const noop = () => {
     return
   }
