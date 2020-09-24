@@ -10,15 +10,17 @@ export type DownloadOptions = SendFileOptions &
     headers: Record<string, any>
   }>
 
+type Callback = (err?: any) => void
+
 export const download = <Request extends I = I, Response extends S = S>(req: Request, res: Response) => (
   path: string,
-  filename: string,
-  options?: DownloadOptions,
-  cb?: (err?: any) => void
+  filename?: string | Callback,
+  options?: DownloadOptions | Callback,
+  cb?: Callback
 ): Response => {
   let done = cb
-  let name = filename
-  let opts = options || null
+  let name = filename as string
+  let opts = (options || null) as DownloadOptions
 
   // support function as second or third arg
   if (typeof filename === 'function') {
@@ -51,8 +53,14 @@ export const download = <Request extends I = I, Response extends S = S>(req: Req
   // Resolve the full path for sendFile
   const fullPath = resolve(path)
 
+  console.log(fullPath, name)
+
+  const noop = () => {
+    return
+  }
+
   // send file
-  return sendFile(req, res)(fullPath, opts, done)
+  return sendFile(req, res)(fullPath, opts, done || noop)
 }
 
 export const attachment = <Request extends I = I, Response extends S = S>(req: Request, res: Response) => (filename?: string): Response => {

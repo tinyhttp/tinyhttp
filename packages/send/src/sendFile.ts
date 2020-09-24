@@ -18,6 +18,7 @@ export type ReadStreamOptions = Partial<{
 export type SendFileOptions = ReadStreamOptions &
   Partial<{
     root: string
+    headers: Record<string, any>
   }>
 
 /**
@@ -31,11 +32,17 @@ export type SendFileOptions = ReadStreamOptions &
  * @param res Response
  */
 export const sendFile = <Request extends I = I, Response extends S = S>(_: Request, res: Response) => (path: string, opts: SendFileOptions, cb?: (err?: any) => void) => {
-  const { root, ...options } = opts
+  const { root, headers, ...options } = opts
 
   if (!path) {
     if (typeof path !== 'string') throw new TypeError('path must be a string to res.sendFile')
     throw new TypeError('path argument is required to res.sendFile')
+  }
+
+  if (headers) {
+    for (const [k, v] of Object.entries(headers)) {
+      res.setHeader(k, v)
+    }
   }
 
   if (!isAbsolute(path)) throw new TypeError('path must be absolute')
