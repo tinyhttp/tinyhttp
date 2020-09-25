@@ -108,12 +108,12 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://github.com/ahmad-reza619"><img src="https://avatars1.githubusercontent.com/u/52902060?v=4" width="100px;" alt=""/><br /><sub><b>Ahmad Reza</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=ahmad-reza619" title="Code">💻</a></td>
     <td align="center"><a href="https://typetron.org/"><img src="https://avatars3.githubusercontent.com/u/4083652?v=4" width="100px;" alt=""/><br /><sub><b>Ionel lupu</b></sub></a><br /><a href="#example-IonelLupu" title="Examples">💡</a></td>
+    <td align="center"><a href="https://github.com/tkalmi"><img src="https://avatars3.githubusercontent.com/u/14164217?v=4" width="100px;" alt=""/><br /><sub><b>Tomi Kalmi</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=tkalmi" title="Documentation">📖</a></td>
   </tr>
 </table>
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
-
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
