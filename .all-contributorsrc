@@ -96,6 +96,15 @@
       "contributions": [
         "example"
       ]
+    },
+    {
+      "login": "tkalmi",
+      "name": "Tomi Kalmi",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/14164217?v=4",
+      "profile": "https://github.com/tkalmi",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
