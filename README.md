@@ -13,7 +13,7 @@ _**tinyhttp**_ is a modern [Express](https://expressjs.com/)-like web framework 
 
 Here is a short list of most important features that tinyhttp has:
 
-- ⚡ [2.5x faster](benchmark) than Express
+- ⚡ [2.3x faster](benchmark) than Express
 - ⚙ Full Express middleware support
 - ↪ Async middleware support
 - ☑ Native ESM and CommonJS support
@@ -84,10 +84,6 @@ To see benchmark comparison between tinyhttp, polka, express and koa, check [ben
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## License
-
-MIT © [v1rtl](https://v1rtl.site)
-
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -114,6 +110,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
@@ -131,6 +128,10 @@ These amazing people supported tinyhttp financially:
 </table>
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
+## License
+
+MIT © [v1rtl](https://v1rtl.site)
 
 [site-url]: https://tinyhttp.v1rtl.site
 [npm-url]: https://npmjs.com/package/@tinyhttp/app
