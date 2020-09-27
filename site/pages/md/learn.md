@@ -75,7 +75,7 @@ Although tinyhttp tries to be as close to Express as possible, there are some ke
 
 - **tinyhttp doesn't have the same settings**. All `App` settings are initialized in the constructor. You can see a list of them [here](/docs#settings).
 - **tinyhttp doesn't put `err` object in middleware if the previous one passed error**. Instead, it uses a [generic error handler](/docs#onerrorerr-req-res).
-- **tinyhttp doesn't include static server and body parser out of the box**. To reduce module size these things were put in separate middleware modules, such as [`@tinyhttp/static`](https://tinyhttp.v1rtl.site/mw/static) and [`parsec`](https://github.com/talentlessguy/parsec).
+- **tinyhttp doesn't include static server and body parser out of the box**. To reduce module size these things were put in separate middleware modules, such as [`parsec`](https://github.com/talentlessguy/parsec).
 
 Note that maximum compatability is in progress so some of the points might change.
 
@@ -614,7 +614,7 @@ It is common to use a web server as reverse proxy from 3000 (or any other) port 
 
 Docker has a lot of images to run a Node.js app in a container. One of the most popular images is [node](https://hub.docker.com/_/node/).
 
-There are articles of deploying an Express app with Docker. You can use these tutorials to deploy tinyhttp (it's almost the same).
+There are articles of deploying an Express / Node.js app with Docker. You can use these tutorials to deploy tinyhttp.
 
 - [Run Express in Docker](https://dev.to/tirthaguha/run-express-in-docker-2o44)
 - [Dockerizing a Node.js web app](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/)
