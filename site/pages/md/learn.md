@@ -67,7 +67,11 @@
 
 ### Introduction
 
-_**tinyhttp**_ is a modern Express-like web framework for Node.js written in TypeScript. It uses a bare minimum amount of dependencies trying to avoid legacy hell.
+_**tinyhttp**_ is a modern Express-like web framework for Node.js written in TypeScript. It uses a bare minimum amount of dependencies trying to avoid legacy hell. Besides a small dependency list, tinyhttp also offers native ESM (`import` / `export`) support, async middleware handlers support and proper types out of the box.
+
+Also, because a lot of express middlewares depend on legacy modules themselves, tinyhttp offers a [list of tinyhttp-oriented middleware](https://tinyhttp.v1rtl.site/mw) (with types out of the box and native ESM support as well) for the best development experience.
+
+### Dependency structure
 
 tinyhttp directly mostly depends on helper modules:
 
