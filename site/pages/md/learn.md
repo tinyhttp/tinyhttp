@@ -67,7 +67,74 @@
 
 ### Introduction
 
-_**tinyhttp**_ is a modern Express-like web framework for Node.js written in TypeScript. It uses a bare minimum amount of dependencies trying to avoid legacy hell. Most dependencies that tinyhttp app has, are modern rewrites (like [regexparam](https://github.com/lukeed/regexparam)) or small 0-dependency modules, like [range-parser](https://www.npmjs.com/package/range-parser).
+_**tinyhttp**_ is a modern Express-like web framework for Node.js written in TypeScript. It uses a bare minimum amount of dependencies trying to avoid legacy hell.
+
+tinyhttp directly mostly depends on helper modules:
+
+```sh
+@tinyhttp/app 0.4.2
+├── @tinyhttp/cookie 0.4.0
+├── @tinyhttp/req 0.4.0
+├── @tinyhttp/res 0.4.1
+├── @tinyhttp/router 0.4.0
+└── proxy-addr 2.0.6
+```
+
+The core `@tinyhttp/app` module depends on small helper modules like `@tinyhttp/router` for easier maintaining and ability to use tinyhttp features outside of tinyhttp (to build your own web framework for example).
+
+this is how the full dependency tree of `@tinyhttp/app` looks like:
+
+```sh
+@tinyhttp/app 0.4.2
+├── @tinyhttp/cookie 0.4.0
+├─┬ @tinyhttp/req 0.4.0
+│ ├─┬ @tinyhttp/accepts 0.4.0
+│ │ ├─┬ es-mime-types 0.0.16
+│ │ │ └── mime-db 1.45.0
+│ │ └── negotiator 0.6.2
+│ ├─┬ @tinyhttp/type-is 0.4.0
+│ │ ├─┬ es-mime-types 0.0.16
+│ │ │ └── mime-db 1.45.0
+│ │ └── media-typer 1.1.0
+│ ├─┬ @tinyhttp/url 0.4.0
+│ │ └── regexparam 1.3.0
+│ ├── es-fresh 0.0.8
+│ └── range-parser 1.2.1
+├─┬ @tinyhttp/res 0.4.1
+│ ├── @tinyhttp/content-disposition 0.4.0
+│ ├── @tinyhttp/cookie 0.4.0
+│ ├── @tinyhttp/cookie-signature 0.4.0
+│ ├─┬ @tinyhttp/req 0.4.0
+│ │ ├─┬ @tinyhttp/accepts 0.4.0
+│ │ │ ├─┬ es-mime-types 0.0.16
+│ │ │ │ └── mime-db 1.45.0
+│ │ │ └── negotiator 0.6.2
+│ │ ├─┬ @tinyhttp/type-is 0.4.0
+│ │ │ ├─┬ es-mime-types 0.0.16
+│ │ │ │ └── mime-db 1.45.0
+│ │ │ └── media-typer 1.1.0
+│ │ ├─┬ @tinyhttp/url 0.4.0
+│ │ │ └── regexparam 1.3.0
+│ │ ├── es-fresh 0.0.8
+│ │ └── range-parser 1.2.1
+│ ├─┬ @tinyhttp/send 0.4.1
+│ │ ├── @tinyhttp/etag 0.4.0
+│ │ ├── es-content-type 0.0.10
+│ │ └─┬ es-mime-types 0.0.16
+│ │   └── mime-db 1.45.0
+│ ├─┬ es-mime-types 0.0.16
+│ │ └── mime-db 1.45.0
+│ ├── es-vary 0.0.7
+│ └── escape-html 1.0.3
+├── @tinyhttp/router 0.4.0
+└─┬ proxy-addr 2.0.6
+  ├── forwarded 0.1.2
+  └── ipaddr.js 1.9.1
+```
+
+Because Express contains a lot of legacy modules, the dependency tree of it is much longer.
+
+> NOTE: Moving [proxy-addr](https://github.com/jshttp/proxy-addr) to tinyhttp's ES version is in progress
 
 ### Differences with Express
 
