@@ -239,7 +239,7 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
    * @param Server callback after server starts listening
    * @param host server listening host
    */
-  listen(port?: number, cb?: () => void, host = 'localhost') {
+  listen(port?: number, cb?: () => void, host = '0.0.0.0') {
     const server = createServer()
 
     server.on('request', (req, res) => this.handler(req, res))

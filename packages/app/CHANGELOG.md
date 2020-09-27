@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.4.3
+
+### Patch Changes
+
+- Changed the default binding address from localhost to 0.0.0.0
+
 ## 0.4.2
 
 ### Patch Changes
