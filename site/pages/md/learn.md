@@ -33,6 +33,7 @@
   <a href="#get-started"><h2>Get started</h2></a>
   <ul>
     <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#dependency-structure">Dependency structure</a></li>
     <li><a href="#differences-with-express">Differences with Express</a></li>
     <li><a href="#install">Install</a></li>
     <li><a href="#hello-world">Hello World</a></li>
