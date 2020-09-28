@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.4.4
+
+### Patch Changes
+
+- Add `app.set`
+
 ## 0.4.3
 
 ### Patch Changes
