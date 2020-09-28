@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.4.5
+
+### Patch Changes
+
+- Add `res.jsonp` to response interface and start documenting some methods
+
 ## 0.4.4
 
 ### Patch Changes
