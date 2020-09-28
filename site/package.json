@@ -6,7 +6,6 @@
   "license": "MIT",
   "dependencies": {
     "@tinyhttp/markdown": "workspace:*",
-    "@tinyhttp/static": "workspace:*",
     "highlight.js": "^10.1.2",
     "marked": "^1.1.1",
     "node-fetch-cache": "^1.0.4",

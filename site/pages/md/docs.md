@@ -127,6 +127,7 @@
     <li><a href="#resformat">res.format</a></li>
     <li><a href="#resredirect">res.redirect</a></li>
     <li><a href="#restype">res.type</a></li>
+    <li><a href="#resjsonp">res.jsonp</a></li>
   </ul>
  </details>
 </aside>
@@ -1007,6 +1008,25 @@ res.type('application/json')
 // => 'application/json'
 res.type('png')
 // => 'image/png'
+```
+
+#### `res.jsonp`
+
+Send JSON response with JSONP callback support. `res.jsonp` isn't used that often so it's located in a separate package - [`@tinyhttp/jsonp`](https://github.com/talentlessguy/tinyhttp/blob/master/packages/jsonp)
+
+Here's a way how to enable it:
+
+```js
+import { jsonp } from '@tinyhttp/jsonp'
+
+app.use((req, res, next) => {
+  res.jsonp = jsonp(req, res, app)
+  next()
+})
+
+app.get('/', (req, res) => {
+  res.jsonp({ some: 'jsonp' })
+})
 ```
 
 </main>

@@ -88,6 +88,14 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
     this.noMatchHandler = options?.noMatchHandler || this.onError.bind(null, { code: 404 })
     this.settings = options.settings
   }
+  /**
+   * Set app setting
+   * @param setting setting name
+   * @param value setting value
+   */
+  set(setting: string, value: any) {
+    this.settings[setting] = value
+  }
 
   /**
    * Enable app setting

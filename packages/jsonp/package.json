@@ -1,16 +1,13 @@
 {
-  "name": "@tinyhttp/cookie-parser",
-  "version": "0.4.5",
+  "name": "@tinyhttp/jsonp",
+  "version": "0.4.3",
   "type": "module",
-  "description": "tinyhttp cookie parsing middleware",
-  "homepage": "https://github.com/talentlessguy/tinyhttp/tree/master/packages/cookie-parser#readme",
+  "description": "JSONP response middleware",
+  "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/talentlessguy/tinyhttp.git",
-    "directory": "packages/cookie-parser"
-  },
-  "engines": {
-    "node": ">=12.4.0"
+    "directory": "packages/etag"
   },
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
@@ -29,17 +26,17 @@
     "web framework",
     "web",
     "backend",
-    "cookie",
-    "cookie-parser"
+    "etag"
   ],
+  "engines": {
+    "node": ">=12.4.0"
+  },
   "author": "v1rtl",
   "license": "MIT",
-  "dependencies": {
-    "@tinyhttp/app": "workspace:*",
-    "@tinyhttp/cookie": "workspace:*",
-    "@tinyhttp/cookie-signature": "workspace:*"
-  },
   "scripts": {
     "build": "rollup -c ../../build/defaultConfig.js"
+  },
+  "dependencies": {
+    "@tinyhttp/app": "workspace:^0.4.5"
   }
 }
