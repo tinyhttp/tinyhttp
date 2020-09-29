@@ -1,5 +1,12 @@
 # @tinyhttp/res
 
+## 0.4.3
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/send@0.4.3
+
 ## 0.4.2
 
 ### Patch Changes

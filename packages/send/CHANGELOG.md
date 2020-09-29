@@ -1,5 +1,11 @@
 # @tinyhttp/send
 
+## 0.4.3
+
+### Patch Changes
+
+- Remove console.log
+
 ## 0.4.2
 
 ### Patch Changes
