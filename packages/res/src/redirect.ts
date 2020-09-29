@@ -22,7 +22,7 @@ export const redirect = <Request extends I = I, Response extends S = S, Next ext
     },
     html: () => {
       const u = escapeHtml(address)
-      console.log('here')
+
       body = `<p>${STATUS_CODES[status]}. Redirecting to <a href="${u}">${u}</a></p>`
     },
     default: () => {
