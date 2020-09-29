@@ -37,7 +37,7 @@ export const send = <Request extends I = I, Response extends S = S>(req: Request
 
   // populate ETag
   let etag: string | undefined
-  if (!res.getHeader('etag') && (etag = createETag(bodyToSend, encoding))) {
+  if (body && !res.getHeader('etag') && (etag = createETag(bodyToSend, encoding))) {
     res.setHeader('etag', etag)
   }
 
@@ -51,11 +51,14 @@ export const send = <Request extends I = I, Response extends S = S>(req: Request
 
   if (req.method === 'HEAD') {
     res.end('')
+    return
   }
 
   if (typeof body === 'object') {
-    if (body === null) {
+    if (body == null) {
+      console.log('here')
       res.end('')
+      return
     } else if (Buffer.isBuffer(body)) {
       if (!res.getHeader('Content-Type')) {
         res.setHeader('content-type', 'application/octet-stream')

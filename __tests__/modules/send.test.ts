@@ -24,16 +24,29 @@ describe('Testing @tinyhttp/send', () => {
     it('should set HTML content-type header when sending plain text', async () => {
       const app = runServer((req, res) => send(req, res)('Hello World'))
 
-      const res = await makeFetch(app)('/')
-
-      expect(res.headers.get('content-type')).toContain('text/html')
+      await makeFetch(app)('/').expectHeader('Content-Type', 'text/html; charset=utf-8')
     })
     it('should generate an eTag on a plain text response', async () => {
       const app = runServer((req, res) => send(req, res)('Hello World'))
 
-      const res = await makeFetch(app)('/')
+      await makeFetch(app)('/').expectHeader('etag', 'W/"b-Ck1VqNd45QIvq3AZd8XYQLvEhtA"')
+    })
+    it('should send a JSON response', async () => {
+      const app = runServer((req, res) => send(req, res)({ hello: 'world' }))
 
-      expect(res.headers.get('etag')).not.toBeUndefined()
+      await makeFetch(app)('/').expectHeader('Content-Type', 'application/json').expectBody({ hello: 'world' })
+    })
+    it('should send nothing on a HEAD request', async () => {
+      const app = runServer((req, res) => send(req, res)('Hello World'))
+
+      await makeFetch(app)('/', {
+        method: 'HEAD',
+      }).expectBody('')
+    })
+    it('should send nothing if body is empty', async () => {
+      const app = runServer((req, res) => send(req, res)(null))
+
+      await makeFetch(app)('/').expectBody('')
     })
   })
 

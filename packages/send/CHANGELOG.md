@@ -1,5 +1,11 @@
 # @tinyhttp/send
 
+## 0.4.2
+
+### Patch Changes
+
+- Fix some minor bugs for res.send
+
 ## 0.4.1
 
 ### Patch Changes
