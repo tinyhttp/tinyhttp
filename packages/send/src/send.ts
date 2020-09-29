@@ -56,7 +56,6 @@ export const send = <Request extends I = I, Response extends S = S>(req: Request
 
   if (typeof body === 'object') {
     if (body == null) {
-      console.log('here')
       res.end('')
       return
     } else if (Buffer.isBuffer(body)) {
