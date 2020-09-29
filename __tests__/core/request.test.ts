@@ -1,4 +1,4 @@
-import { InitAppAndTest } from '../test_helpers/initAppAndTest'
+import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 
 describe('Request properties', () => {
   it('should have default HTTP Request properties', async () => {

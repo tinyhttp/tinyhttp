@@ -5,7 +5,7 @@ function createRequest(value?: unknown): any {
     headers: {
       'accept-charset': value,
       'accept-language': value,
-      'content-type': value
+      'content-type': value,
     },
   }
 }
@@ -38,17 +38,17 @@ describe('new Accepts(req)', () => {
     })
   })
   describe('accepts.languages()', () => {
-    describe("with no arguments", () => {
+    describe('with no arguments', () => {
       it('when Accept-Language is populated it should return accepted languages', () => {
         const req = createRequest('en, it, us')
         const accept = new Accepts(req)
-        // @ts-ignore 
+        // @ts-ignore
         expect(accept.languages()).toStrictEqual(['en', 'it', 'us'])
       })
       it('when Accept-Language is not in request it should return *', () => {
         const req = createRequest()
         const accept = new Accepts(req)
-        // @ts-ignore 
+        // @ts-ignore
         expect(accept.languages()).toStrictEqual(['*'])
       })
     })

@@ -1,9 +1,9 @@
 import http from 'http'
 import { readFile } from 'fs/promises'
-import { App } from '../packages/app/src'
+import { App } from '../../packages/app/src'
 import { renderFile } from 'eta'
 import type { EtaConfig } from 'eta/dist/types/config'
-import { InitAppAndTest } from '../test_helpers/initAppAndTest'
+import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import { makeFetch } from 'supertest-fetch'
 
 describe('Testing App', () => {

@@ -1,5 +1,5 @@
 import { makeFetch } from 'supertest-fetch'
-import { checkIfXMLHttpRequest, getAccepts, getRequestHeader } from '../../packages/req/src'
+import { checkIfXMLHttpRequest, getAccepts, getFreshOrStale, getRequestHeader } from '../../packages/req/src'
 import { runServer } from '../../test_helpers/runServer'
 
 describe('Request extensions', () => {
@@ -60,5 +60,30 @@ describe('Request extensions', () => {
         },
       }).expect('text/plain | text/html')
     })
+  })
+  describe('req.fresh', () => {
+    it('returns false if method is neither GET nor HEAD', async () => {
+      const app = runServer((req, res) => {
+        const fresh = getFreshOrStale(req, res)
+
+        res.end(fresh ? 'fresh' : 'rotten')
+      })
+
+      await makeFetch(app)('/', {
+        method: 'POST',
+        body: 'Hello World',
+      }).expect('rotten')
+    })
+  })
+  it('returns false if status code is neither >=200 nor < 300, nor 304', async () => {
+    const app = runServer((req, res) => {
+      res.statusCode = 418
+
+      const fresh = getFreshOrStale(req, res)
+
+      res.end(fresh ? 'fresh' : 'rotten')
+    })
+
+    await makeFetch(app)('/').expect('rotten')
   })
 })
