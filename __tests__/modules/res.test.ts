@@ -85,6 +85,23 @@ describe('Response extensions', () => {
         redirect: 'follow',
       }).expect(200, 'Hello World')
     })
+    it('should send an HTML link to redirect to', async () => {
+      const app = runServer((req, res) => {
+        if (req.url === '/abc') {
+          res.writeHead(200).end('Hello World')
+        } else {
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          redirect(req, res, () => {})('/abc').end()
+        }
+      })
+
+      await makeFetch(app)('/', {
+        redirect: 'manual',
+        headers: {
+          Accept: 'text/html',
+        },
+      }).expect(302, '<p>Found. Redirecting to <a href="/abc">/abc</a></p>')
+    })
   })
   describe('res.format(obj)', () => {
     it('should send text by default', async () => {
