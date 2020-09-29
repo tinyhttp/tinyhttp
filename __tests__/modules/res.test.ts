@@ -1,7 +1,7 @@
 import { makeFetch } from 'supertest-fetch'
 import path from 'path'
 import { Request, Response } from '../../packages/app/src'
-import { formatResponse, getResponseHeader, redirect, setHeader, setVaryHeader, setContentType, attachment, download } from '../../packages/res/src'
+import { formatResponse, getResponseHeader, redirect, setHeader, setVaryHeader, setContentType, attachment, download, setCookie } from '../../packages/res/src'
 import { runServer } from '../../test_helpers/runServer'
 
 describe('Response extensions', () => {
@@ -187,6 +187,21 @@ describe('Response extensions', () => {
       })
 
       await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename="some_file.png"')
+    })
+  })
+  describe('res.cookie(name, value, options)', () => {
+    it('should throw if it is signed and and no secret is provided', async () => {
+      const app = runServer((req, res) => {
+        try {
+          setCookie(req, res)('hello', 'world', {
+            signed: true,
+          }).end()
+        } catch (e) {
+          res.end((e as TypeError).message)
+        }
+      })
+
+      await makeFetch(app)('/').expect('cookieParser("secret") required for signed cookies')
     })
   })
 })
