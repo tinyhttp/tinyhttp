@@ -84,14 +84,26 @@ describe('new Accepts(req)', () => {
     })
   })
   */
-  describe('accepts.lang, accepts.langs, accepts.language', () => {
-    it('all getter aliases should map to accepts.languages', () => {
+  describe('getter aliases', () => {
+    it('all getter aliases for "languages" should map to accepts.languages', () => {
       const req = createRequest('application/json, text/plain')
       const accept = new Accepts(req)
 
       expect(accept.lang).toEqual(accept.languages)
       expect(accept.langs).toEqual(accept.languages)
       expect(accept.language).toEqual(accept.languages)
+    })
+    it('all getter aliases for "charset" should map to accepts.charsets', () => {
+      const req = createRequest('application/json, text/plain')
+      const accept = new Accepts(req)
+
+      expect(accept.charset).toEqual(accept.charsets)
+    })
+    it('all getter aliases for "type" should map to accepts.types', () => {
+      const req = createRequest('application/json, text/plain')
+      const accept = new Accepts(req)
+
+      expect(accept.type).toEqual(accept.types)
     })
   })
 })
