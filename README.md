@@ -41,6 +41,22 @@ You can see the documentation [here](https://tinyhttp.v1rtl.site/docs).
 
 ## Get Started
 
+tinyhttp is compiled to ESM (and legacy CommonJS) so you can use `import` / `export` syntax in Node.js with it.
+
+To setup a Node ESM package, put `"type": "module"` in the package.json file, like this:
+
+```json
+{
+  "type": "module"
+}
+```
+
+Another option would be using an `.mjs` extension, then you don't need to put that `"type"` field in package.json.
+
+For more info, check out the [ECMAScript Modules Node.js documentation](https://nodejs.org/api/esm.html).
+
+From now on you can use named imports for ESM modules and default imports for CommonJS modules in your project.
+
 The app structure is quite similar to Express, except that you need to import `App` from `@tinyhttp/app` instead of default import from `express`.
 
 ```ts
