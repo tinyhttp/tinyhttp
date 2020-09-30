@@ -84,4 +84,14 @@ describe('new Accepts(req)', () => {
     })
   })
   */
+  describe('accepts.lang, accepts.langs, accepts.language', () => {
+    it('all getter aliases should map to accepts.languages', () => {
+      const req = createRequest('application/json, text/plain')
+      const accept = new Accepts(req)
+
+      expect(accept.lang).toEqual(accept.languages)
+      expect(accept.langs).toEqual(accept.languages)
+      expect(accept.language).toEqual(accept.languages)
+    })
+  })
 })
