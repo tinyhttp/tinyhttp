@@ -1,7 +1,7 @@
 import { makeFetch } from 'supertest-fetch'
 import path from 'path'
 import { Request, Response } from '../../packages/app/src'
-import { formatResponse, getResponseHeader, redirect, setHeader, setVaryHeader, setContentType, attachment, download, setCookie } from '../../packages/res/src'
+import { formatResponse, getResponseHeader, redirect, setHeader, setVaryHeader, setContentType, attachment, download, setCookie, clearCookie } from '../../packages/res/src'
 import { runServer } from '../../test_helpers/runServer'
 
 describe('Response extensions', () => {
@@ -190,6 +190,24 @@ describe('Response extensions', () => {
     })
   })
   describe('res.cookie(name, value, options)', () => {
+    it('serializes the cookie and puts it in a Set-Cookie header', async () => {
+      const app = runServer((req, res) => {
+        setCookie(req, res)('hello', 'world').end()
+
+        expect(res.getHeader('Set-Cookie')).toBe('hello=world; Path=/')
+      })
+
+      await makeFetch(app)('/').expect(200)
+    })
+    it('sets default path to "/" if not specified in options', async () => {
+      const app = runServer((req, res) => {
+        setCookie(req, res)('hello', 'world').end()
+
+        expect(res.getHeader('Set-Cookie')).toContain('Path=/')
+      })
+
+      await makeFetch(app)('/').expect(200)
+    })
     it('should throw if it is signed and and no secret is provided', async () => {
       const app = runServer((req, res) => {
         try {
@@ -202,6 +220,17 @@ describe('Response extensions', () => {
       })
 
       await makeFetch(app)('/').expect('cookieParser("secret") required for signed cookies')
+    })
+  })
+  describe('res.clearCookie(name, options)', () => {
+    it('sets path to "/" if not specified in options', async () => {
+      const app = runServer((req, res) => {
+        clearCookie(req, res)('cookie').end()
+
+        expect(res.getHeader('Set-Cookie')).toContain('Path=/;')
+      })
+
+      await makeFetch(app)('/').expect(200)
     })
   })
 })
