@@ -10,7 +10,7 @@ pnpm install
 
 ## Run
 
-```
+```sh
 pnpm start
 ```
 

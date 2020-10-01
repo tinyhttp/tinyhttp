@@ -6,8 +6,8 @@
     "start": "node -r esm -r ts-node/register ./src/index.ts"
   },
   "dependencies": {
+    "@tinyhttp/app": "workspace:*",
     "@prisma/client": "2.8.0",
-    "@tinyhttp/app": "latest",
     "body-parser": "^1.19.0"
   },
   "devDependencies": {
