@@ -5,7 +5,7 @@ function createRequest(value?: unknown): any {
     headers: {
       'accept-charset': value,
       'accept-language': value,
-      'content-type': value,
+      accept: value,
     },
   }
 }
@@ -65,17 +65,21 @@ describe('new Accepts(req)', () => {
       })
     })
   })
-  // Need to comment out for multiple bugs, gonna implement soon
-  /*
   describe('accepts.types()', () => {
     describe('with arguments', () => {
-      it('when Content-Type is populated it should prioritize according to the request order', () => {
+      it('when Accept is not populated it should return the first option', () => {
+        const req = createRequest()
+        const accept = new Accepts(req)
+        // @ts-ignore
+        expect(accept.types(['text/plain', 'application/json'])).toStrictEqual('text/plain')
+      })
+      it('when Accept is populated it should prioritize according to the request order', () => {
         const req = createRequest('application/json, text/plain')
         const accept = new Accepts(req)
         // @ts-ignore
         expect(accept.types(['text/plain', 'application/json'])).toStrictEqual('application/json')
       })
-      it('when Content-Type is populated it should prioritize according to the request order (second option)', () => {
+      it('when Accept is populated it should prioritize according to the request order (second option)', () => {
         const req = createRequest('text/plain, application/json')
         const accept = new Accepts(req)
         // @ts-ignore
@@ -83,7 +87,6 @@ describe('new Accepts(req)', () => {
       })
     })
   })
-  */
   describe('getter aliases', () => {
     it('all getter aliases for "languages" should map to accepts.languages', () => {
       const req = createRequest('application/json, text/plain')
