@@ -1,5 +1,11 @@
 # @tinyhttp/res
 
+## 0.4.4
+
+### Patch Changes
+
+- @tinyhttp/req@0.4.1
+
 ## 0.4.3
 
 ### Patch Changes

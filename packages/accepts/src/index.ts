@@ -2,13 +2,9 @@ import Negotiator from 'negotiator'
 import { IncomingMessage, IncomingHttpHeaders } from 'http'
 import { lookup } from 'es-mime-types'
 
-function extToMime(type: string) {
-  return type.indexOf('/') == -1 ? lookup(type) : type
-}
+const extToMime = (type: string) => (type.indexOf('/') == -1 ? lookup(type) : type)
 
-function validMime(type: unknown) {
-  return typeof type == 'string'
-}
+const validMime = (type: unknown) => typeof type == 'string'
 
 export class Accepts {
   headers: IncomingHttpHeaders
@@ -59,18 +55,20 @@ export class Accepts {
    *
    *     ['gzip', 'deflate']
    */
-  encodings(encodings: string[], ...args: string[]) {
+  encodings(encodings: string | string[], ...args: string[]) {
+    let _encodings: string[] = encodings as string[]
+
     // support flattened arguments
-    if (encodings && !Array.isArray(encodings)) {
-      encodings = [encodings, ...args]
+    if (_encodings && !Array.isArray(_encodings)) {
+      _encodings = [_encodings, ...args]
     }
 
     // no encodings, return all requested encodings
-    if (!encodings || encodings.length == 0) {
+    if (!_encodings || _encodings.length == 0) {
       return this.negotiator.encodings()
     }
 
-    return this.negotiator.encodings(encodings)[0] || false
+    return this.negotiator.encodings(_encodings)[0] || false
   }
   get encoding() {
     return this.encodings
@@ -83,18 +81,20 @@ export class Accepts {
    *
    *     ['utf-8', 'utf-7', 'iso-8859-1']
    */
-  charsets(charsets?: string[], ...args: string[]) {
+  charsets(charsets?: string | string[], ...args: string[]) {
+    let _charsets: string[] = charsets as string[]
+
     // support flattened arguments
-    if (charsets && !Array.isArray(charsets)) {
-      charsets = [charsets, ...args]
+    if (_charsets && !Array.isArray(_charsets)) {
+      _charsets = [_charsets, ...args]
     }
 
     // no charsets, return all requested charsets
-    if (!charsets || charsets.length == 0) {
+    if (!_charsets || _charsets.length == 0) {
       return this.negotiator.charsets()
     }
 
-    return this.negotiator.charsets(charsets)[0] || false
+    return this.negotiator.charsets(_charsets)[0] || false
   }
   get charset() {
     return this.charsets
@@ -108,18 +108,20 @@ export class Accepts {
    *     ['es', 'pt', 'en']
    *
    */
-  languages(languages: string[], ...args: string[]) {
+  languages(languages: string | string[], ...args: string[]) {
+    let _languages: string[] = languages as string[]
+
     // support flattened arguments
-    if (languages && !Array.isArray(languages)) {
-      languages = [languages, ...args]
+    if (_languages && !Array.isArray(_languages)) {
+      _languages = [_languages, ...args]
     }
 
     // no languages, return all requested languages
-    if (!languages || languages.length == 0) {
+    if (!_languages || _languages.length == 0) {
       return this.negotiator.languages()
     }
 
-    return this.negotiator.languages(languages)[0] || false
+    return this.negotiator.languages(_languages)[0] || false
   }
   get lang() {
     return this.languages

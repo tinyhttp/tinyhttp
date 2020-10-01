@@ -1,5 +1,11 @@
 # @tinyhttp/accepts
 
+## 0.4.1
+
+### Patch Changes
+
+- Fix typings for args
+
 ## 0.4.0
 
 ### Minor Changes
