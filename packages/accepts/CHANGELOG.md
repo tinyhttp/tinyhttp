@@ -1,5 +1,11 @@
 # @tinyhttp/accepts
 
+## 0.4.2
+
+### Patch Changes
+
+- Fix undefined bug
+
 ## 0.4.1
 
 ### Patch Changes
