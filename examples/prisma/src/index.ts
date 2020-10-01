@@ -1,22 +1,30 @@
+import { App, Request, Response } from '@tinyhttp/app'
 import { PrismaClient } from '@prisma/client'
 import * as bodyParser from 'body-parser'
-import express from 'express'
 
 const prisma = new PrismaClient()
-const app = express()
+const app = new App()
 
-app.use(bodyParser.json())
+app.use(bodyParser.json() as any)
+app.post(`/user`, handlePostUser)
+app.post(`/post`, handlePostPost)
+app.put('/publish/:id', handlePutPublishById)
+app.delete(`/post/:id`, handleDeletePostById)
+app.get(`/post/:id`, handleGetPostById)
+app.get('/feed', handleGetFeed)
+app.get('/filterPosts', handleGetFilterPosts)
 
-app.post(`/user`, async (req, res) => {
+async function handlePostUser(req: Request, res: Response) {
   const result = await prisma.user.create({
     data: {
-      ...req.body,
+      email: req.body.email,
+      name: req.body.name,
     },
   })
   res.json(result)
-})
+}
 
-app.post(`/post`, async (req, res) => {
+async function handlePostPost(req: Request, res: Response) {
   const { title, content, authorEmail } = req.body
   const result = await prisma.post.create({
     data: {
@@ -27,18 +35,18 @@ app.post(`/post`, async (req, res) => {
     },
   })
   res.json(result)
-})
+}
 
-app.put('/publish/:id', async (req, res) => {
+async function handlePutPublishById(req: Request, res: Response) {
   const { id } = req.params
   const post = await prisma.post.update({
     where: { id: Number(id) },
     data: { published: true },
   })
   res.json(post)
-})
+}
 
-app.delete(`/post/:id`, async (req, res) => {
+async function handleDeletePostById(req: Request, res: Response) {
   const { id } = req.params
   const post = await prisma.post.delete({
     where: {
@@ -46,9 +54,9 @@ app.delete(`/post/:id`, async (req, res) => {
     },
   })
   res.json(post)
-})
+}
 
-app.get(`/post/:id`, async (req, res) => {
+async function handleGetPostById(req: Request, res: Response) {
   const { id } = req.params
   const post = await prisma.post.findOne({
     where: {
@@ -56,17 +64,17 @@ app.get(`/post/:id`, async (req, res) => {
     },
   })
   res.json(post)
-})
+}
 
-app.get('/feed', async (req, res) => {
+async function handleGetFeed(req: Request, res: Response) {
   const posts = await prisma.post.findMany({
     where: { published: true },
     include: { author: true },
   })
   res.json(posts)
-})
+}
 
-app.get('/filterPosts', async (req, res) => {
+async function handleGetFilterPosts(req: Request, res: Response) {
   const { searchString }: { searchString?: string } = req.query
   const draftPosts = await prisma.post.findMany({
     where: {
@@ -85,6 +93,6 @@ app.get('/filterPosts', async (req, res) => {
     },
   })
   res.json(draftPosts)
-})
+}
 
-const server = app.listen(3000, () => console.log('🚀 Server ready at: http://localhost:3000\n⭐️ See sample requests: http://pris.ly/e/ts/rest-express#3-using-the-rest-api'))
+app.listen(3000, () => console.log('Server ready at: http://localhost:3000'))

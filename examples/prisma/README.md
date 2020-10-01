@@ -1,35 +1,20 @@
-# REST API Example
+# Prisma example
 
-This example shows how to implement a **REST API with TypeScript** using [Express](https://expressjs.com/) and [Prisma Client](https://github.com/prisma/prisma2/blob/master/docs/prisma-client-js/api.md). It is based on a SQLite database, you can find the database file with some dummy data at [`./prisma/dev.db`](./prisma/dev.db).
+A simple REST API using tinyhttp and Prisma
 
-## How to use
+## Setup
 
-### 1. Download example & install dependencies
-
-Clone this repository:
-
-```
-git clone git@github.com:prisma/prisma-examples.git --depth=1
+```sh
+pnpm install
 ```
 
-Install npm dependencies:
+## Run
 
 ```
-cd prisma-examples/typescript/rest-express
-npm install
+pnpm start
 ```
 
-Note that this also generates Prisma Client JS into `node_modules/@prisma/client` via a `postinstall` hook of the `@prisma/client` package from your `package.json`.
-
-### 2. Start the REST API server
-
-Execute this command to start the server:
-
-```
-npm run dev
-```
-
-The server is now running on `http://localhost:3000`. You can send the API requests implemented in `index.js`, e.g. [`http://localhost:3000/feed`](http://localhost:3000/feed).
+The server is now running on `http://localhost:3000`.
 
 ## Using the REST API
 
@@ -39,7 +24,7 @@ You can access the REST API of the server using the following endpoints:
 
 - `/post/:id`: Fetch a single post by its `id`
 - `/feed`: Fetch all _published_ posts
-- `/filterPosts?searchString={searchString}`: Filter posts by `title` or `content`
+- `/filterPosts?searchString=example`: SearchString gets used to search through the title and content property of posts
 
 ### `POST`
 
