@@ -16,7 +16,7 @@ git clone https://github.com/talentlessguy/tinyhttp.git
 hub clone talentlessguy/tinyhttp
 ```
 
-- Install Node.js (v14 is recommended) and `pnpm`:
+- Install Node.js (v14 is recommended because tests use `fs/promises`) and `pnpm`:
 
 ```sh
 # Install fnm
