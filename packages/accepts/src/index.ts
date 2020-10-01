@@ -24,7 +24,7 @@ export class Accepts {
     // support flattened arguments
     if (types && !Array.isArray(types)) {
       mimeTypes = [types, ...args]
-    } else {
+    } else if (types) {
       mimeTypes = [...types, ...args]
     }
 
