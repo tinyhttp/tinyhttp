@@ -1,11 +1,11 @@
-import { App, Request, Response } from '@tinyhttp/app'
+import { App, NextFunction, Request, Response } from '@tinyhttp/app'
 import { PrismaClient } from '@prisma/client'
 import * as bodyParser from 'body-parser'
 
 const prisma = new PrismaClient()
 const app = new App()
 
-app.use(bodyParser.json() as any)
+app.use(bodyParser.json() as NextFunction)
 app.post(`/user`, handlePostUser)
 app.post(`/post`, handlePostPost)
 app.put('/publish/:id', handlePutPublishById)

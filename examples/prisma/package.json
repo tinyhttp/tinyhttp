@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "preact-ssr",
+  "name": "tinyhttp-prisma",
   "type": "module",
   "scripts": {
     "start": "node -r esm -r ts-node/register ./src/index.ts"
@@ -8,7 +8,6 @@
   "dependencies": {
     "@prisma/client": "2.8.0",
     "@tinyhttp/app": "latest",
-    "@types/node": "12.12.62",
     "body-parser": "^1.19.0"
   },
   "devDependencies": {
