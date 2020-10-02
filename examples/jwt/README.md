@@ -1,6 +1,6 @@
 # Auth example
 
-Simple authentification example using [JWT](https://jwt.io/) and tinyhttp.
+Simple authentication example using [JWT](https://jwt.io/) and tinyhttp.
 
 ## Setup
 

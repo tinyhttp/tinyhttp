@@ -1,0 +1,11 @@
+{
+  "name": "session",
+  "private": true,
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*",
+    "@tinyhttp/session": "workspace:*",
+    "body-parsec": "^2.0.16"
+  },
+  "type": "module",
+  "module": "index.js"
+}
