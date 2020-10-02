@@ -1,0 +1,53 @@
+{
+  "name": "@tinyhttp/rate-limit",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Basic IP rate-limiting middleware for Express. Use to limit repeated requests to public APIs and/or endpoints such as password reset.",
+  "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/talentlessguy/tinyhttp.git",
+    "directory": "packages/rate-limit"
+  },
+  "main": "dist/index.cjs",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json",
+    "./": "./"
+  },
+  "keywords": [
+    "tinyhttp-rate-limit",
+    "tinyttp",
+    "rate",
+    "limit",
+    "ratelimit",
+    "rate-limit",
+    "middleware",
+    "ip",
+    "auth",
+    "authorization",
+    "security",
+    "brute",
+    "force",
+    "bruteforce",
+    "brute-force",
+    "attack"
+  ],
+  "engines": {
+    "node": ">=12.4.0"
+  },
+  "author": "v1rtl",
+  "license": "MIT",
+  "scripts": {
+    "build": "rollup -c ./rollup.config.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@tinyhttp/app": "workspace:*"
+  }
+}

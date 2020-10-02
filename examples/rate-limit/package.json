@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "tinyhttp-rate-limit",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*",
+    "@tinyhttp/rate-limit": "workspace:*"
+  }
+}
