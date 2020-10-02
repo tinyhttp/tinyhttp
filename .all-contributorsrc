@@ -105,6 +105,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "Luiginator",
+      "name": "Luiginator",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/46606509?v=4",
+      "profile": "https://github.com/Luiginator",
+      "contributions": [
+        "example"
+      ]
     }
   ],
   "contributorsPerLine": 7,
