@@ -1,6 +1,6 @@
 # Prisma example
 
-A simple REST API using tinyhttp and Prisma
+A simple REST API using tinyhttp and [Prisma](https://www.prisma.io/)
 
 ## Setup
 
