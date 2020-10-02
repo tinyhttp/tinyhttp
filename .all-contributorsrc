@@ -123,6 +123,15 @@
       "contributions": [
         "example"
       ]
+    },
+    {
+      "login": "berto",
+      "name": "Roberto Ortega",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/12090909?v=4",
+      "profile": "https://berto.github.io/",
+      "contributions": [
+        "example"
+      ]
     }
   ],
   "contributorsPerLine": 7,
