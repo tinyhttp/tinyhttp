@@ -1,5 +1,11 @@
 # @tinyhttp/session
 
+## 0.4.1
+
+### Patch Changes
+
+- Add missing exports
+
 ## 0.4.0
 
 ### Minor Changes
