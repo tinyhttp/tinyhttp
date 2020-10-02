@@ -114,6 +114,15 @@
       "contributions": [
         "example"
       ]
+    },
+    {
+      "login": "aneeshrelan",
+      "name": "Aneesh Relan",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/17068083?v=4",
+      "profile": "https://github.com/aneeshrelan",
+      "contributions": [
+        "example"
+      ]
     }
   ],
   "contributorsPerLine": 7,
