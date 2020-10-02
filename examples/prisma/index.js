@@ -1,11 +1,11 @@
-import { App, NextFunction, Request, Response } from '@tinyhttp/app'
-import { PrismaClient } from '@prisma/client'
-import * as bodyParser from 'body-parser'
+import { App } from '@tinyhttp/app'
+import Prisma from '@prisma/client'
+import bodyParser from 'body-parser'
 
-const prisma = new PrismaClient()
+const prisma = new Prisma.PrismaClient()
 const app = new App()
 
-app.use(bodyParser.json() as NextFunction)
+app.use(bodyParser.json())
 app.post(`/user`, handlePostUser)
 app.post(`/post`, handlePostPost)
 app.put('/publish/:id', handlePutPublishById)
@@ -14,7 +14,7 @@ app.get(`/post/:id`, handleGetPostById)
 app.get('/feed', handleGetFeed)
 app.get('/filterPosts', handleGetFilterPosts)
 
-async function handlePostUser(req: Request, res: Response) {
+async function handlePostUser(req, res) {
   const result = await prisma.user.create({
     data: {
       email: req.body.email,
@@ -24,7 +24,7 @@ async function handlePostUser(req: Request, res: Response) {
   res.json(result)
 }
 
-async function handlePostPost(req: Request, res: Response) {
+async function handlePostPost(req, res) {
   const { title, content, authorEmail } = req.body
   const result = await prisma.post.create({
     data: {
@@ -37,7 +37,7 @@ async function handlePostPost(req: Request, res: Response) {
   res.json(result)
 }
 
-async function handlePutPublishById(req: Request, res: Response) {
+async function handlePutPublishById(req, res) {
   const { id } = req.params
   const post = await prisma.post.update({
     where: { id: Number(id) },
@@ -46,7 +46,7 @@ async function handlePutPublishById(req: Request, res: Response) {
   res.json(post)
 }
 
-async function handleDeletePostById(req: Request, res: Response) {
+async function handleDeletePostById(req, res) {
   const { id } = req.params
   const post = await prisma.post.delete({
     where: {
@@ -56,7 +56,7 @@ async function handleDeletePostById(req: Request, res: Response) {
   res.json(post)
 }
 
-async function handleGetPostById(req: Request, res: Response) {
+async function handleGetPostById(req, res) {
   const { id } = req.params
   const post = await prisma.post.findOne({
     where: {
@@ -66,7 +66,7 @@ async function handleGetPostById(req: Request, res: Response) {
   res.json(post)
 }
 
-async function handleGetFeed(req: Request, res: Response) {
+async function handleGetFeed(req, res) {
   const posts = await prisma.post.findMany({
     where: { published: true },
     include: { author: true },
@@ -74,8 +74,8 @@ async function handleGetFeed(req: Request, res: Response) {
   res.json(posts)
 }
 
-async function handleGetFilterPosts(req: Request, res: Response) {
-  const { searchString }: { searchString?: string } = req.query
+async function handleGetFilterPosts(req, res) {
+  const { searchString } = req.query
   const draftPosts = await prisma.post.findMany({
     where: {
       OR: [
