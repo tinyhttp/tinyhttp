@@ -9,6 +9,7 @@ export interface RateLimitOptions {
   headers: boolean
   skipFailedRequests: boolean
   skipSuccessfulRequests: boolean
+  draftPolliRatelimitHeaders: boolean
   keyGenerator: (req: Request) => string
   shouldSkip: (req: Request, res: Response) => boolean
   onLimitReached: (req: Request, res: Response) => void
@@ -23,6 +24,7 @@ const defaultOptions: RateLimitOptions = {
   headers: true,
   skipFailedRequests: false,
   skipSuccessfulRequests: false,
+  draftPolliRatelimitHeaders: false,
   keyGenerator: (req) => req.ip,
   shouldSkip: () => false,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -30,7 +32,20 @@ const defaultOptions: RateLimitOptions = {
 }
 
 export function rateLimit(options?: Partial<RateLimitOptions>) {
-  const { shouldSkip, keyGenerator, windowMs, max, headers, skipFailedRequests, skipSuccessfulRequests, statusCode, onLimitReached, message, ...otherOptions } = {
+  const {
+    shouldSkip,
+    keyGenerator,
+    windowMs,
+    max,
+    headers,
+    skipFailedRequests,
+    skipSuccessfulRequests,
+    statusCode,
+    onLimitReached,
+    message,
+    draftPolliRatelimitHeaders,
+    ...otherOptions
+  } = {
     ...defaultOptions,
     ...options,
   }
@@ -62,6 +77,14 @@ export function rateLimit(options?: Partial<RateLimitOptions>) {
           // provide the current date to help avoid issues with incorrect clocks
           res.setHeader('Date', new Date().toUTCString())
           res.setHeader('X-RateLimit-Reset', Math.ceil(resetTime.getTime() / 1000))
+        }
+      }
+      if (draftPolliRatelimitHeaders && !res.headersSent) {
+        res.setHeader('RateLimit-Limit', maxResult)
+        res.setHeader('RateLimit-Remaining', (req as any).rateLimit.remaining)
+        if (resetTime) {
+          const deltaSeconds = Math.ceil((resetTime.getTime() - Date.now()) / 1000)
+          res.setHeader('RateLimit-Reset', Math.max(0, deltaSeconds))
         }
       }
 
