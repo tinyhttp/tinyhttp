@@ -36,7 +36,7 @@ describe('Bot Detector tests', () => {
     }).expect(200, '{"isBot":true,"botName":"Google"}')
   })
 
-  it('should not identify a node request as bot', async () => {
+  it('should identify a node request as bot', async () => {
     await makeFetch(createServer())('/', {
       headers: {
         'User-Agent': 'node-fetch/1.0 (+https://github.com/bitinn/node-fetch)',
