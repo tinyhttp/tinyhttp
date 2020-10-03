@@ -1,0 +1,11 @@
+{
+  "name": "react-ssr",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "htm": "^3.0.4"
+  }
+}
