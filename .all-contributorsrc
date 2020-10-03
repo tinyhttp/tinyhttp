@@ -105,6 +105,34 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "Luiginator",
+      "name": "Luiginator",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/46606509?v=4",
+      "profile": "https://github.com/Luiginator",
+      "contributions": [
+        "example"
+      ]
+    },
+    {
+      "login": "aneeshrelan",
+      "name": "Aneesh Relan",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/17068083?v=4",
+      "profile": "https://github.com/aneeshrelan",
+      "contributions": [
+        "example",
+        "test"
+      ]
+    },
+    {
+      "login": "berto",
+      "name": "Roberto Ortega",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/12090909?v=4",
+      "profile": "https://berto.github.io/",
+      "contributions": [
+        "example"
+      ]
     }
   ],
   "contributorsPerLine": 7,

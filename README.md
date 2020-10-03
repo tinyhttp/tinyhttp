@@ -121,12 +121,14 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/ahmad-reza619"><img src="https://avatars1.githubusercontent.com/u/52902060?v=4" width="100px;" alt=""/><br /><sub><b>Ahmad Reza</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=ahmad-reza619" title="Code">💻</a></td>
     <td align="center"><a href="https://typetron.org/"><img src="https://avatars3.githubusercontent.com/u/4083652?v=4" width="100px;" alt=""/><br /><sub><b>Ionel lupu</b></sub></a><br /><a href="#example-IonelLupu" title="Examples">💡</a></td>
     <td align="center"><a href="https://github.com/tkalmi"><img src="https://avatars3.githubusercontent.com/u/14164217?v=4" width="100px;" alt=""/><br /><sub><b>Tomi Kalmi</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=tkalmi" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/Luiginator"><img src="https://avatars2.githubusercontent.com/u/46606509?v=4" width="100px;" alt=""/><br /><sub><b>Luiginator</b></sub></a><br /><a href="#example-Luiginator" title="Examples">💡</a></td>
+    <td align="center"><a href="https://github.com/aneeshrelan"><img src="https://avatars2.githubusercontent.com/u/17068083?v=4" width="100px;" alt=""/><br /><sub><b>Aneesh Relan</b></sub></a><br /><a href="#example-aneeshrelan" title="Examples">💡</a> <a href="https://github.com/talentlessguy/tinyhttp/commits?author=aneeshrelan" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://berto.github.io/"><img src="https://avatars3.githubusercontent.com/u/12090909?v=4" width="100px;" alt=""/><br /><sub><b>Roberto Ortega</b></sub></a><br /><a href="#example-berto" title="Examples">💡</a></td>
   </tr>
 </table>
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
-
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

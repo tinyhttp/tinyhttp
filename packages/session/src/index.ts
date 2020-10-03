@@ -88,7 +88,7 @@ class Cookie implements Express.SessionCookie {
   }
 }
 
-class Session implements Express.Session {
+export class Session implements Express.Session {
   id: string
   req: any
   store: Store
@@ -170,7 +170,7 @@ class Session implements Express.Session {
   }
 }
 
-abstract class Store extends EventEmitter {
+export abstract class Store extends EventEmitter {
   constructor() {
     super()
   }
