@@ -1,6 +1,6 @@
 # @tinyhttp/unless
 
-Unless middleware for tinyhttp
+Unless middleware for tinyhttp that executes a middleware conditionally.
 
 ## Install
 
@@ -10,15 +10,14 @@ pnpm i @tinyhttp/unless
 
 ## API
 
-### `unless(<middleware>, options) || <middleware>.unless(options)`
-
-This middleware executes a middleware conditionally.
+### `unless(middleware, (options | customFunction))`
 
 The `options` object can include:
 - `method` - string or array of strings that describe forbidden http methods such as GET, POST, PUT etc...
 - `path` - array of strings, Regex and objects that include `url` and `methods` properties, which will be compared against the request.
 - `ext` - string or array of strings that describe forbidden path ends (e.g. in `/user/123` it will check against `123`).
-- `custom` - function that receives a Request object and returns a boolean. The result of the function will determine if the middleware executes.
+
+The `customFunction` is a function that receives a Request object and returns a boolean. The result of the function will determine if the middleware executes.
 
 If you pass an empty options object (or you don't pass at all), the middlewares will execute regularly.
 
@@ -32,14 +31,20 @@ import { cors } from '@tinyhttp/cors'
 
 const app = new App();
 
-//You can do this
+//Method example
 app.use(unless(cors(), {method: ['GET', 'POST']}));
 
-//Or this
-app.use(cors().unless({method: ['GET', 'POST']}));
+//Ext example
+app.use(unless(cors(), {ext: '/public'}));
+
+//Custom function example
+app.use(unless(cors(), {method: (req)=>{
+    if(req.method === 'GET') return true;
+    return false;
+}});
 
 //Path example
-app.use(unless(cors(), {path: ['/public', /user/, {url: "/public", methods: ['GET']}]});
+app.use(unless(cors(), {path: ['/content/public', /user/, {url: "/public", methods: ['GET']}]});
 
 
 app.listen(3000);
