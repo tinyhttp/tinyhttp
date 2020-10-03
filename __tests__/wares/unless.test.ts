@@ -3,16 +3,15 @@ import type { UnlessMiddlewareOptions, CustomUnless } from '../../packages/unles
 import type { Request, Response, NextFunction } from './../../packages/app'
 import { createServer } from 'http'
 import { makeFetch } from 'supertest-fetch'
+import type { Middleware, SyncHandler } from '../../packages/app/src'
 
-type middleware = (req: Request, res: Response, next?: NextFunction) => any
-
-function exampleMiddleware(_: Request, res: Response) {
+function exampleMiddleware(_: Request, res: Response): void {
   res.setHeader('MW', 1)
 }
 
 function InitAppAndTestUnless(options: UnlessMiddlewareOptions | CustomUnless) {
   const app = createServer((req, res) => {
-    unless(exampleMiddleware, options)(req as Request, res as Response, () => {
+    unless({ handler: exampleMiddleware, type: 'mw' }, options)(req as Request, res as Response, () => {
       return
     })
     res.statusCode = 200

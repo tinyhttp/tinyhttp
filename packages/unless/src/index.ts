@@ -1,20 +1,18 @@
 import type { Request, Response, NextFunction } from '@tinyhttp/app'
+import type { Middleware } from '@tinyhttp/app/src'
 
 //Options for the middleware
-export interface UnlessMiddlewareOptions {
-  method?: string | string[] //methods to compare
-  path?: string | RegExp | (string | RegExp | PathObject)[] //paths to compare
-  ext?: string | string[] //last part of endpoint to compare
-}
+export type UnlessMiddlewareOptions = Partial<{
+  method: string | string[] | 'GET' | 'POST' | 'PUT' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'DELETE' //methods to compare
+  path: string | RegExp | (string | RegExp | PathObject)[] //paths to compare
+  ext: string | string[] //last part of endpoint to compare
+}>
 
 //Optional path object
 interface PathObject {
   url: string
-  methods: string[]
+  methods: (string | 'GET' | 'POST' | 'PUT' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'DELETE')[]
 }
-
-//Middleware interface
-type Middleware = (req: Request, res: Response, next?: NextFunction) => any
 
 //Unless custom function
 export type CustomUnless = (req: Request) => boolean
@@ -76,13 +74,13 @@ export function unless(middleware: Middleware, options: UnlessMiddlewareOptions 
       if (skip) {
         next()
       } else {
-        middleware(req, res, next)
+        middleware.handler(req, res, next)
       }
     } else {
       if (custom(req)) {
         next()
       } else {
-        middleware(req, res, next)
+        middleware.handler(req, res, next)
       }
     }
   }
