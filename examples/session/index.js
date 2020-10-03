@@ -1,5 +1,5 @@
 import { App } from '@tinyhttp/app'
-import { urlencoded } from 'body-parsec'
+import { urlencoded } from 'milliparsec'
 import { SessionManager, MemoryStore } from '@tinyhttp/session'
 
 const app = new App()

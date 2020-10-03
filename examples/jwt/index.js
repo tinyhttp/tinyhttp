@@ -1,13 +1,13 @@
 import { App } from '@tinyhttp/app'
 import { jwt } from '@tinyhttp/jwt'
-import { form } from 'body-parsec'
+import { urlencoded } from 'milliparsec'
 import jsonwebtoken from 'jsonwebtoken'
 
 const app = new App()
 const secretToken = 'very secret key'
 
 app.use(jwt({ secret: secretToken, algorithm: 'HS256' }))
-app.use(form())
+app.use(urlencoded())
 
 app.get('/', (_req, res) => {
   res.send('Go to "/login" page to login')
@@ -15,8 +15,6 @@ app.get('/', (_req, res) => {
 
 app.post('/login', (req, res) => {
   const { body } = req
-
-  console.log(`Received body: ${JSON.stringify(req.body)}`)
 
   if (body.user !== 'admin' || body.pwd !== 'admin') {
     res.send('Incorrect login')

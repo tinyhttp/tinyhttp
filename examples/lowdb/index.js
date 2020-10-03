@@ -1,7 +1,7 @@
 import low from 'lowdb'
 import FileSync from 'lowdb/adapters/FileSync.js'
 import { App } from '@tinyhttp/app'
-import { urlencoded } from 'body-parsec'
+import { urlencoded } from 'milliparsec'
 
 const app = new App()
 const adapter = new FileSync('db.json')
@@ -29,6 +29,7 @@ app.get('/:id', (req, res) => {
 // add a post
 app.post('/', (req, res) => {
   if (req.body.title) {
+    // @ts-ignore
     db.get('posts').push({ id: Date.now(), title: req.body.title, likes: 0 }).write()
     res.send({ msg: `Post with title of "${req.body.title}" is successfully added` })
   } else {

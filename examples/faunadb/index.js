@@ -1,7 +1,7 @@
 import { App } from '@tinyhttp/app'
 import * as dotenv from '@tinyhttp/dotenv'
 import fauna from 'faunadb'
-import { json } from 'body-parsec'
+import { json } from 'milliparsec'
 
 const isEmptyObject = (obj) => Object.keys(obj).length === 0 && obj.constructor === Object
 
@@ -10,6 +10,10 @@ const hasPostProps = (obj) => Object.keys(obj).every((x) => ['name', 'descriptio
 const q = fauna.query
 
 dotenv.config()
+
+if (!process.env.DB_KEY) {
+  throw new Error(`Missing DB_KEY field in .env file`)
+}
 
 const client = new fauna.Client({
   secret: process.env.DB_KEY,

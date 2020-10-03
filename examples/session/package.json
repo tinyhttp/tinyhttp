@@ -4,7 +4,7 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/session": "workspace:*",
-    "body-parsec": "^2.0.16"
+    "milliparsec": "^1.0.0"
   },
   "type": "module",
   "module": "index.js"

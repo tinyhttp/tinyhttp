@@ -5,7 +5,7 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/dotenv": "workspace:*",
-    "body-parsec": "^2.1.0",
-    "faunadb": "^3.0.1"
+    "faunadb": "^3.0.1",
+    "milliparsec": "^1.0.0"
   }
 }

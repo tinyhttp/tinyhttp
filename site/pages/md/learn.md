@@ -565,7 +565,7 @@ Here's a simple [example](https://github.com/talentlessguy/tinyhttp/tree/master/
 ```js
 import { App } from '@tinyhttp/app'
 import * as dotenv from '@tinyhttp/dotenv'
-import { urlencoded as parser } from 'body-parsec'
+import { urlencoded as parser } from 'milliparsec'
 import mongodb from 'mongodb'
 import assert from 'assert'
 

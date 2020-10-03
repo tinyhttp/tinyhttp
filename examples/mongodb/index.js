@@ -1,6 +1,6 @@
 import { App } from '@tinyhttp/app'
 import * as dotenv from '@tinyhttp/dotenv'
-import { urlencoded as parser } from 'body-parsec'
+import { urlencoded as parser } from 'milliparsec'
 import mongodb from 'mongodb'
 import assert from 'assert'
 

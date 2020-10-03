@@ -1,7 +1,7 @@
 import { App } from '@tinyhttp/app'
 import * as dotenv from '@tinyhttp/dotenv'
 import pg from 'pg-promise'
-import { urlencoded as parser } from 'body-parsec'
+import { urlencoded as parser } from 'milliparsec'
 
 import sql from './sql/index.js'
 
@@ -12,7 +12,7 @@ const port = parseInt(process.env.PORT) || 3000
 const connection = process.env.DB_CONNECTION
 
 if (!connection) {
-  throw 'DB_CONNECTION must be provided'
+  throw new Error('DB_CONNECTION must be provided')
 }
 
 const initOptions = {
