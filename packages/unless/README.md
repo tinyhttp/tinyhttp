@@ -38,10 +38,10 @@ app.use(unless(cors(), {method: ['GET', 'POST']}));
 app.use(unless(cors(), {ext: '/public'}));
 
 //Custom function example
-app.use(unless(cors(), {method: (req)=>{
+app.use(unless(cors(), (req)=>{
     if(req.method === 'GET') return true;
     return false;
-}});
+});
 
 //Path example
 app.use(unless(cors(), {path: ['/content/public', /user/, {url: "/public", methods: ['GET']}]});
