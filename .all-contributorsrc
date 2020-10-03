@@ -142,6 +142,15 @@
       "contributions": [
         "example"
       ]
+    },
+    {
+      "login": "shzmr",
+      "name": "shzmr",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/55944948?v=4",
+      "profile": "https://github.com/shzmr",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
