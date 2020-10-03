@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.4.10
+
+### Patch Changes
+
+- Add missing `Middleware` re-export
+
 ## 0.4.9
 
 ### Patch Changes
