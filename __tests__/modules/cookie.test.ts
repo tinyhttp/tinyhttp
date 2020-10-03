@@ -25,6 +25,15 @@ describe('Cookie parsing', () => {
   it('should assign only once', () => {
     expect(cookie.parse('foo=%1;bar=bar;foo=boo')).toStrictEqual({ foo: '%1', bar: 'bar' })
   })
+  it('should decode with a custom decoder', () => {
+    expect(
+      cookie.parse('foo=%1;bar=bar;foo=boo', {
+        decode: (_val: string) => {
+          return 'foobar'
+        },
+      })
+    ).toStrictEqual({ foo: 'foobar', bar: 'foobar' })
+  })
 })
 
 describe('Cookie serializing', () => {
@@ -71,7 +80,9 @@ describe('Cookie serializing', () => {
       })
     } catch (e) {
       expect((e as TypeError).message).toBe('option maxAge is invalid')
+      return
     }
+    throw new Error('Did not throw an error')
   })
   it('should properly set "sameSite" parameter', () => {
     expect(
@@ -97,7 +108,9 @@ describe('Cookie serializing', () => {
       })
     } catch (e) {
       expect((e as TypeError).message).toBe('option sameSite is invalid')
+      return
     }
+    throw new Error('Did not throw an error')
   })
   it('should do escaping', () => {
     expect(cookie.serialize('cat', '+ ')).toBe('cat=%2B%20')
@@ -113,6 +126,60 @@ describe('Cookie serializing', () => {
       })
     } catch (e) {
       expect((e as TypeError).message).toBe('option expires is invalid')
+      return
+    }
+    throw new Error('Did not throw an error')
+  })
+  it('should throw an error if argument name is invalid', () => {
+    try {
+      cookie.serialize('➡️', 'bar')
+    } catch (e) {
+      expect((e as TypeError).message).toBe('argument name is invalid')
+      return
+    }
+    throw new Error('Did not throw an error')
+  })
+  it('should throw an error if argument val is invalid', () => {
+    try {
+      const customEncode = {
+        encode: (val: string) => {
+          return val
+        },
+      }
+      cookie.serialize('foo', '➡️', customEncode)
+    } catch (e) {
+      expect((e as TypeError).message).toBe('argument val is invalid')
+      return
+    }
+    throw new Error('Did not throw an error')
+  })
+  it('should throw an error if opt.domain is invalid', () => {
+    try {
+      const customOpt = { domain: '➡️' }
+      cookie.serialize('foo', 'bar', customOpt)
+    } catch (e) {
+      expect((e as TypeError).message).toBe('option domain is invalid')
+      return
+    }
+    throw new Error('Did not throw an error')
+  })
+  it('should throw an error if opt.path is invalid', () => {
+    try {
+      const customOpt = { path: '➡️' }
+      cookie.serialize('foo', 'bar', customOpt)
+    } catch (e) {
+      expect((e as TypeError).message).toBe('option path is invalid')
+      return
+    }
+    throw new Error('Did not throw an error')
+  })
+  it('should serialize a string correctly', () => {
+    try {
+      const customOpt = { path: 'lorem', domain: 'ipsum', expires: new Date(), sameSite: 'strict' }
+      cookie.serialize('foo', 'bar', customOpt)
+    } catch (e) {
+      expect(e).toBe(undefined)
+      return
     }
   })
 })
