@@ -125,6 +125,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/Luiginator"><img src="https://avatars2.githubusercontent.com/u/46606509?v=4" width="100px;" alt=""/><br /><sub><b>Luiginator</b></sub></a><br /><a href="#example-Luiginator" title="Examples">💡</a></td>
     <td align="center"><a href="https://github.com/aneeshrelan"><img src="https://avatars2.githubusercontent.com/u/17068083?v=4" width="100px;" alt=""/><br /><sub><b>Aneesh Relan</b></sub></a><br /><a href="#example-aneeshrelan" title="Examples">💡</a> <a href="https://github.com/talentlessguy/tinyhttp/commits?author=aneeshrelan" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://berto.github.io/"><img src="https://avatars3.githubusercontent.com/u/12090909?v=4" width="100px;" alt=""/><br /><sub><b>Roberto Ortega</b></sub></a><br /><a href="#example-berto" title="Examples">💡</a></td>
+    <td align="center"><a href="https://github.com/setheal"><img src="https://avatars2.githubusercontent.com/u/1657175?v=4" width="100px;" alt=""/><br /><sub><b>Barciet Maëlann</b></sub></a><br /><a href="#example-setheal" title="Examples">💡</a></td>
   </tr>
 </table>
 
