@@ -17,7 +17,7 @@ The `UnlessMiddlewareOptions` object can include:
 - `path` - array of strings, Regex and objects that include `url` and `methods` properties, which will be compared against the request.
 - `ext` - string or array of strings that describe forbidden path ends (e.g. in `/user/123` it will check against `/123`).
 
-The `CustomUnless` is a function that receives a Request object and returns a boolean. The result of the function will determine if the middleware executes.
+The `CustomUnless` is a function that receives a Request object and returns a boolean. The result of the function will determine if the execution of the middleware is skipped.
 
 ## Example
 
