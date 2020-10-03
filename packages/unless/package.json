@@ -31,10 +31,12 @@
   "engines": {
     "node": ">=12.4.0"
   },
-  "author": "v1rtl",
+  "author": "shzmr",
   "license": "MIT",
   "scripts": {
     "build": "rollup -c ./rollup.config.js"
   },
-  "dependencies": {"@tinyhttp/app": "workspace:*"}
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*"
+  }
 }

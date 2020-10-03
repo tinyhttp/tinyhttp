@@ -13,6 +13,7 @@ pnpm i @tinyhttp/unless
 ### `unless(middleware, (UnlessMiddlewareOptions | CustomUnless))`
 
 The `UnlessMiddlewareOptions` object can include:
+
 - `method` - string or array of strings that describe forbidden http methods such as GET, POST, PUT etc...
 - `path` - array of strings, Regex and objects that include `url` and `methods` properties, which will be compared against the request.
 - `ext` - string or array of strings that describe forbidden path ends (e.g. in `/user/123` it will check against `/123`).
@@ -26,25 +27,22 @@ import { App } from '@tinyhttp/app'
 import { unless } from '@tinyhttp/unless'
 import { cors } from '@tinyhttp/cors'
 
-const app = new App();
+const app = new App()
 
-//Method example
-app.use(unless(cors(), {method: ['GET', 'POST']}));
+//cMethod example
+app.use(unless(cors(),  { method: ['GET', 'POST'] }))
 
-//Ext example
-app.use(unless(cors(), {ext: '/public'}));
+//cExt example
+app.use(unless(cors(), { ext: '/public' }))
 
-//Custom function example
-app.use(unless(cors(), (req)=>{
-    if(req.method === 'GET') return true;
-    return false;
-});
+// Custom function example
+app.use(unless(cors(), (req) => req.method === 'GET')
 
-//Path example
-app.use(unless(cors(), {path: ['/content/public', /user/, {url: "/public", methods: ['GET']}]});
+// Path example
+app.use(unless(cors(), { path: ['/content/public', /user/, { url: '/public', methods: ['GET'] }] })
 
 
-app.listen(3000);
+app.listen(3000)
 ```
 
 ## License
