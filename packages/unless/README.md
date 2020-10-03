@@ -15,7 +15,7 @@ pnpm i @tinyhttp/unless
 The `options` object can include:
 - `method` - string or array of strings that describe forbidden http methods such as GET, POST, PUT etc...
 - `path` - array of strings, Regex and objects that include `url` and `methods` properties, which will be compared against the request.
-- `ext` - string or array of strings that describe forbidden path ends (e.g. in `/user/123` it will check against `123`).
+- `ext` - string or array of strings that describe forbidden path ends (e.g. in `/user/123` it will check against `/123`).
 
 The `customFunction` is a function that receives a Request object and returns a boolean. The result of the function will determine if the middleware executes.
 
