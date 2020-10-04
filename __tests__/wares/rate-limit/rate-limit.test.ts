@@ -2,7 +2,7 @@ import { App } from '../../../packages/app/src'
 import { rateLimit } from '../../../packages/rate-limit/src'
 import { makeFetch } from 'supertest-fetch'
 
-function createAppWith(middleware, handler?: (req, res) => void) {
+function createAppWith(middleware) {
   const app = new App()
   app.use(middleware)
   app.get('/', (_, res) => res.send('response!'))
