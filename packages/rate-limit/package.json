@@ -1,8 +1,8 @@
 {
   "name": "@tinyhttp/rate-limit",
-  "version": "1.0.0",
+  "version": "0.4.0",
   "type": "module",
-  "description": "Basic IP rate-limiting middleware for Express. Use to limit repeated requests to public APIs and/or endpoints such as password reset.",
+  "description": "Basic IP rate-limiting middleware for tinyhttp. Use to limit repeated requests to public APIs and/or endpoints such as password reset.",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
   "repository": {
     "type": "git",

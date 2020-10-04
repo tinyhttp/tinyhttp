@@ -105,7 +105,7 @@ export function rateLimit(options?: Partial<RateLimitOptions>) {
           })
 
           res.on('close', () => {
-            if (!res.finished) {
+            if (!res.writableEnded) {
               decrementKey()
             }
           })
@@ -135,7 +135,6 @@ export function rateLimit(options?: Partial<RateLimitOptions>) {
 
       next()
     } catch (e) {
-      console.log(e)
       next(e)
     }
   }

@@ -2,7 +2,7 @@ import { App } from '../../../packages/app/src'
 import { rateLimit } from '../../../packages/rate-limit/src'
 import { makeFetch } from 'supertest-fetch'
 
-function createAppWith(middleware) {
+function createAppWith(middleware, handler?: (req, res) => void) {
   const app = new App()
   app.use(middleware)
   app.get('/', (_, res) => res.send('response!'))
@@ -115,6 +115,32 @@ describe('rate-limit', () => {
       await makeFetch(app)('/').expect(200)
       await makeFetch(app)('/').expect(errStatusCode)
     })
+
+    it('should decrement hits with failed response and skipFailedRequests', async () => {
+      const store = new MockStore()
+      const app = createAppWith(
+        rateLimit({
+          skipFailedRequests: true,
+          store: store,
+        })
+      )
+
+      await makeFetch(app)('/errorPage').expect(404)
+      expect(store.decrement_was_called).toBeTruthy()
+    })
+
+    it('should decrement hits with success response and skipSuccessfulRequests', async () => {
+      const store = new MockStore()
+      const app = createAppWith(
+        rateLimit({
+          skipSuccessfulRequests: true,
+          store: store,
+        })
+      )
+
+      await makeFetch(app)('/').expect(200)
+      expect(store.decrement_was_called).toBeTruthy()
+    })
   })
 
   describe('headers', () => {
@@ -166,6 +192,44 @@ describe('rate-limit', () => {
       await makeFetch(app)('/').expect(200)
 
       await makeFetch(app)('/').expect(429).expect('retry-after', windowSeconds.toString())
+    })
+
+    it('catches errors and calls nextFunction', async () => {
+      const app = createAppWith(
+        rateLimit({
+          max: 2,
+          store: {
+            increment: () => {
+              throw Error
+            },
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            resetKey: () => {},
+          } as any,
+        })
+      )
+
+      await makeFetch(app)('/').expect(500)
+    })
+
+    it('should call shouldSkip if provided', async () => {
+      const shouldSkip = jest.fn(() => false)
+
+      const app = createAppWith(
+        rateLimit({
+          shouldSkip,
+          max: 2,
+        })
+      )
+
+      await makeFetch(app)('/').expect(200)
+      await makeFetch(app)('/').expect(200)
+      await makeFetch(app)('/').expect(429)
+
+      shouldSkip.mockReturnValue(true)
+
+      await makeFetch(app)('/').expect(200)
+
+      expect(shouldSkip).toHaveBeenCalled()
     })
   })
 })
