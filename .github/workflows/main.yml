@@ -49,8 +49,6 @@ jobs:
       - name: install dependencies
         run: pnpm install
 
-      - uses: pre-commit/action@v2.0.0
-
       - name: build packages
         run: pnpm build
 
