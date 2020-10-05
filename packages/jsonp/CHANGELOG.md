@@ -1,5 +1,11 @@
 # @tinyhttp/jsonp
 
+## 0.4.12
+
+### Patch Changes
+
+- fix undefined
+
 ## 0.4.11
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/jsonp",
-  "version": "0.4.11",
+  "version": "0.4.12",
   "type": "module",
   "description": "JSONP response middleware",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
