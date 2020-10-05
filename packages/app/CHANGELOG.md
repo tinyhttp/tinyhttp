@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.4.11
+
+### Patch Changes
+
+- Add res.append
+
 ## 0.4.10
 
 ### Patch Changes
