@@ -36,6 +36,8 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response, next
 
   /// Define extensions
 
+  req.originalUrl = req.url
+
   res.get = getResponseHeader(req, res)
   req.get = getRequestHeader(req)
 

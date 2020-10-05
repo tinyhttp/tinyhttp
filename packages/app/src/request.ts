@@ -93,6 +93,8 @@ export type { URLParams }
 type AcceptsReturns = string | false | string[]
 
 export interface Request extends IncomingMessage {
+  originalUrl: string
+
   query: ParsedUrlQuery
   params: URLParams
   connection: Connection

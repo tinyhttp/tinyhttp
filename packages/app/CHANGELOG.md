@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.4.13
+
+### Patch Changes
+
+- Add req.originalUrl
+
 ## 0.4.12
 
 ### Patch Changes
