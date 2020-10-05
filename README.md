@@ -130,6 +130,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://github.com/shzmr"><img src="https://avatars2.githubusercontent.com/u/55944948?v=4" width="100px;" alt=""/><br /><sub><b>shzmr</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=shzmr" title="Code">💻</a> <a href="https://github.com/talentlessguy/tinyhttp/commits?author=shzmr" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://github.com/eavam"><img src="https://avatars1.githubusercontent.com/u/16797465?v=4" width="100px;" alt=""/><br /><sub><b>Egor Avakumov</b></sub></a><br /><a href="#example-eavam" title="Examples">💡</a></td>
+    <td align="center"><a href="https://github.com/Rashmi-K-A"><img src="https://avatars2.githubusercontent.com/u/39820442?v=4" width="100px;" alt=""/><br /><sub><b>Rashmi K A</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=Rashmi-K-A" title="Code">💻</a></td>
   </tr>
 </table>
 

@@ -161,6 +161,15 @@
       "contributions": [
         "example"
       ]
+    },
+    {
+      "login": "Rashmi-K-A",
+      "name": "Rashmi K A",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/39820442?v=4",
+      "profile": "https://github.com/Rashmi-K-A",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
