@@ -34,7 +34,7 @@ function stringify(value: unknown, replacer: (this: any, key: string, value: any
  * @param res Response
  * @param app App
  */
-export const jsonp = (req: Request, res: Response) => (obj: unknown, opts?: JSONPOptions) => {
+export const jsonp = (req: Request, res: Response) => (obj: unknown, opts: JSONPOptions = {}) => {
   const val = obj
 
   const { escape, replacer, spaces, callbackName = 'callback' } = opts
