@@ -1,5 +1,13 @@
 # @tinyhttp/unless
 
+## 0.4.4
+
+### Patch Changes
+
+- Fix tsconfig
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.4.14
+
 ## 0.4.3
 
 ### Patch Changes

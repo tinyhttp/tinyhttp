@@ -1,5 +1,16 @@
 # @tinyhttp/app
 
+## 0.4.14
+
+### Patch Changes
+
+- Fix tsconfig
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.4.1
+  - @tinyhttp/req@0.4.3
+  - @tinyhttp/res@0.4.7
+  - @tinyhttp/router@0.4.1
+
 ## 0.4.13
 
 ### Patch Changes

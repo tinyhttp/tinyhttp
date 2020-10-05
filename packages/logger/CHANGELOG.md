@@ -1,5 +1,13 @@
 # @tinyhttp/logger
 
+## 0.4.33
+
+### Patch Changes
+
+- Fix tsconfig
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.4.14
+
 ## 0.4.32
 
 ### Patch Changes

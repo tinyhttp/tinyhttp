@@ -1,5 +1,14 @@
 # @tinyhttp/session
 
+## 0.4.2
+
+### Patch Changes
+
+- Fix tsconfig
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.4.1
+  - @tinyhttp/cookie-signature@0.4.1
+
 ## 0.4.1
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @tinyhttp/cookie-parser
 
+## 0.4.14
+
+### Patch Changes
+
+- Fix tsconfig
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.4.14
+  - @tinyhttp/cookie@0.4.1
+  - @tinyhttp/cookie-signature@0.4.1
+
 ## 0.4.13
 
 ### Patch Changes

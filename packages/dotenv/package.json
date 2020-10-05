@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/dotenv",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "0-dependency module to load envinronmental variables from .env to process.env",
   "type": "module",
   "main": "dist/index.cjs",

@@ -1,5 +1,15 @@
 # @tinyhttp/req
 
+## 0.4.3
+
+### Patch Changes
+
+- Fix tsconfig
+- Updated dependencies [undefined]
+  - @tinyhttp/accepts@0.4.3
+  - @tinyhttp/type-is@0.4.1
+  - @tinyhttp/url@0.4.1
+
 ## 0.4.2
 
 ### Patch Changes

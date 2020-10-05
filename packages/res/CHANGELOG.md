@@ -1,5 +1,17 @@
 # @tinyhttp/res
 
+## 0.4.7
+
+### Patch Changes
+
+- Fix tsconfig
+- Updated dependencies [undefined]
+  - @tinyhttp/content-disposition@0.4.1
+  - @tinyhttp/cookie@0.4.1
+  - @tinyhttp/cookie-signature@0.4.1
+  - @tinyhttp/req@0.4.3
+  - @tinyhttp/send@0.4.4
+
 ## 0.4.6
 
 ### Patch Changes

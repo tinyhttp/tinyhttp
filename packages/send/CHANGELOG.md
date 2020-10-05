@@ -1,5 +1,13 @@
 # @tinyhttp/send
 
+## 0.4.4
+
+### Patch Changes
+
+- Fix tsconfig
+- Updated dependencies [undefined]
+  - @tinyhttp/etag@0.4.1
+
 ## 0.4.3
 
 ### Patch Changes

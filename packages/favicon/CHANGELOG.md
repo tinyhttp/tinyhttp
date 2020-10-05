@@ -1,5 +1,13 @@
 # @tinyhttp/favicon
 
+## 0.4.1
+
+### Patch Changes
+
+- Fix tsconfig
+- Updated dependencies [undefined]
+  - @tinyhttp/etag@0.4.1
+
 ## 0.4.0
 
 ### Minor Changes
