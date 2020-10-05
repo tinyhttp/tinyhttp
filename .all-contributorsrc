@@ -152,6 +152,15 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "eavam",
+      "name": "Egor Avakumov",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/16797465?v=4",
+      "profile": "https://github.com/eavam",
+      "contributions": [
+        "example"
+      ]
     }
   ],
   "contributorsPerLine": 7,
