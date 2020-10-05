@@ -1,5 +1,11 @@
 # @tinyhttp/res
 
+## 0.4.6
+
+### Patch Changes
+
+- Forgot to bump
+
 ## 0.4.5
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @tinyhttp/app
 
+## 0.4.12
+
+### Patch Changes
+
+- Forgot to bump
+- Updated dependencies [undefined]
+  - @tinyhttp/res@0.4.6
+
 ## 0.4.11
 
 ### Patch Changes
