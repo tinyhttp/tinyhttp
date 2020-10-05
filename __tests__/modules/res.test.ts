@@ -1,7 +1,7 @@
 import { makeFetch } from 'supertest-fetch'
 import path from 'path'
 import { Request, Response } from '../../packages/app/src'
-import { formatResponse, getResponseHeader, redirect, setHeader, setVaryHeader, setContentType, attachment, download, setCookie, clearCookie } from '../../packages/res/src'
+import { formatResponse, getResponseHeader, redirect, setHeader, setVaryHeader, setContentType, attachment, download, setCookie, clearCookie, append } from '../../packages/res/src'
 import { runServer } from '../../test_helpers/runServer'
 
 describe('Response extensions', () => {
@@ -231,6 +231,43 @@ describe('Response extensions', () => {
       })
 
       await makeFetch(app)('/').expect(200)
+    })
+  })
+  describe('res.append(field,value)', () => {
+    it('sets new header if header not present', async () => {
+      const app = runServer((req, res) => {
+        append(req, res)('hello', 'World')
+        res.end()
+      })
+
+      await makeFetch(app)('/').expectHeader('hello', 'World')
+    })
+    it('appends value to existing header value', async () => {
+      const app = runServer((req, res) => {
+        setHeader(req, res)('hello', 'World1')
+        append(req, res)('hello', 'World2')
+        res.end()
+      })
+
+      await makeFetch(app)('/').expectHeader('hello', ['World1', 'World2'])
+    })
+    it('appends value to existing header array', async () => {
+      const app = runServer((req, res) => {
+        setHeader(req, res)('hello', ['World1', 'World2'])
+        append(req, res)('hello', 'World3')
+        res.end()
+      })
+
+      await makeFetch(app)('/').expectHeader('hello', ['World1', 'World2', 'World3'])
+    })
+    it('appends value array to existing header value', async () => {
+      const app = runServer((req, res) => {
+        setHeader(req, res)('hello', 'World1')
+        append(req, res)('hello', ['World2', 'World3'])
+        res.end()
+      })
+
+      await makeFetch(app)('/').expectHeader('hello', ['World1', 'World2', 'World3'])
     })
   })
 })
