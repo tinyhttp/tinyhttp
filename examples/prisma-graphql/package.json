@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "name": "tinyhttp-prisma-graphql",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@prisma/client": "2.8.0",
+    "@tinyhttp/app": "workspace:*",
+    "express-graphql": "^0.11.0",
+    "graphql": "^15.3.0"
+  },
+  "devDependencies": {
+    "@prisma/cli": "2.8.0"
+  }
+}
