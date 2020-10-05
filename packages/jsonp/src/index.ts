@@ -1,4 +1,4 @@
-import type { Request, Response, App } from '@tinyhttp/app'
+import type { Request, Response } from '@tinyhttp/app'
 
 export type JSONPOptions = Partial<{
   escape: boolean
@@ -8,8 +8,6 @@ export type JSONPOptions = Partial<{
 }>
 
 function stringify(value: unknown, replacer: (this: any, key: string, value: any) => any, spaces: string | number, escape: boolean) {
-  // v8 checks arguments.length for optimizing simple call
-  // https://bugs.chromium.org/p/v8/issues/detail?id=4730
   let json = replacer || spaces ? JSON.stringify(value, replacer, spaces) : JSON.stringify(value)
 
   if (escape) {
@@ -36,14 +34,14 @@ function stringify(value: unknown, replacer: (this: any, key: string, value: any
  * @param res Response
  * @param app App
  */
-export const jsonp = (req: Request, res: Response, app: App) => (obj: unknown, opts?: JSONPOptions) => {
+export const jsonp = (req: Request, res: Response) => (obj: unknown, opts?: JSONPOptions) => {
   const val = obj
 
-  const { escape, replacer, spaces, callbackName } = opts
+  const { escape, replacer, spaces, callbackName = 'callback' } = opts
 
   let body = stringify(val, replacer, spaces, escape)
 
-  let callback = req.query[app[callbackName]]
+  let callback = req.query[callbackName]
 
   if (!res.get('Content-Type')) {
     res.set('X-Content-Type-Options', 'nosniff')
