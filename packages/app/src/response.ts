@@ -107,4 +107,6 @@ export interface Response extends ServerResponse {
    * @param obj Response object
    */
   jsonp(obj: any): Response
+
+  append(field: string, value: any): Response
 }

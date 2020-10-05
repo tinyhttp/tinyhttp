@@ -22,6 +22,7 @@ import {
   setContentType,
   attachment,
   download,
+  append,
 } from '@tinyhttp/res'
 import { renderTemplate } from './response'
 import { App } from './app'
@@ -110,6 +111,8 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response, next
 
   res.attachment = attachment(req, res)
   res.download = download(req, res)
+
+  res.append = append(req, res)
 
   res.locals = res.locals || Object.create(null)
 }
