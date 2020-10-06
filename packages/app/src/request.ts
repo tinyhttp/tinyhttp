@@ -71,17 +71,6 @@ export const getSubdomains = (req: Request, subdomainOffset = 2): string[] => {
   return subdomains.slice(offset)
 }
 
-// export const getRequestIs = (types: string | string[], ...args: string[]) => (req: Request) => {
-//   let arr = types
-
-//   if (!Array.isArray(types)) {
-//     arr = new Array(args.length)
-//     for (let i = 0; i < arr.length; i++) {
-//       arr[i] = args[i]
-//     }
-//   }
-// }
-
 export type Connection = IncomingMessage['socket'] & {
   encrypted: boolean
 }
