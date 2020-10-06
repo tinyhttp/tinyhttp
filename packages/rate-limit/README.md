@@ -2,7 +2,7 @@
 
 [![npm (scoped)][npm-badge]](https://npmjs.com/package/@tinyhttp/rate-limit) [![npm][dl-badge]](https://npmjs.com/package/@tinyhttp/rate-limit) [![][web-badge]](https://tinyhttp.v1rtl.site/mw/rate-limit)
 
-Basic rate-limiting middleware for tinyhttp. Use to limit repeated requests to public APIs and/or endpoints such as password reset.
+Basic rate-limiting middleware for tinyhttp. Used to limit repeated requests to public APIs and/or endpoints such as password reset.
 
 ## Install
 

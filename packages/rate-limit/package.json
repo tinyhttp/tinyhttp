@@ -29,8 +29,6 @@
     "rate-limit",
     "middleware",
     "ip",
-    "auth",
-    "authorization",
     "security",
     "brute",
     "force",

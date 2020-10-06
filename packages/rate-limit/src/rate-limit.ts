@@ -74,7 +74,7 @@ export function rateLimit(options?: Partial<RateLimitOptions>) {
       const { current, resetTime } = await incrementStore(key)
       const maxResult = typeof max === 'function' ? await max(req, res) : max
 
-      // @ts-ignore         // todo adjust typing
+      // @ts-ignore
       req.rateLimit = {
         limit: maxResult,
         current: current,
@@ -147,7 +147,6 @@ export function rateLimit(options?: Partial<RateLimitOptions>) {
 
       next()
     } catch (e) {
-      console.log(e)
       next(e)
     }
   }

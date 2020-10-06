@@ -18,7 +18,7 @@ const serverDescription = `
   Server is running on port ${port}.
 
   http://localhost:3000/unlimited-route is not rate limited.
-  http://localhost:3000/limited-route is rate limited and will block requests every further request after ${maxNumberOfRequests} tries for ${rateLimitResetTimeInSeconds} seconds
+  http://localhost:3000/limited-route is rate limited. The middleware will block every further request after ${maxNumberOfRequests} tries for ${rateLimitResetTimeInSeconds} seconds
 `
 
 app.listen(port, () => console.log(serverDescription))

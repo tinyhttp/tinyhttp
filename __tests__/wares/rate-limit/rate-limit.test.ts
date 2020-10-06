@@ -181,7 +181,7 @@ describe('rate-limit', () => {
     })
 
     it('should return the Retry-After header once IP has reached the max', async () => {
-      const windowSeconds = 60 // 60 * 1000 = 1 minute
+      const windowSeconds = 60
 
       const app = createAppWith(
         rateLimit({
