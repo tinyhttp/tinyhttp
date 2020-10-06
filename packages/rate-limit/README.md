@@ -41,9 +41,15 @@ app.get('limited-route', routeRateLimit, (_, res) => res.send('Limited route'))
 | **onLimitReached**         |      <code>onLimitReached: (req: Request, res: Response) => void</code>       |                  () => {}                  | Function that is called the first time a user hits the rate limit within a given window.                                                                                                                                                                                 |
 | **store**                  |                              <code>Store</code>                               |                MemoryStore                 | By default a MemoryStore is used. [Rate Limit Redis](https://www.npmjs.com/package/rate-limit-redis), [Rate Limit Memcached](https://www.npmjs.com/package/rate-limit-memcached) and [Rate Limit Mongo](https://www.npmjs.com/package/rate-limit-mongo) can be used too. |
 
+## Alternatives
+
+- [express-rate-limit](https://github.com/nfriedly/express-rate-limit)
+- [node-rate-limiter](https://github.com/jhurliman/node-rate-limiter)
+- [node-rate-limiter-flexible](https://github.com/animir/node-rate-limiter-flexible)
+
 ## License
 
-MIT © [v1rtl](https://v1rtl.site)
+MIT © [Luiginator](https://github.com/Luiginator)
 
 [npm-badge]: https://img.shields.io/npm/v/@tinyhttp/rate-limit?style=flat-square
 [dl-badge]: https://img.shields.io/npm/dt/@tinyhttp/rate-limit?style=flat-square

@@ -39,7 +39,7 @@
   "engines": {
     "node": ">=12.4.0"
   },
-  "author": "v1rtl",
+  "author": "Luiginator",
   "license": "MIT",
   "scripts": {
     "build": "rollup -c ./rollup.config.js"
