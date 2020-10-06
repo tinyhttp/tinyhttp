@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from '@tinyhttp/app'
 import { MemoryStore, Store } from './memory-store'
 
 export interface RequestWithRateLimit extends Request {
-  rateLimit: {
+  rateLimit?: {
     limit: number
     current: number
     remaining: number
