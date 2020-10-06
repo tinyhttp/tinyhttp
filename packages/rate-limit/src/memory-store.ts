@@ -1,5 +1,5 @@
 export interface Store {
-  increment: (key: string) => Promise<{ current: number; resetTime: Date }>
+  incr: (key: string, callback: (error: Error | null, hits: number, resetTime: Date) => void) => void
   decrement: (key: string) => void
   resetAll: () => void
   resetKey: (key: string) => void
@@ -18,14 +18,14 @@ export class MemoryStore implements Store {
     }
   }
 
-  async increment(key: string) {
+  incr = async (key: string, callback: (error: Error | null, hits: number, resetTime: Date) => void) => {
     if (this.hits[key]) {
       this.hits[key]++
     } else {
       this.hits[key] = 1
     }
 
-    return { current: this.hits[key], resetTime: this.resetTime }
+    callback(null, this.hits[key], this.resetTime)
   }
 
   decrement(key: string) {

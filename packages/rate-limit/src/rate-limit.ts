@@ -51,6 +51,18 @@ export function rateLimit(options?: Partial<RateLimitOptions>) {
   }
   const store = otherOptions.store || new MemoryStore(windowMs)
 
+  const incrementStore = (key): Promise<{ current: number; resetTime: Date }> => {
+    return new Promise((resolve, reject) => {
+      store.incr(key, (error, hits, resetTime) => {
+        if (error) {
+          reject(error)
+        } else {
+          resolve({ current: hits, resetTime })
+        }
+      })
+    })
+  }
+
   async function middleware(req: Request, res: Response, next: NextFunction) {
     if (shouldSkip(req, res)) {
       return next()
@@ -59,7 +71,7 @@ export function rateLimit(options?: Partial<RateLimitOptions>) {
     const key = keyGenerator(req)
 
     try {
-      const { current, resetTime } = await store.increment(key)
+      const { current, resetTime } = await incrementStore(key)
       const maxResult = typeof max === 'function' ? await max(req, res) : max
 
       // @ts-ignore         // todo adjust typing
@@ -135,6 +147,7 @@ export function rateLimit(options?: Partial<RateLimitOptions>) {
 
       next()
     } catch (e) {
+      console.log(e)
       next(e)
     }
   }

@@ -199,7 +199,7 @@ describe('rate-limit', () => {
         rateLimit({
           max: 2,
           store: {
-            increment: () => {
+            incr: () => {
               throw Error
             },
             // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -240,11 +240,11 @@ class MockStore {
   decrement_was_called = false
   counter = 0
 
-  increment = async (_) => {
+  incr = async (_, cb) => {
     this.counter++
     this.incr_was_called = true
 
-    return { current: this.counter, resetTime: new Date() }
+    cb(null, { current: this.counter, resetTime: new Date() })
   }
 
   decrement = () => {
