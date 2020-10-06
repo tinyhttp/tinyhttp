@@ -1,6 +1,15 @@
 import { Request, Response, NextFunction } from '@tinyhttp/app'
 import { MemoryStore, Store } from './memory-store'
 
+export interface RequestWithRateLimit extends Request {
+  rateLimit: {
+    limit: number
+    current: number
+    remaining: number
+    resetTime: Date
+  }
+}
+
 export interface RateLimitOptions {
   windowMs: number
   max: number | ((req: Request, res: Response) => Promise<number>)
@@ -63,7 +72,7 @@ export function rateLimit(options?: Partial<RateLimitOptions>) {
     })
   }
 
-  async function middleware(req: Request, res: Response, next: NextFunction) {
+  async function middleware(req: RequestWithRateLimit, res: Response, next: NextFunction) {
     if (shouldSkip(req, res)) {
       return next()
     }
@@ -74,7 +83,6 @@ export function rateLimit(options?: Partial<RateLimitOptions>) {
       const { current, resetTime } = await incrementStore(key)
       const maxResult = typeof max === 'function' ? await max(req, res) : max
 
-      // @ts-ignore
       req.rateLimit = {
         limit: maxResult,
         current: current,
