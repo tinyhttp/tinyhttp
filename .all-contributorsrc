@@ -171,6 +171,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "shubhi23994",
+      "name": "Shubhi Agarwal",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/11757228?v=4",
+      "profile": "https://github.com/shubhi23994",
+      "contributions": [
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
