@@ -20,7 +20,7 @@ describe('etag(entity)', () => {
     expect(eTag('论', { weak: true })).toBe('W/"3-QkSKq8sXBjHL2tFAZknA2n6LYzM"')
   })
   it('should reject number entities', function () {
-    expect(() => eTag(<any>1)).toThrow("Received type number")
+    expect(() => eTag(<any>1)).toThrow('Received type number')
   })
   describe('Buffer', () => {
     it('should work on empty', function () {
@@ -32,10 +32,10 @@ describe('etag(entity)', () => {
   })
   describe('fs.Stats', () => {
     it('should generate a weak ETag', () => {
-      const stats = new Stats();
-      stats.mtime = new Date(2020, 1, 1);
-      stats.size = 1024;
-      expect(eTag(stats)).toBe('W/"16ffdd51d80-400"')
+      const stats = new Stats()
+      stats.mtime = new Date(Date.UTC(2020, 1, 1))
+      stats.size = 1024
+      expect(eTag(stats)).toBe('W/"16ffe0c0c00-400"')
     })
   })
   describe('weak', () => {
