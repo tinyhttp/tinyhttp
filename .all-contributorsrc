@@ -181,6 +181,15 @@
       "contributions": [
         "test"
       ]
+    },
+    {
+      "login": "MaurizioPz",
+      "name": "Maurizio",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/455216?v=4",
+      "profile": "https://github.com/MaurizioPz",
+      "contributions": [
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
