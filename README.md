@@ -132,6 +132,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/eavam"><img src="https://avatars1.githubusercontent.com/u/16797465?v=4" width="100px;" alt=""/><br /><sub><b>Egor Avakumov</b></sub></a><br /><a href="#example-eavam" title="Examples">💡</a></td>
     <td align="center"><a href="https://github.com/Rashmi-K-A"><img src="https://avatars2.githubusercontent.com/u/39820442?v=4" width="100px;" alt=""/><br /><sub><b>Rashmi K A</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=Rashmi-K-A" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/shubhi23994"><img src="https://avatars3.githubusercontent.com/u/11757228?v=4" width="100px;" alt=""/><br /><sub><b>Shubhi Agarwal</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=shubhi23994" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/MaurizioPz"><img src="https://avatars2.githubusercontent.com/u/455216?v=4" width="100px;" alt=""/><br /><sub><b>Maurizio</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=MaurizioPz" title="Tests">⚠️</a></td>
   </tr>
 </table>
 
