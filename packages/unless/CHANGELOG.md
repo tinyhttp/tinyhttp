@@ -1,5 +1,12 @@
 # @tinyhttp/unless
 
+## 0.4.5
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.4.15
+
 ## 0.4.4
 
 ### Patch Changes
