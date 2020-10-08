@@ -111,6 +111,7 @@
  <details>
   <summary>Methods</summary>
   <ul>
+    <li><a href="resappend">res.append</a></li>
     <li><a href="#rescookie">res.cookie</a></li>
     <li><a href="#resclearcookie">res.clearCookie</a></li>
     <li><a href="#resend">res.end</a></li>
@@ -743,6 +744,18 @@ app.use((req, res) => {
 ```
 
 ### Methods
+
+#### `res.append`
+
+Appends the specified `value` to the HTTP response `header` field. If the header is not already set, it creates the header with the specified value. The value parameter can be a string or an array.
+
+> calling res.set() after res.append() will reset the previously-set header value.
+
+```js
+res.append('Link', ['<http://localhost/>', '<http://localhost:3000/>'])
+res.append('Set-Cookie', 'foo=bar; Path=/; HttpOnly')
+res.append('Warning', '199 Miscellaneous warning')
+```
 
 #### `res.cookie`
 
