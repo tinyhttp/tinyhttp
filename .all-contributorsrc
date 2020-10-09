@@ -190,6 +190,15 @@
       "contributions": [
         "test"
       ]
+    },
+    {
+      "login": "jkreller",
+      "name": "jkreller",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/33465273?v=4",
+      "profile": "https://github.com/jkreller",
+      "contributions": [
+        "example"
+      ]
     }
   ],
   "contributorsPerLine": 7,
