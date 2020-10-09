@@ -4,7 +4,6 @@
   "type": "module",
   "module": "index.js",
   "dependencies": {
-    "@tinyhttp/app": "workspace:*",
-    "path": "^0.12.7"
+    "@tinyhttp/app": "workspace:*"
   }
 }

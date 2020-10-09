@@ -26,6 +26,15 @@ app.get('/client.js', (req, res) => {
 })
 
 /**
+ * GET logo.jpeg file
+ */
+app.get('/logo.jpeg', (req, res) => {
+  res.sendFile(path.resolve('public/logo.jpeg'), {}, (err) => {
+    if (err) console.error(err)
+  })
+})
+
+/**
  * GET search by :query
  */
 app.get('/search/:query?', (req, res) => {

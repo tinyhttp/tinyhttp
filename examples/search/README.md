@@ -4,8 +4,6 @@ A simple search app using tinyhttp.
 
 ## Setup
 
-### Install dependencies
-
 ```sh
 pnpm i
 ```
