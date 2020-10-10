@@ -1,0 +1,10 @@
+{
+  "name": "tinyhttp-markdown-example",
+  "private": true,
+  "dependencies": {
+    "@tinyhttp/app": "latest",
+    "@tinyhttp/logger": "latest",
+    "marked": "^1.2.0"
+  },
+  "type": "module"
+}
