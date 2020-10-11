@@ -40,10 +40,7 @@
     "build": "rollup -c"
   },
   "dependencies": {
-    "es-mime-types": "^0.0.16",
-    "media-typer": "^1.1.0"
-  },
-  "devDependencies": {
-    "@types/media-typer": "^1.1.0"
+    "es-content-type": "^0.0.10",
+    "es-mime-types": "^0.0.16"
   }
 }
