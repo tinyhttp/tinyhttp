@@ -41,9 +41,10 @@
   },
   "dependencies": {
     "es-mime-types": "^0.0.16",
-    "media-typer": "^1.1.0"
+    "content-type": "^1.0.4"
+
   },
   "devDependencies": {
-    "@types/media-typer": "^1.1.0"
+    "@types/content-type": "^1.1.0"
   }
 }

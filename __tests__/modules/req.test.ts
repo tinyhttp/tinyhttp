@@ -1,5 +1,5 @@
 import { makeFetch } from 'supertest-fetch'
-import { checkIfXMLHttpRequest, getAccepts, getFreshOrStale, getRequestHeader } from '../../packages/req/src'
+import { checkIfXMLHttpRequest, getAccepts, getFreshOrStale, getRequestHeader, reqIs } from '../../packages/req/src'
 import { runServer } from '../../test_helpers/runServer'
 
 describe('Request extensions', () => {
@@ -85,5 +85,17 @@ describe('Request extensions', () => {
     })
 
     await makeFetch(app)('/').expect('rotten')
+  })
+  it('should ignore charset', async () => {
+    const app = runServer((req, res) => {
+      expect(reqIs(req)('text/html')).toBe('text/html')
+      res.end()
+    })
+    await makeFetch(app)('/', {
+      headers: {
+        'Content-Type': 'text/html; charset=UTF-8',
+      },
+    })
+    expect.assertions(1)
   })
 })
