@@ -1,12 +1,12 @@
 import * as mime from 'es-mime-types'
-import contentType from 'content-type'
+import typer from 'es-content-type'
 
 function normalizeType(value: string) {
   // parse the type
-  const type = contentType.parse(value)
+  const type = typer.parse(value)
   type.parameters = {}
   // reformat it
-  return contentType.format(type)
+  return typer.format(type)
 }
 
 function tryNormalizeType(value: string) {
