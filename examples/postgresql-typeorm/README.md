@@ -1,6 +1,6 @@
 # Postgresql example
 
-A simple user app using tinyhttp and [PostgreSQL](https://www.postgresql.org/).
+A simple user app using tinyhttp and [PostgreSQL](https://www.postgresql.org/) with [TypeORM](https://typeorm.io/).
 
 ## Setup
 
@@ -24,7 +24,17 @@ createdb [dbname]
 
 ### Configure TypeORM
 
-Setup database settings inside `ormconfig.json` file
+Setup database settings inside `ormconfig.json` file:
+
+```
+  ...
+  "host": "localhost",
+  "port": 5432,
+  "username": "<username>",
+  "password": "<password>",
+  "database": "<database>",
+  ...
+```
 
 ## Run
 
