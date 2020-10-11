@@ -45,6 +45,6 @@
     "build": "rollup -c ./rollup.config.js"
   },
   "devDependencies": {
-    "@tinyhttp/app": "0.4.14"
+    "@tinyhttp/app": "0.4.15"
   }
 }

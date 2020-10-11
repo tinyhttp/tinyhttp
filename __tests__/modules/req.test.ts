@@ -256,7 +256,7 @@ describe('Request extensions', () => {
       })
       expect.assertions(1)
     })
-    xit('should ignore charset', async () => {
+    it('should ignore charset', async () => {
       const app = runServer((req, res) => {
         expect(reqIs(req)('text/html')).toBe('text/html')
         res.end()

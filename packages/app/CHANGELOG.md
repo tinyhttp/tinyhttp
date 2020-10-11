@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.4.15
+
+### Patch Changes
+
+- update core package readme
+
 ## 0.4.14
 
 ### Patch Changes
