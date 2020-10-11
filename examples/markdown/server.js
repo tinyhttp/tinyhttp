@@ -1,5 +1,4 @@
 import { App } from '@tinyhttp/app'
-import { logger } from '@tinyhttp/logger'
 import marked from 'marked'
 import util from 'util'
 import fs from 'fs'
@@ -11,7 +10,6 @@ const readFile = util.promisify(fs.readFile)
 const __dirname = path.resolve()
 
 app
-  .use(logger())
   .get('/', async (_, res) => {
     const path = __dirname + '/pages/hello.md'
     const file = await readFile(path)
