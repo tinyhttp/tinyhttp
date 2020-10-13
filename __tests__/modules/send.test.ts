@@ -48,6 +48,29 @@ describe('Testing @tinyhttp/send', () => {
 
       await makeFetch(app)('/').expectBody('')
     })
+    it('should remove some headers for 204 status', async () => {
+      const app = runServer((req, res) => {
+        res.statusCode = 204
+
+        send(req, res)('Hello World')
+      })
+
+      await makeFetch(app)('/').expectHeader('Content-Length', null).expectHeader('Content-Type', null).expectHeader('Transfer-Encoding', null)
+    })
+    it('should remove some headers for 304 status', async () => {
+      const app = runServer((req, res) => {
+        res.statusCode = 304
+
+        send(req, res)('Hello World')
+      })
+
+      await makeFetch(app)('/').expectHeader('Content-Length', null).expectHeader('Content-Type', null).expectHeader('Transfer-Encoding', null)
+    })
+    it("should set Content-Type to application/octet-stream for buffers if the header hasn't been set before", async () => {
+      const app = runServer((req, res) => send(req, res)(Buffer.from('Hello World', 'utf-8')).end())
+
+      await makeFetch(app)('/', { headers: { 'Content-Type': null } }).expectHeader('Content-Type', 'application/octet-stream')
+    })
   })
 
   describe('status(status)', () => {
