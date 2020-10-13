@@ -1,5 +1,7 @@
+import fs from 'fs'
+import path from 'path'
 import { makeFetch } from 'supertest-fetch'
-import { json, send, sendStatus, status } from '../../packages/send/src'
+import { json, send, sendFile, sendStatus, status } from '../../packages/send/src'
 import { runServer } from '../../test_helpers/runServer'
 
 describe('Testing @tinyhttp/send', () => {
@@ -86,6 +88,49 @@ describe('Testing @tinyhttp/send', () => {
       const app = runServer((req, res) => sendStatus(req, res)(418).end())
 
       await makeFetch(app)('/').expect("I'm a Teapot")
+    })
+  })
+
+  describe('sendFile(path)', () => {
+    const testFilePath = path.resolve(__dirname, 'test.txt')
+
+    beforeAll(() => {
+      fs.writeFileSync(testFilePath, 'Hello World')
+    })
+
+    afterAll(() => {
+      fs.unlinkSync(testFilePath)
+    })
+
+    it('should throw if path is not absolute', async () => {
+      const app = runServer(async (req, res) => {
+        try {
+          await sendFile(req, res)('../relative/path', {})
+        } catch (err) {
+          expect(err.message).toMatch(/absolute/)
+
+          res.end()
+
+          return
+        }
+
+        throw new Error('Did not throw an error')
+      })
+
+      await makeFetch(app)('/')
+    })
+    it('should set the Content-Type header based on the filename', async () => {
+      const app = runServer((req, res) => sendFile(req, res)(testFilePath, {}))
+
+      await makeFetch(app)('/').expectHeader('Content-Type', 'text/plain; charset=utf-8')
+    })
+    it('should allow custom headers through the options param', async () => {
+      const HEADER_NAME = 'Test-Header'
+      const HEADER_VALUE = 'Hello World'
+
+      const app = runServer((req, res) => sendFile(req, res)(testFilePath, { headers: { [HEADER_NAME]: HEADER_VALUE } }))
+
+      await makeFetch(app)('/').expectHeader(HEADER_NAME, HEADER_VALUE)
     })
   })
 })
