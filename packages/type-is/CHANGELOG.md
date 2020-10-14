@@ -1,5 +1,17 @@
 # @tinyhttp/type-is
 
+## 0.4.3
+
+### Patch Changes
+
+- Fix markdown recursive issue
+
+## 0.4.2
+
+### Patch Changes
+
+- fix not ignoring charset
+
 ## 0.4.1
 
 ### Patch Changes

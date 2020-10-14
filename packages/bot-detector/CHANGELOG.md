@@ -1,5 +1,19 @@
 # @tinyhttp/bot-detector
 
+## 0.4.17
+
+### Patch Changes
+
+- Fix markdown recursive issue
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.4.17
+
+## 0.4.16
+
+### Patch Changes
+
+- @tinyhttp/app@0.4.16
+
 ## 0.4.15
 
 ### Patch Changes

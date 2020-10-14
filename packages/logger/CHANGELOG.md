@@ -1,5 +1,19 @@
 # @tinyhttp/logger
 
+## 0.4.36
+
+### Patch Changes
+
+- Fix markdown recursive issue
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.4.17
+
+## 0.4.35
+
+### Patch Changes
+
+- @tinyhttp/app@0.4.16
+
 ## 0.4.34
 
 ### Patch Changes

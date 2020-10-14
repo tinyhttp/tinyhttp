@@ -48,10 +48,14 @@ export const markdownStaticHandler = (
 
     if (stripExtension) {
       file = files.find((f) => {
-        const ext = parse(f).ext
-        const name = parse(f).name
+        const info = parse(f)
 
-        return /\.(md|markdown)/.test(ext) && unPrefixedURL === name
+        const ext = info.ext
+        const name = info.name
+
+        const isDir = !(info.dir === '')
+
+        return /\.(md|markdown)/.test(ext) && unPrefixedURL === (isDir ? `${info.dir}/${name}` : name)
       })
     } else {
       file = files.find((f) => {

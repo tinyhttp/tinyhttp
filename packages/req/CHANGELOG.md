@@ -1,5 +1,20 @@
 # @tinyhttp/req
 
+## 0.4.5
+
+### Patch Changes
+
+- Fix markdown recursive issue
+- Updated dependencies [undefined]
+  - @tinyhttp/type-is@0.4.3
+
+## 0.4.4
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/type-is@0.4.2
+
 ## 0.4.3
 
 ### Patch Changes
