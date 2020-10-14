@@ -49,7 +49,7 @@ export const sendFile = <Request extends I = I, Response extends S = S>(_: Reque
 
   const stream = createReadStream(root ? root + path : path, options)
 
-  if (cb !== undefined) {
+  if (cb) {
     stream.on('error', (err) => void cb(err))
 
     stream.on('end', () => void cb())
