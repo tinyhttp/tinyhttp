@@ -49,9 +49,11 @@ export const sendFile = <Request extends I = I, Response extends S = S>(_: Reque
 
   const stream = createReadStream(root ? root + path : path, options)
 
-  stream.on('error', (err) => void cb(err))
+  if (cb) {
+    stream.on('error', (err) => void cb(err))
 
-  stream.on('end', () => void cb())
+    stream.on('end', () => void cb())
+  }
 
   res.setHeader('Content-Type', contentType(extname(path)))
 
