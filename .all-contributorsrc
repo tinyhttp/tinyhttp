@@ -200,6 +200,15 @@
       "contributions": [
         "example"
       ]
+    },
+    {
+      "login": "alcar",
+      "name": "Alan Carpilovsky",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/8486092?v=4",
+      "profile": "https://www.linkedin.com/in/alancarpilovsky/",
+      "contributions": [
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
