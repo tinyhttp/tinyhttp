@@ -1,5 +1,12 @@
 # @tinyhttp/logger
 
+## 0.4.37
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.4.18
+
 ## 0.4.36
 
 ### Patch Changes
