@@ -111,4 +111,12 @@ describe('Request properties', () => {
 
     await fetch('/').expect(200, `XMLHttpRequest: no`)
   })
+
+  it('req.path is the URL but without query parameters', async () => {
+    const { fetch } = InitAppAndTest((req, res) => {
+      res.send(`Path to page: ${req.path}`)
+    })
+
+    await fetch('/page?a=b').expect(200, `Path to page: /page`)
+  })
 })
