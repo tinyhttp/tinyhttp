@@ -1,0 +1,10 @@
+
+(headerModification) {
+  header Host {host}
+  header X-Forwarded-For {remote_host}
+}
+
+:8080 {
+    import headerModification
+    reverse_proxy localhost:3000
+}
