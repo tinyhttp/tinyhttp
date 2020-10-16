@@ -136,6 +136,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/jkreller"><img src="https://avatars0.githubusercontent.com/u/33465273?v=4" width="100px;" alt=""/><br /><sub><b>jkreller</b></sub></a><br /><a href="#example-jkreller" title="Examples">💡</a></td>
     <td align="center"><a href="https://www.linkedin.com/in/alancarpilovsky/"><img src="https://avatars3.githubusercontent.com/u/8486092?v=4" width="100px;" alt=""/><br /><sub><b>Alan Carpilovsky</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=alcar" title="Tests">⚠️</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/KoljaTM"><img src="https://avatars1.githubusercontent.com/u/2526416?v=4" width="100px;" alt=""/><br /><sub><b>KoljaTM</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=KoljaTM" title="Tests">⚠️</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-enable -->
