@@ -14,6 +14,11 @@ describe('CORS headers tests', () => {
 
     await fetch('/').expect('Access-Control-Allow-Origin', 'example.com')
   })
+  it('should set origin if it is a function', async () => {
+    const { fetch } = InitAppAndTest(cors({ origin: () => 'example.com' }))
+
+    await fetch('/').expect('Access-Control-Allow-Origin', 'example.com')
+  })
   it('should set custom methods', async () => {
     const { fetch } = InitAppAndTest(cors({ methods: ['GET'] }))
 
