@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.5.1
+
+### Patch Changes
+
+- Use url.parse for getting url's pathname
+
 ## 0.5.0
 
 ### Minor Changes

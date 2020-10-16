@@ -1,5 +1,6 @@
 import { createServer } from 'http'
 import path from 'path'
+import { parse } from 'url'
 import { getRouteFromApp, getURLParams } from './request'
 import type { Request } from './request'
 import type { Response } from './response'
@@ -200,15 +201,15 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
 
       extendMiddleware(this)(req, res, next)
 
-      // strip query parameters for req.params
-      const queryParamStart = req.url.lastIndexOf('?')
-      const reqUrlWithoutParams = req.url.slice(0, queryParamStart === -1 ? req.url.length : queryParamStart)
+      const parsedUrl = parse(req.url)
 
-      req.path = reqUrlWithoutParams
+      req.path = parsedUrl.pathname
 
       if (type === 'route') {
         if (req.method === method) {
-          if (matchParams(path, reqUrlWithoutParams)) {
+          // strip query parameters for req.params
+
+          if (matchParams(path, parsedUrl.pathname)) {
             req.params = getURLParams(req.url, path)
             req.route = getRouteFromApp(this, handler as Handler<Req, Res>)
 
