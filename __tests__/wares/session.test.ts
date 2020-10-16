@@ -1,7 +1,7 @@
 import { SessionManager, MemoryStore } from '../../packages/session/src'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 
-describe('SessionManager', () => {
+describe('SessionManager(opts)', () => {
   it('should error without secret', async () => {
     const store = new MemoryStore()
 
@@ -16,7 +16,7 @@ describe('SessionManager', () => {
   })
 })
 
-describe('session()', () => {
+describe('getSession(req, res)', () => {
   it('should work', async () => {
     const store = new MemoryStore()
     const getSession = SessionManager({
