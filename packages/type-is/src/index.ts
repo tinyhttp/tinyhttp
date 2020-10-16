@@ -1,5 +1,5 @@
-import * as mime from 'es-mime-types'
-import typer from 'es-content-type'
+import { lookup } from 'es-mime-types'
+import * as typer from 'es-content-type'
 
 function normalizeType(value: string) {
   // parse the type
@@ -70,7 +70,7 @@ function normalize(type: string | unknown) {
     return '*/*' + type
   }
 
-  return type.indexOf('/') === -1 ? mime.lookup(type) : type
+  return type.indexOf('/') === -1 ? lookup(type) : type
 }
 
 /**
