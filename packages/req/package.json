@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/req",
-  "version": "0.4.5",
+  "version": "0.5.0",
   "type": "module",
   "description": "request extensions for tinyhttp",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",

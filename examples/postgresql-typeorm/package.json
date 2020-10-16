@@ -6,7 +6,7 @@
     "typescript": "^4.0.3"
   },
   "dependencies": {
-    "@tinyhttp/app": "0.4.15",
+    "@tinyhttp/app": "workspace:*",
     "milliparsec": "^1.0.4",
     "pg": "^8.4.1",
     "reflect-metadata": "^0.1.13",

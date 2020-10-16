@@ -1,5 +1,16 @@
 # @tinyhttp/favicon
 
+## 0.5.0
+
+### Minor Changes
+
+- Release 0.5
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/etag@0.5.0
+
 ## 0.4.1
 
 ### Patch Changes

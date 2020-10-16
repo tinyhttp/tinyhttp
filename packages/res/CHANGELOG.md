@@ -1,5 +1,20 @@
 # @tinyhttp/res
 
+## 0.5.0
+
+### Minor Changes
+
+- Release 0.5
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/content-disposition@0.5.0
+  - @tinyhttp/cookie@0.5.0
+  - @tinyhttp/cookie-signature@0.5.0
+  - @tinyhttp/req@0.5.0
+  - @tinyhttp/send@0.5.0
+
 ## 0.4.9
 
 ### Patch Changes

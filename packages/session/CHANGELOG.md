@@ -1,5 +1,17 @@
 # @tinyhttp/session
 
+## 0.5.0
+
+### Minor Changes
+
+- Release 0.5
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.5.0
+  - @tinyhttp/cookie-signature@0.5.0
+
 ## 0.4.2
 
 ### Patch Changes

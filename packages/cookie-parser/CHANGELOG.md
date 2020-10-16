@@ -1,5 +1,18 @@
 # @tinyhttp/cookie-parser
 
+## 0.5.0
+
+### Minor Changes
+
+- Release 0.5
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.5.0
+  - @tinyhttp/cookie@0.5.0
+  - @tinyhttp/cookie-signature@0.5.0
+
 ## 0.4.18
 
 ### Patch Changes
