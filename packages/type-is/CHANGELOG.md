@@ -1,5 +1,11 @@
 # @tinyhttp/type-is
 
+## 0.5.1
+
+### Patch Changes
+
+- Fix import
+
 ## 0.5.0
 
 ### Minor Changes
