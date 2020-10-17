@@ -1,7 +1,5 @@
 import { pug } from '../../packages/pug/src'
-import { createServer } from 'http'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
-import { renderFile } from 'pug'
 
 describe('Pug templates tests', () => {
   it('should render pug template', async () => {
