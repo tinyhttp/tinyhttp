@@ -2,8 +2,7 @@
     "name": "caddy",
     "private": true,
     "dependencies": {
-      "@tinyhttp/app": "workspace:*"
+        "@tinyhttp/app": "workspace:*"
     },
     "type": "module"
 }
-  
