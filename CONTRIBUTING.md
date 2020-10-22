@@ -45,7 +45,7 @@ pnpm i && pnpm i -r
 pnpm build
 ```
 
-### Formating
+### Formatting
 
 If you use VS Code, please install Prettier and ESLint plugins for proper linting and code formatting.
 
