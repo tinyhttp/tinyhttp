@@ -1,5 +1,15 @@
 # @tinyhttp/cookie-parser
 
+## 0.5.3
+
+### Patch Changes
+
+- Drop proxy-addr in favor of @tinyhttp/proxy-addr
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.5.3
+  - @tinyhttp/cookie@0.5.1
+  - @tinyhttp/cookie-signature@0.5.1
+
 ## 0.5.2
 
 ### Patch Changes

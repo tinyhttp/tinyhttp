@@ -1,5 +1,15 @@
 # @tinyhttp/req
 
+## 0.5.2
+
+### Patch Changes
+
+- Drop proxy-addr in favor of @tinyhttp/proxy-addr
+- Updated dependencies [undefined]
+  - @tinyhttp/accepts@0.5.1
+  - @tinyhttp/type-is@0.5.2
+  - @tinyhttp/url@0.5.1
+
 ## 0.5.1
 
 ### Patch Changes

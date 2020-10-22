@@ -1,5 +1,14 @@
 # @tinyhttp/bot-detector
 
+## 0.5.3
+
+### Patch Changes
+
+- Drop proxy-addr in favor of @tinyhttp/proxy-addr
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.5.3
+  - @tinyhttp/router@0.5.1
+
 ## 0.5.2
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/favicon",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "type": "module",
   "description": "favicon middleware",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",

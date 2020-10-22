@@ -1,5 +1,11 @@
 # @tinyhttp/type-is
 
+## 0.5.2
+
+### Patch Changes
+
+- Drop proxy-addr in favor of @tinyhttp/proxy-addr
+
 ## 0.5.1
 
 ### Patch Changes

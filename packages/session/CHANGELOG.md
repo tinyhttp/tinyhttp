@@ -1,5 +1,14 @@
 # @tinyhttp/session
 
+## 0.5.1
+
+### Patch Changes
+
+- Drop proxy-addr in favor of @tinyhttp/proxy-addr
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.5.1
+  - @tinyhttp/cookie-signature@0.5.1
+
 ## 0.5.0
 
 ### Minor Changes
