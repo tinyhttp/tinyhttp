@@ -32,6 +32,10 @@
     "static",
     "cookie"
   ],
+  "files": [
+    "dist",
+    "src"
+  ],
   "author": "v1rtl",
   "license": "MIT",
   "scripts": {

@@ -32,8 +32,8 @@
   "license": "MIT",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "marked": "^1.1.1",
-    "readdirp": "^3.4.0"
+    "marked": "^1.2.0",
+    "readdirp": "^3.5.0"
   },
   "engines": {
     "node": ">=12.4.0"

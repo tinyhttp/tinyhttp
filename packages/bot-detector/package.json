@@ -20,6 +20,10 @@
     "./package.json": "./package.json",
     "./": "./"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "keywords": [
     "tinyhttp",
     "node.js",
@@ -44,6 +48,6 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/router": "workspace:*",
-    "isbot": "^3.0.8"
+    "isbot": "^3.0.13"
   }
 }

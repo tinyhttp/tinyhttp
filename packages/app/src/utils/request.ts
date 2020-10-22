@@ -1,4 +1,4 @@
-import proxyAddr from 'proxy-addr'
+import { compile } from '@tinyhttp/proxy-addr'
 
 export const compileTrust = (val: any) => {
   if (typeof val === 'function') return val
@@ -22,8 +22,8 @@ export const compileTrust = (val: any) => {
   if (typeof val === 'string') {
     // Support comma-separated values
     const vals = val.split(',').map((it) => it.trim())
-    return proxyAddr.compile(vals)
+    return compile(vals)
   }
 
-  return proxyAddr.compile(val || [])
+  return compile(val || [])
 }

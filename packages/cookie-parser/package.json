@@ -39,6 +39,10 @@
     "@tinyhttp/cookie": "workspace:*",
     "@tinyhttp/cookie-signature": "workspace:*"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "build": "rollup -c ../../build/defaultConfig.js"
   }

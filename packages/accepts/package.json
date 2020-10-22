@@ -23,6 +23,10 @@
     "./package.json": "./package.json",
     "./": "./"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "devDependencies": {
     "@types/negotiator": "^0.6.1"
   },

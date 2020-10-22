@@ -2,7 +2,7 @@ import { IncomingMessage } from 'http'
 import { ParsedUrlQuery } from 'querystring'
 
 import { Ranges } from 'range-parser'
-import proxyAddr from 'proxy-addr'
+import { proxyaddr as proxyAddr, all } from '@tinyhttp/proxy-addr'
 import { App } from './app'
 import type { Middleware, Handler } from '@tinyhttp/router'
 import type { Response } from './response'
@@ -55,7 +55,7 @@ export const getIP = (req: Request): string | undefined => {
 
 export const getIPs = (req: Request): string[] | undefined => {
   const proxyFn = compileTrust(req.connection.remoteAddress)
-  const addrs: string[] = proxyAddr.all(req, proxyFn)
+  const addrs: string[] = all(req, proxyFn)
   return addrs
 }
 

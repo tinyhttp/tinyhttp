@@ -33,7 +33,7 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "colorette": "^1.2.1",
-    "dayjs": "^1.8.36",
+    "dayjs": "^1.9.3",
     "http-status-emojis": "^2.2.0"
   },
   "engines": {

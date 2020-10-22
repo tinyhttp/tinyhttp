@@ -37,7 +37,7 @@
   "license": "MIT",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "ip-regex": "^4.1.0"
+    "ip-regex": "^4.2.0"
   },
   "engines": {
     "node": ">=12.4.0"
