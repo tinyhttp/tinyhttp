@@ -138,6 +138,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/KoljaTM"><img src="https://avatars1.githubusercontent.com/u/2526416?v=4" width="100px;" alt=""/><br /><sub><b>KoljaTM</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=KoljaTM" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/iketiunn"><img src="https://avatars1.githubusercontent.com/u/10249208?v=4" width="100px;" alt=""/><br /><sub><b>ike</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=iketiunn" title="Documentation">📖</a></td>
   </tr>
 </table>
 
