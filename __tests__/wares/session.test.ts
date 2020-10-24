@@ -141,4 +141,50 @@ describe('getSession(req, res)', () => {
       expect(setCount).toBe(1)
     })
   })
+
+  describe('session.touch(cb)', () => {
+    it('should reset session expiration', async () => {
+      const store = new MemoryStore()
+
+      const getSession = SessionManager({
+        cookie: { maxAge: 60 * 1000 },
+        resave: false,
+        secret: 'test',
+        store,
+      })
+
+      let preTouchExpires: Date
+      let postTouchExpires: Date
+
+      const { fetch } = InitAppAndTest(async (req, res) => {
+        const session = await getSession(req, res)
+
+        if (typeof session.cookie.expires === 'boolean') {
+          throw new Error('session.cookie.expires is a boolean')
+        }
+
+        preTouchExpires = session.cookie.expires
+
+        await new Promise((resolve) => {
+          setTimeout(() => {
+            session.touch()
+
+            if (typeof session.cookie.expires === 'boolean') {
+              throw new Error('session.cookie.expires is a boolean')
+            }
+
+            postTouchExpires = session.cookie.expires
+
+            resolve()
+          }, 100)
+        })
+
+        res.end()
+      })
+
+      await fetch('/').expectStatus(200)
+
+      expect(postTouchExpires.getTime() > preTouchExpires.getTime())
+    })
+  })
 })

@@ -262,7 +262,7 @@ export type SessionOptions = Partial<{
   /**
    * Settings object for the session ID cookie.
    */
-  cookie: Express.SessionCookieData
+  cookie: Partial<Express.SessionCookieData>
 }> & {
   secret: string | string[]
 }
