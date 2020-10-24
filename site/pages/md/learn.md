@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="/hljs.css" />
 
 <meta charset="UTF-8">
+<link rel="shortcut icon" href="/favicon.png" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta property="og:title" content="Learn 📚 | tinyhttp — 0-legacy, tiny & fast web framework as a replacement of Express">
 <meta property="og:site_name" content="tinyhttp.v1rtl.site" >
