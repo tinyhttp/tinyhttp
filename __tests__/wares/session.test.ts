@@ -187,4 +187,26 @@ describe('getSession(req, res)', () => {
       expect(postTouchExpires.getTime() > preTouchExpires.getTime())
     })
   })
+
+  describe('session.destroy(cb)', () => {
+    it('should destroy the previous session', async () => {
+      const getSession = SessionManager({
+        secret: 'test',
+      })
+
+      const { fetch } = InitAppAndTest(async (req, res) => {
+        const session = await getSession(req, res)
+
+        session.destroy((err) => {
+          if (err) {
+            res.statusCode = 500
+          }
+
+          res.end(String(session))
+        })
+      })
+
+      await fetch('/').expectStatus(200).expectHeader('Set-Cookie', null)
+    })
+  })
 })
