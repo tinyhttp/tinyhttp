@@ -1,5 +1,19 @@
 # @tinyhttp/app
 
+## 0.5.5
+
+### Patch Changes
+
+- Fix missing dep
+- Updated dependencies [undefined]
+  - @tinyhttp/proxy-addr@0.5.2
+
+## 0.5.4
+
+### Patch Changes
+
+- Remove proxy-addr dep
+
 ## 0.5.3
 
 ### Patch Changes

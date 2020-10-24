@@ -1,5 +1,11 @@
 # @tinyhttp/rate-limit
 
+## 0.5.2
+
+### Patch Changes
+
+- Fix missing dep
+
 ## 0.5.1
 
 ### Patch Changes

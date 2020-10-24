@@ -1,5 +1,20 @@
 # @tinyhttp/unless
 
+## 0.5.6
+
+### Patch Changes
+
+- Fix missing dep
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.5.5
+
+## 0.5.5
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.5.4
+
 ## 0.5.3
 
 ### Patch Changes
