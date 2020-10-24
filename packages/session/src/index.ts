@@ -43,8 +43,8 @@ class Cookie implements Express.SessionCookie {
   domain?: string
   sameSite: boolean | 'lax' | 'strict' | 'none' | undefined
 
-  constructor(options?: Express.SessionCookieData) {
-    const opts: Partial<Express.SessionCookieData> = options || {}
+  constructor(options?: Partial<Express.SessionCookieData>) {
+    const opts = options || {}
 
     this.expires = opts.expires || false
     this.path = opts.path || '/'
