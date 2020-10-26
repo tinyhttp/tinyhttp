@@ -131,6 +131,14 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
   parent: App
   apps: Record<string, App> = {}
 
+  route(path: string): App {
+    const router = new Router<App, Req, Res>()
+
+    this.use(path, router as App)
+
+    return router as App
+  }
+
   get(...args: RouterMethodParams<Req, Res>) {
     pushMiddleware<Req, Res>(this.middleware)({
       path: args[0],

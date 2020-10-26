@@ -1,6 +1,7 @@
 import http from 'http'
 import { readFile } from 'fs/promises'
 import { App } from '../../packages/app/src'
+
 import { renderFile } from 'eta'
 import type { EtaConfig } from 'eta/dist/types/config'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
@@ -152,7 +153,7 @@ describe('Testing App routing', () => {
   })
 })
 
-describe('Route methods', () => {
+describe('HTTP methods', () => {
   it('app.get handles get request', async () => {
     const app = new App()
 
@@ -443,6 +444,11 @@ describe('Route handlers', () => {
     const fetch = makeFetch(server)
 
     await fetch('/subapp/route').expect(200, 'Hello from /subapp')
+  })
+  it('sub-app gets mounted via `app.route`', async () => {
+    const app = new App()
+
+    app.route('/path').get((_, res) => res.send('Hello World'))
   })
 })
 
