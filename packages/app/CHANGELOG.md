@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.5.6
+
+### Patch Changes
+
+- Implement `app.route`
+
 ## 0.5.5
 
 ### Patch Changes
