@@ -1,5 +1,11 @@
 # @tinyhttp/url
 
+## 0.5.2
+
+### Patch Changes
+
+- Fix hang on params + query
+
 ## 0.5.1
 
 ### Patch Changes

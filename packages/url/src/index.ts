@@ -2,17 +2,21 @@ import rg from 'regexparam'
 import { parse } from 'url'
 import { ParsedUrlQuery } from 'querystring'
 
-export const rgExec = (path: string, result: { pattern: RegExp; keys: string[] }) => {
-  let i = 0
-  const out = {}
-  const matches = result.pattern.exec(path)
-  while (i < result.keys.length) {
-    out[result.keys[i]] = matches?.[++i] || null
-  }
-  return out
-}
+export const getURLParams = (reqUrl = '/', url = '/'): URLParams => {
+  const tmp = rg(url)
 
-export const getURLParams = (reqUrl = '/', url = '/'): URLParams => rgExec(reqUrl, rg(url))
+  const matches = tmp.pattern.exec(reqUrl)
+
+  const params = {}
+
+  if (matches) {
+    for (let i = 0; i < tmp.keys.length; i++) {
+      params[tmp.keys[i]] = matches[i + 1]
+    }
+  }
+
+  return params
+}
 
 export const getQueryParams = (url = '/'): ParsedUrlQuery => parse(url, true).query
 
