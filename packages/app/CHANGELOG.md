@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.5.8
+
+### Patch Changes
+
+- fix empty req.params
+
 ## 0.5.7
 
 ### Patch Changes

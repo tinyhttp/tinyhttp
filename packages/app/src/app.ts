@@ -203,14 +203,16 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
 
       const parsedUrl = parse(req.url)
 
-      req.path = parsedUrl.pathname
+      const pathname = parsedUrl.pathname
+
+      req.path = pathname
 
       if (type === 'route') {
         if (req.method === method) {
           // strip query parameters for req.params
 
-          if (matchParams(path, parsedUrl.pathname)) {
-            req.params = getURLParams(req.url, path)
+          if (matchParams(path, pathname)) {
+            req.params = getURLParams(pathname, path)
             req.route = getRouteFromApp(this, handler as Handler<Req, Res>)
 
             // route found, send Success 200
