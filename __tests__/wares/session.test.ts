@@ -209,7 +209,7 @@ describe('getSession(req, res)', () => {
       await fetch('/').expectStatus(200).expectHeader('Set-Cookie', null)
     })
   })
-
+})
 
 describe('Cookie', () => {
   describe('new Cookie(opts)', () => {
@@ -223,5 +223,4 @@ describe('Cookie', () => {
       expect(new Cookie().httpOnly).toBe(true)
     })
   })
-
 })
