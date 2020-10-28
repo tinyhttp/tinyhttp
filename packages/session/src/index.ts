@@ -34,7 +34,7 @@ function hash(sess: any): string {
   return createHash('sha1').update(str, 'utf8').digest('hex')
 }
 
-class Cookie implements Express.SessionCookie {
+export class Cookie implements Express.SessionCookie {
   _expires: Date | boolean = false
   originalMaxAge: number
   secure = false
