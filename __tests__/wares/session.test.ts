@@ -1,4 +1,4 @@
-import { SessionManager, MemoryStore } from '../../packages/session/src'
+import { SessionManager, MemoryStore, Cookie } from '../../packages/session/src'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 
 describe('SessionManager(opts)', () => {
@@ -207,6 +207,20 @@ describe('getSession(req, res)', () => {
       })
 
       await fetch('/').expectStatus(200).expectHeader('Set-Cookie', null)
+    })
+  })
+})
+
+describe('Cookie', () => {
+  describe('new Cookie(opts)', () => {
+    it('should create a new cookie object', () => {
+      expect(typeof new Cookie()).toBe('object')
+    })
+    it('should set default `expires` to `false`', () => {
+      expect(new Cookie().expires).toBe(false)
+    })
+    it('should set default `httpOnly` to `true`', () => {
+      expect(new Cookie().httpOnly).toBe(true)
     })
   })
 })
