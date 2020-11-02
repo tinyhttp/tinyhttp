@@ -237,6 +237,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "vitalybaev",
+      "name": "Vitaly Baev",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/724423?v=4",
+      "profile": "https://github.com/vitalybaev",
+      "contributions": [
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
