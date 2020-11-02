@@ -11,7 +11,7 @@ describe('typeIs', () => {
     expect(typeIs('application/json')).toBe('application/json')
   })
 
-  it("shouldn't depends on case", () => {
+  it("shouldn't depend on case", () => {
     expect(typeIs('Application/Json')).toBe('application/json')
   })
 
