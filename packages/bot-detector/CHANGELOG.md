@@ -1,5 +1,11 @@
 # @tinyhttp/bot-detector
 
+## 0.5.9
+
+### Patch Changes
+
+- Call isbot only on request
+
 ## 0.5.8
 
 ### Patch Changes
