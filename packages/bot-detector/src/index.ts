@@ -10,14 +10,33 @@ export interface RequestWithBotDetector extends Request {
 export function botDetector(): Handler<RequestWithBotDetector, Response> {
   return (req, _, next) => {
     const agent = req.headers['user-agent']
+    let bot
+    let name
 
-    const isBot = detectBot(agent)
-
-    if (isBot) {
-      req.botName = detectBot.find(agent)
-    }
-
-    req.isBot = isBot
+    Object.defineProperties(
+      req,
+      {
+        isBot: {
+          get: () => {
+            if (typeof bot === 'boolean') {
+              return bot
+            }
+            return bot = detectBot(agent)
+          }
+        },
+        botName: {
+          get: () => {
+            if (!req.isBot) {
+              name = null
+            }
+            if (typeof name === 'undefined') {
+              name = detectBot.find(agent)
+            }
+            return name || undefined
+          }
+        }
+      }
+    )
 
     next()
   }
