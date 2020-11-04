@@ -1,0 +1,9 @@
+{
+  "name": "markdown-blog",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*",
+    "markdown-transform": "^1.0.1"
+  }
+}
