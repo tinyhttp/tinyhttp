@@ -1,28 +1,18 @@
 import { App } from '@tinyhttp/app'
 import { h, text } from 'hyperapp'
-import { renderToString } from 'hyperapp-render'
+import { renderToStream } from 'hyperapp-render'
 
 const state = {
-  text: 'Hello',
+  text: 'Hello World!',
 }
 
-const actions = {
-  setText: (state, event) => ({
-    ...state,
-    text: event.target.value,
-  }),
-}
-
-const view = (state) => h('main', {}, [h('h1', {}, [text(state.text)]), h('input', { value: 'bruh' })])
+const view = (state) => h('main', {}, [h('h1', {}, [text(state.text)])])
 
 const app = new App()
 
 app
   .get((_, res) => {
-    const html = renderToString(view(state))
-
-    console.log(html)
-
-    res.send(html)
+    res.set('Content-Type', 'text/html')
+    renderToStream(view(state)).pipe(res)
   })
   .listen(3000, () => console.log(`Listening on http://localhost:3000`))

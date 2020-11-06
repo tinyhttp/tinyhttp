@@ -5,6 +5,6 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:^0.5.6",
     "hyperapp": "^2.0.8",
-    "hyperapp-render": "^3.4.0"
+    "hyperapp-render": "^3.5.0"
   }
 }
