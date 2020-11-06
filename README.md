@@ -19,7 +19,7 @@ Here is a short list of most important features that tinyhttp has:
 - ☑ Native ESM and CommonJS support
 - 🚀 No legacy dependencies, just the JavaScript itself
 - 🔨 Types out of the box
-- 🔥 Prebuilt middleware built for modern Node.js
+- 🔥 Prebuilt middleware for modern Node.js
 
 To get started, visit [tinyhttp website](https://tinyhttp.v1rtl.site).
 
