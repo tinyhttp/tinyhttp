@@ -1,5 +1,13 @@
 # @tinyhttp/app
 
+## 0.5.11
+
+### Patch Changes
+
+- remove more newlines
+- Updated dependencies [undefined]
+  - @tinyhttp/proxy-addr@0.5.3
+
 ## 0.5.10
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @tinyhttp/proxy-addr
 
+## 0.5.3
+
+### Patch Changes
+
+- remove more newlines
+
 ## 0.5.2
 
 ### Patch Changes

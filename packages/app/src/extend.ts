@@ -1,7 +1,6 @@
 import { getSubdomains, Request } from './request'
 import type { NextFunction } from '@tinyhttp/router'
 import type { Response } from './response'
-
 import { getFreshOrStale, getRangeFromHeader, getRequestHeader, checkIfXMLHttpRequest, getQueryParams, getAccepts, getAcceptsCharsets, getAcceptsEncodings } from '@tinyhttp/req'
 import { getProtocol, getHostname, getIP, getIPs } from './request'
 import {
@@ -62,7 +61,6 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response, next
     req.connection = Object.assign(req.socket, {
       encrypted: secure,
     })
-
     req.hostname = getHostname(req)
     req.subdomains = getSubdomains(req, options.subdomainOffset)
     req.ip = getIP(req)
@@ -77,11 +75,9 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response, next
   }
 
   req.range = getRangeFromHeader(req)
-
   req.accepts = getAccepts(req)
   req.acceptsCharsets = getAcceptsCharsets(req)
   req.acceptsEncodings = getAcceptsEncodings(req)
-
   req.xhr = checkIfXMLHttpRequest(req)
 
   /*
@@ -89,31 +85,22 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response, next
   */
 
   res.header = res.set = setHeader<Request, Response>(req, res)
-
   res.send = send<Request, Response>(req, res)
   res.json = json<Request, Response>(req, res)
   res.status = status<Request, Response>(req, res)
   res.sendStatus = sendStatus<Request, Response>(req, res)
   res.sendFile = sendFile<Request, Response>(req, res)
-
   res.type = setContentType<Request, Response>(req, res)
   res.location = setLocationHeader<Request, Response>(req, res)
   res.links = setLinksHeader<Request, Response>(req, res)
   res.vary = setVaryHeader<Request, Response>(req, res)
-
   res.cookie = setCookie<Request, Response>(req, res)
   res.clearCookie = clearCookie<Request, Response>(req, res)
-
   res.render = renderTemplate(req, res, app)
-
   res.format = formatResponse(req, res, next)
-
   res.redirect = redirect(req, res, next)
-
   res.attachment = attachment(req, res)
   res.download = download(req, res)
-
   res.append = append(req, res)
-
   res.locals = res.locals || Object.create(null)
 }

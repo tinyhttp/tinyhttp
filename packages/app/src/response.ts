@@ -2,7 +2,6 @@ import { ServerResponse } from 'http'
 import * as cookie from '@tinyhttp/cookie'
 import { Request } from './request'
 import { App, TemplateEngineOptions } from './app'
-
 import type { ReadStreamOptions, FormatProps, DownloadOptions } from '@tinyhttp/res'
 
 export const renderTemplate = (_req: Request, res: Response, app: App) => (file: string, data?: Record<string, any>, options?: TemplateEngineOptions): Response => {
@@ -15,7 +14,6 @@ export const renderTemplate = (_req: Request, res: Response, app: App) => (file:
     },
     options
   )
-
   return res
 }
 
@@ -42,8 +40,7 @@ export interface Response extends ServerResponse {
    *
    * The body parameter can be a Buffer object, a string, an object, or an array.
    *
-   * This method performs many useful tasks for simple non-streaming responses.
-   * For example, it automatically assigns the Content-Length HTTP response header field (unless previously defined) and provides automatic HEAD and HTTP cache freshness support.
+   * This method performs many useful tasks for simple non-streaming responses such as assigning the Content-Length HTTP response header field (unless previously defined).
    *
    * @param body Response body
    */
@@ -67,7 +64,6 @@ export interface Response extends ServerResponse {
    * @param body Response body
    */
   json(body: unknown): Response
-
   status(status: number): Response
   sendStatus(statusCode: number): Response
   cookie(name: string, value: string | Record<string, unknown>, options?: cookie.SerializeOptions & Partial<{ signed: boolean }>): Response
@@ -79,12 +75,9 @@ export interface Response extends ServerResponse {
   format(obj: FormatProps): Response
   redirect(url: string, status?: number): Response
   type(type: string): Response
-
   download(path: string, filename: string, options?: DownloadOptions, cb?: (err?: any) => void): Response
   attachment(filename?: string): Response
-
   app?: App
-
   locals?: Record<string, any>
 
   /**
@@ -99,9 +92,6 @@ export interface Response extends ServerResponse {
    *  next()
    * })
    *
-   * app.get('/', (req, res) => {
-   *  res.jsonp({ some: 'jsonp' })
-   * })
    * ```
    *
    * @param obj Response object

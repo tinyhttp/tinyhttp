@@ -78,39 +78,28 @@ type AcceptsReturns = string | false | string[]
 export interface Request extends IncomingMessage {
   originalUrl: string
   path: string
-
   query: ParsedUrlQuery
   params?: URLParams
   connection: Connection
-
   route?: Middleware | undefined
-
   protocol: Protocol
   secure: boolean
-
   xhr: boolean
   hostname: string | undefined
   ip?: string
   ips?: string[]
   subdomains?: string[]
-
   get: (header: string) => string | string[] | undefined
-
   range: (size: number, options?: any) => -1 | -2 | Ranges | undefined
   accepts: (...types: string[]) => AcceptsReturns
   acceptsEncodings: (...encodings: string[]) => AcceptsReturns
   acceptsCharsets: (...charsets: string[]) => AcceptsReturns
-
   is: (...types: string[]) => boolean
-
   cookies?: any
   signedCookies?: any
   secret?: string | string[]
-
   fresh?: boolean
   stale?: boolean
-
   body?: any
-
   app?: App
 }
