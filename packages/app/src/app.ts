@@ -12,11 +12,8 @@ import { extendMiddleware } from './extend'
 import { matchParams } from '@tinyhttp/req'
 
 export const applyHandler = (h: Handler) => async (req: Request, res: Response, next?: NextFunction) => {
-  if (isAsync(h)) {
-    await h(req, res, next)
-  } else {
-    h(req, res, next)
-  }
+  if (isAsync(h)) await h(req, res, next)
+  else h(req, res, next)
 }
 /**
  * tinyhttp App has a few settings for toggling features
@@ -149,10 +146,6 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
    * Register a template engine with extension
    */
   engine(ext: string, fn: TemplateFunc<RenderOptions>) {
-    if (typeof fn !== 'function') {
-      throw new Error('callback function required')
-    }
-
     this.engines[ext] = fn
 
     return this
@@ -171,11 +164,7 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
 
     const subappPath = Object.keys(this.apps).find((x) => req.url.startsWith(x))
 
-    if (subappPath) {
-      const app = this.apps[subappPath]
-
-      app.handler(req, res)
-    }
+    if (subappPath) this.apps[subappPath].handler(req, res)
 
     const noMatchMW: Middleware = {
       handler: this.noMatchHandler,
@@ -189,11 +178,8 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
     const len = mw.length - 1
 
     const nextWithReqAndRes = (req: Req, res: Res) => (err: any) => {
-      if (err) {
-        this.onError(err, req, res)
-      } else {
-        loop(req, res)
-      }
+      if (err) this.onError(err, req, res)
+      else loop(req, res)
     }
 
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
@@ -236,11 +222,8 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
 
     const loop = (req: Req, res: Res) => {
       if (res.writableEnded) return
-      else if (idx <= len) {
-        handle(mw[idx++])(req, res, nextWithReqAndRes(req, res))
-      } else {
-        return
-      }
+      else if (idx <= len) handle(mw[idx++])(req, res, nextWithReqAndRes(req, res))
+      else return
     }
 
     loop(req, res)

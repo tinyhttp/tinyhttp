@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.5.9
+
+### Patch Changes
+
+- Strip some newlines
+
 ## 0.5.8
 
 ### Patch Changes
