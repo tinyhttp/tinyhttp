@@ -73,7 +73,6 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response, next
 
   if (options?.freshnessTesting) {
     req.fresh = getFreshOrStale(req, res)
-
     req.stale = !req.fresh
   }
 

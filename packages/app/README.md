@@ -23,12 +23,8 @@ app
     console.log('Did a request')
     next()
   })
-  .get('/', (_, res) => {
-    res.send('<h1>Hello World</h1>')
-  })
-  .get('/page/:page/', (req, res) => {
-    res.status(200).send(`You just opened ${req.params.page}`)
-  })
+  .get('/', (_, res) => void res.send('<h1>Hello World</h1>'))
+  .get('/page/:page/', (req, res) => void res.status(200).send(`You just opened ${req.params.page}`))
   .listen(3000)
 ```
 

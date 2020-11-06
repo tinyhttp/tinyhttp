@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/app",
-  "version": "0.5.9",
+  "version": "0.5.10",
   "description": "tinyhttp core with App, Request, Response and Router",
   "type": "module",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -23,10 +23,7 @@
     "./package.json": "./package.json",
     "./": "./"
   },
-  "files": [
-    "dist",
-    "src"
-  ],
+  "files": ["dist"],
   "engines": {
     "node": ">=12.x"
   },
@@ -46,7 +43,7 @@
   "license": "MIT",
   "dependencies": {
     "@tinyhttp/cookie": "workspace:*",
-    "@tinyhttp/proxy-addr": "workspace:^0.5.2",
+    "@tinyhttp/proxy-addr": "workspace:*",
     "@tinyhttp/req": "workspace:*",
     "@tinyhttp/res": "workspace:*",
     "@tinyhttp/router": "workspace:*"

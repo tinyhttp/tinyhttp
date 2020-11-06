@@ -14,7 +14,7 @@ Below there is a table comparing tinyhttp, [Express](https://expressjs.com) and 
 | Tested                               | in progress | yes        | yes     |
 | Compiled to native ESM               | yes         | no         | no      |
 | TypeScript support                   | yes         | no         | no      |
-| Package size (core only)             | 71.4 kB     | 208 kB     | 25.5 kB |
+| Package size (core only)             | 70.8 kB     | 208 kB     | 25.5 kB |
 | Built-in middlewares                 | no          | yes        | no      |
 | Req / s (relative, express = 1)      | 2.3x        | 1x         | 2.9x    |
 
