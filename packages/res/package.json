@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/res",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "type": "module",
   "description": "response extensions for tinyhttp",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",

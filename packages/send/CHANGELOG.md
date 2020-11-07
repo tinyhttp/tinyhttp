@@ -1,5 +1,11 @@
 # @tinyhttp/send
 
+## 0.5.2
+
+### Patch Changes
+
+- Fix res.sendFile optional params
+
 ## 0.5.1
 
 ### Patch Changes
