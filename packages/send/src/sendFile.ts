@@ -31,7 +31,7 @@ export type SendFileOptions = ReadStreamOptions &
  * @param _ Request
  * @param res Response
  */
-export const sendFile = <Request extends I = I, Response extends S = S>(_: Request, res: Response) => (path: string, opts: SendFileOptions, cb?: (err?: any) => void) => {
+export const sendFile = <Request extends I = I, Response extends S = S>(_: Request, res: Response) => (path: string, opts: SendFileOptions = {}, cb?: (err?: any) => void) => {
   const { root, headers, ...options } = opts
 
   if (!path) {

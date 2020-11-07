@@ -57,7 +57,7 @@ export interface Response extends ServerResponse {
    * @param options readable stream options (that res.sendFile uses)
    * @param cb Callback for catching errors / readable stream end
    */
-  sendFile(path: string, options: ReadStreamOptions, cb: (err?: any) => void): Response
+  sendFile(path: string, options?: ReadStreamOptions, cb?: (err?: any) => void): Response
 
   /**
    * Send JSON response
