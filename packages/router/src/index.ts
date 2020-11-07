@@ -483,7 +483,9 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
   all(...args: RouterMethodParams<Req, Res>) {
     for (const method of METHODS) {
       pushMiddleware(this.middleware)({
-        ...args,
+        path: args[0],
+        handler: args[1],
+        handlers: args.slice(2) as Handler<Req, Res>[],
         method,
         type: 'route',
       })

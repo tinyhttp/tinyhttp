@@ -1,5 +1,11 @@
 # @tinyhttp/router
 
+## 0.5.2
+
+### Patch Changes
+
+- Fix `router.all`
+
 ## 0.5.1
 
 ### Patch Changes

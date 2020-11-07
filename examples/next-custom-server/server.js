@@ -16,7 +16,7 @@ app.prepare().then(() => {
 
   server.get('/blog/:slug', (req, res) => app.render(req, res, '/blog/:slug', req.query))
 
-  server.use((req, res) => handle(req, res))
+  server.all('*', (req, res) => handle(req, res))
 
   server.listen(3000, (err) => {
     if (err) throw err
