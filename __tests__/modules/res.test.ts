@@ -131,6 +131,18 @@ describe('Response extensions', () => {
         .expect(200, '<h1>Hello World</h1>')
         .expectHeader('Content-Type', 'text/html')
     })
+    it('should throw 406 status when invalid MIME is specified', async () => {
+      const app = runServer((req, res) => {
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        formatResponse(req, res, (err) => res.writeHead(err.status).end(err.message))({ text: (_: Request, res: Response) => res.end(`Hello World`) }).end()
+      })
+
+      await makeFetch(app)('/', {
+        headers: {
+          Accept: 'foo/bar',
+        },
+      }).expect(406, 'Not Acceptable')
+    })
   })
   describe('res.type(type)', () => {
     it('should detect MIME type', async () => {

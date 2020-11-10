@@ -1,5 +1,11 @@
 # @tinyhttp/res
 
+## 0.5.6
+
+### Patch Changes
+
+- Fix res.format
+
 ## 0.5.5
 
 ### Patch Changes

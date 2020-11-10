@@ -3,11 +3,17 @@ import { getAccepts } from '@tinyhttp/req'
 import { setVaryHeader } from './headers'
 import { normalizeType, normalizeTypes } from './util'
 
-export type next = (err?: any) => void
-
 export type FormatProps = {
   default?: () => void
 } & Record<string, any>
+
+export type FormatError = Error & {
+  status: number
+  statusCode: number
+  types: any[]
+}
+
+type next = (err?: FormatError) => void
 
 export const formatResponse = <Request extends I = I, Response extends S = S, Next extends next = next>(req: Request, res: Response, next: Next) => (obj: FormatProps) => {
   const fn = obj.default
@@ -26,13 +32,10 @@ export const formatResponse = <Request extends I = I, Response extends S = S, Ne
   } else if (fn) {
     fn()
   } else {
-    const err = new Error('Not Acceptable') as Error & {
-      status: number
-      statusCode: number
-      types: any[]
-    }
+    const err = new Error('Not Acceptable') as FormatError
     err.status = err.statusCode = 406
     err.types = normalizeTypes(keys).map((o) => o.value)
+
     next(err)
   }
 
