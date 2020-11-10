@@ -1,7 +1,7 @@
 export * from '@tinyhttp/send'
 export * from './cookie'
 export * from './headers'
-export type { FormatProps } from './format'
+export type { FormatProps, FormatError } from './format'
 export { formatResponse } from './format'
 export * from './redirect'
 export * from './download'

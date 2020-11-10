@@ -1,5 +1,11 @@
 # @tinyhttp/res
 
+## 0.5.7
+
+### Patch Changes
+
+- fix: next in res package
+
 ## 0.5.6
 
 ### Patch Changes

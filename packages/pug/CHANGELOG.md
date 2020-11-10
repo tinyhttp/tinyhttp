@@ -1,5 +1,11 @@
 # @tinyhttp/pug
 
+## 0.5.17
+
+### Patch Changes
+
+- @tinyhttp/app@0.5.17
+
 ## 0.5.16
 
 ### Patch Changes
