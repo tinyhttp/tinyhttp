@@ -9,9 +9,7 @@ import { createHash } from 'crypto'
 import { nanoid } from 'nanoid'
 import onHeaders from 'on-headers'
 
-function generateSessionId(): string {
-  return nanoid(24)
-}
+const generateSessionId = () => nanoid(24)
 
 interface ReqAndSessionInfo extends IncomingMessage {
   sessionID: string
@@ -23,9 +21,7 @@ function hash(sess: any): string {
   // serialize
   const str = JSON.stringify(sess, (key, val) => {
     // ignore sess.cookie property
-    if (key === 'cookie' || key == 'store') {
-      return
-    }
+    if (key === 'cookie' || key == 'store') return
 
     return val
   })
@@ -109,9 +105,7 @@ export class Session implements Express.Session {
 
     if (typeof sessionData == 'object') {
       for (const prop in sessionData) {
-        if (!(prop in this)) {
-          this[prop] = sessionData[prop]
-        }
+        if (!(prop in this)) this[prop] = sessionData[prop]
       }
     }
   }
@@ -129,9 +123,7 @@ export class Session implements Express.Session {
   private data(): Record<string, any> {
     const out: Record<string, any> = {}
     for (const prop in this) {
-      if (prop === 'cookie' || prop === 'store') {
-        continue
-      }
+      if (prop === 'cookie' || prop === 'store') continue
       out[prop] = this[prop]
     }
     return out
@@ -296,9 +288,8 @@ export function SessionManager(options?: SessionOptions): (req: IncomingMessage,
   if (opts.unset && opts.unset !== 'destroy' && opts.unset !== 'keep') throw new TypeError('unset option must be either destroy or keep')
 
   let secret: string[]
-  if (typeof opts.secret === 'string') {
-    secret = [opts.secret]
-  } else secret = opts.secret
+  if (typeof opts.secret === 'string') secret = [opts.secret]
+  else secret = opts.secret
 
   if (!secret) throw new TypeError('session requires options.secret')
 
@@ -337,14 +328,10 @@ export function SessionManager(options?: SessionOptions): (req: IncomingMessage,
       let session: Session | undefined = undefined
       let touched = false
 
-      function isModified(session: Session) {
-        return originalId !== session.id || originalHash !== hash(session)
-      }
+      const isModified = (session: Session) => originalId !== session.id || originalHash !== hash(session)
 
       // check if session has been saved
-      function isSaved(sess: Session) {
-        return originalId === sess.id && savedHash === hash(session)
-      }
+      const isSaved = (sess: Session) => originalId === sess.id && savedHash === hash(session)
 
       function shouldsetCookie(sessionID?: string | boolean | undefined, session?: Session) {
         // cannot set cookie without a session ID
@@ -362,14 +349,7 @@ export function SessionManager(options?: SessionOptions): (req: IncomingMessage,
       }
 
       // determine if session should be touched
-      function shouldTouch(id?: string, session?: Session) {
-        // cannot set cookie without a session ID
-        if (typeof id !== 'string') {
-          return false
-        }
-
-        return cookieId === id && !shouldSave(id, session)
-      }
+      const shouldTouch = (id?: string, session?: Session) => (typeof id !== 'string' ? false : cookieId === id && !shouldSave(id, session))
 
       // TODO: Get rid of onHeaders dep
       onHeaders(res, () => {
@@ -704,9 +684,7 @@ export class MemoryStore extends Store implements ExpressStore {
       let expires: Date
       if (!(sessJSON.cookie.expires instanceof Date)) {
         expires = new Date(sessJSON.cookie.expires)
-      } else {
-        expires = sessJSON.cookie.expires
-      }
+      } else expires = sessJSON.cookie.expires
 
       if (expires && expires <= new Date(Date.now())) {
         delete this.sessions[id]

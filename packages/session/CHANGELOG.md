@@ -1,5 +1,11 @@
 # @tinyhttp/session
 
+## 0.5.2
+
+### Patch Changes
+
+- Strip some bytes
+
 ## 0.5.1
 
 ### Patch Changes
