@@ -63,6 +63,10 @@
     <li><a href="#appengine">app.engine</a></li>
     <li><a href="#apprender">app.render</a></li>
     <li><a href="#apppath">app.path</a></li>
+    <li><a href="#approute">app.route</a></li>
+    <li><a href="#appenable">app.enable</a></li>
+    <li><a href="#appdisable">app.disable</a></li>
+    <li><a href="#appset">app.set</a></li>
   </ul>
   </details>
 
@@ -158,8 +162,8 @@ app.listen(3000)
 
 The app object has methods for
 
-- Routing HTTP requests; see for example, `app.METHOD` and `app.param`.
-- **NOT IMPLEMENTED** Configuring middleware; see `app.route`.
+- Routing HTTP requests; see for example, `app.METHOD` and [`app.param`](#appparam).
+- Configuring middleware; see [`app.route`](#approute).
 - Rendering HTML views; see [`app.render`](#apprender).
 - Registering a template engine; see [`app.engine`](#appengine).
 
@@ -175,9 +179,7 @@ Handler if none of the routes match. Should return 404 Not found.
 import { App, Request, Response } from '@tinyhttp/app'
 
 const app = new App({
-  noMatchHandler: (req: Request, res: Response) => {
-    res.status(404).end('Not found :(')
-  },
+  noMatchHandler: (req: Request, res: Response) => void res.status(404).end('Not found :('),
 })
 
 app
@@ -202,11 +204,7 @@ const app = new App({
   },
 })
 
-app
-  .get('/', (req, res) => {
-    res.send('hello world')
-  })
-  .listen(3000)
+app.get('/', (req, res) => void res.send('hello world')).listen(3000)
 ```
 
 #### `settings`
@@ -490,14 +488,53 @@ console.dir(blog.path()) // '/blog'
 console.dir(blogAdmin.path()) // '/blog/admin'
 ```
 
+#### `app.route`
+
+Returns an instance of a single route, which you can then use to handle HTTP verbs with optional middleware. Use `app.route()` to avoid duplicate route names.
+
+```js
+new App()
+  .route('/events')
+  .all((req, res, next) => {
+    // runs for all HTTP verbs first
+    // think of it as route specific middleware!
+  })
+  .get((req, res, next) => res.json({ hello: 'world' }))
+  .post((req, res, next) => {
+    // maybe add a new event...
+  })
+```
+
+### `app.enable`
+
+Sets the `Boolean` setting name to `true`, where name is one of the properties from the app settings.
+
+```js
+app.enable('networkExtensions')
+```
+
+### `app.disable`
+
+Sets the `Boolean` setting name to `false`, where name is one of the properties from the app settings.
+
+```js
+app.disable('networkExtensions')
+```
+
+### `app.set`
+
+Set the setting name to value, where is one of the properties from the app settings.
+
+```js
+app.set('subdomainOffset', 2)
+```
+
 ## Request
 
 The `req` object represents the HTTP request and has properties for the request query string, parameters, body, HTTP headers, and so on.
 
 ```ts
-app.get('/user/:id', (req, res) => {
-  res.send(`user ${req.params.id}`)
-})
+app.get('/user/:id', (req, res) => void res.send(`user ${req.params.id}`))
 ```
 
 The req object is an enhanced version of Node.js built-in [IncomingMessage](https://nodejs.org/api/http.html#http_class_http_incomingmessage) object.
