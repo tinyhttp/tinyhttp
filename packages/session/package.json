@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/session",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "type": "module",
   "description": "Session middleware for tinyhttp",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -34,7 +34,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "devDependencies": {
-    "@types/express-session": "^1.17.0",
+    "@types/express-session": "1.15.15",
     "@types/on-headers": "^1.0.0"
   },
   "scripts": {
@@ -43,7 +43,7 @@
   "dependencies": {
     "@tinyhttp/cookie": "workspace:*",
     "@tinyhttp/cookie-signature": "workspace:*",
-    "nanoid": "^3.1.12",
+    "nanoid": "^3.1.16",
     "on-headers": "^1.0.2"
   }
 }
