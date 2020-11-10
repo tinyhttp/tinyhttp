@@ -77,7 +77,7 @@ function format(
   return string
 }
 
-function createParams(filename: string, fallback: string | boolean) {
+function createParams(filename?: string, fallback?: string | boolean) {
   if (filename === undefined) return
 
   const params: Partial<
@@ -126,7 +126,7 @@ function pdecode(_str: string, hex: string) {
  */
 
 export function contentDisposition(
-  filename: string,
+  filename?: string,
   options?: Partial<{
     type: string
     fallback: string | boolean

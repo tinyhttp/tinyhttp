@@ -1,5 +1,11 @@
 # @tinyhttp/content-disposition
 
+## 0.5.2
+
+### Patch Changes
+
+- make params optional
+
 ## 0.5.1
 
 ### Patch Changes

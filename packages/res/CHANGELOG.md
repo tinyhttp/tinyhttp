@@ -1,5 +1,12 @@
 # @tinyhttp/res
 
+## 0.5.5
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/content-disposition@0.5.2
+
 ## 0.5.4
 
 ### Patch Changes
