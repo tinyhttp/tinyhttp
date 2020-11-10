@@ -90,6 +90,7 @@
       <li><a href="#reqips">req.ips</a></li>
       <li><a href="#subdomains">req.subdomains</a></li>
       <li><a href="#reqapp">req.app</a></li>
+      <li><a href="#reqpath">req.path</a></li>
     </ul>
   </details>
  
@@ -505,7 +506,7 @@ new App()
   })
 ```
 
-### `app.enable`
+#### `app.enable`
 
 Sets the `Boolean` setting name to `true`, where name is one of the properties from the app settings.
 
@@ -513,7 +514,7 @@ Sets the `Boolean` setting name to `true`, where name is one of the properties f
 app.enable('networkExtensions')
 ```
 
-### `app.disable`
+#### `app.disable`
 
 Sets the `Boolean` setting name to `false`, where name is one of the properties from the app settings.
 
@@ -521,7 +522,7 @@ Sets the `Boolean` setting name to `false`, where name is one of the properties 
 app.disable('networkExtensions')
 ```
 
-### `app.set`
+#### `app.set`
 
 Set the setting name to value, where is one of the properties from the app settings.
 
@@ -700,9 +701,17 @@ console.log(req.subdomains)
 Points to a reference of the currently used app.
 
 ```ts
-app.use((req, res) => {
-  res.json(req.app.middleware) // send a current middleware array, dunno why but this is just an example
-})
+app.use((req, res) => void res.json(req.app.settings))
+```
+
+#### `req.path`
+
+Contains the path part of the request URL.
+
+```js
+// example.com/users?sort=desc
+console.dir(req.path)
+// => '/users'
 ```
 
 ### Methods
