@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.5.18
+
+### Patch Changes
+
+- Fix onError ignoring non-HTTP errors
+
 ## 0.5.17
 
 ### Patch Changes

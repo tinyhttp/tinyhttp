@@ -7,10 +7,17 @@ export type ErrorHandler = (err: any, req: Request, res: Response, next?: NextFu
 
 export const onErrorHandler: ErrorHandler = (err: any, _req: Request, res: Response) => {
   if (!res.writableEnded) {
-    const code = (res.statusCode = err.code in STATUS_CODES ? err.code : err.status || 500)
+    const code = err.code in STATUS_CODES ? err.code : err.status
 
-    if (typeof err === 'string' || Buffer.isBuffer(err)) res.end(err)
-    else if (code in STATUS_CODES) res.end(STATUS_CODES[code])
-    else res.end(err.message)
+    if (typeof err === 'string' || Buffer.isBuffer(err)) {
+      res.statusCode = 500
+      res.end(err)
+    } else if (code in STATUS_CODES) {
+      res.statusCode = code
+      res.end(STATUS_CODES[code])
+    } else {
+      res.statusCode = 500
+      res.end(err.message)
+    }
   }
 }

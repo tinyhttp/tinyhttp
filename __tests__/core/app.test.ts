@@ -124,32 +124,47 @@ describe('Testing App routing', () => {
   it('should throw 404 on no routes', async () => {
     await makeFetch(new App().listen())('/').expect(404)
   })
-  it('next function skips current middleware', async () => {
-    const app = new App()
+  describe('next(err)', () => {
+    it('next function skips current middleware', async () => {
+      const app = new App()
 
-    app.locals['log'] = 'test'
+      app.locals['log'] = 'test'
 
-    app
-      .use((req, _res, next) => {
-        app.locals['log'] = req.url
-        next()
-      })
-      .use((_req, res) => void res.json({ ...app.locals }))
+      app
+        .use((req, _res, next) => {
+          app.locals['log'] = req.url
+          next()
+        })
+        .use((_req, res) => void res.json({ ...app.locals }))
 
-    await makeFetch(app.listen())('/').expect(200, { log: '/' })
-  })
-  it('next function handles errors', async () => {
-    const app = new App()
-
-    app.use((req, res, next) => {
-      if (req.url === '/broken') {
-        next('Your appearance destroyed this world.')
-      } else {
-        res.send('Welcome back')
-      }
+      await makeFetch(app.listen())('/').expect(200, { log: '/' })
     })
+    it('next function handles errors', async () => {
+      const app = new App()
 
-    await makeFetch(app.listen())('/broken').expect(500, 'Your appearance destroyed this world.')
+      app.use((req, res, next) => {
+        if (req.url === '/broken') {
+          next('Your appearance destroyed this world.')
+        } else {
+          res.send('Welcome back')
+        }
+      })
+
+      await makeFetch(app.listen())('/broken').expect(500, 'Your appearance destroyed this world.')
+    })
+    it("next function sends error message if it's not an HTTP status code or string", async () => {
+      const app = new App()
+
+      app.use((req, res, next) => {
+        if (req.url === '/broken') {
+          next(new Error('Your appearance destroyed this world.'))
+        } else {
+          res.send('Welcome back')
+        }
+      })
+
+      await makeFetch(app.listen())('/broken').expect(500, 'Your appearance destroyed this world.')
+    })
   })
 })
 
