@@ -1,4 +1,4 @@
-import { contentDisposition } from '../../packages/content-disposition/src'
+import { contentDisposition, parse } from '../../packages/content-disposition/src'
 
 describe('contentDisposition()', () => {
   it('should create an attachment header', () => {
@@ -26,6 +26,32 @@ describe('contentDisposition(filename)', () => {
 
     it('should escape quotes', () => {
       expect(contentDisposition('the "plans".pdf')).toBe('attachment; filename="the \\"plans\\".pdf"')
+    })
+  })
+})
+
+describe('parse(string)', () => {
+  it('should require a string', () => {
+    try {
+      parse(null as string)
+    } catch (e) {
+      expect(e.message).toBe('argument string is required')
+    }
+  })
+  describe('with type', () => {
+    it('should throw on quoted value', async () => {
+      try {
+        parse('"attachment"')
+      } catch (e) {
+        expect(e.message).toBe('invalid type format')
+      }
+    })
+    it('should throw on trailing semi', async () => {
+      try {
+        parse('attachment;')
+      } catch (e) {
+        expect(e.message).toBe('invalid parameter format')
+      }
     })
   })
 })
