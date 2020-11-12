@@ -133,7 +133,6 @@ describe('Response extensions', () => {
     })
     it('should throw 406 status when invalid MIME is specified', async () => {
       const app = runServer((req, res) => {
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
         formatResponse(req, res, (err) => res.writeHead(err.status).end(err.message))({ text: (_: Request, res: Response) => res.end(`Hello World`) }).end()
       })
 
@@ -142,6 +141,16 @@ describe('Response extensions', () => {
           Accept: 'foo/bar',
         },
       }).expect(406, 'Not Acceptable')
+    })
+    it('should call `default` as a function if specified', async () => {
+      const app = runServer((req, res) => {
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        formatResponse(req, res, () => {})({
+          default: () => res.end('Hello World'),
+        }).end()
+      })
+
+      await makeFetch(app)('/').expect(200, 'Hello World')
     })
   })
   describe('res.type(type)', () => {
