@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.5.19
+
+### Patch Changes
+
+- fix undefined settings
+
 ## 0.5.18
 
 ### Patch Changes
