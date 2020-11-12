@@ -71,7 +71,7 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
   locals: Record<string, string> = {}
   noMatchHandler: Handler
   onError: ErrorHandler
-  settings: AppSettings = {}
+  settings: AppSettings
   engines: Record<string, TemplateFunc<RenderOptions>> = {}
 
   constructor(
@@ -84,7 +84,10 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
     super()
     this.onError = options?.onError || onErrorHandler
     this.noMatchHandler = options?.noMatchHandler || this.onError.bind(null, { code: 404 })
-    this.settings = options.settings
+    this.settings = options.settings || {
+      xPoweredBy: true,
+      subdomainOffset: 2,
+    }
   }
   /**
    * Set app setting

@@ -168,6 +168,34 @@ describe('Testing App routing', () => {
   })
 })
 
+describe('App methods', () => {
+  it('`app.set` sets a setting', () => {
+    const app = new App()
+
+    app.set('subdomainOffset', 1)
+
+    expect(app.settings.subdomainOffset).toBe(1)
+  })
+  it(`app.enable enables a setting`, () => {
+    const app = new App()
+
+    app.settings.xPoweredBy = false
+
+    app.enable('xPoweredBy')
+
+    expect(app.settings.xPoweredBy).toBe(true)
+  })
+  it(`app.disable disables a setting`, async () => {
+    const app = new App()
+
+    app.settings.xPoweredBy = true
+
+    app.disable('xPoweredBy')
+
+    expect(app.settings.xPoweredBy).toBe(false)
+  })
+})
+
 describe('HTTP methods', () => {
   it('app.get handles get request', async () => {
     const app = new App()
