@@ -161,6 +161,49 @@ describe('Testing HTTP methods', () => {
 
     expect(router.middleware[0].method).toBe('OPTIONS')
   })
+  it('app.all should push all HTTP methods handlers', () => {
+    const router = new Router()
+
+    router.all('/', () => void 0)
+
+    expect(router.middleware.map((x) => x.method)).toEqual([
+      'ACL',
+      'BIND',
+      'CHECKOUT',
+      'CONNECT',
+      'COPY',
+      'DELETE',
+      'GET',
+      'HEAD',
+      'LINK',
+      'LOCK',
+      'M-SEARCH',
+      'MERGE',
+      'MKACTIVITY',
+      'MKCALENDAR',
+      'MKCOL',
+      'MOVE',
+      'NOTIFY',
+      'OPTIONS',
+      'PATCH',
+      'POST',
+      'PRI',
+      'PROPFIND',
+      'PROPPATCH',
+      'PURGE',
+      'PUT',
+      'REBIND',
+      'REPORT',
+      'SEARCH',
+      'SOURCE',
+      'SUBSCRIBE',
+      'TRACE',
+      'UNBIND',
+      'UNLINK',
+      'UNLOCK',
+      'UNSUBSCRIBE',
+    ])
+  })
 })
 
 describe('Testing Router methods', () => {
