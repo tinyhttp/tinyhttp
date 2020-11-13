@@ -161,6 +161,21 @@ describe('Testing HTTP methods', () => {
 
     expect(router.middleware[0].method).toBe('OPTIONS')
   })
+  it('app.acl should set ACL as HTTP method', () => {
+    const router = new Router()
+
+    router.acl('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('ACL')
+  })
+  it('app.bind should set BIND as HTTP method', () => {
+    const router = new Router()
+
+    router.bind('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('BIND')
+  })
+
   it('app.all should push all HTTP methods handlers', () => {
     const router = new Router()
 
