@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Response } from '../../packages/app/src'
 import { Router } from '../../packages/router/src'
+import { METHODS } from 'http'
 
 describe('Testing Router', () => {
   describe('Basic', () => {
@@ -181,45 +182,7 @@ describe('Testing HTTP methods', () => {
 
     router.all('/', () => void 0)
 
-    expect(router.middleware.map((x) => x.method).sort()).toEqual(
-      [
-        'ACL',
-        'BIND',
-        'CHECKOUT',
-        'CONNECT',
-        'COPY',
-        'DELETE',
-        'GET',
-        'HEAD',
-        'LINK',
-        'LOCK',
-        'M-SEARCH',
-        'MERGE',
-        'MKACTIVITY',
-        'MKCALENDAR',
-        'MKCOL',
-        'MOVE',
-        'NOTIFY',
-        'OPTIONS',
-        'PATCH',
-        'POST',
-        'PRI',
-        'PROPFIND',
-        'PROPPATCH',
-        'PURGE',
-        'PUT',
-        'REBIND',
-        'REPORT',
-        'SEARCH',
-        'SOURCE',
-        'SUBSCRIBE',
-        'TRACE',
-        'UNBIND',
-        'UNLINK',
-        'UNLOCK',
-        'UNSUBSCRIBE',
-      ].sort()
-    )
+    expect(router.middleware.map((x) => x.method).length).toBe(METHODS.length)
   })
 })
 
