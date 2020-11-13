@@ -1,7 +1,6 @@
 import { markdownStaticHandler } from '../../packages/markdown/src'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import path from 'path'
-import { makeFetch } from 'supertest-fetch'
 
 const STATIC_FOLDER = path.join(__dirname, '../fixtures')
 
@@ -53,6 +52,17 @@ describe('Handler options', () => {
       )
 
       await fetch('/folder/more/3').expect(200)
+    })
+  })
+  describe('prefix', () => {
+    it('should strip prefix from paths', async () => {
+      const { fetch } = InitAppAndTest(
+        markdownStaticHandler(STATIC_FOLDER, {
+          prefix: '/a',
+        })
+      )
+
+      await fetch('/a/page').expect(200)
     })
   })
 })
