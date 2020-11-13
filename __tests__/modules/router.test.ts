@@ -140,6 +140,27 @@ describe('Testing HTTP methods', () => {
 
     expect(router.middleware[0].method).toBe('PATCH')
   })
+  it('app.delete should set DELETE as HTTP method', () => {
+    const router = new Router()
+
+    router.delete('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('DELETE')
+  })
+  it('app.head should set HEAD as HTTP method', () => {
+    const router = new Router()
+
+    router.head('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('HEAD')
+  })
+  it('app.options should set OPTIONS as HTTP method', () => {
+    const router = new Router()
+
+    router.options('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('OPTIONS')
+  })
 })
 
 describe('Testing Router methods', () => {
