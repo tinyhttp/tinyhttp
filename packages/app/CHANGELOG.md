@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.5.20
+
+### Patch Changes
+
+- @tinyhttp/proxy-addr@0.5.4
+
 ## 0.5.19
 
 ### Patch Changes
