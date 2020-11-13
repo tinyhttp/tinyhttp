@@ -111,6 +111,37 @@ describe('Testing Router', () => {
   })
 })
 
+describe('Testing HTTP methods', () => {
+  it('app.get should set GET as HTTP method', () => {
+    const router = new Router()
+
+    router.get('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('GET')
+  })
+  it('app.post should set POST as HTTP method', () => {
+    const router = new Router()
+
+    router.post('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('POST')
+  })
+  it('app.put should set PUT as HTTP method', () => {
+    const router = new Router()
+
+    router.put('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('PUT')
+  })
+  it('app.patch should set PATCH as HTTP method', () => {
+    const router = new Router()
+
+    router.patch('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('PATCH')
+  })
+})
+
 describe('Testing Router methods', () => {
   describe('app.route(path)', () => {
     it('should mount a router on a subpath', () => {
