@@ -66,3 +66,21 @@ describe('Handler options', () => {
     })
   })
 })
+
+describe('Index file', () => {
+  it('should detect index.md', async () => {
+    const { fetch } = InitAppAndTest(markdownStaticHandler(`${STATIC_FOLDER}/index/md`, {}))
+
+    await fetch('/').expect(200)
+  })
+  it('should detect index.markdown', async () => {
+    const { fetch } = InitAppAndTest(markdownStaticHandler(`${STATIC_FOLDER}/index/markdown`, {}))
+
+    await fetch('/').expect(200)
+  })
+  it('should detect README.md', async () => {
+    const { fetch } = InitAppAndTest(markdownStaticHandler(`${STATIC_FOLDER}/readme/md`, {}))
+
+    await fetch('/').expect(200)
+  })
+})

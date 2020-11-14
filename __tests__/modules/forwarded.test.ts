@@ -17,6 +17,13 @@ describe('forwarded(req)', () => {
   })
   it('should skip blank entries', () => {
     const req = createReq('127.0.0.1', {
+      'x-forwarded-for': '10.0.0.2,, 10.0.0.1',
+    }) as IncomingMessage
+
+    expect(forwarded(req)).toEqual(['127.0.0.1', '10.0.0.1', '10.0.0.2'])
+  })
+  it('should trim leading OWS', () => {
+    const req = createReq('127.0.0.1', {
       'x-forwarded-for': ' 10.0.0.2 ,  , 10.0.0.1 ',
     }) as IncomingMessage
 
