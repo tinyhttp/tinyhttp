@@ -1,5 +1,11 @@
 # @tinyhttp/markdown
 
+## 0.5.21
+
+### Patch Changes
+
+- fix stripExtension: false bug
+
 ## 0.5.20
 
 ### Patch Changes

@@ -20,14 +20,13 @@ describe('Routing', () => {
 
     expect(res.status).toBe(200)
   })
+  it('content-type should be text/html', async () => {
+    const { fetch } = InitAppAndTest(markdownStaticHandler(STATIC_FOLDER, {}))
+
+    await fetch('/page').expectHeader('content-type', 'text/html; charset=utf-8')
+  })
   it('should send 404 if no such file is found', async () => {
-    const { fetch } = InitAppAndTest(
-      markdownStaticHandler(STATIC_FOLDER, {
-        markedOptions: {
-          headerIds: false,
-        },
-      })
-    )
+    const { fetch } = InitAppAndTest(markdownStaticHandler(STATIC_FOLDER, {}))
 
     await fetch('/non-existent-page').expect(404)
   })
@@ -63,6 +62,26 @@ describe('Handler options', () => {
       )
 
       await fetch('/a/page').expect(200)
+    })
+  })
+  describe('stripExtension', () => {
+    it('should send markdown files on paths with extension', async () => {
+      const { fetch } = InitAppAndTest(
+        markdownStaticHandler(STATIC_FOLDER, {
+          stripExtension: false,
+        })
+      )
+
+      await fetch('/page.md').expectStatus(200)
+    })
+    it('should strip extension', async () => {
+      const { fetch } = InitAppAndTest(
+        markdownStaticHandler(STATIC_FOLDER, {
+          stripExtension: true,
+        })
+      )
+
+      await fetch('/page').expectStatus(200)
     })
   })
 })
