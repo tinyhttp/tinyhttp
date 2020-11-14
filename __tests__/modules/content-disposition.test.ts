@@ -84,5 +84,16 @@ describe('parse(string)', () => {
         expect(e.message).toBe('invalid parameter format')
       }
     })
+    it('should throw on missing param value', () => {
+      try {
+        parse('attachment; filename=')
+      } catch (e) {
+        expect(e.message).toBe('invalid parameter format')
+      }
+    })
+    // TODO: copypaste tests from https://github.com/jshttp/content-disposition/blob/master/test/test.js#L258-L278
+    it('should lower-case parameter name', () => {
+      expect(parse('attachment; FILENAME="plans.pdf"')).toStrictEqual(new ContentDisposition('attachment', { filename: 'plans.pdf' }))
+    })
   })
 })
