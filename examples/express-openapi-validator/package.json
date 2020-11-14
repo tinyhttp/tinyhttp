@@ -1,0 +1,9 @@
+{
+  "name": "vue-ssr",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*",
+    "express-openapi-validator": "^4.5.0"
+  }
+}
