@@ -1,4 +1,4 @@
-import { contentDisposition, parse } from '../../packages/content-disposition/src'
+import { contentDisposition, parse, ContentDisposition } from '../../packages/content-disposition/src'
 
 describe('contentDisposition()', () => {
   it('should create an attachment header', () => {
@@ -52,6 +52,21 @@ describe('parse(string)', () => {
       } catch (e) {
         expect(e.message).toBe('invalid parameter format')
       }
+    })
+    it('should parse "attachment"', function () {
+      expect(parse('attachment')).toStrictEqual(new ContentDisposition('attachment', {}))
+    })
+    it('should parse "inline"', function () {
+      expect(parse('inline')).toStrictEqual(new ContentDisposition('inline', {}))
+    })
+    it('should parse "form-data"', function () {
+      expect(parse('form-data')).toStrictEqual(new ContentDisposition('form-data', {}))
+    })
+    it('should parse with trailing LWS', function () {
+      expect(parse('attachment \t ')).toStrictEqual(new ContentDisposition('attachment', {}))
+    })
+    it('should normalize to lower-case', function () {
+      expect(parse('ATTACHMENT')).toStrictEqual(new ContentDisposition('attachment', {}))
     })
   })
 })

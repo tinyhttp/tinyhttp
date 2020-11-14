@@ -27,7 +27,7 @@ const getlatin1 = (val: unknown) => {
   return String(val).replace(NON_LATIN1_REGEXP, '?')
 }
 
-class ContentDisposition {
+export class ContentDisposition {
   type: string
   parameters: Record<any, any>
   constructor(type: string, parameters: Record<any, any>) {
