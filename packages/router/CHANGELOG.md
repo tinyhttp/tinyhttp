@@ -1,5 +1,11 @@
 # @tinyhttp/router
 
+## 0.5.3
+
+### Patch Changes
+
+- fix router http method typo
+
 ## 0.5.2
 
 ### Patch Changes

@@ -245,7 +245,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       path: args[0],
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'LOCK',
+      method: 'UNLOCK',
       type: 'route',
     })
     return this
