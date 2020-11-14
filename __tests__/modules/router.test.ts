@@ -177,6 +177,54 @@ describe('Testing HTTP methods', () => {
     expect(router.middleware[0].method).toBe('BIND')
   })
 
+  it('app.checkout should set CHECKOUT as HTTP method', () => {
+    const router = new Router()
+
+    router.checkout('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('CHECKOUT')
+  })
+
+  it('app.copy should set COPY as HTTP method', () => {
+    const router = new Router()
+
+    router.copy('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('COPY')
+  })
+
+  it('app.lock should set LOCK as HTTP method', () => {
+    const router = new Router()
+
+    router.lock('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('LOCK')
+  })
+
+  it('app.unlock should set UNLOCK as HTTP method', () => {
+    const router = new Router()
+
+    router.unlock('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('UNLOCK')
+  })
+
+  it('app.merge should set MERGE as HTTP method', () => {
+    const router = new Router()
+
+    router.merge('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('MERGE')
+  })
+
+  it('app.mkactivity should set MKACTIVITY as HTTP method', () => {
+    const router = new Router()
+
+    router.mkactivity('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('MKACTIVITY')
+  })
+
   it('app.all should push all HTTP methods handlers', () => {
     const router = new Router()
 
