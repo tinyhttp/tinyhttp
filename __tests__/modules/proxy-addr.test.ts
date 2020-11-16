@@ -1,3 +1,5 @@
+// Original test cases are taken from https://github.com/jshttp/proxy-addr/blob/master/test/test.js
+
 import { IncomingMessage } from 'http'
 import { proxyaddr } from '../../packages/proxy-addr/src'
 import { createReq } from '../../test_helpers/createReq'
@@ -44,6 +46,50 @@ describe('proxyaddr(req, trust)', () => {
       const req = createReq('127.0.0.1') as IncomingMessage
 
       expect(proxyaddr(req, 'loopback')).toBe('127.0.0.1')
+    })
+    it('should accept pre-defined names', () => {
+      const req = createReq('127.0.0.1') as IncomingMessage
+
+      expect(proxyaddr(req, ['loopback', '10.0.0.1'])).toBe('127.0.0.1')
+    })
+    it('should reject non-IP', () => {
+      const req = createReq('127.0.0.1') as IncomingMessage
+
+      try {
+        proxyaddr(req, 'blegh')
+      } catch (e) {
+        expect(e.message).toContain('invalid IP address')
+      }
+      try {
+        proxyaddr(req, '10.0.300.1')
+      } catch (e) {
+        expect(e.message).toContain('invalid IP address')
+      }
+      try {
+        proxyaddr(req, '::ffff:30.168.1.9000')
+      } catch (e) {
+        expect(e.message).toContain('invalid IP address')
+      }
+      try {
+        proxyaddr(req, '-1')
+      } catch (e) {
+        expect(e.message).toContain('invalid IP address')
+      }
+    })
+    it('should reject bad CIDR', () => {
+      const req = createReq('127.0.0.1') as IncomingMessage
+
+      try {
+        proxyaddr(req, '10.0.0.1/internet')
+      } catch (e) {
+        expect(e.message).toContain('invalid range on address')
+      }
+
+      try {
+        proxyaddr(req, '10.0.0.1/6000')
+      } catch (e) {
+        expect(e.message).toContain('invalid range on address')
+      }
     })
   })
 })
