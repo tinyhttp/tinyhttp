@@ -53,6 +53,15 @@ describe('Testing Router', () => {
 
       expect(app.middleware).toHaveLength(2)
     })
+    it('accepts an array of wares and path as first argument', () => {
+      const app = new Router<Router>()
+
+      app.use('/path', [(_req, _res, next) => next(), (_req, _res, next) => next()])
+
+      expect(app.middleware).toHaveLength(2)
+
+      expect(app.middleware.every((x) => x.path === '/path')).toBe(true)
+    })
   })
   describe('Subapps', () => {
     it('should mount app on a specified path', () => {
