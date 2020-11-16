@@ -224,6 +224,133 @@ describe('Testing HTTP methods', () => {
 
     expect(router.middleware[0].method).toBe('MKACTIVITY')
   })
+  it('app.mkcol should set MKCOL as HTTP method', () => {
+    const router = new Router()
+
+    router.mkcol('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('MKCOL')
+  })
+
+  it('app.move should set MOVE as HTTP method', () => {
+    const router = new Router()
+
+    router.move('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('MOVE')
+  })
+
+  it('app.search should set SEARCH as HTTP method', () => {
+    const router = new Router()
+
+    router.search('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('SEARCH')
+  })
+
+  it('app.msearch should set M-SEARCH as HTTP method', () => {
+    const router = new Router()
+
+    router.msearch('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('M-SEARCH')
+  })
+
+  it('app.notify should set NOTIFY as HTTP method', () => {
+    const router = new Router()
+
+    router.notify('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('NOTIFY')
+  })
+
+  it('app.notify should set NOTIFY as HTTP method', () => {
+    const router = new Router()
+
+    router.notify('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('NOTIFY')
+  })
+
+  it('app.purge should set PURGE as HTTP method', () => {
+    const router = new Router()
+
+    router.purge('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('PURGE')
+  })
+
+  it('app.report should set REPORT as HTTP method', () => {
+    const router = new Router()
+
+    router.report('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('REPORT')
+  })
+
+  it('app.subscribe should set SUBSCRIBE as HTTP method', () => {
+    const router = new Router()
+
+    router.subscribe('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('SUBSCRIBE')
+  })
+
+  it('app.unsubscribe should set UNSUBSCRIBE as HTTP method', () => {
+    const router = new Router()
+
+    router.unsubscribe('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('UNSUBSCRIBE')
+  })
+
+  it('app.trace should set TRACE as HTTP method', () => {
+    const router = new Router()
+
+    router.trace('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('TRACE')
+  })
+
+  it('app.acl should set ACL as HTTP method', () => {
+    const router = new Router()
+
+    router.acl('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('ACL')
+  })
+
+  it('app.connect should set CONNECT as HTTP method', () => {
+    const router = new Router()
+
+    router.connect('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('CONNECT')
+  })
+
+  it('app.bind should set BIND as HTTP method', () => {
+    const router = new Router()
+
+    router.bind('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('BIND')
+  })
+
+  it('app.unbind should set UNBIND as HTTP method', () => {
+    const router = new Router()
+
+    router.unbind('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('UNBIND')
+  })
+
+  it('app.rebind should set REBIND as HTTP method', () => {
+    const router = new Router()
+
+    router.rebind('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('REBIND')
+  })
 
   it('app.all should push all HTTP methods handlers', () => {
     const router = new Router()
