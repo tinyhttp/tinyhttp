@@ -3,14 +3,9 @@ import { readFile } from 'fs/promises'
 
 const app = new App()
 
-app.get('/', async (_, res, next) => {
-  let file
+app.get('/', async (_, res) => {
+  const file = await readFile(`${process.cwd()}/test.txt`)
 
-  try {
-    file = await readFile(`${process.cwd()}/test.txt`)
-  } catch (e) {
-    next(e)
-  }
   res.send(file.toString())
 })
 

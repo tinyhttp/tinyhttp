@@ -12,8 +12,13 @@ import { extendMiddleware } from './extend'
 import { matchParams } from '@tinyhttp/req'
 
 export const applyHandler = (h: Handler) => async (req: Request, res: Response, next?: NextFunction) => {
-  if (isAsync(h)) await h(req, res, next)
-  else h(req, res, next)
+  if (isAsync(h)) {
+    try {
+      await h(req, res, next)
+    } catch (e) {
+      next(e)
+    }
+  } else h(req, res, next)
 }
 /**
  * tinyhttp App has a few settings for toggling features

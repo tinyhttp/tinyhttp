@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.5.24
+
+### Patch Changes
+
+- wrap in try catch so it catches async errors
+
 ## 0.5.23
 
 ### Patch Changes

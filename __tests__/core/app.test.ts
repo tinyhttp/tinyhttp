@@ -59,6 +59,19 @@ describe('Testing App', () => {
     await fetch('/').expect(500, 'Ouch, you hurt me on / page.')
   })
 
+  it('errors in async wares do not destroy the app', async () => {
+    const app = new App()
+
+    app.use(async (_req, _res) => {
+      throw `bruh`
+    })
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    await fetch('/').expect(500, 'bruh')
+  })
+
   it('App works with HTTP 1.1', async () => {
     const app = new App()
 
