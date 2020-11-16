@@ -20,7 +20,7 @@ const IP_RANGES = {
  * @param request
  * @param trust
  */
-function alladdrs(req: IncomingMessage, trust: ((...args: any[]) => any) | any[] | string[]) {
+function alladdrs(req: IncomingMessage, trust: ((...args: any[]) => any) | any[] | string[] | string) {
   // get addresses
 
   const addrs = forwarded(req)
@@ -127,7 +127,7 @@ function parseNetmask(netmask: string) {
  * @param trust
  * @public
  */
-export function proxyaddr(req: IncomingMessage, trust: ((...args: any[]) => any) | any[] | string[]) {
+export function proxyaddr(req: IncomingMessage, trust: ((...args: any[]) => any) | any[] | string[] | string) {
   const addrs = alladdrs(req, trust)
 
   return addrs[addrs.length - 1]

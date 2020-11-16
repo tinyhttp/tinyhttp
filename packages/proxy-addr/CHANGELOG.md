@@ -1,5 +1,11 @@
 # @tinyhttp/proxy-addr
 
+## 0.5.5
+
+### Patch Changes
+
+- add proxy-addr tests
+
 ## 0.5.4
 
 ### Patch Changes
