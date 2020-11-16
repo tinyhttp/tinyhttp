@@ -215,5 +215,19 @@ describe('proxyaddr(req, trust)', () => {
 
       expect(proxyaddr(req, trust10x)).toBe('127.0.0.1')
     })
+    it('should return header when socket trusted', () => {
+      const req = createReq('10.0.0.1', {
+        'x-forwarded-for': '192.168.0.1',
+      }) as IncomingMessage
+
+      expect(proxyaddr(req, trust10x)).toBe('192.168.0.1')
+    })
+    it('should return first untrusted after trusted', () => {
+      const req = createReq('10.0.0.1', {
+        'x-forwarded-for': '192.168.0.1, 10.0.0.2',
+      }) as IncomingMessage
+
+      expect(proxyaddr(req, trust10x)).toBe('192.168.0.1')
+    })
   })
 })

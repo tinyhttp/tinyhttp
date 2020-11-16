@@ -40,23 +40,18 @@ describe('Testing Router', () => {
       expect(app.middleware).toHaveLength(3)
     })
     it('accepts an array of wares', () => {
-      const app = new Router()
+      const app = new Router<Router>()
 
-      app.use(
-        function m1(_req, _res, next) {
-          next()
-        },
-        [
-          function m2(_req, _res, next) {
-            next()
-          },
-          function m3(_req, _res, next) {
-            next()
-          },
-        ]
-      )
+      app.use((_req, _res, next) => next(), [(_req, _res, next) => next(), (_req, _res, next) => next()])
 
       expect(app.middleware).toHaveLength(3)
+    })
+    it('accepts an array of wares as a first argument', () => {
+      const app = new Router<Router>()
+
+      app.use([(_req, _res, next) => next(), (_req, _res, next) => next()])
+
+      expect(app.middleware).toHaveLength(2)
     })
   })
   describe('Subapps', () => {
@@ -108,6 +103,17 @@ describe('Testing Router', () => {
       app.use('/blog', subapp)
 
       expect(subsubapp.path()).toBe('/blog/admin')
+    })
+    it('middlewares of a subapp get prefixed with mountpath', () => {
+      const app = new Router<Router>()
+
+      const subapp = new Router<Router>()
+
+      subapp.use('/path', (_req, _res) => void 0)
+
+      app.use('/subapp', subapp)
+
+      expect(subapp.middleware[0].path).toBe('/subapp/path')
     })
   })
 })
