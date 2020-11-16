@@ -533,3 +533,24 @@ describe('Template engines', () => {
     await fetch('/').expectBody('Hello from Eta')
   })
 })
+
+describe('App settings', () => {
+  describe('xPoweredBy', () => {
+    it('is enabled by default', () => {
+      const app = new App()
+
+      expect(app.settings.xPoweredBy).toBe(true)
+    })
+    it('should set X-Powered-By to "tinyhttp"', async () => {
+      const app = new App()
+
+      app.use((_req, res) => void res.send('hi'))
+
+      const server = app.listen()
+
+      const fetch = makeFetch(server)
+
+      await fetch('/').expectHeader('X-Powered-By', 'tinyhttp')
+    })
+  })
+})
