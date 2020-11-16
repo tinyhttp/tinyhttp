@@ -90,6 +90,73 @@ describe('proxyaddr(req, trust)', () => {
       } catch (e) {
         expect(e.message).toContain('invalid range on address')
       }
+
+      try {
+        proxyaddr(req, '::1/6000')
+      } catch (e) {
+        expect(e.message).toContain('invalid range on address')
+      }
+
+      try {
+        proxyaddr(req, '::ffff:a00:2/136')
+      } catch (e) {
+        expect(e.message).toContain('invalid range on address')
+      }
+
+      try {
+        proxyaddr(req, '::ffff:a00:2/-1')
+      } catch (e) {
+        expect(e.message).toContain('invalid range on address')
+      }
+    })
+    it('should reject bad netmask', () => {
+      const req = createReq('127.0.0.1') as IncomingMessage
+
+      try {
+        proxyaddr(req, '10.0.0.1/255.0.255.0')
+      } catch (e) {
+        expect(e.message).toContain('invalid range on address')
+      }
+
+      try {
+        proxyaddr(req, '10.0.0.1/ffc0::')
+      } catch (e) {
+        expect(e.message).toContain('invalid range on address')
+      }
+
+      try {
+        proxyaddr(req, 'fe80::/ffc0::')
+      } catch (e) {
+        expect(e.message).toContain('invalid range on address')
+      }
+
+      try {
+        proxyaddr(req, 'fe80::/255.255.255.0')
+      } catch (e) {
+        expect(e.message).toContain('invalid range on address')
+      }
+
+      try {
+        proxyaddr(req, '::ffff:a00:2/255.255.255.0')
+      } catch (e) {
+        expect(e.message).toContain('invalid range on address')
+      }
+    })
+    it('should be invoked as trust(addr, i)', () => {
+      const log = []
+
+      const req = createReq('127.0.0.1', {
+        'x-forwarded-for': '192.168.0.1, 10.0.0.1',
+      }) as IncomingMessage
+
+      proxyaddr(req, (addr, i) => {
+        return log.push([addr, i])
+      })
+
+      expect(log).toStrictEqual([
+        ['127.0.0.1', 0],
+        ['10.0.0.1', 1],
+      ])
     })
   })
 })
