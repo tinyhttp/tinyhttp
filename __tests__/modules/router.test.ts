@@ -352,6 +352,54 @@ describe('Testing HTTP methods', () => {
     expect(router.middleware[0].method).toBe('REBIND')
   })
 
+  it('app.link should set LINK as HTTP method', () => {
+    const router = new Router()
+
+    router.link('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('LINK')
+  })
+
+  it('app.unlink should set UNLINK as HTTP method', () => {
+    const router = new Router()
+
+    router.unlink('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('UNLINK')
+  })
+
+  it('app.mkcalendar should set MKCALENDAR as HTTP method', () => {
+    const router = new Router()
+
+    router.mkcalendar('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('MKCALENDAR')
+  })
+
+  it('app.propfind should set PROPFIND as HTTP method', () => {
+    const router = new Router()
+
+    router.propfind('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('PROPFIND')
+  })
+
+  it('app.proppatch should set PROPPATCH as HTTP method', () => {
+    const router = new Router()
+
+    router.proppatch('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('PROPPATCH')
+  })
+
+  it('app.source should set SOURCE as HTTP method', () => {
+    const router = new Router()
+
+    router.source('/', () => void 0)
+
+    expect(router.middleware[0].method).toBe('SOURCE')
+  })
+
   it('app.all should push all HTTP methods handlers', () => {
     const router = new Router()
 
