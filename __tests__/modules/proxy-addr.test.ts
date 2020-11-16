@@ -6,6 +6,12 @@ import { createReq } from '../../test_helpers/createReq'
 
 const all = () => true
 
+const none = () => false
+
+function trust10x(addr: string) {
+  return /^10\./.test(addr)
+}
+
 describe('proxyaddr(req, trust)', () => {
   describe('trust', () => {
     it('should accept a function', () => {
@@ -157,6 +163,42 @@ describe('proxyaddr(req, trust)', () => {
         ['127.0.0.1', 0],
         ['10.0.0.1', 1],
       ])
+    })
+  })
+  describe('with all trusted', () => {
+    it('should return socket address with no headers', () => {
+      const req = createReq('127.0.0.1') as IncomingMessage
+
+      expect(proxyaddr(req, all)).toBe('127.0.0.1')
+    })
+    it('should return header value', () => {
+      const req = createReq('127.0.0.1', {
+        'x-forwarded-for': '10.0.0.1',
+      }) as IncomingMessage
+
+      expect(proxyaddr(req, all)).toBe('10.0.0.1')
+    })
+    it('should return furthest header value', () => {
+      const req = createReq('127.0.0.1', {
+        'x-forwarded-for': '10.0.0.1, 10.0.0.2',
+      }) as IncomingMessage
+
+      expect(proxyaddr(req, all)).toBe('10.0.0.1')
+    })
+  })
+
+  describe('with none trusted', () => {
+    it('should return socket address with no headers', () => {
+      const req = createReq('127.0.0.1') as IncomingMessage
+
+      expect(proxyaddr(req, none)).toBe('127.0.0.1')
+    })
+    it('should return socket address with headers', () => {
+      const req = createReq('127.0.0.1', {
+        'x-forwarded-for': '10.0.0.1',
+      }) as IncomingMessage
+
+      expect(proxyaddr(req, none)).toBe('127.0.0.1')
     })
   })
 })
