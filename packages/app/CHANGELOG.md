@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.5.25
+
+### Patch Changes
+
+- strip some bytes
+
 ## 0.5.24
 
 ### Patch Changes

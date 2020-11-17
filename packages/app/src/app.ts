@@ -213,18 +213,12 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
             res.statusCode = 200
 
             await applyHandler(handler as Handler<Req, Res>)(req, res, next)
-          } else {
-            loop(req, res)
-          }
-        } else {
-          loop(req, res)
-        }
+          } else loop(req, res)
+        } else loop(req, res)
       } else {
         if (req.url.startsWith(path)) {
           await applyHandler(handler as Handler<Req, Res>)(req, res, next)
-        } else {
-          loop(req, res)
-        }
+        } else loop(req, res)
       }
     }
 
