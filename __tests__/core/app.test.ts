@@ -16,13 +16,7 @@ describe('Testing App', () => {
   it('should chain middleware', () => {
     const app = new App()
 
-    app
-      .use(function (_req, _res, next) {
-        next()
-      })
-      .use((_req, _res, next) => {
-        next()
-      })
+    app.use((_req, _res, next) => next()).use((_req, _res, next) => next())
 
     expect(app.middleware.length).toBe(2)
   })
@@ -49,9 +43,7 @@ describe('Testing App', () => {
       onError: (err, req, res) => res.status(500).end(`Ouch, ${err} hurt me on ${req.url} page.`),
     })
 
-    app.use((_req, _res, next) => {
-      next('you')
-    })
+    app.use((_req, _res, next) => next('you'))
 
     const server = app.listen()
     const fetch = makeFetch(server)
@@ -67,9 +59,8 @@ describe('Testing App', () => {
     })
 
     const server = app.listen()
-    const fetch = makeFetch(server)
 
-    await fetch('/').expect(500, 'bruh')
+    await makeFetch(server)('/').expect(500, 'bruh')
   })
 
   it('App works with HTTP 1.1', async () => {
@@ -79,9 +70,7 @@ describe('Testing App', () => {
 
     server.on('request', (req, res) => app.handler(req, res))
 
-    const fetch = makeFetch(server)
-
-    await fetch('/').expect(404)
+    await makeFetch(server)('/').expect(404)
   })
   it('req and res inherit properties from previous middlewares', async () => {
     const app = new App()
@@ -109,15 +98,11 @@ describe('Testing App', () => {
         req.body = await readFile(`${process.cwd()}/__tests__/fixtures/test.txt`)
         next()
       })
-      .use((req, res) => {
-        res.send(req.body.toString())
-      })
+      .use((req, res) => res.send(req.body.toString()))
 
     const server = app.listen()
 
-    const fetch = makeFetch(server)
-
-    await fetch('/').expect(200, 'I am a text file.')
+    await makeFetch(server)('/').expect(200, 'I am a text file.')
   })
 })
 
@@ -362,8 +347,7 @@ describe('HTTP methods', () => {
 
     app.report('/', (req, res) => void res.send(req.method))
 
-    const server = app.listen()
-    const fetch = makeFetch(server)
+    const fetch = makeFetch(app.listen())
 
     await fetch('/', { method: 'REPORT' }).expect(200, 'REPORT')
   })
@@ -404,12 +388,8 @@ describe('Route handlers', () => {
     const app = new App()
 
     app.use('/', [
-      function m1(req, _, n) {
-        req.body = ''
-        n()
-      },
-      function m2(req, _, n) {
-        req.body += 'hello'
+      (req, _, n) => {
+        req.body = 'hello'
         n()
       },
       (req, _, n) => {
@@ -435,12 +415,8 @@ describe('Route handlers', () => {
     const app = new App()
 
     app.use([
-      function m1(req, _, n) {
-        req.body = ''
-        n()
-      },
-      function m2(req, _, n) {
-        req.body += 'hello'
+      (req, _, n) => {
+        req.body = 'hello'
         n()
       },
       (req, _, n) => {

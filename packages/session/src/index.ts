@@ -682,9 +682,8 @@ export class MemoryStore extends Store implements ExpressStore {
 
     if (sessJSON.cookie) {
       let expires: Date
-      if (!(sessJSON.cookie.expires instanceof Date)) {
-        expires = new Date(sessJSON.cookie.expires)
-      } else expires = sessJSON.cookie.expires
+      if (!(sessJSON.cookie.expires instanceof Date)) expires = new Date(sessJSON.cookie.expires)
+      else expires = sessJSON.cookie.expires
 
       if (expires && expires <= new Date(Date.now())) {
         delete this.sessions[id]

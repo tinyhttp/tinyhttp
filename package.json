@@ -34,7 +34,6 @@
   },
   "scripts": {
     "prerelease": "pnpm lint && pnpm build && pnpm test",
-    "build": "pnpm build -r",
     "chgset:run": "changeset",
     "chgset:version": "changeset version",
     "chgset": "pnpm chgset:run && pnpm chgset:version",
@@ -42,6 +41,8 @@
     "release-no-git-checks": "pnpm publish -r --no-git-checks",
     "test": "jest --detectOpenHandles",
     "lint": "eslint . --ext=js,mjs,ts,cjs",
-    "format": "prettier --check \"./**/*.{ts,js,mjs,cjs}\""
+    "format": "prettier --check \"./**/*.{ts,js,mjs,cjs}\"",
+    "echo:ancestor": "echo ${ANCESTOR_REF:-$(git merge-base origin/master HEAD)}",
+    "build": "pnpm --filter ...[$(pnpm --silent echo:ancestor)] build"
   }
 }
