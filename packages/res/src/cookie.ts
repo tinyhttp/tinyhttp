@@ -19,24 +19,18 @@ export const setCookie = <Request extends I = I, Response extends S = S>(
 
   const signed = options.signed || false
 
-  if (signed && !secret) {
-    throw new Error('cookieParser("secret") required for signed cookies')
-  }
+  if (signed && !secret) throw new Error('cookieParser("secret") required for signed cookies')
 
   let val = typeof value === 'object' ? 'j:' + JSON.stringify(value) : String(value)
 
-  if (signed) {
-    val = 's:' + sign(val, secret)
-  }
+  if (signed) val = 's:' + sign(val, secret)
 
   if (options.maxAge) {
     options.expires = new Date(Date.now() + options.maxAge)
     options.maxAge /= 1000
   }
 
-  if (options.path == null) {
-    options.path = '/'
-  }
+  if (options.path == null) options.path = '/'
 
   res.setHeader('Set-Cookie', cookie.serialize(name, String(val), options))
 
@@ -44,7 +38,5 @@ export const setCookie = <Request extends I = I, Response extends S = S>(
 }
 
 export const clearCookie = <Request extends I = I, Response extends S = S>(req: Request, res: Response) => (name: string, options?: cookie.SerializeOptions): Response => {
-  const opts = Object.assign({}, { expires: new Date(1), path: '/' }, options)
-
-  return setCookie(req, res)(name, '', opts)
+  return setCookie(req, res)(name, '', Object.assign({}, { expires: new Date(1), path: '/' }, options))
 }

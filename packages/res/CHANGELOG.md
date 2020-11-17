@@ -1,5 +1,13 @@
 # @tinyhttp/res
 
+## 0.5.9
+
+### Patch Changes
+
+- strip bytes and support non string res.send
+- Updated dependencies [undefined]
+  - @tinyhttp/send@0.5.3
+
 ## 0.5.8
 
 ### Patch Changes

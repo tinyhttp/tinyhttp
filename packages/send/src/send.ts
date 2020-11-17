@@ -26,9 +26,7 @@ export const send = <Request extends I = I, Response extends S = S>(req: Request
 
       if (type && typeof type === 'string') {
         res.setHeader('Content-Type', setCharset(type, 'utf-8'))
-      } else {
-        res.setHeader('Content-Type', setCharset('text/html', 'utf-8'))
-      }
+      } else res.setHeader('Content-Type', setCharset('text/html', 'utf-8'))
     }
   }
 
@@ -59,20 +57,12 @@ export const send = <Request extends I = I, Response extends S = S>(req: Request
       res.end('')
       return
     } else if (Buffer.isBuffer(body)) {
-      if (!res.getHeader('Content-Type')) {
-        res.setHeader('content-type', 'application/octet-stream')
-      }
-    } else {
-      encoding ? json(req, res)(bodyToSend, encoding) : json(req, res)(bodyToSend)
-    }
+      if (!res.getHeader('Content-Type')) res.setHeader('content-type', 'application/octet-stream')
+    } else encoding ? json(req, res)(bodyToSend, encoding) : json(req, res)(bodyToSend)
   } else {
-    if (encoding) {
-      // respond with encoding
-      res.end(bodyToSend, encoding)
-    } else {
-      // respond without encoding
-      res.end(bodyToSend)
-    }
+    if (typeof bodyToSend !== 'string') bodyToSend = bodyToSend.toString()
+
+    encoding ? res.end(bodyToSend, encoding) : res.end(bodyToSend)
   }
 
   return res

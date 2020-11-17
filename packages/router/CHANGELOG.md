@@ -1,5 +1,11 @@
 # @tinyhttp/router
 
+## 0.5.4
+
+### Patch Changes
+
+- strip bytes and support non string res.send
+
 ## 0.5.3
 
 ### Patch Changes

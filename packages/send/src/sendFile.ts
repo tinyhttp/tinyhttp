@@ -36,7 +36,6 @@ export const sendFile = <Request extends I = I, Response extends S = S>(_: Reque
 
   if (!path) {
     if (typeof path !== 'string') throw new TypeError('path must be a string to res.sendFile')
-    throw new TypeError('path argument is required to res.sendFile')
   }
 
   if (headers) {

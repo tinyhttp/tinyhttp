@@ -35,11 +35,8 @@ export const redirect = <Request extends I = I, Response extends S = S, Next ext
 
   res.statusCode = status
 
-  if (req.method === 'HEAD') {
-    res.end()
-  } else {
-    res.end(body)
-  }
+  if (req.method === 'HEAD') res.end()
+  else res.end(body)
 
   return res
 }

@@ -8,9 +8,7 @@ export const json = <Request extends I = I, Response extends S = S>(_req: Reques
   res.setHeader('Content-Type', 'application/json')
   if (typeof body === 'object' && body != null) {
     res.end(JSON.stringify(body, null, 2), ...args)
-  } else if (typeof body === 'string') {
-    res.end(body, ...args)
-  }
+  } else if (typeof body === 'string') res.end(body, ...args)
 
   return res
 }

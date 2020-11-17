@@ -1,5 +1,13 @@
 # @tinyhttp/app
 
+## 0.5.26
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/res@0.5.9
+  - @tinyhttp/router@0.5.4
+
 ## 0.5.25
 
 ### Patch Changes

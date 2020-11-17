@@ -1,5 +1,13 @@
 # @tinyhttp/bot-detector
 
+## 0.5.27
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/router@0.5.4
+  - @tinyhttp/app@0.5.26
+
 ## 0.5.26
 
 ### Patch Changes

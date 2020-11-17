@@ -40,9 +40,7 @@ export const download = <Request extends I = I, Response extends S = S>(req: Req
   // merge user-provided headers
   if (opts && opts.headers) {
     for (const key of Object.keys(opts.headers)) {
-      if (key.toLowerCase() !== 'content-disposition') {
-        headers[key] = opts.headers[key]
-      }
+      if (key.toLowerCase() !== 'content-disposition') headers[key] = opts.headers[key]
     }
   }
 
