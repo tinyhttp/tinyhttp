@@ -348,5 +348,12 @@ describe('proxyaddr(req, trust)', () => {
 
       expect(proxyaddr(req, ['10.0.0.1/16'])).toBe('192.168.0.1')
     })
+    it('should match IPv6 trust to IPv4 request', () => {
+      const req = createReq('10.0.0.1', {
+        'x-forwarded-for': '192.168.0.1, 10.0.0.2',
+      }) as IncomingMessage
+
+      expect(proxyaddr(req, ['::ffff:a00:1', '::ffff:a00:2'])).toBe('192.168.0.1')
+    })
   })
 })
