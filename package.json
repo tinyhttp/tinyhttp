@@ -33,7 +33,7 @@
     "typescript": "^4.0.5"
   },
   "scripts": {
-    "prerelease": "pnpm lint && pnpm build && pnpm test",
+    "prerelease": "pnpm lint && pnpm build:ancestor && pnpm test",
     "chgset:run": "changeset",
     "chgset:version": "changeset version",
     "chgset": "pnpm chgset:run && pnpm chgset:version",
@@ -42,6 +42,8 @@
     "test": "jest --detectOpenHandles",
     "lint": "eslint . --ext=js,mjs,ts,cjs",
     "format": "prettier --check \"./**/*.{ts,js,mjs,cjs}\"",
-    "build": "pnpm build -r"
+    "echo:ancestor": "echo ${ANCESTOR_REF:-$(git merge-base origin/master HEAD)}",
+    "build": "pnpm -r build",
+    "build:ancestor": "pnpm --filter ...[$(pnpm --silent echo:ancestor)] build"
   }
 }
