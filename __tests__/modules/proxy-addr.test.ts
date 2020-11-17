@@ -276,4 +276,21 @@ describe('proxyaddr(req, trust)', () => {
       })
     })
   })
+
+  describe('when given IPv4 address', () => {
+    it('should accept literal IP addresses', () => {
+      const req = createReq('10.0.0.1', {
+        'x-forwarded-for': '192.168.0.1, 10.0.0.2',
+      }) as IncomingMessage
+
+      expect(proxyaddr(req, ['10.0.0.1', '10.0.0.2'])).toBe('192.168.0.1')
+    })
+    it('should accept CIDR notation', () => {
+      const req = createReq('10.0.0.1', {
+        'x-forwarded-for': '192.168.0.1, 10.0.0.200',
+      }) as IncomingMessage
+
+      expect(proxyaddr(req, '10.0.0.2/26')).toBe('10.0.0.200')
+    })
+  })
 })
