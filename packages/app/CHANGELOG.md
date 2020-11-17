@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.5.27
+
+### Patch Changes
+
+- add custom req / res extensions setting
+
 ## 0.5.26
 
 ### Patch Changes

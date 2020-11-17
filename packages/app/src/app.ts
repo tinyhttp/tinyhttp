@@ -78,12 +78,14 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
   onError: ErrorHandler
   settings: AppSettings
   engines: Record<string, TemplateFunc<RenderOptions>> = {}
+  applyExtensions: (req: Request, res: Response, next: NextFunction) => void
 
   constructor(
     options: Partial<{
       noMatchHandler: Handler<Req, Res>
       onError: ErrorHandler
       settings: AppSettings
+      applyExtensions: (req: Request, res: Response, next: NextFunction) => void
     }> = {}
   ) {
     super()
@@ -93,6 +95,7 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
       xPoweredBy: true,
       subdomainOffset: 2,
     }
+    this.applyExtensions = options?.applyExtensions || extendMiddleware(this)
   }
   /**
    * Set app setting
@@ -193,7 +196,7 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
       const { path, method, handler, type } = mw
 
-      extendMiddleware(this)(req, res, next)
+      this.applyExtensions(req, res, next)
 
       const parsedUrl = parse(req.url)
 
