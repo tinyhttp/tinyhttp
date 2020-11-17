@@ -42,7 +42,6 @@
     "test": "jest --detectOpenHandles",
     "lint": "eslint . --ext=js,mjs,ts,cjs",
     "format": "prettier --check \"./**/*.{ts,js,mjs,cjs}\"",
-    "echo:ancestor": "echo ${ANCESTOR_REF:-$(git merge-base origin/master HEAD)}",
-    "build": "pnpm --filter ...[$(pnpm --silent echo:ancestor)] build"
+    "build": "pnpm build -r"
   }
 }
