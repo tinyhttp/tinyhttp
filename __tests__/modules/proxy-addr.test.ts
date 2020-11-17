@@ -229,5 +229,51 @@ describe('proxyaddr(req, trust)', () => {
 
       expect(proxyaddr(req, trust10x)).toBe('192.168.0.1')
     })
+    it('should not skip untrusted', () => {
+      const req = createReq('10.0.0.1', {
+        'x-forwarded-for': '10.0.0.3, 192.168.0.1, 10.0.0.2',
+      }) as IncomingMessage
+
+      expect(proxyaddr(req, trust10x)).toBe('192.168.0.1')
+    })
+  })
+
+  describe('when given array', () => {
+    it('should accept literal IP addresses', () => {
+      const req = createReq('10.0.0.1', {
+        'x-forwarded-for': '192.168.0.1, 10.0.0.2',
+      }) as IncomingMessage
+
+      expect(proxyaddr(req, ['10.0.0.1', '10.0.0.2'])).toBe('192.168.0.1')
+    })
+    it('should not trust non-IP addresses', () => {
+      const req = createReq('10.0.0.1', {
+        'x-forwarded-for': '192.168.0.1, 10.0.0.2, localhost',
+      }) as IncomingMessage
+
+      expect(proxyaddr(req, ['10.0.0.1', '10.0.0.2'])).toBe('localhost')
+    })
+    it('should return socket address if none match', () => {
+      const req = createReq('10.0.0.1', {
+        'x-forwarded-for': '192.168.0.1, 10.0.0.2',
+      }) as IncomingMessage
+
+      expect(proxyaddr(req, ['127.0.0.1', '192.168.0.100'])).toBe('10.0.0.1')
+    })
+
+    describe('when array is empty', () => {
+      it('should return socket address', () => {
+        const req = createReq('127.0.0.1') as IncomingMessage
+
+        expect(proxyaddr(req, [])).toBe('127.0.0.1')
+      })
+      it('should return socket address', () => {
+        const req = createReq('127.0.0.1', {
+          'x-forwarded-for': '10.0.0.1, 10.0.0.2',
+        }) as IncomingMessage
+
+        expect(proxyaddr(req, [])).toBe('127.0.0.1')
+      })
+    })
   })
 })
