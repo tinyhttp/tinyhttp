@@ -316,4 +316,37 @@ describe('proxyaddr(req, trust)', () => {
       expect(proxyaddr(req, 'fe80::/125')).toBe('fe80::ff00')
     })
   })
+  describe('with mixed IP versions', () => {
+    it('should match respective versions', () => {
+      const req = createReq('::1', {
+        'x-forwarded-for': '2002:c000:203::1',
+      }) as IncomingMessage
+
+      expect(proxyaddr(req, ['127.0.0.1', '::1'])).toBe('2002:c000:203::1')
+    })
+    it('should not match IPv4 to IPv6', () => {
+      const req = createReq('::1', {
+        'x-forwarded-for': '2002:c000:203::1',
+      }) as IncomingMessage
+
+      expect(proxyaddr(req, '127.0.0.1')).toBe('::1')
+    })
+  })
+
+  describe('with IPv4-mapped IPv6 addresses', () => {
+    it('should match IPv4 trust to IPv6 request', () => {
+      const req = createReq('::ffff:a00:1', {
+        'x-forwarded-for': '192.168.0.1, 10.0.0.2',
+      }) as IncomingMessage
+
+      expect(proxyaddr(req, ['10.0.0.1', '10.0.0.2'])).toBe('192.168.0.1')
+    })
+    it('should match IPv4 netmask trust to IPv6 request', () => {
+      const req = createReq('::ffff:a00:1', {
+        'x-forwarded-for': '192.168.0.1, 10.0.0.2',
+      }) as IncomingMessage
+
+      expect(proxyaddr(req, ['10.0.0.1/16'])).toBe('192.168.0.1')
+    })
+  })
 })
