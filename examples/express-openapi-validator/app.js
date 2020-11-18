@@ -3,7 +3,7 @@ import { App } from '@tinyhttp/app'
 import fs from 'fs'
 import { OpenApiValidator } from 'express-openapi-validate'
 import jsYaml from 'js-yaml'
-import bodyParser from 'body-parser'
+import { urlencoded, text, json } from 'milliparsec'
 
 import Pets from './services/index.js'
 
@@ -23,10 +23,10 @@ const app = new App({
   },
 })
 
-// 1. Install bodyParsers for the request types your API will support
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.text())
-app.use(bodyParser.json())
+// 1. Install body parsers from milliparsec for the request types your API will support
+app.use(urlencoded({ extended: false }))
+app.use(text())
+app.use(json())
 
 app.use(validator.match())
 

@@ -1,6 +1,6 @@
 # OpenAPI validator example
 
-Example of how to use express-openapi-validate with tinyhttp
+Example of how to use [express-openapi-validate](https://github.com/Hilzu/express-openapi-validate) with tinyhttp
 
 ## Setup
 

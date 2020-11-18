@@ -48,7 +48,7 @@ export const markdownStaticHandler = (
 
     if (stripExtension) {
       file = files.find((f) => {
-        const { name, dir, ext }= parse(f)
+        const { name, dir, ext } = parse(f)
 
         const isDir = !(dir === '')
 
