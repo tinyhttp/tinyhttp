@@ -1,5 +1,13 @@
 # @tinyhttp/app
 
+## 0.5.29
+
+### Patch Changes
+
+- Replace .map with for loop
+- Updated dependencies [undefined]
+  - @tinyhttp/router@0.5.5
+
 ## 0.5.28
 
 ### Patch Changes

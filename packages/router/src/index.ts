@@ -549,7 +549,9 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       let totalHandlers: Handler[] = []
 
       if (typeof path !== 'string' && Array.isArray(path)) {
-        path.slice(1).map((h) => totalHandlers.push(h))
+        for (const h of path.slice(1)) {
+          totalHandlers.push(h)
+        }
       }
 
       if (handler) {

@@ -1,5 +1,11 @@
 # @tinyhttp/router
 
+## 0.5.5
+
+### Patch Changes
+
+- Replace .map with for loop
+
 ## 0.5.4
 
 ### Patch Changes
