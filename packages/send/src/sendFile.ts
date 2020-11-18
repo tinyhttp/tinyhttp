@@ -34,9 +34,7 @@ export type SendFileOptions = ReadStreamOptions &
 export const sendFile = <Request extends I = I, Response extends S = S>(_: Request, res: Response) => (path: string, opts: SendFileOptions = {}, cb?: (err?: any) => void) => {
   const { root, headers, ...options } = opts
 
-  if (!path) {
-    if (typeof path !== 'string') throw new TypeError('path must be a string to res.sendFile')
-  }
+  if (!path || typeof path !== 'string') throw new TypeError('path must be a string to res.sendFile')
 
   if (headers) {
     for (const [k, v] of Object.entries(headers)) {

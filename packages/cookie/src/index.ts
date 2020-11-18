@@ -41,9 +41,7 @@ export function parse(
     let eqIdx = pair.indexOf('=')
 
     // skip things that don't look like key=value
-    if (eqIdx < 0) {
-      continue
-    }
+    if (eqIdx < 0) continue
 
     const key = pair.substr(0, eqIdx).trim()
     let val = pair.substr(++eqIdx, pair.length).trim()
@@ -72,32 +70,24 @@ export type SerializeOptions = Partial<{
 export function serialize(name: string, val: string, opt: SerializeOptions = {}) {
   if (!opt.encode) opt.encode = encodeURIComponent
 
-  if (!fieldContentRegExp.test(name)) {
-    throw new TypeError('argument name is invalid')
-  }
+  if (!fieldContentRegExp.test(name)) throw new TypeError('argument name is invalid')
 
   const value = opt.encode(val)
 
-  if (value && !fieldContentRegExp.test(value)) {
-    throw new TypeError('argument val is invalid')
-  }
+  if (value && !fieldContentRegExp.test(value)) throw new TypeError('argument val is invalid')
 
   let str = name + '=' + value
 
   if (null != opt.maxAge) {
     const maxAge = opt.maxAge - 0
 
-    if (isNaN(maxAge) || !isFinite(maxAge)) {
-      throw new TypeError('option maxAge is invalid')
-    }
+    if (isNaN(maxAge) || !isFinite(maxAge)) throw new TypeError('option maxAge is invalid')
 
     str += '; Max-Age=' + Math.floor(maxAge)
   }
 
   if (opt.domain) {
-    if (!fieldContentRegExp.test(opt.domain)) {
-      throw new TypeError('option domain is invalid')
-    }
+    if (!fieldContentRegExp.test(opt.domain)) throw new TypeError('option domain is invalid')
 
     str += '; Domain=' + opt.domain
   }
@@ -118,13 +108,9 @@ export function serialize(name: string, val: string, opt: SerializeOptions = {})
     str += '; Expires=' + opt.expires.toUTCString()
   }
 
-  if (opt.httpOnly) {
-    str += '; HttpOnly'
-  }
+  if (opt.httpOnly) str += '; HttpOnly'
 
-  if (opt.secure) {
-    str += '; Secure'
-  }
+  if (opt.secure) str += '; Secure'
 
   if (opt.sameSite) {
     const sameSite = typeof opt.sameSite === 'string' ? opt.sameSite.toLowerCase() : opt.sameSite

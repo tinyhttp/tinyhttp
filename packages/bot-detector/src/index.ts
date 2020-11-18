@@ -16,20 +16,16 @@ export function botDetector(): Handler<RequestWithBotDetector, Response> {
     Object.defineProperties(req, {
       isBot: {
         get: () => {
-          if (typeof bot === 'boolean') {
-            return bot
-          }
+          if (typeof bot === 'boolean') return bot
+
           return (bot = detectBot(agent))
         },
       },
       botName: {
         get: () => {
-          if (!req.isBot) {
-            name = null
-          }
-          if (typeof name === 'undefined') {
-            name = detectBot.find(agent)
-          }
+          if (!req.isBot) name = null
+          if (typeof name === 'undefined') name = detectBot.find(agent)
+
           return name || undefined
         },
       },

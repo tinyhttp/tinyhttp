@@ -13,25 +13,18 @@ export class MemoryStore implements Store {
     this.resetTime = this.calculateNextResetTime(windowMs)
 
     const interval = setInterval(this.resetAll, windowMs)
-    if (interval.unref) {
-      interval.unref()
-    }
+    if (interval.unref) interval.unref()
   }
 
   incr = async (key: string, callback: (error: Error | null, hits: number, resetTime: Date) => void) => {
-    if (this.hits[key]) {
-      this.hits[key]++
-    } else {
-      this.hits[key] = 1
-    }
+    if (this.hits[key]) this.hits[key]++
+    else this.hits[key] = 1
 
     callback(null, this.hits[key], this.resetTime)
   }
 
   decrement(key: string) {
-    if (this.hits[key]) {
-      this.hits[key]--
-    }
+    if (this.hits[key]) this.hits[key]--
   }
 
   resetAll = () => {

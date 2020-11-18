@@ -41,7 +41,6 @@ app.use(unless(cors(), (req) => req.method === 'GET')
 // Path example
 app.use(unless(cors(), { path: ['/content/public', /user/, { url: '/public', methods: ['GET'] }] })
 
-
 app.listen(3000)
 ```
 

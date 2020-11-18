@@ -6,7 +6,7 @@ import { proxyaddr as proxyAddr, all } from '@tinyhttp/proxy-addr'
 import { App } from './app'
 import type { Middleware, Handler } from '@tinyhttp/router'
 import type { Response } from './response'
-import { compileTrust } from './utils/request'
+import { trustRemoteAddress } from './utils/request'
 
 import type { URLParams } from '@tinyhttp/req'
 import { isIP } from 'net'
@@ -18,7 +18,7 @@ export const getRouteFromApp = (app: App, handler: Handler<Request, Response>) =
 export const getProtocol = (req: Request): Protocol => {
   const proto = req.connection.encrypted ? 'https' : 'http'
 
-  if (!compileTrust(req.connection.remoteAddress)) return proto
+  if (!trustRemoteAddress(req)) return proto
 
   const header = (req.headers['X-Forwarded-Proto'] as string) || proto
 
@@ -30,28 +30,19 @@ export const getProtocol = (req: Request): Protocol => {
 export const getHostname = (req: Request): string | undefined => {
   let host: string | undefined = req.get('X-Forwarded-Host') as string | undefined
 
-  if (!host || !compileTrust(req.connection.remoteAddress)) host = req.get('Host') as string | undefined
+  if (!host || !trustRemoteAddress(req)) host = req.get('Host') as string | undefined
 
   if (!host) return
 
   // IPv6 literal support
-  const offset = host[0] === '[' ? host.indexOf(']') + 1 : 0
-  const index = host.indexOf(':', offset)
+  const index = host.indexOf(':', host[0] === '[' ? host.indexOf(']') + 1 : 0)
 
   return index !== -1 ? host.substring(0, index) : host
 }
 
-export const getIP = (req: Request): string | undefined => {
-  const proxyFn = compileTrust(req.connection.remoteAddress)
-  const ip: string = proxyAddr(req, proxyFn).replace(/^.*:/, '') // striping the redundant prefix addeded by OS to IPv4 address
-  return ip
-}
+export const getIP = (req: Request): string | undefined => proxyAddr(req, trustRemoteAddress(req)).replace(/^.*:/, '') // striping the redundant prefix addeded by OS to IPv4 address
 
-export const getIPs = (req: Request): string[] | undefined => {
-  const proxyFn = compileTrust(req.connection.remoteAddress)
-  const addrs: string[] = all(req, proxyFn)
-  return addrs
-}
+export const getIPs = (req: Request): string[] | undefined => all(req, trustRemoteAddress(req))
 
 export const getSubdomains = (req: Request, subdomainOffset = 2): string[] => {
   const hostname = getHostname(req)

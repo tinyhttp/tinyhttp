@@ -95,7 +95,7 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
       xPoweredBy: true,
       subdomainOffset: 2,
     }
-    this.applyExtensions = options?.applyExtensions || extendMiddleware(this)
+    this.applyExtensions = options?.applyExtensions
   }
   /**
    * Set app setting
@@ -104,6 +104,8 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
    */
   set(setting: string, value: any) {
     this.settings[setting] = value
+
+    return this
   }
 
   /**
@@ -112,6 +114,8 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
    */
   enable(setting: string) {
     this.settings[setting] = true
+
+    return this
   }
 
   /**
@@ -120,6 +124,8 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
    */
   disable(setting: string) {
     this.settings[setting] = false
+
+    return this
   }
 
   /**
@@ -196,7 +202,7 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
       const { path, method, handler, type } = mw
 
-      this.applyExtensions(req, res, next)
+      this.applyExtensions ? this.applyExtensions(req, res, next) : extendMiddleware(this)(req, res, next)
 
       const parsedUrl = parse(req.url)
 

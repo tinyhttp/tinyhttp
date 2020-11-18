@@ -1,5 +1,14 @@
 # @tinyhttp/app
 
+## 0.5.28
+
+### Patch Changes
+
+- Strip some bytes
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.5.2
+  - @tinyhttp/res@0.5.10
+
 ## 0.5.27
 
 ### Patch Changes
