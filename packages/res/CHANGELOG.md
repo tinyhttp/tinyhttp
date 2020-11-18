@@ -1,5 +1,30 @@
 # @tinyhttp/res
 
+## 0.5.10
+
+### Patch Changes
+
+- Strip some bytes
+- Updated dependencies [undefined]
+  - @tinyhttp/content-disposition@0.5.4
+  - @tinyhttp/cookie@0.5.2
+  - @tinyhttp/send@0.5.4
+
+## 0.5.9
+
+### Patch Changes
+
+- strip bytes and support non string res.send
+- Updated dependencies [undefined]
+  - @tinyhttp/send@0.5.3
+
+## 0.5.8
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/content-disposition@0.5.3
+
 ## 0.5.7
 
 ### Patch Changes

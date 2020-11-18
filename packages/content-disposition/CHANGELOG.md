@@ -1,5 +1,17 @@
 # @tinyhttp/content-disposition
 
+## 0.5.4
+
+### Patch Changes
+
+- Strip some bytes
+
+## 0.5.3
+
+### Patch Changes
+
+- fix some stuff
+
 ## 0.5.2
 
 ### Patch Changes

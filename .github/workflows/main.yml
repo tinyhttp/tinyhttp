@@ -34,12 +34,12 @@ jobs:
             ${{ runner.os }}-pnpm-
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v2.1.0
+        uses: actions/setup-node@v1.4.4
         with:
           node-version: 14.5.0
 
       - name: install pnpm
-        uses: pnpm/action-setup@v1.2.0
+        uses: pnpm/action-setup@v1.2.1
         with:
           version: 5.3.0
 

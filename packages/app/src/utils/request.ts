@@ -1,3 +1,4 @@
+import { IncomingMessage } from 'http'
 import { compile } from '@tinyhttp/proxy-addr'
 
 export const compileTrust = (val: any) => {
@@ -14,3 +15,5 @@ export const compileTrust = (val: any) => {
 
   return compile(val || [])
 }
+
+export const trustRemoteAddress = (req: IncomingMessage) => compileTrust(req.connection.remoteAddress)

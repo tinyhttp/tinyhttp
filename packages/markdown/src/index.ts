@@ -20,9 +20,7 @@ export const markdownStaticHandler = (
   if (req.url.startsWith(prefix)) {
     let unPrefixedURL = req.url.replace(prefix, '')
 
-    if (prefix !== '/') {
-      unPrefixedURL = unPrefixedURL.slice(1)
-    }
+    if (prefix !== '/') unPrefixedURL = unPrefixedURL.slice(1)
 
     if (req.url === prefix) {
       const possibleIndexes = [`${dir}/index.md`, `${dir}/index.markdown`, `${dir}/readme.md`, `${dir}/README.md`, `${dir}/readme.markdown`, `${dir}/readme.md`]
@@ -38,11 +36,8 @@ export const markdownStaticHandler = (
 
     let files: string[]
 
-    if (recursive) {
-      files = (await recursiveReaddir(dir)).map((f) => f.path)
-    } else {
-      files = await readdir(dir)
-    }
+    if (recursive) files = (await recursiveReaddir(dir)).map((f) => f.path)
+    else files = await readdir(dir)
 
     let file: string
 
@@ -55,18 +50,14 @@ export const markdownStaticHandler = (
         return /\.(md|markdown)/.test(ext) && unPrefixedURL === (isDir ? `${dir}/${name}`.replace('\\', '/') : name)
       })
     } else {
-      file = files.find((f) => {
-        return f === decodeURI(unPrefixedURL).slice(1)
-      })
+      file = files.find((f) => f === decodeURI(unPrefixedURL))
     }
 
     if (file) {
       const content = (await readFile(`${dir}/${file}`)).toString()
 
       if (markedExtensions?.length !== 0) {
-        for (const ext of markedExtensions) {
-          md.use(ext)
-        }
+        for (const ext of markedExtensions) md.use(ext)
       }
 
       res.set('Content-Type', 'text/html').send(md(content, markedOptions))

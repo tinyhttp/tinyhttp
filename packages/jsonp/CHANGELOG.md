@@ -1,5 +1,70 @@
 # @tinyhttp/jsonp
 
+## 0.5.29
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.5.29
+
+## 0.5.28
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.5.28
+
+## 0.5.27
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.5.27
+
+## 0.5.26
+
+### Patch Changes
+
+- @tinyhttp/app@0.5.26
+
+## 0.5.25
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.5.25
+
+## 0.5.24
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.5.24
+
+## 0.5.23
+
+### Patch Changes
+
+- @tinyhttp/app@0.5.23
+
+## 0.5.22
+
+### Patch Changes
+
+- @tinyhttp/app@0.5.22
+
+## 0.5.21
+
+### Patch Changes
+
+- @tinyhttp/app@0.5.21
+
+## 0.5.20
+
+### Patch Changes
+
+- @tinyhttp/app@0.5.20
+
 ## 0.5.19
 
 ### Patch Changes

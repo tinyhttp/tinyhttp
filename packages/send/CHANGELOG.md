@@ -1,5 +1,17 @@
 # @tinyhttp/send
 
+## 0.5.4
+
+### Patch Changes
+
+- Strip some bytes
+
+## 0.5.3
+
+### Patch Changes
+
+- strip bytes and support non string res.send
+
 ## 0.5.2
 
 ### Patch Changes

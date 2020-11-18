@@ -245,7 +245,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       path: args[0],
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'LOCK',
+      method: 'UNLOCK',
       type: 'route',
     })
     return this
@@ -529,11 +529,11 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler.parent = this
 
       // Prefix paths with a mountpath
-      handler.middleware.forEach((mw) => {
-        const patchedPath = mw.path === '/' ? handler.mountpath : handler.mountpath + mw.path
 
-        mw.path = patchedPath
-      })
+      for (const mw of handler.middleware) {
+        mw.path = mw.path === '/' ? handler.mountpath : handler.mountpath + mw.path
+      }
+
       this.apps[path] = handler
     }
     // app.use(subApp)
@@ -548,18 +548,18 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
     } else if (!(handler instanceof Router)) {
       let totalHandlers: Handler[] = []
 
-      if (typeof path !== 'string') {
-        if (Array.isArray(path)) {
-          path.slice(1).map((h) => totalHandlers.push(h))
+      if (typeof path !== 'string' && Array.isArray(path)) {
+        for (const h of path.slice(1)) {
+          totalHandlers.push(h)
         }
       }
 
       if (handler) {
         if (Array.isArray(handler)) {
           if (typeof path === 'string') {
-            handler.slice(1).map((h) => {
+            for (const h of handler.slice(1)) {
               totalHandlers.push(h)
-            })
+            }
           } else {
             for (const h of handler) {
               totalHandlers.push(h)
@@ -575,19 +575,11 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       if (typeof path === 'string') {
         if (Array.isArray(handler)) {
           mainHandler = handler[0]
-        } else {
-          mainHandler = handler
-        }
+        } else mainHandler = handler
       } else {
-        if (Array.isArray(path)) {
-          mainHandler = path[0]
-        } else {
-          mainHandler = path as Handler
-        }
+        mainHandler = Array.isArray(path) ? path[0] : (path as Handler)
 
-        if (typeof handler === 'function') {
-          totalHandlers.unshift(handler)
-        }
+        if (typeof handler === 'function') totalHandlers.unshift(handler)
       }
 
       pushMiddleware(this.middleware)({

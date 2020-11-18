@@ -27,7 +27,7 @@ const getlatin1 = (val: unknown) => {
   return String(val).replace(NON_LATIN1_REGEXP, '?')
 }
 
-class ContentDisposition {
+export class ContentDisposition {
   type: string
   parameters: Record<any, any>
   constructor(type: string, parameters: Record<any, any>) {
@@ -114,9 +114,7 @@ function createParams(filename?: string, fallback?: string | boolean) {
   return params
 }
 
-function pdecode(_str: string, hex: string) {
-  return String.fromCharCode(parseInt(hex, 16))
-}
+const pdecode = (_str: string, hex: string) => String.fromCharCode(parseInt(hex, 16))
 
 /**
  * Create an attachment Content-Disposition header.
@@ -134,22 +132,14 @@ export function contentDisposition(
 ) {
   const opts = options || {}
 
-  // get type
-  const type = opts.type || 'attachment'
-
-  // get parameters
-  const params = createParams(filename, opts.fallback)
-
   // format into string
-  return format(new ContentDisposition(type, params))
+  return format(new ContentDisposition(opts.type || 'attachment', createParams(filename, opts.fallback)))
 }
 
 function decodefield(str: string) {
   const match = EXT_VALUE_REGEXP.exec(str)
 
-  if (!match) {
-    throw new TypeError('invalid extended field value')
-  }
+  if (!match) throw new TypeError('invalid extended field value')
 
   const charset = match[1].toLowerCase()
   const encoded = match[2]
@@ -197,17 +187,13 @@ export function parse(string: string) {
 
   // match parameters
   while ((match = PARAM_REGEXP.exec(string))) {
-    if (match.index !== index) {
-      throw new TypeError('invalid parameter format')
-    }
+    if (match.index !== index) throw new TypeError('invalid parameter format')
 
     index += match[0].length
     key = match[1].toLowerCase()
     value = match[2]
 
-    if (names.indexOf(key) !== -1) {
-      throw new TypeError('invalid duplicate parameter')
-    }
+    if (names.indexOf(key) !== -1) throw new TypeError('invalid duplicate parameter')
 
     names.push(key)
 

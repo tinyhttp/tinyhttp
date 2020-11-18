@@ -1,5 +1,74 @@
 # @tinyhttp/app
 
+## 0.5.29
+
+### Patch Changes
+
+- Replace .map with for loop
+- Updated dependencies [undefined]
+  - @tinyhttp/router@0.5.5
+
+## 0.5.28
+
+### Patch Changes
+
+- Strip some bytes
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@0.5.2
+  - @tinyhttp/res@0.5.10
+
+## 0.5.27
+
+### Patch Changes
+
+- add custom req / res extensions setting
+
+## 0.5.26
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/res@0.5.9
+  - @tinyhttp/router@0.5.4
+
+## 0.5.25
+
+### Patch Changes
+
+- strip some bytes
+
+## 0.5.24
+
+### Patch Changes
+
+- wrap in try catch so it catches async errors
+
+## 0.5.23
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/proxy-addr@0.5.5
+
+## 0.5.22
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/router@0.5.3
+
+## 0.5.21
+
+### Patch Changes
+
+- @tinyhttp/res@0.5.8
+
+## 0.5.20
+
+### Patch Changes
+
+- @tinyhttp/proxy-addr@0.5.4
+
 ## 0.5.19
 
 ### Patch Changes

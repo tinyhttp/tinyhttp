@@ -1,4 +1,4 @@
-import { contentDisposition, parse } from '../../packages/content-disposition/src'
+import { contentDisposition, parse, ContentDisposition } from '../../packages/content-disposition/src'
 
 describe('contentDisposition()', () => {
   it('should create an attachment header', () => {
@@ -39,19 +39,61 @@ describe('parse(string)', () => {
     }
   })
   describe('with type', () => {
-    it('should throw on quoted value', async () => {
+    it('should throw on quoted value', () => {
       try {
         parse('"attachment"')
       } catch (e) {
         expect(e.message).toBe('invalid type format')
       }
     })
-    it('should throw on trailing semi', async () => {
+    it('should throw on trailing semi', () => {
       try {
         parse('attachment;')
       } catch (e) {
         expect(e.message).toBe('invalid parameter format')
       }
+    })
+    it('should parse "attachment"', () => {
+      expect(parse('attachment')).toStrictEqual(new ContentDisposition('attachment', {}))
+    })
+    it('should parse "inline"', () => {
+      expect(parse('inline')).toStrictEqual(new ContentDisposition('inline', {}))
+    })
+    it('should parse "form-data"', () => {
+      expect(parse('form-data')).toStrictEqual(new ContentDisposition('form-data', {}))
+    })
+    it('should parse with trailing LWS', () => {
+      expect(parse('attachment \t ')).toStrictEqual(new ContentDisposition('attachment', {}))
+    })
+    it('should normalize to lower-case', () => {
+      expect(parse('ATTACHMENT')).toStrictEqual(new ContentDisposition('attachment', {}))
+    })
+  })
+  describe('with parameters', () => {
+    it('should throw on trailing semi', () => {
+      try {
+        parse('attachment; filename="rates.pdf";')
+      } catch (e) {
+        expect(e.message).toBe('invalid parameter format')
+      }
+    })
+    it('should throw on invalid param name', () => {
+      try {
+        parse('attachment; filename@="rates.pdf"')
+      } catch (e) {
+        expect(e.message).toBe('invalid parameter format')
+      }
+    })
+    it('should throw on missing param value', () => {
+      try {
+        parse('attachment; filename=')
+      } catch (e) {
+        expect(e.message).toBe('invalid parameter format')
+      }
+    })
+    // TODO: copypaste tests from https://github.com/jshttp/content-disposition/blob/master/test/test.js#L258-L278
+    it('should lower-case parameter name', () => {
+      expect(parse('attachment; FILENAME="plans.pdf"')).toStrictEqual(new ContentDisposition('attachment', { filename: 'plans.pdf' }))
     })
   })
 })

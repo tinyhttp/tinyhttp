@@ -39,93 +39,58 @@ describe('getSession(req, res)', () => {
     await fetch('/').expect({ t: 1 })
   })
 
-  describe('session.save(cb)', () => {
-    it('should save session to store', async () => {
-      const store = new MemoryStore()
+  describe('Methods', () => {
+    describe('session.save(cb)', () => {
+      it('should save session to store', async () => {
+        const store = new MemoryStore()
 
-      const getSession = SessionManager({
-        store,
-        secret: 'test',
-      })
+        const getSession = SessionManager({
+          store,
+          secret: 'test',
+        })
 
-      const { fetch } = InitAppAndTest(async (req, res) => {
-        const session = await getSession(req, res)
+        const { fetch } = InitAppAndTest(async (req, res) => {
+          const session = await getSession(req, res)
 
-        session.save((err) => {
-          if (err) {
-            return res.end(err.message)
-          }
-
-          store.get(session.id, (err, sess) => {
+          session.save((err) => {
             if (err) {
               return res.end(err.message)
             }
 
-            res.end(sess ? 'stored' : 'empty')
+            store.get(session.id, (err, sess) => {
+              if (err) {
+                return res.end(err.message)
+              }
+
+              res.end(sess ? 'stored' : 'empty')
+            })
           })
         })
+
+        await fetch('/').expectStatus(200).expectBody('stored')
       })
 
-      await fetch('/').expectStatus(200).expectBody('stored')
-    })
+      it('should prevent end-of-request save', async () => {
+        const store = new MemoryStore()
 
-    it('should prevent end-of-request save', async () => {
-      const store = new MemoryStore()
+        const _set = store.set
 
-      const _set = store.set
+        let setCount = 0
 
-      let setCount = 0
+        store.set = function set(...args) {
+          setCount++
 
-      store.set = function set(...args) {
-        setCount++
+          return _set.apply(this, args)
+        }
 
-        return _set.apply(this, args)
-      }
-
-      const getSession = SessionManager({
-        store,
-        secret: 'test',
-      })
-
-      const { fetch } = InitAppAndTest(async (req, res) => {
-        const session = await getSession(req, res)
-
-        session.save((err) => {
-          if (err) {
-            return res.end(err.message)
-          }
-
-          res.end('saved')
+        const getSession = SessionManager({
+          store,
+          secret: 'test',
         })
-      })
 
-      await fetch('/').expectStatus(200).expectBody('saved')
+        const { fetch } = InitAppAndTest(async (req, res) => {
+          const session = await getSession(req, res)
 
-      expect(setCount).toBe(1)
-    })
-
-    it('should prevent end-of-request save on reloaded session', async () => {
-      const store = new MemoryStore()
-
-      const _set = store.set
-
-      let setCount = 0
-
-      store.set = function set(...args) {
-        setCount++
-
-        return _set.apply(this, args)
-      }
-
-      const getSession = SessionManager({
-        store,
-        secret: 'test',
-      })
-
-      const { fetch } = InitAppAndTest(async (req, res) => {
-        const session = await getSession(req, res)
-
-        session.reload(() => {
           session.save((err) => {
             if (err) {
               return res.end(err.message)
@@ -134,79 +99,155 @@ describe('getSession(req, res)', () => {
             res.end('saved')
           })
         })
+
+        await fetch('/').expectStatus(200).expectBody('saved')
+
+        expect(setCount).toBe(1)
       })
 
-      await fetch('/').expectStatus(200).expectBody('saved')
+      it('should prevent end-of-request save on reloaded session', async () => {
+        const store = new MemoryStore()
 
-      expect(setCount).toBe(1)
-    })
-  })
+        const _set = store.set
 
-  describe('session.touch(cb)', () => {
-    it('should reset session expiration', async () => {
-      const store = new MemoryStore()
+        let setCount = 0
 
-      const getSession = SessionManager({
-        cookie: { maxAge: 60 * 1000 },
-        resave: false,
-        secret: 'test',
-        store,
-      })
+        store.set = function set(...args) {
+          setCount++
 
-      let preTouchExpires: Date
-      let postTouchExpires: Date
-
-      const { fetch } = InitAppAndTest(async (req, res) => {
-        const session = await getSession(req, res)
-
-        if (typeof session.cookie.expires === 'boolean') {
-          throw new Error('session.cookie.expires is a boolean')
+          return _set.apply(this, args)
         }
 
-        preTouchExpires = session.cookie.expires
-
-        await new Promise((resolve) => {
-          setTimeout(() => {
-            session.touch()
-
-            if (typeof session.cookie.expires === 'boolean') {
-              throw new Error('session.cookie.expires is a boolean')
-            }
-
-            postTouchExpires = session.cookie.expires
-
-            resolve()
-          }, 100)
+        const getSession = SessionManager({
+          store,
+          secret: 'test',
         })
 
-        res.end()
+        const { fetch } = InitAppAndTest(async (req, res) => {
+          const session = await getSession(req, res)
+
+          session.reload(() => {
+            session.save((err) => {
+              if (err) {
+                return res.end(err.message)
+              }
+
+              res.end('saved')
+            })
+          })
+        })
+
+        await fetch('/').expectStatus(200).expectBody('saved')
+
+        expect(setCount).toBe(1)
       })
+    })
 
-      await fetch('/').expectStatus(200)
+    describe('session.touch(cb)', () => {
+      it('should reset session expiration', async () => {
+        const store = new MemoryStore()
 
-      expect(postTouchExpires.getTime() > preTouchExpires.getTime())
+        const getSession = SessionManager({
+          cookie: { maxAge: 60 * 1000 },
+          resave: false,
+          secret: 'test',
+          store,
+        })
+
+        let preTouchExpires: Date
+        let postTouchExpires: Date
+
+        const { fetch } = InitAppAndTest(async (req, res) => {
+          const session = await getSession(req, res)
+
+          if (typeof session.cookie.expires === 'boolean') {
+            throw new Error('session.cookie.expires is a boolean')
+          }
+
+          preTouchExpires = session.cookie.expires
+
+          await new Promise((resolve) => {
+            setTimeout(() => {
+              session.touch()
+
+              if (typeof session.cookie.expires === 'boolean') {
+                throw new Error('session.cookie.expires is a boolean')
+              }
+
+              postTouchExpires = session.cookie.expires
+
+              resolve()
+            }, 100)
+          })
+
+          res.end()
+        })
+
+        await fetch('/').expectStatus(200)
+
+        expect(postTouchExpires.getTime() > preTouchExpires.getTime())
+      })
+    })
+
+    describe('session.destroy(cb)', () => {
+      it('should destroy the previous session', async () => {
+        const getSession = SessionManager({
+          secret: 'test',
+        })
+
+        const { fetch } = InitAppAndTest(async (req, res) => {
+          const session = await getSession(req, res)
+
+          session.destroy((err) => {
+            if (err) {
+              res.statusCode = 500
+            }
+
+            res.end(String(session))
+          })
+        })
+
+        await fetch('/').expectStatus(200).expectHeader('Set-Cookie', null)
+      })
     })
   })
 
-  describe('session.destroy(cb)', () => {
-    it('should destroy the previous session', async () => {
-      const getSession = SessionManager({
-        secret: 'test',
-      })
-
-      const { fetch } = InitAppAndTest(async (req, res) => {
-        const session = await getSession(req, res)
-
-        session.destroy((err) => {
-          if (err) {
-            res.statusCode = 500
-          }
-
-          res.end(String(session))
+  describe('Properties', () => {
+    describe('session.originalMaxAge', () => {
+      it('should equal original maxAge', async () => {
+        const getSession = SessionManager({
+          secret: 'test',
+          cookie: { maxAge: 2000 },
         })
-      })
 
-      await fetch('/').expectStatus(200).expectHeader('Set-Cookie', null)
+        const { fetch } = InitAppAndTest(async (req, res) => {
+          const session = await getSession(req, res)
+
+          res.send(`${session.cookie.originalMaxAge}`)
+        })
+
+        await fetch('/').expect(200, '2000')
+      })
+      it('should equal original maxAge for all requests', (done) => {
+        const getSession = SessionManager({
+          secret: 'test',
+          cookie: { maxAge: 2000 },
+        })
+
+        const { fetch } = InitAppAndTest(async (req, res) => {
+          const session = await getSession(req, res)
+
+          res.send(`${session.cookie.originalMaxAge}`)
+        })
+
+        fetch('/')
+          .expect(200, '2000')
+          .then(() => {
+            fetch('/')
+              .expect(200, '2000')
+              .then(() => done())
+          })
+      })
     })
   })
 })

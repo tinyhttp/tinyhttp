@@ -1,5 +1,23 @@
 # @tinyhttp/router
 
+## 0.5.5
+
+### Patch Changes
+
+- Replace .map with for loop
+
+## 0.5.4
+
+### Patch Changes
+
+- strip bytes and support non string res.send
+
+## 0.5.3
+
+### Patch Changes
+
+- fix router http method typo
+
 ## 0.5.2
 
 ### Patch Changes

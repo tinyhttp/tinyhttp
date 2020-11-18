@@ -75,13 +75,13 @@ export function config(options?: Partial<DotenvConfigOptions>): DotenvConfigOutp
     // specifying an encoding returns a string instead of a buffer
     const parsed = parse(fs.readFileSync(dotenvPath, { encoding }), { debug })
 
-    Object.keys(parsed).forEach((key: string) => {
+    for (const key of Object.keys(parsed)) {
       if (!Object.prototype.hasOwnProperty.call(process.env, key)) {
         process.env[key] = parsed[key]
       } else if (debug) {
         log(`"${key}" is already defined in \`process.env\` and will not be overwritten`)
       }
-    })
+    }
 
     return { parsed }
   } catch (error) {

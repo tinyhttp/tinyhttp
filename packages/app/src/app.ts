@@ -12,8 +12,13 @@ import { extendMiddleware } from './extend'
 import { matchParams } from '@tinyhttp/req'
 
 export const applyHandler = (h: Handler) => async (req: Request, res: Response, next?: NextFunction) => {
-  if (isAsync(h)) await h(req, res, next)
-  else h(req, res, next)
+  if (isAsync(h)) {
+    try {
+      await h(req, res, next)
+    } catch (e) {
+      next(e)
+    }
+  } else h(req, res, next)
 }
 /**
  * tinyhttp App has a few settings for toggling features
@@ -73,12 +78,14 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
   onError: ErrorHandler
   settings: AppSettings
   engines: Record<string, TemplateFunc<RenderOptions>> = {}
+  applyExtensions: (req: Request, res: Response, next: NextFunction) => void
 
   constructor(
     options: Partial<{
       noMatchHandler: Handler<Req, Res>
       onError: ErrorHandler
       settings: AppSettings
+      applyExtensions: (req: Request, res: Response, next: NextFunction) => void
     }> = {}
   ) {
     super()
@@ -88,6 +95,7 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
       xPoweredBy: true,
       subdomainOffset: 2,
     }
+    this.applyExtensions = options?.applyExtensions
   }
   /**
    * Set app setting
@@ -96,6 +104,8 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
    */
   set(setting: string, value: any) {
     this.settings[setting] = value
+
+    return this
   }
 
   /**
@@ -104,6 +114,8 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
    */
   enable(setting: string) {
     this.settings[setting] = true
+
+    return this
   }
 
   /**
@@ -112,6 +124,8 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
    */
   disable(setting: string) {
     this.settings[setting] = false
+
+    return this
   }
 
   /**
@@ -188,7 +202,7 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
       const { path, method, handler, type } = mw
 
-      extendMiddleware(this)(req, res, next)
+      this.applyExtensions ? this.applyExtensions(req, res, next) : extendMiddleware(this)(req, res, next)
 
       const parsedUrl = parse(req.url)
 
@@ -208,18 +222,12 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
             res.statusCode = 200
 
             await applyHandler(handler as Handler<Req, Res>)(req, res, next)
-          } else {
-            loop(req, res)
-          }
-        } else {
-          loop(req, res)
-        }
+          } else loop(req, res)
+        } else loop(req, res)
       } else {
         if (req.url.startsWith(path)) {
           await applyHandler(handler as Handler<Req, Res>)(req, res, next)
-        } else {
-          loop(req, res)
-        }
+        } else loop(req, res)
       }
     }
 
