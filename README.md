@@ -142,12 +142,12 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://fabianmoronzirfas.me"><img src="https://avatars3.githubusercontent.com/u/315106?v=4" width="100px;" alt=""/><br /><sub><b>Fabian Morón Zirfas</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/issues?q=author%3Afabianmoronzirfas" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/vitalybaev"><img src="https://avatars2.githubusercontent.com/u/724423?v=4" width="100px;" alt=""/><br /><sub><b>Vitaly Baev</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=vitalybaev" title="Tests">⚠️</a> <a href="https://github.com/talentlessguy/tinyhttp/issues?q=author%3Avitalybaev" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://omrilotan.com"><img src="https://avatars0.githubusercontent.com/u/516342?v=4" width="100px;" alt=""/><br /><sub><b>omrilotan</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=omrilotan" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/MVEMCJSUNPE"><img src="https://avatars2.githubusercontent.com/u/10354503?v=4" width="100px;" alt=""/><br /><sub><b>MVEMCJSUNPE</b></sub></a><br /><a href="#example-MVEMCJSUNPE" title="Examples">💡</a> <a href="https://github.com/talentlessguy/tinyhttp/issues?q=author%3AMVEMCJSUNPE" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
-
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
