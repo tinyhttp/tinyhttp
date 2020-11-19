@@ -1,5 +1,11 @@
 # @tinyhttp/router
 
+## 0.5.8
+
+### Patch Changes
+
+- bump
+
 ## 0.5.7
 
 ### Patch Changes

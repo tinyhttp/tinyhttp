@@ -1,5 +1,17 @@
 # @tinyhttp/res
 
+## 0.5.13
+
+### Patch Changes
+
+- bump
+- Updated dependencies [undefined]
+  - @tinyhttp/content-disposition@0.5.5
+  - @tinyhttp/cookie@0.5.3
+  - @tinyhttp/cookie-signature@0.5.2
+  - @tinyhttp/req@0.5.6
+  - @tinyhttp/send@0.5.5
+
 ## 0.5.12
 
 ### Patch Changes

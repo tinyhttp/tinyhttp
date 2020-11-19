@@ -1,5 +1,13 @@
 # @tinyhttp/send
 
+## 0.5.5
+
+### Patch Changes
+
+- bump
+- Updated dependencies [undefined]
+  - @tinyhttp/etag@0.5.2
+
 ## 0.5.4
 
 ### Patch Changes

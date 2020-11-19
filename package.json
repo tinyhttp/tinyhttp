@@ -33,7 +33,7 @@
     "typescript": "^4.0.5"
   },
   "scripts": {
-    "prerelease": "pnpm lint && pnpm build:ancestor && pnpm test",
+    "prerelease": "pnpm lint && pnpm build && pnpm test",
     "chgset:run": "changeset",
     "chgset:version": "changeset version",
     "chgset": "pnpm chgset:run && pnpm chgset:version",

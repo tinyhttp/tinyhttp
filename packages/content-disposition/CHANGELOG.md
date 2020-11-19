@@ -1,5 +1,11 @@
 # @tinyhttp/content-disposition
 
+## 0.5.5
+
+### Patch Changes
+
+- bump
+
 ## 0.5.4
 
 ### Patch Changes

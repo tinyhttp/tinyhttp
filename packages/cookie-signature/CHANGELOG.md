@@ -1,5 +1,11 @@
 # @tinyhttp/cookie-signature
 
+## 0.5.2
+
+### Patch Changes
+
+- bump
+
 ## 0.5.1
 
 ### Patch Changes
