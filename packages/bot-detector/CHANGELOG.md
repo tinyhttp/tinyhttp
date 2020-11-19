@@ -1,5 +1,22 @@
 # @tinyhttp/bot-detector
 
+## 0.5.32
+
+### Patch Changes
+
+- make types more flexible
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.5.31
+  - @tinyhttp/router@0.5.7
+
+## 0.5.31
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.5.30
+  - @tinyhttp/router@0.5.6
+
 ## 0.5.30
 
 ### Patch Changes

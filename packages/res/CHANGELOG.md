@@ -1,5 +1,21 @@
 # @tinyhttp/res
 
+## 0.5.12
+
+### Patch Changes
+
+- make types more flexible
+- Updated dependencies [undefined]
+  - @tinyhttp/req@0.5.5
+
+## 0.5.11
+
+### Patch Changes
+
+- Make types more flexible
+- Updated dependencies [undefined]
+  - @tinyhttp/req@0.5.4
+
 ## 0.5.10
 
 ### Patch Changes

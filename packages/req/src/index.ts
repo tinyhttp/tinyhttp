@@ -7,7 +7,7 @@ export * from './accepts'
 
 export * from '@tinyhttp/url'
 
-export const getRequestHeader = (req: Request) => (header: string): string | string[] => {
+export const getRequestHeader = (req: Pick<Request, 'headers'>) => (header: string): string | string[] => {
   const lc = header.toLowerCase()
 
   switch (lc) {
@@ -19,7 +19,7 @@ export const getRequestHeader = (req: Request) => (header: string): string | str
   }
 }
 
-export const getRangeFromHeader = (req: Request) => (size: number, options?: Options) => {
+export const getRangeFromHeader = (req: Pick<Request, 'headers'>) => (size: number, options?: Options) => {
   const range = getRequestHeader(req)('Range') as string
 
   if (!range) return
@@ -27,7 +27,7 @@ export const getRangeFromHeader = (req: Request) => (size: number, options?: Opt
   return parseRange(size, range, options)
 }
 
-export const getFreshOrStale = (req: Request, res: Response) => {
+export const getFreshOrStale = (req: Pick<Request, 'headers' | 'method'>, res: Pick<Response, 'getHeader' | 'statusCode'>) => {
   const method = req.method
   const status = res.statusCode
 
@@ -47,10 +47,6 @@ export const getFreshOrStale = (req: Request, res: Response) => {
   return false
 }
 
-export const checkIfXMLHttpRequest = (req: Request): boolean => {
-  return req.headers['X-Requested-With'] === 'XMLHttpRequest'
-}
+export const checkIfXMLHttpRequest = (req: Pick<Request, 'headers'>) => req.headers['X-Requested-With'] === 'XMLHttpRequest'
 
-export const reqIs = (req: Request) => (...types: string[]): boolean => {
-  return typeIs(req.headers['content-type'], ...types)
-}
+export const reqIs = (req: Pick<Request, 'headers'>) => (...types: string[]): boolean => typeIs(req.headers['content-type'], ...types)

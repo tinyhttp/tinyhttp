@@ -1,5 +1,11 @@
 # @tinyhttp/rate-limit
 
+## 0.5.4
+
+### Patch Changes
+
+- make types more flexible
+
 ## 0.5.3
 
 ### Patch Changes

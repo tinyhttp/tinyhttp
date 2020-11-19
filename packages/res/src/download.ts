@@ -57,12 +57,10 @@ export const download = <Request extends I = I, Response extends S = S>(req: Req
   return sendFile(req, res)(fullPath, opts, done || noop)
 }
 
-export const attachment = <Request extends I = I, Response extends S = S>(req: Request, res: Response) => (filename?: string): Response => {
-  if (filename) {
-    setContentType(req, res)(extname(filename))
-  }
+export const attachment = <Response extends S = S>(res: Response) => (filename?: string): Response => {
+  if (filename) setContentType(res)(extname(filename))
 
-  setHeader(req, res)('Content-Disposition', contentDisposition(filename))
+  setHeader(res)('Content-Disposition', contentDisposition(filename))
 
   return res
 }

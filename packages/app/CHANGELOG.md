@@ -1,5 +1,27 @@
 # @tinyhttp/app
 
+## 0.5.31
+
+### Patch Changes
+
+- make types more flexible
+- Updated dependencies [undefined]
+  - @tinyhttp/proxy-addr@0.5.7
+  - @tinyhttp/req@0.5.5
+  - @tinyhttp/res@0.5.12
+  - @tinyhttp/router@0.5.7
+
+## 0.5.30
+
+### Patch Changes
+
+- Make types more flexible
+- Updated dependencies [undefined]
+  - @tinyhttp/proxy-addr@0.5.6
+  - @tinyhttp/req@0.5.4
+  - @tinyhttp/res@0.5.11
+  - @tinyhttp/router@0.5.6
+
 ## 0.5.29
 
 ### Patch Changes

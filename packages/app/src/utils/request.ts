@@ -16,4 +16,4 @@ export const compileTrust = (val: any) => {
   return compile(val || [])
 }
 
-export const trustRemoteAddress = (req: IncomingMessage) => compileTrust(req.connection.remoteAddress)
+export const trustRemoteAddress = (req: Pick<IncomingMessage, 'headers' | 'connection'>) => compileTrust(req.connection.remoteAddress)

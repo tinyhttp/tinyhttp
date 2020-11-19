@@ -1,5 +1,21 @@
 # @tinyhttp/proxy-addr
 
+## 0.5.7
+
+### Patch Changes
+
+- make types more flexible
+- Updated dependencies [undefined]
+  - @tinyhttp/forwarded@0.5.4
+
+## 0.5.6
+
+### Patch Changes
+
+- Make types more flexible
+- Updated dependencies [undefined]
+  - @tinyhttp/forwarded@0.5.3
+
 ## 0.5.5
 
 ### Patch Changes

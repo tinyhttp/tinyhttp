@@ -1,5 +1,7 @@
-import { IncomingMessage as Request, ServerResponse as Response } from 'http'
+import { IncomingMessage as I, ServerResponse as Response } from 'http'
 import { Accepts } from '@tinyhttp/accepts'
+
+type Request = Pick<I, 'headers'>
 
 export const getAccepts = (req: Request) => (...types: string[]) => new Accepts(req).types(types)
 

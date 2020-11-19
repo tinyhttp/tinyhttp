@@ -7,16 +7,16 @@ import { runServer } from '../../test_helpers/runServer'
 describe('Response extensions', () => {
   describe('res.set(field, val)', () => {
     it('should set a string header with a string value', async () => {
-      const app = runServer((req, res) => {
-        setHeader(req, res)('hello', 'World')
+      const app = runServer((_, res) => {
+        setHeader(res)('hello', 'World')
         res.end()
       })
 
       await makeFetch(app)('/').expectHeader('hello', 'World')
     })
     it('should set an array of header values', async () => {
-      const app = runServer((req, res) => {
-        setHeader(req, res)('foo', ['bar', 'baz'])
+      const app = runServer((_, res) => {
+        setHeader(res)('foo', ['bar', 'baz'])
         res.end()
       })
 
@@ -24,8 +24,8 @@ describe('Response extensions', () => {
     })
     it('should throw if `Content-Type` header is passed as an array', () => {
       try {
-        runServer((req, res) => {
-          setHeader(req, res)('content-type', ['foo', 'bar'])
+        runServer((_, res) => {
+          setHeader(res)('content-type', ['foo', 'bar'])
           res.end()
         })
       } catch (e) {
@@ -33,8 +33,8 @@ describe('Response extensions', () => {
       }
     })
     it('if the first argument is object, then map keys to values', async () => {
-      const app = runServer((req, res) => {
-        setHeader(req, res)({ foo: 'bar' })
+      const app = runServer((_, res) => {
+        setHeader(res)({ foo: 'bar' })
         res.end()
       })
 
@@ -43,9 +43,9 @@ describe('Response extensions', () => {
   })
   describe('res.get(field)', () => {
     it('should get a header with a specified field', async () => {
-      const app = runServer((req, res) => {
-        setHeader(req, res)('hello', 'World')
-        res.end(getResponseHeader(req, res)('hello'))
+      const app = runServer((_, res) => {
+        setHeader(res)('hello', 'World')
+        res.end(getResponseHeader(res)('hello'))
       })
 
       await makeFetch(app)('/').expect('World')
@@ -53,8 +53,8 @@ describe('Response extensions', () => {
   })
   describe('res.vary(field)', () => {
     it('should set a "Vary" header properly', async () => {
-      const app = runServer((req, res) => {
-        setVaryHeader(req, res)('User-Agent').end()
+      const app = runServer((_, res) => {
+        setVaryHeader(res)('User-Agent').end()
       })
 
       await makeFetch(app)('/').expect('Vary', 'User-Agent')
@@ -155,15 +155,15 @@ describe('Response extensions', () => {
   })
   describe('res.type(type)', () => {
     it('should detect MIME type', async () => {
-      const app = runServer((req, res) => {
-        setContentType(req, res)('html').end()
+      const app = runServer((_, res) => {
+        setContentType(res)('html').end()
       })
 
       await makeFetch(app)('/').expect('Content-Type', 'text/html')
     })
     it('should detect MIME type by extension', async () => {
-      const app = runServer((req, res) => {
-        setContentType(req, res)('.html').end()
+      const app = runServer((_, res) => {
+        setContentType(res)('.html').end()
       })
 
       await makeFetch(app)('/').expect('Content-Type', 'text/html')
@@ -171,15 +171,15 @@ describe('Response extensions', () => {
   })
   describe('res.attachment(filename)', () => {
     it('should set Content-Disposition without a filename specified', async () => {
-      const app = runServer((req, res) => {
-        attachment(req, res)().end()
+      const app = runServer((_, res) => {
+        attachment(res)().end()
       })
 
       await makeFetch(app)('/').expect('Content-Disposition', 'attachment')
     })
     it('should set Content-Disposition with a filename specified', async () => {
-      const app = runServer((req, res) => {
-        attachment(req, res)(path.join(__dirname, '../fixtures', 'favicon.ico')).end()
+      const app = runServer((_, res) => {
+        attachment(res)(path.join(__dirname, '../fixtures', 'favicon.ico')).end()
       })
 
       await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename="favicon.ico"')
@@ -256,35 +256,35 @@ describe('Response extensions', () => {
   })
   describe('res.append(field,value)', () => {
     it('sets new header if header not present', async () => {
-      const app = runServer((req, res) => {
-        append(req, res)('hello', 'World')
+      const app = runServer((_, res) => {
+        append(res)('hello', 'World')
         res.end()
       })
 
       await makeFetch(app)('/').expectHeader('hello', 'World')
     })
     it('appends value to existing header value', async () => {
-      const app = runServer((req, res) => {
-        setHeader(req, res)('hello', 'World1')
-        append(req, res)('hello', 'World2')
+      const app = runServer((_, res) => {
+        setHeader(res)('hello', 'World1')
+        append(res)('hello', 'World2')
         res.end()
       })
 
       await makeFetch(app)('/').expectHeader('hello', ['World1', 'World2'])
     })
     it('appends value to existing header array', async () => {
-      const app = runServer((req, res) => {
-        setHeader(req, res)('hello', ['World1', 'World2'])
-        append(req, res)('hello', 'World3')
+      const app = runServer((_, res) => {
+        setHeader(res)('hello', ['World1', 'World2'])
+        append(res)('hello', 'World3')
         res.end()
       })
 
       await makeFetch(app)('/').expectHeader('hello', ['World1', 'World2', 'World3'])
     })
     it('appends value array to existing header value', async () => {
-      const app = runServer((req, res) => {
-        setHeader(req, res)('hello', 'World1')
-        append(req, res)('hello', ['World2', 'World3'])
+      const app = runServer((_, res) => {
+        setHeader(res)('hello', 'World1')
+        append(res)('hello', ['World2', 'World3'])
         res.end()
       })
 

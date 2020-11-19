@@ -1,5 +1,11 @@
 # @tinyhttp/session
 
+## 0.5.5
+
+### Patch Changes
+
+- make types more flexible
+
 ## 0.5.4
 
 ### Patch Changes

@@ -1,5 +1,5 @@
 import Negotiator from 'negotiator'
-import { IncomingMessage, IncomingHttpHeaders } from 'http'
+import { IncomingMessage as I, IncomingHttpHeaders } from 'http'
 import { lookup } from 'es-mime-types'
 
 const extToMime = (type: string) => (type.indexOf('/') == -1 ? lookup(type) : type)
@@ -9,7 +9,7 @@ const validMime = (type: unknown) => typeof type == 'string'
 export class Accepts {
   headers: IncomingHttpHeaders
   negotiator: Negotiator
-  constructor(req: IncomingMessage) {
+  constructor(req: Pick<I, 'headers'>) {
     this.headers = req.headers
     this.negotiator = new Negotiator(req)
   }

@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/router",
-  "version": "0.5.5",
+  "version": "0.5.7",
   "type": "module",
   "description": "Router for tinyhttp",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -34,6 +34,6 @@
   "author": "v1rtl",
   "license": "MIT",
   "scripts": {
-    "build": "rollup -c ./rollup.config.js"
+    "build": "rollup -c ../../build/defaultConfig.js"
   }
 }

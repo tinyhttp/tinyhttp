@@ -4,11 +4,11 @@ import { METHODS, IncomingMessage as I, ServerResponse as R } from 'http'
 
 export type NextFunction = (err?: any) => void | undefined
 
-export type SyncHandler<Request extends I = I, Response extends R = R> = (req: Request, res: Response, next?: NextFunction) => void
+export type SyncHandler<Request extends any = I, Response extends any = R> = (req: Request, res: Response, next?: NextFunction) => void
 
-export type AsyncHandler<Request extends I = I, Response extends R = R> = (req: Request, res: Response, next?: NextFunction) => Promise<void>
+export type AsyncHandler<Request extends any = I, Response extends any = R> = (req: Request, res: Response, next?: NextFunction) => Promise<void>
 
-export type Handler<Request extends I = I, Response extends R = R> = AsyncHandler<Request, Response> | SyncHandler<Request, Response>
+export type Handler<Request extends any = I, Response extends any = R> = AsyncHandler<Request, Response> | SyncHandler<Request, Response>
 
 export type Method =
   | 'GET'

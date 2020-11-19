@@ -3,6 +3,8 @@ import { getAccepts } from '@tinyhttp/req'
 import { setVaryHeader } from './headers'
 import { normalizeType, normalizeTypes } from './util'
 
+import type { Res } from './redirect'
+
 export type FormatProps = {
   default?: () => void
 } & Record<string, any>
@@ -15,7 +17,9 @@ export type FormatError = Error & {
 
 type next = (err?: FormatError) => void
 
-export const formatResponse = <Request extends I = I, Response extends S = S, Next extends next = next>(req: Request, res: Response, next: Next) => (obj: FormatProps) => {
+type Req = Pick<I, 'headers'>
+
+export const formatResponse = <Request extends Req = Req, Response extends Res = Res, Next extends next = next>(req: Request, res: Response, next: Next) => (obj: FormatProps) => {
   const fn = obj.default
 
   if (fn) delete obj.default
@@ -24,7 +28,7 @@ export const formatResponse = <Request extends I = I, Response extends S = S, Ne
 
   const key = keys.length > 0 ? (getAccepts(req)(...keys) as string) : false
 
-  setVaryHeader(req, res)('Accept')
+  setVaryHeader(res)('Accept')
 
   if (key) {
     res.setHeader('Content-Type', normalizeType(key).value)

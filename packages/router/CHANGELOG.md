@@ -1,5 +1,17 @@
 # @tinyhttp/router
 
+## 0.5.7
+
+### Patch Changes
+
+- make types more flexible
+
+## 0.5.6
+
+### Patch Changes
+
+- Make types more flexible
+
 ## 0.5.5
 
 ### Patch Changes

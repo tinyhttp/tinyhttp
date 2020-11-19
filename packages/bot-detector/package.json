@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/bot-detector",
-  "version": "0.5.30",
+  "version": "0.5.32",
   "type": "module",
   "description": "Detect bots among users in your tinyhttp app.",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -48,6 +48,6 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/router": "workspace:*",
-    "isbot": "^3.0.13"
+    "isbot": "^3.0.16"
   }
 }

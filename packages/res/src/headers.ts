@@ -5,10 +5,11 @@ import { vary } from 'es-vary'
 
 const charsetRegExp = /;\s*charset\s*=/
 
-export const setHeader = <Request extends I = I, Response extends S = S>(_req: Request, res: Response) => (
-  field: string | Record<string, string | number | string[]>,
-  val?: string | any[]
-): Response => {
+type Res = Pick<S, 'setHeader' | 'getHeader'>
+
+type Req = Pick<I, 'headers'>
+
+export const setHeader = <Response extends Res = Res>(res: Response) => (field: string | Record<string, string | number | string[]>, val?: string | any[]): Response => {
   if (typeof field === 'string') {
     let value = Array.isArray(val) ? val.map(String) : String(val)
 
@@ -32,7 +33,7 @@ export const setHeader = <Request extends I = I, Response extends S = S>(_req: R
   return res
 }
 
-export const setLocationHeader = <Request extends I = I, Response extends S = S>(req: Request, res: Response) => (url: string): Response => {
+export const setLocationHeader = <Request extends Req = Req, Response extends Res = Res>(req: Request, res: Response) => (url: string): Response => {
   let loc = url
 
   // "back" is an alias for the referrer
@@ -43,14 +44,14 @@ export const setLocationHeader = <Request extends I = I, Response extends S = S>
   return res
 }
 
-export const getResponseHeader = <Request extends I = I, Response extends S = S>(_req: Request, res: Response) => (field: string): string | number | string[] => {
+export const getResponseHeader = <Response extends S = S>(res: Response) => (field: string): string | number | string[] => {
   return res.getHeader(field)
 }
 
-export const setLinksHeader = <Request extends I = I, Response extends S = S>(req: Request, res: Response) => (links: { [key: string]: string }): Response => {
+export const setLinksHeader = <Response extends S = S>(res: Response) => (links: { [key: string]: string }): Response => {
   let link = res.getHeader('Link') || ''
   if (link) link += ', '
-  setHeader(req, res)(
+  res.setHeader(
     'Link',
     link +
       Object.keys(links)
@@ -61,14 +62,16 @@ export const setLinksHeader = <Request extends I = I, Response extends S = S>(re
   return res
 }
 
-export const setVaryHeader = <Request extends I = I, Response extends S = S>(_req: Request, res: Response) => (field: string): Response => {
+export const setVaryHeader = <Response extends Res = Res>(res: Response) => (field: string): Response => {
   vary(res, field)
 
   return res
 }
 
-export const setContentType = <Request extends I = I, Response extends S = S>(req: Request, res: Response) => (type: string): Response => {
+export const setContentType = <Response extends Res = Res>(res: Response) => (type: string): Response => {
   const ct = type.indexOf('/') === -1 ? mime.lookup(type) : type
 
-  return setHeader(req, res)('Content-Type', ct)
+  res.setHeader('Content-Type', ct)
+
+  return res
 }

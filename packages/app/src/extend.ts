@@ -37,7 +37,7 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response, next
 
   req.originalUrl = req.url
 
-  res.get = getResponseHeader(req, res)
+  res.get = getResponseHeader(res)
   req.get = getRequestHeader(req)
 
   /**
@@ -84,23 +84,23 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response, next
   Response extensions
   */
 
-  res.header = res.set = setHeader<Request, Response>(req, res)
+  res.header = res.set = setHeader<Response>(res)
   res.send = send<Request, Response>(req, res)
   res.json = json<Request, Response>(req, res)
   res.status = status<Request, Response>(req, res)
   res.sendStatus = sendStatus<Request, Response>(req, res)
   res.sendFile = sendFile<Request, Response>(req, res)
-  res.type = setContentType<Request, Response>(req, res)
+  res.type = setContentType<Response>(res)
   res.location = setLocationHeader<Request, Response>(req, res)
-  res.links = setLinksHeader<Request, Response>(req, res)
-  res.vary = setVaryHeader<Request, Response>(req, res)
+  res.links = setLinksHeader<Response>(res)
+  res.vary = setVaryHeader<Response>(res)
   res.cookie = setCookie<Request, Response>(req, res)
   res.clearCookie = clearCookie<Request, Response>(req, res)
   res.render = renderTemplate(req, res, app)
   res.format = formatResponse(req, res, next)
   res.redirect = redirect(req, res, next)
-  res.attachment = attachment(req, res)
-  res.download = download(req, res)
-  res.append = append(req, res)
+  res.attachment = attachment<Response>(res)
+  res.download = download<Request, Response>(req, res)
+  res.append = append<Response>(res)
   res.locals = res.locals || Object.create(null)
 }

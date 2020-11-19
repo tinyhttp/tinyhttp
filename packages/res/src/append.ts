@@ -1,6 +1,8 @@
 import { IncomingMessage as I, ServerResponse as S } from 'http'
 
-export const append = <Request extends I = I, Response extends S = S>(_req: Request, res: Response) => (field: string, value: string | number | string[]): Response => {
+type Res = Pick<S, 'getHeader' | 'setHeader'>
+
+export const append = <Response extends Res = Res>(res: Response) => (field: string, value: string | number | string[]): Response => {
   const prevVal = res.getHeader(field)
   let newVal = value
   // additional type checks for typescript to not throw errors

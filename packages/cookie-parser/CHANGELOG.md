@@ -1,5 +1,20 @@
 # @tinyhttp/cookie-parser
 
+## 0.5.31
+
+### Patch Changes
+
+- make types more flexible
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.5.31
+
+## 0.5.30
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/app@0.5.30
+
 ## 0.5.29
 
 ### Patch Changes

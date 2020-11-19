@@ -1,5 +1,11 @@
 # @tinyhttp/accepts
 
+## 0.5.2
+
+### Patch Changes
+
+- make types more flexible
+
 ## 0.5.1
 
 ### Patch Changes

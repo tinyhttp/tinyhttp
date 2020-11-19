@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/logger",
-  "version": "0.5.29",
+  "version": "0.5.31",
   "type": "module",
   "description": "simple HTTP logger for tinyhttp",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -33,7 +33,7 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "colorette": "^1.2.1",
-    "dayjs": "^1.9.3",
+    "dayjs": "^1.9.6",
     "http-status-emojis": "^2.2.0"
   },
   "engines": {

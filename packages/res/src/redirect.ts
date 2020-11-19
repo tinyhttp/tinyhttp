@@ -3,9 +3,16 @@ import escapeHtml from 'escape-html'
 import { formatResponse } from './format'
 import { setLocationHeader } from './headers'
 
+type Req = Pick<I, 'headers' | 'method'>
+
+export type Res = Pick<S, 'setHeader' | 'statusCode' | 'getHeader' | 'end'>
+
 type next = (err?: any) => void
 
-export const redirect = <Request extends I = I, Response extends S = S, Next extends next = next>(req: Request, res: Response, next: Next) => (url: string, status?: number) => {
+export const redirect = <Request extends Req = Req, Response extends Res = Res, Next extends next = next>(req: Request, res: Response, next: Next) => (
+  url: string,
+  status?: number
+) => {
   let address = url
   status = status || 302
 

@@ -3,7 +3,7 @@ import { IncomingMessage } from 'http'
 /**
  * Get all addresses in the request, using the `X-Forwarded-For` header.
  */
-export function forwarded(req: IncomingMessage) {
+export function forwarded(req: Pick<IncomingMessage, 'headers' | 'connection'>) {
   // simple header parsing
   const proxyAddrs = parse((req.headers['x-forwarded-for'] as string) || '')
   const socketAddr = req.connection.remoteAddress
