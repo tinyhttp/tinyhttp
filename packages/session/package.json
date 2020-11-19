@@ -34,7 +34,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "devDependencies": {
-    "@types/express-session": "1.17.3",
+    "@types/express-session": "1.15.15",
     "@types/on-headers": "^1.0.0"
   },
   "scripts": {
