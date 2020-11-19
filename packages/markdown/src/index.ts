@@ -47,7 +47,7 @@ export const markdownStaticHandler = (
 
         const isDir = !(dir === '')
 
-        return /\.(md|markdown)/.test(ext) && unPrefixedURL === (isDir ? `${dir}/${name}` : name)
+        return /\.(md|markdown)/.test(ext) && unPrefixedURL === (isDir ? `${dir}/${name}`.replace('\\', '/') : name)
       })
     } else {
       file = files.find((f) => f === decodeURI(unPrefixedURL))

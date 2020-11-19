@@ -1,0 +1,11 @@
+{
+  "name": "express-validate",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*",
+    "express-openapi-validate": "^0.5.1",
+    "js-yaml": "^3.14.0",
+    "milliparsec": "^1.0.4"
+  }
+}
