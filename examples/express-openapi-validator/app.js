@@ -3,7 +3,7 @@ import { App } from '@tinyhttp/app'
 import fs from 'fs'
 import { OpenApiValidator } from 'express-openapi-validate'
 import jsYaml from 'js-yaml'
-import { urlencoded, text, json } from 'milliparsec'
+import { json } from 'milliparsec'
 
 import Pets from './services/index.js'
 
@@ -23,25 +23,20 @@ const app = new App({
   },
 })
 
-// 1. Install body parsers from milliparsec for the request types your API will support
-app.use(urlencoded({ extended: false }))
-app.use(text())
 app.use(json())
 
 app.use(validator.match())
 
 const pets = new Pets()
 
-// 3. Add routes
-app.get('/v1/ping', (_, res) => {
-  res.send('pong')
-})
-
 app.get('/v1/pets', (req, res) => {
-  res.json(pets.findAll(req.query))
+  const { type, limit } = req.query
+
+  res.json(pets.findAll({ type, limit }))
 })
 
 app.post('/v1/pets', (req, res) => {
+  console.log(req.body)
   res.json(pets.create({ ...req.body }))
 })
 
@@ -58,7 +53,7 @@ app.get('/v1/pets/:id', (req, res) => {
 app.post('/v1/pets/:id/photos', (req, res) => {
   // DO something with the file
   // files are found in req.files
-  // non file multipar params are in req.body['my-param']
+  // non file multiple params are in req.body['my-param']
   console.log(req.files)
 
   res.json({
@@ -66,7 +61,7 @@ app.post('/v1/pets/:id/photos', (req, res) => {
       originalname: f.originalname,
       encoding: f.encoding,
       mimetype: f.mimetype,
-      // Buffer of file conents
+      // Buffer of file contents
       // buffer: f.buffer,
     })),
   })

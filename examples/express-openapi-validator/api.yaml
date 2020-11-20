@@ -10,25 +10,6 @@ info:
 servers:
   - url: /v1
 paths:
-  /ping:
-    get:
-      description: |
-        ping then pong!
-      operationId: ping
-      responses:
-        '200':
-          description: OK
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: pong
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
   /pets:
     get:
       description: |
