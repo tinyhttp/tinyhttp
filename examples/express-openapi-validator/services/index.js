@@ -37,4 +37,8 @@ export default class Pets {
   delete(id) {
     return data.filter((eid) => eid !== id)
   }
+
+  findById(id) {
+    return data.filter((d) => d.id === id)
+  }
 }
