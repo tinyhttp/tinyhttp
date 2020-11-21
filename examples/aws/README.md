@@ -4,10 +4,4 @@ Example Lambda function using [serverless-http](https://github.com/dougmoscrop/s
 
 ## Setup
 
-1. Create a new Lambda function in AWS control panel, give it a name and pick Node 12.x as runtime.
-
-![create new Lambda function](https://i.ibb.co/PtT4tvW/image.png)
-
-2. Copy paste code from "index.js" file
-3. Hit "Create function"
-4. Done!
+Follow the steps from [this article](https://www.serverless.com/blog/serverless-express-rest-api), except that instead of installing and importing Express you should use tinyhttp instead. Example code for a function is located in [this file](/examples/aws/index.js).
