@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "name": "aws",
+  "type": "commonjs",
+  "dependencies": {
+    "@tinyhttp/app": "workspace:^0.5.32",
+    "serverless-http": "^2.6.0"
+  }
+}
