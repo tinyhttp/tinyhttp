@@ -31,7 +31,7 @@ function hash(sess: any): string {
 }
 
 export class Cookie implements Express.SessionCookie {
-  _expires: Date | boolean = false
+  private _expires: Date | boolean = false
   originalMaxAge: number
   secure = false
   httpOnly = true
@@ -43,11 +43,12 @@ export class Cookie implements Express.SessionCookie {
     const opts = options || {}
 
     this.expires = opts.expires || false
-    this.path = opts.path || '/'
+    this.path = typeof opts.path !== 'undefined' ? opts.path : '/'
     this.maxAge = opts.maxAge
     this.originalMaxAge = opts.originalMaxAge === undefined ? opts.maxAge || 0 : opts.originalMaxAge
     this.domain = opts.domain
     this.sameSite = opts.sameSite as 'lax' | 'strict' | 'none'
+    this.httpOnly = opts.httpOnly !== undefined ? opts.httpOnly : true
   }
 
   set expires(to: Date | boolean) {

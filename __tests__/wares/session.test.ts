@@ -264,4 +264,41 @@ describe('Cookie', () => {
       expect(new Cookie().httpOnly).toBe(true)
     })
   })
+  describe('cookie.expires(to)', () => {
+    const c = new Cookie()
+    it('should set expires to a date if provided', () => {
+      c.expires = new Date()
+
+      expect(c.expires).toBeInstanceOf(Date)
+    })
+    it('should set expires to boolean if provided', () => {
+      c.expires = false
+
+      expect(c.expires).toBe(false)
+    })
+  })
+  describe('cookie.serialize(name, value)', () => {
+    it('serializes the cookie with default parameters', () => {
+      const c = new Cookie()
+
+      expect(c.serialize('hello', 'world')).toBe('hello=world; Path=/; HttpOnly')
+    })
+    it('serializes the cookie with disabled Path and HttpOnly', () => {
+      const c = new Cookie({
+        httpOnly: false,
+        path: '',
+      })
+
+      expect(c.serialize('hello', 'world')).toBe('hello=world')
+    })
+    it('serializes the cookie with all parameters', () => {
+      const c = new Cookie({
+        httpOnly: true,
+        path: '/path',
+        domain: 'example.com',
+      })
+
+      expect(c.serialize('hello', 'world')).toBe(`hello=world; Domain=example.com; Path=/path; HttpOnly`)
+    })
+  })
 })

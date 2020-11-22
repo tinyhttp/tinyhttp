@@ -1,5 +1,11 @@
 # @tinyhttp/session
 
+## 0.5.8
+
+### Patch Changes
+
+- Make \_expires private
+
 ## 0.5.7
 
 ### Patch Changes
