@@ -1,5 +1,11 @@
 # @tinyhttp/jwt
 
+## 0.5.3
+
+### Patch Changes
+
+- strip some bytes
+
 ## 0.5.2
 
 ### Patch Changes

@@ -7,10 +7,9 @@ export function forwarded(req: Pick<IncomingMessage, 'headers' | 'connection'>) 
   // simple header parsing
   const proxyAddrs = parse((req.headers['x-forwarded-for'] as string) || '')
   const socketAddr = req.connection.remoteAddress
-  const addrs = [socketAddr].concat(proxyAddrs)
 
   // return all addresses
-  return addrs
+  return [socketAddr].concat(proxyAddrs)
 }
 
 /**

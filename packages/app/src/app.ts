@@ -195,7 +195,7 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
     const len = mw.length - 1
 
     const nextWithReqAndRes = (req: Req, res: Res) => (err: any) => {
-      if (err) this.onError(err, req, res)
+      if (err && !res.writableEnded) this.onError(err, req, res)
       else loop(req, res)
     }
 
@@ -210,25 +210,21 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
 
       req.path = pathname
 
-      if (type === 'route') {
-        if (req.method === method) {
-          // strip query parameters for req.params
+      if (type === 'route' && req.method === method) {
+        // strip query parameters for req.params
 
-          if (matchParams(path, pathname)) {
-            req.params = getURLParams(pathname, path)
-            req.route = getRouteFromApp(this, (handler as unknown) as Handler<Req, Res>)
+        if (matchParams(path, pathname)) {
+          req.params = getURLParams(pathname, path)
+          req.route = getRouteFromApp(this, (handler as unknown) as Handler<Req, Res>)
 
-            // route found, send Success 200
-            res.statusCode = 200
+          // route found, send Success 200
+          res.statusCode = 200
 
-            await applyHandler<Req, Res>((handler as unknown) as Handler<Req, Res>)(req, res, next)
-          } else loop(req, res)
-        } else loop(req, res)
-      } else {
-        if (req.url.startsWith(path)) {
           await applyHandler<Req, Res>((handler as unknown) as Handler<Req, Res>)(req, res, next)
         } else loop(req, res)
-      }
+      } else if (type === 'mw' && req.url.startsWith(path)) {
+        await applyHandler<Req, Res>((handler as unknown) as Handler<Req, Res>)(req, res, next)
+      } else loop(req, res)
     }
 
     const loop = (req: Req, res: Res) => {

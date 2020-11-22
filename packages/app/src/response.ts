@@ -40,7 +40,7 @@ export interface Response extends ServerResponse {
    *
    * The body parameter can be a Buffer object, a string, an object, or an array.
    *
-   * This method performs many useful tasks for simple non-streaming responses such as assigning the Content-Length HTTP response header field (unless previously defined).
+   * This method performs many useful tasks for simple non-streaming responses such as assigning the Content-Length HTTP response header field.
    *
    * @param body Response body
    */

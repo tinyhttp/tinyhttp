@@ -20,6 +20,6 @@
     "autocannon": "^6.5.0"
   },
   "scripts": {
-    "bench": "autocannon -c 100 -d 15 http://localhost:3000/user/123"
+    "bench": "node run.mjs"
   }
 }

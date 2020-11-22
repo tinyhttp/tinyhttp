@@ -1,5 +1,11 @@
 # @tinyhttp/forwarded
 
+## 0.5.6
+
+### Patch Changes
+
+- strip some bytes
+
 ## 0.5.5
 
 ### Patch Changes

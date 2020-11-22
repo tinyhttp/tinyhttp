@@ -53,13 +53,10 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response, next
   */
 
   if (options?.networkExtensions) {
-    const proto = getProtocol(req)
-    const secure = proto === 'https'
-
-    req.protocol = proto
-    req.secure = secure
+    req.protocol = getProtocol(req)
+    req.secure = req.protocol === 'https'
     req.connection = Object.assign(req.socket, {
-      encrypted: secure,
+      encrypted: req.secure,
     })
     req.hostname = getHostname(req)
     req.subdomains = getSubdomains(req, options.subdomainOffset)

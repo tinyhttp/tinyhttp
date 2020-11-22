@@ -117,9 +117,7 @@ const pushMiddleware = <Req extends I = I, Res extends R = R>(mw: Middleware[]) 
     )
   }
 
-  for (const mdw of [m, ...waresFromHandlers]) {
-    mw.push({ ...mdw, type })
-  }
+  for (const mdw of [m, ...waresFromHandlers]) mw.push({ ...mdw, type })
 }
 
 /**
@@ -530,9 +528,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
 
       // Prefix paths with a mountpath
 
-      for (const mw of handler.middleware) {
-        mw.path = mw.path === '/' ? handler.mountpath : handler.mountpath + mw.path
-      }
+      for (const mw of handler.middleware) mw.path = mw.path === '/' ? handler.mountpath : handler.mountpath + mw.path
 
       this.apps[path] = handler
     }
@@ -549,22 +545,14 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       let totalHandlers: Handler[] = []
 
       if (typeof path !== 'string' && Array.isArray(path)) {
-        for (const h of path.slice(1)) {
-          totalHandlers.push(h)
-        }
+        for (const h of path.slice(1)) totalHandlers.push(h)
       }
 
-      if (handler) {
-        if (Array.isArray(handler)) {
-          if (typeof path === 'string') {
-            for (const h of handler.slice(1)) {
-              totalHandlers.push(h)
-            }
-          } else {
-            for (const h of handler) {
-              totalHandlers.push(h)
-            }
-          }
+      if (handler && Array.isArray(handler)) {
+        if (typeof path === 'string') {
+          for (const h of handler.slice(1)) totalHandlers.push(h)
+        } else {
+          for (const h of handler) totalHandlers.push(h)
         }
       }
 
@@ -573,9 +561,8 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       let mainHandler: Handler
 
       if (typeof path === 'string') {
-        if (Array.isArray(handler)) {
-          mainHandler = handler[0]
-        } else mainHandler = handler
+        if (Array.isArray(handler)) mainHandler = handler[0]
+        else mainHandler = handler
       } else {
         mainHandler = Array.isArray(path) ? path[0] : (path as Handler)
 

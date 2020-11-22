@@ -1,5 +1,11 @@
 # @tinyhttp/url
 
+## 0.5.4
+
+### Patch Changes
+
+- strip some bytes
+
 ## 0.5.3
 
 ### Patch Changes

@@ -25,11 +25,7 @@ const joinOutputArgs = (args: (string | number)[], req: Request, res: Response, 
 
   if (methods.includes(method)) {
     if (timestamp) {
-      if (typeof timestamp !== 'boolean' && timestamp.format) {
-        args.push(`${dayjs().format(timestamp.format).toString()} - `)
-      } else {
-        args.push(`${dayjs().format('HH:mm:ss').toString()} - `)
-      }
+      args.push(typeof timestamp !== 'boolean' && timestamp.format ? `${dayjs().format(timestamp.format).toString()} - ` : `${dayjs().format('HH:mm:ss').toString()} - `)
     }
   }
 

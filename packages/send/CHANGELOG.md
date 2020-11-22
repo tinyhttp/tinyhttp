@@ -1,5 +1,11 @@
 # @tinyhttp/send
 
+## 0.5.7
+
+### Patch Changes
+
+- strip some bytes
+
 ## 0.5.6
 
 ### Patch Changes

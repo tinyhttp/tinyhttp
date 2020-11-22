@@ -23,15 +23,11 @@ export const markdownStaticHandler = (
     if (prefix !== '/') unPrefixedURL = unPrefixedURL.slice(1)
 
     if (req.url === prefix) {
-      const possibleIndexes = [`${dir}/index.md`, `${dir}/index.markdown`, `${dir}/readme.md`, `${dir}/README.md`, `${dir}/readme.markdown`, `${dir}/readme.md`]
+      const idxFile = [`${dir}/index.md`, `${dir}/index.markdown`, `${dir}/readme.md`, `${dir}/README.md`, `${dir}/readme.markdown`, `${dir}/readme.md`].find(
+        (file) => existsSync(file) && file
+      )
 
-      const idxFile = possibleIndexes.find((file) => existsSync(file) && file)
-
-      if (idxFile) {
-        const content = (await readFile(idxFile)).toString()
-
-        res.set('Content-Type', 'text/html').send(md(content))
-      }
+      if (idxFile) res.set('Content-Type', 'text/html').send(md((await readFile(idxFile)).toString()))
     }
 
     let files: string[]

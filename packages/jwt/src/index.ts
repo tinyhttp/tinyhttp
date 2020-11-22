@@ -17,10 +17,7 @@ export interface Request extends IncomingMessage {
   user?: any
 }
 
-function getTokenFromHeader(header: string): string {
-  if (!header) return ''
-  return header.split(' ')[1]
-}
+const getTokenFromHeader = (header: string) => (!header ? '' : header.split(' ')[1])
 
 /**
  * JWT middleware

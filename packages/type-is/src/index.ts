@@ -21,42 +21,31 @@ function tryNormalizeType(value: string) {
 
 function mimeMatch(expected: string | boolean, actual: string | boolean) {
   // invalid type
-  if (expected === false) {
-    return false
-  }
+  if (expected === false) return false
 
   // split types
   const actualParts = (actual as string).split('/')
   const expectedParts = (expected as string).split('/')
 
   // invalid format
-  if (actualParts.length !== 2 || expectedParts.length !== 2) {
-    return false
-  }
+  if (actualParts.length !== 2 || expectedParts.length !== 2) return false
 
   // validate type
-  if (expectedParts[0] !== '*' && expectedParts[0] !== actualParts[0]) {
-    return false
-  }
+  if (expectedParts[0] !== '*' && expectedParts[0] !== actualParts[0]) return false
 
   // validate suffix wildcard
-  if (expectedParts[1].substr(0, 2) === '*+') {
+  if (expectedParts[1].substr(0, 2) === '*+')
     return expectedParts[1].length <= actualParts[1].length + 1 && expectedParts[1].substr(1) === actualParts[1].substr(1 - expectedParts[1].length)
-  }
 
   // validate subtype
-  if (expectedParts[1] !== '*' && expectedParts[1] !== actualParts[1]) {
-    return false
-  }
+  if (expectedParts[1] !== '*' && expectedParts[1] !== actualParts[1]) return false
 
   return true
 }
 
 function normalize(type: string | unknown) {
-  if (typeof type !== 'string') {
-    // invalid type
-    return false
-  }
+  // invalid type
+  if (typeof type !== 'string') return false
 
   switch (type) {
     case 'urlencoded':
@@ -64,11 +53,8 @@ function normalize(type: string | unknown) {
     case 'multipart':
       return 'multipart/*'
   }
-
-  if (type[0] === '+') {
-    // "+json" -> "*/*+json" expando
-    return '*/*' + type
-  }
+  // "+json" -> "*/*+json" expando
+  if (type[0] === '+') return '*/*' + type
 
   return type.indexOf('/') === -1 ? lookup(type) : type
 }
@@ -85,14 +71,10 @@ export const typeIs = (value: string, ...types: string[]) => {
   const val = tryNormalizeType(value)
 
   // no type or invalid
-  if (!val) {
-    return false
-  }
+  if (!val) return false
 
   // no types, return the content type
-  if (!types || !types.length) {
-    return val
-  }
+  if (!types || !types.length) return val
 
   let type
   for (i = 0; i < types.length; i++) {

@@ -1,5 +1,16 @@
 # @tinyhttp/app
 
+## 0.5.34
+
+### Patch Changes
+
+- strip some bytes
+- Updated dependencies [undefined]
+  - @tinyhttp/req@0.5.7
+  - @tinyhttp/router@0.5.9
+  - @tinyhttp/proxy-addr@0.5.9
+  - @tinyhttp/res@0.5.15
+
 ## 0.5.33
 
 ### Patch Changes

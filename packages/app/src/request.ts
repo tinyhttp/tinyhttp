@@ -28,9 +28,9 @@ export const getProtocol = (req: Request): Protocol => {
 }
 
 export const getHostname = (req: Request): string | undefined => {
-  let host: string | undefined = req.get('X-Forwarded-Host') as string | undefined
+  let host: string | undefined = req.get('X-Forwarded-Host') as string
 
-  if (!host || !trustRemoteAddress(req)) host = req.get('Host') as string | undefined
+  if (!host || !trustRemoteAddress(req)) host = req.get('Host') as string
 
   if (!host) return
 
@@ -49,11 +49,9 @@ export const getSubdomains = (req: Request, subdomainOffset = 2): string[] => {
 
   if (!hostname) return []
 
-  const offset = subdomainOffset
-
   const subdomains = isIP(hostname) ? [hostname] : hostname.split('.').reverse()
 
-  return subdomains.slice(offset)
+  return subdomains.slice(subdomainOffset)
 }
 
 export type Connection = IncomingMessage['socket'] & {

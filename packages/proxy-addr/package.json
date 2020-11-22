@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/proxy-addr",
-  "version": "0.5.8",
+  "version": "0.5.9",
   "type": "module",
   "description": "proxy-addr rewrite with TypeScript and ESM support",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
@@ -40,7 +40,7 @@
     "build": "rollup -c ../../build/defaultConfig.js"
   },
   "dependencies": {
-    "@tinyhttp/forwarded": "workspace:^0.5.5",
+    "@tinyhttp/forwarded": "workspace:^0.5.6",
     "ipaddr.js": "^2.0.0"
   }
 }

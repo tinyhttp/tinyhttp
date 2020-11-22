@@ -17,12 +17,12 @@ import { App } from '@tinyhttp/app'
 import type { Request, Response, NextFunction } from '@tinyhttp/app'
 
 new App()
-  .use(function ware(req: Request, res: Response, next: NextFunction) {
+  .use((req: Request, res: Response, next: NextFunction) => {
     console.log('Did a request')
     next()
   })
   .get('/', (_, res) => void res.send('<h1>Hello World</h1>'))
-  .get('/page/:page', (req, res) => void res.status(200).send(`You opened ${req.params.page}`))
+  .get('/page/:page', (req, res) => void res.send(`You opened ${req.params.page}`))
   .listen(3000)
 ```
 

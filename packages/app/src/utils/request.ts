@@ -6,11 +6,8 @@ export const compileTrust = (val: any) => {
 
   if (val === true) return () => true
 
-  if (typeof val === 'number') {
-    return (_: unknown, i: number) => {
-      if (val) return i < val
-    }
-  }
+  if (typeof val === 'number') return (_: unknown, i: number) => (val ? i < val : undefined)
+
   if (typeof val === 'string') return compile(val.split(',').map((x) => x.trim()))
 
   return compile(val || [])

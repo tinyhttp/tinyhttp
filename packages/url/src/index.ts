@@ -10,9 +10,7 @@ export const getURLParams = (reqUrl = '/', url = '/'): URLParams => {
   const params = {}
 
   if (matches) {
-    for (let i = 0; i < tmp.keys.length; i++) {
-      params[tmp.keys[i]] = matches[i + 1]
-    }
+    for (let i = 0; i < tmp.keys.length; i++) params[tmp.keys[i]] = matches[i + 1]
   }
 
   return params

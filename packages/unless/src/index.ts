@@ -54,10 +54,10 @@ function pathCheck(path: (string | RegExp | PathObject)[], url: string, method: 
 
 /**
  * Middleware for conditional middleware executing.
- * @param middleware middleware to run under a specific condition
+ * @param mw middleware to run under a specific condition
  * @param options conditions (e.g. options)
  */
-export function unless(middleware: Middleware, options: UnlessMiddlewareOptions | CustomUnless): (req: Request, res: Response, next: NextFunction) => any {
+export function unless(mw: Middleware, options: UnlessMiddlewareOptions | CustomUnless): (req: Request, res: Response, next: NextFunction) => any {
   let opts: UnlessMiddlewareOptions //options
   let custom: CustomUnless //function
 
@@ -85,17 +85,11 @@ export function unless(middleware: Middleware, options: UnlessMiddlewareOptions 
       if (ext != undefined) skip = skip || ext.indexOf('/' + url[url.length - 1]) !== -1
       if (path != undefined) skip = skip || pathCheck(path, req.url, req.method)
 
-      if (skip) {
-        next()
-      } else {
-        middleware.handler(req, res, next)
-      }
+      if (skip) next()
+      else mw.handler(req, res, next)
     } else {
-      if (custom(req)) {
-        next()
-      } else {
-        middleware.handler(req, res, next)
-      }
+      if (custom(req)) next()
+      else mw.handler(req, res, next)
     }
   }
 }

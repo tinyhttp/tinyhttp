@@ -36,12 +36,10 @@ export const getFreshOrStale = (req: Pick<Request, 'headers' | 'method'>, res: P
 
   // 2xx or 304 as per rfc2616 14.26
   if ((status >= 200 && status < 300) || status === 304) {
-    const resHeaders = {
+    return fresh(req.headers, {
       etag: getRequestHeader(req)('ETag'),
       'last-modified': res.getHeader('Last-Modified'),
-    }
-
-    return fresh(req.headers, resHeaders)
+    })
   }
 
   return false
