@@ -1,5 +1,11 @@
 # @tinyhttp/session
 
+## 0.5.7
+
+### Patch Changes
+
+- Fix TS 4.1 Promise error
+
 ## 0.5.6
 
 ### Patch Changes

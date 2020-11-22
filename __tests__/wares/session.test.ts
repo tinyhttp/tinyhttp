@@ -176,7 +176,7 @@ describe('getSession(req, res)', () => {
 
               postTouchExpires = session.cookie.expires
 
-              resolve()
+              resolve(undefined)
             }, 100)
           })
 

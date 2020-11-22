@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/session",
-  "version": "0.5.6",
+  "version": "0.5.7",
   "type": "module",
   "description": "Session middleware for tinyhttp",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",

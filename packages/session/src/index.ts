@@ -312,7 +312,7 @@ export function SessionManager(options?: SessionOptions): (req: IncomingMessage,
   return (req: IncomingMessage, res: ServerResponse): Promise<Session> => {
     return new Promise((resolve, reject) => {
       if (!storeReady) {
-        resolve()
+        resolve(undefined)
         return
       }
 
