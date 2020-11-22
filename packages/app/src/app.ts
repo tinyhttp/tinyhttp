@@ -11,7 +11,7 @@ import { Middleware, Handler, NextFunction, Router } from '@tinyhttp/router'
 import { extendMiddleware } from './extend'
 import { matchParams } from '@tinyhttp/req'
 
-export const applyHandler = (h: Handler) => async (req: Request, res: Response, next?: NextFunction) => {
+export const applyHandler = <Req, Res>(h: Handler<Req, Res>) => async (req: Req, res: Res, next?: NextFunction) => {
   if (isAsync(h)) {
     try {
       await h(req, res, next)
@@ -71,7 +71,7 @@ export type TemplateEngineOptions<O = any> = Partial<{
  * const app = App<any, CoolReq, Response>()
  * ```
  */
-export class App<RenderOptions = any, Req extends Request = Request, Res extends Response = Response> extends Router<App, Request, Response> {
+export class App<RenderOptions = any, Req extends Request = Request, Res extends Response = Response> extends Router<App, Req, Res> {
   middleware: Middleware[] = []
   locals: Record<string, string> = {}
   noMatchHandler: Handler
@@ -216,17 +216,17 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
 
           if (matchParams(path, pathname)) {
             req.params = getURLParams(pathname, path)
-            req.route = getRouteFromApp(this, handler as Handler<Req, Res>)
+            req.route = getRouteFromApp(this, (handler as unknown) as Handler<Req, Res>)
 
             // route found, send Success 200
             res.statusCode = 200
 
-            await applyHandler(handler as Handler<Req, Res>)(req, res, next)
+            await applyHandler<Req, Res>((handler as unknown) as Handler<Req, Res>)(req, res, next)
           } else loop(req, res)
         } else loop(req, res)
       } else {
         if (req.url.startsWith(path)) {
-          await applyHandler(handler as Handler<Req, Res>)(req, res, next)
+          await applyHandler<Req, Res>((handler as unknown) as Handler<Req, Res>)(req, res, next)
         } else loop(req, res)
       }
     }

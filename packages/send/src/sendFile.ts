@@ -21,6 +21,8 @@ export type SendFileOptions = ReadStreamOptions &
     headers: Record<string, any>
   }>
 
+type Res = Pick<S, 'setHeader'> & NodeJS.WritableStream
+
 /**
  * Sends a file by piping a stream to response.
  *
@@ -28,10 +30,9 @@ export type SendFileOptions = ReadStreamOptions &
  *
  * Path argument must be absolute. To use a relative path, specify the `root` option first.
  *
- * @param _ Request
  * @param res Response
  */
-export const sendFile = <Request extends I = I, Response extends S = S>(_: Request, res: Response) => (path: string, opts: SendFileOptions = {}, cb?: (err?: any) => void) => {
+export const sendFile = <Response extends Res = Res>(res: Response) => (path: string, opts: SendFileOptions = {}, cb?: (err?: any) => void) => {
   const { root, headers, ...options } = opts
 
   if (!path || typeof path !== 'string') throw new TypeError('path must be a string to res.sendFile')

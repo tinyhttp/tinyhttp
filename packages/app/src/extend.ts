@@ -86,10 +86,10 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response, next
 
   res.header = res.set = setHeader<Response>(res)
   res.send = send<Request, Response>(req, res)
-  res.json = json<Request, Response>(req, res)
-  res.status = status<Request, Response>(req, res)
+  res.json = json<Response>(res)
+  res.status = status<Response>(res)
   res.sendStatus = sendStatus<Request, Response>(req, res)
-  res.sendFile = sendFile<Request, Response>(req, res)
+  res.sendFile = sendFile<Response>(res)
   res.type = setContentType<Response>(res)
   res.location = setLocationHeader<Request, Response>(req, res)
   res.links = setLinksHeader<Response>(res)
@@ -100,7 +100,7 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response, next
   res.format = formatResponse(req, res, next)
   res.redirect = redirect(req, res, next)
   res.attachment = attachment<Response>(res)
-  res.download = download<Request, Response>(req, res)
+  res.download = download<Response>(res)
   res.append = append<Response>(res)
   res.locals = res.locals || Object.create(null)
 }

@@ -187,22 +187,22 @@ describe('Response extensions', () => {
   })
   describe('res.download(filename)', () => {
     it('should set Content-Disposition based on path', async () => {
-      const app = runServer((req, res) => {
-        download(req, res)(path.join(__dirname, '../fixtures', 'favicon.ico')).end()
+      const app = runServer((_, res) => {
+        download(res)(path.join(__dirname, '../fixtures', 'favicon.ico')).end()
       })
 
       await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename="favicon.ico"')
     })
     it('should set Content-Disposition based on filename', async () => {
-      const app = runServer((req, res) => {
-        download(req, res)(path.join(__dirname, '../fixtures', 'favicon.ico'), 'favicon.icon').end()
+      const app = runServer((_, res) => {
+        download(res)(path.join(__dirname, '../fixtures', 'favicon.ico'), 'favicon.icon').end()
       })
 
       await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename="favicon.icon"')
     })
     it('should pass the error to a callback', async () => {
-      const app = runServer((req, res) => {
-        download(req, res)(path.join(__dirname, '../fixtures'), 'some_file.png', (err) => {
+      const app = runServer((_, res) => {
+        download(res)(path.join(__dirname, '../fixtures'), 'some_file.png', (err) => {
           expect((err as Error).message).toContain('EISDIR')
         }).end()
       })

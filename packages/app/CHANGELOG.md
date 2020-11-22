@@ -1,5 +1,13 @@
 # @tinyhttp/app
 
+## 0.5.33
+
+### Patch Changes
+
+- Make types more flexible
+- Updated dependencies [undefined]
+  - @tinyhttp/res@0.5.14
+
 ## 0.5.32
 
 ### Patch Changes

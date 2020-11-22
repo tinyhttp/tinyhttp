@@ -12,7 +12,9 @@ export type DownloadOptions = SendFileOptions &
 
 type Callback = (err?: any) => void
 
-export const download = <Request extends I = I, Response extends S = S>(req: Request, res: Response) => (
+type Res = Pick<S, 'setHeader'> & NodeJS.WritableStream
+
+export const download = <Response extends Res = Res>(res: Response) => (
   path: string,
   filename?: string | Callback,
   options?: DownloadOptions | Callback,
@@ -54,10 +56,10 @@ export const download = <Request extends I = I, Response extends S = S>(req: Req
   const noop = () => undefined
 
   // send file
-  return sendFile(req, res)(fullPath, opts, done || noop)
+  return sendFile(res)(fullPath, opts, done || noop)
 }
 
-export const attachment = <Response extends S = S>(res: Response) => (filename?: string): Response => {
+export const attachment = <Response extends Pick<S, 'getHeader' | 'setHeader'> = Pick<S, 'getHeader' | 'setHeader'>>(res: Response) => (filename?: string): Response => {
   if (filename) setContentType(res)(extname(filename))
 
   setHeader(res)('Content-Disposition', contentDisposition(filename))

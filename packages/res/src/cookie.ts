@@ -2,7 +2,9 @@ import { IncomingMessage as I, ServerResponse as S } from 'http'
 import * as cookie from '@tinyhttp/cookie'
 import { sign } from '@tinyhttp/cookie-signature'
 
-export const setCookie = <Request extends I = I, Response extends S = S>(
+type Res = Pick<S, 'setHeader'>
+
+export const setCookie = <Request extends any = any, Response extends Res = Res>(
   req: Request & {
     secret?: string | string[]
   },
@@ -37,6 +39,6 @@ export const setCookie = <Request extends I = I, Response extends S = S>(
   return res
 }
 
-export const clearCookie = <Request extends I = I, Response extends S = S>(req: Request, res: Response) => (name: string, options?: cookie.SerializeOptions): Response => {
+export const clearCookie = <Request extends any = any, Response extends Res = Res>(req: Request, res: Response) => (name: string, options?: cookie.SerializeOptions): Response => {
   return setCookie(req, res)(name, '', Object.assign({}, { expires: new Date(1), path: '/' }, options))
 }

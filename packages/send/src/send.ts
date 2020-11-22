@@ -2,6 +2,10 @@ import { IncomingMessage as I, ServerResponse as S } from 'http'
 import { json } from './json'
 import { setCharset, createETag } from './utils'
 
+type Req = Pick<I, 'method'>
+
+type Res = Pick<S, 'setHeader' | 'removeHeader' | 'end' | 'getHeader' | 'statusCode'>
+
 /**
  * Sends the HTTP response.
  *
@@ -13,7 +17,7 @@ import { setCharset, createETag } from './utils'
  * @param req Request
  * @param res Response
  */
-export const send = <Request extends I = I, Response extends S = S>(req: Request, res: Response) => (body: any): Response => {
+export const send = <Request extends Req = Req, Response extends Res = Res>(req: Request, res: Response) => (body: any): Response => {
   let bodyToSend = body
 
   // in case of object - turn it to json
@@ -58,7 +62,7 @@ export const send = <Request extends I = I, Response extends S = S>(req: Request
       return
     } else if (Buffer.isBuffer(body)) {
       if (!res.getHeader('Content-Type')) res.setHeader('content-type', 'application/octet-stream')
-    } else encoding ? json(req, res)(bodyToSend, encoding) : json(req, res)(bodyToSend)
+    } else encoding ? json(res)(bodyToSend, encoding) : json(res)(bodyToSend)
   } else {
     if (typeof bodyToSend !== 'string') bodyToSend = bodyToSend.toString()
 

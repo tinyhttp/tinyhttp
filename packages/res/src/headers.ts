@@ -44,11 +44,11 @@ export const setLocationHeader = <Request extends Req = Req, Response extends Re
   return res
 }
 
-export const getResponseHeader = <Response extends S = S>(res: Response) => (field: string): string | number | string[] => {
+export const getResponseHeader = <Response extends Res = Res>(res: Response) => (field: string): string | number | string[] => {
   return res.getHeader(field)
 }
 
-export const setLinksHeader = <Response extends S = S>(res: Response) => (links: { [key: string]: string }): Response => {
+export const setLinksHeader = <Response extends Res = Res>(res: Response) => (links: { [key: string]: string }): Response => {
   let link = res.getHeader('Link') || ''
   if (link) link += ', '
   res.setHeader(

@@ -7,12 +7,12 @@ import { runServer } from '../../test_helpers/runServer'
 describe('Testing @tinyhttp/send', () => {
   describe('json(body)', () => {
     it('should send a json-stringified reply when an object is passed', async () => {
-      const app = runServer((req, res) => json(req, res)({ hello: 'world' }))
+      const app = runServer((_, res) => json(res)({ hello: 'world' }))
 
       await makeFetch(app)('/').expect({ hello: 'world' })
     })
     it('should set a content-type header properly', async () => {
-      const app = runServer((req, res) => json(req, res)({ hello: 'world' }))
+      const app = runServer((_, res) => json(res)({ hello: 'world' }))
 
       await makeFetch(app)('/').expectHeader('content-type', 'application/json')
     })
@@ -77,7 +77,7 @@ describe('Testing @tinyhttp/send', () => {
 
   describe('status(status)', () => {
     it('sets response status', async () => {
-      const app = runServer((req, res) => status(req, res)(418).end())
+      const app = runServer((_, res) => status(res)(418).end())
 
       await makeFetch(app)('/').expectStatus(418)
     })
@@ -103,9 +103,9 @@ describe('Testing @tinyhttp/send', () => {
     })
 
     it('should throw if path is not absolute', async () => {
-      const app = runServer(async (req, res) => {
+      const app = runServer(async (_, res) => {
         try {
-          await sendFile(req, res)('../relative/path', {})
+          await sendFile(res)('../relative/path', {})
         } catch (err) {
           expect(err.message).toMatch(/absolute/)
 
@@ -120,7 +120,7 @@ describe('Testing @tinyhttp/send', () => {
       await makeFetch(app)('/')
     })
     it('should set the Content-Type header based on the filename', async () => {
-      const app = runServer((req, res) => sendFile(req, res)(testFilePath, {}))
+      const app = runServer((_, res) => sendFile(res)(testFilePath, {}))
 
       await makeFetch(app)('/').expectHeader('Content-Type', 'text/plain; charset=utf-8')
     })
@@ -128,7 +128,7 @@ describe('Testing @tinyhttp/send', () => {
       const HEADER_NAME = 'Test-Header'
       const HEADER_VALUE = 'Hello World'
 
-      const app = runServer((req, res) => sendFile(req, res)(testFilePath, { headers: { [HEADER_NAME]: HEADER_VALUE } }))
+      const app = runServer((_, res) => sendFile(res)(testFilePath, { headers: { [HEADER_NAME]: HEADER_VALUE } }))
 
       await makeFetch(app)('/').expectHeader(HEADER_NAME, HEADER_VALUE)
     })

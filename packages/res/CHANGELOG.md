@@ -1,5 +1,13 @@
 # @tinyhttp/res
 
+## 0.5.14
+
+### Patch Changes
+
+- Make types more flexible
+- Updated dependencies [undefined]
+  - @tinyhttp/send@0.5.6
+
 ## 0.5.13
 
 ### Patch Changes

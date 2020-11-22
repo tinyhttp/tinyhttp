@@ -1,5 +1,11 @@
 # @tinyhttp/send
 
+## 0.5.6
+
+### Patch Changes
+
+- Make types more flexible
+
 ## 0.5.5
 
 ### Patch Changes
