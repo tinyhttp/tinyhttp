@@ -89,6 +89,7 @@ export const cookieParser = (secret?: string | string[]) => {
 
   return function cookieParser(req: Request, _res: Response, next?: NextFunction) {
     if (req.cookies) {
+      next?.()
       return
     }
 
@@ -98,6 +99,7 @@ export const cookieParser = (secret?: string | string[]) => {
     req.cookies = Object.create(null)
 
     if (!cookies) {
+      next?.()
       return
     }
 

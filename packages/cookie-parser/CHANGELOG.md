@@ -1,5 +1,11 @@
 # @tinyhttp/cookie-parser
 
+## 0.5.35
+
+### Patch Changes
+
+- fix cookie-parser getting stuck
+
 ## 0.5.34
 
 ### Patch Changes

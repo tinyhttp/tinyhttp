@@ -47,12 +47,12 @@ describe('cookieParser()', () => {
     })
   })
 
-  /*  describe('when req.cookies exists', function () {
+  describe('when req.cookies exists', function () {
     it('should do nothing', async () => {
-      const _parser = cookieParser()
-      const server = http.createServer(function (req: await makeFetch, res: Response) {
+      const server = http.createServer((req: Request, res: Response) => {
         req.cookies = { fizz: 'buzz' }
-        _parser(req, res, function (err) {
+
+        cookieParser()(req, res, (err) => {
           if (err) {
             res.statusCode = 500
             res.end(err.message)
@@ -63,9 +63,13 @@ describe('cookieParser()', () => {
         })
       })
 
-      await makeFetch(server).get('/').set('Cookie', 'foo=bar; bar=baz').expect(200, '{"fizz":"buzz"}', done)
+      await makeFetch(server)('/', {
+        headers: {
+          Cookie: 'foo=bar; bar=baz',
+        },
+      }).expect(200, '{"fizz":"buzz"}')
     })
-  }) */
+  })
 
   describe('when a secret is given', function () {
     const val = signature.sign('foobarbaz', 'keyboard cat')
