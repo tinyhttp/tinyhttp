@@ -1,7 +1,20 @@
 import { makeFetch } from 'supertest-fetch'
 import path from 'path'
 import { Request, Response } from '../../packages/app/src'
-import { formatResponse, getResponseHeader, redirect, setHeader, setVaryHeader, setContentType, attachment, download, setCookie, clearCookie, append } from '../../packages/res/src'
+import {
+  formatResponse,
+  getResponseHeader,
+  redirect,
+  setHeader,
+  setVaryHeader,
+  setContentType,
+  attachment,
+  download,
+  setCookie,
+  clearCookie,
+  append,
+  setLinksHeader,
+} from '../../packages/res/src'
 import { runServer } from '../../test_helpers/runServer'
 
 describe('Response extensions', () => {
@@ -298,6 +311,33 @@ describe('Response extensions', () => {
       })
 
       await makeFetch(app)('/').expectHeader('hello', ['World1', 'World2', 'World3'])
+    })
+  })
+  describe('res.links(obj)', () => {
+    it('should set "Links" header field', async () => {
+      const app = runServer((_, res) => {
+        setLinksHeader(res)({ next: 'http://api.example.com/users?page=2', last: 'http://api.example.com/users?page=5' }).end()
+      })
+
+      await makeFetch(app)('/').expectHeader('Link', '<http://api.example.com/users?page=2>; rel="next", <http://api.example.com/users?page=5>; rel="last"').expectStatus(200)
+    })
+    it('should set "Links" for multiple calls', async () => {
+      const app = runServer((_, res) => {
+        setLinksHeader(res)({ next: 'http://api.example.com/users?page=2', last: 'http://api.example.com/users?page=5' })
+
+        setLinksHeader(res)({
+          prev: 'http://api.example.com/users?page=1',
+        })
+
+        res.end()
+      })
+
+      await makeFetch(app)('/')
+        .expectHeader(
+          'Link',
+          '<http://api.example.com/users?page=2>; rel="next", <http://api.example.com/users?page=5>; rel="last", <http://api.example.com/users?page=1>; rel="prev"'
+        )
+        .expectStatus(200)
     })
   })
 })
