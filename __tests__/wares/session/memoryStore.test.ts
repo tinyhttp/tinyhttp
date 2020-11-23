@@ -42,6 +42,11 @@ describe('session.length(cb)', () => {
 
     store.length((_, length) => expect(length).toBe(2))
   })
+  it('should return zero if store is empty', () => {
+    const store = new MemoryStore()
+
+    store.length((_, length) => expect(length).toBe(0))
+  })
 })
 
 describe('session.clear(cb)', () => {

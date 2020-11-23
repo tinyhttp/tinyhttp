@@ -195,7 +195,7 @@ describe('getSession(req, res)', () => {
         await fetch('/').expectStatus(200).expectHeader('Set-Cookie', null)
       })
     })
-    describe('session.regenerate(cb)', () => {
+    /*   describe('session.regenerate(cb)', () => {
       it('should destroy/replace the previous session', async () => {
         const getSession = SessionManager({
           secret: 'test',
@@ -216,7 +216,7 @@ describe('getSession(req, res)', () => {
 
         console.log(res.headers)
       })
-    })
+    }) */
   })
 
   describe('Properties', () => {

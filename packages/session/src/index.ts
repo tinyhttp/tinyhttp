@@ -646,8 +646,7 @@ export class MemoryStore extends Store implements ExpressStore {
    * @param cb Callback
    */
   length(cb: (err?: any, length?: number) => void) {
-    this.all((err, sessions) => {
-      if (err) return cb(err)
+    this.all((_, sessions) => {
       if (!sessions) return cb(null, 0)
       cb(null, Object.keys(sessions).length)
     })

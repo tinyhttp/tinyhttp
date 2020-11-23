@@ -1,5 +1,11 @@
 # @tinyhttp/session
 
+## 0.5.9
+
+### Patch Changes
+
+- Remove useless error checks for null
+
 ## 0.5.8
 
 ### Patch Changes
