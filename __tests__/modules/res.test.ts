@@ -22,15 +22,16 @@ describe('Response extensions', () => {
 
       await makeFetch(app)('/').expectHeader('foo', 'bar, baz')
     })
-    it('should throw if `Content-Type` header is passed as an array', () => {
-      try {
-        runServer((_, res) => {
+    it('should throw if `Content-Type` header is passed as an array', async () => {
+      const app = runServer((_, res) => {
+        try {
           setHeader(res)('content-type', ['foo', 'bar'])
-          res.end()
-        })
-      } catch (e) {
-        expect((e as TypeError).message).toBe('Content-Type cannot be set to an Array')
-      }
+        } catch (e) {
+          res.statusCode = 500
+          res.end((e as TypeError).message)
+        }
+      })
+      await makeFetch(app)('/').expect(500, 'Content-Type cannot be set to an Array')
     })
     it('if the first argument is object, then map keys to values', async () => {
       const app = runServer((_, res) => {
@@ -39,6 +40,14 @@ describe('Response extensions', () => {
       })
 
       await makeFetch(app)('/').expectHeader('foo', 'bar')
+    })
+    it('should not set a charset of one is already set', async () => {
+      const app = runServer((_, res) => {
+        setHeader(res)('content-type', 'text/plain; charset=UTF-8')
+        res.end()
+      })
+
+      await makeFetch(app)('/').expectHeader('content-type', 'text/plain; charset=UTF-8')
     })
   })
   describe('res.get(field)', () => {
