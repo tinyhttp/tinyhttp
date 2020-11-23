@@ -1,5 +1,11 @@
 # @tinyhttp/cookie-parser
 
+## 0.5.37
+
+### Patch Changes
+
+- get returns back
+
 ## 0.5.36
 
 ### Patch Changes
