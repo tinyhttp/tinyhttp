@@ -1,20 +1,5 @@
-import { SessionManager, MemoryStore, Cookie } from '../../packages/session/src'
-import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
-
-describe('SessionManager(opts)', () => {
-  it('should error without secret', async () => {
-    const store = new MemoryStore()
-
-    try {
-      SessionManager({
-        store,
-        secret: undefined,
-      })
-    } catch (e) {
-      expect((e as TypeError).message).toMatch(/requires/i)
-    }
-  })
-})
+import { SessionManager, MemoryStore, Cookie } from '../../../packages/session/src'
+import { InitAppAndTest } from '../../../test_helpers/initAppAndTest'
 
 describe('getSession(req, res)', () => {
   it('should work', async () => {
@@ -208,6 +193,28 @@ describe('getSession(req, res)', () => {
         })
 
         await fetch('/').expectStatus(200).expectHeader('Set-Cookie', null)
+      })
+    })
+    describe('session.regenerate(cb)', () => {
+      it('should destroy/replace the previous session', async () => {
+        const getSession = SessionManager({
+          secret: 'test',
+        })
+
+        const { fetch } = InitAppAndTest(async (req, res) => {
+          const session = await getSession(req, res)
+
+          const id = session.id
+
+          session.regenerate((err) => {
+            if (err) res.statusCode = 500
+            res.end(String(session.id === id))
+          })
+        })
+
+        const res = await fetch('/')
+
+        console.log(res.headers)
       })
     })
   })
