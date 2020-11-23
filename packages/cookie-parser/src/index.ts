@@ -88,20 +88,14 @@ export const cookieParser = (secret?: string | string[]) => {
   const secrets = !secret || Array.isArray(secret) ? secret || [] : [secret]
 
   return function cookieParser(req: Request, _res: Response, next?: NextFunction) {
-    if (req.cookies) {
-      next?.()
-      return
-    }
+    if (req.cookies) next?.()
 
     const cookies = req.headers.cookie
 
     req.secret = secrets[0]
     req.cookies = Object.create(null)
 
-    if (!cookies) {
-      next?.()
-      return
-    }
+    if (!cookies) next?.()
 
     req.cookies = cookie.parse(cookies)
 

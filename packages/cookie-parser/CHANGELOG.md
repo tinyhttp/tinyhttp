@@ -1,5 +1,11 @@
 # @tinyhttp/cookie-parser
 
+## 0.5.36
+
+### Patch Changes
+
+- remove useless returns
+
 ## 0.5.35
 
 ### Patch Changes
