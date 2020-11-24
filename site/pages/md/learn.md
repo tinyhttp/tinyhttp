@@ -91,51 +91,51 @@ The core `@tinyhttp/app` module depends on small helper modules like `@tinyhttp/
 this is how the full dependency tree of `@tinyhttp/app` looks like:
 
 ```sh
-@tinyhttp/app 0.4.2
-├── @tinyhttp/cookie 0.4.0
-├─┬ @tinyhttp/req 0.4.0
-│ ├─┬ @tinyhttp/accepts 0.4.0
+@tinyhttp/app 0.5.35
+├── @tinyhttp/cookie 0.5.3
+├─┬ @tinyhttp/proxy-addr 0.5.9
+│ ├── @tinyhttp/forwarded 0.5.6
+│ └── ipaddr.js 2.0.0
+├─┬ @tinyhttp/req 0.5.7
+│ ├─┬ @tinyhttp/accepts 0.5.3
 │ │ ├─┬ es-mime-types 0.0.16
 │ │ │ └── mime-db 1.45.0
 │ │ └── negotiator 0.6.2
-│ ├─┬ @tinyhttp/type-is 0.4.0
-│ │ ├─┬ es-mime-types 0.0.16
-│ │ │ └── mime-db 1.45.0
-│ │ └── media-typer 1.1.0
-│ ├─┬ @tinyhttp/url 0.4.0
+│ ├─┬ @tinyhttp/type-is 0.5.4
+│ │ ├── es-content-type 0.0.10
+│ │ └─┬ es-mime-types 0.0.16
+│ │   └── mime-db 1.45.0
+│ ├─┬ @tinyhttp/url 0.5.4
 │ │ └── regexparam 1.3.0
 │ ├── es-fresh 0.0.8
 │ └── range-parser 1.2.1
-├─┬ @tinyhttp/res 0.4.1
-│ ├── @tinyhttp/content-disposition 0.4.0
-│ ├── @tinyhttp/cookie 0.4.0
-│ ├── @tinyhttp/cookie-signature 0.4.0
-│ ├─┬ @tinyhttp/req 0.4.0
-│ │ ├─┬ @tinyhttp/accepts 0.4.0
+├─┬ @tinyhttp/res 0.5.15
+│ ├── @tinyhttp/content-disposition 0.5.5
+│ ├── @tinyhttp/cookie 0.5.3
+│ ├── @tinyhttp/cookie-signature 0.5.2
+│ ├─┬ @tinyhttp/req 0.5.7
+│ │ ├─┬ @tinyhttp/accepts 0.5.3
 │ │ │ ├─┬ es-mime-types 0.0.16
 │ │ │ │ └── mime-db 1.45.0
 │ │ │ └── negotiator 0.6.2
-│ │ ├─┬ @tinyhttp/type-is 0.4.0
-│ │ │ ├─┬ es-mime-types 0.0.16
-│ │ │ │ └── mime-db 1.45.0
-│ │ │ └── media-typer 1.1.0
-│ │ ├─┬ @tinyhttp/url 0.4.0
+│ │ ├─┬ @tinyhttp/type-is 0.5.4
+│ │ │ ├── es-content-type 0.0.10
+│ │ │ └─┬ es-mime-types 0.0.16
+│ │ │   └── mime-db 1.45.0
+│ │ ├─┬ @tinyhttp/url 0.5.4
 │ │ │ └── regexparam 1.3.0
 │ │ ├── es-fresh 0.0.8
 │ │ └── range-parser 1.2.1
-│ ├─┬ @tinyhttp/send 0.4.1
-│ │ ├── @tinyhttp/etag 0.4.0
+│ ├─┬ @tinyhttp/send 0.5.7
+│ │ ├── @tinyhttp/etag 0.5.2
 │ │ ├── es-content-type 0.0.10
 │ │ └─┬ es-mime-types 0.0.16
 │ │   └── mime-db 1.45.0
 │ ├─┬ es-mime-types 0.0.16
 │ │ └── mime-db 1.45.0
-│ ├── es-vary 0.0.7
+│ ├── es-vary 0.0.8
 │ └── escape-html 1.0.3
-├── @tinyhttp/router 0.4.0
-└─┬ proxy-addr 2.0.6
-  ├── forwarded 0.1.2
-  └── ipaddr.js 1.9.1
+└── @tinyhttp/router 0.5.9
 ```
 
 Because Express contains a lot of legacy modules, the dependency tree of it is much longer.
@@ -148,7 +148,7 @@ Although tinyhttp tries to be as close to Express as possible, there are some ke
 
 - **tinyhttp doesn't have the same settings**. All `App` settings are initialized in the constructor. You can see a list of them [here](/docs#settings).
 - **tinyhttp doesn't put `err` object in middleware if the previous one passed error**. Instead, it uses a [generic error handler](/docs#onerrorerr-req-res).
-- **tinyhttp doesn't include static server and body parser out of the box**. To reduce module size these things were put in separate middleware modules, such as [`parsec`](https://github.com/talentlessguy/parsec).
+- **tinyhttp doesn't include static server and body parser out of the box**. To reduce module size these things were put in separate middleware modules, such as [`milliparsec`](https://github.com/talentlessguy/milliparsec).
 
 Note that maximum compatability is in progress so some of the points might change.
 
