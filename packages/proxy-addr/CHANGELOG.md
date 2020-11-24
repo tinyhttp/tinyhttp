@@ -1,5 +1,16 @@
 # @tinyhttp/proxy-addr
 
+## 1.0.0
+
+### Major Changes
+
+- 1.0 release. the end is here.
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/forwarded@1.0.0
+
 ## 0.5.9
 
 ### Patch Changes
