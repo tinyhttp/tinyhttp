@@ -16,6 +16,5 @@ Below there is a table comparing tinyhttp, [Express](https://expressjs.com) and 
 | TypeScript support                   | yes               | no         | no      |
 | Package size (core only)             | 52.5 kB           | 208 kB     | 25.5 kB |
 | Built-in middlewares                 | no                | yes        | no      |
-| Req / s (relative, express = 1)      | 2.3x              | 1x         | 2.9x    |
 
 For the more detailed performance report see [benchmarks](benchmark/README.md)
