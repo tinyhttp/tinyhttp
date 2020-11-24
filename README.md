@@ -21,7 +21,7 @@ Here is a short list of most important features that tinyhttp has:
 - 🔨 Types out of the box
 - 🔥 Prebuilt middleware for modern Node.js
 
-To get started, visit [tinyhttp website](https://tinyhttp.v1rtl.site).
+Visit [tinyhttp website](https://tinyhttp.v1rtl.site) for docs, guides and middleware search.
 
 ## Install
 
@@ -91,11 +91,11 @@ Search and explore the full list at [middleware search page](https://tinyhttp.v1
 
 ## Comparison
 
-To compare tinyhttp with Express and Polka (another Express-like framework), see [COMPARISON.md](COMPARISON.md)
+See [COMPARISON.md](COMPARISON.md).
 
 ## Benchmarks
 
-To see benchmark comparison between tinyhttp, polka, express and koa, check [benchmark](benchmark) folder.
+Check [benchmark](benchmark) folder.
 
 ## Contributing
 
