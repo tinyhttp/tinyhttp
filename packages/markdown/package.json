@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/markdown",
-  "version": "0.5.36",
+  "version": "0.5.37",
   "description": "tinyhttp static markdown middleware",
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",

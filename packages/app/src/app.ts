@@ -68,7 +68,7 @@ export type TemplateEngineOptions<O = any> = Partial<{
  * ```
  */
 export class App<RenderOptions = any, Req extends Request = Request, Res extends Response = Response> extends Router<App, Req, Res> {
-  middleware: Middleware[] = []
+  middleware: Middleware<Req, Res>[] = []
   locals: Record<string, string> = {}
   noMatchHandler: Handler
   onError: ErrorHandler

@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 0.5.36
+
+### Patch Changes
+
+- put generics for middleware array
+
 ## 0.5.35
 
 ### Patch Changes

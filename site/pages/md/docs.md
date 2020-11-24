@@ -67,6 +67,8 @@
     <li><a href="#appenable">app.enable</a></li>
     <li><a href="#appdisable">app.disable</a></li>
     <li><a href="#appset">app.set</a></li>
+    <li><a href="#app.handler">app.handler</a></li>
+    <li><a href="#app.listen">app.listen</a></li>
   </ul>
   </details>
 
@@ -557,10 +559,60 @@ app.disable('networkExtensions')
 
 #### `app.set`
 
-Set the setting name to value, where is one of the properties from the app settings.
+Sets the setting name to value, where is one of the properties from the app settings.
 
 ```js
 app.set('subdomainOffset', 2)
+```
+
+#### `app.handler`
+
+Extends `req` / `res` objects, pushes 404 and 500 handlers, dispatches middleware and matches paths.
+
+In some cases where you don't need to start a server but pass the `req` / `res` handler instead.
+
+For example you want to start an HTTP/2 server instead of HTTP one:
+
+```ts
+import { App } from '@tinyhttp/app'
+import type { Request, Response } from '@tinyhttp/app'
+import fs from 'fs'
+import { createSecureServer } from 'http2'
+
+const app = new App()
+
+const options = {
+  key: fs.readFileSync('localhost-privkey.pem'),
+  cert: fs.readFileSync('localhost-cert.pem'),
+}
+
+app.get('/', (req, res) => void res.send(`Hello from HTTP ${req.httpVersion} server!`))
+
+createSecureServer(options, async (req: Request, res: Response) => {
+  await app.handler(req, res)
+}).listen(3000)
+```
+
+It's also common to pass the handler in serverless functions (e.g. Vercel), like this:
+
+```js
+const { App } = require('@tinyhttp/app')
+
+app.use((req, res) => res.send(`You're on ${req.url}`))
+
+module.exports = async (req, res) => await app.handler(req, res)
+```
+
+#### `app.listen`
+
+Starts an HTTP server and listens on a specified port and host.
+
+```js
+import { App } from '@tinyhttp/app'
+
+const app = new App()
+
+app.use((_, res) => res.send('Hello World')).listen(3000, () => console.log(`Started on :3000`))
 ```
 
 ## Request
