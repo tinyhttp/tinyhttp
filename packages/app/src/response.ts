@@ -26,7 +26,7 @@ export interface Response extends ServerResponse {
   header(field: string | Record<string, unknown>, val: string | any[]): Response
 
   /**
-   * Sets the response’s HTTP header `field` to `value`. To set multiple fields at once, pass an object as the parameter.
+   * Sets the response’s HTTP header `field` to `value`.
    * @param field HTTP header field
    * @param val HTTP header value
    *
@@ -91,7 +91,6 @@ export interface Response extends ServerResponse {
    *  res.jsonp = jsonp(req, res, app)
    *  next()
    * })
-   *
    * ```
    *
    * @param obj Response object

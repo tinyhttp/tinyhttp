@@ -57,10 +57,6 @@ export type TemplateEngineOptions<O = any> = Partial<{
  *
  * In case you use TypeScript, you can pass custom types to this class because it is also a generic class.
  *
- * The first generic argument is template engine options type, usually taken from engine typings.
- *
- * First and third are `Request` and `Response` objects, respectively. Both extend the tinyhttp's `Request` and `Response` so you can add custom properties without pain.
- *
  * Example:
  *
  * ```ts
@@ -211,13 +207,10 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
       req.path = pathname
 
       if (type === 'route' && req.method === method) {
-        // strip query parameters for req.params
-
         if (matchParams(path, pathname)) {
           req.params = getURLParams(pathname, path)
           req.route = getRouteFromApp(this, (handler as unknown) as Handler<Req, Res>)
 
-          // route found, send Success 200
           res.statusCode = 200
 
           await applyHandler<Req, Res>((handler as unknown) as Handler<Req, Res>)(req, res, next)

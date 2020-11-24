@@ -208,6 +208,36 @@ const app = new App({
 app.get('/', (req, res) => void res.send('hello world')).listen(3000)
 ```
 
+### `applyExtensions`
+
+A function that patches `req` and `res` objects with extensions, such as `res.send` or `req.xhr`. This parameter is useful for adding custom extensions or removing the ones that aren't used.
+
+By default, the `extendMiddleware` function is used, which contains all tinyhttp's `req` / `res` extensions.
+
+In some cases when you need to reach the highest performance you can define a custom function for extensions and pass it in the `App` constructor:
+
+```js
+import { App } from '@tinyhttp/app'
+import { send } from '@tinyhttp/send'
+
+const app = new App({
+  applyExtensions: (req, res, next) => {
+    // now tinyhttp only has a `res.send` extension
+    res.send = send(req, res)
+  },
+})
+```
+
+You can also disable all of the extensions by passing an empty function:
+
+```js
+import { App } from '@tinyhttp/app'
+
+const app = new App({
+  applyExtensions: (req, res, next) => void 0,
+})
+```
+
 #### `settings`
 
 tinyhttp application has a list of settings to toggle various application parts. All of them are opted out by default to achieve the best performance (less extensions, better performance).
@@ -228,6 +258,9 @@ Here's a list of all of the settings:
 
 - `networkExtensions` - network `req` extensions
 - `freshnessTesting` - `req.fresh` and `req.stale` properties
+- `subdomainOffset` - subdomain offset for `req.subdomains`
+- `bindAppToReqRes` - bind current `App` to `req.app` and `res.app`
+- `xPoweredBy` - enable `X-Powered-By: "tinyhttp"` header
 
 ##### `networkExtensions`
 
