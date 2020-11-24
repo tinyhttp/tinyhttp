@@ -648,8 +648,6 @@ There is a list of self-hosted serverless deployments tools that you can install
 
 #### Custom
 
-##### CI/CD
-
 If you prefer doing customized deployments you can try to use a combination of a CI/CD service, process manager and a web server (or only of them).
 
 **CI/CD**
@@ -663,12 +661,12 @@ Any CI will work for tinyhttp because it doesn't set any limits.
 
 **Process managers / Unit systems**
 
-| PM / Unit system                                | Cross-platform | Load balancer built-in2 |
-| ----------------------------------------------- | -------------- | ----------------------- |
-| [PM2](https://pm2.io)                           | Yes            | Yes                     |
-| [systemd](https://systemd.io)                   | No             | No                      |
-| [z1](https://github.com/robojones/z1)           | Yes            | Yes                     |
-| [Forever](https://github.com/foreversd/forever) | Yes            | Yes                     |
+| PM / Unit system                                | Cross-platform | Load balancer built-in |
+| ----------------------------------------------- | -------------- | ---------------------- |
+| [PM2](https://pm2.io)                           | Yes            | Yes                    |
+| [systemd](https://systemd.io)                   | No             | No                     |
+| [z1](https://github.com/robojones/z1)           | Yes            | Yes                    |
+| [Forever](https://github.com/foreversd/forever) | Yes            | Yes                    |
 
 As a rule, the target server runs on Linux. All of the major distros have [systemd](https://systemd.io). You can use it to create a service for your tinyhttp app.
 
@@ -683,7 +681,7 @@ It is common to use a web server as reverse proxy from 3000 (or any other) port 
 | [nginx](https://nginx.com)       | Yes                    | [Load Balancing Node.js Application Servers with NGINX](https://docs.nginx.com/nginx/deployment-guides/load-balance-third-party/node-js/) |
 | [Caddy](https://caddyserver.com) | Yes                    | [Caddy Reverse Proxy](https://caddyserver.com/docs/caddyfile/directives/reverse_proxy)                                                    |
 
-##### Docker
+**Docker**
 
 Docker has a lot of images to run a Node.js app in a container. One of the most popular images is [node](https://hub.docker.com/_/node/).
 
