@@ -17,7 +17,22 @@ const app = new App({
 
 const HTML_PATH = `${process.cwd()}/pages/html`
 
-const NON_MW_PKGS: string[] = ['app', 'etag', 'cookie', 'cookie-signature', 'dotenv', 'send', 'router', 'req', 'res', 'type-is', 'content-disposition']
+const NON_MW_PKGS: string[] = [
+  'app',
+  'etag',
+  'cookie',
+  'cookie-signature',
+  'dotenv',
+  'send',
+  'router',
+  'req',
+  'res',
+  'type-is',
+  'content-disposition',
+  'forwarded',
+  'proxy-addr',
+  'accepts',
+]
 
 app
   .use(
