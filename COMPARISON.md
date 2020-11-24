@@ -10,11 +10,11 @@ Below there is a table comparing tinyhttp, [Express](https://expressjs.com) and 
 | ------------------------------------ | ----------------- | ---------- | ------- |
 | Minimum supported Node.js version    | 12.4.0            | 0.10.0     | 6.0.0   |
 | Minimum supported ECMAScript version | ES2019            | ES5 (?)    | ES5     |
-| All req / res extensions             | yes               | yes        | no      |
+| All req / res extensions             | ✔️                | ✔️         | ✖️      |
 | Test coverage                        | 92%               | 100%       | 100%    |
-| Compiled to native ESM               | yes               | no         | no      |
-| TypeScript support                   | yes               | no         | no      |
+| Compiled to native ESM               | ✔️                | ✖️         | ✖️      |
+| TypeScript support                   | ✔️                | ✖️         | ✖️      |
 | Package size (core only)             | 52.5 kB           | 208 kB     | 25.5 kB |
-| Built-in middlewares                 | no                | yes        | no      |
+| Built-in middlewares                 | ✖️                | ✔️         | ✖️      |
 
 For the more detailed performance report see [benchmarks](benchmark/README.md)
