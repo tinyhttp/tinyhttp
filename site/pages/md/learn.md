@@ -138,9 +138,7 @@ this is how the full dependency tree of `@tinyhttp/app` looks like:
 └── @tinyhttp/router 0.5.9
 ```
 
-Because Express contains a lot of legacy modules, the dependency tree of it is much longer.
-
-> NOTE: Moving [proxy-addr](https://github.com/jshttp/proxy-addr) to tinyhttp's ES version is in progress
+Because Express contains a lot of legacy modules, the dependency tree of tinyhttp is much smaller.
 
 ### Differences with Express
 
