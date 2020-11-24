@@ -81,7 +81,7 @@ app
   .listen(3000)
 ```
 
-For more examples, check [examples](examples) folder.
+See tinyhttp ["Learn" page](https://tinyhttp.v1rtl.site/learn) for complete guide.
 
 ## Middlewares
 
