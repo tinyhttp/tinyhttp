@@ -78,12 +78,12 @@ Also, because a lot of express middlewares depend on legacy modules themselves, 
 tinyhttp directly mostly depends on helper modules:
 
 ```sh
-@tinyhttp/app 0.4.2
-├── @tinyhttp/cookie 0.4.0
-├── @tinyhttp/req 0.4.0
-├── @tinyhttp/res 0.4.1
-├── @tinyhttp/router 0.4.0
-└── proxy-addr 2.0.6
+@tinyhttp/app 0.5.35
+├── @tinyhttp/cookie 0.5.3
+├── @tinyhttp/proxy-addr 0.5.9
+├── @tinyhttp/req 0.5.7
+├── @tinyhttp/res 0.5.15
+└── @tinyhttp/router 0.5.9
 ```
 
 The core `@tinyhttp/app` module depends on small helper modules like `@tinyhttp/router` for easier maintaining and ability to use tinyhttp features outside of tinyhttp (to build your own web framework for example).
@@ -559,7 +559,7 @@ As any other web framework, tinyhttp works well with databases. There is a plent
 
 #### Example
 
-Usually, in a tinyhttp app you initiatialize a client for your database and later query with it inside middlewares.
+In a tinyhttp app you initiatialize a client for your database and later query with it inside middlewares.
 
 Here's a simple [example](https://github.com/talentlessguy/tinyhttp/tree/master/examples/mongodb) with MongoDB:
 
@@ -592,27 +592,19 @@ client.connect(async (err) => {
 
 // get all notes
 app.get('/notes', async (_, res, next) => {
-  try {
-    const r = await coll.find({}).toArray()
-    res.send(r)
-    next()
-  } catch (err) {
-    next(err)
-  }
+  const r = await coll.find({}).toArray()
+  res.send(r)
+  next()
 })
 
 app.use('/notes', parser())
 
 // add new note
 app.post('/notes', async (req, res, next) => {
-  try {
-    const { title, desc } = req.body
-    const r = await coll.insertOne({ title, desc })
-    assert.strictEqual(1, r.insertedCount)
-    res.send(`Note with title of "${title}" has been added`)
-  } catch (err) {
-    next(err)
-  }
+  const { title, desc } = req.body
+  const r = await coll.insertOne({ title, desc })
+  assert.strictEqual(1, r.insertedCount)
+  res.send(`Note with title of "${title}" has been added`)
 })
 
 app.listen(3000)
@@ -634,7 +626,7 @@ As for Serverless, you can pick any of the serverless platforms. Here is a table
 | [Vercel (Lambda)](https://vercel.com) | Yes            |
 | [AWS](https://aws.amazon.com)         | Yes (one year) |
 
-You can check out the Vercel [example](https://github.com/talentlessguy/tinyhttp/tree/master/examples/vercel) in the tinyhttp repo.
+You can check out the [Vercel](https://github.com/talentlessguy/tinyhttp/tree/master/examples/vercel) and [AWS](https://github.com/talentlessguy/tinyhttp/tree/master/examples/aws) examples in the tinyhttp repo.
 
 If you know any of the good serverless platforms to deploy tinyhttp on, feel free to PR on the docs.
 
