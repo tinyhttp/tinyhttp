@@ -21,7 +21,7 @@ export const cors = ({
   exposedHeaders,
   credentials,
   maxAge,
-  optionsSuccessStatus = 204,
+  optionsSuccessStatus = 204
 }: AccessControlOptions) => {
   return (req: Request, res: Response, next?: () => void) => {
     // Checking the type of the origin property

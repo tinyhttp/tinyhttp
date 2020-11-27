@@ -16,7 +16,7 @@ if (!process.env.DB_KEY) {
 }
 
 const client = new fauna.Client({
-  secret: process.env.DB_KEY,
+  secret: process.env.DB_KEY
 })
 
 const app = new App()
@@ -64,7 +64,7 @@ app.post('/product', async (req, res, next) => {
     try {
       const query = await client.query(
         q.Create(q.Collection('products'), {
-          data: req.body,
+          data: req.body
         })
       )
 

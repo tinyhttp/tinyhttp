@@ -31,7 +31,7 @@ export function parse(
   options: {
     decode: (str: string) => any
   } = {
-    decode: decodeURIComponent,
+    decode: decodeURIComponent
   }
 ) {
   const obj = {}

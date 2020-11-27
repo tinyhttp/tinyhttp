@@ -4,7 +4,7 @@ import { lookup } from 'es-mime-types'
 
 const extToMime = (type: string) => (type.indexOf('/') == -1 ? lookup(type) : type)
 
-const validMime = (type: unknown) => typeof type == 'string'
+const validMime = (type: unknown): boolean => typeof type == 'string'
 
 export class Accepts {
   headers: IncomingHttpHeaders

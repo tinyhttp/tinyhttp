@@ -18,9 +18,9 @@ const app = new App({
     res.status(err.status || 500).json({
       message: err.message,
       errors: err.errors,
-      data: err.data,
+      data: err.data
     })
-  },
+  }
 })
 
 app.use(json())
@@ -60,10 +60,10 @@ app.post('/v1/pets/:id/photos', (req, res) => {
     files_metadata: req.files.map((f) => ({
       originalname: f.originalname,
       encoding: f.encoding,
-      mimetype: f.mimetype,
+      mimetype: f.mimetype
       // Buffer of file contents
       // buffer: f.buffer,
-    })),
+    }))
   })
 })
 

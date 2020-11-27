@@ -1,6 +1,7 @@
 import * as mime from 'es-mime-types'
 
-export const normalizeType = (type: string) => (~type.indexOf('/') ? acceptParams(type) : { value: mime.lookup(type), params: {} })
+export const normalizeType = (type: string) =>
+  ~type.indexOf('/') ? acceptParams(type) : { value: mime.lookup(type), params: {} }
 
 export function acceptParams(str: string, index?: number) {
   const parts = str.split(/ *; */)

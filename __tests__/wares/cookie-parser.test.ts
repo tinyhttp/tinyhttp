@@ -25,24 +25,24 @@ describe('cookieParser()', () => {
     it('should populate req.cookies', async () => {
       await makeFetch(createServer('keyboard cat'))('/', {
         headers: {
-          Cookie: 'foo=bar; bar=baz',
-        },
+          Cookie: 'foo=bar; bar=baz'
+        }
       }).expect(200, '{"foo":"bar","bar":"baz"}')
     })
 
     it('should inflate JSON cookies', async () => {
       await makeFetch(createServer('keyboard cat'))('/', {
         headers: {
-          Cookie: 'foo=j:{"foo":"bar"}',
-        },
+          Cookie: 'foo=j:{"foo":"bar"}'
+        }
       }).expect(200, '{"foo":{"foo":"bar"}}')
     })
 
     it('should not inflate invalid JSON cookies', async () => {
       await makeFetch(createServer('keyboard cat'))('/', {
         headers: {
-          Cookie: 'foo=j:{"foo":',
-        },
+          Cookie: 'foo=j:{"foo":'
+        }
       }).expect(200, '{"foo":"j:{\\"foo\\":"}')
     })
   })
@@ -65,8 +65,8 @@ describe('cookieParser()', () => {
 
       await makeFetch(server)('/', {
         headers: {
-          Cookie: 'foo=bar; bar=baz',
-        },
+          Cookie: 'foo=bar; bar=baz'
+        }
       }).expect(200, '{"fizz":"buzz"}')
     })
   })
@@ -78,16 +78,16 @@ describe('cookieParser()', () => {
     it('should populate req.signedCookies', async () => {
       await makeFetch(createServer('keyboard cat'))('/signed', {
         headers: {
-          Cookie: 'foo=s:' + val,
-        },
+          Cookie: 'foo=s:' + val
+        }
       }).expect(200, '{"foo":"foobarbaz"}')
     })
 
     it('should remove the signed value from req.cookies', async () => {
       await makeFetch(createServer('keyboard cat'))('/', {
         headers: {
-          Cookie: 'foo=s:' + val,
-        },
+          Cookie: 'foo=s:' + val
+        }
       }).expect(200, '{}')
     })
 
@@ -96,14 +96,14 @@ describe('cookieParser()', () => {
 
       await makeFetch(server)('/signed', {
         headers: {
-          Cookie: `foo=${val}3`,
-        },
+          Cookie: `foo=${val}3`
+        }
       }).expect(200, '{}')
 
       await makeFetch(server)('/', {
         headers: {
-          Cookie: `foo=${val}3`,
-        },
+          Cookie: `foo=${val}3`
+        }
       }).expect(200, '{"foo":"foobarbaz.CP7AWaXDfAKIRfH49dQzKJx7sKzzSoPq7/AcBBRVwlI3"}')
     })
   })
@@ -112,8 +112,9 @@ describe('cookieParser()', () => {
     it('should populate req.signedCookies', async () => {
       await makeFetch(createServer(['keyboard cat', 'nyan cat']))('/signed', {
         headers: {
-          Cookie: 'buzz=s:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE; fizz=s:foobar.JTCAgiMWsnuZpN3mrYnEUjXlGxmDi4POCBnWbRxse88',
-        },
+          Cookie:
+            'buzz=s:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE; fizz=s:foobar.JTCAgiMWsnuZpN3mrYnEUjXlGxmDi4POCBnWbRxse88'
+        }
       }).expect(200, '{"buzz":"foobar","fizz":"foobar"}')
     })
   })
@@ -183,15 +184,21 @@ describe('signedCookie(str, secret)', function () {
 
   describe('when secret is an array', function () {
     it('should return false for tampered signed string', function () {
-      expect(signedCookie('s:foobaz.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE', ['keyboard cat', 'nyan cat'])).toBe(false)
+      expect(signedCookie('s:foobaz.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE', ['keyboard cat', 'nyan cat'])).toBe(
+        false
+      )
     })
 
     it('should return unsigned value for first secret', function () {
-      expect(signedCookie('s:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE', ['keyboard cat', 'nyan cat'])).toBe('foobar')
+      expect(signedCookie('s:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE', ['keyboard cat', 'nyan cat'])).toBe(
+        'foobar'
+      )
     })
 
     it('should return unsigned value for second secret', function () {
-      expect(signedCookie('s:foobar.JTCAgiMWsnuZpN3mrYnEUjXlGxmDi4POCBnWbRxse88', ['keyboard cat', 'nyan cat'])).toBe('foobar')
+      expect(signedCookie('s:foobar.JTCAgiMWsnuZpN3mrYnEUjXlGxmDi4POCBnWbRxse88', ['keyboard cat', 'nyan cat'])).toBe(
+        'foobar'
+      )
     })
   })
 })
@@ -204,19 +211,19 @@ describe('signedCookies(obj, secret)', function () {
 
   it('should include tampered strings as false', function () {
     expect(signedCookies({ foo: 's:foobaz.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE' }, 'keyboard cat')).toEqual({
-      foo: false,
+      foo: false
     })
   })
 
   it('should include unsigned strings', function () {
     expect(signedCookies({ foo: 's:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE' }, 'keyboard cat')).toEqual({
-      foo: 'foobar',
+      foo: 'foobar'
     })
   })
 
   it('should remove signed strings from original object', function () {
     const obj = {
-      foo: 's:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE',
+      foo: 's:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE'
     }
 
     expect(signedCookies(obj, 'keyboard cat')).toEqual({ foo: 'foobar' })
@@ -225,7 +232,7 @@ describe('signedCookies(obj, secret)', function () {
 
   it('should remove tampered strings from original object', function () {
     const obj = {
-      foo: 's:foobaz.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE',
+      foo: 's:foobaz.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE'
     }
 
     expect(signedCookies(obj, 'keyboard cat')).toEqual({ foo: false })
@@ -235,7 +242,7 @@ describe('signedCookies(obj, secret)', function () {
   it('should leave unsigned string in original object', function () {
     const obj = {
       fizz: 'buzz',
-      foo: 's:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE',
+      foo: 's:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE'
     }
 
     expect(signedCookies(obj, 'keyboard cat')).toEqual({ foo: 'foobar' })
@@ -246,24 +253,24 @@ describe('signedCookies(obj, secret)', function () {
     it('should include unsigned strings for matching secrets', function () {
       const obj = {
         buzz: 's:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE',
-        fizz: 's:foobar.JTCAgiMWsnuZpN3mrYnEUjXlGxmDi4POCBnWbRxse88',
+        fizz: 's:foobar.JTCAgiMWsnuZpN3mrYnEUjXlGxmDi4POCBnWbRxse88'
       }
 
       expect(signedCookies(obj, ['keyboard cat'])).toEqual({
         buzz: 'foobar',
-        fizz: false,
+        fizz: false
       })
     })
 
     it('should include unsigned strings for all secrets', function () {
       const obj = {
         buzz: 's:foobar.N5r0C3M8W+IPpzyAJaIddMWbTGfDSO+bfKlZErJ+MeE',
-        fizz: 's:foobar.JTCAgiMWsnuZpN3mrYnEUjXlGxmDi4POCBnWbRxse88',
+        fizz: 's:foobar.JTCAgiMWsnuZpN3mrYnEUjXlGxmDi4POCBnWbRxse88'
       }
 
       expect(signedCookies(obj, ['keyboard cat', 'nyan cat'])).toEqual({
         buzz: 'foobar',
-        fizz: 'foobar',
+        fizz: 'foobar'
       })
     })
   })

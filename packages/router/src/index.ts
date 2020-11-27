@@ -4,11 +4,21 @@ import { METHODS, IncomingMessage as I, ServerResponse as R } from 'http'
 
 export type NextFunction = (err?: any) => void | undefined
 
-export type SyncHandler<Request extends any = I, Response extends any = R> = (req: Request, res: Response, next?: NextFunction) => void
+export type SyncHandler<Request extends any = I, Response extends any = R> = (
+  req: Request,
+  res: Response,
+  next?: NextFunction
+) => void
 
-export type AsyncHandler<Request extends any = I, Response extends any = R> = (req: Request, res: Response, next?: NextFunction) => Promise<void>
+export type AsyncHandler<Request extends any = I, Response extends any = R> = (
+  req: Request,
+  res: Response,
+  next?: NextFunction
+) => Promise<void>
 
-export type Handler<Request extends any = I, Response extends any = R> = AsyncHandler<Request, Response> | SyncHandler<Request, Response>
+export type Handler<Request extends any = I, Response extends any = R> =
+  | AsyncHandler<Request, Response>
+  | SyncHandler<Request, Response>
 
 export type Method =
   | 'GET'
@@ -66,7 +76,11 @@ export type RouterHandler<Req extends I = I, Res extends R = R> = Handler<Req, R
 
 export type RouterPathOrHandler<Req extends I = I, Res extends R = R> = string | RouterHandler<Req, Res>
 
-export type RouterMethod<Req extends I = I, Res extends R = R> = (path: string | Handler<Req, Res>, handler?: Handler<Req, Res>, ...handlers: Handler<Req, Res>[]) => any
+export type RouterMethod<Req extends I = I, Res extends R = R> = (
+  path: string | Handler<Req, Res>,
+  handler?: Handler<Req, Res>,
+  ...handlers: Handler<Req, Res>[]
+) => any
 
 type RouterMethodParams<Req extends I = I, Res extends R = R> = Parameters<RouterMethod<Req, Res>>
 
@@ -76,20 +90,22 @@ export type UseMethod<Req extends I = I, Res extends R = R, App extends Router =
   ...handlers: RouterHandler<Req, Res>[]
 ) => any
 
-export type UseMethodParams<Req extends I = I, Res extends R = R, App extends Router = any> = Parameters<UseMethod<Req, Res, App>>
+export type UseMethodParams<Req extends I = I, Res extends R = R, App extends Router = any> = Parameters<
+  UseMethod<Req, Res, App>
+>
 
 /** HELPER METHODS */
 
 const createMiddlewareFromRoute = <Req extends I = I, Res extends R = R>({
   path,
   handler,
-  method,
+  method
 }: MethodHandler<Req, Res> & {
   method?: Method
 }) => ({
   method,
   handler: handler || (path as Handler),
-  path: typeof path === 'string' ? path : '/',
+  path: typeof path === 'string' ? path : '/'
 })
 
 const pushMiddleware = <Req extends I = I, Res extends R = R>(mw: Middleware[]) => ({
@@ -97,7 +113,7 @@ const pushMiddleware = <Req extends I = I, Res extends R = R>(mw: Middleware[]) 
   handler,
   method,
   handlers,
-  type,
+  type
 }: MethodHandler<Req, Res> & {
   method?: Method
   handlers?: Handler<Req, Res>[]
@@ -112,7 +128,7 @@ const pushMiddleware = <Req extends I = I, Res extends R = R>(mw: Middleware[]) 
         path,
         handler,
         method,
-        type,
+        type
       })
     )
   }
@@ -143,7 +159,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'GET',
-      type: 'route',
+      type: 'route'
     })
 
     return this
@@ -154,7 +170,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'POST',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -164,7 +180,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'PUT',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -174,7 +190,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'PATCH',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -184,7 +200,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'HEAD',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -194,7 +210,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'DELETE',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -204,7 +220,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'OPTIONS',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -214,7 +230,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'CHECKOUT',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -224,7 +240,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'COPY',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -234,7 +250,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'LOCK',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -244,7 +260,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'UNLOCK',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -254,7 +270,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'MERGE',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -264,7 +280,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'MKACTIVITY',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -274,7 +290,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'MKCOL',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -284,7 +300,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'MOVE',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -294,7 +310,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'SEARCH',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -304,7 +320,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'M-SEARCH',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -314,7 +330,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'NOTIFY',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -324,7 +340,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'PURGE',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -334,7 +350,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'REPORT',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -344,7 +360,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'SUBSCRIBE',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -354,7 +370,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'UNSUBSCRIBE',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -364,7 +380,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'TRACE',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -374,7 +390,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'ACL',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -384,7 +400,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'CONNECT',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -394,7 +410,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'BIND',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -404,7 +420,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'UNBIND',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -414,7 +430,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'REBIND',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -424,7 +440,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'LINK',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -434,7 +450,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'UNLINK',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -444,7 +460,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'MKCALENDAR',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -454,7 +470,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'PROPFIND',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -464,7 +480,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'PROPPATCH',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -474,7 +490,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
       handler: args[1],
       handlers: args.slice(2) as Handler<Req, Res>[],
       method: 'SOURCE',
-      type: 'route',
+      type: 'route'
     })
     return this
   }
@@ -485,7 +501,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
         handler: args[1],
         handlers: args.slice(2) as Handler<Req, Res>[],
         method,
-        type: 'route',
+        type: 'route'
       })
     }
     return this
@@ -573,7 +589,7 @@ export class Router<App extends Router = any, Req extends I = I, Res extends R =
         path: path as string,
         handler: mainHandler,
         handlers: totalHandlers,
-        type: 'mw',
+        type: 'mw'
       })
     }
 

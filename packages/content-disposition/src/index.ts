@@ -40,7 +40,7 @@ const qstring = (val: unknown) => '"' + String(val).replace(QUOTE_REGEXP, '\\$1'
 
 const pencode = (char: string) => '%' + String(char).charCodeAt(0).toString(16).toUpperCase()
 
-function ustring(val: unknown) {
+function ustring(val: unknown): string {
   const str = String(val)
 
   // percent encode as UTF-8
@@ -91,9 +91,11 @@ function createParams(filename?: string, fallback?: string | boolean) {
   // fallback defaults to true
   if (fallback === undefined) fallback = true
 
-  if (typeof fallback !== 'string' && typeof fallback !== 'boolean') throw new TypeError('fallback must be a string or boolean')
+  if (typeof fallback !== 'string' && typeof fallback !== 'boolean')
+    throw new TypeError('fallback must be a string or boolean')
 
-  if (typeof fallback === 'string' && NON_LATIN1_REGEXP.test(fallback)) throw new TypeError('fallback must be ISO-8859-1 string')
+  if (typeof fallback === 'string' && NON_LATIN1_REGEXP.test(fallback))
+    throw new TypeError('fallback must be ISO-8859-1 string')
 
   // restrict to file base name
   const name = basename(filename)

@@ -9,7 +9,7 @@ app.use(urlencoded())
 
 const getSession = SessionManager({
   store,
-  secret: 'super secret text',
+  secret: 'super secret text'
 })
 
 app.get('/', (_req, res) => {

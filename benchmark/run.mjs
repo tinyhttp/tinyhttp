@@ -17,7 +17,7 @@ const run = (apps) => {
       connections: 100,
       duration: 15,
       url: 'http://localhost:8000/user/123',
-      title: apps[0],
+      title: apps[0]
     },
     () => {
       instance.kill('SIGINT')

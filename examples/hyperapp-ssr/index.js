@@ -4,14 +4,14 @@ import { readFile } from 'fs/promises'
 import { renderToString } from 'hyperapp-render'
 
 const state = {
-  text: 'Hello',
+  text: 'Hello'
 }
 
 const actions = {
   setText: (state, event) => ({
     ...state,
-    text: event.target.value,
-  }),
+    text: event.target.value
+  })
 }
 
 const view = (state) =>
@@ -19,8 +19,8 @@ const view = (state) =>
     h('h1', {}, [text(state.text)]),
     h('input', {
       value: state.text,
-      onchange: actions.setText,
-    }),
+      onchange: actions.setText
+    })
   ])
 
 const app = new App()

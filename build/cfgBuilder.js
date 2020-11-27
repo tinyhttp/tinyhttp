@@ -6,13 +6,13 @@ export default (cfg) => ({
   output: [
     {
       file: 'dist/index.cjs',
-      format: 'cjs',
+      format: 'cjs'
     },
     {
       file: 'dist/index.js',
-      format: 'esm',
-    },
+      format: 'esm'
+    }
   ],
   plugins: [ts(), ...(cfg.plugins || [])],
-  external: [...deps(cfg.external)],
+  external: [...deps(cfg.external)]
 })

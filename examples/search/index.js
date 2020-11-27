@@ -4,7 +4,7 @@ import path from 'path'
 const app = new App()
 const db = {
   jedi: ['Yoda', 'Obi-Wan Kenobi', 'Luke Skywalker'],
-  hero: ['Ironman', 'Thor', 'Doctor Strange'],
+  hero: ['Ironman', 'Thor', 'Doctor Strange']
 }
 
 /**

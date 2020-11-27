@@ -7,7 +7,7 @@ describe('SessionManager(opts)', () => {
     try {
       SessionManager({
         store,
-        secret: undefined,
+        secret: undefined
       })
     } catch (e) {
       expect((e as TypeError).message).toMatch(/requires/i)

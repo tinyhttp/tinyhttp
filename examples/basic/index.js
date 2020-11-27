@@ -10,7 +10,7 @@ app
     (_, res) =>
       void res.format({
         html: () => res.send('<h1>Hello World</h1>'),
-        text: () => res.send('Hello World'),
+        text: () => res.send('Hello World')
       })
   )
   .get('/page/:page/', (req, res) => {

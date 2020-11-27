@@ -12,7 +12,8 @@ const PASS = process.env.PASS
 const PORT = parseInt(process.env.PORT) || 3000
 
 // if node_env is not in production then use local databse
-const COUCHDB_URI = process.env.NODE_ENV !== 'production' ? `http://${USER}:${PASS}@localhost:5984` : process.env.COUCHDB_URI
+const COUCHDB_URI =
+  process.env.NODE_ENV !== 'production' ? `http://${USER}:${PASS}@localhost:5984` : process.env.COUCHDB_URI
 
 // coonect local database
 const nano = Nano(COUCHDB_URI)

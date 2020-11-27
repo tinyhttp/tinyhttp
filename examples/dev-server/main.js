@@ -7,5 +7,5 @@ hsr({
   base: process.cwd(),
   // Will be called on file changes
   main: () => require('./server')(),
-  plugins: [],
+  plugins: []
 })

@@ -11,8 +11,8 @@ const fetch = fetchCache(`${__dirname}/.cache`)
 
 const app = new App({
   settings: {
-    networkExtensions: true,
-  },
+    networkExtensions: true
+  }
 })
 
 const HTML_PATH = `${process.cwd()}/pages/html`
@@ -31,7 +31,7 @@ const NON_MW_PKGS: string[] = [
   'content-disposition',
   'forwarded',
   'proxy-addr',
-  'accepts',
+  'accepts'
 ]
 
 app
@@ -41,8 +41,8 @@ app
       timestamp: true,
       output: {
         callback: console.log,
-        color: false,
-      },
+        color: false
+      }
     })
   )
   .get('/mw', async (req, res, next) => {
@@ -97,22 +97,22 @@ app
       stripExtension: true,
       markedExtensions: [
         {
-          headerIds: true,
-        },
+          headerIds: true
+        }
       ],
       markedOptions: {
         highlight: (code, lang) => {
           if (!lang) lang = 'txt'
 
           return hljs.highlight(lang, code).value
-        },
-      },
+        }
+      }
     })
   )
   .use(
     serve('static', {
       dev: process.env.NODE_ENV !== 'production',
-      immutable: process.env.NODE_ENV === 'production',
+      immutable: process.env.NODE_ENV === 'production'
     })
   )
 

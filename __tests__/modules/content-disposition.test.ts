@@ -93,7 +93,9 @@ describe('parse(string)', () => {
     })
     // TODO: copypaste tests from https://github.com/jshttp/content-disposition/blob/master/test/test.js#L258-L278
     it('should lower-case parameter name', () => {
-      expect(parse('attachment; FILENAME="plans.pdf"')).toStrictEqual(new ContentDisposition('attachment', { filename: 'plans.pdf' }))
+      expect(parse('attachment; FILENAME="plans.pdf"')).toStrictEqual(
+        new ContentDisposition('attachment', { filename: 'plans.pdf' })
+      )
     })
   })
 })

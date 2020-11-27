@@ -2,8 +2,8 @@ import { App } from '@tinyhttp/app'
 
 const app = new App({
   settings: {
-    networkExtensions: true,
-  },
+    networkExtensions: true
+  }
 })
 
 app.use((req, res) => {

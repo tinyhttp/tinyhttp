@@ -18,7 +18,7 @@ module.exports = async () => {
         ${req.url}
         <h2>Params</h2>
         ${JSON.stringify(req.params, null, 2)}`,
-        ctx,
+        ctx
       })
     )
   })
@@ -27,7 +27,7 @@ module.exports = async () => {
     async (req, res) =>
       await serve(req, res, {
         directoryListing: false,
-        public: ctx.publicDir,
+        public: ctx.publicDir
       })
   )
 

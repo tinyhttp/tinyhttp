@@ -42,7 +42,7 @@ describe('Testing @tinyhttp/send', () => {
       const app = runServer((req, res) => send(req, res)('Hello World'))
 
       await makeFetch(app)('/', {
-        method: 'HEAD',
+        method: 'HEAD'
       }).expectBody('')
     })
     it('should send nothing if body is empty', async () => {
@@ -57,7 +57,10 @@ describe('Testing @tinyhttp/send', () => {
         send(req, res)('Hello World')
       })
 
-      await makeFetch(app)('/').expectHeader('Content-Length', null).expectHeader('Content-Type', null).expectHeader('Transfer-Encoding', null)
+      await makeFetch(app)('/')
+        .expectHeader('Content-Length', null)
+        .expectHeader('Content-Type', null)
+        .expectHeader('Transfer-Encoding', null)
     })
     it('should remove some headers for 304 status', async () => {
       const app = runServer((req, res) => {
@@ -66,12 +69,18 @@ describe('Testing @tinyhttp/send', () => {
         send(req, res)('Hello World')
       })
 
-      await makeFetch(app)('/').expectHeader('Content-Length', null).expectHeader('Content-Type', null).expectHeader('Transfer-Encoding', null)
+      await makeFetch(app)('/')
+        .expectHeader('Content-Length', null)
+        .expectHeader('Content-Type', null)
+        .expectHeader('Transfer-Encoding', null)
     })
     it("should set Content-Type to application/octet-stream for buffers if the header hasn't been set before", async () => {
       const app = runServer((req, res) => send(req, res)(Buffer.from('Hello World', 'utf-8')).end())
 
-      await makeFetch(app)('/', { headers: { 'Content-Type': null } }).expectHeader('Content-Type', 'application/octet-stream')
+      await makeFetch(app)('/', { headers: { 'Content-Type': null } }).expectHeader(
+        'Content-Type',
+        'application/octet-stream'
+      )
     })
   })
 

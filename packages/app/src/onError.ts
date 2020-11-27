@@ -1,4 +1,4 @@
-import { NextFunction } from '@tinyhttp/router'
+import type { NextFunction } from '@tinyhttp/router'
 import { STATUS_CODES } from 'http'
 import { Request } from './request'
 import { Response } from './response'

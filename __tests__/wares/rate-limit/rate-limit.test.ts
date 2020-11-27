@@ -24,7 +24,7 @@ describe('rate-limit', () => {
 
       const app = createAppWith(
         rateLimit({
-          store: store,
+          store: store
         })
       )
 
@@ -36,7 +36,7 @@ describe('rate-limit', () => {
     it('should call resetKey on the store', async () => {
       const store = new MockStore()
       const limiter = rateLimit({
-        store: store,
+        store: store
       })
 
       expect(store.resetKey_was_called).toBeFalsy()
@@ -47,7 +47,7 @@ describe('rate-limit', () => {
     it('should refuse additional connections once IP has reached the max', async () => {
       const app = createAppWith(
         rateLimit({
-          max: 2,
+          max: 2
         })
       )
       await makeFetch(app)('/').expect(200)
@@ -60,7 +60,7 @@ describe('rate-limit', () => {
       const app = createAppWith(
         rateLimit({
           max: 2,
-          message,
+          message
         })
       )
       await makeFetch(app)('/').expect(200)
@@ -73,7 +73,7 @@ describe('rate-limit', () => {
       const app = createAppWith(
         rateLimit({
           max: 2,
-          windowMs: 500,
+          windowMs: 500
         })
       )
 
@@ -90,7 +90,7 @@ describe('rate-limit', () => {
       const app = createAppWith(
         rateLimit({
           max: 2,
-          windowMs: 50,
+          windowMs: 50
         })
       )
 
@@ -109,7 +109,7 @@ describe('rate-limit', () => {
       const app = createAppWith(
         rateLimit({
           max: 1,
-          statusCode: errStatusCode,
+          statusCode: errStatusCode
         })
       )
       await makeFetch(app)('/').expect(200)
@@ -121,7 +121,7 @@ describe('rate-limit', () => {
       const app = createAppWith(
         rateLimit({
           skipFailedRequests: true,
-          store: store,
+          store: store
         })
       )
 
@@ -134,7 +134,7 @@ describe('rate-limit', () => {
       const app = createAppWith(
         rateLimit({
           skipSuccessfulRequests: true,
-          store: store,
+          store: store
         })
       )
 
@@ -168,7 +168,7 @@ describe('rate-limit', () => {
         rateLimit({
           windowMs: windowMs,
           max: limit,
-          draftPolliRatelimitHeaders: true,
+          draftPolliRatelimitHeaders: true
         })
       )
       const expectedRemaining = 4
@@ -186,7 +186,7 @@ describe('rate-limit', () => {
       const app = createAppWith(
         rateLimit({
           windowMs: windowSeconds * 1000,
-          max: 1,
+          max: 1
         })
       )
       await makeFetch(app)('/').expect(200)
@@ -203,8 +203,8 @@ describe('rate-limit', () => {
               throw Error
             },
             // eslint-disable-next-line @typescript-eslint/no-empty-function
-            resetKey: () => {},
-          } as any,
+            resetKey: () => {}
+          } as any
         })
       )
 
@@ -217,7 +217,7 @@ describe('rate-limit', () => {
       const app = createAppWith(
         rateLimit({
           shouldSkip,
-          max: 2,
+          max: 2
         })
       )
 

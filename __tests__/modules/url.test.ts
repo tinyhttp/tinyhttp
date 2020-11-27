@@ -24,7 +24,7 @@ describe('getURLParams(reqUrl, url)', () => {
 
     expect(getURLParams(reqUrl, path)).toStrictEqual({
       a: 'hello',
-      b: 'world',
+      b: 'world'
     })
   })
 })

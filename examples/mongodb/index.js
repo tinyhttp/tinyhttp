@@ -13,7 +13,7 @@ let coll
 
 // connect to mongodb
 const client = new mongodb.MongoClient(process.env.DB_URI, {
-  useUnifiedTopology: true,
+  useUnifiedTopology: true
 })
 
 client.connect(async (err) => {
@@ -64,7 +64,11 @@ app.delete('/notes', async (req, res, next) => {
 app.put('/notes', async (req, res, next) => {
   try {
     const { title, desc, id } = req.body
-    await coll.findOneAndUpdate({ _id: new mongodb.ObjectId(id) }, { $set: { title, desc } }, { returnOriginal: false, upsert: true })
+    await coll.findOneAndUpdate(
+      { _id: new mongodb.ObjectId(id) },
+      { $set: { title, desc } },
+      { returnOriginal: false, upsert: true }
+    )
     res.send(`Note with title of ${title} has been updated`)
   } catch (err) {
     next(err)

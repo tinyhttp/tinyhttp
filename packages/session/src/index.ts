@@ -76,7 +76,7 @@ export class Cookie implements Express.SessionCookie {
       httpOnly: this.httpOnly,
       domain: this.domain,
       path: this.path,
-      sameSite: this.sameSite,
+      sameSite: this.sameSite
     }
   }
 
@@ -94,11 +94,11 @@ export class Session implements Express.Session {
 
   constructor(req: any, sessionData: any) {
     Object.defineProperty(this, 'req', {
-      value: req,
+      value: req
     })
     this.id = ''
     Object.defineProperty(this, 'id', {
-      value: req.sessionID,
+      value: req.sessionID
     })
 
     this.store = req.sessionStore
@@ -189,7 +189,7 @@ export abstract class Store extends EventEmitter {
       if (!session) return cb(null)
       const req = {
         sessionID: id,
-        sessionStore: this,
+        sessionStore: this
       }
 
       cb(null, this.createSession(req, session))
@@ -209,7 +209,7 @@ export abstract class Store extends EventEmitter {
     req.session = new Session(
       {
         sessionStore: this,
-        sessionID: session.id,
+        sessionID: session.id
       },
       session
     )
@@ -265,7 +265,9 @@ export type SessionOptions = Partial<{
  * Only `secret` option is required, all of the rest are optional.
  * Inherits all options from `SessionOptions`
  */
-export function SessionManager(options?: SessionOptions): (req: IncomingMessage, res: ServerResponse) => Promise<Session> {
+export function SessionManager(
+  options?: SessionOptions
+): (req: IncomingMessage, res: ServerResponse) => Promise<Session> {
   const opts: SessionOptions = options || ({} as SessionOptions)
 
   const generateId = opts.genid || generateSessionId
@@ -286,7 +288,8 @@ export function SessionManager(options?: SessionOptions): (req: IncomingMessage,
 
   if (saveUninitialized === undefined) saveUninitialized = true
 
-  if (opts.unset && opts.unset !== 'destroy' && opts.unset !== 'keep') throw new TypeError('unset option must be either destroy or keep')
+  if (opts.unset && opts.unset !== 'destroy' && opts.unset !== 'keep')
+    throw new TypeError('unset option must be either destroy or keep')
 
   let secret: string[]
   if (typeof opts.secret === 'string') secret = [opts.secret]
@@ -294,7 +297,8 @@ export function SessionManager(options?: SessionOptions): (req: IncomingMessage,
 
   if (!secret) throw new TypeError('session requires options.secret')
 
-  if (process.env.NODE_ENV === 'production' && opts.store instanceof MemoryStore) console.warn('MemoryStore should not be used in production')
+  if (process.env.NODE_ENV === 'production' && opts.store instanceof MemoryStore)
+    console.warn('MemoryStore should not be used in production')
 
   let storeReady = true
 
@@ -338,7 +342,9 @@ export function SessionManager(options?: SessionOptions): (req: IncomingMessage,
         // cannot set cookie without a session ID
         if (typeof sessionID !== 'string' || !session) return false
 
-        return cookieId !== sessionID ? saveUninitialized || isModified(session) : rolling || (session.cookie.expires != null && isModified(session))
+        return cookieId !== sessionID
+          ? saveUninitialized || isModified(session)
+          : rolling || (session.cookie.expires != null && isModified(session))
       }
 
       // determine if session should be saved to store
@@ -350,7 +356,8 @@ export function SessionManager(options?: SessionOptions): (req: IncomingMessage,
       }
 
       // determine if session should be touched
-      const shouldTouch = (id?: string, session?: Session) => (typeof id !== 'string' ? false : cookieId === id && !shouldSave(id, session))
+      const shouldTouch = (id?: string, session?: Session) =>
+        typeof id !== 'string' ? false : cookieId === id && !shouldSave(id, session)
 
       // TODO: Get rid of onHeaders dep
       onHeaders(res, () => {
@@ -496,14 +503,14 @@ export function SessionManager(options?: SessionOptions): (req: IncomingMessage,
           configurable: true,
           enumerable: false,
           value: reload,
-          writable: true,
+          writable: true
         })
 
         Object.defineProperty(sess, 'save', {
           configurable: true,
           enumerable: false,
           value: save,
-          writable: true,
+          writable: true
         })
       }
 

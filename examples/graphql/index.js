@@ -12,7 +12,7 @@ const schema = graphql.buildSchema(`
 `)
 
 const rootValue = {
-  hello: () => 'Hello world!',
+  hello: () => 'Hello world!'
 }
 
 app.use(
@@ -20,7 +20,7 @@ app.use(
   expressGraphQL.graphqlHTTP({
     schema,
     graphiql: { headerEditorEnabled: true },
-    rootValue,
+    rootValue
   })
 )
 

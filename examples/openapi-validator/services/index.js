@@ -3,20 +3,20 @@ let data = [
     id: 1,
     name: 'Sparky',
     type: 'dog',
-    tags: ['sweet'],
+    tags: ['sweet']
   },
   {
     id: 2,
     name: 'buzz',
     type: 'cat',
-    tags: ['purrfect'],
+    tags: ['purrfect']
   },
   {
     id: 3,
     name: 'max',
     type: 'dog',
-    tags: [],
-  },
+    tags: []
+  }
 ]
 
 export default class Pets {

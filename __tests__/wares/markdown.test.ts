@@ -9,8 +9,8 @@ describe('Routing', () => {
     const { fetch } = InitAppAndTest(
       markdownStaticHandler(STATIC_FOLDER, {
         markedOptions: {
-          headerIds: false,
-        },
+          headerIds: false
+        }
       })
     )
 
@@ -37,7 +37,7 @@ describe('Handler options', () => {
     it('should detect folders', async () => {
       const { fetch } = InitAppAndTest(
         markdownStaticHandler(STATIC_FOLDER, {
-          recursive: true,
+          recursive: true
         })
       )
 
@@ -46,7 +46,7 @@ describe('Handler options', () => {
     it(`should work with deeply nested folders`, async () => {
       const { fetch } = InitAppAndTest(
         markdownStaticHandler(STATIC_FOLDER, {
-          recursive: true,
+          recursive: true
         })
       )
 
@@ -57,7 +57,7 @@ describe('Handler options', () => {
     it('should strip prefix from paths', async () => {
       const { fetch } = InitAppAndTest(
         markdownStaticHandler(STATIC_FOLDER, {
-          prefix: '/a',
+          prefix: '/a'
         })
       )
 
@@ -68,7 +68,7 @@ describe('Handler options', () => {
     it('should send markdown files on paths with extension', async () => {
       const { fetch } = InitAppAndTest(
         markdownStaticHandler(STATIC_FOLDER, {
-          stripExtension: false,
+          stripExtension: false
         })
       )
 
@@ -77,7 +77,7 @@ describe('Handler options', () => {
     it('should strip extension', async () => {
       const { fetch } = InitAppAndTest(
         markdownStaticHandler(STATIC_FOLDER, {
-          stripExtension: true,
+          stripExtension: true
         })
       )
 

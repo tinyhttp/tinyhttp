@@ -5,13 +5,13 @@ describe('Response properties', () => {
     const { fetch } = InitAppAndTest((_req, res) => {
       res.status(200).json({
         statusCode: res.statusCode,
-        chunkedEncoding: res.chunkedEncoding,
+        chunkedEncoding: res.chunkedEncoding
       })
     })
 
     await fetch('/').expect({
       statusCode: 200,
-      chunkedEncoding: false,
+      chunkedEncoding: false
     })
   })
 })
@@ -78,12 +78,15 @@ describe('Response methods', () => {
       res
         .links({
           next: 'http://api.example.com/users?page=2',
-          last: 'http://api.example.com/users?page=5',
+          last: 'http://api.example.com/users?page=5'
         })
         .end()
     })
 
-    await fetch('/').expect('Link', '<http://api.example.com/users?page=2>; rel="next", <http://api.example.com/users?page=5>; rel="last"')
+    await fetch('/').expect(
+      'Link',
+      '<http://api.example.com/users?page=2>; rel="next", <http://api.example.com/users?page=5>; rel="last"'
+    )
   })
   it('res.cookie sends cookies to client', async () => {
     const { fetch } = InitAppAndTest((_req, res) => {

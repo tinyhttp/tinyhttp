@@ -3,5 +3,5 @@ import deps from '../../build/deps'
 import { dependencies } from './package.json'
 
 export default cfg({
-  external: deps(dependencies),
+  external: deps(dependencies)
 })

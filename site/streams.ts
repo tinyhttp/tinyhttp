@@ -27,7 +27,7 @@ export const transformMWPageStream = (json: any) =>
         .replace('{link}', `${link}/blob/master/${dir}`)
 
       cb(null, doc)
-    },
+    }
   })
 
 const MWPreviewTemplate = (mw: { name: string }) => `
@@ -47,6 +47,6 @@ export const transformPageIndexStream = (pkgs: any[]) => {
         .replace('{ pkgs }', pkgs.map((p) => `'${p.name}'`).join(', '))
 
       cb(null, doc)
-    },
+    }
   })
 }

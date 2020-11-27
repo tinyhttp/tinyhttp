@@ -18,8 +18,8 @@ async function handlePostUser(req, res) {
   const result = await prisma.user.create({
     data: {
       email: req.body.email,
-      name: req.body.name,
-    },
+      name: req.body.name
+    }
   })
   res.json(result)
 }
@@ -31,8 +31,8 @@ async function handlePostPost(req, res) {
       title,
       content,
       published: false,
-      author: { connect: { email: authorEmail } },
-    },
+      author: { connect: { email: authorEmail } }
+    }
   })
   res.json(result)
 }
@@ -41,7 +41,7 @@ async function handlePutPublishById(req, res) {
   const { id } = req.params
   const post = await prisma.post.update({
     where: { id: Number(id) },
-    data: { published: true },
+    data: { published: true }
   })
   res.json(post)
 }
@@ -50,8 +50,8 @@ async function handleDeletePostById(req, res) {
   const { id } = req.params
   const post = await prisma.post.delete({
     where: {
-      id: Number(id),
-    },
+      id: Number(id)
+    }
   })
   res.json(post)
 }
@@ -60,8 +60,8 @@ async function handleGetPostById(req, res) {
   const { id } = req.params
   const post = await prisma.post.findOne({
     where: {
-      id: Number(id),
-    },
+      id: Number(id)
+    }
   })
   res.json(post)
 }
@@ -69,7 +69,7 @@ async function handleGetPostById(req, res) {
 async function handleGetFeed(req, res) {
   const posts = await prisma.post.findMany({
     where: { published: true },
-    include: { author: true },
+    include: { author: true }
   })
   res.json(posts)
 }
@@ -81,16 +81,16 @@ async function handleGetFilterPosts(req, res) {
       OR: [
         {
           title: {
-            contains: searchString,
-          },
+            contains: searchString
+          }
         },
         {
           content: {
-            contains: searchString,
-          },
-        },
-      ],
-    },
+            contains: searchString
+          }
+        }
+      ]
+    }
   })
   res.json(draftPosts)
 }

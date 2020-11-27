@@ -17,7 +17,9 @@ type Res = Pick<S, 'setHeader' | 'removeHeader' | 'end' | 'getHeader' | 'statusC
  * @param req Request
  * @param res Response
  */
-export const send = <Request extends Req = Req, Response extends Res = Res>(req: Request, res: Response) => (body: any): Response => {
+export const send = <Request extends Req = Req, Response extends Res = Res>(req: Request, res: Response) => (
+  body: any
+): Response => {
   let bodyToSend = body
 
   // in case of object - turn it to json

@@ -29,7 +29,7 @@ describe('Testing App', () => {
   })
   it('Custom noMatchHandler works', async () => {
     const app = new App({
-      noMatchHandler: (req, res) => res.status(404).end(`Oopsie! Page ${req.url} is lost.`),
+      noMatchHandler: (req, res) => res.status(404).end(`Oopsie! Page ${req.url} is lost.`)
     })
 
     const server = app.listen()
@@ -40,7 +40,7 @@ describe('Testing App', () => {
   })
   it('Custom onError works', async () => {
     const app = new App({
-      onError: (err, req, res) => res.status(500).end(`Ouch, ${err} hurt me on ${req.url} page.`),
+      onError: (err, req, res) => res.status(500).end(`Ouch, ${err} hurt me on ${req.url} page.`)
     })
 
     app.use((_req, _res, next) => next('you'))
@@ -115,7 +115,9 @@ describe('Testing App routing', () => {
   it('"*" should catch all undefined routes', async () => {
     const app = new App()
 
-    app.get('/route', (_req, res) => void res.send('A different route')).all('*', (_req, res) => void res.send('Hello world'))
+    app
+      .get('/route', (_req, res) => void res.send('A different route'))
+      .all('*', (_req, res) => void res.send('Hello world'))
 
     await makeFetch(app.listen())('/route').expect(200, 'A different route')
   })
@@ -175,8 +177,8 @@ describe('App methods', () => {
   it(`app.enable enables a setting`, () => {
     const app = new App({
       settings: {
-        xPoweredBy: false,
-      },
+        xPoweredBy: false
+      }
     }).enable('xPoweredBy')
 
     expect(app.settings.xPoweredBy).toBe(true)
@@ -184,8 +186,8 @@ describe('App methods', () => {
   it(`app.disable disables a setting`, async () => {
     const app = new App({
       settings: {
-        xPoweredBy: true,
-      },
+        xPoweredBy: true
+      }
     }).disable('xPoweredBy')
 
     expect(app.settings.xPoweredBy).toBe(false)
@@ -204,14 +206,14 @@ describe('HTTP methods', () => {
     const { fetch } = InitAppAndTest((req, res) => void res.send(req.method), '/', 'POST')
 
     await fetch('/', {
-      method: 'POST',
+      method: 'POST'
     }).expect(200, 'POST')
   })
   it('app.put handles put request', async () => {
     const { fetch } = InitAppAndTest((req, res) => void res.send(req.method), '/', 'PUT')
 
     await fetch('/', {
-      method: 'PUT',
+      method: 'PUT'
     }).expect(200, 'PUT')
   })
   it('app.patch handles patch request', async () => {
@@ -400,7 +402,7 @@ describe('Route handlers', () => {
       },
       (req, res) => {
         res.send(req.body)
-      },
+      }
     ])
 
     const server = app.listen()
@@ -427,7 +429,7 @@ describe('Route handlers', () => {
       },
       (req, res) => {
         res.send(req.body)
-      },
+      }
     ])
 
     const server = app.listen()
@@ -492,10 +494,10 @@ describe('Template engines', () => {
       res.render(
         'index.eta',
         {
-          name: 'Eta',
+          name: 'Eta'
         },
         {
-          viewsFolder: `${process.cwd()}/__tests__/fixtures/views`,
+          viewsFolder: `${process.cwd()}/__tests__/fixtures/views`
         }
       )
     })

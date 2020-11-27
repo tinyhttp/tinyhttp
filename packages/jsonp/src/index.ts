@@ -7,7 +7,12 @@ export type JSONPOptions = Partial<{
   callbackName: string
 }>
 
-function stringify(value: unknown, replacer: (this: any, key: string, value: any) => any, spaces: string | number, escape: boolean) {
+function stringify(
+  value: unknown,
+  replacer: (this: any, key: string, value: any) => any,
+  spaces: string | number,
+  escape: boolean
+) {
   let json = replacer || spaces ? JSON.stringify(value, replacer, spaces) : JSON.stringify(value)
 
   if (escape) {

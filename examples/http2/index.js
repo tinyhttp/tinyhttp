@@ -6,7 +6,7 @@ const app = new App()
 
 const options = {
   key: fs.readFileSync('localhost-privkey.pem'),
-  cert: fs.readFileSync('localhost-cert.pem'),
+  cert: fs.readFileSync('localhost-cert.pem')
 }
 
 app.get('/', (req, res) => void res.send(`Hello from HTTP ${req.httpVersion} server!`))

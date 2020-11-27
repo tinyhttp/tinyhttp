@@ -39,6 +39,9 @@ export const setCookie = <Request extends any = any, Response extends Res = Res>
   return res
 }
 
-export const clearCookie = <Request extends any = any, Response extends Res = Res>(req: Request, res: Response) => (name: string, options?: cookie.SerializeOptions): Response => {
+export const clearCookie = <Request extends any = any, Response extends Res = Res>(req: Request, res: Response) => (
+  name: string,
+  options?: cookie.SerializeOptions
+): Response => {
   return setCookie(req, res)(name, '', Object.assign({}, { expires: new Date(1), path: '/' }, options))
 }

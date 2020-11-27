@@ -1,7 +1,16 @@
 import { getSubdomains, Request } from './request'
 import type { NextFunction } from '@tinyhttp/router'
 import type { Response } from './response'
-import { getFreshOrStale, getRangeFromHeader, getRequestHeader, checkIfXMLHttpRequest, getQueryParams, getAccepts, getAcceptsCharsets, getAcceptsEncodings } from '@tinyhttp/req'
+import {
+  getFreshOrStale,
+  getRangeFromHeader,
+  getRequestHeader,
+  checkIfXMLHttpRequest,
+  getQueryParams,
+  getAccepts,
+  getAcceptsCharsets,
+  getAcceptsEncodings
+} from '@tinyhttp/req'
 import { getProtocol, getHostname, getIP, getIPs } from './request'
 import {
   send,
@@ -21,7 +30,7 @@ import {
   setContentType,
   attachment,
   download,
-  append,
+  append
 } from '@tinyhttp/res'
 import { renderTemplate } from './response'
 import { App } from './app'
@@ -56,7 +65,7 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response, next
     req.protocol = getProtocol(req)
     req.secure = req.protocol === 'https'
     req.connection = Object.assign(req.socket, {
-      encrypted: req.secure,
+      encrypted: req.secure
     })
     req.hostname = getHostname(req)
     req.subdomains = getSubdomains(req, options.subdomainOffset)

@@ -1,4 +1,4 @@
-import { createServer } from 'http'
+import { createServer, Server } from 'http'
 import path from 'path'
 import { parse } from 'url'
 import { getRouteFromApp, getURLParams } from './request'
@@ -34,7 +34,12 @@ export type AppSettings = Partial<{
 /**
  * Function that processes the template
  */
-export type TemplateFunc<O> = (path: string, locals: Record<string, any>, opts: TemplateEngineOptions<O>, cb: (err: Error, html: unknown) => void) => void
+export type TemplateFunc<O> = (
+  path: string,
+  locals: Record<string, any>,
+  opts: TemplateEngineOptions<O>,
+  cb: (err: Error, html: unknown) => void
+) => void
 
 export type TemplateEngineOptions<O = any> = Partial<{
   cache: boolean
@@ -67,7 +72,11 @@ export type TemplateEngineOptions<O = any> = Partial<{
  * const app = App<any, CoolReq, Response>()
  * ```
  */
-export class App<RenderOptions = any, Req extends Request = Request, Res extends Response = Response> extends Router<App, Req, Res> {
+export class App<RenderOptions = any, Req extends Request = Request, Res extends Response = Response> extends Router<
+  App,
+  Req,
+  Res
+> {
   middleware: Middleware<Req, Res>[] = []
   locals: Record<string, string> = {}
   noMatchHandler: Handler
@@ -89,7 +98,7 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
     this.noMatchHandler = options?.noMatchHandler || this.onError.bind(null, { code: 404 })
     this.settings = options.settings || {
       xPoweredBy: true,
-      subdomainOffset: 2,
+      subdomainOffset: 2
     }
     this.applyExtensions = options?.applyExtensions
   }
@@ -131,7 +140,12 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
    * @param options Template engine options
    * @param cb Callback that consumes error and html
    */
-  render(file: string, data: Record<string, any> = {}, cb: (err: unknown, html: unknown) => void, options: TemplateEngineOptions<RenderOptions> = {}) {
+  render(
+    file: string,
+    data: Record<string, any> = {},
+    cb: (err: unknown, html: unknown) => void,
+    options: TemplateEngineOptions<RenderOptions> = {}
+  ) {
     options.viewsFolder = options.viewsFolder || `${process.cwd()}/views`
     options.ext = options.ext || file.slice(file.lastIndexOf('.') + 1) || 'ejs'
 
@@ -182,7 +196,7 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
     const noMatchMW: Middleware = {
       handler: this.noMatchHandler,
       type: 'mw',
-      path: '/',
+      path: '/'
     }
 
     mw.push(noMatchMW)
@@ -235,7 +249,7 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
    * @param Server callback after server starts listening
    * @param host server listening host
    */
-  listen(port?: number, cb?: () => void, host = '0.0.0.0') {
+  listen(port?: number, cb?: () => void, host = '0.0.0.0'): Server {
     const server = createServer()
 
     server.on('request', (req, res) => this.handler(req, res))

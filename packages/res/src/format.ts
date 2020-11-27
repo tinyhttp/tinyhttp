@@ -19,7 +19,11 @@ type next = (err?: FormatError) => void
 
 type Req = Pick<I, 'headers'>
 
-export const formatResponse = <Request extends Req = Req, Response extends Res = Res, Next extends next = next>(req: Request, res: Response, next: Next) => (obj: FormatProps) => {
+export const formatResponse = <Request extends Req = Req, Response extends Res = Res, Next extends next = next>(
+  req: Request,
+  res: Response,
+  next: Next
+) => (obj: FormatProps) => {
   const fn = obj.default
 
   if (fn) delete obj.default

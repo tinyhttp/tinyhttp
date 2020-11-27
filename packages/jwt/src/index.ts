@@ -31,7 +31,7 @@ export const jwt = ({
   notBefore = '0s',
   requestHeaderName = 'authorization',
   responseHeaderName = 'X-Token',
-  getToken = getTokenFromHeader,
+  getToken = getTokenFromHeader
 }: JwtMwProps) => {
   return function (req: Request, res: Response, next?: () => void) {
     const token: string = getToken((req.headers[requestHeaderName] as string) ?? '')
@@ -41,7 +41,7 @@ export const jwt = ({
       const verify = jwtoken.verify(token, Array.isArray(secret) ? secret[1] : secret, {
         algorithms: [algorithm],
         audience,
-        issuer,
+        issuer
       })
 
       req.user = verify
@@ -53,7 +53,7 @@ export const jwt = ({
           issuer,
           expiresIn,
           notBefore,
-          algorithm,
+          algorithm
         })
       )
       next()

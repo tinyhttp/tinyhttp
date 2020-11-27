@@ -9,7 +9,10 @@ type Res = Pick<S, 'setHeader' | 'getHeader'>
 
 type Req = Pick<I, 'headers'>
 
-export const setHeader = <Response extends Res = Res>(res: Response) => (field: string | Record<string, string | number | string[]>, val?: string | any[]): Response => {
+export const setHeader = <Response extends Res = Res>(res: Response) => (
+  field: string | Record<string, string | number | string[]>,
+  val?: string | any[]
+): Response => {
   if (typeof field === 'string') {
     let value = Array.isArray(val) ? val.map(String) : String(val)
 
@@ -33,7 +36,10 @@ export const setHeader = <Response extends Res = Res>(res: Response) => (field: 
   return res
 }
 
-export const setLocationHeader = <Request extends Req = Req, Response extends Res = Res>(req: Request, res: Response) => (url: string): Response => {
+export const setLocationHeader = <Request extends Req = Req, Response extends Res = Res>(
+  req: Request,
+  res: Response
+) => (url: string): Response => {
   let loc = url
 
   // "back" is an alias for the referrer
@@ -44,11 +50,15 @@ export const setLocationHeader = <Request extends Req = Req, Response extends Re
   return res
 }
 
-export const getResponseHeader = <Response extends Res = Res>(res: Response) => (field: string): string | number | string[] => {
+export const getResponseHeader = <Response extends Res = Res>(res: Response) => (
+  field: string
+): string | number | string[] => {
   return res.getHeader(field)
 }
 
-export const setLinksHeader = <Response extends Res = Res>(res: Response) => (links: { [key: string]: string }): Response => {
+export const setLinksHeader = <Response extends Res = Res>(res: Response) => (links: {
+  [key: string]: string
+}): Response => {
   let link = res.getHeader('Link') || ''
   if (link) link += ', '
   res.setHeader(

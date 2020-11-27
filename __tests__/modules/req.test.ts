@@ -1,5 +1,12 @@
 import { makeFetch } from 'supertest-fetch'
-import { checkIfXMLHttpRequest, getAccepts, getFreshOrStale, getRequestHeader, getRangeFromHeader, reqIs } from '../../packages/req/src'
+import {
+  checkIfXMLHttpRequest,
+  getAccepts,
+  getFreshOrStale,
+  getRequestHeader,
+  getRangeFromHeader,
+  reqIs
+} from '../../packages/req/src'
 import { Ranges } from 'range-parser'
 import { runServer } from '../../test_helpers/runServer'
 
@@ -20,8 +27,8 @@ describe('Request extensions', () => {
       await makeFetch(app)('/', {
         headers: {
           'Referrer-Policy': 'unsafe-url',
-          referer: 'localhost:3000',
-        },
+          referer: 'localhost:3000'
+        }
       }).expect('localhost:3000')
     })
   })
@@ -44,8 +51,8 @@ describe('Request extensions', () => {
 
       await makeFetch(app)('/', {
         headers: {
-          Accept: 'text/plain',
-        },
+          Accept: 'text/plain'
+        }
       }).expect('text/plain')
     })
     it('should detect multiple values in "Accept"', async () => {
@@ -57,8 +64,8 @@ describe('Request extensions', () => {
 
       await makeFetch(app)('/', {
         headers: {
-          Accept: 'text/plain, text/html',
-        },
+          Accept: 'text/plain, text/html'
+        }
       }).expect('text/plain | text/html')
     })
   })
@@ -72,7 +79,7 @@ describe('Request extensions', () => {
 
       await makeFetch(app)('/', {
         method: 'POST',
-        body: 'Hello World',
+        body: 'Hello World'
       }).expect('rotten')
     })
   })
@@ -100,8 +107,8 @@ describe('Request extensions', () => {
 
       await makeFetch(app)('/', {
         headers: {
-          Range: 'bytes=0-1000',
-        },
+          Range: 'bytes=0-1000'
+        }
       })
       expect.assertions(2)
     })
@@ -115,8 +122,8 @@ describe('Request extensions', () => {
 
       await makeFetch(app)('/', {
         headers: {
-          Range: 'bytes=0-1000',
-        },
+          Range: 'bytes=0-1000'
+        }
       })
       expect.assertions(1)
     })
@@ -130,8 +137,8 @@ describe('Request extensions', () => {
 
       await makeFetch(app)('/', {
         headers: {
-          Range: 'bytes=0-',
-        },
+          Range: 'bytes=0-'
+        }
       })
       expect.assertions(1)
     })
@@ -144,8 +151,8 @@ describe('Request extensions', () => {
 
       await makeFetch(app)('/', {
         headers: {
-          Range: 'bytes=0-1000',
-        },
+          Range: 'bytes=0-1000'
+        }
       })
       expect.assertions(1)
     })
@@ -158,8 +165,8 @@ describe('Request extensions', () => {
 
       await makeFetch(app)('/', {
         headers: {
-          Range: 'any=0-1000',
-        },
+          Range: 'any=0-1000'
+        }
       })
       expect.assertions(1)
     })
@@ -185,8 +192,8 @@ describe('Request extensions', () => {
 
         await makeFetch(app)('/', {
           headers: {
-            Range: 'bytes=0-100, 101-500',
-          },
+            Range: 'bytes=0-100, 101-500'
+          }
         })
         expect.assertions(2)
       })
@@ -202,8 +209,8 @@ describe('Request extensions', () => {
 
         await makeFetch(app)('/', {
           headers: {
-            Range: 'bytes=0-100, 101-500',
-          },
+            Range: 'bytes=0-100, 101-500'
+          }
         })
         expect.assertions(3)
       })
@@ -217,8 +224,8 @@ describe('Request extensions', () => {
       })
       await makeFetch(app)('/', {
         headers: {
-          'Content-Type': 'text/plain',
-        },
+          'Content-Type': 'text/plain'
+        }
       })
       expect.assertions(1)
     })
@@ -229,8 +236,8 @@ describe('Request extensions', () => {
       })
       await makeFetch(app)('/', {
         headers: {
-          'Content-Type': 'text/plain',
-        },
+          'Content-Type': 'text/plain'
+        }
       })
       expect.assertions(1)
     })
@@ -240,7 +247,7 @@ describe('Request extensions', () => {
         res.end()
       })
       await makeFetch(app)('/', {
-        headers: {},
+        headers: {}
       })
       expect.assertions(1)
     })
@@ -251,8 +258,8 @@ describe('Request extensions', () => {
       })
       await makeFetch(app)('/', {
         headers: {
-          'Content-Type': 'application/json',
-        },
+          'Content-Type': 'application/json'
+        }
       })
       expect.assertions(1)
     })
@@ -263,8 +270,8 @@ describe('Request extensions', () => {
       })
       await makeFetch(app)('/', {
         headers: {
-          'Content-Type': 'text/html; charset=UTF-8',
-        },
+          'Content-Type': 'text/html; charset=UTF-8'
+        }
       })
 
       expect.assertions(1)

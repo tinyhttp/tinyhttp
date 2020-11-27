@@ -5,7 +5,7 @@ describe('store.set(id, session)', () => {
     const store = new MemoryStore()
 
     store.set('hello', {
-      a: 'b',
+      a: 'b'
     })
 
     store.get('hello', (_, session) => {
@@ -19,7 +19,7 @@ describe('store.get(id, cb)', () => {
     const store = new MemoryStore()
 
     store.set('hello', {
-      a: 'b',
+      a: 'b'
     })
 
     store.get('hello', (_, session) => {
@@ -33,11 +33,11 @@ describe('session.length(cb)', () => {
     const store = new MemoryStore()
 
     store.set('hello', {
-      a: 'b',
+      a: 'b'
     })
 
     store.set('world', {
-      c: 'd',
+      c: 'd'
     })
 
     store.length((_, length) => expect(length).toBe(2))
@@ -54,11 +54,11 @@ describe('session.clear(cb)', () => {
     const store = new MemoryStore()
 
     store.set('hello', {
-      a: 'b',
+      a: 'b'
     })
 
     store.set('world', {
-      c: 'd',
+      c: 'd'
     })
 
     store.clear()

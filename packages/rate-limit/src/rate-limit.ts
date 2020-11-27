@@ -37,7 +37,7 @@ const defaultOptions: RateLimitOptions = {
   keyGenerator: (req) => req.ip,
   shouldSkip: () => false,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onLimitReached: () => {},
+  onLimitReached: () => {}
 }
 
 export function rateLimit(options?: Partial<RateLimitOptions>) {
@@ -56,7 +56,7 @@ export function rateLimit(options?: Partial<RateLimitOptions>) {
     ...otherOptions
   } = {
     ...defaultOptions,
-    ...options,
+    ...options
   }
   const store = otherOptions.store || new MemoryStore(windowMs)
 
@@ -87,7 +87,7 @@ export function rateLimit(options?: Partial<RateLimitOptions>) {
         limit: maxResult,
         current: current,
         remaining: Math.max(maxResult - current, 0),
-        resetTime: resetTime,
+        resetTime: resetTime
       }
 
       if (headers && !res.headersSent) {

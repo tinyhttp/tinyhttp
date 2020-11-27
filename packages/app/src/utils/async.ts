@@ -1,1 +1,2 @@
-export const isAsync = (fn: (...args: any[]) => any | ((...args: any[]) => Promise<any>)) => fn[Symbol.toStringTag] === 'AsyncFunction'
+export const isAsync = (fn: (...args: any[]) => any | ((...args: any[]) => Promise<any>)): boolean =>
+  fn[Symbol.toStringTag] === 'AsyncFunction'

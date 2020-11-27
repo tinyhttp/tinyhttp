@@ -14,7 +14,9 @@ tinyhttp.use('/', (_, res) => {
 })
 
 /** Make firebase function handler compatible with tinyhttp */
-const onRequest = (functions.https.onRequest as unknown) as (handler: (req: Request, res: Response) => void | Promise<void>) => functions.HttpsFunction
+const onRequest = (functions.https.onRequest as unknown) as (
+  handler: (req: Request, res: Response) => void | Promise<void>
+) => functions.HttpsFunction
 // Create and Deploy Your First Cloud Functions
 // https://firebase.google.com/docs/functions/write-firebase-functions
 export const app = onRequest((request, response) => {
@@ -31,7 +33,7 @@ function makeReadonlySettable(req: Request) {
       },
       set: function (val) {
         this[`_${key}`] = val
-      },
+      }
     })
   })
 }

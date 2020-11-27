@@ -100,7 +100,7 @@ describe('Logger tests', () => {
       app.use(
         logger({
           emoji: true,
-          output: { callback: customOutput, color: false },
+          output: { callback: customOutput, color: false }
         })
       )
 
@@ -135,7 +135,7 @@ describe('Logger tests', () => {
       app.use(
         logger({
           emoji: true,
-          output: { callback: customOutput, color: false },
+          output: { callback: customOutput, color: false }
         })
       )
 
@@ -155,7 +155,7 @@ describe('Logger tests', () => {
       app.use(
         logger({
           emoji: true,
-          output: { callback: customOutput, color: false },
+          output: { callback: customOutput, color: false }
         })
       )
 

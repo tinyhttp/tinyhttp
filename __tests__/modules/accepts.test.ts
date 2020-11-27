@@ -6,8 +6,8 @@ function createRequest(value?: unknown): any {
       'accept-charset': value,
       'accept-language': value,
       'accept-encoding': value,
-      accept: value,
-    },
+      accept: value
+    }
   }
 }
 

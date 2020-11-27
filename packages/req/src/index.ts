@@ -27,7 +27,10 @@ export const getRangeFromHeader = (req: Pick<Request, 'headers'>) => (size: numb
   return parseRange(size, range, options)
 }
 
-export const getFreshOrStale = (req: Pick<Request, 'headers' | 'method'>, res: Pick<Response, 'getHeader' | 'statusCode'>) => {
+export const getFreshOrStale = (
+  req: Pick<Request, 'headers' | 'method'>,
+  res: Pick<Response, 'getHeader' | 'statusCode'>
+) => {
   const method = req.method
   const status = res.statusCode
 
@@ -38,13 +41,15 @@ export const getFreshOrStale = (req: Pick<Request, 'headers' | 'method'>, res: P
   if ((status >= 200 && status < 300) || status === 304) {
     return fresh(req.headers, {
       etag: getRequestHeader(req)('ETag'),
-      'last-modified': res.getHeader('Last-Modified'),
+      'last-modified': res.getHeader('Last-Modified')
     })
   }
 
   return false
 }
 
-export const checkIfXMLHttpRequest = (req: Pick<Request, 'headers'>) => req.headers['X-Requested-With'] === 'XMLHttpRequest'
+export const checkIfXMLHttpRequest = (req: Pick<Request, 'headers'>) =>
+  req.headers['X-Requested-With'] === 'XMLHttpRequest'
 
-export const reqIs = (req: Pick<Request, 'headers'>) => (...types: string[]): boolean => typeIs(req.headers['content-type'], ...types)
+export const reqIs = (req: Pick<Request, 'headers'>) => (...types: string[]): boolean =>
+  typeIs(req.headers['content-type'], ...types)

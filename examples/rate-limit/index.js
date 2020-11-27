@@ -8,7 +8,7 @@ const port = 3000
 
 const routeRateLimit = rateLimit({
   max: maxNumberOfRequests,
-  windowMs: rateLimitResetTimeInSeconds * 1000,
+  windowMs: rateLimitResetTimeInSeconds * 1000
 })
 
 app.get('unlimited-route', (_, res) => res.send('Unlimited route'))

@@ -9,10 +9,11 @@ export type Res = Pick<S, 'setHeader' | 'statusCode' | 'getHeader' | 'end'>
 
 type next = (err?: any) => void
 
-export const redirect = <Request extends Req = Req, Response extends Res = Res, Next extends next = next>(req: Request, res: Response, next: Next) => (
-  url: string,
-  status?: number
-) => {
+export const redirect = <Request extends Req = Req, Response extends Res = Res, Next extends next = next>(
+  req: Request,
+  res: Response,
+  next: Next
+) => (url: string, status?: number) => {
   let address = url
   status = status || 302
 
@@ -35,7 +36,7 @@ export const redirect = <Request extends Req = Req, Response extends Res = Res, 
     },
     default: () => {
       body = ''
-    },
+    }
   })
 
   res.setHeader('Content-Length', Buffer.byteLength(body))

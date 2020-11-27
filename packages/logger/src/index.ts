@@ -15,7 +15,14 @@ export interface LoggerOptions {
   ip?: boolean
 }
 
-const joinOutputArgs = (args: (string | number)[], req: Request, res: Response, options: LoggerOptions = {}, status?: string, msg?: string) => {
+const joinOutputArgs = (
+  args: (string | number)[],
+  req: Request,
+  res: Response,
+  options: LoggerOptions = {},
+  status?: string,
+  msg?: string
+) => {
   const { method, url } = req
   const { statusCode } = res
 
@@ -25,7 +32,11 @@ const joinOutputArgs = (args: (string | number)[], req: Request, res: Response, 
 
   if (methods.includes(method)) {
     if (timestamp) {
-      args.push(typeof timestamp !== 'boolean' && timestamp.format ? `${dayjs().format(timestamp.format).toString()} - ` : `${dayjs().format('HH:mm:ss').toString()} - `)
+      args.push(
+        typeof timestamp !== 'boolean' && timestamp.format
+          ? `${dayjs().format(timestamp.format).toString()} - `
+          : `${dayjs().format('HH:mm:ss').toString()} - `
+      )
     }
   }
 

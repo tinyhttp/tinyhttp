@@ -15,7 +15,13 @@ export type MarkdownServerHandlerOptions = Partial<{
 
 export const markdownStaticHandler = (
   dir = process.cwd(),
-  { prefix = '/', stripExtension = true, recursive = false, markedOptions = null, markedExtensions = [] }: MarkdownServerHandlerOptions
+  {
+    prefix = '/',
+    stripExtension = true,
+    recursive = false,
+    markedOptions = null,
+    markedExtensions = []
+  }: MarkdownServerHandlerOptions
 ): AsyncHandler => async (req, res, next) => {
   if (req.url.startsWith(prefix)) {
     let unPrefixedURL = req.url.replace(prefix, '')
@@ -23,9 +29,14 @@ export const markdownStaticHandler = (
     if (prefix !== '/') unPrefixedURL = unPrefixedURL.slice(1)
 
     if (req.url === prefix) {
-      const idxFile = [`${dir}/index.md`, `${dir}/index.markdown`, `${dir}/readme.md`, `${dir}/README.md`, `${dir}/readme.markdown`, `${dir}/readme.md`].find(
-        (file) => existsSync(file) && file
-      )
+      const idxFile = [
+        `${dir}/index.md`,
+        `${dir}/index.markdown`,
+        `${dir}/readme.md`,
+        `${dir}/README.md`,
+        `${dir}/readme.markdown`,
+        `${dir}/readme.md`
+      ].find((file) => existsSync(file) && file)
 
       if (idxFile) res.set('Content-Type', 'text/html').send(md((await readFile(idxFile)).toString()))
     }

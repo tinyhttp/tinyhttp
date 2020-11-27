@@ -32,7 +32,11 @@ type Res = Pick<S, 'setHeader'> & NodeJS.WritableStream
  *
  * @param res Response
  */
-export const sendFile = <Response extends Res = Res>(res: Response) => (path: string, opts: SendFileOptions = {}, cb?: (err?: any) => void) => {
+export const sendFile = <Response extends Res = Res>(res: Response) => (
+  path: string,
+  opts: SendFileOptions = {},
+  cb?: (err?: any) => void
+) => {
   const { root, headers, ...options } = opts
 
   if (!path || typeof path !== 'string') throw new TypeError('path must be a string to res.sendFile')

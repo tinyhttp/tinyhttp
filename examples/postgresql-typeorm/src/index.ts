@@ -8,18 +8,18 @@ const users = [
   {
     firstName: 'Homer',
     lastName: 'Simpson',
-    age: 42,
+    age: 42
   },
   {
     firstName: 'Philip J.',
     lastName: 'Fry',
-    age: 25,
+    age: 25
   },
   {
     firstName: 'Stanley',
     lastName: 'Smith',
-    age: 42,
-  },
+    age: 42
+  }
 ]
 
 createConnection()

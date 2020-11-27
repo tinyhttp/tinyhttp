@@ -19,7 +19,7 @@ export function botDetector(): Handler<RequestWithBotDetector, Response> {
           if (typeof bot === 'boolean') return bot
 
           return (bot = detectBot(agent))
-        },
+        }
       },
       botName: {
         get: () => {
@@ -27,8 +27,8 @@ export function botDetector(): Handler<RequestWithBotDetector, Response> {
           if (typeof name === 'undefined') name = detectBot.find(agent)
 
           return name || undefined
-        },
-      },
+        }
+      }
     })
 
     next()

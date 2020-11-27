@@ -34,8 +34,8 @@ const createIcon = (buf: Buffer, maxAge: number): FaviconBody => ({
   body: buf,
   headers: {
     'Cache-Control': 'public, max-age=' + Math.floor(maxAge / 1000),
-    ETag: eTag(buf),
-  },
+    ETag: eTag(buf)
+  }
 })
 
 function createIsDirError(path: string) {
@@ -58,7 +58,7 @@ function getPathname(req: Request) {
 function isFresh(req: Request, res: Response) {
   return fresh(req.headers, {
     etag: res.getHeader('ETag'),
-    'last-modified': res.getHeader('Last-Modified'),
+    'last-modified': res.getHeader('Last-Modified')
   })
 }
 

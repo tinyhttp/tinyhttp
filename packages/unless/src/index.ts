@@ -57,7 +57,10 @@ function pathCheck(path: (string | RegExp | PathObject)[], url: string, method: 
  * @param mw middleware to run under a specific condition
  * @param options conditions (e.g. options)
  */
-export function unless(mw: Middleware, options: UnlessMiddlewareOptions | CustomUnless): (req: Request, res: Response, next: NextFunction) => any {
+export function unless(
+  mw: Middleware,
+  options: UnlessMiddlewareOptions | CustomUnless
+): (req: Request, res: Response, next: NextFunction) => any {
   let opts: UnlessMiddlewareOptions //options
   let custom: CustomUnless //function
 

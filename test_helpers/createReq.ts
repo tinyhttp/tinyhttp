@@ -1,6 +1,6 @@
 export const createReq = (socketAddr: string, headers?: Record<string, any>) => ({
   connection: {
-    remoteAddress: socketAddr,
+    remoteAddress: socketAddr
   },
-  headers: headers || {},
+  headers: headers || {}
 })

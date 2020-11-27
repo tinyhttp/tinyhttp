@@ -13,7 +13,7 @@ import {
   setCookie,
   clearCookie,
   append,
-  setLinksHeader,
+  setLinksHeader
 } from '../../packages/res/src'
 import { runServer } from '../../test_helpers/runServer'
 
@@ -90,7 +90,7 @@ describe('Response extensions', () => {
       })
 
       await makeFetch(app)('/', {
-        redirect: 'manual',
+        redirect: 'manual'
       }).expect(302, 'Found. Redirecting to /abc')
     })
     it('should follow the redirect', async () => {
@@ -104,7 +104,7 @@ describe('Response extensions', () => {
       })
 
       await makeFetch(app)('/', {
-        redirect: 'follow',
+        redirect: 'follow'
       }).expect(200, 'Hello World')
     })
     it('should send an HTML link to redirect to', async () => {
@@ -120,8 +120,8 @@ describe('Response extensions', () => {
       await makeFetch(app)('/', {
         redirect: 'manual',
         headers: {
-          Accept: 'text/html',
-        },
+          Accept: 'text/html'
+        }
       }).expect(302, '<p>Found. Redirecting to <a href="/abc">/abc</a></p>')
     })
   })
@@ -130,7 +130,7 @@ describe('Response extensions', () => {
       const app = runServer((req, res) => {
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         formatResponse(req, res, () => {})({
-          text: (_: Request, res: Response) => res.end(`Hello World`),
+          text: (_: Request, res: Response) => res.end(`Hello World`)
         }).end()
       })
 
@@ -141,34 +141,36 @@ describe('Response extensions', () => {
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         formatResponse(req, res, () => {})({
           text: (_: Request, res: Response) => res.end(`Hello World`),
-          html: (_: Request, res: Response) => res.end('<h1>Hello World</h1>'),
+          html: (_: Request, res: Response) => res.end('<h1>Hello World</h1>')
         }).end()
       })
 
       await makeFetch(app)('/', {
         headers: {
-          Accept: 'text/html',
-        },
+          Accept: 'text/html'
+        }
       })
         .expect(200, '<h1>Hello World</h1>')
         .expectHeader('Content-Type', 'text/html')
     })
     it('should throw 406 status when invalid MIME is specified', async () => {
       const app = runServer((req, res) => {
-        formatResponse(req, res, (err) => res.writeHead(err.status).end(err.message))({ text: (_: Request, res: Response) => res.end(`Hello World`) }).end()
+        formatResponse(req, res, (err) => res.writeHead(err.status).end(err.message))({
+          text: (_: Request, res: Response) => res.end(`Hello World`)
+        }).end()
       })
 
       await makeFetch(app)('/', {
         headers: {
-          Accept: 'foo/bar',
-        },
+          Accept: 'foo/bar'
+        }
       }).expect(406, 'Not Acceptable')
     })
     it('should call `default` as a function if specified', async () => {
       const app = runServer((req, res) => {
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         formatResponse(req, res, () => {})({
-          default: () => res.end('Hello World'),
+          default: () => res.end('Hello World')
         }).end()
       })
 
@@ -255,7 +257,7 @@ describe('Response extensions', () => {
       const app = runServer((req, res) => {
         try {
           setCookie(req, res)('hello', 'world', {
-            signed: true,
+            signed: true
           }).end()
         } catch (e) {
           res.end((e as TypeError).message)
@@ -316,17 +318,28 @@ describe('Response extensions', () => {
   describe('res.links(obj)', () => {
     it('should set "Links" header field', async () => {
       const app = runServer((_, res) => {
-        setLinksHeader(res)({ next: 'http://api.example.com/users?page=2', last: 'http://api.example.com/users?page=5' }).end()
+        setLinksHeader(res)({
+          next: 'http://api.example.com/users?page=2',
+          last: 'http://api.example.com/users?page=5'
+        }).end()
       })
 
-      await makeFetch(app)('/').expectHeader('Link', '<http://api.example.com/users?page=2>; rel="next", <http://api.example.com/users?page=5>; rel="last"').expectStatus(200)
+      await makeFetch(app)('/')
+        .expectHeader(
+          'Link',
+          '<http://api.example.com/users?page=2>; rel="next", <http://api.example.com/users?page=5>; rel="last"'
+        )
+        .expectStatus(200)
     })
     it('should set "Links" for multiple calls', async () => {
       const app = runServer((_, res) => {
-        setLinksHeader(res)({ next: 'http://api.example.com/users?page=2', last: 'http://api.example.com/users?page=5' })
+        setLinksHeader(res)({
+          next: 'http://api.example.com/users?page=2',
+          last: 'http://api.example.com/users?page=5'
+        })
 
         setLinksHeader(res)({
-          prev: 'http://api.example.com/users?page=1',
+          prev: 'http://api.example.com/users?page=1'
         })
 
         res.end()

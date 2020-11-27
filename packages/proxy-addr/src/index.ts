@@ -11,7 +11,7 @@ const parseip = ipaddr.parse
 const IP_RANGES = {
   linklocal: ['169.254.0.0/16', 'fe80::/10'],
   loopback: ['127.0.0.1/8', '::1/128'],
-  uniquelocal: ['10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16', 'fc00::/7'],
+  uniquelocal: ['10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16', 'fc00::/7']
 }
 /**
  * Get all addresses in the request, optionally stopping
@@ -20,7 +20,10 @@ const IP_RANGES = {
  * @param request
  * @param trust
  */
-function alladdrs(req: Pick<IncomingMessage, 'headers' | 'connection'>, trust: ((...args: any[]) => any) | any[] | string[] | string) {
+function alladdrs(
+  req: Pick<IncomingMessage, 'headers' | 'connection'>,
+  trust: ((...args: any[]) => any) | any[] | string[] | string
+) {
   // get addresses
 
   const addrs = forwarded(req)
@@ -127,7 +130,10 @@ function parseNetmask(netmask: string) {
  * @param trust
  * @public
  */
-export function proxyaddr(req: Pick<IncomingMessage, 'headers' | 'connection'>, trust: ((...args: any[]) => any) | any[] | string[] | string) {
+export function proxyaddr(
+  req: Pick<IncomingMessage, 'headers' | 'connection'>,
+  trust: ((...args: any[]) => any) | any[] | string[] | string
+) {
   const addrs = alladdrs(req, trust)
 
   return addrs[addrs.length - 1]

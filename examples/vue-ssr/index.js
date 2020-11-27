@@ -5,7 +5,7 @@ import VueSSR from 'vue-server-renderer'
 
 const createRenderer = async () =>
   VueSSR.createRenderer({
-    template: await readFile('./index.template.html', 'utf-8'),
+    template: await readFile('./index.template.html', 'utf-8')
   })
 
 const ctx = {
@@ -13,7 +13,7 @@ const ctx = {
   meta: `
       <meta name="keyword" content="vue,ssr">
       <meta name="description" content="vue ssr demo">
-  `,
+  `
 }
 
 const server = new App()
@@ -22,9 +22,9 @@ server
   .get('*', async (req, res) => {
     const app = new Vue({
       data: {
-        url: req.url,
+        url: req.url
       },
-      template: `<div>The visited URL is: {{ url }}</div>`,
+      template: `<div>The visited URL is: {{ url }}</div>`
     })
 
     const renderer = await createRenderer()

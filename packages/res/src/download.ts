@@ -36,7 +36,7 @@ export const download = <Response extends Res = Res>(res: Response) => (
 
   // set Content-Disposition when file is sent
   const headers = {
-    'Content-Disposition': contentDisposition(name || path),
+    'Content-Disposition': contentDisposition(name || path)
   }
 
   // merge user-provided headers
@@ -59,7 +59,9 @@ export const download = <Response extends Res = Res>(res: Response) => (
   return sendFile(res)(fullPath, opts, done || noop)
 }
 
-export const attachment = <Response extends Pick<S, 'getHeader' | 'setHeader'> = Pick<S, 'getHeader' | 'setHeader'>>(res: Response) => (filename?: string): Response => {
+export const attachment = <Response extends Pick<S, 'getHeader' | 'setHeader'> = Pick<S, 'getHeader' | 'setHeader'>>(
+  res: Response
+) => (filename?: string): Response => {
   if (filename) setContentType(res)(extname(filename))
 
   setHeader(res)('Content-Disposition', contentDisposition(filename))

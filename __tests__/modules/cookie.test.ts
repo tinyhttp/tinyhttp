@@ -3,17 +3,17 @@ import * as cookie from '../../packages/cookie/src/index'
 describe('Cookie parsing', () => {
   it('should parse basic cookies', () => {
     expect(cookie.parse('foo=bar')).toStrictEqual({
-      foo: 'bar',
+      foo: 'bar'
     })
   })
   it('should ignore spaces', () => {
     expect(cookie.parse('foo =  bar;')).toStrictEqual({
-      foo: 'bar',
+      foo: 'bar'
     })
   })
   it('should properly do escaping', () => {
     expect(cookie.parse('foo="bar=123456789&name=Magic+Mouse"')).toStrictEqual({
-      foo: 'bar=123456789&name=Magic+Mouse',
+      foo: 'bar=123456789&name=Magic+Mouse'
     })
   })
   it('should ignore escaping error and return original value', () => {
@@ -30,7 +30,7 @@ describe('Cookie parsing', () => {
       cookie.parse('foo=%1;bar=bar;foo=boo', {
         decode: (_val: string) => {
           return 'foobar'
-        },
+        }
       })
     ).toStrictEqual({ foo: 'foobar', bar: 'foobar' })
   })
@@ -43,40 +43,40 @@ describe('Cookie serializing', () => {
   it('should "Path" in cookie', () => {
     expect(
       cookie.serialize('foo', 'bar', {
-        path: '/',
+        path: '/'
       })
     ).toBe('foo=bar; Path=/')
   })
   it('should put "Secure" in cookie', () => {
     expect(
       cookie.serialize('foo', 'bar', {
-        secure: true,
+        secure: true
       })
     ).toBe('foo=bar; Secure')
     expect(
       cookie.serialize('foo', 'bar', {
-        secure: false,
+        secure: false
       })
     ).toBe('foo=bar')
   })
   it('should put "httpOnly" in cookie', () => {
     expect(
       cookie.serialize('foo', 'bar', {
-        httpOnly: true,
+        httpOnly: true
       })
     ).toBe('foo=bar; HttpOnly')
   })
   it('should put valid "maxAge" in cookie', () => {
     expect(
       cookie.serialize('foo', 'bar', {
-        maxAge: 1000,
+        maxAge: 1000
       })
     ).toBe('foo=bar; Max-Age=1000')
   })
   it('should throw on infinite "maxAge" parameter', () => {
     try {
       cookie.serialize('foo', 'bar', {
-        maxAge: Infinity,
+        maxAge: Infinity
       })
     } catch (e) {
       expect((e as TypeError).message).toBe('option maxAge is invalid')
@@ -87,24 +87,24 @@ describe('Cookie serializing', () => {
   it('should properly set "sameSite" parameter', () => {
     expect(
       cookie.serialize('foo', 'bar', {
-        sameSite: true,
+        sameSite: true
       })
     ).toBe('foo=bar; SameSite=Strict')
     expect(
       cookie.serialize('foo', 'bar', {
-        sameSite: 'Lax',
+        sameSite: 'Lax'
       })
     ).toBe('foo=bar; SameSite=Lax')
     expect(
       cookie.serialize('foo', 'bar', {
-        sameSite: 'None',
+        sameSite: 'None'
       })
     ).toBe('foo=bar; SameSite=None')
   })
   it('should throw on invalid "sameSite" option', () => {
     try {
       cookie.serialize('foo', 'bar', {
-        sameSite: 'blah blah',
+        sameSite: 'blah blah'
       })
     } catch (e) {
       expect((e as TypeError).message).toBe('option sameSite is invalid')
@@ -116,13 +116,15 @@ describe('Cookie serializing', () => {
     expect(cookie.serialize('cat', '+ ')).toBe('cat=%2B%20')
   })
   it('should parse serialized cookies', () => {
-    expect(cookie.parse(cookie.serialize('cat', 'foo=123&name=baz five'))).toStrictEqual({ cat: 'foo=123&name=baz five' })
+    expect(cookie.parse(cookie.serialize('cat', 'foo=123&name=baz five'))).toStrictEqual({
+      cat: 'foo=123&name=baz five'
+    })
   })
   it('should throw on invalid `expires` format', () => {
     try {
       cookie.serialize('foo', 'bar', {
         // @ts-ignore
-        expires: 'foobar',
+        expires: 'foobar'
       })
     } catch (e) {
       expect((e as TypeError).message).toBe('option expires is invalid')
@@ -144,7 +146,7 @@ describe('Cookie serializing', () => {
       const customEncode = {
         encode: (val: string) => {
           return val
-        },
+        }
       }
       cookie.serialize('foo', '➡️', customEncode)
     } catch (e) {

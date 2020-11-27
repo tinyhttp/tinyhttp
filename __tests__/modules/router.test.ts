@@ -19,7 +19,7 @@ describe('Testing Router', () => {
 
       expect(app.middleware[0]).toMatchObject({
         path: '/',
-        type: 'mw',
+        type: 'mw'
       })
     })
     it('accepts a list of wares', () => {

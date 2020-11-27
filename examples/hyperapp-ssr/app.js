@@ -5,16 +5,16 @@
 import { h, app, text } from '/hyperapp.js'
 
 const state = {
-  text: 'Hello',
+  text: 'Hello'
 }
 
 const actions = {
   setText: (state, event) => {
     return {
       ...state,
-      text: event.target.value,
+      text: event.target.value
     }
-  },
+  }
 }
 
 const view = (state) =>
@@ -22,8 +22,8 @@ const view = (state) =>
     h('h1', {}, [text(state.text)]),
     h('input', {
       value: state.text,
-      oninput: actions.setText,
-    }),
+      oninput: actions.setText
+    })
   ])
 
 app({ init: state, view, node: document.getElementById('app') })

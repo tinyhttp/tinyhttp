@@ -5,7 +5,7 @@ describe('Request properties', () => {
     const { fetch } = InitAppAndTest((req, res) => {
       res.status(200).json({
         url: req.url,
-        complete: req.complete,
+        complete: req.complete
       })
     })
 
@@ -18,7 +18,7 @@ describe('Request properties', () => {
 
       await fetch('/?param1=val1&param2=val2').expect(200, {
         param1: 'val1',
-        param2: 'val2',
+        param2: 'val2'
       })
     })
     it('req.params is being parsed properly', async () => {
@@ -26,7 +26,7 @@ describe('Request properties', () => {
 
       await fetch('/val1/val2').expect(200, {
         param1: 'val1',
-        param2: 'val2',
+        param2: 'val2'
       })
     })
   })
@@ -37,21 +37,21 @@ describe('Request properties', () => {
         (req, res) => {
           res.json({
             ip: req.ip,
-            ips: req.ips,
+            ips: req.ips
           })
         },
         '/',
         'GET',
         {
           settings: {
-            networkExtensions: true,
-          },
+            networkExtensions: true
+          }
         }
       )
 
       await fetch('/').expect(200, {
         ip: '127.0.0.1',
-        ips: ['::ffff:127.0.0.1'],
+        ips: ['::ffff:127.0.0.1']
       })
     })
     it('req.protocol is http by default', async () => {
@@ -63,8 +63,8 @@ describe('Request properties', () => {
         'GET',
         {
           settings: {
-            networkExtensions: true,
-          },
+            networkExtensions: true
+          }
         }
       )
 
@@ -79,8 +79,8 @@ describe('Request properties', () => {
         'GET',
         {
           settings: {
-            networkExtensions: true,
-          },
+            networkExtensions: true
+          }
         }
       )
 
@@ -95,8 +95,8 @@ describe('Request properties', () => {
         'GET',
         {
           settings: {
-            networkExtensions: true,
-          },
+            networkExtensions: true
+          }
         }
       )
 

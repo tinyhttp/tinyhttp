@@ -6,13 +6,13 @@ export default {
   output: [
     {
       file: 'dist/index.cjs',
-      format: 'cjs',
+      format: 'cjs'
     },
     {
       file: 'dist/index.js',
-      format: 'esm',
-    },
+      format: 'esm'
+    }
   ],
   plugins: [ts()],
-  external: deps(),
+  external: deps()
 }

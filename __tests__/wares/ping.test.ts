@@ -12,7 +12,7 @@ describe('tinyhttp ping time', () => {
   it('does not round time', async () => {
     const { fetch } = InitAppAndTest(
       ping({
-        round: true,
+        round: true
       })
     )
 

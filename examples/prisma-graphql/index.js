@@ -45,7 +45,7 @@ const rootValue = {
   addUser: handleAddUser,
   addPost: handleAddPost,
   publishPost: handlePublishPostById,
-  deletePost: handleDeletePostById,
+  deletePost: handleDeletePostById
 }
 
 app.use(
@@ -53,7 +53,7 @@ app.use(
   expressGraphQL.graphqlHTTP({
     schema,
     graphiql: { headerEditorEnabled: true },
-    rootValue,
+    rootValue
   })
 )
 
@@ -62,8 +62,8 @@ async function handleAddUser(params) {
   const result = await prisma.user.create({
     data: {
       email,
-      name,
-    },
+      name
+    }
   })
   return result
 }
@@ -75,8 +75,8 @@ async function handleAddPost(params) {
       title,
       content,
       published: false,
-      author: { connect: { email: authorEmail } },
-    },
+      author: { connect: { email: authorEmail } }
+    }
   })
   return result
 }
@@ -85,7 +85,7 @@ async function handlePublishPostById(params) {
   const { id } = params
   const post = await prisma.post.update({
     where: { id: Number(id) },
-    data: { published: true },
+    data: { published: true }
   })
   return post
 }
@@ -94,8 +94,8 @@ async function handleDeletePostById(params) {
   const { id } = params
   const post = await prisma.post.delete({
     where: {
-      id: Number(id),
-    },
+      id: Number(id)
+    }
   })
   return post
 }
@@ -104,8 +104,8 @@ async function handleGetPostById(params) {
   const { id } = params
   const post = await prisma.post.findOne({
     where: {
-      id: Number(id),
-    },
+      id: Number(id)
+    }
   })
   return post
 }
@@ -113,9 +113,9 @@ async function handleGetPostById(params) {
 async function handleGetFeed() {
   const posts = await prisma.post.findMany({
     where: {
-      published: true,
+      published: true
     },
-    include: { author: true },
+    include: { author: true }
   })
   return posts
 }
@@ -127,17 +127,17 @@ async function handleGetFilterPosts(params) {
       OR: [
         {
           title: {
-            contains: query,
-          },
+            contains: query
+          }
         },
         {
           content: {
-            contains: query,
-          },
-        },
-      ],
+            contains: query
+          }
+        }
+      ]
     },
-    include: { author: true },
+    include: { author: true }
   })
   return posts
 }

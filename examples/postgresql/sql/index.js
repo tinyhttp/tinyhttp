@@ -28,7 +28,7 @@ const sql = (file) => {
   const options = {
     // minifying the SQL is always advised;
     // see also option 'compress' in the API;
-    minify: true,
+    minify: true
 
     // See also property 'params' for two-step template formatting
   }
@@ -56,8 +56,8 @@ export default {
     get: sql('users/get.sql'),
     add: sql('users/add.sql'),
     delete: sql('users/delete.sql'),
-    update: sql('users/update.sql'),
-  },
+    update: sql('users/update.sql')
+  }
 }
 
 ///////////////////////////////////////////////////////////////////

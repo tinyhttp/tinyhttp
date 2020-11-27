@@ -102,7 +102,7 @@ describe('favicon function test', () => {
 
       it('should deny POST', async () => {
         await makeFetch(server)('/favicon.ico', {
-          method: 'POST',
+          method: 'POST'
         })
           .expect('Allow', 'GET, HEAD, OPTIONS')
           .expect(405)
@@ -110,7 +110,7 @@ describe('favicon function test', () => {
 
       it('should understand OPTIONS', async () => {
         await makeFetch(server)('/favicon.ico', {
-          method: 'OPTIONS',
+          method: 'OPTIONS'
         })
           .expect('Allow', 'GET, HEAD, OPTIONS')
           .expect(200)
@@ -121,8 +121,8 @@ describe('favicon function test', () => {
 
         await makeFetch(server)('/favicon.ico', {
           headers: {
-            'If-None-Match': res.headers.get('etag'),
-          },
+            'If-None-Match': res.headers.get('etag')
+          }
         }).expect(304)
       })
 
@@ -130,8 +130,8 @@ describe('favicon function test', () => {
         const res = await makeFetch(server)('/favicon.ico').expect(200)
         await makeFetch(server)('/favicon.ico', {
           headers: {
-            'If-None-Match': 'W/' + res.headers.get('etag'),
-          },
+            'If-None-Match': 'W/' + res.headers.get('etag')
+          }
         }).expect(304)
       })
 

@@ -6,7 +6,7 @@ describe('getSession(req, res)', () => {
     const store = new MemoryStore()
     const getSession = SessionManager({
       store,
-      secret: 'test',
+      secret: 'test'
     })
 
     const { fetch } = InitAppAndTest(async (req, res) => {
@@ -31,7 +31,7 @@ describe('getSession(req, res)', () => {
 
         const getSession = SessionManager({
           store,
-          secret: 'test',
+          secret: 'test'
         })
 
         const { fetch } = InitAppAndTest(async (req, res) => {
@@ -70,7 +70,7 @@ describe('getSession(req, res)', () => {
 
         const getSession = SessionManager({
           store,
-          secret: 'test',
+          secret: 'test'
         })
 
         const { fetch } = InitAppAndTest(async (req, res) => {
@@ -105,7 +105,7 @@ describe('getSession(req, res)', () => {
 
         const getSession = SessionManager({
           store,
-          secret: 'test',
+          secret: 'test'
         })
 
         const { fetch } = InitAppAndTest(async (req, res) => {
@@ -136,7 +136,7 @@ describe('getSession(req, res)', () => {
           cookie: { maxAge: 60 * 1000 },
           resave: false,
           secret: 'test',
-          store,
+          store
         })
 
         let preTouchExpires: Date
@@ -177,7 +177,7 @@ describe('getSession(req, res)', () => {
     describe('session.destroy(cb)', () => {
       it('should destroy the previous session', async () => {
         const getSession = SessionManager({
-          secret: 'test',
+          secret: 'test'
         })
 
         const { fetch } = InitAppAndTest(async (req, res) => {
@@ -224,7 +224,7 @@ describe('getSession(req, res)', () => {
       it('should equal original maxAge', async () => {
         const getSession = SessionManager({
           secret: 'test',
-          cookie: { maxAge: 2000 },
+          cookie: { maxAge: 2000 }
         })
 
         const { fetch } = InitAppAndTest(async (req, res) => {
@@ -238,7 +238,7 @@ describe('getSession(req, res)', () => {
       it('should equal original maxAge for all requests', (done) => {
         const getSession = SessionManager({
           secret: 'test',
-          cookie: { maxAge: 2000 },
+          cookie: { maxAge: 2000 }
         })
 
         const { fetch } = InitAppAndTest(async (req, res) => {
@@ -293,7 +293,7 @@ describe('Cookie', () => {
     it('serializes the cookie with disabled Path and HttpOnly', () => {
       const c = new Cookie({
         httpOnly: false,
-        path: '',
+        path: ''
       })
 
       expect(c.serialize('hello', 'world')).toBe('hello=world')
@@ -302,7 +302,7 @@ describe('Cookie', () => {
       const c = new Cookie({
         httpOnly: true,
         path: '/path',
-        domain: 'example.com',
+        domain: 'example.com'
       })
 
       expect(c.serialize('hello', 'world')).toBe(`hello=world; Domain=example.com; Path=/path; HttpOnly`)
