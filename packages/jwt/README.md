@@ -38,14 +38,10 @@ import { jwt } from '@tinyhttp/jwt'
 import { App } from '@tinyhttp/app'
 import { jwt } from '@tinyhttp/jwt'
 
-const app = new App()
-
-app.use(jwt({ secret: 'very secret string', algorithm: 'HS256' }))
-app.get('/', (req, res) => {
-  res.send('Data inside the payload: ' + req['user'])
-})
-
-app.listen(8080)
+new App()
+  .use(jwt({ secret: 'very secret string', algorithm: 'HS256' }))
+  .get('/', (req, res) => void res.send('Data inside the payload: ' + req['user']))
+  .listen(8080)
 ```
 
 ### Private / Public key
@@ -54,16 +50,8 @@ app.listen(8080)
 import { App } from '@tinyhttp/app'
 import { jwt } from '@tinyhttp/jwt'
 
-const app = new App()
-
-app.use(jwt({ secret: ['PRIVATE KEY HERE', 'PUBLIC KEY HERE'], algorithm: 'RS256' }))
-app.get('/', (req, res) => {
-  res.send('Data inside the payload: ' + req['user'])
-})
-
-app.listen(8080)
+new App()
+  .use(jwt({ secret: ['PRIVATE KEY HERE', 'PUBLIC KEY HERE'], algorithm: 'RS256' }))
+  .get('/', (req, res) => void res.send('Data inside the payload: ' + req['user']))
+  .listen(8080)
 ```
-
-## License
-
-MIT © [BRA1L0R](https://brailor.me/)

@@ -35,10 +35,14 @@ Returns the middleware to log HTTP requests.
 import { App } from '@tinyhttp/app'
 import { logger } from '@tinyhttp/logger'
 
-const app = new App()
-
-app
-  .use(logger({ methods: ['GET', 'POST'], timestamp: { format: 'HH:mm:ss' }, output: { callback: console.log, color: false } }))
+new App()
+  .use(
+    logger({
+      methods: ['GET', 'POST'],
+      timestamp: { format: 'HH:mm:ss' },
+      output: { callback: console.log, color: false }
+    })
+  )
   .get('/', (req, res) => void res.send('Hello world'))
   .post('/', (req, res) => void res.send('Sent POST'))
   .listen(3000)
@@ -51,7 +55,3 @@ app
 - [Morgan](https://github.com/expressjs/morgan) - HTTP request logger middleware for node.js
 - [concurrency-logger](https://github.com/pablosichert/concurrency-logger) - Log HTTP requests/responses separately, visualize their concurrency and report logs/errors in context of a request
 - [Volleyball](https://github.com/glebec/volleyball) - Tiny HTTP logger for Express showing asynchronous requests and responses
-
-## License
-
-MIT © [v1rtl](https://v1rtl.site)

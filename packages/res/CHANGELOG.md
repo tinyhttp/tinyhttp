@@ -1,5 +1,17 @@
 # @tinyhttp/res
 
+## 1.0.1
+
+### Patch Changes
+
+- Remove license notes from readmes, add readme for type-is
+- Updated dependencies [undefined]
+  - @tinyhttp/content-disposition@1.0.1
+  - @tinyhttp/cookie@1.0.1
+  - @tinyhttp/cookie-signature@1.0.1
+  - @tinyhttp/req@1.0.1
+  - @tinyhttp/send@1.0.1
+
 ## 1.0.0
 
 ### Major Changes

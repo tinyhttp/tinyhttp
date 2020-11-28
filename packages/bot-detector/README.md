@@ -33,16 +33,12 @@ app.use(botDetector())
 
 const app = new App<any, RequestWithBotDetector, Response>()
 
-app.use((req, res) => {
-  res.send(req.isBot ? `Bot detected 🤖: ${req.botName}` : 'Hello World!')
-})
-
-app.listen(3000)
+app
+  .use((req, res) => {
+    res.send(req.isBot ? `Bot detected 🤖: ${req.botName}` : 'Hello World!')
+  })
+  .listen(3000)
 ```
-
-## License
-
-MIT © [v1rtl](https://v1rtl.site)
 
 [npm-badge]: https://img.shields.io/npm/v/@tinyhttp/bot-detector?style=flat-square
 [dl-badge]: https://img.shields.io/npm/dt/@tinyhttp/bot-detector?style=flat-square

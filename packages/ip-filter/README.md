@@ -44,10 +44,6 @@ app.get('/', (req, res) => {
 app.listen(3000)
 ```
 
-## License
-
-MIT © [v1rtl](https://v1rtl.site)
-
 [badge-url]: https://img.shields.io/npm/v/@tinyhttp/ip-filter?style=flat-square
 [npm-url]: https://npmjs.com/package/@tinyhttp/ip-filter
 [dl-badge-url]: https://img.shields.io/npm/dt/@tinyhttp/ip-filter?style=flat-square

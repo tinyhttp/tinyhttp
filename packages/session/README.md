@@ -67,24 +67,21 @@ const app = new App()
 const store = new MemoryStore()
 const getSession = SessionManager({
   store,
-  secret: 'test',
+  secret: 'test'
 })
 
-app.use(async (req, res) => {
-  // Get session data from req and res
-  const session = await getSession(req, res)
+app
+  .use(async (req, res) => {
+    // Get session data from req and res
+    const session = await getSession(req, res)
 
-  // Increment on every request and keep in memory
-  if (!session.test) {
-    session.test = 1
-  } else {
-    session.test += 1
-  }
+    // Increment on every request and keep in memory
+    if (!session.test) session.test = 1
+    else session.test += 1
 
-  res.json({ t: session.test })
-})
-
-server.listen(3000)
+    res.json({ t: session.test })
+  })
+  .listen(3000)
 ```
 
 ## Alternatives
@@ -93,10 +90,6 @@ server.listen(3000)
 - [micro-session](https://github.com/meyer9/micro-session) - Session middleware for micro
 - [next-session](https://github.com/hoangvvo/next-session) - Simple promise-based session middleware for Next.js, micro, Express, and more
 - [node-client-sessions](https://github.com/mozilla/node-client-sessions) - secure sessions stored in cookies
-
-## License
-
-MIT © [v1rtl](https://v1rtl.site)
 
 [npm-badge]: https://img.shields.io/npm/v/@tinyhttp/session?style=flat-square
 [dl-badge]: https://img.shields.io/npm/dt/@tinyhttp/session?style=flat-square

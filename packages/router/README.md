@@ -28,9 +28,5 @@ router.get('/', (req, res) => res.send('Hello World'))
 console.log(router.middleware)
 ```
 
-## License
-
-MIT © [v1rtl](https://v1rtl.site)
-
 [npm-badge]: https://img.shields.io/npm/v/@tinyhttp/router?style=flat-square
 [dl-badge]: https://img.shields.io/npm/dt/@tinyhttp/router?style=flat-square

@@ -12,18 +12,18 @@ pnpm i @tinyhttp/rate-limit
 
 ## Usage
 
-```sh
+```js
 import { App } from '@tinyhttp/app'
 import { rateLimit } from '@tinyhttp/rate-limit'
 
-const app = new App()
-
-const routeRateLimit = rateLimit({
-  max: 10,
-  windowMs: 60 * 1000, // 1 minute
-})
-
-app.get('limited-route', routeRateLimit, (_, res) => res.send('Limited route'))
+new App().get(
+  'limited-route',
+  rateLimit({
+    max: 10,
+    windowMs: 60 * 1000 // 1 minute
+  }),
+  (_, res) => res.send('Limited route')
+)
 ```
 
 ## Options
@@ -46,10 +46,6 @@ app.get('limited-route', routeRateLimit, (_, res) => res.send('Limited route'))
 - [express-rate-limit](https://github.com/nfriedly/express-rate-limit)
 - [node-rate-limiter](https://github.com/jhurliman/node-rate-limiter)
 - [node-rate-limiter-flexible](https://github.com/animir/node-rate-limiter-flexible)
-
-## License
-
-MIT © [Luiginator](https://github.com/Luiginator)
 
 [npm-badge]: https://img.shields.io/npm/v/@tinyhttp/rate-limit?style=flat-square
 [dl-badge]: https://img.shields.io/npm/dt/@tinyhttp/rate-limit?style=flat-square

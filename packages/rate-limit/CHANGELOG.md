@@ -1,5 +1,11 @@
 # @tinyhttp/rate-limit
 
+## 1.0.1
+
+### Patch Changes
+
+- Remove license notes from readmes, add readme for type-is
+
 ## 1.0.0
 
 ### Major Changes

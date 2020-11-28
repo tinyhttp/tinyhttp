@@ -113,7 +113,3 @@ You can test this out with the cURL program:
 ```sh
 curl -I -H 'Accept: text/html' http://localhost:3000/
 ```
-
-## License
-
-MIT © [v1rtl](https://v1rtl.site)

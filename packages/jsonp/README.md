@@ -29,7 +29,3 @@ app.get('/', (req, res) => {
 
 app.listen(3000)
 ```
-
-## License
-
-MIT © [v1rtl](https://v1rtl.site)

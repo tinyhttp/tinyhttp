@@ -4,7 +4,7 @@ import { IncomingMessage as Request, ServerResponse as Response } from 'http'
  * Add X-Response-Time header field.
  */
 export function ping(opts?: { round?: boolean }) {
-  return function responseTime(_: Request, res: Response, next: (err?: any) => void) {
+  return function responseTime(_: Request, res: Response, next: (err?: any) => void): void {
     const start = process.hrtime()
 
     const delta = process.hrtime(start)

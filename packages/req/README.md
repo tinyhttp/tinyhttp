@@ -14,10 +14,6 @@ pnpm i @tinyhttp/req
 
 [tinyhttp Request docs](https://tinyhttp.v1rtl.site/docs#request).
 
-## License
-
-MIT © [v1rtl](https://v1rtl.site)
-
 [npm-badge]: https://img.shields.io/npm/v/@tinyhttp/req?style=flat-square
 [dl-badge]: https://img.shields.io/npm/dt/@tinyhttp/req?style=flat-square
 [web-badge]: https://img.shields.io/badge/website-visit-hotpink?style=flat-square

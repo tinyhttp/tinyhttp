@@ -107,7 +107,3 @@ const opt = { debug: true }
 const config = dotenv.parse(buf, opt)
 // expect a debug message because the buffer is not in KEY=VAL form
 ```
-
-## License
-
-MIT © [v1rtl](https://v1rtl.site)

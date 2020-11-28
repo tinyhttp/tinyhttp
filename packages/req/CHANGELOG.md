@@ -1,5 +1,15 @@
 # @tinyhttp/req
 
+## 1.0.1
+
+### Patch Changes
+
+- Remove license notes from readmes, add readme for type-is
+- Updated dependencies [undefined]
+  - @tinyhttp/accepts@1.0.1
+  - @tinyhttp/type-is@1.0.1
+  - @tinyhttp/url@1.0.1
+
 ## 1.0.0
 
 ### Major Changes

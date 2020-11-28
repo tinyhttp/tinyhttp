@@ -33,7 +33,3 @@ res.setHeader('ETag', etag(body))
 #### `weak`
 
 Specifies if the generated ETag will include the weak validator mark (that is, the leading `W/`). The actual entity tag is the same. The default value is `false`, unless the entity is `fs.Stats`, in which case it is `true`.
-
-## License
-
-MIT © [v1rtl](https://v1rtl.site)

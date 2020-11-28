@@ -150,7 +150,7 @@ app.use((req, res) => {
       'Set-Cookie',
       cookie.serialize('name', String(query.name), {
         httpOnly: true,
-        maxAge: 60 * 60 * 24 * 7, // 1 week
+        maxAge: 60 * 60 * 24 * 7 // 1 week
       })
     )
 
@@ -179,7 +179,3 @@ app.use((req, res) => {
 
 app.listen(3000)
 ```
-
-## License
-
-MIT © [v1rtl](https://v1rtl.site)

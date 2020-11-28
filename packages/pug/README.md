@@ -19,13 +19,11 @@ import { pug } from '@tinyhttp/pug'
 const app = new App()
 
 pug(/* Pug options */)(app)
-
-app.get((req, res) => void res.render('index.pug')).listen(3000)
+  .get((req, res) => void res.render('index.pug'))
+  .listen(3000)
 ```
 
 ## License
-
-MIT © [v1rtl](https://v1rtl.site)
 
 [npm-badge]: https://img.shields.io/npm/v/@tinyhttp/pug?style=flat-square
 [dl-badge]: https://img.shields.io/npm/dt/@tinyhttp/pug?style=flat-square

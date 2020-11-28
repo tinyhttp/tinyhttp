@@ -23,7 +23,3 @@ Signd the given `val` with `secret`.
 ### `unsign(val, secret)`
 
 Unsign and decode the given `val` with `secret`, returning `false` if the signature is invalid.
-
-## License
-
-MIT

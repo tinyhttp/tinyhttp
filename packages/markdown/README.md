@@ -30,23 +30,17 @@ Handles static files and transforms markdown in HTML in a specified directory. I
 import { App } from '@tinyhttp/app'
 import { markdownStaticHandler as md } from '@tinyhttp/markdown'
 
-const app = new App()
-
-app.use(
-  md('docs', {
-    prefix: '/docs',
-    stripExtension: true,
-    markedExtensions: [
-      {
-        headerIds: true,
-      },
-    ],
-  })
-)
-
-app.listen(3000)
+new App()
+  .use(
+    md('docs', {
+      prefix: '/docs',
+      stripExtension: true,
+      markedExtensions: [
+        {
+          headerIds: true
+        }
+      ]
+    })
+  )
+  .listen(3000)
 ```
-
-## License
-
-MIT © [v1rtl](https://v1rtl.site)

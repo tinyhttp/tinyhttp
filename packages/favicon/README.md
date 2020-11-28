@@ -44,10 +44,6 @@ const server = http.createServer(async (req, res) => {
 server.listen(3000)
 ```
 
-## License
-
-MIT © [v1rtl](https://v1rtl.site)
-
 [npm-badge]: https://img.shields.io/npm/v/@tinyhttp/favicon?style=flat-square
 [dl-badge]: https://img.shields.io/npm/dt/@tinyhttp/favicon?style=flat-square
 [web-badge]: https://img.shields.io/badge/website-visit-hotpink?style=flat-square

@@ -25,7 +25,3 @@ new App()
   .get('/page/:page', (req, res) => void res.send(`You opened ${req.params.page}`))
   .listen(3000)
 ```
-
-## License
-
-MIT © [v1rtl](https://v1rtl.site)

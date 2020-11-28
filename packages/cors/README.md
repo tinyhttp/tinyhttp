@@ -64,10 +64,6 @@ app.listen(3000)
 
 - [cors](https://github.com/expressjs/cors)
 
-## License
-
-MIT © [BRA1L0R](https://brailor.me/)
-
 [badge-url]: https://img.shields.io/npm/v/@tinyhttp/cors?style=flat-square
 [npm-url]: https://npmjs.com/package/@tinyhttp/cors
 [dl-badge-url]: https://img.shields.io/npm/dt/@tinyhttp/cors?style=flat-square

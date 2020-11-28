@@ -1,5 +1,15 @@
 # @tinyhttp/cookie-parser
 
+## 1.0.1
+
+### Patch Changes
+
+- Remove license notes from readmes, add readme for type-is
+- Updated dependencies [undefined]
+  - @tinyhttp/app@1.0.1
+  - @tinyhttp/cookie@1.0.1
+  - @tinyhttp/cookie-signature@1.0.1
+
 ## 1.0.0
 
 ### Major Changes
