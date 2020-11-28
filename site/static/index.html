@@ -31,7 +31,9 @@
     </a>
     <nav>
       <a href="/">Home</a>
-      <a href="https://github.com/talentlessguy/tinyhttp/tree/master/examples" target="_blank" rel="noopener noreferrer">Examples</a>
+      <a href="https://github.com/talentlessguy/tinyhttp/tree/master/examples" target="_blank" rel="noopener noreferrer"
+        >Examples</a
+      >
       <a href="/learn">Learn</a>
       <a href="/docs">Docs</a>
       <a href="/mw">Middleware</a>
@@ -40,7 +42,10 @@
     <main>
       <header>
         <img id="logo" src="/images/logo.svg" alt="logo" />
-        <p>tinyhttp is a <strong>modern</strong>, <strong>lightweight</strong> and <strong>modular</strong> Express-like web framework for Node.js.</p>
+        <p>
+          tinyhttp is a <strong>modern</strong>, <strong>lightweight</strong> and <strong>modular</strong> Express-like
+          web framework for Node.js.
+        </p>
         <div>
           <a href="#get_started">
             <button id="to_get_started">Get Started</button>
@@ -87,28 +92,38 @@ app
         <section>
           <h2>Features</h2>
           <p>
-            <strong><i>tinyhttp</i></strong> is a modern <a href="https://expressjs.com/">Express</a>-like web framework written in TypeScript and compiled to native ESM, that uses
-            a bare minimum amount of dependencies trying to avoid legacy hell. With depending only on <a href="https://www.npmjs.com/package/@tinyhttp/app">6 modules</a> (4 of
-            which are tinyhttp's), it gives you <strong>routing</strong>, <strong><code>req</code> / <code>res</code> extensions</strong>, <strong>eTag generation</strong> and
-            more.
+            <strong><i>tinyhttp</i></strong> is a modern <a href="https://expressjs.com/">Express</a>-like web framework
+            written in TypeScript and compiled to native ESM, that uses a bare minimum amount of dependencies trying to
+            avoid legacy hell. With depending only on
+            <a href="https://www.npmjs.com/package/@tinyhttp/app">6 modules</a> (4 of which are tinyhttp's), it gives
+            you <strong>routing</strong>, <strong><code>req</code> / <code>res</code> extensions</strong>,
+            <strong>eTag generation</strong> and more.
           </p>
           <h3>Full compatability with Express</h3>
           <p>
-            All middleware that was created for Express, works flawlessly with tinyhttp, including typings. In fact, any middleware that uses
-            <code>(req: IncomingMessage, res: ServerResponse, next?: (err?: any) => void)</code> for function arguments, will work with tinyhttp. Check out
-            <a href="https://github.com/talentlessguy/tinyhttp/tree/master/examples/graphql">tinyhttp + express-graphql </a> integration for an example of using Express middleware.
+            All middleware that was created for Express, works flawlessly with tinyhttp, including typings. In fact, any
+            middleware that uses
+            <code>(req: IncomingMessage, res: ServerResponse, next?: (err?: any) => void)</code> for function arguments,
+            will work with tinyhttp. Check out
+            <a href="https://github.com/talentlessguy/tinyhttp/tree/master/examples/graphql"
+              >tinyhttp + express-graphql
+            </a>
+            integration for an example of using Express middleware.
           </p>
           <h3>Async middleware support</h3>
           <p>
-            Unlike Express, tinyhttp supports async / await for routes. There are proper typings for async handlers, and a function checker inside tinyhttp to resolve async
-            functions, and execute sync ones. To say shorter, both sync and async work fine. Check
+            Unlike Express, tinyhttp supports async / await for routes. There are proper typings for async handlers, and
+            a function checker inside tinyhttp to resolve async functions, and execute sync ones. To say shorter, both
+            sync and async work fine. Check
             <a href="https://github.com/talentlessguy/tinyhttp/tree/master/examples/async">async</a> or
-            <a href="https://github.com/talentlessguy/tinyhttp/tree/master/examples/mongodb">mongodb</a> examples to see how to make async handlers.
+            <a href="https://github.com/talentlessguy/tinyhttp/tree/master/examples/mongodb">mongodb</a> examples to see
+            how to make async handlers.
           </p>
           <h3>Prebuilt middleware for the smoothest experience</h3>
           <p>
-            A majority of express middlewares is quite old and don't provide ESM versions and possibly may have type conflicts (even though 90% of the time Express wares' types are
-            ok w/ tinyhttp). So, because of this, we've built a list of our own middlewares for most common tasks in backend development, including
+            A majority of express middlewares is quite old and don't provide ESM versions and possibly may have type
+            conflicts (even though 90% of the time Express wares' types are ok w/ tinyhttp). So, because of this, we've
+            built a list of our own middlewares for most common tasks in backend development, including
             <a href="https://github.com/talentlessguy/tinyhttp/tree/master/packages/logger">logger</a>,
             <a href="https://github.com/talentlessguy/tinyhttp/tree/master/packages/jwt">JWT</a> and
             <a href="https://github.com/talentlessguy/tinyhttp/tree/master/packages/cors">CORS</a> middlewares.
@@ -116,16 +131,23 @@ app
           <h3>Completely modular</h3>
           <p>
             (Almost) all parts of tinyhttp are splitted into modules. Feel free to use
-            <a href="https://github.com/talentlessguy/tinyhttp/tree/master/packages/etag"><code>@tinyhttp/etag</code></a> or
-            <a href="https://github.com/talentlessguy/tinyhttp/tree/master/packages/cookie"><code>@tinyhttp/cookie</code></a> in any other HTTP application with any (or without)
-            web framework . Same goes to (almost) all of the middlewares.
+            <a href="https://github.com/talentlessguy/tinyhttp/tree/master/packages/etag"
+              ><code>@tinyhttp/etag</code></a
+            >
+            or
+            <a href="https://github.com/talentlessguy/tinyhttp/tree/master/packages/cookie"
+              ><code>@tinyhttp/cookie</code></a
+            >
+            in any other HTTP application with any (or without) web framework . Same goes to (almost) all of the
+            middlewares.
           </p>
         </section>
       </div>
       <div id="users">
         <h2>Projects using tinyhttp</h2>
         <ul>
-          <li><a href="https://github.com/n1ru4l/graphql-live-queries">graphql-live-queries</a></li>
+          <li><a href="https://jsxui.com">JSXUI</a></li>
+          <li><a href="https://github.com/n1ru4l/obs-character-info">obs-character-info</a></li>
           <li>...you?</li>
         </ul>
       </div>

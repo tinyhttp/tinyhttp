@@ -426,8 +426,6 @@ app.put('/', (req, res) => {
 
 Mounts the specified middleware function or functions at the specified path: the middleware function is executed when the base of the requested path matches path.
 
-##### Description
-
 A route will match any path that follows its path immediately with a `/`. For example: `app.use('/apple', ...)` will match `/apple`, `/apple/images`, `/apple/images/news`, and so on.
 
 Since path defaults to `/,` middleware mounted without a path will be executed for every request to the app.
