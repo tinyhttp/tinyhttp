@@ -152,18 +152,11 @@ Note that maximum compatability is in progress so some of the points might chang
 
 ### Install
 
-tinyhttp requires [Node.js 12.4.0 or newer](https://node.green/#ES2019) or newer. It is recommended to use [pnpm](https://pnpm.js.org/) because tinyhttp reuses modules in some middlewares.
+tinyhttp requires [Node.js 12.4.0 or newer](https://node.green/#ES2019) or newer. It is recommended to use [pnpm](https://pnpm.js.org/) because tinyhttp reuses modules in some middlewares, although it's optional.
 
-You can quickly setup a working app using [fnm](https://github.com/Schniz/fnm) and [pnpm](https://pnpm.js.org/):
+You can quickly setup a working app using these commands:
 
 ```sh
-# Install fnm
-curl -fsSL https://github.com/Schniz/fnm/raw/master/.ci/install.sh | bash
-
-# Install latest Node.js version
-fnm install latest
-fnm use latest
-
 # Create your app directory
 mkdir app
 cd app
@@ -219,7 +212,7 @@ App settings can be set inside a constructor.
 
 ```js
 const app = new App({
-  noMatchHandler: (req, res) => res.send('Oopsie, page cannot be found'),
+  noMatchHandler: (req, res) => res.send('Oopsie, page cannot be found')
 })
 ```
 
@@ -306,7 +299,9 @@ app.get('/', (_req, res) => void res.send('Hello World'))
 Most popular methods (e.g. `GET`, `POST`, `PUT`, `OPTIONS`) have pre-defined functions for routing. In the future releases of tinyhttp all methods will have their functions.
 
 ```js
-app.get('/', (_req, res) => void res.send('Hello World')).post('/a/b', (req, res) => void res.send('Sent a POST request'))
+app
+  .get('/', (_req, res) => void res.send('Hello World'))
+  .post('/a/b', (req, res) => void res.send('Sent a POST request'))
 ```
 
 To handle all HTTP methods, use `app.all`:
@@ -455,7 +450,7 @@ const app = new App({
   onError: (err, _req, res) => {
     console.log(err)
     res.status(500).send(`Something bad happened`)
-  },
+  }
 })
 
 app.get('/', async (_, res, next) => {
@@ -577,7 +572,7 @@ let coll
 
 // create mongo client
 const client = new mongodb.MongoClient(process.env.DB_URI, {
-  useUnifiedTopology: true,
+  useUnifiedTopology: true
 })
 
 // connect to mongodb

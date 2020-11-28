@@ -143,9 +143,7 @@
 
 <main>
 
-# 0.X API
-
-> Note: tinyhttp is not yet finished. Therefore, documentation is incomplete.
+# 1.0 API
 
 ## Application
 
@@ -182,7 +180,7 @@ Handler if none of the routes match. Should return 404 Not found.
 import { App, Request, Response } from '@tinyhttp/app'
 
 const app = new App({
-  noMatchHandler: (req: Request, res: Response) => void res.status(404).end('Not found :('),
+  noMatchHandler: (req: Request, res: Response) => void res.status(404).end('Not found :(')
 })
 
 app
@@ -202,9 +200,9 @@ import { App, Request, Response } from '@tinyhttp/app'
 const app = new App({
   onError: (err, req, res) => {
     res.status(500).send({
-      message: err.message,
+      message: err.message
     })
-  },
+  }
 })
 
 app.get('/', (req, res) => void res.send('hello world')).listen(3000)
@@ -226,7 +224,7 @@ const app = new App({
   applyExtensions: (req, res, next) => {
     // now tinyhttp only has a `res.send` extension
     res.send = send(req, res)
-  },
+  }
 })
 ```
 
@@ -236,7 +234,7 @@ You can also disable all of the extensions by passing an empty function:
 import { App } from '@tinyhttp/app'
 
 const app = new App({
-  applyExtensions: (req, res, next) => void 0,
+  applyExtensions: (req, res, next) => void 0
 })
 ```
 
@@ -249,8 +247,8 @@ import { App } from '@tinyhttp/app'
 
 const app = new App({
   settings: {
-    networkExtensions: true,
-  },
+    networkExtensions: true
+  }
 })
 
 app.use((req, res) => void res.send(`Hostname: ${req.hostname}`)).listen(3000)
@@ -583,7 +581,7 @@ const app = new App()
 
 const options = {
   key: fs.readFileSync('localhost-privkey.pem'),
-  cert: fs.readFileSync('localhost-cert.pem'),
+  cert: fs.readFileSync('localhost-cert.pem')
 }
 
 app.get('/', (req, res) => void res.send(`Hello from HTTP ${req.httpVersion} server!`))
@@ -913,13 +911,13 @@ The `options` parameter is an object that can have the following properties.
 res.cookie('name', 'tobi', {
   domain: '.example.com',
   path: '/admin',
-  secure: true,
+  secure: true
 })
 
 // Enable "httpOnly" and "expires" parameters
 res.cookie('rememberme', '1', {
   expires: new Date(Date.now() + 900000),
-  httpOnly: true,
+  httpOnly: true
 })
 ```
 
@@ -1041,7 +1039,7 @@ res.set('Content-Type', 'text/plain')
 res.set({
   'Content-Type': 'text/plain',
   'Content-Length': '123',
-  ETag: '12345',
+  ETag: '12345'
 })
 ```
 
@@ -1056,7 +1054,7 @@ For example, the following call:
 ```ts
 res.links({
   next: 'http://api.example.com/users?page=2',
-  last: 'http://api.example.com/users?page=5',
+  last: 'http://api.example.com/users?page=5'
 })
 ```
 
