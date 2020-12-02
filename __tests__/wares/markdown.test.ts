@@ -84,6 +84,21 @@ describe('Handler options', () => {
       await fetch('/page').expectStatus(200)
     })
   })
+  describe('markedExtensions', async () => {
+    it('markedExtensions are consumed by marked.js', async () => {
+      const { fetch } = InitAppAndTest(
+        markdownStaticHandler(STATIC_FOLDER, {
+          markedExtensions: [
+            {
+              headerIds: true
+            }
+          ]
+        })
+      )
+
+      await fetch('/page').expectStatus(200)
+    })
+  })
 })
 
 describe('Index file', () => {
