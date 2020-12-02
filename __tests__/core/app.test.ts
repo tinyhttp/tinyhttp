@@ -529,4 +529,27 @@ describe('App settings', () => {
       await fetch('/').expectHeader('X-Powered-By', 'tinyhttp')
     })
   })
+  describe('bindAppToReqRes', () => {
+    it('references the current app instance in req.app and res.app', async () => {
+      const app = new App({
+        settings: {
+          bindAppToReqRes: true
+        }
+      })
+
+      app.locals['hello'] = 'world'
+
+      app.use((req, res) => {
+        expect(req.app).toBeInstanceOf(App)
+        expect(res.app).toBeInstanceOf(App)
+        expect(req.app.locals['hello']).toBe('world')
+        expect(res.app.locals['hello']).toBe('world')
+        res.end()
+      })
+
+      const server = app.listen()
+
+      await makeFetch(server)('/').expect(200)
+    })
+  })
 })
