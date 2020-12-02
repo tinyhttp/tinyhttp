@@ -10,7 +10,7 @@ Below there is a table comparing tinyhttp, [Express](https://expressjs.com) and 
 | ------------------------------------ | ----------------- | ---------- | ------- |
 | Minimum supported Node.js version    | 12.4.0            | 0.10.0     | 6.0.0   |
 | Minimum supported ECMAScript version | ES2019            | ES5 (?)    | ES5     |
-| All req / res extensions             | ✔️                | ✔️         | ✖️      |
+| `req` / `res` extensions             | ✔️                | ✔️         | ✖️      |
 | Test coverage                        | 92%               | 100%       | 100%    |
 | Compiled to native ESM               | ✔️                | ✖️         | ✖️      |
 | TypeScript support                   | ✔️                | ✖️         | ✖️      |
