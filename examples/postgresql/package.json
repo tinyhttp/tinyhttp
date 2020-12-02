@@ -6,7 +6,7 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/dotenv": "workspace:*",
-    "milliparsec": "^1.0.0",
-    "pg-promise": "^10.6.2"
+    "milliparsec": "^1.0.4",
+    "pg-promise": "^10.8.1"
   }
 }

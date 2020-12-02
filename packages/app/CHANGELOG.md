@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 1.0.2
+
+### Patch Changes
+
+- Remove useless comments
+
 ## 1.0.1
 
 ### Patch Changes

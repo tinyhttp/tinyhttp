@@ -91,15 +91,7 @@ export interface Response extends ServerResponse {
   /**
    * Send JSON response with JSONP callback support.
    *
-   * To enable this method, install the `@tinyhttp/jsonp` package and use it as shown below:
-   *
-   * ```js
-   * import { jsonp } from '@tinyhttp/jsonp'
-   * app.use((req, res, next) => {
-   *  res.jsonp = jsonp(req, res, app)
-   *  next()
-   * })
-   * ```
+   * To enable this method, install the `@tinyhttp/jsonp` package and attach the method to `res.jsonp` property.
    *
    * @param obj Response object
    */

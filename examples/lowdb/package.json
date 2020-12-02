@@ -4,7 +4,7 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "lowdb": "^1.0.0",
-    "milliparsec": "^1.0.0"
+    "milliparsec": "^1.0.4"
   },
   "devDependencies": {
     "@types/lowdb": "^1.0.9"

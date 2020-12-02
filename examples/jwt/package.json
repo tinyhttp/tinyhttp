@@ -6,7 +6,7 @@
     "@tinyhttp/jwt": "workspace:*",
     "@types/jsonwebtoken": "^8.5.0",
     "jsonwebtoken": "^8.5.1",
-    "milliparsec": "^1.0.0"
+    "milliparsec": "^1.0.4"
   },
   "type": "module"
 }

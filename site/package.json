@@ -5,11 +5,10 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/markdown": "workspace:*",
-    "highlight.js": "^10.1.2",
-    "marked": "^1.1.1",
-    "node-fetch-cache": "^1.0.4",
-    "sirv": "^1.0.6"
+    "highlight.js": "^10.4.0",
+    "marked": "^1.2.5",
+    "node-fetch-cache": "^1.0.6",
+    "sirv": "^1.0.7"
   },
   "scripts": {
     "dev": "pnpm start",

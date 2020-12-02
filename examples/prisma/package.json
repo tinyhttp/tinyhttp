@@ -6,11 +6,11 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "@prisma/client": "2.12.1",
     "@tinyhttp/app": "workspace:*",
-    "@prisma/client": "2.8.0",
     "body-parser": "^1.19.0"
   },
   "devDependencies": {
-    "@prisma/cli": "2.8.0"
+    "@prisma/cli": "2.12.1"
   }
 }

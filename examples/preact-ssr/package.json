@@ -5,7 +5,7 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "htm": "^3.0.4",
-    "preact": "^10.4.6",
-    "preact-render-to-string": "^5.1.10"
+    "preact": "^10.5.7",
+    "preact-render-to-string": "^5.1.12"
   }
 }
