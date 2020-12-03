@@ -2,7 +2,7 @@
 
 [![npm (scoped)][npm-badge]](https://npmjs.com/package/@tinyhttp/bot-detector) [![npm][dl-badge]](https://npmjs.com/package/@tinyhttp/bot-detector) [![][web-badge]](https://tinyhttp.v1rtl.site/mw/bot-detector)
 
-Detect bots among users in your tinyhttp app. This middlewares is based on [isbot](https://github.com/pugjs/bot-detector).
+Detect bots among users in your tinyhttp app. This middlewares is based on [isbot](https://github.com/omrilotan/isbot).
 
 Note that it doesn't differentiate "good" and "bad" bots, it only shows if a request comes from a bot (e.g. crawler) or from a real human.
 
@@ -16,10 +16,12 @@ pnpm i @tinyhttp/bot-detector
 
 ### `botDetector()(req, res)`
 
-This middleware adds 2 new properties, `isBot` and `botName`.
+This middleware adds 2 new getters, `isBot` and `botName`.
 
 - `isBot` is a boolean which shows if the request is made by a bot
 - `botName` is a string that shows the bot name in case `isBot` is true.
+
+> Both getters are lazy and will not be calculated until needed
 
 ## Example
 
