@@ -2,7 +2,7 @@ import { METHODS, IncomingMessage as I, ServerResponse as R } from 'http'
 
 /* HELPER TYPES */
 
-export type NextFunction = (err?: any) => void | undefined
+export type NextFunction = (err?: any) => void
 
 export type SyncHandler<Request extends any = I, Response extends any = R> = (
   req: Request,
