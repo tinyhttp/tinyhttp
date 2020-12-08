@@ -84,7 +84,7 @@ describe('Handler options', () => {
       await fetch('/page').expectStatus(200)
     })
   })
-  describe('markedExtensions', async () => {
+  describe('markedExtensions', () => {
     it('markedExtensions are consumed by marked.js', async () => {
       const { fetch } = InitAppAndTest(
         markdownStaticHandler(STATIC_FOLDER, {

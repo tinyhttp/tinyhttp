@@ -1,5 +1,11 @@
 # @tinyhttp/router
 
+## 1.0.2
+
+### Patch Changes
+
+- Fix next function types
+
 ## 1.0.1
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/app",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "0-legacy, tiny & fast web framework as a replacement of Express",
   "type": "module",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
