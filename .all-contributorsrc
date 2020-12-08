@@ -267,6 +267,15 @@
         "example",
         "bug"
       ]
+    },
+    {
+      "login": "bragle",
+      "name": "Leo Toneff",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/43667677?v=4",
+      "profile": "https://yello.io",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
