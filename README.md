@@ -143,6 +143,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/vitalybaev"><img src="https://avatars2.githubusercontent.com/u/724423?v=4" width="100px;" alt=""/><br /><sub><b>Vitaly Baev</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=vitalybaev" title="Tests">⚠️</a> <a href="https://github.com/talentlessguy/tinyhttp/issues?q=author%3Avitalybaev" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://omrilotan.com"><img src="https://avatars0.githubusercontent.com/u/516342?v=4" width="100px;" alt=""/><br /><sub><b>omrilotan</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=omrilotan" title="Code">💻</a> <a href="https://github.com/talentlessguy/tinyhttp/commits?author=omrilotan" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/MVEMCJSUNPE"><img src="https://avatars2.githubusercontent.com/u/10354503?v=4" width="100px;" alt=""/><br /><sub><b>MVEMCJSUNPE</b></sub></a><br /><a href="#example-MVEMCJSUNPE" title="Examples">💡</a> <a href="https://github.com/talentlessguy/tinyhttp/issues?q=author%3AMVEMCJSUNPE" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://yello.io"><img src="https://avatars0.githubusercontent.com/u/43667677?v=4" width="100px;" alt=""/><br /><sub><b>Leo Toneff</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=bragle" title="Code">💻</a></td>
   </tr>
 </table>
 
