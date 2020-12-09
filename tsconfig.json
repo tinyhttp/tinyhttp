@@ -18,7 +18,14 @@
     "allowUnusedLabels": true,
     "allowUmdGlobalAccess": false,
     "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "plugins": [
+      {
+        "name": "typescript-deno-plugin",
+        "include": ["deno/**/*"],
+        "exclude": ["node_modules"]
+      }
+    ]
   },
   "exclude": ["__tests__", "examples", "packages/*/dist"]
 }

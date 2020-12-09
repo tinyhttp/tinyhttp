@@ -90,7 +90,7 @@ res.sendFile('song.mp3', { root: process.cwd() }, (err) => console.log(err))
 import { createServer } from 'http'
 import { send } from '@tinyhttp/send'
 
-createServer((req, res) => void send(req, res)('Hello World')).listen(3000)
+createServer((req, res) => send(req, res)('Hello World')).listen(3000)
 ```
 
 [npm-badge]: https://img.shields.io/npm/v/@tinyhttp/send?style=flat-square

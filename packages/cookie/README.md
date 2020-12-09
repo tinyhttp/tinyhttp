@@ -27,7 +27,7 @@ optional object containing additional parsing options.
 ```js
 import { parse } from '@tinyhttp/cookie'
 
-const cookies = parse('foo=bar; equation=E%3Dmc%5E2')
+parse('foo=bar; equation=E%3Dmc%5E2')
 // { foo: 'bar', equation: 'E=mc^2' }
 ```
 
@@ -56,7 +56,7 @@ argument is an optional object containing additional serialization options.
 ```js
 import { serialize } from '@tinyhttp/cookie'
 
-const setCookie = serialize('foo', 'bar')
+serialize('foo', 'bar')
 // foo=bar
 ```
 
@@ -138,44 +138,39 @@ the server in the future if the browser does not have an HTTPS connection.
 
 ```ts
 import { App } from '@tinyhttp/app'
-import cookie from '@tinyhttp/cookie'
+import { parse, serialize } from '@tinyhttp/cookie'
 import escapeHtml from 'escape-html'
 
-const app = new App()
+new App()
+  .use((req, res) => {
+    if (req.query?.name) {
+      // Set a new cookie with the name
+      res.set(
+        'Set-Cookie',
+        serialize('name', String(query.name), {
+          httpOnly: true,
+          maxAge: 60 * 60 * 24 * 7 // 1 week
+        })
+      )
 
-app.use((req, res) => {
-  if (req.query?.name) {
-    // Set a new cookie with the name
-    res.setHeader(
-      'Set-Cookie',
-      cookie.serialize('name', String(query.name), {
-        httpOnly: true,
-        maxAge: 60 * 60 * 24 * 7 // 1 week
-      })
-    )
+      // Redirect back after setting cookie
+      res
+        .status(302)
+        .set('Location', req.headers.referer || '/')
+        .end()
+    }
 
-    // Redirect back after setting cookie
-    res
-      .status(302)
-      .setHeader('Location', req.headers.referer || '/')
-      .end()
-  }
+    const cookie = parse(req.headers.cookie || '')
 
-  const cookie = cookie.parse(req.headers.cookie || '')
+    const { name } = cookie
 
-  const { name } = cookie
+    res.set('Content-Type', 'text/html; charset=UTF-8')
 
-  res.setHeader('Content-Type', 'text/html; charset=UTF-8')
+    res.write(name ? `<p>Welcome back, <strong>${escapeHtml(name)}</strong>!</p>` : '<p>Hello, new visitor!</p>')
 
-  if (name) {
-    res.write(`<p>Welcome back, <strong>${escapeHtml(name)}</strong>!</p>`)
-  } else {
-    res.write('<p>Hello, new visitor!</p>')
-  }
-  res.write('<form method="GET">')
-  res.write('<input placeholder="enter your name" name="name"><input type="submit" value="Set Name">')
-  res.end('</form>')
-})
-
-app.listen(3000)
+    res.write('<form method="GET">')
+    res.write('<input placeholder="enter your name" name="name"><input type="submit" value="Set Name">')
+    res.end('</form>')
+  })
+  .listen(3000)
 ```

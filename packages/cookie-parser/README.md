@@ -88,18 +88,16 @@ unsign the cookie with each secret in order.
 import { App } from '@tinyhttp/app'
 import { cookieParser } from '@tinyhttp/cookie-parser'
 
-const app = App()
-app.use(cookieParser())
+new App()
+  .use(cookieParser())
+  .get('/', (req, res) => {
+    // Cookies that have not been signed
+    console.log('Cookies: ', req.cookies)
 
-app.get('/', (req, res) => {
-  // Cookies that have not been signed
-  console.log('Cookies: ', req.cookies)
-
-  // Cookies that have been signed
-  console.log('Signed Cookies: ', req.signedCookies)
-})
-
-app.listen(8080)
+    // Cookies that have been signed
+    console.log('Signed Cookies: ', req.signedCookies)
+  })
+  .listen(3000)
 
 // curl command that sends an HTTP request with two cookies
 // curl http://127.0.0.1:8080 --cookie "Cho=Kim;Greet=Hello"

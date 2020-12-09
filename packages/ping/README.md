@@ -31,12 +31,10 @@ import { ping } from '@tinyhttp/ping'
 import { createServer } from 'http'
 import path from 'path'
 
-const server = http.createServer(async (req, res) => {
+createServer(async (req, res) => {
   ping()(req, res)
   res.end('Hello World')
-})
-
-server.listen(3000)
+}).listen(3000)
 ```
 
 [npm-badge]: https://img.shields.io/npm/v/@tinyhttp/ping?style=flat-square

@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/ping",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "description": "Response time checker middleware",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",

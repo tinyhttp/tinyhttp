@@ -39,8 +39,8 @@ import { App } from '@tinyhttp/app'
 import { jwt } from '@tinyhttp/jwt'
 
 new App()
-  .use(jwt({ secret: 'very secret string', algorithm: 'HS256' }))
-  .get('/', (req, res) => void res.send('Data inside the payload: ' + req['user']))
+  .use(jwt({ secret: 'secret', algorithm: 'HS256' }))
+  .get('/', (req, res) => res.send(`Data inside the payload: ${req['user']}`))
   .listen(8080)
 ```
 
@@ -51,7 +51,7 @@ import { App } from '@tinyhttp/app'
 import { jwt } from '@tinyhttp/jwt'
 
 new App()
-  .use(jwt({ secret: ['PRIVATE KEY HERE', 'PUBLIC KEY HERE'], algorithm: 'RS256' }))
-  .get('/', (req, res) => void res.send('Data inside the payload: ' + req['user']))
+  .use(jwt({ secret: ['PRIVATE KEY', 'PUBLIC KEY'], algorithm: 'RS256' }))
+  .get('/', (req, res) => res.send(`Data inside the payload: ${req['user']}`))
   .listen(8080)
 ```

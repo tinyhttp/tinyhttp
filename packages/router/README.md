@@ -2,18 +2,12 @@
 
 [![npm (scoped)][npm-badge]](https://npmjs.com/package/@tinyhttp/router) [![npm][dl-badge]](https://npmjs.com/package/@tinyhttp/router)
 
-Router for tinyhttp.
+Framework-agnostic HTTP router.
 
 ## Install
 
 ```sh
 pnpm i @tinyhttp/router
-```
-
-## API
-
-```js
-import { Router } from '@tinyhttp/router'
 ```
 
 ## Example

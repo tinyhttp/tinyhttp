@@ -63,9 +63,7 @@ it). The type is normalized to lower-case.
 ### `contentDisposition.parse(string)`
 
 ```js
-const disposition = contentDisposition.parse(
-  'attachment; filename="EURO rates.txt"; filename*=UTF-8\'\'%e2%82%ac%20rates.txt'
-)
+contentDisposition.parse('attachment; filename="EURO rates.txt"; filename*=UTF-8\'\'%e2%82%ac%20rates.txt')
 ```
 
 Parse a `Content-Disposition` header string. This automatically handles extended
@@ -96,7 +94,6 @@ import onFinished from 'on-finished'
 const filePath = '/path/to/public/plans.pdf'
 
 createServer((req, res) => {
-
   res.setHeader('Content-Type', 'application/pdf')
   res.setHeader('Content-Disposition', contentDisposition(filePath))
 

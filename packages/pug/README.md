@@ -16,9 +16,7 @@ pnpm i @tinyhttp/pug
 import { App } from '@tinyhttp/app'
 import { pug } from '@tinyhttp/pug'
 
-const app = new App()
-
-pug(/* Pug options */)(app)
+pug(/* Pug options */)(new App())
   .get((req, res) => res.render('index.pug'))
   .listen(3000)
 ```

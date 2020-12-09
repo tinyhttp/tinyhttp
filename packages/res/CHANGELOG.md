@@ -1,5 +1,15 @@
 # @tinyhttp/res
 
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/content-disposition@1.0.2
+  - @tinyhttp/cookie@1.0.2
+  - @tinyhttp/send@1.0.2
+  - @tinyhttp/req@1.0.2
+
 ## 1.0.1
 
 ### Patch Changes

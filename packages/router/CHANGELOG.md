@@ -1,5 +1,11 @@
 # @tinyhttp/router
 
+## 1.0.3
+
+### Patch Changes
+
+- strip bytes from readme
+
 ## 1.0.2
 
 ### Patch Changes

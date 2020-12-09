@@ -1,6 +1,5 @@
 {
   "eslint.packageManager": "pnpm",
   "prettier.packageManager": "pnpm",
-  "npm.packageManager": "pnpm",
-  "deno.enable": false
+  "npm.packageManager": "pnpm"
 }

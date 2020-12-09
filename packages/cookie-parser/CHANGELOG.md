@@ -1,5 +1,14 @@
 # @tinyhttp/cookie-parser
 
+## 1.0.4
+
+### Patch Changes
+
+- strip bytes from readme
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@1.0.2
+  - @tinyhttp/app@1.0.4
+
 ## 1.0.3
 
 ### Patch Changes

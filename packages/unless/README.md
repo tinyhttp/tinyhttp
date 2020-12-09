@@ -29,16 +29,14 @@ import { cors } from '@tinyhttp/cors'
 
 const app = new App()
 
-//cMethod example
 app.use(unless(cors(),  { method: ['GET', 'POST'] }))
 
-//cExt example
+
 app.use(unless(cors(), { ext: '/public' }))
 
-// Custom function example
+
 app.use(unless(cors(), (req) => req.method === 'GET')
 
-// Path example
 app.use(unless(cors(), { path: ['/content/public', /user/, { url: '/public', methods: ['GET'] }] })
 
 app.listen(3000)

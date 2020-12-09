@@ -1,5 +1,11 @@
 # @tinyhttp/content-disposition
 
+## 1.0.2
+
+### Patch Changes
+
+- strip bytes from readme
+
 ## 1.0.1
 
 ### Patch Changes

@@ -31,11 +31,8 @@ import type { Response } from '@tinyhttp/app'
 import { botDetector } from '@tinyhttp/bot-detector'
 import type { RequestWithBotDetector } from '@tinyhttp/bot-detector'
 
-app.use(botDetector())
-
-const app = new App<any, RequestWithBotDetector, Response>()
-
-app
+new App<any, RequestWithBotDetector, Response>()
+  .use(botDetector())
   .use((req, res) => {
     res.send(req.isBot ? `Bot detected 🤖: ${req.botName}` : 'Hello World!')
   })

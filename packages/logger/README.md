@@ -43,8 +43,8 @@ new App()
       output: { callback: console.log, color: false }
     })
   )
-  .get('/', (req, res) => void res.send('Hello world'))
-  .post('/', (req, res) => void res.send('Sent POST'))
+  .get('/', (req, res) => res.send('Hello world'))
+  .post('/', (req, res) => res.send('Sent POST'))
   .listen(3000)
 ```
 

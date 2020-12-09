@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/url",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "description": "URL extensions for tinyhttp",
   "homepage": "https://github.com/talentlessguy/tinyhttp#readme",

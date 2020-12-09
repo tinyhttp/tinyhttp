@@ -1,5 +1,12 @@
 # @tinyhttp/req
 
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies [undefined]
+  - @tinyhttp/url@1.0.2
+
 ## 1.0.1
 
 ### Patch Changes

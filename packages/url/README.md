@@ -2,7 +2,7 @@
 
 [![npm (scoped)][npm-badge]](https://npmjs.com/package/@tinyhttp/req) [![npm][dl-badge]](https://npmjs.com/package/@tinyhttp/req) [![][web-badge]](https://tinyhttp.v1rtl.site/mw/req)
 
-URL extensions for tinyhttp to parse query parameters, URL parameters, and more.
+URL extensions for to parse query parameters, URL parameters, and more.
 
 ## Install
 
