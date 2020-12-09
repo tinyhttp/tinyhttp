@@ -1,7 +1,5 @@
 # @tinyhttp/app
 
-![](https://tinyhttp.v1rtl.site/cover.jpg)
-
 The core of tinyhttp. Contains the `App`, `Request` and `Response`. Additionally, it provides special tinyhttp-specific types.
 
 ## Install
