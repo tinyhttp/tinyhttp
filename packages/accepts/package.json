@@ -1,8 +1,8 @@
 {
   "name": "@tinyhttp/accepts",
   "description": "accepts rewrite in TypeScript with ESM and CommonJS targets",
-  "version": "1.0.1",
-  "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
+  "version": "1.0.2",
+  "homepage": "https://tinyhttp.v1rtl.site",
   "repository": {
     "type": "git",
     "url": "https://github.com/talentlessguy/tinyhttp.git",

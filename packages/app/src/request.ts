@@ -13,8 +13,8 @@ import { isIP } from 'net'
 
 export { getURLParams } from '@tinyhttp/req'
 
-export const getRouteFromApp = (app: App, handler: Handler<Request, Response>) =>
-  app.middleware.find((h) => h.handler.name === handler.name)
+export const getRouteFromApp = ({ middleware }: App, h: Handler<Request, Response>) =>
+  middleware.find(({ handler }) => handler.name === h.name)
 
 export const getProtocol = (req: Request): Protocol => {
   const proto = req.connection.encrypted ? 'https' : 'http'
@@ -29,7 +29,7 @@ export const getProtocol = (req: Request): Protocol => {
 }
 
 export const getHostname = (req: Request): string | undefined => {
-  let host: string | undefined = req.get('X-Forwarded-Host') as string
+  let host: string = req.get('X-Forwarded-Host') as string
 
   if (!host || !trustRemoteAddress(req)) host = req.get('Host') as string
 

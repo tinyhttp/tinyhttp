@@ -1,5 +1,11 @@
 # @tinyhttp/dotenv
 
+## 1.0.2
+
+### Patch Changes
+
+- strip bytes
+
 ## 1.0.1
 
 ### Patch Changes

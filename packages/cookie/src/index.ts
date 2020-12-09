@@ -93,20 +93,12 @@ export function serialize(name: string, val: string, opt: SerializeOptions = {})
   }
 
   if (opt.path) {
-    if (!fieldContentRegExp.test(opt.path)) {
-      throw new TypeError('option path is invalid')
-    }
+    if (!fieldContentRegExp.test(opt.path)) throw new TypeError('option path is invalid')
 
     str += '; Path=' + opt.path
   }
 
-  if (opt.expires) {
-    if (typeof opt.expires.toUTCString !== 'function') {
-      throw new TypeError('option expires is invalid')
-    }
-
-    str += '; Expires=' + opt.expires.toUTCString()
-  }
+  if (opt.expires) str += '; Expires=' + opt.expires.toUTCString()
 
   if (opt.httpOnly) str += '; HttpOnly'
 

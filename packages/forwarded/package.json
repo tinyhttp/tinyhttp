@@ -1,9 +1,9 @@
 {
   "name": "@tinyhttp/forwarded",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "forwarded rewrite with TypeScript and ESM support",
-  "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
+  "homepage": "https://tinyhttp.v1rtl.site",
   "repository": {
     "type": "git",
     "url": "https://github.com/talentlessguy/tinyhttp.git",

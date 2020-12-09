@@ -120,18 +120,7 @@ describe('Cookie serializing', () => {
       cat: 'foo=123&name=baz five'
     })
   })
-  it('should throw on invalid `expires` format', () => {
-    try {
-      cookie.serialize('foo', 'bar', {
-        // @ts-ignore
-        expires: 'foobar'
-      })
-    } catch (e) {
-      expect((e as TypeError).message).toBe('option expires is invalid')
-      return
-    }
-    throw new Error('Did not throw an error')
-  })
+
   it('should throw an error if argument name is invalid', () => {
     try {
       cookie.serialize('➡️', 'bar')

@@ -1,5 +1,11 @@
 # @tinyhttp/forwarded
 
+## 1.0.1
+
+### Patch Changes
+
+- strip bytes
+
 ## 1.0.0
 
 ### Major Changes

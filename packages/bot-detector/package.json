@@ -1,9 +1,9 @@
 {
   "name": "@tinyhttp/bot-detector",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "type": "module",
   "description": "Detect bots among users in your tinyhttp app.",
-  "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
+  "homepage": "https://tinyhttp.v1rtl.site",
   "repository": {
     "type": "git",
     "url": "https://github.com/talentlessguy/tinyhttp.git",

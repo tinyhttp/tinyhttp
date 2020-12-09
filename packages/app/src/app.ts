@@ -96,10 +96,7 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
     super()
     this.onError = options?.onError || onErrorHandler
     this.noMatchHandler = options?.noMatchHandler || this.onError.bind(null, { code: 404 })
-    this.settings = options.settings || {
-      xPoweredBy: true,
-      subdomainOffset: 2
-    }
+    this.settings = options.settings || { xPoweredBy: true }
     this.applyExtensions = options?.applyExtensions
   }
   /**
@@ -157,17 +154,13 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
 
     if (options._locals) locals = { ...locals, ...options._locals }
 
-    if (typeof file !== 'string') throw new Error('File must be a string.')
-
-    if (!file.endsWith(`.${options.ext}`)) file = file + `.${options.ext}`
+    if (!file.endsWith(`.${options.ext}`)) file = `${file}.${options.ext}`
 
     const dest = options.viewsFolder ? path.join(options.viewsFolder, file) : file
 
-    const engine = this.engines[options.ext]
+    this.engines[options.ext](dest, locals, options.renderOptions, cb)
 
-    const result = engine(dest, locals, options.renderOptions, cb)
-
-    return result
+    return this
   }
   /**
    * Register a template engine with extension
@@ -185,7 +178,7 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
    */
   async handler(req: Req, res: Res) {
     /* Set X-Powered-By header */
-    if (this.settings?.xPoweredBy) res.setHeader('X-Powered-By', 'tinyhttp')
+    if (this.settings?.xPoweredBy === true) res.setHeader('X-Powered-By', 'tinyhttp')
 
     const mw = this.middleware
 
@@ -224,7 +217,6 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
         if (matchParams(path, pathname)) {
           req.params = getURLParams(pathname, path)
           req.route = getRouteFromApp(this, (handler as unknown) as Handler<Req, Res>)
-
           res.statusCode = 200
 
           await applyHandler<Req, Res>((handler as unknown) as Handler<Req, Res>)(req, res, next)

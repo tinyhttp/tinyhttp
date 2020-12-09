@@ -1,5 +1,5 @@
 import { ServerResponse } from 'http'
-import * as cookie from '@tinyhttp/cookie'
+import type { SerializeOptions } from '@tinyhttp/cookie'
 import { Request } from './request'
 import { App, TemplateEngineOptions } from './app'
 import type { ReadStreamOptions, FormatProps, DownloadOptions } from '@tinyhttp/res'
@@ -22,60 +22,20 @@ export const renderTemplate = (_req: Request, res: Response, app: App) => (
 }
 
 export interface Response extends ServerResponse {
-  /**
-   * Sets the response’s HTTP header `field` to `value`. To set multiple fields at once, pass an object as the parameter.
-   * @param field HTTP header field
-   * @param val HTTP header value
-   */
   header(field: string | Record<string, unknown>, val: string | any[]): Response
-
-  /**
-   * Sets the response’s HTTP header `field` to `value`.
-   * @param field HTTP header field
-   * @param val HTTP header value
-   *
-   * Alias to `res.header`
-   */
   set(field: string | Record<string, unknown>, val: string | any[]): Response
   get(field: string): string | number | string[]
-
-  /**
-   * Sends the HTTP response.
-   *
-   * The body parameter can be a Buffer object, a string, an object, or an array.
-   *
-   * This method performs many useful tasks for simple non-streaming responses such as assigning the Content-Length HTTP response header field.
-   *
-   * @param body Response body
-   */
   send(body: unknown): Response
-
-  /**
-   * Sends a file by piping a stream to response.
-   *
-   * It also checks for extension to set a proper `Content-Type` header.
-   *
-   * Path argument must be absolute. To use a relative path, specify the `root` option first.
-   *
-   * @param path Path to file
-   * @param options readable stream options (that res.sendFile uses)
-   * @param cb Callback for catching errors / readable stream end
-   */
   sendFile(path: string, options?: ReadStreamOptions, cb?: (err?: any) => void): Response
-
-  /**
-   * Send JSON response
-   * @param body Response body
-   */
   json(body: unknown): Response
   status(status: number): Response
   sendStatus(statusCode: number): Response
   cookie(
     name: string,
     value: string | Record<string, unknown>,
-    options?: cookie.SerializeOptions & Partial<{ signed: boolean }>
+    options?: SerializeOptions & Partial<{ signed: boolean }>
   ): Response
-  clearCookie(name: string, options?: cookie.SerializeOptions): Response
+  clearCookie(name: string, options?: SerializeOptions): Response
   location(url: string): Response
   links(links: { [key: string]: string }): Response
   render(file: string, data?: Record<string, any>, options?: TemplateEngineOptions): Response
@@ -87,7 +47,6 @@ export interface Response extends ServerResponse {
   attachment(filename?: string): Response
   app?: App
   locals?: Record<string, any>
-
   /**
    * Send JSON response with JSONP callback support.
    *

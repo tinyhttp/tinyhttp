@@ -1,9 +1,9 @@
 {
   "name": "@tinyhttp/send",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "module",
   "description": "json, send, sendFile, status and sendStatus methods for tinyhttp",
-  "homepage": "https://github.com/talentlessguy/tinyhttp#readme",
+  "homepage": "https://tinyhttp.v1rtl.site",
   "repository": {
     "type": "git",
     "url": "https://github.com/talentlessguy/tinyhttp.git",
