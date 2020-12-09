@@ -1,10 +1,6 @@
 # Comparison
 
-> This section is in progress
-
 Below there is a table comparing tinyhttp, [Express](https://expressjs.com) and [polka](https://github.com/lukeed/polka).
-
-- (?) - not sure
 
 | criteria                             | tinyhttp          | express v4 | polka   |
 | ------------------------------------ | ----------------- | ---------- | ------- |
