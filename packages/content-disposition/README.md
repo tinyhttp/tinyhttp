@@ -96,11 +96,10 @@ import onFinished from 'on-finished'
 const filePath = '/path/to/public/plans.pdf'
 
 createServer((req, res) => {
-  // set headers
+
   res.setHeader('Content-Type', 'application/pdf')
   res.setHeader('Content-Disposition', contentDisposition(filePath))
 
-  // send file
   const stream = fs.createReadStream(filePath)
   stream.pipe(res)
   onFinished(res, () => destroy(stream))
