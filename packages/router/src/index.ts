@@ -1,102 +1,103 @@
-import { METHODS, IncomingMessage as I, ServerResponse as R } from 'http'
-
 /* HELPER TYPES */
 
 export type NextFunction = (err?: any) => void
 
-export type SyncHandler<Request extends any = I, Response extends any = R> = (
+export type SyncHandler<Request extends any = any, Response extends any = any> = (
   req: Request,
   res: Response,
   next?: NextFunction
 ) => void
 
-export type AsyncHandler<Request extends any = I, Response extends any = R> = (
+export type AsyncHandler<Request extends any = any, Response extends any = any> = (
   req: Request,
   res: Response,
   next?: NextFunction
 ) => Promise<void>
 
-export type Handler<Request extends any = I, Response extends any = R> =
+export type Handler<Request extends any = any, Response extends any = any> =
   | AsyncHandler<Request, Response>
   | SyncHandler<Request, Response>
 
-export type Method =
-  | 'GET'
-  | 'POST'
-  | 'PUT'
-  | 'PATCH'
-  | 'HEAD'
-  | 'OPTIONS'
-  | 'DELETE'
-  | 'CHECKOUT'
-  | 'COPY'
-  | 'LOCK'
-  | 'UNLOCK'
-  | 'MERGE'
-  | 'MKACTIVITY'
-  | 'MKCOL'
-  | 'MOVE'
-  | 'SEARCH'
-  | 'M-SEARCH'
-  | 'NOTIFY'
-  | 'PURGE'
-  | 'REPORT'
-  | 'SUBSCRIBE'
-  | 'UNSUBSCRIBE'
-  | 'TRACE'
-  | 'ACL'
-  | 'CONNECT'
-  | 'BIND'
-  | 'UNBIND'
-  | 'REBIND'
-  | 'LINK'
-  | 'UNLINK'
-  | 'MKCALENDAR'
-  | 'PROPFIND'
-  | 'PROPPATCH'
-  | 'SOURCE'
-  | string
+const METHODS = [
+  'ACL',
+  'BIND',
+  'CHECKOUT',
+  'CONNECT',
+  'COPY',
+  'DELETE',
+  'GET',
+  'HEAD',
+  'LINK',
+  'LOCK',
+  'M-SEARCH',
+  'MERGE',
+  'MKACTIVITY',
+  'MKCALENDAR',
+  'MKCOL',
+  'MOVE',
+  'NOTIFY',
+  'OPTIONS',
+  'PATCH',
+  'POST',
+  'PRI',
+  'PROPFIND',
+  'PROPPATCH',
+  'PURGE',
+  'PUT',
+  'REBIND',
+  'REPORT',
+  'SEARCH',
+  'SOURCE',
+  'SUBSCRIBE',
+  'TRACE',
+  'UNBIND',
+  'UNLINK',
+  'UNLOCK',
+  'UNSUBSCRIBE'
+] as const
+
+export type Method = typeof METHODS[number]
 
 export type MiddlewareType = 'mw' | 'route'
 
-export interface Middleware<Req extends I = I, Res extends R = R> {
+export interface Middleware<Req extends any = any, Res extends any = any> {
   method?: Method
   handler: Handler<Req, Res>
   path?: string
   type: MiddlewareType
 }
 
-export type MethodHandler<Req extends I = I, Res extends R = R> = {
+export type MethodHandler<Req extends any = any, Res extends any = any> = {
   path?: string | Handler<Req, Res>
   handler?: Handler<Req, Res>
   type: MiddlewareType
 }
 
-export type RouterHandler<Req extends I = I, Res extends R = R> = Handler<Req, Res> | Handler<Req, Res>[]
+export type RouterHandler<Req extends any = any, Res extends any = any> = Handler<Req, Res> | Handler<Req, Res>[]
 
-export type RouterPathOrHandler<Req extends I = I, Res extends R = R> = string | RouterHandler<Req, Res>
+export type RouterPathOrHandler<Req extends any = any, Res extends any = any> = string | RouterHandler<Req, Res>
 
-export type RouterMethod<Req extends I = I, Res extends R = R> = (
+export type RouterMethod<Req extends any = any, Res extends any = any> = (
   path: string | Handler<Req, Res>,
   handler?: Handler<Req, Res>,
   ...handlers: Handler<Req, Res>[]
 ) => any
 
-type RouterMethodParams<Req extends I = I, Res extends R = R> = Parameters<RouterMethod<Req, Res>>
+type RouterMethodParams<Req extends any = any, Res extends any = any> = Parameters<RouterMethod<Req, Res>>
 
-export type UseMethod<Req extends I = I, Res extends R = R, App extends Router = any> = (
+export type UseMethod<Req extends any = any, Res extends any = any, App extends Router = any> = (
   path: RouterPathOrHandler<Req, Res> | App,
   handler?: RouterHandler<Req, Res> | App,
   ...handlers: RouterHandler<Req, Res>[]
 ) => any
 
-export type UseMethodParams<Req extends I = I, Res extends R = R, App extends Router = any> = Parameters<
+export type UseMethodParams<Req extends any = any, Res extends any = any, App extends Router = any> = Parameters<
   UseMethod<Req, Res, App>
 >
 
 /** HELPER METHODS */
 
-const createMiddlewareFromRoute = <Req extends I = I, Res extends R = R>({
+const createMiddlewareFromRoute = <Req extends any = any, Res extends any = any>({
   path,
   handler,
   method
@@ -108,7 +109,7 @@ const createMiddlewareFromRoute = <Req extends I = I, Res extends R = R>({
   path: typeof path === 'string' ? path : '/'
 })
 
-const pushMiddleware = <Req extends I = I, Res extends R = R>(mw: Middleware[]) => ({
+const pushMiddleware = <Req extends any = any, Res extends any = any>(mw: Middleware[]) => ({
   path,
   handler,
   method,
@@ -139,7 +140,7 @@ const pushMiddleware = <Req extends I = I, Res extends R = R>(mw: Middleware[]) 
 /**
  * tinyhttp Router. Manages middleware and has HTTP methods aliases, e.g. `app.get`, `app.put`
  */
-export class Router<App extends Router = any, Req extends I = I, Res extends R = R> {
+export class Router<App extends Router = any, Req extends any = any, Res extends any = any> {
   middleware: Middleware[] = []
   mountpath = '/'
   parent: App

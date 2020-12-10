@@ -1,5 +1,11 @@
 # @tinyhttp/router
 
+## 1.0.5
+
+### Patch Changes
+
+- Get rid of node.js http as a dependency
+
 ## 1.0.4
 
 ### Patch Changes
