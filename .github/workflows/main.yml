@@ -36,7 +36,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v1.4.4
         with:
-          node-version: 14.5.0
+          node-version: 15.2.1
 
       - name: install pnpm
         uses: pnpm/action-setup@v1.2.1
