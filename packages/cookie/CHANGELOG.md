@@ -1,5 +1,11 @@
 # @tinyhttp/cookie
 
+## 1.0.4
+
+### Patch Changes
+
+- remove "src" from files
+
 ## 1.0.3
 
 ### Patch Changes

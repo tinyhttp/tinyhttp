@@ -1,5 +1,11 @@
 # @tinyhttp/router
 
+## 1.0.6
+
+### Patch Changes
+
+- remove "src" from files
+
 ## 1.0.5
 
 ### Patch Changes

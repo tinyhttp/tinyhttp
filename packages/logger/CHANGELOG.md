@@ -1,5 +1,13 @@
 # @tinyhttp/logger
 
+## 1.0.7
+
+### Patch Changes
+
+- remove "src" from files
+- Updated dependencies [undefined]
+  - @tinyhttp/app@1.0.7
+
 ## 1.0.6
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/cookie-signature",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "HTTP cookie signing and unsigning",
   "homepage": "https://tinyhttp.v1rtl.site",
   "repository": {
@@ -33,8 +33,7 @@
     "cookie"
   ],
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "author": "v1rtl",
   "license": "MIT",

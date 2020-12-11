@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/router",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "type": "module",
   "description": "Router for tinyhttp",
   "homepage": "https://tinyhttp.v1rtl.site",

@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/bot-detector",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "type": "module",
   "description": "Detect bots among users in your tinyhttp app.",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -21,8 +21,7 @@
     "./": "./"
   },
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "keywords": [
     "tinyhttp",

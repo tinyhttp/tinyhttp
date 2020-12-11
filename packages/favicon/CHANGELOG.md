@@ -1,5 +1,13 @@
 # @tinyhttp/favicon
 
+## 1.0.3
+
+### Patch Changes
+
+- remove "src" from files
+- Updated dependencies [undefined]
+  - @tinyhttp/etag@1.0.3
+
 ## 1.0.2
 
 ### Patch Changes

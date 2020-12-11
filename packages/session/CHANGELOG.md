@@ -1,5 +1,14 @@
 # @tinyhttp/session
 
+## 1.0.4
+
+### Patch Changes
+
+- remove "src" from files
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@1.0.4
+  - @tinyhttp/cookie-signature@1.0.3
+
 ## 1.0.3
 
 ### Patch Changes

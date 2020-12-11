@@ -1,5 +1,15 @@
 # @tinyhttp/cookie-parser
 
+## 1.0.7
+
+### Patch Changes
+
+- remove "src" from files
+- Updated dependencies [undefined]
+  - @tinyhttp/app@1.0.7
+  - @tinyhttp/cookie@1.0.4
+  - @tinyhttp/cookie-signature@1.0.3
+
 ## 1.0.6
 
 ### Patch Changes

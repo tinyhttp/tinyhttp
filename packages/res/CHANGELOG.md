@@ -1,5 +1,17 @@
 # @tinyhttp/res
 
+## 1.0.4
+
+### Patch Changes
+
+- remove "src" from files
+- Updated dependencies [undefined]
+  - @tinyhttp/content-disposition@1.0.4
+  - @tinyhttp/cookie@1.0.4
+  - @tinyhttp/cookie-signature@1.0.3
+  - @tinyhttp/req@1.0.4
+  - @tinyhttp/send@1.0.4
+
 ## 1.0.3
 
 ### Patch Changes

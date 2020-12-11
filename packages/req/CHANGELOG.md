@@ -1,5 +1,15 @@
 # @tinyhttp/req
 
+## 1.0.4
+
+### Patch Changes
+
+- remove "src" from files
+- Updated dependencies [undefined]
+  - @tinyhttp/accepts@1.0.3
+  - @tinyhttp/type-is@1.0.3
+  - @tinyhttp/url@1.0.4
+
 ## 1.0.3
 
 ### Patch Changes
