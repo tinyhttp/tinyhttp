@@ -1,5 +1,11 @@
 # @tinyhttp/router
 
+## 1.0.7
+
+### Patch Changes
+
+- strip bytes
+
 ## 1.0.6
 
 ### Patch Changes

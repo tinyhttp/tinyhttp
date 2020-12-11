@@ -1,5 +1,13 @@
 # @tinyhttp/session
 
+## 1.0.5
+
+### Patch Changes
+
+- strip bytes
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie-signature@1.0.4
+
 ## 1.0.4
 
 ### Patch Changes

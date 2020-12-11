@@ -1,5 +1,11 @@
 # @tinyhttp/ping
 
+## 1.0.5
+
+### Patch Changes
+
+- strip bytes
+
 ## 1.0.4
 
 ### Patch Changes

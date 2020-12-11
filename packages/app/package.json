@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/app",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "0-legacy, tiny & fast web framework as a replacement of Express",
   "type": "module",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -28,15 +28,11 @@
   },
   "keywords": [
     "tinyhttp",
-    "node.js",
-    "web framework",
-    "web",
+    "router",
     "backend",
     "http",
-    "http framework",
-    "javascript",
-    "node",
-    "native-esm"
+    "framework",
+    "api"
   ],
   "author": "v1rtl",
   "license": "MIT",

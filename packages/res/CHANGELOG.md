@@ -1,5 +1,15 @@
 # @tinyhttp/res
 
+## 1.0.5
+
+### Patch Changes
+
+- strip bytes
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie-signature@1.0.4
+  - @tinyhttp/req@1.0.5
+  - @tinyhttp/send@1.0.5
+
 ## 1.0.4
 
 ### Patch Changes

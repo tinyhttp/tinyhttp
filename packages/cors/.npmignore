@@ -3,3 +3,4 @@ pnpm-lock.yaml
 rollup.config.js
 src
 tsconfig.json
+CHANGELOG.md

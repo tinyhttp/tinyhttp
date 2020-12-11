@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/type-is",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "module",
   "description": "TypeScript rewrite of type-is with CJS and ESM targets",
   "homepage": "https://tinyhttp.v1rtl.site",

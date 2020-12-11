@@ -1,5 +1,14 @@
 # @tinyhttp/req
 
+## 1.0.5
+
+### Patch Changes
+
+- strip bytes
+- Updated dependencies [undefined]
+  - @tinyhttp/type-is@1.0.4
+  - @tinyhttp/url@1.0.5
+
 ## 1.0.4
 
 ### Patch Changes

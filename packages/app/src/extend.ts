@@ -37,43 +37,33 @@ import { App } from './app'
 
 /**
  * Extends Request and Response objects with custom properties and methods
- * @param options App settings
  */
 export const extendMiddleware = (app: App) => (req: Request, res: Response, next: NextFunction) => {
-  const options = app.settings
-
-  /// Define extensions
+  const { settings } = app
 
   req.originalUrl = req.url
 
   res.get = getResponseHeader(res)
   req.get = getRequestHeader(req)
 
-  /**
-    Bind `app` to `req` / `res`
-   */
-  if (options?.bindAppToReqRes) {
+  if (settings?.bindAppToReqRes) {
     req.app = app
     res.app = app
   }
 
-  /*
-  Request extensions
-  */
-
-  if (options?.networkExtensions) {
+  if (settings?.networkExtensions) {
     req.protocol = getProtocol(req)
     req.secure = req.protocol === 'https'
     req.connection = Object.assign(req.socket, { encrypted: req.secure })
     req.hostname = getHostname(req)
-    req.subdomains = getSubdomains(req, options.subdomainOffset)
+    req.subdomains = getSubdomains(req, settings.subdomainOffset)
     req.ip = getIP(req)
     req.ips = getIPs(req)
   }
 
   req.query = getQueryParams(req.url)
 
-  if (options?.freshnessTesting) {
+  if (settings?.freshnessTesting) {
     req.fresh = getFreshOrStale(req, res)
     req.stale = !req.fresh
   }
@@ -83,10 +73,6 @@ export const extendMiddleware = (app: App) => (req: Request, res: Response, next
   req.acceptsCharsets = getAcceptsCharsets(req)
   req.acceptsEncodings = getAcceptsEncodings(req)
   req.xhr = checkIfXMLHttpRequest(req)
-
-  /*
-  Response extensions
-  */
 
   res.header = res.set = setHeader<Response>(res)
   res.send = send<Request, Response>(req, res)

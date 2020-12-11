@@ -1,5 +1,13 @@
 # @tinyhttp/proxy-addr
 
+## 1.0.3
+
+### Patch Changes
+
+- strip bytes
+- Updated dependencies [undefined]
+  - @tinyhttp/forwarded@1.0.3
+
 ## 1.0.2
 
 ### Patch Changes
