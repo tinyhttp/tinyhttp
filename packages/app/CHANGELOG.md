@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 1.0.9
+
+### Patch Changes
+
+- remove "utils" folder
+
 ## 1.0.8
 
 ### Patch Changes

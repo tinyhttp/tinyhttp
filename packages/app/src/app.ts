@@ -6,13 +6,12 @@ import type { Request } from './request'
 import type { Response } from './response'
 import type { ErrorHandler } from './onError'
 import { onErrorHandler } from './onError'
-import { isAsync } from './utils/async'
 import { Middleware, Handler, NextFunction, Router } from '@tinyhttp/router'
 import { extendMiddleware } from './extend'
 import { matchParams } from '@tinyhttp/req'
 
 export const applyHandler = <Req, Res>(h: Handler<Req, Res>) => async (req: Req, res: Res, next?: NextFunction) => {
-  if (isAsync(h)) {
+  if (h[Symbol.toStringTag] === 'AsyncFunction') {
     try {
       await h(req, res, next)
     } catch (e) {

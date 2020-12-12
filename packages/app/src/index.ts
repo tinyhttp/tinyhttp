@@ -16,5 +16,4 @@ import {
 export type Handler = RHandler<Request, Response>
 export type AsyncHandler = RAsyncHandler<Request, Response>
 export type SyncHandler = RSyncHandler<Request, Response>
-export type { NextFunction, Middleware }
-export type { Request, Response }
+export type { NextFunction, Middleware, Request, Response }

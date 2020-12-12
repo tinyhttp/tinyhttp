@@ -2,16 +2,30 @@ import { IncomingMessage } from 'http'
 import { ParsedUrlQuery } from 'querystring'
 
 import { Ranges } from 'range-parser'
-import { proxyaddr as proxyAddr, all } from '@tinyhttp/proxy-addr'
+import { proxyaddr as proxyAddr, all, compile } from '@tinyhttp/proxy-addr'
+
 import { App } from './app'
 import type { Middleware, Handler } from '@tinyhttp/router'
 import type { Response } from './response'
-import { trustRemoteAddress } from './utils/request'
 
 import type { URLParams } from '@tinyhttp/req'
 import { isIP } from 'net'
 
 export { getURLParams } from '@tinyhttp/req'
+
+const trustRemoteAddress = ({ connection }: Pick<IncomingMessage, 'headers' | 'connection'>) => {
+  const val = connection.remoteAddress
+
+  if (typeof val === 'function') return val
+
+  if (typeof val === 'boolean' && val === true) return () => true
+
+  if (typeof val === 'number') return (_: unknown, i: number) => (val ? i < val : undefined)
+
+  if (typeof val === 'string') return compile(val.split(',').map((x) => x.trim()))
+
+  return compile(val || [])
+}
 
 export const getRouteFromApp = ({ middleware }: App, h: Handler<Request, Response>) =>
   middleware.find(({ handler }) => handler.name === h.name)
