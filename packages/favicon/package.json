@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/favicon",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "type": "module",
   "description": "favicon middleware",
   "homepage": "https://tinyhttp.v1rtl.site",
