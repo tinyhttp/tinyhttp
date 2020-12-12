@@ -1,5 +1,17 @@
 # @tinyhttp/app
 
+## 1.0.10
+
+### Patch Changes
+
+- release clean packages with clean dist
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@1.0.5
+  - @tinyhttp/proxy-addr@1.0.4
+  - @tinyhttp/req@1.0.6
+  - @tinyhttp/res@1.0.6
+  - @tinyhttp/router@1.0.8
+
 ## 1.0.9
 
 ### Patch Changes

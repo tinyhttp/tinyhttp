@@ -1,5 +1,17 @@
 # @tinyhttp/res
 
+## 1.0.6
+
+### Patch Changes
+
+- release clean packages with clean dist
+- Updated dependencies [undefined]
+  - @tinyhttp/content-disposition@1.0.5
+  - @tinyhttp/cookie@1.0.5
+  - @tinyhttp/cookie-signature@1.0.5
+  - @tinyhttp/req@1.0.6
+  - @tinyhttp/send@1.0.6
+
 ## 1.0.5
 
 ### Patch Changes

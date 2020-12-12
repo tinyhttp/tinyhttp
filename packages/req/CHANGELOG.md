@@ -1,5 +1,15 @@
 # @tinyhttp/req
 
+## 1.0.6
+
+### Patch Changes
+
+- release clean packages with clean dist
+- Updated dependencies [undefined]
+  - @tinyhttp/accepts@1.0.4
+  - @tinyhttp/type-is@1.0.5
+  - @tinyhttp/url@1.0.6
+
 ## 1.0.5
 
 ### Patch Changes

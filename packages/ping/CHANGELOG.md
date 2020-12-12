@@ -1,5 +1,11 @@
 # @tinyhttp/ping
 
+## 1.0.6
+
+### Patch Changes
+
+- release clean packages with clean dist
+
 ## 1.0.5
 
 ### Patch Changes

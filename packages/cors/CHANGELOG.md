@@ -1,5 +1,11 @@
 # @tinyhttp/cors
 
+## 1.0.5
+
+### Patch Changes
+
+- release clean packages with clean dist
+
 ## 1.0.4
 
 ### Patch Changes

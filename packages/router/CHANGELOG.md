@@ -1,5 +1,11 @@
 # @tinyhttp/router
 
+## 1.0.8
+
+### Patch Changes
+
+- release clean packages with clean dist
+
 ## 1.0.7
 
 ### Patch Changes

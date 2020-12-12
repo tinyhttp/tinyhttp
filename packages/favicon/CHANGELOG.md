@@ -1,5 +1,13 @@
 # @tinyhttp/favicon
 
+## 1.0.5
+
+### Patch Changes
+
+- release clean packages with clean dist
+- Updated dependencies [undefined]
+  - @tinyhttp/etag@1.0.5
+
 ## 1.0.4
 
 ### Patch Changes

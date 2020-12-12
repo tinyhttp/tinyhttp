@@ -1,5 +1,11 @@
 # @tinyhttp/dotenv
 
+## 1.0.3
+
+### Patch Changes
+
+- release clean packages with clean dist
+
 ## 1.0.2
 
 ### Patch Changes

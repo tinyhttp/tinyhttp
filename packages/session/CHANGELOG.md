@@ -1,5 +1,14 @@
 # @tinyhttp/session
 
+## 1.0.6
+
+### Patch Changes
+
+- release clean packages with clean dist
+- Updated dependencies [undefined]
+  - @tinyhttp/cookie@1.0.5
+  - @tinyhttp/cookie-signature@1.0.5
+
 ## 1.0.5
 
 ### Patch Changes
