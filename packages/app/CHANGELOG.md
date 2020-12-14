@@ -1,6 +1,13 @@
 # @tinyhttp/app
 
+## 1.0.12
+
+### Patch Changes
+
+- Add template settings and caching for markdown
+
 ## 1.0.11
+
 ### Patch Changes
 
 - regenerate changelogs

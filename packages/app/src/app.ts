@@ -43,11 +43,10 @@ export type TemplateFunc<O> = (
 export type TemplateEngineOptions<O = any> = Partial<{
   cache: boolean
   ext: string
-  renderOptions: O
+  renderOptions: Partial<O>
   viewsFolder: string
   _locals: Record<string, any>
-}> &
-  Record<string, any>
+}>
 
 /**
  * `App` class - the starting point of tinyhttp app.
@@ -71,11 +70,11 @@ export type TemplateEngineOptions<O = any> = Partial<{
  * const app = App<any, CoolReq, Response>()
  * ```
  */
-export class App<RenderOptions = any, Req extends Request = Request, Res extends Response = Response> extends Router<
-  App,
-  Req,
-  Res
-> {
+export class App<
+  RenderOptions = any,
+  Req extends Request = Request,
+  Res extends Response<RenderOptions> = Response<RenderOptions>
+> extends Router<App, Req, Res> {
   middleware: Middleware<Req, Res>[] = []
   locals: Record<string, string> = {}
   noMatchHandler: Handler
@@ -204,7 +203,9 @@ export class App<RenderOptions = any, Req extends Request = Request, Res extends
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
       const { path, method, handler, type } = mw
 
-      this.applyExtensions ? this.applyExtensions(req, res, next) : extendMiddleware(this)(req, res, next)
+      this.applyExtensions
+        ? this.applyExtensions(req, res, next)
+        : extendMiddleware<RenderOptions>(this)(req, res, next)
 
       const parsedUrl = parse(req.url)
 

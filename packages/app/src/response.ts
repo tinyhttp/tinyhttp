@@ -4,10 +4,10 @@ import { Request } from './request'
 import { App, TemplateEngineOptions } from './app'
 import type { ReadStreamOptions, FormatProps, DownloadOptions } from '@tinyhttp/res'
 
-export const renderTemplate = (_req: Request, res: Response, app: App) => (
+export const renderTemplate = <O>(_req: Request, res: Response, app: App) => (
   file: string,
   data?: Record<string, any>,
-  options?: TemplateEngineOptions
+  options?: TemplateEngineOptions<O>
 ): Response => {
   app.render(
     file,
@@ -21,7 +21,7 @@ export const renderTemplate = (_req: Request, res: Response, app: App) => (
   return res
 }
 
-export interface Response extends ServerResponse {
+export interface Response<O = any> extends ServerResponse {
   header(field: string | Record<string, unknown>, val: string | any[]): Response
   set(field: string | Record<string, unknown>, val: string | any[]): Response
   get(field: string): string | number | string[]
@@ -38,7 +38,7 @@ export interface Response extends ServerResponse {
   clearCookie(name: string, options?: SerializeOptions): Response
   location(url: string): Response
   links(links: { [key: string]: string }): Response
-  render(file: string, data?: Record<string, any>, options?: TemplateEngineOptions): Response
+  render(file: string, data?: Record<string, any>, options?: TemplateEngineOptions<O>): Response
   vary(field: string): Response
   format(obj: FormatProps): Response
   redirect(url: string, status?: number): Response

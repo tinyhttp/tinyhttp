@@ -1,4 +1,4 @@
-import type { AsyncHandler } from '@tinyhttp/app'
+import type { AsyncHandler, Response } from '@tinyhttp/app'
 import { parse } from 'path'
 import { existsSync } from 'fs'
 import { readFile, readdir } from 'fs/promises'
@@ -11,7 +11,23 @@ export type MarkdownServerHandlerOptions = Partial<{
   recursive: boolean
   markedOptions: MarkedOptions
   markedExtensions: MarkedOptions[]
+  caching:
+    | {
+        maxAge: number
+        immutable: boolean
+      }
+    | false
 }>
+
+const enableCaching = (res: Response, caching: MarkdownServerHandlerOptions['caching']) => {
+  if (caching) {
+    let cc = caching.maxAge != null && `public,max-age=${caching.maxAge}`
+    if (cc && caching.immutable) cc += ',immutable'
+    else if (cc && caching.maxAge === 0) cc += ',must-revalidate'
+
+    res.set('Cache-Control', cc)
+  }
+}
 
 export const markdownStaticHandler = (
   dir = process.cwd(),
@@ -20,7 +36,8 @@ export const markdownStaticHandler = (
     stripExtension = true,
     recursive = false,
     markedOptions = null,
-    markedExtensions = []
+    markedExtensions = [],
+    caching = false
   }: MarkdownServerHandlerOptions
 ): AsyncHandler => async (req, res, next) => {
   if (req.url.startsWith(prefix)) {
@@ -38,7 +55,10 @@ export const markdownStaticHandler = (
         `${dir}/readme.md`
       ].find((file) => existsSync(file) && file)
 
-      if (idxFile) res.set('Content-Type', 'text/html').send(md((await readFile(idxFile)).toString()))
+      if (idxFile) {
+        enableCaching(res, caching)
+        res.set('Content-Type', 'text/html').send(md((await readFile(idxFile)).toString()))
+      }
     }
 
     let files: string[]
@@ -66,7 +86,7 @@ export const markdownStaticHandler = (
       if (markedExtensions?.length !== 0) {
         for (const ext of markedExtensions) md.use(ext)
       }
-
+      enableCaching(res, caching)
       res.set('Content-Type', 'text/html').send(md(content, markedOptions))
     }
   }
