@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 1.0.13
+
+### Patch Changes
+
+- fix headers after sent error
+
 ## 1.0.12
 
 ### Patch Changes

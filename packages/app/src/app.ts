@@ -182,7 +182,10 @@ export class App<
 
     const subappPath = Object.keys(this.apps).find((x) => req.url.startsWith(x))
 
-    if (subappPath) this.apps[subappPath].handler(req, res)
+    if (subappPath) {
+      this.apps[subappPath].handler(req, res)
+      return
+    }
 
     const noMatchMW: Middleware = {
       handler: this.noMatchHandler,
