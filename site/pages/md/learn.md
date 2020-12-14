@@ -272,6 +272,20 @@ app.use((_req, res) => void res.end('Hello World')).use((_req, res) => void res.
 
 Remember to call `next()` in your middleware chains because otherwise it will stick to a current handler and won't switch to next one.
 
+#### Async handlers
+
+tinyhttp, unlike Express, supports asynchronous functions as handlers. Any error thrown by a promise will be caught by a top-level `try...catch`, meaning that you don't have to wrap it in your own `try...catch` unless you need it.
+
+```js
+import { App } from '@tinyhttp/app'
+import { readFile } from 'fs/promises'
+
+app.use('/', async (req, res, next) => {
+  const file = await readFile('file.txt') // in case of error it will send 500 with error message
+  res.send(file)
+})
+```
+
 ### Routing
 
 _**Routing**_ is defining how your application handles requests using with specific paths (e.g. `/` or `/test`) and methods (`GET`, `POST` etc).

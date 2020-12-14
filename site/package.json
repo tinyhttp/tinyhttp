@@ -16,6 +16,6 @@
   },
   "devDependencies": {
     "esm": "^3.2.25",
-    "ts-node": "^9.0.0"
+    "ts-node": "^9.1.1"
   }
 }
