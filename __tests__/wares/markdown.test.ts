@@ -123,6 +123,48 @@ describe('Handler options', () => {
       await fetch('/page').expectStatus(200)
     })
   })
+  describe('Caching', () => {
+    const maxAge = 3600 * 60 * 60
+    it('should disable caching by default', async () => {
+      const { fetch } = InitAppAndTest(markdownStaticHandler(STATIC_FOLDER, {}))
+
+      await fetch('/page').expectHeader('Cache-Control', null)
+    })
+    it('should set maxAge header', async () => {
+      const { fetch } = InitAppAndTest(
+        markdownStaticHandler(STATIC_FOLDER, {
+          caching: {
+            maxAge
+          }
+        })
+      )
+
+      await fetch('/page').expectHeader('Cache-Control', `public,max-age=${maxAge}`)
+    })
+    it('should set immutable header', async () => {
+      const { fetch } = InitAppAndTest(
+        markdownStaticHandler(STATIC_FOLDER, {
+          caching: {
+            maxAge,
+            immutable: true
+          }
+        })
+      )
+
+      await fetch('/page').expectHeader('Cache-Control', `public,max-age=${maxAge},immutable`)
+    })
+    it('should add "must-revalidate" if maxAge is 0', async () => {
+      const { fetch } = InitAppAndTest(
+        markdownStaticHandler(STATIC_FOLDER, {
+          caching: {
+            maxAge: 0
+          }
+        })
+      )
+
+      await fetch('/page').expectHeader('Cache-Control', `public,max-age=0,must-revalidate`)
+    })
+  })
 })
 
 describe('Index file', () => {

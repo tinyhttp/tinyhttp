@@ -12,10 +12,10 @@ export type MarkdownServerHandlerOptions = Partial<{
   markedOptions: MarkedOptions
   markedExtensions: MarkedOptions[]
   caching:
-    | {
+    | Partial<{
         maxAge: number
         immutable: boolean
-      }
+      }>
     | false
 }>
 

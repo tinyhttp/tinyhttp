@@ -2,7 +2,7 @@
 
 [![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/markdown?style=flat-square)](https://npmjs.com/package/@tinyhttp/markdown) [![npm](https://img.shields.io/npm/dt/@tinyhttp/markdown?style=flat-square)](https://npmjs.com/package/@tinyhttp/markdown) [![](https://img.shields.io/badge/website-visit-hotpink?style=flat-square)](https://tinyhttp.v1rtl.site/mw/markdown)
 
-tinyhttp static markdown middleware Based on [marked](https://github.com/markedjs/marked) (markdown library) and [@tinyhttp/static](https://tinyhttp.v1rtl.site/mw/static). Useful for creating simple static Markdown sites with basic routing. Used by [tinyhttp website](https://tinyhttp.v1rtl.site).
+tinyhttp static markdown middleware based on [marked](https://github.com/markedjs/marked) (markdown library). Useful for creating simple static Markdown sites with basic routing. Used by [tinyhttp website](https://tinyhttp.v1rtl.site).
 
 ## Install
 
