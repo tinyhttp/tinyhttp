@@ -1,5 +1,11 @@
 # @tinyhttp/markdown
 
+## 1.0.14
+
+### Patch Changes
+
+- Fix markdown opts
+
 ## 1.0.13
 
 ### Patch Changes

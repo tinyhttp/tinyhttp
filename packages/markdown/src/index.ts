@@ -31,15 +31,16 @@ const enableCaching = (res: Response, caching: MarkdownServerHandlerOptions['cac
 
 export const markdownStaticHandler = (
   dir = process.cwd(),
-  {
+  opts: MarkdownServerHandlerOptions = {}
+): AsyncHandler => async (req, res, next) => {
+  const {
     prefix = '/',
     stripExtension = true,
     recursive = false,
     markedOptions = null,
     markedExtensions = [],
     caching = false
-  }: MarkdownServerHandlerOptions
-): AsyncHandler => async (req, res, next) => {
+  } = opts
   if (req.url.startsWith(prefix)) {
     let unPrefixedURL = req.url.replace(prefix, '')
 
@@ -76,16 +77,13 @@ export const markdownStaticHandler = (
 
         return /\.(md|markdown)/.test(ext) && unPrefixedURL === (isDir ? `${dir}/${name}`.replace('\\', '/') : name)
       })
-    } else {
-      file = files.find((f) => f === decodeURI(unPrefixedURL))
-    }
+    } else file = files.find((f) => f === decodeURI(unPrefixedURL))
 
     if (file) {
       const content = (await readFile(`${dir}/${file}`)).toString()
 
-      if (markedExtensions?.length !== 0) {
-        for (const ext of markedExtensions) md.use(ext)
-      }
+      if (markedExtensions?.length !== 0) for (const ext of markedExtensions) md.use(ext)
+
       enableCaching(res, caching)
       res.set('Content-Type', 'text/html').send(md(content, markedOptions))
     }

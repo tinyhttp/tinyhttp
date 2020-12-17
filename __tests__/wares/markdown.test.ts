@@ -4,6 +4,30 @@ import path from 'path'
 
 const STATIC_FOLDER = path.join(__dirname, '../fixtures')
 
+describe('Base dir', () => {
+  it('should set base dir to `process.cwd()` by default', async () => {
+    const { fetch } = InitAppAndTest(markdownStaticHandler())
+    const res = await fetch('/')
+
+    expect(res.status).toBe(200)
+  })
+  it('should scan specified directory', async () => {
+    const { fetch } = InitAppAndTest(
+      markdownStaticHandler(STATIC_FOLDER, {
+        markedOptions: {
+          headerIds: false
+        }
+      })
+    )
+
+    const res = await fetch('/page')
+
+    expect((await res.text()).trim()).toContain(`<h1>Hello World</h1>`)
+
+    expect(res.status).toBe(200)
+  })
+})
+
 describe('Routing', () => {
   it('should send the file matched', async () => {
     const { fetch } = InitAppAndTest(
@@ -103,17 +127,17 @@ describe('Handler options', () => {
 
 describe('Index file', () => {
   it('should detect index.md', async () => {
-    const { fetch } = InitAppAndTest(markdownStaticHandler(`${STATIC_FOLDER}/index/md`, {}))
+    const { fetch } = InitAppAndTest(markdownStaticHandler(`${STATIC_FOLDER}/index/md`))
 
     await fetch('/').expect(200)
   })
   it('should detect index.markdown', async () => {
-    const { fetch } = InitAppAndTest(markdownStaticHandler(`${STATIC_FOLDER}/index/markdown`, {}))
+    const { fetch } = InitAppAndTest(markdownStaticHandler(`${STATIC_FOLDER}/index/markdown`))
 
     await fetch('/').expect(200)
   })
   it('should detect README.md', async () => {
-    const { fetch } = InitAppAndTest(markdownStaticHandler(`${STATIC_FOLDER}/readme/md`, {}))
+    const { fetch } = InitAppAndTest(markdownStaticHandler(`${STATIC_FOLDER}/readme/md`))
 
     await fetch('/').expect(200)
   })

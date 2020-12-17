@@ -66,9 +66,7 @@ async function resolveSync(iconPath: string) {
   const path = resolve(iconPath)
   const s = await stat(path)
 
-  if (s.isDirectory()) {
-    throw createIsDirError(path)
-  }
+  if (s.isDirectory()) throw createIsDirError(path)
 
   return path
 }
@@ -77,9 +75,7 @@ function send(req: Request, res: Response, icon: any) {
   // Set headers
   const headers = icon.headers
   const keys = Object.keys(headers)
-  for (const key of keys) {
-    res.setHeader(key, headers[key])
-  }
+  for (const key of keys) res.setHeader(key, headers[key])
 
   // Validate freshness
   if (isFresh(req, res)) {
@@ -110,7 +106,6 @@ export async function favicon(path: string | Buffer, options?: FaviconOptions) {
 
   if (Buffer.isBuffer(path)) icon = createIcon(Buffer.from(path), maxAge)
   else if (typeof path === 'string') path = await resolveSync(path)
-  else throw new TypeError('path to favicon.ico must be string or buffer')
 
   return async function favicon(req: Request, res: Response, next?: (err?: any) => void) {
     if (getPathname(req) !== '/favicon.ico') {
