@@ -1,6 +1,13 @@
 # @tinyhttp/session
 
+## 1.0.8
+
+### Patch Changes
+
+- Include types to prevent ts errors
+
 ## 1.0.7
+
 ### Patch Changes
 
 - regenerate changelogs
