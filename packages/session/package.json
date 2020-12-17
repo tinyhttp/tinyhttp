@@ -42,8 +42,8 @@
   "dependencies": {
     "@tinyhttp/cookie": "workspace:*",
     "@tinyhttp/cookie-signature": "workspace:*",
+    "@types/express-session": "1.15.15",
     "nanoid": "^3.1.16",
-    "on-headers": "^1.0.2",
-    "@types/express-session": "1.15.15"
+    "on-headers": "^1.0.2"
   }
 }
