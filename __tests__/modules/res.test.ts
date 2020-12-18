@@ -233,6 +233,37 @@ describe('Response extensions', () => {
 
       await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename="some_file.png"')
     })
+    it('should set "root" from options', async () => {
+      const app = runServer((_, res) => {
+        download(res)('favicon.ico', () => void 0, {
+          root: path.join(__dirname, '../fixtures')
+        }).end()
+      })
+
+      await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename="favicon.ico"')
+    })
+    it(`'should pass options to sendFile's ReadStream'`, async () => {
+      const app = runServer((_, res) => {
+        download(res)(path.join(__dirname, '../fixtures', 'favicon.ico'), () => void 0, {
+          encoding: 'ascii'
+        }).end()
+      })
+
+      await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename="favicon.ico"')
+    })
+    it('should set headers from options', async () => {
+      const app = runServer((_, res) => {
+        download(res)(path.join(__dirname, '../fixtures', 'favicon.ico'), () => void 0, {
+          headers: {
+            'X-Custom-Header': 'Value'
+          }
+        }).end()
+      })
+
+      await makeFetch(app)('/')
+        .expect('Content-Disposition', 'attachment; filename="favicon.ico"')
+        .expect('X-Custom-Header', 'Value')
+    })
   })
   describe('res.cookie(name, value, options)', () => {
     it('serializes the cookie and puts it in a Set-Cookie header', async () => {
@@ -265,6 +296,19 @@ describe('Response extensions', () => {
       })
 
       await makeFetch(app)('/').expect('cookieParser("secret") required for signed cookies')
+    })
+    it('should set "maxAge" and "expires" from options', async () => {
+      const maxAge = 3600 * 24 * 365
+
+      const app = runServer((req, res) => {
+        setCookie(req, res)('hello', 'world', {
+          maxAge
+        }).end()
+
+        expect(res.getHeader('Set-Cookie')).toContain(`Max-Age=${maxAge / 1000}; Path=/; Expires=`)
+      })
+
+      await makeFetch(app)('/').expect(200)
     })
   })
   describe('res.clearCookie(name, options)', () => {

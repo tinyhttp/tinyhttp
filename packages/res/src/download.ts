@@ -28,7 +28,6 @@ export const download = <Response extends Res = Res>(res: Response) => (
   if (typeof filename === 'function') {
     done = filename
     name = null
-    opts = null
   } else if (typeof options === 'function') {
     done = options
     opts = null

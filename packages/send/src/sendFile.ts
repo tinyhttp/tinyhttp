@@ -41,15 +41,13 @@ export const sendFile = <Response extends Res = Res>(res: Response) => (
 
   if (!path || typeof path !== 'string') throw new TypeError('path must be a string to res.sendFile')
 
-  if (headers) {
-    for (const [k, v] of Object.entries(headers)) res.setHeader(k, v)
-  }
+  if (headers) for (const [k, v] of Object.entries(headers)) res.setHeader(k, v)
 
   if (!isAbsolute(path)) throw new TypeError('path must be absolute')
 
   const stream = createReadStream(root ? root + path : path, options)
 
-  if (cb) stream.on('error', (err) => void cb(err)).on('end', () => void cb())
+  if (cb) stream.on('error', (err) => cb(err)).on('end', () => cb())
 
   res.setHeader('Content-Type', contentType(extname(path)))
 
