@@ -1,6 +1,7 @@
 {
   "name": "no-match-handler",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@tinyhttp/app": "workspace:*"
   }
