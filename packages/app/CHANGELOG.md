@@ -1,5 +1,13 @@
 # @tinyhttp/app
 
+## 1.0.18
+
+### Patch Changes
+
+- Fix middleware match for `.use`
+  - @tinyhttp/req@1.0.8
+  - @tinyhttp/res@1.0.9
+
 ## 1.0.17
 
 ### Patch Changes
