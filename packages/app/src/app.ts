@@ -214,7 +214,7 @@ export class App<
 
       req.originalUrl = req.url
 
-      req.url = lead(req.url.substr(path.length)) || '/'
+      req.url = lead(req.url.substring(path.length)) || '/'
 
       const { pathname } = parse(req.originalUrl)
 
@@ -231,10 +231,16 @@ export class App<
           res.statusCode = 200
 
           await applyHandler<Req, Res>((handler as unknown) as Handler<Req, Res>)(req, res, next)
-        } else loop(req, res)
+        } else {
+          req.url = req.originalUrl
+          loop(req, res)
+        }
       } else if (type === 'mw' && req.originalUrl.startsWith(path)) {
         await applyHandler<Req, Res>((handler as unknown) as Handler<Req, Res>)(req, res, next)
-      } else loop(req, res)
+      } else {
+        req.url = req.originalUrl
+        loop(req, res)
+      }
     }
 
     const loop = (req: Req, res: Res) => {

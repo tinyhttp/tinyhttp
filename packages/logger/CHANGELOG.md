@@ -1,5 +1,13 @@
 # @tinyhttp/logger
 
+## 1.0.16
+
+### Patch Changes
+
+- Fix req.url not being reset after multiple req.url assignments
+- Updated dependencies [undefined]
+  - @tinyhttp/app@1.0.16
+
 ## 1.0.15
 
 ### Patch Changes

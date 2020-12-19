@@ -1,7 +1,7 @@
-import { App } from '../packages/app/src'
+import { App } from '@tinyhttp/app'
 import serve from 'sirv'
-import { markdownStaticHandler as md } from '../packages/markdown/src'
-import { logger } from '../packages/logger/src'
+import { markdownStaticHandler as md } from '@tinyhttp/markdown'
+import { logger } from '@tinyhttp/logger'
 import { createReadStream } from 'fs'
 import { transformMWPageStream, transformPageIndexStream } from './streams'
 import fetchCache from 'node-fetch-cache'
@@ -45,6 +45,18 @@ app
       }
     })
   )
+  .use((req, _, next) => {
+    console.log('First', {
+      url: req.url,
+      orig: req.originalUrl,
+      path: req.path
+    })
+
+    next()
+  })
+  .get('/mw', (req, res) => {
+    res.send(req.url)
+  })
   .get('/mw', async (req, res, next) => {
     try {
       const request = await fetch('https://api.github.com/repos/talentlessguy/tinyhttp/contents/packages')
@@ -69,6 +81,16 @@ app
       next(e)
     }
   })
+  .use((req, _, next) => {
+    console.log('Second', {
+      url: req.url,
+      orig: req.originalUrl,
+      path: req.path
+    })
+
+    next()
+  })
+
   .get('/mw/:mw', async (req, res, next) => {
     if (NON_MW_PKGS.includes(req.params.mw)) {
       next()
@@ -109,11 +131,11 @@ app
       }
     })
   )
-  .use(
+  .use((req, res, next) => {
     serve('static', {
       dev: process.env.NODE_ENV !== 'production',
       immutable: process.env.NODE_ENV === 'production'
-    })
-  )
+    })(req, res, next)
+  })
 
 app.listen(3000, () => console.log(`Running on http://localhost:3000`))

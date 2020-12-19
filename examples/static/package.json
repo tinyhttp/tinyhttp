@@ -1,0 +1,9 @@
+{
+  "name": "static",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@tinyhttp/app": "workspace:^1.0.15",
+    "sirv": "^1.0.10"
+  }
+}

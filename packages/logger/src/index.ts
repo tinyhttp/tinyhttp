@@ -23,8 +23,10 @@ const joinOutputArgs = (
   status?: string,
   msg?: string
 ) => {
-  const { method, url } = req
+  const { method } = req
   const { statusCode } = res
+
+  const url = req.originalUrl || req.url
 
   const methods = options.methods ?? METHODS
   const timestamp = options.timestamp ?? false

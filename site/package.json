@@ -5,6 +5,10 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
+    "@tinyhttp/app": "workspace:^1.0.15",
+    "@tinyhttp/logger": "workspace:^1.0.15",
+    "@tinyhttp/markdown": "workspace:^1.0.17",
+    "express": "^4.17.1",
     "highlight.js": "^10.4.0",
     "marked": "^1.2.5",
     "node-fetch-cache": "^1.0.6",
