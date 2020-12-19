@@ -5,21 +5,17 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/app": "workspace:^1.0.15",
-    "@tinyhttp/logger": "workspace:^1.0.15",
-    "@tinyhttp/markdown": "workspace:^1.0.17",
-    "express": "^4.17.1",
+    "@tinyhttp/app": "workspace:*",
+    "@tinyhttp/logger": "workspace:*",
+    "@tinyhttp/markdown": "workspace:*",
     "highlight.js": "^10.4.0",
     "marked": "^1.2.5",
     "node-fetch-cache": "^1.0.6",
     "sirv": "^1.0.7"
   },
   "scripts": {
-    "dev": "pnpm start",
-    "start": "node -r esm -r ts-node/register ./*.ts"
-  },
-  "devDependencies": {
-    "esm": "^3.2.25",
-    "ts-node": "^9.1.1"
+    "start": "node ./dist/site/server.js",
+    "dev": "node -r esm -r ts-node/register ./*.ts",
+    "build": "tsc --outDir dist"
   }
 }
