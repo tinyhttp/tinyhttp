@@ -8,7 +8,7 @@ import type { ErrorHandler } from './onError'
 import { onErrorHandler } from './onError'
 import { Middleware, Handler, NextFunction, Router } from '@tinyhttp/router'
 import { extendMiddleware } from './extend'
-import { matchParams } from '@tinyhttp/req'
+import { matchLoose, matchParams, runRegex } from '@tinyhttp/req'
 
 /**
  * Add leading slash if not present (e.g. path -> /path, /path -> /path)
@@ -225,8 +225,10 @@ export class App<
         : extendMiddleware<RenderOptions>(this)(req, res, next)
 
       if (type === 'route' && req.method === method) {
-        if (matchParams(path, pathname)) {
-          req.params = getURLParams(pathname, path)
+        const regex = runRegex(path)
+
+        if (matchParams(regex, pathname)) {
+          req.params = getURLParams(regex, pathname)
           req.route = getRouteFromApp(this, (handler as unknown) as Handler<Req, Res>)
           res.statusCode = 200
 
@@ -235,7 +237,7 @@ export class App<
           req.url = req.originalUrl
           loop(req, res)
         }
-      } else if (type === 'mw' && req.originalUrl.startsWith(path)) {
+      } else if (type === 'mw' && matchLoose(path, pathname)) {
         await applyHandler<Req, Res>((handler as unknown) as Handler<Req, Res>)(req, res, next)
       } else {
         req.url = req.originalUrl

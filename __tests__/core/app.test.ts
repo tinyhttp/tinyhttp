@@ -112,14 +112,29 @@ describe('Testing App routing', () => {
 
     await fetch('/route').expect(200, 'Hello world')
   })
+  it('should match wares containing base path', async () => {
+    const app = new App()
+
+    const server = app.listen()
+
+    app.use('/abc', (_req, res) => void res.send('Hello world'))
+
+    await makeFetch(server)('/abc/def').expect(200, 'Hello world')
+
+    await makeFetch(server)('/abcdef').expect(404)
+  })
   it('"*" should catch all undefined routes', async () => {
     const app = new App()
+
+    const server = app.listen()
 
     app
       .get('/route', (_req, res) => void res.send('A different route'))
       .all('*', (_req, res) => void res.send('Hello world'))
 
-    await makeFetch(app.listen())('/route').expect(200, 'A different route')
+    await makeFetch(server)('/route').expect(200, 'A different route')
+
+    await makeFetch(server)('/test').expect(200, 'Hello world')
   })
   it('should throw 404 on no routes', async () => {
     await makeFetch(new App().listen())('/').expect(404)
