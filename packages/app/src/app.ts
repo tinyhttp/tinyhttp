@@ -218,7 +218,7 @@ export class App<
 
       const { pathname } = parse(req.originalUrl)
 
-      req.path = pathname
+      req.path = parse(req.url).pathname
 
       this.applyExtensions
         ? this.applyExtensions(req, res, next)

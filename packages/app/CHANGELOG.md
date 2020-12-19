@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 1.0.17
+
+### Patch Changes
+
+- parse req.url instead of req.originalUrl
+
 ## 1.0.16
 
 ### Patch Changes
