@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 1.0.15
+
+### Patch Changes
+
+- Fix incorrect req.url and req.path
+
 ## 1.0.14
 
 ### Patch Changes

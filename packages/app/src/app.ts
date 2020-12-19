@@ -10,6 +10,12 @@ import { Middleware, Handler, NextFunction, Router } from '@tinyhttp/router'
 import { extendMiddleware } from './extend'
 import { matchParams } from '@tinyhttp/req'
 
+/**
+ * Add leading slash if not present (e.g. path -> /path, /path -> /path)
+ * @param x
+ */
+const lead = (x: string) => (x.charCodeAt(0) === 47 ? x : '/' + x)
+
 export const applyHandler = <Req, Res>(h: Handler<Req, Res>) => async (req: Req, res: Res, next?: NextFunction) => {
   if (h[Symbol.toStringTag] === 'AsyncFunction') {
     try {
@@ -206,15 +212,17 @@ export class App<
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
       const { path, method, handler, type } = mw
 
+      req.originalUrl = req.url
+
+      req.url = lead(req.url.substr(path.length)) || '/'
+
+      const { pathname } = parse(req.originalUrl)
+
+      req.path = pathname
+
       this.applyExtensions
         ? this.applyExtensions(req, res, next)
         : extendMiddleware<RenderOptions>(this)(req, res, next)
-
-      const parsedUrl = parse(req.url)
-
-      const pathname = parsedUrl.pathname
-
-      req.path = pathname
 
       if (type === 'route' && req.method === method) {
         if (matchParams(path, pathname)) {
@@ -224,7 +232,7 @@ export class App<
 
           await applyHandler<Req, Res>((handler as unknown) as Handler<Req, Res>)(req, res, next)
         } else loop(req, res)
-      } else if (type === 'mw' && req.url.startsWith(path)) {
+      } else if (type === 'mw' && req.originalUrl.startsWith(path)) {
         await applyHandler<Req, Res>((handler as unknown) as Handler<Req, Res>)(req, res, next)
       } else loop(req, res)
     }

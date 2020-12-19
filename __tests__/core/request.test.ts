@@ -1,4 +1,6 @@
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
+import { App } from '../../packages/app/src/app'
+import { makeFetch } from 'supertest-fetch'
 
 describe('Request properties', () => {
   it('should have default HTTP Request properties', async () => {
@@ -28,6 +30,17 @@ describe('Request properties', () => {
         param1: 'val1',
         param2: 'val2'
       })
+    })
+    it('req.url does not include the mount path', async () => {
+      const app = new App()
+
+      app.use('/abc', (req, res) => res.send(req.url))
+
+      const server = app.listen()
+
+      const fetch = makeFetch(server)
+
+      await fetch('/abc/def').expect(200, '/def')
     })
   })
 

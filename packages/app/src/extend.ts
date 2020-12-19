@@ -45,8 +45,6 @@ export const extendMiddleware = <EngineOptions>(app: App) => (
 ) => {
   const { settings } = app
 
-  req.originalUrl = req.url
-
   res.get = getResponseHeader(res)
   req.get = getRequestHeader(req)
 
