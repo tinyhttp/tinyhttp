@@ -417,8 +417,8 @@ app.put('/', (req, res) => {
 Routes HTTP DELETE requests to the specified path with the specified handler functions.
 
 ```ts
-app.put('/', (req, res) => {
-  res.send(`${req.method || 'PUT'} request to homepage`)
+app.delete('/', (req, res) => {
+  res.send(`${req.method || 'DELETE'} request to homepage`)
 })
 ```
 

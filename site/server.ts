@@ -45,18 +45,6 @@ app
       }
     })
   )
-  .use((req, _, next) => {
-    console.log('First', {
-      url: req.url,
-      orig: req.originalUrl,
-      path: req.path
-    })
-
-    next()
-  })
-  .get('/mw', (req, res) => {
-    res.send(req.url)
-  })
   .get('/mw', async (req, res, next) => {
     try {
       const request = await fetch('https://api.github.com/repos/talentlessguy/tinyhttp/contents/packages')
@@ -81,16 +69,6 @@ app
       next(e)
     }
   })
-  .use((req, _, next) => {
-    console.log('Second', {
-      url: req.url,
-      orig: req.originalUrl,
-      path: req.path
-    })
-
-    next()
-  })
-
   .get('/mw/:mw', async (req, res, next) => {
     if (NON_MW_PKGS.includes(req.params.mw)) {
       next()
@@ -128,14 +106,17 @@ app
 
           return hljs.highlight(lang, code).value
         }
+      },
+      caching: {
+        maxAge: 3600 * 24 * 365,
+        immutable: true
       }
     })
   )
-  .use((req, res, next) => {
+  .use(
     serve('static', {
       dev: process.env.NODE_ENV !== 'production',
       immutable: process.env.NODE_ENV === 'production'
-    })(req, res, next)
-  })
-
-app.listen(3000, () => console.log(`Running on http://localhost:3000`))
+    })
+  )
+  .listen(3000, () => console.log(`Running on http://localhost:3000`))
