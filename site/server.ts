@@ -17,6 +17,8 @@ const app = new App({
 
 const HTML_PATH = `${process.cwd()}/pages/html`
 
+const PORT = parseInt(process.env.PORT, 10) || 3000
+
 const NON_MW_PKGS: string[] = [
   'app',
   'etag',
@@ -119,4 +121,4 @@ app
       immutable: process.env.NODE_ENV === 'production'
     })
   )
-  .listen(3000, () => console.log(`Running on http://localhost:3000`))
+  .listen(3000, () => console.log(`Running on http://localhost:${PORT} in ${process.env.NODE_ENV} mode`))
