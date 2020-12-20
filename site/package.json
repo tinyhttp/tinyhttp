@@ -8,14 +8,17 @@
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/logger": "workspace:*",
     "@tinyhttp/markdown": "workspace:*",
-    "highlight.js": "^10.4.0",
-    "marked": "^1.2.5",
+    "highlight.js": "^10.4.1",
+    "marked": "^1.2.7",
     "node-fetch-cache": "^1.0.6",
-    "sirv": "^1.0.7"
+    "sirv": "^1.0.10"
   },
   "scripts": {
     "start": "node ./dist/site/server.js",
-    "dev": "node -r esm -r ts-node/register ./*.ts",
+    "dev": "node -r ts-node/register ./*.ts",
     "build": "tsc --outDir dist"
+  },
+  "devDependencies": {
+    "ts-node": "^9.1.1"
   }
 }
