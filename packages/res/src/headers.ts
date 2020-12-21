@@ -2,6 +2,7 @@ import { IncomingMessage as I, ServerResponse as S } from 'http'
 import * as mime from 'es-mime-types'
 import { getRequestHeader } from '@tinyhttp/req'
 import { vary } from 'es-vary'
+import { encodeUrl } from '@tinyhttp/encode-url'
 
 const charsetRegExp = /;\s*charset\s*=/
 
@@ -46,7 +47,7 @@ export const setLocationHeader = <Request extends Req = Req, Response extends Re
   if (url === 'back') loc = (getRequestHeader(req)('Referrer') as string) || '/'
 
   // set location
-  res.setHeader('Location', loc[0] + encodeURIComponent(loc.slice(1)))
+  res.setHeader('Location', encodeUrl(loc))
   return res
 }
 

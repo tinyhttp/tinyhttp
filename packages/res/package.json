@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/res",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "type": "module",
   "description": "response extensions for tinyhttp",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -37,9 +37,10 @@
     "build": "rollup -c"
   },
   "dependencies": {
-    "@tinyhttp/content-disposition": "workspace:^1.0.6",
+    "@tinyhttp/content-disposition": "workspace:*",
     "@tinyhttp/cookie": "workspace:*",
     "@tinyhttp/cookie-signature": "workspace:*",
+    "@tinyhttp/encode-url": "workspace:*",
     "@tinyhttp/req": "workspace:*",
     "@tinyhttp/send": "workspace:*",
     "es-mime-types": "^0.0.16",

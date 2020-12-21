@@ -1,5 +1,11 @@
 # @tinyhttp/res
 
+## 1.0.10
+
+### Patch Changes
+
+- Fix res.location and write tests for it
+
 ## 1.0.9
 
 ### Patch Changes

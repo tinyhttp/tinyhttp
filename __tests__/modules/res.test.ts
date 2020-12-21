@@ -13,7 +13,8 @@ import {
   setCookie,
   clearCookie,
   append,
-  setLinksHeader
+  setLinksHeader,
+  setLocationHeader
 } from '../../packages/res/src'
 import { runServer } from '../../test_helpers/runServer'
 
@@ -395,6 +396,79 @@ describe('Response extensions', () => {
           '<http://api.example.com/users?page=2>; rel="next", <http://api.example.com/users?page=5>; rel="last", <http://api.example.com/users?page=1>; rel="prev"'
         )
         .expectStatus(200)
+    })
+  })
+
+  describe('res.location(url)', () => {
+    it('sets the "Location" header', async () => {
+      const app = runServer((req, res) => {
+        setLocationHeader(req, res)('https://example.com').end()
+      })
+
+      await makeFetch(app)('/').expectHeader('Location', 'https://example.com').expectStatus(200)
+    })
+    it('should encode URL', async () => {
+      const app = runServer((req, res) => {
+        setLocationHeader(req, res)('https://google.com?q=\u2603 §10').end()
+      })
+
+      await makeFetch(app)('/').expectHeader('Location', 'https://google.com?q=%E2%98%83%20%C2%A710').expectStatus(200)
+    })
+    it('should not touch encoded sequences', async () => {
+      const app = runServer((req, res) => {
+        setLocationHeader(req, res)('https://google.com?q=%A710').end()
+      })
+
+      await makeFetch(app)('/').expectHeader('Location', 'https://google.com?q=%A710').expectStatus(200)
+    })
+    describe('"url" is back', () => {
+      it('should set location from "Referer" header', async () => {
+        const app = runServer((req, res) => {
+          setLocationHeader(req, res)('back').end()
+        })
+
+        await makeFetch(app)('/', {
+          headers: {
+            Referer: '/some/page.html'
+          }
+        })
+          .expect('Location', '/some/page.html')
+          .expectStatus(200)
+      })
+      it('should set location from "Referrer" header', async () => {
+        const app = runServer((req, res) => {
+          setLocationHeader(req, res)('back').end()
+        })
+
+        await makeFetch(app)('/', {
+          headers: {
+            Referrer: '/some/page.html'
+          }
+        })
+          .expect('Location', '/some/page.html')
+          .expectStatus(200)
+      })
+      it('should prefer "Referrer" header', async () => {
+        const app = runServer((req, res) => {
+          setLocationHeader(req, res)('back').end()
+        })
+
+        await makeFetch(app)('/', {
+          headers: {
+            Referer: '/some/page1.html',
+            Referrer: '/some/page2.html'
+          }
+        })
+          .expect('Location', '/some/page2.html')
+          .expectStatus(200)
+      })
+      it('should set the header to "/" without referrer', async () => {
+        const app = runServer((req, res) => {
+          setLocationHeader(req, res)('back').end()
+        })
+
+        await makeFetch(app)('/').expect('Location', '/').expectStatus(200)
+      })
     })
   })
 })

@@ -1,14 +1,8 @@
 {
-  "name": "@tinyhttp/jsonp",
-  "version": "1.0.19",
+  "name": "@tinyhttp/encode-url",
+  "version": "0.0.0",
+  "description": "encode-url rewrite in TypeScript with ESM and CommonJS targets",
   "type": "module",
-  "description": "JSONP response middleware",
-  "homepage": "https://tinyhttp.v1rtl.site",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/talentlessguy/tinyhttp.git",
-    "directory": "packages/etag"
-  },
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
   "module": "dist/index.js",
@@ -20,13 +14,19 @@
     "./package.json": "./package.json",
     "./": "./"
   },
+  "homepage": "https://tinyhttp.v1rtl.site",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/talentlessguy/tinyhttp.git",
+    "directory": "packages/cors"
+  },
   "keywords": [
     "tinyhttp",
     "node.js",
     "web framework",
     "web",
     "backend",
-    "etag"
+    "cors"
   ],
   "engines": {
     "node": ">=12.4.0"
@@ -35,8 +35,5 @@
   "license": "MIT",
   "scripts": {
     "build": "rollup -c ../../build/defaultConfig.js"
-  },
-  "dependencies": {
-    "@tinyhttp/app": "workspace:^1.0.19"
   }
 }
