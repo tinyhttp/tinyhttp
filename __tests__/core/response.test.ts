@@ -101,14 +101,14 @@ describe('Response methods', () => {
         res.type('html').end()
       })
 
-      await fetch('/').expect('Content-Type', 'text/html')
+      await fetch('/').expect('Content-Type', 'text/html; charset=utf-8')
     })
     it('should detect MIME type by extension', async () => {
       const { fetch } = InitAppAndTest((_req, res) => {
         res.type('.html').end()
       })
 
-      await fetch('/').expect('Content-Type', 'text/html')
+      await fetch('/').expect('Content-Type', 'text/html; charset=utf-8')
     })
   })
 })
