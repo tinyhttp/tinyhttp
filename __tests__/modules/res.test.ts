@@ -184,14 +184,14 @@ describe('Response extensions', () => {
         setContentType(res)('html').end()
       })
 
-      await makeFetch(app)('/').expect('Content-Type', 'text/html')
+      await makeFetch(app)('/').expect('Content-Type', 'text/html; charset=utf-8')
     })
     it('should detect MIME type by extension', async () => {
       const app = runServer((_, res) => {
         setContentType(res)('.html').end()
       })
 
-      await makeFetch(app)('/').expect('Content-Type', 'text/html')
+      await makeFetch(app)('/').expect('Content-Type', 'text/html; charset=utf-8')
     })
   })
   describe('res.attachment(filename)', () => {

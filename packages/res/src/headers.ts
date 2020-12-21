@@ -84,7 +84,7 @@ export const setVaryHeader = <Response extends Res = Res>(res: Response) => (fie
 export const setContentType = <Response extends Res = Res>(res: Response) => (type: string): Response => {
   const ct = type.indexOf('/') === -1 ? mime.lookup(type) : type
 
-  res.setHeader('Content-Type', ct)
+  setHeader(res)('Content-Type', ct)
 
   return res
 }
