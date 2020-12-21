@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/cookie-parser",
-  "version": "1.0.19",
+  "version": "1.1.0",
   "type": "module",
   "description": "tinyhttp cookie parsing middleware",
   "homepage": "https://github.com/talentlessguy/tinyhttp/tree/master/packages/cookie-parser#readme",
