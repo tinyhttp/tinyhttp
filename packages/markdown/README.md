@@ -2,12 +2,12 @@
 
 [![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/markdown?style=flat-square)](https://npmjs.com/package/@tinyhttp/markdown) [![npm](https://img.shields.io/npm/dt/@tinyhttp/markdown?style=flat-square)](https://npmjs.com/package/@tinyhttp/markdown) [![](https://img.shields.io/badge/website-visit-hotpink?style=flat-square)](https://tinyhttp.v1rtl.site/mw/markdown)
 
-tinyhttp static markdown middleware based on [marked](https://github.com/markedjs/marked) (markdown library). Useful for creating simple static Markdown sites with basic routing. Used by [tinyhttp website](https://tinyhttp.v1rtl.site).
+tinyhttp static markdown middleware based on [streamdown](https://github.com/talentlessguy/streamdown) (markdown library). Used by [tinyhttp website](https://tinyhttp.v1rtl.site).
 
 ## Install
 
 ```sh
-pnpm i @tinyhttp/static
+pnpm i @tinyhttp/markdown
 ```
 
 ## API
@@ -20,9 +20,7 @@ Handles static files and transforms markdown in HTML in a specified directory. I
 
 - `prefix` - URL prefix to add to routes and remove from file paths
 - `stripExtension` - remove `.md` (or `.markdown`) extension from markdown files. Enabled by defaults.
-- `recursive` - handle all files including folders contents or only root folder. If `true`, `readdirp` will be used. Otherwise `fs.readdir`.
 - `markedOptions` - initial [marked](https://github.com/markedjs/marked) options to be used by the handler.
-- `markedExtensions` - additional [marked](https://github.com/markedjs/marked) options that are applied using `marked.use`.
 
 ## Example
 

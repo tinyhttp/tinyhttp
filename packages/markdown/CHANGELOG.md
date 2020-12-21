@@ -1,5 +1,11 @@
 # @tinyhttp/markdown
 
+## 1.0.22
+
+### Patch Changes
+
+- fix readme
+
 ## 1.0.21
 
 ### Patch Changes
