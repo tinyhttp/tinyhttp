@@ -21,6 +21,7 @@ Handles static files and transforms markdown in HTML in a specified directory. I
 - `prefix` - URL prefix to add to routes and remove from file paths
 - `stripExtension` - remove `.md` (or `.markdown`) extension from markdown files. Enabled by defaults.
 - `markedOptions` - initial [marked](https://github.com/markedjs/marked) options to be used by the handler.
+- `caching` settings for `Cache-Control` header. Disabled by default.
 
 ## Example
 
