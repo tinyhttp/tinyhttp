@@ -4,6 +4,6 @@
   "type": "module",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "markdown-transform": "^1.0.1"
+    "@tinyhttp/markdown": "workspace:*"
   }
 }

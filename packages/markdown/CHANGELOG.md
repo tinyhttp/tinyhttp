@@ -1,5 +1,11 @@
 # @tinyhttp/markdown
 
+## 1.1.1
+
+### Patch Changes
+
+- Fix incorrect type in package.json
+
 ## 1.1.0
 
 ### Minor Changes

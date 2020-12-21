@@ -1,11 +1,17 @@
 import { App } from '@tinyhttp/app'
-import { createReadStream } from 'fs'
-import transform from 'markdown-transform'
+import { markdownStaticHandler } from '@tinyhttp/markdown'
 
 const app = new App()
 
 app
-  .get('/blog/:slug', async (req, res) => {
-    createReadStream(`${process.cwd()}/pages/${req.params.slug}.md`).pipe(transform()).pipe(res)
-  })
+  .use(
+    '/blog',
+    markdownStaticHandler('pages', {
+      prefix: '/blog',
+      caching: {
+        maxAge: 3600 * 24 * 365,
+        immutable: true
+      }
+    })
+  )
   .listen(3000)
