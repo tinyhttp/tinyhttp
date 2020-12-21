@@ -32,14 +32,14 @@
   "license": "MIT",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "marked": "^1.2.4",
-    "readdirp": "^3.5.0"
+    "marked": "^1.2.7",
+    "streamdown": "^1.0.2"
   },
   "engines": {
     "node": ">=12.4.0"
   },
   "devDependencies": {
-    "@types/marked": "^1.2.0"
+    "@types/marked": "^1.2.1"
   },
   "scripts": {
     "build": "rollup -c ../../build/defaultConfig.js"

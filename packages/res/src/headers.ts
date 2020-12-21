@@ -22,16 +22,18 @@ export const setHeader = <Response extends Res = Res>(res: Response) => (
       if (Array.isArray(value)) {
         throw new TypeError('Content-Type cannot be set to an Array')
       }
+
       if (!charsetRegExp.test(value)) {
-        const charset = mime.lookup(value.split(';')[0])
-        if (charset) value += '; charset=' + charset.toLowerCase()
+        const charset = mime.charset(value.split(';')[0])
+
+        if (typeof charset === 'string') value += '; charset=' + charset.toLowerCase()
       }
     }
 
     res.setHeader(field, value)
   } else {
     for (const key in field) {
-      res.setHeader(key, field[key])
+      setHeader(res)(key, field[key] as string)
     }
   }
   return res

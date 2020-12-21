@@ -97,17 +97,14 @@ app
   .use(
     md('pages/md', {
       stripExtension: true,
-      markedExtensions: [
-        {
-          headerIds: true
-        }
-      ],
+
       markedOptions: {
         highlight: (code, lang) => {
           if (!lang) lang = 'txt'
 
           return hljs.highlight(lang, code).value
-        }
+        },
+        headerIds: true
       },
       caching: {
         maxAge: 3600 * 24 * 365,

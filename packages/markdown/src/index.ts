@@ -1,25 +1,26 @@
 import type { AsyncHandler, Response } from '@tinyhttp/app'
 import { parse } from 'path'
-import { existsSync } from 'fs'
+import { createReadStream, existsSync } from 'fs'
 import { readFile, readdir } from 'fs/promises'
-import { promise as recursiveReaddir } from 'readdirp'
 import md, { MarkedOptions } from 'marked'
+import { streamdown } from 'streamdown'
+import path from 'path'
+
+type Caching =
+  | Partial<{
+      maxAge: number
+      immutable: boolean
+    }>
+  | false
 
 export type MarkdownServerHandlerOptions = Partial<{
   prefix: string
   stripExtension: boolean
-  recursive: boolean
   markedOptions: MarkedOptions
-  markedExtensions: MarkedOptions[]
-  caching:
-    | Partial<{
-        maxAge: number
-        immutable: boolean
-      }>
-    | false
+  caching: Caching
 }>
 
-const enableCaching = (res: Response, caching: MarkdownServerHandlerOptions['caching']) => {
+const enableCaching = (res: Response, caching: Caching) => {
   if (caching) {
     let cc = caching.maxAge != null && `public,max-age=${caching.maxAge}`
     if (cc && caching.immutable) cc += ',immutable'
@@ -29,64 +30,67 @@ const enableCaching = (res: Response, caching: MarkdownServerHandlerOptions['cac
   }
 }
 
-export const markdownStaticHandler = (
-  dir = process.cwd(),
-  opts: MarkdownServerHandlerOptions = {}
-): AsyncHandler => async (req, res, next) => {
-  const {
-    prefix = '/',
-    stripExtension = true,
-    recursive = false,
-    markedOptions = null,
-    markedExtensions = [],
-    caching = false
-  } = opts
-  if (req.url.startsWith(prefix)) {
-    let unPrefixedURL = req.url.replace(prefix, '')
+const sendStream = (path: string, markedOptions: MarkedOptions, res: Response, caching: Caching) => {
+  const stream = createReadStream(path)
 
-    if (prefix !== '/') unPrefixedURL = unPrefixedURL.slice(1)
+  enableCaching(res, caching)
 
-    if (req.url === prefix) {
-      const idxFile = [
-        `${dir}/index.md`,
-        `${dir}/index.markdown`,
-        `${dir}/readme.md`,
-        `${dir}/README.md`,
-        `${dir}/readme.markdown`,
-        `${dir}/readme.md`
-      ].find((file) => existsSync(file) && file)
+  res.set('Content-Type', 'text/html')
 
-      if (idxFile) {
-        enableCaching(res, caching)
-        res.set('Content-Type', 'text/html').send(md((await readFile(idxFile)).toString()))
-      }
-    }
+  stream.on('open', () => stream.pipe(streamdown({ markedOptions })).pipe(res))
+}
 
-    let files: string[]
+export const markdownStaticHandler = (dir?: string, opts: MarkdownServerHandlerOptions = {}): AsyncHandler => async (
+  req,
+  res,
+  next
+) => {
+  const { prefix = '/', stripExtension = true, markedOptions = null, caching = false } = opts
 
-    if (recursive) files = (await recursiveReaddir(dir)).map((f) => f.path)
-    else files = await readdir(dir)
+  const url = req.originalUrl || req.url
 
-    let file: string
+  const urlMatchesPrefix = url.startsWith(prefix)
 
-    if (stripExtension) {
-      file = files.find((f) => {
-        const { name, dir, ext } = parse(f)
+  const unPrefixedURL: string = prefix === '/' ? url.replace(prefix, '') : url.replace(prefix, '').slice(1)
 
-        const isDir = !(dir === '')
+  const fullPath = path.join(dir, parse(unPrefixedURL).dir)
 
-        return /\.(md|markdown)/.test(ext) && unPrefixedURL === (isDir ? `${dir}/${name}`.replace('\\', '/') : name)
-      })
-    } else file = files.find((f) => f === decodeURI(unPrefixedURL))
+  let files: string[]
 
-    if (file) {
-      const content = (await readFile(`${dir}/${file}`)).toString()
-
-      if (markedExtensions?.length !== 0) for (const ext of markedExtensions) md.use(ext)
-
-      enableCaching(res, caching)
-      res.set('Content-Type', 'text/html').send(md(content, markedOptions))
-    }
+  try {
+    files = await readdir(fullPath)
+  } catch {
+    next?.()
   }
-  next?.()
+
+  let filename: string
+
+  if (url === prefix) {
+    const idxFile = [
+      `index.md`,
+      `index.markdown`,
+      `readme.md`,
+      `README.md`,
+      `readme.markdown`,
+      `readme.md`
+    ].find((file) => existsSync(path.join(fullPath, file)))
+
+    if (idxFile) {
+      sendStream(path.join(fullPath, idxFile), markedOptions, res, caching)
+      return
+    } else next()
+  }
+  if (stripExtension) {
+    filename = files.find((f) => {
+      const { name, ext } = parse(f)
+
+      return /\.(md|markdown)/.test(ext) && unPrefixedURL === name
+    })
+  } else {
+    filename = files.find((f) => f === decodeURI(unPrefixedURL))
+  }
+
+  if (urlMatchesPrefix && filename) {
+    sendStream(path.join(fullPath, filename), markedOptions, res, caching)
+  } else next()
 }

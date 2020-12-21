@@ -5,12 +5,6 @@ import path from 'path'
 const STATIC_FOLDER = path.join(__dirname, '../fixtures')
 
 describe('Base dir', () => {
-  it('should set base dir to `process.cwd()` by default', async () => {
-    const { fetch } = InitAppAndTest(markdownStaticHandler())
-    const res = await fetch('/')
-
-    expect(res.status).toBe(200)
-  })
   it('should scan specified directory', async () => {
     const { fetch } = InitAppAndTest(
       markdownStaticHandler(STATIC_FOLDER, {
@@ -57,26 +51,6 @@ describe('Routing', () => {
 })
 
 describe('Handler options', () => {
-  describe('recursive', () => {
-    it('should detect folders', async () => {
-      const { fetch } = InitAppAndTest(
-        markdownStaticHandler(STATIC_FOLDER, {
-          recursive: true
-        })
-      )
-
-      await fetch('/folder/page2').expect(200)
-    })
-    it(`should work with deeply nested folders`, async () => {
-      const { fetch } = InitAppAndTest(
-        markdownStaticHandler(STATIC_FOLDER, {
-          recursive: true
-        })
-      )
-
-      await fetch('/folder/more/3').expect(200)
-    })
-  })
   describe('prefix', () => {
     it('should strip prefix from paths', async () => {
       const { fetch } = InitAppAndTest(
@@ -108,21 +82,7 @@ describe('Handler options', () => {
       await fetch('/page').expectStatus(200)
     })
   })
-  describe('markedExtensions', () => {
-    it('markedExtensions are consumed by marked.js', async () => {
-      const { fetch } = InitAppAndTest(
-        markdownStaticHandler(STATIC_FOLDER, {
-          markedExtensions: [
-            {
-              headerIds: true
-            }
-          ]
-        })
-      )
 
-      await fetch('/page').expectStatus(200)
-    })
-  })
   describe('Caching', () => {
     const maxAge = 3600 * 60 * 60
     it('should disable caching by default', async () => {

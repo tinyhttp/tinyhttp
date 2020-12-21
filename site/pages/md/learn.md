@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="/css/docs.css" />
 <link rel="stylesheet" href="/css/shared.css" />
-<link rel="stylesheet" href="/inter.css" />
-<link rel="stylesheet" href="/hljs.css" />
+<link rel="stylesheet" href="/css/inter.css" />
+<link rel="stylesheet" href="/css/hljs.css" />
 
 <meta charset="UTF-8">
 <link rel="shortcut icon" href="/favicon.png" />
