@@ -47,6 +47,12 @@ app
       }
     })
   )
+  .use(
+    serve('static', {
+      dev: process.env.NODE_ENV !== 'production',
+      immutable: process.env.NODE_ENV === 'production'
+    })
+  )
   .get('/mw', async (req, res, next) => {
     try {
       const request = await fetch('https://api.github.com/repos/talentlessguy/tinyhttp/contents/packages')
@@ -112,12 +118,7 @@ app
       }
     })
   )
-  .use(
-    serve('static', {
-      dev: process.env.NODE_ENV !== 'production',
-      immutable: process.env.NODE_ENV === 'production'
-    })
-  )
+
   .listen(3000, () =>
     console.log(`Running on http://localhost:${PORT} in ${process.env.NODE_ENV || 'development'} mode`)
   )
