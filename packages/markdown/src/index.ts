@@ -1,10 +1,10 @@
-import type { AsyncHandler, Response } from '@tinyhttp/app'
+import { IncomingMessage, ServerResponse } from 'http'
 import { parse } from 'path'
-import { createReadStream, existsSync } from 'fs'
+import { existsSync } from 'fs'
 import { readFile, readdir } from 'fs/promises'
 import md, { MarkedOptions } from 'marked'
-import { streamdown } from 'streamdown'
 import path from 'path'
+import { send } from '@tinyhttp/send'
 
 type Caching =
   | Partial<{
@@ -20,29 +20,42 @@ export type MarkdownServerHandlerOptions = Partial<{
   caching: Caching
 }>
 
+type Request = Pick<IncomingMessage, 'url' | 'method'> & { originalUrl?: string }
+
+type Response = Pick<ServerResponse, 'end' | 'setHeader' | 'statusCode' | 'removeHeader' | 'getHeader'>
+
 const enableCaching = (res: Response, caching: Caching) => {
   if (caching) {
     let cc = caching.maxAge != null && `public,max-age=${caching.maxAge}`
     if (cc && caching.immutable) cc += ',immutable'
     else if (cc && caching.maxAge === 0) cc += ',must-revalidate'
 
-    res.set('Cache-Control', cc)
+    res.setHeader('Cache-Control', cc)
   }
 }
 
-const sendStream = (path: string, markedOptions: MarkedOptions, res: Response, caching: Caching) => {
-  const stream = createReadStream(path)
+const sendStream = async (
+  path: string,
+  markedOptions: MarkedOptions,
+  req: Request,
+  res: Response,
+  caching: Caching
+) => {
+  const stream = await readFile(path)
 
   enableCaching(res, caching)
 
-  res.set('Content-Type', 'text/html')
+  res.setHeader('Content-Type', 'text/html; charset=utf-8')
 
-  stream.on('open', () => stream.pipe(streamdown({ markedOptions })).pipe(res))
+  send(req, res)(md(stream.toString(), markedOptions))
 }
 
-export const markdownStaticHandler = (dir?: string, opts: MarkdownServerHandlerOptions = {}): AsyncHandler => async (
-  req,
-  res,
+export const markdownStaticHandler = (dir?: string, opts: MarkdownServerHandlerOptions = {}) => async <
+  Req extends Request = Request,
+  Res extends Response = Response
+>(
+  req: Req,
+  res: Res,
   next
 ) => {
   const { prefix = '/', stripExtension = true, markedOptions = null, caching = false } = opts
@@ -76,7 +89,7 @@ export const markdownStaticHandler = (dir?: string, opts: MarkdownServerHandlerO
     ].find((file) => existsSync(path.join(fullPath, file)))
 
     if (idxFile) {
-      sendStream(path.join(fullPath, idxFile), markedOptions, res, caching)
+      await sendStream(path.join(fullPath, idxFile), markedOptions, req, res, caching)
       return
     } else next()
   }
@@ -91,6 +104,6 @@ export const markdownStaticHandler = (dir?: string, opts: MarkdownServerHandlerO
   }
 
   if (urlMatchesPrefix && filename) {
-    sendStream(path.join(fullPath, filename), markedOptions, res, caching)
+    await sendStream(path.join(fullPath, filename), markedOptions, req, res, caching)
   } else next()
 }
