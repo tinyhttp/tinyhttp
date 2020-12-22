@@ -72,38 +72,38 @@ export const markdownStaticHandler = (dir?: string, opts: MarkdownServerHandlerO
 
   try {
     files = await readdir(fullPath)
+
+    let filename: string
+
+    if (url === prefix) {
+      const idxFile = [
+        `index.md`,
+        `index.markdown`,
+        `readme.md`,
+        `README.md`,
+        `readme.markdown`,
+        `readme.md`
+      ].find((file) => existsSync(path.join(fullPath, file)))
+
+      if (idxFile) {
+        await sendStream(path.join(fullPath, idxFile), markedOptions, req, res, caching)
+        return
+      } else next()
+    }
+    if (stripExtension) {
+      filename = files.find((f) => {
+        const { name, ext } = parse(f)
+
+        return /\.(md|markdown)/.test(ext) && unPrefixedURL === name
+      })
+    } else {
+      filename = files.find((f) => f === decodeURI(unPrefixedURL))
+    }
+
+    if (urlMatchesPrefix && filename) {
+      await sendStream(path.join(fullPath, filename), markedOptions, req, res, caching)
+    } else next()
   } catch {
     next?.()
   }
-
-  let filename: string
-
-  if (url === prefix) {
-    const idxFile = [
-      `index.md`,
-      `index.markdown`,
-      `readme.md`,
-      `README.md`,
-      `readme.markdown`,
-      `readme.md`
-    ].find((file) => existsSync(path.join(fullPath, file)))
-
-    if (idxFile) {
-      await sendStream(path.join(fullPath, idxFile), markedOptions, req, res, caching)
-      return
-    } else next()
-  }
-  if (stripExtension) {
-    filename = files.find((f) => {
-      const { name, ext } = parse(f)
-
-      return /\.(md|markdown)/.test(ext) && unPrefixedURL === name
-    })
-  } else {
-    filename = files.find((f) => f === decodeURI(unPrefixedURL))
-  }
-
-  if (urlMatchesPrefix && filename) {
-    await sendStream(path.join(fullPath, filename), markedOptions, req, res, caching)
-  } else next()
 }
