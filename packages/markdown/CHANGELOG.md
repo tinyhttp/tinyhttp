@@ -1,5 +1,11 @@
 # @tinyhttp/markdown
 
+## 1.1.2
+
+### Patch Changes
+
+- Go back to marked(string) because markdown cannot be streamed
+
 ## 1.1.1
 
 ### Patch Changes
