@@ -1,5 +1,11 @@
 # @tinyhttp/markdown
 
+## 1.1.3
+
+### Patch Changes
+
+- fix incorrect try catch
+
 ## 1.1.2
 
 ### Patch Changes
