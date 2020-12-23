@@ -408,17 +408,17 @@ app.get(
 An list of callback functions can handle a route. For example:
 
 ```js
-const one = (req, res, next) => {
+const cb0 = (req, res, next) => {
   console.log('Callback one!')
   next()
 }
 
-const two = (req, res, next) => {
+const cb1 = (req, res, next) => {
   console.log('Callback two!')
   next()
 }
 
-const three = (req, res) => res.send('Hello from Callback three!')
+const cb2 = (req, res) => res.send('Hello from Callback three!')
 
 app.get('/example/c', cb0, cb1, cb2)
 ```
