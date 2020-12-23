@@ -146,7 +146,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://yello.io"><img src="https://avatars0.githubusercontent.com/u/43667677?v=4" width="100px;" alt=""/><br /><sub><b>Leo Toneff</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=bragle" title="Code">💻</a></td>
   </tr>
   <tr>
-    <td align="center"><a href="http://calumk.com"><img src="https://avatars1.githubusercontent.com/u/1183991?v=4" width="100px;" alt=""/><br /><sub><b>Calum Knott</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=calumk" title="Documentation">📖</a></td>
+    <td align="center"><a href="http://calumk.com"><img src="https://avatars1.githubusercontent.com/u/1183991?v=4" width="100px;" alt=""/><br /><sub><b>Calum Knott</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=calumk" title="Documentation">📖</a> <a href="https://github.com/talentlessguy/tinyhttp/issues?q=author%3Acalumk" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
