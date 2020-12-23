@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 1.1.1
+
+### Patch Changes
+
+- Partitially fix incorrect handling for subapps
+
 ## 1.1.0
 
 ### Minor Changes
