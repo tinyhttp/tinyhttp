@@ -276,6 +276,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "calumk",
+      "name": "Calum Knott",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/1183991?v=4",
+      "profile": "http://calumk.com",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
