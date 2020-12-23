@@ -6,7 +6,7 @@ import type { Request } from './request'
 import type { Response } from './response'
 import type { ErrorHandler } from './onError'
 import { onErrorHandler } from './onError'
-import { Middleware, Handler, NextFunction, Router } from '@tinyhttp/router'
+import { Middleware, Handler, NextFunction, Router, UseMethodParams } from '@tinyhttp/router'
 import { extendMiddleware } from './extend'
 import { matchLoose, matchParams, runRegex } from '@tinyhttp/req'
 
@@ -15,6 +15,16 @@ import { matchLoose, matchParams, runRegex } from '@tinyhttp/req'
  * @param x
  */
 const lead = (x: string) => (x.charCodeAt(0) === 47 ? x : '/' + x)
+
+const mutate = (path: string, req: Request) => {
+  req.originalUrl = req.url
+
+  req.url = lead(req.url.substring(path.length)) || '/'
+
+  req.path = parse(req.url).pathname
+}
+
+const mount = (fn) => (fn instanceof App ? fn.attach : fn)
 
 export const applyHandler = <Req, Res>(h: Handler<Req, Res>) => async (req: Req, res: Res, next?: NextFunction) => {
   if (h[Symbol.toStringTag] === 'AsyncFunction') {
@@ -88,6 +98,7 @@ export class App<
   settings: AppSettings
   engines: Record<string, TemplateFunc<RenderOptions>> = {}
   applyExtensions: (req: Request, res: Response, next: NextFunction) => void
+  attach: (req: Req, res: Res) => void
 
   constructor(
     options: Partial<{
@@ -102,6 +113,7 @@ export class App<
     this.noMatchHandler = options?.noMatchHandler || this.onError.bind(null, { code: 404 })
     this.settings = options.settings || { xPoweredBy: true }
     this.applyExtensions = options?.applyExtensions
+    this.attach = (req, res) => setImmediate(this.handler.bind(this, req, res), req, res)
   }
   /**
    * Set app setting
@@ -166,6 +178,35 @@ export class App<
 
     return this
   }
+  use(...args: UseMethodParams<Req, Res, App>) {
+    const base = args[0]
+
+    const fns = args.slice(1)
+
+    if (base === '/') {
+      for (const fn of fns) {
+        if (Array.isArray(fn)) {
+          super.use(base, fn.map(mount))
+        } else {
+          super.use(base, fns.map(mount))
+        }
+      }
+    } else if (typeof base === 'function' || base instanceof App) {
+      super.use('/', [base, ...fns].map(mount))
+    } else if (fns.every((fn) => fn instanceof App)) {
+      super.use(
+        base,
+        fns.map((fn: App) => {
+          fn.mountpath = typeof base === 'string' ? base : '/'
+          fn.parent = this
+          return mount(fn)
+        })
+      )
+    } else {
+      super.use(...args)
+    }
+    return this // chainable
+  }
   /**
    * Register a template engine with extension
    */
@@ -186,13 +227,6 @@ export class App<
 
     const mw = this.middleware
 
-    const subappPath = Object.keys(this.apps).find((x) => req.url.startsWith(x))
-
-    if (subappPath) {
-      this.apps[subappPath].handler(req, res)
-      return
-    }
-
     const noMatchMW: Middleware = {
       handler: this.noMatchHandler,
       type: 'mw',
@@ -212,13 +246,9 @@ export class App<
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
       const { path, method, handler, type } = mw
 
-      req.originalUrl = req.url
-
-      req.url = lead(req.url.substring(path.length)) || '/'
+      mutate(path, req)
 
       const { pathname } = parse(req.originalUrl)
-
-      req.path = parse(req.url).pathname
 
       this.applyExtensions
         ? this.applyExtensions(req, res, next)

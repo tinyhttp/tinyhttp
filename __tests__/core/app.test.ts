@@ -453,6 +453,9 @@ describe('Route handlers', () => {
 
     await fetch('/').expect(200, 'hello world')
   })
+})
+
+describe('Subapps', () => {
   it('sub-app mounts on a specific path', () => {
     const app = new App()
 
@@ -461,6 +464,21 @@ describe('Route handlers', () => {
     app.use('/subapp', subApp)
 
     expect(subApp.mountpath).toBe('/subapp')
+  })
+  it('sub-app mounts on root', async () => {
+    const app = new App()
+
+    const subApp = new App()
+
+    subApp.use((_, res) => void res.send('Hello World!'))
+
+    app.use(subApp)
+
+    const server = app.listen()
+
+    const fetch = makeFetch(server)
+
+    await fetch('/').expect(200, 'Hello World!')
   })
   it('sub-app handles its own path', async () => {
     const app = new App()
@@ -496,6 +514,40 @@ describe('Route handlers', () => {
     const app = new App()
 
     app.route('/path').get((_, res) => res.send('Hello World'))
+  })
+  /* it('req.originalUrl does not change', async () => {
+    const app = new App()
+
+    const subApp = new App()
+
+    subApp.get('/route', (req, res) => res.send(req.originalUrl))
+
+    app.use('/subapp', subApp)
+
+    const server = app.listen()
+
+    const fetch = makeFetch(server)
+
+    await fetch('/subapp/route').expect(200, '/subapp/route')
+  }) */
+  it('lets other wares handle the URL if subapp doesnt have that path', async () => {
+    const app = new App()
+
+    const subApp = new App()
+
+    subApp.get('/route', (_, res) => res.send(subApp.mountpath))
+
+    app.use('/test', subApp)
+
+    app.use('/test3', (req, res) => res.send(req.url))
+
+    const server = app.listen()
+
+    const fetch = makeFetch(server)
+
+    await fetch('/test/route').expect(200, '/test')
+
+    await fetch('/test3/abc').expect(200, '/abc')
   })
 })
 
