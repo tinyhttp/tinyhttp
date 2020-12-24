@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 1.1.4
+
+### Patch Changes
+
+- Get rid of mutate function in handle
+
 ## 1.1.3
 
 ### Patch Changes

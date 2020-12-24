@@ -464,6 +464,33 @@ describe('Route handlers', () => {
 
     await fetch('/').expect(200, 'hello world')
   })
+  it('router accepts list of middlewares', async () => {
+    const app = new App()
+
+    app.use(
+      (req, _, n) => {
+        req.body = 'hello'
+        n()
+      },
+      (req, _, n) => {
+        req.body += ' '
+        n()
+      },
+      (req, _, n) => {
+        req.body += 'world'
+        n()
+      },
+      (req, res) => {
+        res.send(req.body)
+      }
+    )
+
+    const server = app.listen()
+
+    const fetch = makeFetch(server)
+
+    await fetch('/').expect(200, 'hello world')
+  })
 })
 
 describe('Subapps', () => {

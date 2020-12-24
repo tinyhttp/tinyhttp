@@ -1,7 +1,7 @@
 import { createServer, Server } from 'http'
 import path from 'path'
 import { parse } from 'url'
-import { getRouteFromApp, getURLParams } from './request'
+import { getURLParams } from './request'
 import type { Request } from './request'
 import type { Response } from './response'
 import type { ErrorHandler } from './onError'
@@ -15,12 +15,6 @@ import { matchLoose, matchParams, runRegex } from '@tinyhttp/req'
  * @param x
  */
 const lead = (x: string) => (x.charCodeAt(0) === 47 ? x : '/' + x)
-
-const mutate = (path: string, req: Request) => {
-  req.url = lead(req.url.substring(path.length)) || '/'
-
-  req.path = parse(req.url).pathname
-}
 
 const mount = (fn) => (fn instanceof App ? fn.attach : fn)
 
@@ -246,7 +240,9 @@ export class App<
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
       const { path, handler, type } = mw
 
-      mutate(path, req)
+      req.url = lead(req.url.substring(path.length)) || '/'
+
+      req.path = parse(req.url).pathname
 
       if (type === 'route') {
         const regex = runRegex(path)
@@ -268,12 +264,10 @@ export class App<
     }
 
     let idx = 0
-    const len = mw.length - 1
 
     const loop = () => {
       if (res.writableEnded) return
-      else if (idx <= len) handle(mw[idx++])(req, res, (err) => (err ? this.onError(err, req, res) : loop()))
-      else return
+      else if (idx < mw.length) handle(mw[idx++])(req, res, (err) => (err ? this.onError(err, req, res) : loop()))
     }
 
     loop()
