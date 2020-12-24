@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 1.1.2
+
+### Patch Changes
+
+- Simplify app's handler code to prepare it for a rewrite
+
 ## 1.1.1
 
 ### Patch Changes

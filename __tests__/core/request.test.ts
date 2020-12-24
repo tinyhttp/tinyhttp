@@ -7,11 +7,11 @@ describe('Request properties', () => {
     const { fetch } = InitAppAndTest((req, res) => {
       res.status(200).json({
         url: req.url,
-        complete: req.complete
+        headersSent: res.headersSent
       })
     })
 
-    await fetch('/').expect(200, { url: '/', complete: false })
+    await fetch('/').expect(200, { url: '/', headersSent: false })
   })
 
   describe('URL extensions', () => {

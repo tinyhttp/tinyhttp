@@ -17,8 +17,6 @@ import { matchLoose, matchParams, runRegex } from '@tinyhttp/req'
 const lead = (x: string) => (x.charCodeAt(0) === 47 ? x : '/' + x)
 
 const mutate = (path: string, req: Request) => {
-  req.originalUrl = req.url
-
   req.url = lead(req.url.substring(path.length)) || '/'
 
   req.path = parse(req.url).pathname
@@ -27,13 +25,13 @@ const mutate = (path: string, req: Request) => {
 const mount = (fn) => (fn instanceof App ? fn.attach : fn)
 
 export const applyHandler = <Req, Res>(h: Handler<Req, Res>) => async (req: Req, res: Res, next?: NextFunction) => {
-  if (h[Symbol.toStringTag] === 'AsyncFunction') {
-    try {
+  try {
+    if (h[Symbol.toStringTag] === 'AsyncFunction') {
       await h(req, res, next)
-    } catch (e) {
-      next(e)
-    }
-  } else h(req, res, next)
+    } else h(req, res, next)
+  } catch (e) {
+    next(e)
+  }
 }
 /**
  * tinyhttp App has a few settings for toggling features
@@ -221,40 +219,32 @@ export class App<
    * @param req Req object
    * @param res Res object
    */
-  async handler(req: Req, res: Res) {
+  handler(req: Req, res: Res) {
     /* Set X-Powered-By header */
     if (this.settings?.xPoweredBy === true) res.setHeader('X-Powered-By', 'tinyhttp')
 
-    const mw = this.middleware
+    const mw = this.middleware.filter((m) => (m.method ? m.method === req.method : true))
 
-    const noMatchMW: Middleware = {
+    mw.push({
       handler: this.noMatchHandler,
       type: 'mw',
       path: '/'
-    }
+    })
 
-    mw.push(noMatchMW)
+    req.originalUrl = req.url || req.originalUrl
 
-    let idx = 0
-    const len = mw.length - 1
-
-    const nextWithReqAndRes = (req: Req, res: Res) => (err: any) => {
-      if (err && !res.writableEnded) this.onError(err, req, res)
-      else loop(req, res)
-    }
+    const { pathname } = parse(req.originalUrl)
 
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
-      const { path, method, handler, type } = mw
+      const { path, handler, type } = mw
 
       mutate(path, req)
-
-      const { pathname } = parse(req.originalUrl)
 
       this.applyExtensions
         ? this.applyExtensions(req, res, next)
         : extendMiddleware<RenderOptions>(this)(req, res, next)
 
-      if (type === 'route' && req.method === method) {
+      if (type === 'route') {
         const regex = runRegex(path)
 
         if (matchParams(regex, pathname)) {
@@ -275,9 +265,14 @@ export class App<
       }
     }
 
+    let idx = 0
+    const len = mw.length - 1
+
+    const next = (err: any) => (err ? this.onError(err, req, res, next) : loop(req, res))
+
     const loop = (req: Req, res: Res) => {
       if (res.writableEnded) return
-      else if (idx <= len) handle(mw[idx++])(req, res, nextWithReqAndRes(req, res))
+      else if (idx <= len) handle(mw[idx++])(req, res, next)
       else return
     }
 
@@ -293,7 +288,7 @@ export class App<
   listen(port?: number, cb?: () => void, host = '0.0.0.0'): Server {
     const server = createServer()
 
-    server.on('request', (req, res) => this.handler(req, res))
+    server.on('request', this.attach)
 
     return server.listen(port, host, cb)
   }

@@ -51,18 +51,6 @@ describe('Testing App', () => {
     await fetch('/').expect(500, 'Ouch, you hurt me on / page.')
   })
 
-  it('errors in async wares do not destroy the app', async () => {
-    const app = new App()
-
-    app.use(async (_req, _res) => {
-      throw `bruh`
-    })
-
-    const server = app.listen()
-
-    await makeFetch(server)('/').expect(500, 'bruh')
-  })
-
   it('App works with HTTP 1.1', async () => {
     const app = new App()
 
@@ -179,6 +167,29 @@ describe('Testing App routing', () => {
       })
 
       await makeFetch(app.listen())('/broken').expect(500, 'Your appearance destroyed this world.')
+    })
+    it('errors in async wares do not destroy the app', async () => {
+      const app = new App()
+
+      app.use(async (_req, _res) => {
+        throw `bruh`
+      })
+
+      const server = app.listen()
+
+      await makeFetch(server)('/').expect(500, 'bruh')
+    })
+
+    it('errors in sync wares do not destroy the app', async () => {
+      const app = new App()
+
+      app.use((_req, _res) => {
+        throw `bruh`
+      })
+
+      const server = app.listen()
+
+      await makeFetch(server)('/').expect(500, 'bruh')
     })
   })
 })
@@ -515,12 +526,18 @@ describe('Subapps', () => {
 
     app.route('/path').get((_, res) => res.send('Hello World'))
   })
-  /* it('req.originalUrl does not change', async () => {
+  /*   it('req.originalUrl does not change', async () => {
     const app = new App()
 
     const subApp = new App()
 
-    subApp.get('/route', (req, res) => res.send(req.originalUrl))
+    subApp.get('/route', (req, res) =>
+      res.send({
+        origUrl: req.originalUrl,
+        url: req.url,
+        path: req.path
+      })
+    )
 
     app.use('/subapp', subApp)
 
@@ -528,7 +545,11 @@ describe('Subapps', () => {
 
     const fetch = makeFetch(server)
 
-    await fetch('/subapp/route').expect(200, '/subapp/route')
+    await fetch('/subapp/route').expect(200, {
+      origUrl: '/subapp/route',
+      url: '/route',
+      path: '/route'
+    })
   }) */
   it('lets other wares handle the URL if subapp doesnt have that path', async () => {
     const app = new App()
