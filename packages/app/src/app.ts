@@ -42,6 +42,7 @@ export type AppSettings = Partial<{
   subdomainOffset: number
   bindAppToReqRes: boolean
   xPoweredBy: boolean
+  enableReqRoute: boolean
 }>
 
 /**
@@ -200,9 +201,8 @@ export class App<
           return mount(fn)
         })
       )
-    } else {
-      super.use(...args)
-    }
+    } else super.use(...args)
+
     return this // chainable
   }
   /**
@@ -223,13 +223,21 @@ export class App<
     /* Set X-Powered-By header */
     if (this.settings?.xPoweredBy === true) res.setHeader('X-Powered-By', 'tinyhttp')
 
-    const mw = this.middleware.filter((m) => (m.method ? m.method === req.method : true))
+    const exts = this.applyExtensions || extendMiddleware<RenderOptions>(this)
 
-    mw.push({
-      handler: this.noMatchHandler,
-      type: 'mw',
-      path: '/'
-    })
+    const mw: Middleware[] = [
+      {
+        handler: exts,
+        type: 'mw',
+        path: '/'
+      },
+      ...this.middleware.filter((m) => (m.method ? m.method === req.method : true)),
+      {
+        handler: this.noMatchHandler,
+        type: 'mw',
+        path: '/'
+      }
+    ]
 
     req.originalUrl = req.url || req.originalUrl
 
@@ -240,43 +248,35 @@ export class App<
 
       mutate(path, req)
 
-      this.applyExtensions
-        ? this.applyExtensions(req, res, next)
-        : extendMiddleware<RenderOptions>(this)(req, res, next)
-
       if (type === 'route') {
         const regex = runRegex(path)
 
         if (matchParams(regex, pathname)) {
           req.params = getURLParams(regex, pathname)
-          req.route = getRouteFromApp(this, (handler as unknown) as Handler<Req, Res>)
-          res.statusCode = 200
 
           await applyHandler<Req, Res>((handler as unknown) as Handler<Req, Res>)(req, res, next)
         } else {
           req.url = req.originalUrl
-          loop(req, res)
+          loop()
         }
-      } else if (type === 'mw' && matchLoose(path, pathname)) {
+      } else if (matchLoose(path, pathname)) {
         await applyHandler<Req, Res>((handler as unknown) as Handler<Req, Res>)(req, res, next)
       } else {
         req.url = req.originalUrl
-        loop(req, res)
+        loop()
       }
     }
 
     let idx = 0
     const len = mw.length - 1
 
-    const next = (err: any) => (err ? this.onError(err, req, res, next) : loop(req, res))
-
-    const loop = (req: Req, res: Res) => {
+    const loop = () => {
       if (res.writableEnded) return
-      else if (idx <= len) handle(mw[idx++])(req, res, next)
+      else if (idx <= len) handle(mw[idx++])(req, res, (err) => (err ? this.onError(err, req, res) : loop()))
       else return
     }
 
-    loop(req, res)
+    loop()
   }
 
   /**

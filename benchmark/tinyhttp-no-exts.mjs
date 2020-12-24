@@ -11,7 +11,9 @@ function two(req, res, next) {
 }
 
 new App({
-  applyExtensions: () => {}
+  applyExtensions: (_req, _res, next) => {
+    next()
+  }
 })
   .use(one, two)
   .get('/favicon.ico', (_) => {})

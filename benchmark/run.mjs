@@ -1,7 +1,7 @@
 import bench from 'autocannon'
 import { spawn } from 'child_process'
 
-const apps = ['tinyhttp-no-exts.mjs', 'tinyhttp.mjs', 'tinyhttp.cjs', 'express.js', 'polka.js', 'koa.js']
+const apps = ['tinyhttp-no-exts.mjs', 'tinyhttp.mjs', 'tinyhttp.cjs', 'express.js', 'polka.js', 'koa.js', 'fastify.js']
 
 const run = (apps) => {
   if (apps.length === 0) return
@@ -15,7 +15,7 @@ const run = (apps) => {
   const b = bench(
     {
       connections: 100,
-      duration: 15,
+      duration: 10,
       url: 'http://localhost:8000/user/123',
       title: apps[0]
     },

@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/unless",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "type": "module",
   "description": "Unless middleware for tinyhttp",
   "homepage": "https://tinyhttp.v1rtl.site",

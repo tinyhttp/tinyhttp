@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 1.1.3
+
+### Patch Changes
+
+- Move req.route out to a setting, simplify handle() method, remove useless if checks
+
 ## 1.1.2
 
 ### Patch Changes
