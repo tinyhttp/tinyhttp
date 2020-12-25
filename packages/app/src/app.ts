@@ -211,7 +211,7 @@ export class App<
     return this
   }
 
-  private find(url: string, method: string) {
+  find(url: string, method: string) {
     return this.middleware.filter((m) => {
       m.regex = m.type === 'mw' ? rg(m.path, true) : rg(m.path)
 

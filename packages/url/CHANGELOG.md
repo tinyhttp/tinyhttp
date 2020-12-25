@@ -1,5 +1,11 @@
 # @tinyhttp/url
 
+## 1.1.1
+
+### Patch Changes
+
+- Get rid of a lot of code in the handler and instead replace it with find() method for faster middleware match
+
 ## 1.1.0
 
 ### Minor Changes

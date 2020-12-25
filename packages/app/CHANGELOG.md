@@ -1,5 +1,13 @@
 # @tinyhttp/app
 
+## 1.1.5
+
+### Patch Changes
+
+- Get rid of a lot of code in the handler and instead replace it with find() method for faster middleware match
+  - @tinyhttp/req@1.1.1
+  - @tinyhttp/res@1.1.1
+
 ## 1.1.4
 
 ### Patch Changes
