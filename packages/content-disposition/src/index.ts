@@ -211,10 +211,7 @@ export function parse(string: string) {
 
     if (typeof params[key] === 'string') continue
 
-    if (value[0] === '"') {
-      // remove quotes and escapes
-      value = value.substr(1, value.length - 2).replace(QESC_REGEXP, '$1')
-    }
+    if (value[0] === '"') value = value.substr(1, value.length - 2).replace(QESC_REGEXP, '$1')
 
     params[key] = value
   }

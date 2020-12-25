@@ -17,4 +17,4 @@ app.get('/', (req, res) => res.send(`Hello from ${req.protocol} server!`))
 
 const server = https.createServer(options)
 
-server.on('request', async (req, res) => await app.handler(req, res)).listen(3000)
+server.on('request', app.attach).listen(3000)

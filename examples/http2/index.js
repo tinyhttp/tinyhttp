@@ -11,7 +11,7 @@ const options = {
 
 app.get('/', (req, res) => void res.send(`Hello from HTTP ${req.httpVersion} server!`))
 
-createSecureServer(options, async (req, res) => {
+createSecureServer(options, (req, res) => {
   // @ts-ignore
-  await app.handler(req, res)
+  app.attach(req, res)
 }).listen(3000)

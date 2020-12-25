@@ -66,7 +66,7 @@ export const jsonp = (req: Request, res: Response) => (obj: unknown, opts: JSONP
 
     // the /**/ is a specific security mitigation for "Rosetta Flash JSONP abuse"
     // the typeof check is just to reduce client error noise
-    body = '/**/ typeof ' + callback + " === 'function' && " + callback + '(' + body + ');'
+    body = `/**/ typeof ${callback} === 'function' && ${callback}(${body});`
   }
 
   return res.send(body)

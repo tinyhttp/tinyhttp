@@ -4,8 +4,17 @@ import type { Request, Response, NextFunction, Middleware } from '@tinyhttp/app'
  * Middleware options
  */
 export type UnlessMiddlewareOptions = Partial<{
-  method: string | string[] | 'GET' | 'POST' | 'PUT' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'DELETE' //methods to compare
-  path: string | RegExp | (string | RegExp | PathObject)[] //paths to compare
+  /**
+   * Methods to compare
+   */
+  method: string | string[] | 'GET' | 'POST' | 'PUT' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'DELETE'
+  /**
+   * Paths to compare
+   */
+  path: string | RegExp | (string | RegExp | PathObject)[]
+  /**
+   * Last part of endpoint to compare
+   */
   ext: string | string[] //last part of endpoint to compare
 }>
 
@@ -22,11 +31,10 @@ interface PathObject {
  */
 export type CustomUnless = (req: Request) => boolean
 
-//Convert single element to array of one element
+// Convert single element to array of one element
 function toArray(val: any | any[]): any[] {
-  if (!Array.isArray(val) && val !== undefined) {
-    return [val]
-  }
+  if (!Array.isArray(val) && val !== undefined) return [val]
+
   return val
 }
 
@@ -41,10 +49,10 @@ function pathCheck(path: (string | RegExp | PathObject)[], url: string, method: 
   for (const p of path) {
     if (typeof p === 'string') res = res || p === url
     else if (p instanceof RegExp) {
-      const regexPath: RegExp = p as RegExp
+      const regexPath: RegExp = p
       res = res || regexPath.test(url)
     } else {
-      const objectPath: PathObject = p as PathObject
+      const objectPath: PathObject = p
       res = res || (objectPath.url === url && objectPath.methods.indexOf(method) !== -1)
     }
     if (res) return res
@@ -61,16 +69,11 @@ export function unless(
   mw: Middleware,
   options: UnlessMiddlewareOptions | CustomUnless
 ): (req: Request, res: Response, next: NextFunction) => any {
-  let opts: UnlessMiddlewareOptions //options
-  let custom: CustomUnless //function
+  let opts: UnlessMiddlewareOptions // options
+  let custom: CustomUnless // function
 
-  if (typeof options === 'object') {
-    // unless(<middleware>, <options>)
-    opts = options as UnlessMiddlewareOptions
-  } else if (typeof options === 'function') {
-    // unless(<middleware>, <function>)
-    custom = options as CustomUnless
-  }
+  if (typeof options === 'object') opts = options as UnlessMiddlewareOptions
+  else if (typeof options === 'function') custom = options as CustomUnless
 
   // Returned middleware with configuration
   return function result(req: Request, res: Response, next: NextFunction): any {

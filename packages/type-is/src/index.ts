@@ -79,7 +79,7 @@ export const typeIs = (value: string, ...types: string[]) => {
   // no types, return the content type
   if (!types || !types.length) return val
 
-  let type
+  let type: string
   for (i = 0; i < types.length; i++) {
     if (mimeMatch(normalize((type = types[i])), val)) {
       return type[0] === '+' || type.indexOf('*') !== -1 ? val : type
