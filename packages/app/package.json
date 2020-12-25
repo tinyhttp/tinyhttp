@@ -41,7 +41,8 @@
     "@tinyhttp/proxy-addr": "workspace:*",
     "@tinyhttp/req": "workspace:*",
     "@tinyhttp/res": "workspace:*",
-    "@tinyhttp/router": "workspace:*"
+    "@tinyhttp/router": "workspace:*",
+    "regexparam": "^1.3.0"
   },
   "scripts": {
     "build": "rollup -c"

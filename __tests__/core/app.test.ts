@@ -56,7 +56,7 @@ describe('Testing App', () => {
 
     const server = http.createServer()
 
-    server.on('request', (req, res) => app.handler(req, res))
+    server.on('request', app.attach)
 
     await makeFetch(server)('/').expect(404)
   })
@@ -490,6 +490,19 @@ describe('Route handlers', () => {
     const fetch = makeFetch(server)
 
     await fetch('/').expect(200, 'hello world')
+  })
+  it('router methods do not match loosely', async () => {
+    const app = new App()
+
+    app.get('/route', (_, res) => res.send('found'))
+
+    const server = app.listen()
+
+    const fetch = makeFetch(server)
+
+    await fetch('/route/subroute').expect(404)
+
+    await fetch('/route').expect(200, 'found')
   })
 })
 

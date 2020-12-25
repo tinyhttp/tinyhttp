@@ -8,7 +8,7 @@ import type { ErrorHandler } from './onError'
 import { onErrorHandler } from './onError'
 import { Middleware, Handler, NextFunction, Router, UseMethodParams } from '@tinyhttp/router'
 import { extendMiddleware } from './extend'
-import { matchLoose, matchParams, runRegex } from '@tinyhttp/req'
+import rg from 'regexparam'
 
 /**
  * Add leading slash if not present (e.g. path -> /path, /path -> /path)
@@ -16,7 +16,7 @@ import { matchLoose, matchParams, runRegex } from '@tinyhttp/req'
  */
 const lead = (x: string) => (x.charCodeAt(0) === 47 ? x : '/' + x)
 
-const mount = (fn) => (fn instanceof App ? fn.attach : fn)
+const mount = (fn: App | Handler) => (fn instanceof App ? fn.attach : fn)
 
 export const applyHandler = <Req, Res>(h: Handler<Req, Res>) => async (req: Req, res: Res, next?: NextFunction) => {
   try {
@@ -106,7 +106,7 @@ export class App<
     this.noMatchHandler = options?.noMatchHandler || this.onError.bind(null, { code: 404 })
     this.settings = options.settings || { xPoweredBy: true }
     this.applyExtensions = options?.applyExtensions
-    this.attach = (req, res) => setImmediate(this.handler.bind(this, req, res), req, res)
+    this.attach = (req, res) => setImmediate(this.handler.bind(this, req, res, undefined), req, res)
   }
   /**
    * Set app setting
@@ -186,12 +186,15 @@ export class App<
       }
     } else if (typeof base === 'function' || base instanceof App) {
       super.use('/', [base, ...fns].map(mount))
-    } else if (fns.every((fn) => fn instanceof App)) {
+    } else if (fns.some((fn) => fn instanceof App)) {
       super.use(
         base,
         fns.map((fn: App) => {
-          fn.mountpath = typeof base === 'string' ? base : '/'
-          fn.parent = this
+          if (fn instanceof App) {
+            fn.mountpath = typeof base === 'string' ? base : '/'
+            fn.parent = this
+          }
+
           return mount(fn)
         })
       )
@@ -208,12 +211,20 @@ export class App<
     return this
   }
 
+  private find(url: string, method: string) {
+    return this.middleware.filter((m) => {
+      m.regex = m.type === 'mw' ? rg(m.path, true) : rg(m.path)
+
+      return (m.method ? m.method === method : true) && m.regex.pattern.test(url)
+    })
+  }
+
   /**
    * Extends Req / Res objects, pushes 404 and 500 handlers, dispatches middleware
    * @param req Req object
    * @param res Res object
    */
-  handler(req: Req, res: Res) {
+  handler(req: Req, res: Res, next?: NextFunction) {
     /* Set X-Powered-By header */
     if (this.settings?.xPoweredBy === true) res.setHeader('X-Powered-By', 'tinyhttp')
 
@@ -225,7 +236,7 @@ export class App<
         type: 'mw',
         path: '/'
       },
-      ...this.middleware.filter((m) => (m.method ? m.method === req.method : true)),
+      ...this.find(req.url, req.method),
       {
         handler: this.noMatchHandler,
         type: 'mw',
@@ -238,37 +249,22 @@ export class App<
     const { pathname } = parse(req.originalUrl)
 
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
-      const { path, handler, type } = mw
+      const { path, handler, type, regex } = mw
 
       req.url = lead(req.url.substring(path.length)) || '/'
 
       req.path = parse(req.url).pathname
 
-      if (type === 'route') {
-        const regex = runRegex(path)
+      if (type === 'route') req.params = getURLParams(regex, pathname)
 
-        if (matchParams(regex, pathname)) {
-          req.params = getURLParams(regex, pathname)
-
-          await applyHandler<Req, Res>((handler as unknown) as Handler<Req, Res>)(req, res, next)
-        } else {
-          req.url = req.originalUrl
-          loop()
-        }
-      } else if (matchLoose(path, pathname)) {
-        await applyHandler<Req, Res>((handler as unknown) as Handler<Req, Res>)(req, res, next)
-      } else {
-        req.url = req.originalUrl
-        loop()
-      }
+      await applyHandler<Req, Res>((handler as unknown) as Handler<Req, Res>)(req, res, next)
     }
 
     let idx = 0
 
-    const loop = () => {
-      if (res.writableEnded) return
-      else if (idx < mw.length) handle(mw[idx++])(req, res, (err) => (err ? this.onError(err, req, res) : loop()))
-    }
+    const loop = () => res.writableEnded || (idx < mw.length && handle(mw[idx++])(req, res, next))
+
+    next = next || ((err) => (err ? this.onError(err, req, res) : loop()))
 
     loop()
   }
@@ -280,10 +276,6 @@ export class App<
    * @param host server listening host
    */
   listen(port?: number, cb?: () => void, host = '0.0.0.0'): Server {
-    const server = createServer()
-
-    server.on('request', this.attach)
-
-    return server.listen(port, host, cb)
+    return createServer().on('request', this.attach).listen(port, host, cb)
   }
 }

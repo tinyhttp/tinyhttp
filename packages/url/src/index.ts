@@ -19,14 +19,8 @@ export const getURLParams = ({ pattern, keys }: Regex, reqUrl = '/'): URLParams 
   return params
 }
 
-export const runRegex = (path = '/') => rg(path)
-
 export const getQueryParams = (url = '/'): ParsedUrlQuery => parse(url, true).query
-
-export const matchParams = ({ pattern }: Regex, reqUrl = '/') => pattern.test(reqUrl)
 
 export type URLParams = {
   [key: string]: string
 }
-
-export const matchLoose = (path = '/', reqUrl = '/') => rg(path, true).pattern.test(reqUrl)
