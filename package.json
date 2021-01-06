@@ -38,8 +38,8 @@
   "scripts": {
     "prerelease": "pnpm lint && pnpm build && pnpm test",
     "chgset:run": "changeset",
-    "chgset:version": "changeset version",
-    "chgset": "pnpm chgset:run && pnpm chgset:version",
+    "rm-changelogs": "rm -rf packages/*/CHANGELOG.md",
+    "chgset": "pnpm chgset:run && pnpm chgset:version && pnpm rm-changelogs",
     "release": "changeset publish",
     "test": "jest --detectOpenHandles",
     "lint": "eslint . --ext=js,mjs,ts,cjs",
