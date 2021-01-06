@@ -35,7 +35,7 @@ export type AppSettings = Partial<{
   freshnessTesting: boolean
   subdomainOffset: number
   bindAppToReqRes: boolean
-  xPoweredBy: boolean
+  xPoweredBy: string | boolean
   enableReqRoute: boolean
 }>
 
@@ -226,7 +226,8 @@ export class App<
    */
   handler(req: Req, res: Res, next?: NextFunction) {
     /* Set X-Powered-By header */
-    if (this.settings?.xPoweredBy === true) res.setHeader('X-Powered-By', 'tinyhttp')
+    const { xPoweredBy } = this.settings
+    if (xPoweredBy) res.setHeader('X-Powered-By', typeof xPoweredBy === 'string' ? xPoweredBy : 'tinyhttp')
 
     const exts = this.applyExtensions || extendMiddleware<RenderOptions>(this)
 
