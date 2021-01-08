@@ -231,23 +231,23 @@ export class App<
 
     const exts = this.applyExtensions || extendMiddleware<RenderOptions>(this)
 
+    req.originalUrl = req.url || req.originalUrl
+
+    const { pathname } = parse(req.originalUrl)
+
     const mw: Middleware[] = [
       {
         handler: exts,
         type: 'mw',
         path: '/'
       },
-      ...this.find(req.url, req.method),
+      ...this.find(pathname, req.method),
       {
         handler: this.noMatchHandler,
         type: 'mw',
         path: '/'
       }
     ]
-
-    req.originalUrl = req.url || req.originalUrl
-
-    const { pathname } = parse(req.originalUrl)
 
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
       const { path, handler, type, regex } = mw
