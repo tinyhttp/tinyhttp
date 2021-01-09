@@ -23,7 +23,7 @@ import { eTag } from '@tinyhttp/etag'
 Generate a strong ETag for the given entity. This should be the complete body of the entity. Strings, `Buffer`s, and `fs.Stats` are accepted. By default, a strong ETag is generated except for `fs.Stats`, which will generate a weak ETag (this can be overwritten by options.weak).
 
 ```ts
-res.setHeader('ETag', etag(body))
+res.setHeader('ETag', eTag(body))
 ```
 
 ### Options
