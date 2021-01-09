@@ -15,10 +15,10 @@ pnpm i @tinyhttp/etag
 ## API
 
 ```ts
-import etag from '@tinyhttp/etag'
+import { eTag } from '@tinyhttp/etag'
 ```
 
-`etag(entity, [options])`
+`eTag(entity, [options])`
 
 Generate a strong ETag for the given entity. This should be the complete body of the entity. Strings, `Buffer`s, and `fs.Stats` are accepted. By default, a strong ETag is generated except for `fs.Stats`, which will generate a weak ETag (this can be overwritten by options.weak).
 
@@ -28,7 +28,7 @@ res.setHeader('ETag', etag(body))
 
 ### Options
 
-`etag` accepts these properties in the options object.
+`eTag` accepts these properties in the options object.
 
 #### `weak`
 
