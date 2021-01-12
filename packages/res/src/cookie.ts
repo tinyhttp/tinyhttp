@@ -1,8 +1,9 @@
 import { IncomingMessage as I, ServerResponse as S } from 'http'
 import * as cookie from '@tinyhttp/cookie'
 import { sign } from '@tinyhttp/cookie-signature'
+import { append } from './append'
 
-type Res = Pick<S, 'setHeader'>
+type Res = Pick<S, 'setHeader' | 'getHeader'>
 
 export const setCookie = <Request extends any = any, Response extends Res = Res>(
   req: Request & {
@@ -34,7 +35,7 @@ export const setCookie = <Request extends any = any, Response extends Res = Res>
 
   if (options.path == null) options.path = '/'
 
-  res.setHeader('Set-Cookie', cookie.serialize(name, String(val), options))
+  append(res)('Set-Cookie', `${cookie.serialize(name, String(val), options)}`)
 
   return res
 }
