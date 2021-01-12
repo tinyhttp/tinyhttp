@@ -12,7 +12,7 @@ type Req = Pick<I, 'headers'>
 
 export const setHeader = <Response extends Res = Res>(res: Response) => (
   field: string | Record<string, string | number | string[]>,
-  val?: string | any[]
+  val?: string | number | readonly string[]
 ): Response => {
   if (typeof field === 'string') {
     let value = Array.isArray(val) ? val.map(String) : String(val)

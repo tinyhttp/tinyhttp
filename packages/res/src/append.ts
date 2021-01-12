@@ -1,5 +1,5 @@
-import { IncomingMessage as I, ServerResponse as S } from 'http'
-import { getResponseHeader } from './headers'
+import { ServerResponse as S } from 'http'
+import { getResponseHeader, setHeader } from './headers'
 
 type Res = Pick<S, 'getHeader' | 'setHeader'>
 
@@ -17,6 +17,6 @@ export const append = <Response extends Res = Res>(res: Response) => (
       ? [prevVal].concat(newVal)
       : [prevVal, newVal]
   }
-  res.setHeader(field, newVal)
+  setHeader(res)(field, newVal)
   return res
 }
