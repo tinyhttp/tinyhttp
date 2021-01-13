@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/rate-limit",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "type": "module",
   "description": "Basic IP rate-limiting middleware for tinyhttp. Use to limit repeated requests to public APIs and/or endpoints such as password reset.",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -45,6 +45,6 @@
     "build": "rollup -c ./rollup.config.js"
   },
   "devDependencies": {
-    "@tinyhttp/app": "workspace:1.1.9"
+    "@tinyhttp/app": "workspace:1.1.10"
   }
 }

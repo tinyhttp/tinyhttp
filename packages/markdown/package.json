@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/markdown",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "tinyhttp static markdown middleware",
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
@@ -35,7 +35,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/send": "workspace:^1.1.0",
+    "@tinyhttp/send": "workspace:^1.1.1",
     "marked": "^1.2.7"
   },
   "engines": {
