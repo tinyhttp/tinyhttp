@@ -1,4 +1,4 @@
-import ts from 'rollup-plugin-typescript2'
+import ts from '@rollup/plugin-typescript'
 import deps from './deps'
 
 export default {
