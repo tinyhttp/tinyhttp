@@ -9,10 +9,10 @@ export default (cfg) => ({
       format: 'cjs'
     },
     {
-      file: 'dist/index.js',
+      dir: 'dist',
       format: 'esm'
     }
   ],
-  plugins: [ts(), ...(cfg.plugins || [])],
+  plugins: [ts({ include: ['./src/**/*.ts'] }), ...(cfg.plugins || [])],
   external: [...deps(cfg.external)]
 })
