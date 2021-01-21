@@ -211,6 +211,14 @@ export class App<
     return this
   }
 
+  route(path: string): App {
+    const app = new App()
+
+    this.use(path, app)
+
+    return app
+  }
+
   find(url: string, method: string) {
     return this.middleware.filter((m) => {
       m.regex = m.type === 'mw' ? rg(m.path, true) : rg(m.path)

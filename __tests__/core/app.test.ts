@@ -218,6 +218,38 @@ describe('App methods', () => {
 
     expect(app.settings.xPoweredBy).toBe(false)
   })
+  it('app.route works properly', async () => {
+    const app = new App()
+
+    app.route('/').get((req, res) => res.end(req.url))
+
+    const server = app.listen()
+
+    await makeFetch(server)('/').expect(200)
+  })
+  it('app.route supports chaining route methods', async () => {
+    const app = new App()
+
+    app.route('/').get((req, res) => res.end(req.url))
+
+    const server = app.listen()
+
+    await makeFetch(server)('/').expect(200)
+  })
+  it('app.route supports chaining route methods', async () => {
+    const app = new App()
+
+    app
+      .route('/')
+      .get((_, res) => res.send('GET request'))
+      .post((_, res) => res.send('POST request'))
+
+    const server = app.listen()
+
+    await makeFetch(server)('/').expect(200, 'GET request')
+
+    await makeFetch(server)('/', { method: 'POST' }).expect(200, 'POST request')
+  })
 })
 
 describe('HTTP methods', () => {
