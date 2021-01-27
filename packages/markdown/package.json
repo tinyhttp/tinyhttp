@@ -36,7 +36,7 @@
   "license": "MIT",
   "dependencies": {
     "@tinyhttp/send": "workspace:^1.1.1",
-    "marked": "^1.2.7"
+    "marked": "^1.2.8"
   },
   "engines": {
     "node": ">=12.4.0"

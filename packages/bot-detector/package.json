@@ -47,6 +47,6 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/router": "workspace:*",
-    "isbot": "^3.0.16"
+    "isbot": "^3.0.23"
   }
 }

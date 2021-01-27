@@ -43,6 +43,6 @@
   "dependencies": {
     "@tinyhttp/etag": "workspace:*",
     "es-fresh": "^0.0.8",
-    "ms": "^2.1.2"
+    "ms": "^2.1.3"
   }
 }
