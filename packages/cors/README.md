@@ -31,6 +31,7 @@ Returns the CORS middleware with the settings specified in the parameters
 - `credentials`: Configures the `Access-Control-Allow-Credentials` CORS header. Set to true to pass the header, otherwise it is omitted.
 - `maxAge`: Configures the `Access-Control-Max-Age` CORS header. Set to an integer to pass the header, otherwise it is omitted.
 - `optionsSuccessStatus`: Provides a status code to use for successful OPTIONS requests, since some legacy browsers (IE11, various SmartTVs) choke on 204.
+- `preflightContinue`: Set 204 and finish response if `true`, call `next` if false.
 
 The default configuration is:
 
@@ -38,7 +39,8 @@ The default configuration is:
 {
   "origin": "*",
   "methods": ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
-  "optionsSuccessStatus": 204
+  "optionsSuccessStatus": 204,
+  "preflightContinue": false
 }
 ```
 
@@ -50,14 +52,13 @@ import { cors } from '@tinyhttp/cors'
 
 const app = new App()
 
-app.use(cors({ origin: 'https://myfantastic.site/' }))
-app.options('*', cors())
-
-app.get('/', (req, res) => {
-  res.send('The headers contained in my response are defined in the cors middleware')
-})
-
-app.listen(3000)
+app
+  .use(cors({ origin: 'https://myfantastic.site/' }))
+  .options('*', cors())
+  .get('/', (req, res) => {
+    res.send('The headers contained in my response are defined in the cors middleware')
+  })
+  .listen(3000)
 ```
 
 ## Alternatives

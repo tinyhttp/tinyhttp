@@ -9,20 +9,23 @@ export interface AccessControlOptions {
   credentials?: boolean
   maxAge?: number
   optionsSuccessStatus?: number
+  preflightContinue?: boolean
 }
 
 /**
  * CORS Middleware
  */
-export const cors = ({
-  origin = '*',
-  methods = ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  allowedHeaders,
-  exposedHeaders,
-  credentials,
-  maxAge,
-  optionsSuccessStatus = 204
-}: AccessControlOptions) => {
+export const cors = (opts?: AccessControlOptions) => {
+  const {
+    origin = '*',
+    methods = ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+    allowedHeaders,
+    exposedHeaders,
+    credentials,
+    maxAge,
+    optionsSuccessStatus = 204,
+    preflightContinue = false
+  } = opts
   return (req: Request, res: Response, next?: () => void) => {
     // Checking the type of the origin property
     if (typeof origin === 'boolean' && origin === true) res.setHeader('Access-Control-Allow-Origin', '*')
@@ -45,11 +48,11 @@ export const cors = ({
     // Setting the Access-Control-Max-Age header
     if (maxAge) res.setHeader('Access-Control-Max-Age', maxAge)
 
-    if (next === undefined) {
+    if (preflightContinue) {
+      next?.()
+    } else {
       res.statusCode = optionsSuccessStatus
       res.end()
     }
-
-    next?.()
   }
 }
