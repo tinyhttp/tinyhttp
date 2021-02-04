@@ -11,6 +11,11 @@ describe('Testing @tinyhttp/send', () => {
 
       await makeFetch(app)('/').expect({ hello: 'world' })
     })
+    it('should send a null reply when an null is passed', async () => {
+      const app = runServer((_, res) => json(res)(null))
+
+      await makeFetch(app)('/').expect(null)
+    })
     it('should set a content-type header properly', async () => {
       const app = runServer((_, res) => json(res)({ hello: 'world' }))
 
