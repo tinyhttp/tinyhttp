@@ -10,6 +10,6 @@ export const json = <Response extends Res = Res>(res: Response) => (body: any, .
   res.setHeader('Content-Type', 'application/json')
   if (typeof body === 'object' && body != null) res.end(JSON.stringify(body, null, 2), ...args)
   else if (typeof body === 'string') res.end(body, ...args)
-  else if (typeof body === null) res.end(body, ...args);
+  else if (typeof body === 'null') res.end(body, ...args);
   return res
 }
