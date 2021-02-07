@@ -15,7 +15,7 @@ export interface AccessControlOptions {
 /**
  * CORS Middleware
  */
-export const cors = (opts?: AccessControlOptions) => {
+export const cors = (opts: AccessControlOptions = {}) => {
   const {
     origin = '*',
     methods = ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
