@@ -24,15 +24,6 @@ describe('CORS headers tests', () => {
 
     await fetch('/').expect('Access-Control-Allow-Methods', 'GET')
   })
-  it('should send 204 if `next` is not provided', async () => {
-    const app = createServer((req, res) => {
-      cors({})(req, res)
-    })
-
-    const fetch = makeFetch(app)
-
-    await fetch('/').expect(204)
-  })
   it('should send 204 and finish the request', async () => {
     const app = createServer((req, res) => {
       cors({
