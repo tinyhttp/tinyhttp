@@ -24,7 +24,7 @@ export const cors = (opts: AccessControlOptions = {}) => {
     credentials,
     maxAge,
     optionsSuccessStatus = 204,
-    preflightContinue = false
+    preflightContinue = true
   } = opts
   return (req: Request, res: Response, next?: () => void) => {
     // Checking the type of the origin property
