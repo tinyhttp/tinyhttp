@@ -22,18 +22,26 @@ describe('CORS headers tests', () => {
   it('should set origin if it is a regex', async () => {
     const { fetch } = InitAppAndTest(cors({ origin: /(?:http:\/\/)?example.com/ }))
 
-    await fetch('/', { headers: { Origin: 'http://example.com' } }).expect('Access-Control-Allow-Origin', 'http://example.com')
+    await fetch('/', { headers: { Origin: 'http://example.com' } }).expect(
+      'Access-Control-Allow-Origin',
+      'http://example.com'
+    )
   })
   it('should set origin if it is an array', async () => {
     const { fetch } = InitAppAndTest(cors({ origin: ['http://example.com', 'example.com', 'https://example.com'] }))
 
-    await fetch('/', { headers: { Origin: 'http://example.com' } }).expect('Access-Control-Allow-Origin', 'http://example.com')
+    await fetch('/', { headers: { Origin: 'http://example.com' } }).expect(
+      'Access-Control-Allow-Origin',
+      'http://example.com'
+    )
   })
   it('should send an error if it is other object types', async () => {
     // @ts-ignore: Unreachable code error
-    const { fetch } = InitAppAndTest(cors({ origin: { site: 'http://example.com'} }))
+    const { fetch } = InitAppAndTest(cors({ origin: { site: 'http://example.com' } }))
 
-    await fetch('/', { headers: { Origin: 'http://example.com' } }).expect('No other objects allowed. Allowed types is array of strings or RegExp')
+    await fetch('/', { headers: { Origin: 'http://example.com' } }).expect(
+      'No other objects allowed. Allowed types is array of strings or RegExp'
+    )
   })
   it('should set custom methods', async () => {
     const { fetch } = InitAppAndTest(cors({ methods: ['GET'] }))
