@@ -24,7 +24,7 @@ Returns the CORS middleware with the settings specified in the parameters
 
 #### Options
 
-- `origin`: Can be a string defining the `Access-Control-Allow-Origin` value, a boolean which if set to true sets the header to `'*'` or a function which contains the request and response as parameters and must return the value for the `Access-Control-Allow-Origin` header
+- `origin`: Can be a string defining the `Access-Control-Allow-Origin` value, a boolean which if set to true sets the header to `'*'`, a Regex type, an array (for multiple origins) or a function which contains the request and response as parameters and must return the value for the `Access-Control-Allow-Origin` header
 - `methods`: Array of method names which define the `Access-Control-Allow-Methods` header, default to all the most common methods (`GET`, `HEAD`, `PUT`, `PATCH`, `POST`, `DELETE`)
 - `allowedHeaders`: Configures the `Access-Control-Allow-Headers` CORS header. Expects an array (ex: [`'Content-Type'`, `'Authorization'`]).
 - `exposedHeaders`: Configures the `Access-Control-Expose-Headers` CORS header. If not specified, no custom headers are exposed
@@ -40,7 +40,7 @@ The default configuration is:
   "origin": "*",
   "methods": ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
   "optionsSuccessStatus": 204,
-  "preflightContinue": false
+  "preflightContinue": true
 }
 ```
 
