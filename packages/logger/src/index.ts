@@ -1,8 +1,7 @@
 import { cyan, red, magenta, bold } from 'colorette'
 import * as statusEmoji from 'http-status-emojis'
 import dayjs from 'dayjs'
-import { METHODS } from 'http'
-import { Request, Response } from '@tinyhttp/app'
+import { METHODS, ServerResponse as Response, IncomingMessage as Request } from 'http'
 
 export interface LoggerOptions {
   methods?: string[]
@@ -17,7 +16,7 @@ export interface LoggerOptions {
 
 const compileArgs = (
   args: (string | number)[],
-  req: Request,
+  req: Request & Partial<{ originalUrl: string; ip: any }>,
   res: Response,
   options: LoggerOptions = {},
   status?: string,
