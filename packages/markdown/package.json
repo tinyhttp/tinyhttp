@@ -36,13 +36,13 @@
   "license": "MIT",
   "dependencies": {
     "@tinyhttp/send": "workspace:^1.1.1",
-    "marked": "^1.2.8"
+    "marked": "^2.0.0"
   },
   "engines": {
     "node": ">=12.4.0"
   },
   "devDependencies": {
-    "@types/marked": "^1.2.1"
+    "@types/marked": "^1.2.2"
   },
   "scripts": {
     "build": "rollup -c ../../build/defaultConfig.js"
