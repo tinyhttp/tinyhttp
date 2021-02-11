@@ -147,7 +147,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="http://calumk.com"><img src="https://avatars1.githubusercontent.com/u/1183991?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Calum Knott</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=calumk" title="Documentation">📖</a> <a href="https://github.com/talentlessguy/tinyhttp/issues?q=author%3Acalumk" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://reinaldyrafli.com"><img src="https://avatars.githubusercontent.com/u/7274326?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Reinaldy Rafli</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=aldy505" title="Code">💻</a></td>
+    <td align="center"><a href="https://reinaldyrafli.com"><img src="https://avatars.githubusercontent.com/u/7274326?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Reinaldy Rafli</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=aldy505" title="Code">💻</a> <a href="https://github.com/talentlessguy/tinyhttp/issues?q=author%3Aaldy505" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
