@@ -282,12 +282,12 @@ describe('HTTP methods', () => {
   it('app.head handles head request', async () => {
     const app = new App()
 
-    app.head('/', (req, res) => void res.end(req.method))
+    app.head('/', (req, res) => void res.send(req.method))
 
     const server = app.listen()
     const fetch = makeFetch(server)
 
-    await fetch('/', { method: 'HEAD' }).expect(200, '' || undefined)
+    await fetch('/', { method: 'HEAD' }).expect(200, '')
   })
   it('app.delete handles delete request', async () => {
     const app = new App()
