@@ -60,8 +60,7 @@ export const cors = (opts: AccessControlOptions = {}) => {
     // Setting the Access-Control-Max-Age header
     if (maxAge) res.setHeader('Access-Control-Max-Age', maxAge)
 
-    const method = req.method && req.method.toUpperCase && req.method.toUpperCase()
-    if (method === 'OPTIONS') {
+    if (req.method?.toUpperCase?.() === 'OPTIONS') {
       if (preflightContinue) {
         next?.()
       } else {
