@@ -24,7 +24,7 @@ export const cors = (opts: AccessControlOptions = {}) => {
     credentials,
     maxAge,
     optionsSuccessStatus = 204,
-    preflightContinue = true
+    preflightContinue = false
   } = opts
   return (req: Request, res: Response, next?: () => void) => {
     // Checking the type of the origin property
@@ -60,11 +60,17 @@ export const cors = (opts: AccessControlOptions = {}) => {
     // Setting the Access-Control-Max-Age header
     if (maxAge) res.setHeader('Access-Control-Max-Age', maxAge)
 
-    if (preflightContinue) {
-      next?.()
+    const method = req.method && req.method.toUpperCase && req.method.toUpperCase()
+    if (method === 'OPTIONS') {
+      if (preflightContinue) {
+        next?.()
+      } else {
+        res.statusCode = optionsSuccessStatus
+        res.setHeader('Content-Length', '0')
+        res.end()
+      }
     } else {
-      res.statusCode = optionsSuccessStatus
-      res.end()
+      next?.()
     }
   }
 }
