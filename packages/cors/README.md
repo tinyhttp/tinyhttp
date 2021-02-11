@@ -40,7 +40,7 @@ The default configuration is:
   "origin": "*",
   "methods": ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
   "optionsSuccessStatus": 204,
-  "preflightContinue": true
+  "preflightContinue": false
 }
 ```
 

@@ -48,7 +48,27 @@ describe('CORS headers tests', () => {
 
     await fetch('/').expect('Access-Control-Allow-Methods', 'GET')
   })
-  it('should send 204 and finish the request', async () => {
+  it('should set custom max-age', async () => {
+    const { fetch } = InitAppAndTest(cors({ maxAge: 86400 }))
+
+    await fetch('/').expect('Access-Control-Max-Age', '86400')
+  })
+  it('should set custom credentials', async () => {
+    const { fetch } = InitAppAndTest(cors({ credentials: true }))
+
+    await fetch('/').expect('Access-Control-Allow-Credentials', 'true')
+  })
+  it('should set custom exposed headers', async () => {
+    const { fetch } = InitAppAndTest(cors({ exposedHeaders: ['Content-Range', 'X-Content-Range'] }))
+
+    await fetch('/').expect('Access-Control-Expose-Headers', 'Content-Range, X-Content-Range')
+  })
+  it('should set custom allowed headers', async () => {
+    const { fetch } = InitAppAndTest(cors({ allowedHeaders: ['Content-Range', 'X-Content-Range'] }))
+
+    await fetch('/').expect('Access-Control-Allow-Headers', 'Content-Range, X-Content-Range')
+  })
+  it('should send 204 and continue the request', async () => {
     const app = createServer((req, res) => {
       cors({
         preflightContinue: false
@@ -57,9 +77,21 @@ describe('CORS headers tests', () => {
 
     const fetch = makeFetch(app)
 
-    await fetch('/').expect(204)
+    await fetch('/', { method: 'OPTIONS' }).expectStatus(204)
   })
-  it('should send 204 and continue the request', async () => {
+  it('should send 200 and continue the request', async () => {
+    const app = createServer((req, res) => {
+      cors({
+        preflightContinue: true
+      })(req, res)
+      res.end('something more')
+    })
+
+    const fetch = makeFetch(app)
+
+    await fetch('/', { method: 'OPTIONS' }).expect(200, 'something more')
+  })
+  it('should send 200 and continue the request', async () => {
     const app = createServer((req, res) => {
       cors({
         preflightContinue: true
@@ -72,7 +104,7 @@ describe('CORS headers tests', () => {
 
     await fetch('/').expect(200, 'something else?')
   })
-  it('should send 204 and continue the request', async () => {
+  it('should send 200 and continue the request', async () => {
     const app = createServer((req, res) => {
       cors()(req, res)
 
