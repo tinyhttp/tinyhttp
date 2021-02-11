@@ -63,6 +63,11 @@ describe('CORS headers tests', () => {
 
     await fetch('/').expect('Access-Control-Expose-Headers', 'Content-Range, X-Content-Range')
   })
+  it('should set custom allowed headers', async () => {
+    const { fetch } = InitAppAndTest(cors({ allowedHeaders: ['Content-Range', 'X-Content-Range'] }))
+
+    await fetch('/').expect('Access-Control-Allow-Headers', 'Content-Range, X-Content-Range')
+  })
   it('should send 204 and continue the request', async () => {
     const app = createServer((req, res) => {
       cors({
@@ -73,6 +78,18 @@ describe('CORS headers tests', () => {
     const fetch = makeFetch(app)
 
     await fetch('/', { method: 'OPTIONS' }).expectStatus(204)
+  })
+  it('should send 200 and continue the request', async () => {
+    const app = createServer((req, res) => {
+      cors({
+        preflightContinue: true
+      })(req, res)
+      res.end('something more')
+    })
+
+    const fetch = makeFetch(app)
+
+    await fetch('/', { method: 'OPTIONS' }).expect(200, 'something more')
   })
   it('should send 200 and continue the request', async () => {
     const app = createServer((req, res) => {
