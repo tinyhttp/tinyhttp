@@ -260,7 +260,8 @@ Here's a list of all of the settings:
 - `freshnessTesting` - `req.fresh` and `req.stale` properties
 - `subdomainOffset` - subdomain offset for `req.subdomains`
 - `bindAppToReqRes` - bind current `App` to `req.app` and `res.app`
-- `xPoweredBy` - enable `X-Powered-By: "tinyhttp"` header
+- `xPoweredBy` - set `X-Powered-By: "tinyhttp"` header
+- `enableReqRoute` - enable `req.route` property
 
 ##### `networkExtensions`
 
@@ -287,6 +288,10 @@ Subdomain offset for `req.subdomains`. Defaults to `2`.
 ##### `bindAppToReqRes`
 
 Bind the app as a reference to the actual app to `req.app` and `res.app`. Disabled by default.
+
+#### `enableReqRoute`
+
+Enables `req.route` property. Disabled by default.
 
 ### Properties
 

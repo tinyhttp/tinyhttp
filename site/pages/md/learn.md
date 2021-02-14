@@ -78,12 +78,13 @@ Also, because a lot of express middlewares depend on legacy modules themselves, 
 tinyhttp directly mostly depends on helper modules:
 
 ```sh
-@tinyhttp/app 0.5.35
-├── @tinyhttp/cookie 0.5.3
-├── @tinyhttp/proxy-addr 0.5.9
-├── @tinyhttp/req 0.5.7
-├── @tinyhttp/res 0.5.15
-└── @tinyhttp/router 0.5.9
+@tinyhttp/app 1.1.12
+├── @tinyhttp/cookie 1.1.1
+├── @tinyhttp/proxy-addr 1.1.1
+├── @tinyhttp/req 1.1.2
+├── @tinyhttp/res 1.1.3
+├── @tinyhttp/router 1.1.2
+└── regexparam 1.3.0
 ```
 
 The core `@tinyhttp/app` module depends on small helper modules like `@tinyhttp/router` for easier maintaining and ability to use tinyhttp features outside of tinyhttp (to build your own web framework for example).
@@ -91,51 +92,53 @@ The core `@tinyhttp/app` module depends on small helper modules like `@tinyhttp/
 this is how the full dependency tree of `@tinyhttp/app` looks like:
 
 ```sh
-@tinyhttp/app 0.5.35
-├── @tinyhttp/cookie 0.5.3
-├─┬ @tinyhttp/proxy-addr 0.5.9
-│ ├── @tinyhttp/forwarded 0.5.6
-│ └── ipaddr.js 2.0.0
-├─┬ @tinyhttp/req 0.5.7
-│ ├─┬ @tinyhttp/accepts 0.5.3
-│ │ ├─┬ es-mime-types 0.0.16
-│ │ │ └── mime-db 1.45.0
-│ │ └── negotiator 0.6.2
-│ ├─┬ @tinyhttp/type-is 0.5.4
-│ │ ├── es-content-type 0.0.10
-│ │ └─┬ es-mime-types 0.0.16
-│ │   └── mime-db 1.45.0
-│ ├─┬ @tinyhttp/url 0.5.4
-│ │ └── regexparam 1.3.0
-│ ├── es-fresh 0.0.8
-│ └── range-parser 1.2.1
-├─┬ @tinyhttp/res 0.5.15
-│ ├── @tinyhttp/content-disposition 0.5.5
-│ ├── @tinyhttp/cookie 0.5.3
-│ ├── @tinyhttp/cookie-signature 0.5.2
-│ ├─┬ @tinyhttp/req 0.5.7
-│ │ ├─┬ @tinyhttp/accepts 0.5.3
+  @tinyhttp/app 1.1.12
+│ ├── @tinyhttp/cookie 1.1.1
+│ ├─┬ @tinyhttp/proxy-addr 1.1.1
+│ │ ├── @tinyhttp/forwarded 1.1.1
+│ │ └── ipaddr.js 2.0.0
+│ ├─┬ @tinyhttp/req 1.1.2
+│ │ ├─┬ @tinyhttp/accepts 1.1.1
 │ │ │ ├─┬ es-mime-types 0.0.16
 │ │ │ │ └── mime-db 1.45.0
 │ │ │ └── negotiator 0.6.2
-│ │ ├─┬ @tinyhttp/type-is 0.5.4
+│ │ ├─┬ @tinyhttp/type-is 1.1.1
 │ │ │ ├── es-content-type 0.0.10
 │ │ │ └─┬ es-mime-types 0.0.16
 │ │ │   └── mime-db 1.45.0
-│ │ ├─┬ @tinyhttp/url 0.5.4
+│ │ ├─┬ @tinyhttp/url 1.1.2
 │ │ │ └── regexparam 1.3.0
 │ │ ├── es-fresh 0.0.8
 │ │ └── range-parser 1.2.1
-│ ├─┬ @tinyhttp/send 0.5.7
-│ │ ├── @tinyhttp/etag 0.5.2
-│ │ ├── es-content-type 0.0.10
-│ │ └─┬ es-mime-types 0.0.16
-│ │   └── mime-db 1.45.0
-│ ├─┬ es-mime-types 0.0.16
-│ │ └── mime-db 1.45.0
-│ ├── es-vary 0.0.8
-│ └── escape-html 1.0.3
-└── @tinyhttp/router 0.5.9
+│ ├─┬ @tinyhttp/res 1.1.3
+│ │ ├── @tinyhttp/content-disposition 1.1.1
+│ │ ├── @tinyhttp/cookie 1.1.1
+│ │ ├── @tinyhttp/cookie-signature 1.1.1
+│ │ ├── @tinyhttp/encode-url 0.1.1
+│ │ ├─┬ @tinyhttp/req 1.1.2
+│ │ │ ├─┬ @tinyhttp/accepts 1.1.1
+│ │ │ │ ├─┬ es-mime-types 0.0.16
+│ │ │ │ │ └── mime-db 1.45.0
+│ │ │ │ └── negotiator 0.6.2
+│ │ │ ├─┬ @tinyhttp/type-is 1.1.1
+│ │ │ │ ├── es-content-type 0.0.10
+│ │ │ │ └─┬ es-mime-types 0.0.16
+│ │ │ │   └── mime-db 1.45.0
+│ │ │ ├─┬ @tinyhttp/url 1.1.2
+│ │ │ │ └── regexparam 1.3.0
+│ │ │ ├── es-fresh 0.0.8
+│ │ │ └── range-parser 1.2.1
+│ │ ├─┬ @tinyhttp/send 1.1.1
+│ │ │ ├── @tinyhttp/etag 1.1.1
+│ │ │ ├── es-content-type 0.0.10
+│ │ │ └─┬ es-mime-types 0.0.16
+│ │ │   └── mime-db 1.45.0
+│ │ ├─┬ es-mime-types 0.0.16
+│ │ │ └── mime-db 1.45.0
+│ │ ├── es-vary 0.0.8
+│ │ └── escape-html 1.0.3
+│ ├── @tinyhttp/router 1.1.2
+│ └── regexparam 1.3.0
 ```
 
 Because Express contains a lot of legacy modules, the dependency tree of tinyhttp is much smaller.
@@ -183,9 +186,7 @@ import { App } from '@tinyhttp/app'
 
 const app = new App()
 
-app.use((req, res) => {
-  res.send('Hello world!')
-})
+app.use((req, res) => res.send('Hello world!'))
 
 app.listen(3000, () => console.log('Started on http://localhost:3000'))
 ```
@@ -351,17 +352,13 @@ app.get('/about', function (req, res) {
 This route path will match requests to /random.text.
 
 ```js
-app.get('/random.text', function (req, res) {
-  res.send('random.text')
-})
+app.get('/random.text', (req, res) => res.send('random.text'))
 ```
 
 This route path will match acd and abcd.
 
 ```js
-app.get('/ab?cd', function (req, res) {
-  res.send('ab?cd')
-})
+app.get('/ab?cd', (req, res) => res.send('ab?cd'))
 ```
 
 ##### Route parameters
