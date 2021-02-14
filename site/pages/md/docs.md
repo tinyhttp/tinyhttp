@@ -143,7 +143,7 @@
 
 <main>
 
-# 1.0 API
+# 1.X API
 
 ## Application
 
@@ -213,6 +213,18 @@ app.get('/', (req, res) => void res.send('hello world')).listen(3000)
 A function that patches `req` and `res` objects with extensions, such as `res.send` or `req.xhr`. This parameter is useful for adding custom extensions or removing the ones that aren't used.
 
 By default, the `extendMiddleware` function is used, which contains all tinyhttp's `req` / `res` extensions.
+
+```js
+import { App, extendMiddleware } from '@tinyhttp/app'
+
+const app = new App({
+	applyExtensions: (req, res, next) => {
+		extendMiddleware(req, res, next)
+
+		res.someExt = someExt(req, res, next)
+	}
+})
+```
 
 In some cases when you need to reach the highest performance you can define a custom function for extensions and pass it in the `App` constructor:
 
