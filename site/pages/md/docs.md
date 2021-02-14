@@ -208,7 +208,7 @@ const app = new App({
 app.get('/', (req, res) => void res.send('hello world')).listen(3000)
 ```
 
-### `applyExtensions`
+#### `applyExtensions(fn)`
 
 A function that patches `req` and `res` objects with extensions, such as `res.send` or `req.xhr`. This parameter is useful for adding custom extensions or removing the ones that aren't used.
 
@@ -218,11 +218,11 @@ By default, the `extendMiddleware` function is used, which contains all tinyhttp
 import { App, extendMiddleware } from '@tinyhttp/app'
 
 const app = new App({
-	applyExtensions: (req, res, next) => {
-		extendMiddleware(req, res, next)
+  applyExtensions: (req, res, next) => {
+    extendMiddleware(req, res, next)
 
-		res.someExt = someExt(req, res, next)
-	}
+    res.someExt = someExt(req, res, next)
+  }
 })
 ```
 
@@ -301,7 +301,7 @@ Subdomain offset for `req.subdomains`. Defaults to `2`.
 
 Bind the app as a reference to the actual app to `req.app` and `res.app`. Disabled by default.
 
-#### `enableReqRoute`
+##### `enableReqRoute`
 
 Enables `req.route` property. Disabled by default.
 
