@@ -166,9 +166,9 @@ These amazing people supported tinyhttp financially:
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://molefrog.com/"><img src="https://avatars3.githubusercontent.com/u/671276?v=4" width="100px;" alt=""/><br /><sub><b>molefrog</b></sub></td>
+    <td align="center"><a href="https://molefrog.com/"><img src="https://avatars3.githubusercontent.com/u/671276?v=4" width="100px;" alt=""/><br /><sub><b>molefrog</b></sub></td> <td align="center"><a href="https://thecarrots.io/"><img src="https://i.snipboard.io/PEDbp3.jpg" width="100px;" alt=""/><br /><sub><b>Carrots</b></sub></td>
   </tr>
-  <td align="center"><a href="https://thecarrots.io/"><img src="https://i.snipboard.io/PEDbp3.jpg" width="100px;" alt=""/><br /><sub><b>Carrots</b></sub></td>
+  
 </table>
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
