@@ -5,3 +5,4 @@ examples/dev-server/public/sosseDevSocketClient/main.umd.js
 ./**/node_modules/
 benchmark
 site/static/js/index.js
+examples/aws/.build
