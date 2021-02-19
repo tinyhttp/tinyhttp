@@ -113,19 +113,21 @@ const fileFetcher = async (data: any, statusCode: number, dir?: string) => {
 cli
   .version(file.get('version'))
   .help()
-  .command('new <project>', 'Create new tinyhttp project from template')
+  .command('new <project> [folder]', 'Create new tinyhttp project from template', {})
   .option('--prettier', 'Setup Prettier')
   .option('--eslint', 'Setup ESLint')
   .option('--eslint-ts', 'Setup ESLint for TypeScript')
   .option('--pkg [pkg]', 'Choose package manager')
-  .action(async (name, options) => {
-    msg(`Creating a new tinyhttp project from ${name} template ⚡`, 'cyan')
+  .action(async (name, folder, options) => {
+    const dir = folder || name
+
+    msg(`Creating a new tinyhttp project from ${name} template in ${dir} folder ⚡`, 'cyan')
 
     msg('Fetching template contents ⌛', 'green')
 
-    await mkdir(name)
+    await mkdir(dir)
 
-    process.chdir(name)
+    process.chdir(dir)
 
     const { data, statusCode } = await get(
       `https://api.github.com/repos/talentlessguy/tinyhttp/contents/examples/${name}`,
