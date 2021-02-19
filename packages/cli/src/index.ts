@@ -64,6 +64,10 @@ const PRETTIER_CONFIG = `
 }
 `
 
+const httpHeaders = {
+  headers: { 'user-agent': 'node.js' }
+}
+
 const install = (pkg: string, pkgs: string[], dev = true) =>
   runCmd(`${pkg} ${pkg === 'yarn' ? 'add' : 'i'} ${dev ? '-D' : '-S'} ${pkgs.join(' ')}`)
 
@@ -97,7 +101,7 @@ const fileFetcher = async (data: any, statusCode: number) => {
       await writeFile(name, data)
     } else {
       spinner.text = `Scanning ${name} directory`
-      const { data, statusCode } = await get(url)
+      const { data, statusCode } = await get(url, httpHeaders)
       await fileFetcher(data, statusCode)
     }
   }
@@ -124,9 +128,7 @@ cli
 
     const { data, statusCode } = await get(
       `https://api.github.com/repos/talentlessguy/tinyhttp/contents/examples/${name}`,
-      {
-        headers: { 'user-agent': 'node.js' }
-      }
+      httpHeaders
     )
 
     await fileFetcher(data, statusCode)
