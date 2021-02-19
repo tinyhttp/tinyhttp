@@ -1,4 +1,4 @@
-import { getQueryParams, getURLParams, matchParams } from '../../packages/url/src'
+import { getQueryParams, getURLParams } from '../../packages/url/src'
 import { parse } from 'url'
 import rg from 'regexparam'
 
@@ -27,22 +27,5 @@ describe('getURLParams(reqUrl, url)', () => {
       a: 'hello',
       b: 'world'
     })
-  })
-})
-
-describe('matchParams(path, reqUrl)', () => {
-  it('returns `true` if matches', () => {
-    const reqUrl = '/hello/world'
-
-    const regex = rg('/:a/:b')
-
-    expect(matchParams(regex, reqUrl)).toBe(true)
-  })
-  it('returns `false` if does not match', () => {
-    const reqUrl = '/'
-
-    const regex = rg('/:a/:b')
-
-    expect(matchParams(regex, reqUrl)).toBe(false)
   })
 })

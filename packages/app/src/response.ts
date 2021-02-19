@@ -22,8 +22,8 @@ export const renderTemplate = <O>(_req: Request, res: Response, app: App) => (
 }
 
 export interface Response<O = any> extends ServerResponse {
-  header(field: string | Record<string, unknown>, val: string | any[]): Response
-  set(field: string | Record<string, unknown>, val: string | any[]): Response
+  header(field: string | Record<string, unknown>, val?: string | any[]): Response
+  set(field: string | Record<string, unknown>, val?: string | any[]): Response
   get(field: string): string | number | string[]
   send(body: unknown): Response
   sendFile(path: string, options?: ReadStreamOptions, cb?: (err?: any) => void): Response

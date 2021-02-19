@@ -1,4 +1,4 @@
-import ts from 'rollup-plugin-typescript2'
+import ts from '@rollup/plugin-typescript'
 import deps from './deps'
 
 export default (cfg) => ({
@@ -9,10 +9,10 @@ export default (cfg) => ({
       format: 'cjs'
     },
     {
-      file: 'dist/index.js',
+      dir: 'dist',
       format: 'esm'
     }
   ],
-  plugins: [ts(), ...(cfg.plugins || [])],
+  plugins: [ts({ include: ['./src/**/*.ts'] }), ...(cfg.plugins || [])],
   external: [...deps(cfg.external)]
 })

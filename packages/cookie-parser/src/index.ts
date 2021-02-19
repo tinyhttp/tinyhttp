@@ -26,9 +26,7 @@ function JSONCookies(obj: any) {
   for (const key of cookies) {
     const val = JSONCookie(obj[key])
 
-    if (val) {
-      obj[key] = val
-    }
+    if (val) obj[key] = val
   }
 
   return obj
@@ -38,22 +36,16 @@ function JSONCookies(obj: any) {
  * Parse a signed cookie string, return the decoded value.
  */
 export function signedCookie(str: string | unknown, secret: string | string[]) {
-  if (typeof str !== 'string') {
-    return undefined
-  }
+  if (typeof str !== 'string') return undefined
 
-  if (str.substr(0, 2) !== 's:') {
-    return str
-  }
+  if (str.substr(0, 2) !== 's:') return str
 
   const secrets = !secret || Array.isArray(secret) ? secret || [] : [secret]
 
   for (const secret of secrets) {
     const val = signature.unsign(str.slice(2), secret)
 
-    if (val !== false) {
-      return val
-    }
+    if (val !== false) return val
   }
 
   return false

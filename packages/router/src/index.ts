@@ -60,17 +60,24 @@ export type Method = typeof METHODS[number]
 
 export type MiddlewareType = 'mw' | 'route'
 
+type RegexParams = {
+  keys: string[]
+  pattern: RegExp
+}
+
 export interface Middleware<Req extends any = any, Res extends any = any> {
   method?: Method
   handler: Handler<Req, Res>
   path?: string
   type: MiddlewareType
+  regex?: RegexParams
 }
 
 export type MethodHandler<Req extends any = any, Res extends any = any> = {
   path?: string | Handler<Req, Res>
   handler?: Handler<Req, Res>
   type: MiddlewareType
+  regex?: RegexParams
 }
 
 export type RouterHandler<Req extends any = any, Res extends any = any> = Handler<Req, Res> | Handler<Req, Res>[]
@@ -145,14 +152,6 @@ export class Router<App extends Router = any, Req extends any = any, Res extends
   mountpath = '/'
   parent: App
   apps: Record<string, App> = {}
-
-  route(path: string): App {
-    const router = new Router<App, Req, Res>()
-
-    this.use(path, router as App)
-
-    return router as App
-  }
 
   get(...args: RouterMethodParams<Req, Res>) {
     pushMiddleware<Req, Res>(this.middleware)({

@@ -1,8 +1,7 @@
 import { cyan, red, magenta, bold } from 'colorette'
 import * as statusEmoji from 'http-status-emojis'
 import dayjs from 'dayjs'
-import { METHODS } from 'http'
-import { Request, Response } from '@tinyhttp/app'
+import { METHODS, ServerResponse as Response, IncomingMessage as Request } from 'http'
 
 export interface LoggerOptions {
   methods?: string[]
@@ -15,9 +14,9 @@ export interface LoggerOptions {
   ip?: boolean
 }
 
-const joinOutputArgs = (
+const compileArgs = (
   args: (string | number)[],
-  req: Request,
+  req: Request & Partial<{ originalUrl: string; ip: any }>,
   res: Response,
   options: LoggerOptions = {},
   status?: string,
@@ -32,14 +31,12 @@ const joinOutputArgs = (
   const timestamp = options.timestamp ?? false
   const emojiEnabled = options.emoji
 
-  if (methods.includes(method)) {
-    if (timestamp) {
-      args.push(
-        typeof timestamp !== 'boolean' && timestamp.format
-          ? `${dayjs().format(timestamp.format).toString()} - `
-          : `${dayjs().format('HH:mm:ss').toString()} - `
-      )
-    }
+  if (methods.includes(method) && timestamp) {
+    args.push(
+      `${dayjs()
+        .format(typeof timestamp !== 'boolean' && timestamp.format ? timestamp.format : 'HH:mm:ss')
+        .toString()} - `
+    )
   }
 
   if (options.ip) args.push(req.ip)
@@ -65,21 +62,21 @@ export const logger = (options: LoggerOptions = {}) => {
         const s = res.statusCode.toString()
 
         if (!output.color) {
-          joinOutputArgs(args, req, res, options)
+          compileArgs(args, req, res, options)
           const m = args.join(' ')
           output.callback(m)
         } else {
           switch (s[0]) {
             case '2':
-              joinOutputArgs(args, req, res, options, cyan(bold(s)), cyan(res.statusMessage))
+              compileArgs(args, req, res, options, cyan(bold(s)), cyan(res.statusMessage))
               output.callback(args.join(' '))
               break
             case '4':
-              joinOutputArgs(args, req, res, options, red(bold(s)), red(res.statusMessage))
+              compileArgs(args, req, res, options, red(bold(s)), red(res.statusMessage))
               output.callback(args.join(' '))
               break
             case '5':
-              joinOutputArgs(args, req, res, options, magenta(bold(s)), magenta(res.statusMessage))
+              compileArgs(args, req, res, options, magenta(bold(s)), magenta(res.statusMessage))
               output.callback(args.join(' '))
               break
           }

@@ -424,24 +424,7 @@ describe('Testing HTTP methods', () => {
   })
 })
 
-describe('Testing Router methods', () => {
-  describe('app.route(path)', () => {
-    it('should mount a router on a subpath', () => {
-      const app = new Router<Router>()
+/* describe('Testing Router methods', () => {
 
-      app.route('/path')
-
-      expect(app.apps['/path']).not.toBeUndefined()
-    })
-    it('should provide methods as a regular app', () => {
-      const app = new Router<Router>()
-
-      app
-        .route('/path')
-        .get('/get', () => {})
-        .use('/mw')
-
-      expect(app.apps['/path'].middleware).toHaveLength(2)
-    })
-  })
 })
+ */

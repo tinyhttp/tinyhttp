@@ -1,14 +1,14 @@
 import { createServer, Server } from 'http'
 import path from 'path'
 import { parse } from 'url'
-import { getRouteFromApp, getURLParams } from './request'
+import { getURLParams } from './request'
 import type { Request } from './request'
 import type { Response } from './response'
 import type { ErrorHandler } from './onError'
 import { onErrorHandler } from './onError'
-import { Middleware, Handler, NextFunction, Router } from '@tinyhttp/router'
+import { Middleware, Handler, NextFunction, Router, UseMethodParams } from '@tinyhttp/router'
 import { extendMiddleware } from './extend'
-import { matchLoose, matchParams, runRegex } from '@tinyhttp/req'
+import rg from 'regexparam'
 
 /**
  * Add leading slash if not present (e.g. path -> /path, /path -> /path)
@@ -16,14 +16,16 @@ import { matchLoose, matchParams, runRegex } from '@tinyhttp/req'
  */
 const lead = (x: string) => (x.charCodeAt(0) === 47 ? x : '/' + x)
 
+const mount = (fn: App | Handler) => (fn instanceof App ? fn.attach : fn)
+
 export const applyHandler = <Req, Res>(h: Handler<Req, Res>) => async (req: Req, res: Res, next?: NextFunction) => {
-  if (h[Symbol.toStringTag] === 'AsyncFunction') {
-    try {
+  try {
+    if (h[Symbol.toStringTag] === 'AsyncFunction') {
       await h(req, res, next)
-    } catch (e) {
-      next(e)
-    }
-  } else h(req, res, next)
+    } else h(req, res, next)
+  } catch (e) {
+    next(e)
+  }
 }
 /**
  * tinyhttp App has a few settings for toggling features
@@ -33,7 +35,8 @@ export type AppSettings = Partial<{
   freshnessTesting: boolean
   subdomainOffset: number
   bindAppToReqRes: boolean
-  xPoweredBy: boolean
+  xPoweredBy: string | boolean
+  enableReqRoute: boolean
 }>
 
 /**
@@ -88,6 +91,7 @@ export class App<
   settings: AppSettings
   engines: Record<string, TemplateFunc<RenderOptions>> = {}
   applyExtensions: (req: Request, res: Response, next: NextFunction) => void
+  attach: (req: Req, res: Res) => void
 
   constructor(
     options: Partial<{
@@ -102,6 +106,7 @@ export class App<
     this.noMatchHandler = options?.noMatchHandler || this.onError.bind(null, { code: 404 })
     this.settings = options.settings || { xPoweredBy: true }
     this.applyExtensions = options?.applyExtensions
+    this.attach = (req, res) => setImmediate(this.handler.bind(this, req, res, undefined), req, res)
   }
   /**
    * Set app setting
@@ -166,6 +171,37 @@ export class App<
 
     return this
   }
+  use(...args: UseMethodParams<Req, Res, App>) {
+    const base = args[0]
+
+    const fns = args.slice(1)
+
+    if (base === '/') {
+      for (const fn of fns) {
+        if (Array.isArray(fn)) {
+          super.use(base, fn.map(mount))
+        } else {
+          super.use(base, fns.map(mount))
+        }
+      }
+    } else if (typeof base === 'function' || base instanceof App) {
+      super.use('/', [base, ...fns].map(mount))
+    } else if (fns.some((fn) => fn instanceof App)) {
+      super.use(
+        base,
+        fns.map((fn: App) => {
+          if (fn instanceof App) {
+            fn.mountpath = typeof base === 'string' ? base : '/'
+            fn.parent = this
+          }
+
+          return mount(fn)
+        })
+      )
+    } else super.use(...args)
+
+    return this // chainable
+  }
   /**
    * Register a template engine with extension
    */
@@ -175,83 +211,71 @@ export class App<
     return this
   }
 
+  route(path: string): App {
+    const app = new App()
+
+    this.use(path, app)
+
+    return app
+  }
+
+  find(url: string, method: string) {
+    return this.middleware.filter((m) => {
+      m.regex = m.type === 'mw' ? rg(m.path, true) : rg(m.path)
+
+      return (m.method ? m.method === method : true) && m.regex.pattern.test(url)
+    })
+  }
+
   /**
    * Extends Req / Res objects, pushes 404 and 500 handlers, dispatches middleware
    * @param req Req object
    * @param res Res object
    */
-  async handler(req: Req, res: Res) {
+  handler(req: Req, res: Res, next?: NextFunction) {
     /* Set X-Powered-By header */
-    if (this.settings?.xPoweredBy === true) res.setHeader('X-Powered-By', 'tinyhttp')
+    const { xPoweredBy } = this.settings
+    if (xPoweredBy) res.setHeader('X-Powered-By', typeof xPoweredBy === 'string' ? xPoweredBy : 'tinyhttp')
 
-    const mw = this.middleware
+    const exts = this.applyExtensions || extendMiddleware<RenderOptions>(this)
 
-    const subappPath = Object.keys(this.apps).find((x) => req.url.startsWith(x))
+    req.originalUrl = req.url || req.originalUrl
 
-    if (subappPath) {
-      this.apps[subappPath].handler(req, res)
-      return
-    }
+    const { pathname } = parse(req.originalUrl)
 
-    const noMatchMW: Middleware = {
-      handler: this.noMatchHandler,
-      type: 'mw',
-      path: '/'
-    }
-
-    mw.push(noMatchMW)
-
-    let idx = 0
-    const len = mw.length - 1
-
-    const nextWithReqAndRes = (req: Req, res: Res) => (err: any) => {
-      if (err && !res.writableEnded) this.onError(err, req, res)
-      else loop(req, res)
-    }
+    const mw: Middleware[] = [
+      {
+        handler: exts,
+        type: 'mw',
+        path: '/'
+      },
+      ...this.find(pathname, req.method),
+      {
+        handler: this.noMatchHandler,
+        type: 'mw',
+        path: '/'
+      }
+    ]
 
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
-      const { path, method, handler, type } = mw
-
-      req.originalUrl = req.url
+      const { path, handler, type, regex } = mw
 
       req.url = lead(req.url.substring(path.length)) || '/'
 
-      const { pathname } = parse(req.originalUrl)
-
       req.path = parse(req.url).pathname
 
-      this.applyExtensions
-        ? this.applyExtensions(req, res, next)
-        : extendMiddleware<RenderOptions>(this)(req, res, next)
+      if (type === 'route') req.params = getURLParams(regex, pathname)
 
-      if (type === 'route' && req.method === method) {
-        const regex = runRegex(path)
-
-        if (matchParams(regex, pathname)) {
-          req.params = getURLParams(regex, pathname)
-          req.route = getRouteFromApp(this, (handler as unknown) as Handler<Req, Res>)
-          res.statusCode = 200
-
-          await applyHandler<Req, Res>((handler as unknown) as Handler<Req, Res>)(req, res, next)
-        } else {
-          req.url = req.originalUrl
-          loop(req, res)
-        }
-      } else if (type === 'mw' && matchLoose(path, pathname)) {
-        await applyHandler<Req, Res>((handler as unknown) as Handler<Req, Res>)(req, res, next)
-      } else {
-        req.url = req.originalUrl
-        loop(req, res)
-      }
+      await applyHandler<Req, Res>((handler as unknown) as Handler<Req, Res>)(req, res, next)
     }
 
-    const loop = (req: Req, res: Res) => {
-      if (res.writableEnded) return
-      else if (idx <= len) handle(mw[idx++])(req, res, nextWithReqAndRes(req, res))
-      else return
-    }
+    let idx = 0
 
-    loop(req, res)
+    const loop = () => res.writableEnded || (idx < mw.length && handle(mw[idx++])(req, res, next))
+
+    next = next || ((err) => (err ? this.onError(err, req, res) : loop()))
+
+    loop()
   }
 
   /**
@@ -261,10 +285,6 @@ export class App<
    * @param host server listening host
    */
   listen(port?: number, cb?: () => void, host = '0.0.0.0'): Server {
-    const server = createServer()
-
-    server.on('request', (req, res) => this.handler(req, res))
-
-    return server.listen(port, host, cb)
+    return createServer().on('request', this.attach).listen(port, host, cb)
   }
 }

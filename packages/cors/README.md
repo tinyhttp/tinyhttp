@@ -24,13 +24,14 @@ Returns the CORS middleware with the settings specified in the parameters
 
 #### Options
 
-- `origin`: Can be a string defining the `Access-Control-Allow-Origin` value, a boolean which if set to true sets the header to `'*'` or a function which contains the request and response as parameters and must return the value for the `Access-Control-Allow-Origin` header
+- `origin`: Can be a string defining the `Access-Control-Allow-Origin` value, a boolean which if set to true sets the header to `'*'`, a Regex type, an array (for multiple origins) or a function which contains the request and response as parameters and must return the value for the `Access-Control-Allow-Origin` header
 - `methods`: Array of method names which define the `Access-Control-Allow-Methods` header, default to all the most common methods (`GET`, `HEAD`, `PUT`, `PATCH`, `POST`, `DELETE`)
 - `allowedHeaders`: Configures the `Access-Control-Allow-Headers` CORS header. Expects an array (ex: [`'Content-Type'`, `'Authorization'`]).
 - `exposedHeaders`: Configures the `Access-Control-Expose-Headers` CORS header. If not specified, no custom headers are exposed
 - `credentials`: Configures the `Access-Control-Allow-Credentials` CORS header. Set to true to pass the header, otherwise it is omitted.
 - `maxAge`: Configures the `Access-Control-Max-Age` CORS header. Set to an integer to pass the header, otherwise it is omitted.
 - `optionsSuccessStatus`: Provides a status code to use for successful OPTIONS requests, since some legacy browsers (IE11, various SmartTVs) choke on 204.
+- `preflightContinue`: Set 204 and finish response if `true`, call `next` if false.
 
 The default configuration is:
 
@@ -38,7 +39,8 @@ The default configuration is:
 {
   "origin": "*",
   "methods": ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
-  "optionsSuccessStatus": 204
+  "optionsSuccessStatus": 204,
+  "preflightContinue": false
 }
 ```
 
@@ -50,14 +52,13 @@ import { cors } from '@tinyhttp/cors'
 
 const app = new App()
 
-app.use(cors({ origin: 'https://myfantastic.site/' }))
-app.options('*', cors())
-
-app.get('/', (req, res) => {
-  res.send('The headers contained in my response are defined in the cors middleware')
-})
-
-app.listen(3000)
+app
+  .use(cors({ origin: 'https://myfantastic.site/' }))
+  .options('*', cors())
+  .get('/', (req, res) => {
+    res.send('The headers contained in my response are defined in the cors middleware')
+  })
+  .listen(3000)
 ```
 
 ## Alternatives

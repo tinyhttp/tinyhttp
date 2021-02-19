@@ -29,17 +29,12 @@ import { cors } from '@tinyhttp/cors'
 
 const app = new App()
 
-app.use(unless(cors(),  { method: ['GET', 'POST'] }))
-
-
-app.use(unless(cors(), { ext: '/public' }))
-
-
-app.use(unless(cors(), (req) => req.method === 'GET')
-
-app.use(unless(cors(), { path: ['/content/public', /user/, { url: '/public', methods: ['GET'] }] })
-
-app.listen(3000)
+app
+  .use(unless(cors(),  { method: ['GET', 'POST'] }))
+  .use(unless(cors(), { ext: '/public' }))
+  .use(unless(cors(), (req) => req.method === 'GET')
+  .use(unless(cors(), { path: ['/content/public', /user/, { url: '/public', methods: ['GET'] }] })
+  .listen(3000)
 ```
 
 [npm-badge]: https://img.shields.io/npm/v/@tinyhttp/unless?style=flat-square

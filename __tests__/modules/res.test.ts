@@ -311,6 +311,14 @@ describe('Response extensions', () => {
 
       await makeFetch(app)('/').expect(200)
     })
+    it('should append to Set-Cookie if called multiple times', async () => {
+      const app = runServer((req, res) => {
+        setCookie(req, res)('hello', 'world')
+        setCookie(req, res)('foo', 'bar').end()
+      })
+
+      await makeFetch(app)('/').expect(200).expectHeader('Set-Cookie', 'hello=world; Path=/, foo=bar; Path=/')
+    })
   })
   describe('res.clearCookie(name, options)', () => {
     it('sets path to "/" if not specified in options', async () => {

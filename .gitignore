@@ -6,3 +6,5 @@ examples/*/.env
 pnpm-lock.yaml
 .next
 .cache
+.clinic
+examples/aws/.build

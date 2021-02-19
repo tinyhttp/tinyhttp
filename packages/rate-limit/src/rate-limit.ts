@@ -63,19 +63,14 @@ export function rateLimit(options?: Partial<RateLimitOptions>) {
   const incrementStore = (key): Promise<{ current: number; resetTime: Date }> => {
     return new Promise((resolve, reject) => {
       store.incr(key, (error, hits, resetTime) => {
-        if (error) {
-          reject(error)
-        } else {
-          resolve({ current: hits, resetTime })
-        }
+        if (error) reject(error)
+        else resolve({ current: hits, resetTime })
       })
     })
   }
 
   async function middleware(req: RequestWithRateLimit, res: Response, next: NextFunction) {
-    if (shouldSkip(req, res)) {
-      return next()
-    }
+    if (shouldSkip(req, res)) return next()
 
     const key = keyGenerator(req)
 
@@ -119,15 +114,11 @@ export function rateLimit(options?: Partial<RateLimitOptions>) {
 
         if (skipFailedRequests) {
           res.on('finish', function () {
-            if (res.statusCode >= 400) {
-              decrementKey()
-            }
+            if (res.statusCode >= 400) decrementKey()
           })
 
           res.on('close', () => {
-            if (!res.writableEnded) {
-              decrementKey()
-            }
+            if (!res.writableEnded) decrementKey()
           })
 
           res.on('error', () => decrementKey())
@@ -135,9 +126,7 @@ export function rateLimit(options?: Partial<RateLimitOptions>) {
 
         if (skipSuccessfulRequests) {
           res.on('finish', function () {
-            if (res.statusCode < 400) {
-              store.decrement(key)
-            }
+            if (res.statusCode < 400) store.decrement(key)
           })
         }
       }
@@ -147,9 +136,7 @@ export function rateLimit(options?: Partial<RateLimitOptions>) {
       }
 
       if (max && current > max) {
-        if (headers && !res.headersSent) {
-          res.setHeader('Retry-After', Math.ceil(windowMs / 1000))
-        }
+        if (headers && !res.headersSent) res.setHeader('Retry-After', Math.ceil(windowMs / 1000))
         return res.status(statusCode).send(message)
       }
 

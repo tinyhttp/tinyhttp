@@ -1,5 +1,5 @@
-import { getSubdomains, Request } from './request'
-import type { NextFunction } from '@tinyhttp/router'
+import { getRouteFromApp, getSubdomains, Request } from './request'
+import type { Handler, NextFunction } from '@tinyhttp/router'
 import type { Response } from './response'
 import {
   getFreshOrStale,
@@ -95,4 +95,10 @@ export const extendMiddleware = <EngineOptions>(app: App) => (
   res.download = download<Response>(res)
   res.append = append<Response>(res)
   res.locals = res.locals || Object.create(null)
+
+  if (settings.enableReqRoute) {
+    req.route = getRouteFromApp(app, (app as unknown) as Handler<Request, Response>)
+  }
+
+  next()
 }

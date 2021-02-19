@@ -46,16 +46,10 @@ export const download = <Response extends Res = Res>(res: Response) => (
   }
 
   // merge user-provided options
-  opts = Object.create(opts)
-  opts.headers = headers
-
-  // Resolve the full path for sendFile
-  const fullPath = resolve(path)
-
-  const noop = () => undefined
+  opts = { ...opts, headers }
 
   // send file
-  return sendFile(res)(fullPath, opts, done || noop)
+  return sendFile(res)(resolve(path), opts, done || (() => undefined))
 }
 
 export const attachment = <Response extends Pick<S, 'getHeader' | 'setHeader'> = Pick<S, 'getHeader' | 'setHeader'>>(

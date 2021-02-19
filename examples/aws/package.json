@@ -4,6 +4,15 @@
   "type": "commonjs",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
+    "serverless": "^2.25.1",
     "serverless-http": "^2.6.0"
+  },
+  "scripts": {
+    "start": "serverless offline"
+  },
+  "devDependencies": {
+    "serverless-offline": "^6.8.0",
+    "serverless-plugin-typescript": "^1.1.9",
+    "typescript": "^4.1.5"
   }
 }

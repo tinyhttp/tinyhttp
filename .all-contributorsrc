@@ -283,7 +283,18 @@
       "avatar_url": "https://avatars1.githubusercontent.com/u/1183991?v=4",
       "profile": "http://calumk.com",
       "contributions": [
-        "doc"
+        "doc",
+        "bug"
+      ]
+    },
+    {
+      "login": "aldy505",
+      "name": "Reinaldy Rafli",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7274326?v=4",
+      "profile": "https://reinaldyrafli.com",
+      "contributions": [
+        "code",
+        "bug"
       ]
     }
   ],

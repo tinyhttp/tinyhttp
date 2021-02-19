@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/logger",
-  "version": "1.1.0",
+  "version": "1.1.14",
   "type": "module",
   "description": "simple HTTP logger for tinyhttp",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -31,9 +31,8 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/app": "workspace:*",
     "colorette": "^1.2.1",
-    "dayjs": "^1.9.6",
+    "dayjs": "^1.10.4",
     "http-status-emojis": "^2.2.0"
   },
   "engines": {
