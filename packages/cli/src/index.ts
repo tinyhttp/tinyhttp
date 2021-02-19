@@ -98,10 +98,18 @@ const fileFetcher = async (data: any, statusCode: number, dir?: string) => {
       spinner.text = `Fetching ${name} file`
       const { data } = await get(download_url, httpHeaders)
 
-      await writeFile(dir ? `${dir}/${name}` : name, data)
+      try {
+        await writeFile(dir ? `${dir}/${name}` : name, data)
+      } catch {
+        throw new Error('Failed to create a project file')
+      }
     } else {
       spinner.text = `Scanning ${name} directory`
-      await mkdir(name)
+      try {
+        await mkdir(name)
+      } catch {
+        throw new Error('Failed to create a project subdirectory')
+      }
       const { data, statusCode } = await get(url, httpHeaders)
       await fileFetcher(data, statusCode, name)
     }
@@ -126,7 +134,11 @@ cli
 
     msg('Fetching template contents ⌛', 'green')
 
-    await mkdir(dir)
+    try {
+      await mkdir(dir)
+    } catch {
+      throw new Error('Failed to create project directory')
+    }
 
     process.chdir(dir)
 
@@ -141,14 +153,31 @@ cli
 
     const setupPrettier = async () => {
       msg(`Setting up Prettier`, 'green')
-      await install(pkg, ['prettier'])
-      await writeFile('.prettierrc', PRETTIER_CONFIG)
+      try {
+        await install(pkg, ['prettier'])
+      } catch {
+        throw new Error('Failed to install Prettier')
+      }
+
+      try {
+        await writeFile('.prettierrc', PRETTIER_CONFIG)
+      } catch {
+        throw new Error('Failed to create Prettier config')
+      }
     }
 
     const setupEslint = async () => {
       msg(`Setting up ESLint`, 'green')
-      await install(pkg, ['eslint', 'prettier', 'eslint-config-prettier', 'eslint-plugin-prettier'], true)
-      await writeFile('.eslintrc', ESLINT_JS_CONFIG)
+      try {
+        await install(pkg, ['eslint', 'prettier', 'eslint-config-prettier', 'eslint-plugin-prettier'], true)
+      } catch {
+        throw new Error('Failed to install ESLint')
+      }
+      try {
+        await writeFile('.eslintrc', ESLINT_JS_CONFIG)
+      } catch {
+        throw new Error('Failed to create ESLint config')
+      }
     }
 
     if (options.full) {
@@ -162,17 +191,26 @@ cli
 
     if (options['eslint-ts']) {
       msg(`Setting up ESLint for TypeScript`, 'green')
-      await install(pkg, [
-        'typescript',
-        'eslint',
-        'eslint-config-prettier',
-        'eslint-plugin-prettier',
-        '@types/node',
-        '@typescript-eslint/eslint-plugin',
-        '@typescript-eslint/parser',
-        'prettier'
-      ])
-      await writeFile('.eslintrc', ESLINT_TS_CONFIG)
+      try {
+        await install(pkg, [
+          'typescript',
+          'eslint',
+          'eslint-config-prettier',
+          'eslint-plugin-prettier',
+          '@types/node',
+          '@typescript-eslint/eslint-plugin',
+          '@typescript-eslint/parser',
+          'prettier'
+        ])
+      } catch {
+        throw new Error('Failed to install ESLint for TypeScript')
+      }
+
+      try {
+        await writeFile('.eslintrc', ESLINT_TS_CONFIG)
+      } catch {
+        throw new Error('Failed to create ESLint config')
+      }
     }
 
     // Edit package.json
@@ -205,7 +243,11 @@ cli
 
     spinner.start(colorette.cyan(`Installing ${depCount} package${depCount > 1 ? 's' : ''} with ${pkg} 📦`))
 
-    await runCmd(`${pkg} ${pkg === 'yarn' ? 'add' : 'i'}`)
+    try {
+      await runCmd(`${pkg} ${pkg === 'yarn' ? 'add' : 'i'}`)
+    } catch {
+      throw new Error('Failed to install packages')
+    }
 
     spinner.stop()
 
