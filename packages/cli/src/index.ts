@@ -81,6 +81,30 @@ if (options.pkg) pkg = options.pkg
 
 const file = editPkgJson('../package.json')
 
+const fileFetcher = async (data: any, statusCode: number) => {
+  let spinner = ora()
+
+  spinner.start(colorette.blue(`Fetching ${data.length} files...`))
+
+  if (statusCode !== 200) console.warn(`Bad status code: ${statusCode}`)
+
+  // Download files
+  for (const { name, download_url, type, url } of data) {
+    if (type !== 'dir') {
+      spinner.text = `Fetching ${name} file`
+      const { data } = await get(download_url)
+
+      await writeFile(name, data)
+    } else {
+      spinner.text = `Scanning ${name} directory`
+      const { data, statusCode } = await get(url)
+      await fileFetcher(data, statusCode)
+    }
+  }
+
+  spinner.stop()
+}
+
 cli
   .version(file.get('version'))
   .help()
@@ -97,6 +121,15 @@ cli
     await mkdir(name)
 
     process.chdir(name)
+
+    const { data, statusCode } = await get(
+      `https://api.github.com/repos/talentlessguy/tinyhttp/contents/examples/${name}`,
+      {
+        headers: { 'user-agent': 'node.js' }
+      }
+    )
+
+    await fileFetcher(data, statusCode)
 
     // CLI options
 
@@ -127,29 +160,6 @@ cli
       await writeFile('.eslintrc', ESLINT_TS_CONFIG)
     }
 
-    const { data, statusCode } = await get(
-      `https://api.github.com/repos/talentlessguy/tinyhttp/contents/examples/${name}`,
-      {
-        headers: { 'user-agent': 'node.js' }
-      }
-    )
-
-    let spinner = ora()
-
-    spinner.start(colorette.blue(`Fetching ${data.length} files...`))
-
-    if (statusCode !== 200) console.warn(`Bad status code: ${statusCode}`)
-
-    // Download files
-    for (const { name, download_url } of data) {
-      spinner.text = `Fetching ${name}`
-      const { data } = await get(download_url)
-
-      await writeFile(name, data)
-    }
-
-    spinner.stop()
-
     // Edit package.json
 
     const file = editPkgJson('package.json')
@@ -175,7 +185,7 @@ cli
 
     const depCount = Object.keys(file.get('dependencies')).length + Object.keys(file.get('devDependencies')).length
 
-    spinner = ora()
+    const spinner = ora()
 
     spinner.start(colorette.cyan(`Installing ${depCount} package${depCount > 1 ? 's' : ''} with ${pkg} 📦`))
 
