@@ -7,5 +7,9 @@
     "@tinyhttp/dotenv": "workspace:*",
     "faunadb": "^4.0.0",
     "milliparsec": "^1.0.4"
-  }
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "main": "index.js"
 }

@@ -7,5 +7,9 @@
     "htm": "^3.0.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
-  }
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "main": "index.js"
 }

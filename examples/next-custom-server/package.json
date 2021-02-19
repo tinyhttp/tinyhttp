@@ -10,6 +10,7 @@
     "deploy": "vc --prod",
     "dev": "next",
     "build": "next build",
-    "start": "NODE_ENV=production next start"
-  }
+    "start": "NODE_ENV=production node server.js"
+  },
+  "main": "server.js"
 }

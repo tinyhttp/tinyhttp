@@ -7,5 +7,9 @@
     "htm": "^3.0.4",
     "preact": "^10.5.7",
     "preact-render-to-string": "^5.1.12"
-  }
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "main": "index.js"
 }

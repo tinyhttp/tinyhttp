@@ -10,5 +10,9 @@
   },
   "devDependencies": {
     "@types/mongodb": "^3.5.34"
-  }
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "main": "index.js"
 }

@@ -6,6 +6,7 @@
   },
   "scripts": {
     "deploy": "vc --prod",
-    "dev": "vc dev"
+    "dev": "vc dev",
+    "start": "vc dev"
   }
 }

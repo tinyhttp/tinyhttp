@@ -5,5 +5,9 @@
     "@tinyhttp/app": "workspace:*",
     "formidable": "^1.2.2"
   },
-  "type": "module"
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "main": "index.js"
 }

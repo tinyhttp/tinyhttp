@@ -10,5 +10,9 @@
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.0"
-  }
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "main": "index.js"
 }

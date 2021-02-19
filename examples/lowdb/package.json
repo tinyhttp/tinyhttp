@@ -8,5 +8,9 @@
   },
   "devDependencies": {
     "@types/lowdb": "^1.0.9"
-  }
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "main": "index.js"
 }

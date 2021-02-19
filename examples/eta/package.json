@@ -7,5 +7,9 @@
   },
   "devDependencies": {
     "ts-node": "^9.1.1"
-  }
+  },
+  "scripts": {
+    "start": "ts-node index.ts"
+  },
+  "main": "index.js"
 }

@@ -5,5 +5,9 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/markdown": "workspace:*"
-  }
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "main": "index.js"
 }

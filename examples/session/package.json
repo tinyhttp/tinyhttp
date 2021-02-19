@@ -7,5 +7,9 @@
     "milliparsec": "^1.0.4"
   },
   "type": "module",
-  "module": "index.js"
+  "module": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "main": "index.js"
 }

@@ -69,7 +69,7 @@ const install = (pkg: string, pkgs: string[], dev = true) =>
 
 const cli = cac('tinyhttp')
 
-let pkg: 'pnpm' | 'npm' | 'yarn'
+let pkg: 'pnpm' | 'npm' | 'yarn' = 'pnpm'
 
 const { options } = cli.parse()
 
@@ -173,9 +173,11 @@ cli
 
     // Install packages
 
+    const depCount = Object.keys(file.get('dependencies')).length + Object.keys(file.get('devDependencies')).length
+
     spinner = ora()
 
-    spinner.start(colorette.cyan(`Installing ${allDeps.length} package${allDeps.length > 1 ? 's' : ''} with ${pkg} 📦`))
+    spinner.start(colorette.cyan(`Installing ${depCount} package${depCount > 1 ? 's' : ''} with ${pkg} 📦`))
 
     await runCmd(`${pkg} ${pkg === 'yarn' ? 'add' : 'i'}`)
 

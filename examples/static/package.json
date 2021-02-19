@@ -3,7 +3,11 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@tinyhttp/app": "workspace:^1.0.15",
+    "@tinyhttp/app": "workspace:*",
     "sirv": "^1.0.10"
-  }
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "main": "index.js"
 }

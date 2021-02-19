@@ -5,5 +5,9 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/cookie-parser": "workspace:*"
-  }
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "main": "index.js"
 }

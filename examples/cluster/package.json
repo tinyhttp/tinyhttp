@@ -4,5 +4,9 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*"
   },
-  "type": "module"
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "main": "index.js"
 }

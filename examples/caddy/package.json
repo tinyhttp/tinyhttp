@@ -1,8 +1,12 @@
 {
-    "name": "caddy",
-    "private": true,
-    "dependencies": {
-        "@tinyhttp/app": "workspace:*"
-    },
-    "type": "module"
+  "name": "caddy",
+  "private": true,
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*"
+  },
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "main": "index.js"
 }

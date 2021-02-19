@@ -8,5 +8,9 @@
     "@tinyhttp/dotenv": "workspace:*",
     "milliparsec": "^1.0.4",
     "pg-promise": "^10.8.1"
-  }
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "main": "index.js"
 }

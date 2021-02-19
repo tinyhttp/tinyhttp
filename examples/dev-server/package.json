@@ -2,7 +2,6 @@
   "name": "dev-server",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
   "type": "commonjs",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
@@ -15,5 +14,9 @@
   "license": "ISC",
   "devDependencies": {
     "@types/serve-handler": "^6.1.0"
-  }
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "main": "index.js"
 }

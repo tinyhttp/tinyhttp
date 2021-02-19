@@ -12,5 +12,5 @@ pnpm install
 
 ```sh
 # Launches Sosse dev server
-node main.js
+node index.js
 ```
