@@ -204,7 +204,7 @@ cli
     msg(
       `Done! You can now launch your project with running these commands:
     
-    cd ${name}  
+    cd ${dir}  
 
     ${pkg} run start
     `,
