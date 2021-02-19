@@ -1,5 +1,5 @@
 import cac from 'cac'
-import pm from 'preferred-pm'
+import pm from 'which-pm-runs'
 import { exec } from 'child_process'
 import { mkdir, writeFile } from 'fs/promises'
 import { promisify } from 'util'
@@ -73,9 +73,9 @@ let pkg: 'pnpm' | 'npm' | 'yarn'
 
 const { options } = cli.parse()
 
-const info = await pm(process.cwd())
+const info = pm()
 
-if (info?.name) pkg = info.name
+if (info?.name) pkg = info.name as typeof pkg
 
 if (options.pkg) pkg = options.pkg
 
