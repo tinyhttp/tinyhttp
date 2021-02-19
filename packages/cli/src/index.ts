@@ -172,7 +172,7 @@ cli
 
     spinner = ora()
 
-    spinner.start(colorette.cyan(`Installing ${allDeps.length} packages 📦`))
+    spinner.start(colorette.cyan(`Installing ${allDeps.length} package${allDeps.length > 1 ? 's' : ''} with ${pkg} 📦`))
 
     await runCmd(`${pkg} ${pkg === 'yarn' ? 'add' : 'i'}`)
 

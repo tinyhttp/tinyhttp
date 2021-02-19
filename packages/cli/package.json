@@ -1,7 +1,7 @@
 {
   "name": "@tinyhttp/cli",
   "description": "CLI to setup tinyhttp apps",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "type": "module",
   "homepage": "https://tinyhttp.v1rtl.site",
   "repository": {
