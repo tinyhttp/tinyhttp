@@ -96,7 +96,7 @@ const fileFetcher = async (data: any, statusCode: number) => {
   for (const { name, download_url, type, url } of data) {
     if (type !== 'dir') {
       spinner.text = `Fetching ${name} file`
-      const { data } = await get(download_url)
+      const { data } = await get(download_url, httpHeaders)
 
       await writeFile(name, data)
     } else {
