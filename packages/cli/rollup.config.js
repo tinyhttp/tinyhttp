@@ -1,5 +1,6 @@
-import ts from 'rollup-plugin-typescript2'
+import ts from '@rollup/plugin-typescript'
 import deps from '../../build/deps'
+import { dependencies } from './package.json'
 
 export default {
   input: 'src/index.ts',
@@ -10,5 +11,5 @@ export default {
     }
   ],
   plugins: [ts()],
-  external: deps()
+  external: [...deps(), ...Object.keys(dependencies)]
 }

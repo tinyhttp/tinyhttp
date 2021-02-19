@@ -1,5 +1,16 @@
 import cac from 'cac'
-import { getBestPkg, PackageManager } from './detectPkg'
+import pm from 'preferred-pm'
+import { exec } from 'child_process'
+import { mkdir, writeFile } from 'fs/promises'
+import { promisify } from 'util'
+import { get } from 'httpie'
+import * as colorette from 'colorette'
+import editPkgJson from 'edit-json-file'
+import ora from 'ora'
+
+const runCmd = promisify(exec)
+
+const msg = (m: string, color: string) => console.log(colorette[color](m))
 
 const ESLINT_JS_CONFIG = `
 {
@@ -53,36 +64,118 @@ const PRETTIER_CONFIG = `
 }
 `
 
-const TS_CONFIG = (module: 'esm' | 'cjs', pkg: PackageManager) => `
-{
-  "compilerOptions": {
-    "target": "ES2019",
-    "module": ${module === 'esm' ? 'ESNext' : 'CommonJS'},
-    "preserveSymlinks": ${pkg === 'pnpm' ? 'true' : 'false'},
-    "outDir": "dist",
-    "esModuleInterop": true,
-    "downlevelIteration": true,
-    "noUnusedLocals": false,
-    "noImplicitAny": false,
-    "noUnusedParameters": true,
-    "preserveConstEnums": true,
-    "skipLibCheck": true,
-    "moduleResolution": "Node",
-    "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true
-  },
-  "exclude": ["__tests__", "dist"]
-}
-`
+const install = (pkg: string, pkgs: string[], dev: boolean = true) =>
+  runCmd(`${pkg} ${pkg === 'yarn' ? 'add' : 'i'} ${dev ? '-D' : '-S'} ${pkgs.join(' ')}`)
 
 const cli = cac('tinyhttp')
 
-let pkg: PackageManager
-
-cli.option('--pkg [pkg]', 'Choose package manager')
+let pkg: 'pnpm' | 'npm' | 'yarn'
 
 const { options } = cli.parse()
 
-pkg = await getBestPkg()
+const { name } = await pm(process.cwd())
 
-if (options) pkg = options.pkg
+pkg = name
+
+if (options.pkg) pkg = options.pkg
+
+cli
+  .command('new <project>', 'Create new tinyhttp project from template')
+  .option('--prettier', 'Setup Prettier')
+  .option('--eslint', 'Setup ESLint')
+  .option('--eslint-ts', 'Setup ESLint for TypeScript')
+  .option('--pkg [pkg]', 'Choose package manager')
+  .action(async (name, options) => {
+    msg(`Creating a new tinyhttp project from ${name} template ⚡`, 'cyan')
+
+    msg('Fetching template contents ⌛', 'green')
+
+    await mkdir(name)
+
+    process.chdir(name)
+
+    // CLI options
+
+    if (options.prettier) {
+      await install(pkg, ['prettier'])
+      await writeFile('.prettierrc', PRETTIER_CONFIG)
+    }
+
+    if (options.eslint) {
+      await install(pkg, ['eslint', 'prettier', 'eslint-config-prettier', 'eslint-plugin-prettier'], true)
+      await writeFile('.eslintrc', ESLINT_JS_CONFIG)
+    }
+
+    if (options['eslint-ts']) {
+      await install(pkg, [
+        'typescript',
+        'eslint',
+        'eslint-config-prettier',
+        'eslint-plugin-prettier',
+        '@types/node',
+        '@typescript-eslint/eslint-plugin',
+        '@typescript-eslint/parser',
+        'prettier'
+      ])
+      await writeFile('.eslintrc', ESLINT_TS_CONFIG)
+    }
+
+    const { data, statusCode } = await get(
+      `https://api.github.com/repos/talentlessguy/tinyhttp/contents/examples/${name}`,
+      {
+        headers: { 'user-agent': 'node.js' }
+      }
+    )
+
+    let spinner = ora()
+
+    spinner.start(colorette.blue(`Fetching ${data.length} files...`))
+
+    if (statusCode !== 200) console.warn(`Bad status code: ${statusCode}`)
+
+    // Download files
+    for (const { name, download_url } of data) {
+      spinner.text = `Fetching ${name}`
+      const { data } = await get(download_url)
+
+      await writeFile(name, data)
+    }
+
+    spinner.stop()
+
+    // Edit package.json
+
+    const file = editPkgJson('package.json')
+
+    const allDeps = Object.keys(file.get('dependencies'))
+
+    // Replace "workspace:*" with "latest"
+
+    const thDeps = allDeps.filter((x) => x.startsWith('@tinyhttp'))
+
+    let newDeps = {}
+
+    for (const dep of thDeps) newDeps[dep] = 'latest'
+
+    file
+      .set('dependencies', {
+        ...file.get('dependencies'),
+        ...newDeps
+      })
+      .save()
+
+    // Install packages
+
+    spinner = ora()
+
+    spinner.start(colorette.cyan(`Installing ${allDeps.length} packages 📦`))
+
+    await runCmd(`${pkg} ${pkg === 'yarn' ? 'add' : 'i'}`)
+
+    spinner.stop()
+
+    // Finish
+
+    msg(`Done! You can now launch your project with \`${pkg} run start\``, 'blue')
+  })
+cli.parse()
