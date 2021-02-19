@@ -98,16 +98,19 @@ cli
     // CLI options
 
     if (options.prettier) {
+      msg(`Setting up Prettier`, 'green')
       await install(pkg, ['prettier'])
       await writeFile('.prettierrc', PRETTIER_CONFIG)
     }
 
     if (options.eslint) {
+      msg(`Setting up ESLint`, 'green')
       await install(pkg, ['eslint', 'prettier', 'eslint-config-prettier', 'eslint-plugin-prettier'], true)
       await writeFile('.eslintrc', ESLINT_JS_CONFIG)
     }
 
     if (options['eslint-ts']) {
+      msg(`Setting up ESLint for TypeScript`, 'green')
       await install(pkg, [
         'typescript',
         'eslint',
