@@ -3,6 +3,7 @@
   "compilerOptions": {
     "declaration": false,
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "resolveJsonModule": true
   }
 }
