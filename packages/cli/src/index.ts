@@ -101,6 +101,7 @@ const fileFetcher = async (data: any, statusCode: number) => {
       await writeFile(name, data)
     } else {
       spinner.text = `Scanning ${name} directory`
+      await mkdir(name)
       const { data, statusCode } = await get(url, httpHeaders)
       await fileFetcher(data, statusCode)
     }
