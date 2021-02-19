@@ -1,0 +1,43 @@
+{
+  "name": "@tinyhttp/cli",
+  "description": "CLI to setup tinyhttp apps",
+  "version": "1.0.0",
+  "type": "module",
+  "homepage": "https://tinyhttp.v1rtl.site",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/talentlessguy/tinyhttp.git",
+    "directory": "packages/cli"
+  },
+  "bin": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=12.x"
+  },
+  "keywords": [
+    "tinyhttp",
+    "router",
+    "backend",
+    "http",
+    "framework",
+    "api"
+  ],
+  "author": "v1rtl",
+  "license": "MIT",
+  "dependencies": {
+    "cac": "^6.7.1",
+    "colorette": "^1.2.1",
+    "edit-json-file": "^1.5.0",
+    "httpie": "^1.1.2",
+    "ora": "^5.3.0",
+    "preferred-pm": "^3.0.3"
+  },
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "devDependencies": {
+    "@types/edit-json-file": "^1.4.0"
+  }
+}
