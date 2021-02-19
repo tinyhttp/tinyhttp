@@ -1,7 +1,7 @@
 {
   "name": "@tinyhttp/cli",
   "description": "CLI to setup tinyhttp apps",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "type": "module",
   "homepage": "https://tinyhttp.v1rtl.site",
   "repository": {
@@ -9,7 +9,9 @@
     "url": "https://github.com/talentlessguy/tinyhttp.git",
     "directory": "packages/cli"
   },
-  "bin": "dist/index.js",
+  "bin": {
+    "tinyhttp": "dist/index.js"
+  },
   "files": [
     "dist"
   ],

@@ -73,13 +73,14 @@ let pkg: 'pnpm' | 'npm' | 'yarn'
 
 const { options } = cli.parse()
 
-const { name } = await pm(process.cwd())
+const info = await pm(process.cwd())
 
-pkg = name
+if (info?.name) pkg = info.name
 
 if (options.pkg) pkg = options.pkg
 
 cli
+  .help()
   .command('new <project>', 'Create new tinyhttp project from template')
   .option('--prettier', 'Setup Prettier')
   .option('--eslint', 'Setup ESLint')
