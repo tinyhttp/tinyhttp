@@ -117,6 +117,7 @@ cli
   .option('--prettier', 'Setup Prettier')
   .option('--eslint', 'Setup ESLint')
   .option('--eslint-ts', 'Setup ESLint for TypeScript')
+  .option('--full', 'Setup ESLint & Prettier')
   .option('--pkg [pkg]', 'Choose package manager')
   .action(async (name, folder, options) => {
     const dir = folder || name
@@ -138,17 +139,26 @@ cli
 
     // CLI options
 
-    if (options.prettier) {
+    const setupPrettier = async () => {
       msg(`Setting up Prettier`, 'green')
       await install(pkg, ['prettier'])
       await writeFile('.prettierrc', PRETTIER_CONFIG)
     }
 
-    if (options.eslint) {
+    const setupEslint = async () => {
       msg(`Setting up ESLint`, 'green')
       await install(pkg, ['eslint', 'prettier', 'eslint-config-prettier', 'eslint-plugin-prettier'], true)
       await writeFile('.eslintrc', ESLINT_JS_CONFIG)
     }
+
+    if (options.full) {
+      setupPrettier()
+      setupEslint()
+    }
+
+    if (options.prettier) await setupPrettier()
+
+    if (options.eslint) await setupEslint()
 
     if (options['eslint-ts']) {
       msg(`Setting up ESLint for TypeScript`, 'green')
