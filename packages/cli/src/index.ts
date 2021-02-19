@@ -7,7 +7,6 @@ import { get } from 'httpie'
 import * as colorette from 'colorette'
 import editPkgJson from 'edit-json-file'
 import ora from 'ora'
-import pkgJson from './package.json'
 
 const runCmd = promisify(exec)
 
@@ -80,8 +79,10 @@ if (info?.name) pkg = info.name as typeof pkg
 
 if (options.pkg) pkg = options.pkg
 
+const file = editPkgJson('../package.json')
+
 cli
-  .version(pkgJson.version)
+  .version(file.get('version'))
   .help()
   .command('new <project>', 'Create new tinyhttp project from template')
   .option('--prettier', 'Setup Prettier')

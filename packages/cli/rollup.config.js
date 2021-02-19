@@ -1,4 +1,5 @@
 import ts from '@rollup/plugin-typescript'
+import json from '@rollup/plugin-json'
 import deps from '../../build/deps'
 import { dependencies } from './package.json'
 
@@ -10,6 +11,6 @@ export default {
       format: 'esm'
     }
   ],
-  plugins: [ts()],
+  plugins: [ts(), json()],
   external: [...deps(), ...Object.keys(dependencies)]
 }
