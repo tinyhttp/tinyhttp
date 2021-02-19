@@ -103,7 +103,7 @@ const fileFetcher = async (data: any, statusCode: number, dir?: string) => {
       spinner.text = `Scanning ${name} directory`
       await mkdir(name)
       const { data, statusCode } = await get(url, httpHeaders)
-      await fileFetcher(data, statusCode)
+      await fileFetcher(data, statusCode, name)
     }
   }
 
@@ -186,7 +186,8 @@ cli
 
     // Install packages
 
-    const depCount = Object.keys(file.get('dependencies')).length + Object.keys(file.get('devDependencies')).length
+    const depCount =
+      (Object.keys(file.get('dependencies')) || []).length + (Object.keys(file.get('devDependencies')) || []).length
 
     const spinner = ora()
 
@@ -201,9 +202,9 @@ cli
     msg(
       `Done! You can now launch your project with running these commands:
     
-    \`cd ${name}\`  
+    cd ${name}  
 
-    \`${pkg} run start\`
+    ${pkg} run start
     `,
       'blue'
     )
