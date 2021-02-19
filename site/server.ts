@@ -33,7 +33,8 @@ const NON_MW_PKGS: string[] = [
   'content-disposition',
   'forwarded',
   'proxy-addr',
-  'accepts'
+  'accepts',
+  'cli'
 ]
 
 app
