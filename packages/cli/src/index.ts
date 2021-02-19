@@ -64,7 +64,7 @@ const PRETTIER_CONFIG = `
 }
 `
 
-const install = (pkg: string, pkgs: string[], dev: boolean = true) =>
+const install = (pkg: string, pkgs: string[], dev = true) =>
   runCmd(`${pkg} ${pkg === 'yarn' ? 'add' : 'i'} ${dev ? '-D' : '-S'} ${pkgs.join(' ')}`)
 
 const cli = cac('tinyhttp')
@@ -153,7 +153,7 @@ cli
 
     const thDeps = allDeps.filter((x) => x.startsWith('@tinyhttp'))
 
-    let newDeps = {}
+    const newDeps = {}
 
     for (const dep of thDeps) newDeps[dep] = 'latest'
 
