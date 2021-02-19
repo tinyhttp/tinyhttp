@@ -85,8 +85,8 @@ if (options.pkg) pkg = options.pkg
 
 const file = editPkgJson('../package.json')
 
-const fileFetcher = async (data: any, statusCode: number) => {
-  let spinner = ora()
+const fileFetcher = async (data: any, statusCode: number, dir?: string) => {
+  const spinner = ora()
 
   spinner.start(colorette.blue(`Fetching ${data.length} files...`))
 
@@ -98,7 +98,7 @@ const fileFetcher = async (data: any, statusCode: number) => {
       spinner.text = `Fetching ${name} file`
       const { data } = await get(download_url, httpHeaders)
 
-      await writeFile(name, data)
+      await writeFile(dir ? `${dir}/${name}` : name, data)
     } else {
       spinner.text = `Scanning ${name} directory`
       await mkdir(name)
@@ -198,6 +198,14 @@ cli
 
     // Finish
 
-    msg(`Done! You can now launch your project with \`${pkg} run start\``, 'blue')
+    msg(
+      `Done! You can now launch your project with running these commands:
+    
+    \`cd ${name}\`  
+
+    \`${pkg} run start\`
+    `,
+      'blue'
+    )
   })
 cli.parse()
