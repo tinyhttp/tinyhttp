@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/jsonp",
-  "version": "1.1.13",
+  "version": "1.1.14",
   "type": "module",
   "description": "JSONP response middleware",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -37,6 +37,6 @@
     "build": "rollup -c ../../build/defaultConfig.js"
   },
   "dependencies": {
-    "@tinyhttp/app": "workspace:^1.1.13"
+    "@tinyhttp/app": "workspace:^1.1.14"
   }
 }
