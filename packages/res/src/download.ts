@@ -49,7 +49,8 @@ export const download = <Response extends Res = Res>(res: Response) => (
   opts = { ...opts, headers }
 
   // send file
-  return sendFile(res)(resolve(path), opts, done || (() => undefined))
+
+  return sendFile(res)(opts.root ? path : resolve(path), opts, done || (() => undefined))
 }
 
 export const attachment = <Response extends Pick<S, 'getHeader' | 'setHeader'> = Pick<S, 'getHeader' | 'setHeader'>>(

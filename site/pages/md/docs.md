@@ -102,7 +102,8 @@
     <li><a href="#reqaccepts">req.accepts</a></li>
     <li><a href="#reqacceptsencodings">req.acceptsEncodings</a></li>
     <li><a href="#reqacceptscharsets">req.acceptsCharsets</a></li>
-    <li><a href="#reqget">req.get</a></li>  
+    <li><a href="#reqget">req.get</a></li>
+    <li><a href="#reqrange">req.range</a></li>
   </ul>
  </details>
 
@@ -868,6 +869,22 @@ req.get('content-type')
 
 req.get('Something')
 // => undefined
+```
+
+#### `req.range`
+
+Parse `Range` header.
+
+```js
+app.use((req, res) => {
+  const ranges = req.range(1000)
+
+  if (range.type === 'bytes') {
+  // the ranges
+  range.forEach((r) => {
+    // do something with r.start and r.end
+  })
+})
 ```
 
 ## Response
