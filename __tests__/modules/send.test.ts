@@ -19,7 +19,7 @@ describe('Testing @tinyhttp/send', () => {
     it('should send a null reply when an null is passed', async () => {
       const app = runServer((_, res) => json(res)(null))
 
-      await makeFetch(app)('/').expect(null).expectHeader('Content-Length', '0')
+      await makeFetch(app)('/').expect(null)
     })
   })
   describe('send(body)', () => {
