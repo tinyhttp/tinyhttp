@@ -28,7 +28,7 @@ const trustRemoteAddress = ({ connection }: Pick<IncomingMessage, 'headers' | 'c
 }
 
 export const getRouteFromApp = ({ middleware }: App, h: Handler<Request, Response>) =>
-  middleware.find(({ handler }) => handler.name === h.name)
+  middleware.find(({ handler }) => typeof handler === 'function' && handler.name === h.name)
 
 export const getProtocol = (req: Request): Protocol => {
   const proto = req.connection.encrypted ? 'https' : 'http'

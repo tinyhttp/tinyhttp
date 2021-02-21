@@ -1,5 +1,5 @@
 import rg from 'regexparam'
-import { parse } from 'url'
+import * as qs from 'querystring'
 import { ParsedUrlQuery } from 'querystring'
 
 type Regex = {
@@ -12,15 +12,19 @@ export const getURLParams = ({ pattern, keys }: Regex, reqUrl = '/'): URLParams 
 
   const params = {}
 
-  if (matches) {
-    for (let i = 0; i < keys.length; i++) params[keys[i]] = matches[i + 1]
-  }
+  if (matches) for (let i = 0; i < keys.length; i++) params[keys[i]] = matches[i + 1]
 
   return params
 }
 
-export const getQueryParams = (url = '/'): ParsedUrlQuery => parse(url, true).query
-
 export type URLParams = {
   [key: string]: string
 }
+
+export const getPathname = (u: string) => {
+  const end = u.indexOf('?')
+
+  return u.slice(0, end === -1 ? u.length - 1 : end)
+}
+
+export const getQueryParams = (url = '/'): ParsedUrlQuery => qs.parse(url.slice(url.indexOf('?') + 1))

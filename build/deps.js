@@ -7,5 +7,6 @@ export default (deps) => [
   'fs',
   'fs/promises',
   'net',
-  'events'
+  'events',
+  'querystring'
 ]

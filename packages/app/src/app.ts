@@ -1,6 +1,5 @@
 import { createServer, Server } from 'http'
 import path from 'path'
-import { parse } from 'url'
 import { getURLParams } from './request'
 import type { Request } from './request'
 import type { Response } from './response'
@@ -9,6 +8,7 @@ import { onErrorHandler } from './onError'
 import { Middleware, Handler, NextFunction, Router, UseMethodParams } from '@tinyhttp/router'
 import { extendMiddleware } from './extend'
 import rg from 'regexparam'
+import { getPathname } from '@tinyhttp/req'
 
 /**
  * Add leading slash if not present (e.g. path -> /path, /path -> /path)
@@ -241,7 +241,7 @@ export class App<
 
     req.originalUrl = req.url || req.originalUrl
 
-    const { pathname } = parse(req.originalUrl)
+    const pathname = getPathname(req.originalUrl)
 
     const mw: Middleware[] = [
       {
@@ -262,7 +262,7 @@ export class App<
 
       req.url = lead(req.url.substring(path.length)) || '/'
 
-      req.path = parse(req.url).pathname
+      req.path = getPathname(req.url)
 
       if (type === 'route') req.params = getURLParams(regex, pathname)
 

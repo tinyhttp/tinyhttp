@@ -523,6 +523,46 @@ describe('Route handlers', () => {
 
     await fetch('/').expect(200, 'hello world')
   })
+  /* it('router accepts array of wares', async () => {
+    const app = new App({
+      onError: (err, _, res) => {
+        console.log(err)
+
+        res.sendStatus(500)
+      }
+    })
+
+    app.get(
+      '/',
+      [
+        (req, _, n) => {
+          req.body = 'hello'
+          n()
+        }
+      ],
+      [
+        (req, _, n) => {
+          req.body += ' '
+          n()
+        }
+      ],
+      [
+        (req, _, n) => {
+          req.body += 'world'
+          n()
+        },
+        (req, res) => {
+          res.send(req.body)
+        }
+      ]
+    )
+
+    const server = app.listen()
+
+    const fetch = makeFetch(server)
+
+    await fetch('/').expect(200, 'hello world')
+  }) */
   it('router methods do not match loosely', async () => {
     const app = new App()
 
