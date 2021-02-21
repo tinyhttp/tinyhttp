@@ -24,7 +24,7 @@ export type URLParams = {
 export const getPathname = (u: string) => {
   const end = u.indexOf('?')
 
-  return u.slice(0, end === -1 ? u.length - 1 : end)
+  return u.slice(0, end === -1 ? u.length : end)
 }
 
 export const getQueryParams = (url = '/'): ParsedUrlQuery => qs.parse(url.slice(url.indexOf('?') + 1))
