@@ -5,13 +5,13 @@ export type NextFunction = (err?: any) => void
 export type SyncHandler<Request extends any = any, Response extends any = any> = (
   req: Request,
   res: Response,
-  next?: NextFunction
+  next: NextFunction
 ) => void
 
 export type AsyncHandler<Request extends any = any, Response extends any = any> = (
   req: Request,
   res: Response,
-  next?: NextFunction
+  next: NextFunction
 ) => Promise<void>
 
 export type Handler<Request extends any = any, Response extends any = any> =
