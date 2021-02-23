@@ -603,10 +603,11 @@ As for Serverless, you can pick any of the serverless platforms. Here is a table
 | [Heroku](https://heroku.com)          | Yes            |
 | [Vercel (Lambda)](https://vercel.com) | Yes            |
 | [AWS](https://aws.amazon.com)         | Yes (one year) |
+| [Render](https://render.com)          | No             |
 
 You can check out the [Vercel](https://github.com/talentlessguy/tinyhttp/tree/master/examples/vercel) and [AWS](https://github.com/talentlessguy/tinyhttp/tree/master/examples/aws) examples in the tinyhttp repo.
 
-If you know any of the good serverless platforms to deploy tinyhttp on, feel free to PR on the docs.
+If you know any other good serverless platforms to deploy tinyhttp on, feel free to PR on the docs.
 
 #### Self-hosted
 
@@ -640,7 +641,7 @@ Any CI will work for tinyhttp because it doesn't set any limits.
 
 As a rule, the target server runs on Linux. All of the major distros have [systemd](https://systemd.io). You can use it to create a service for your tinyhttp app.
 
-The most popular process manager for Node.js is [PM2](https://pm2.io/). It has a clustering feature built-in so it's very easy to make your app multi-process. However, using pm2 is not required to have clustering. You can do the same with systemd but you'll need to use a [`cluster`](https://nodejs.org/api/cluster.html) module. Check the cluster [example](https://github.com/talentlessguy/tinyhttp/tree/master/examples/cluster) for more info.
+The most popular process manager for Node.js is [PM2](https://pm2.io/). It has a clustering feature built-in so it's very easy to make your app multi-process. However, using pm2 is not required to have clustering. You can do the same without it using built-in [`cluster`](https://nodejs.org/api/cluster.html) module. Check the cluster [example](https://github.com/talentlessguy/tinyhttp/tree/master/examples/cluster) for more info.
 
 **Web servers**
 

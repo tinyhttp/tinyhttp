@@ -16,10 +16,7 @@
   },
   "scripts": {
     "start": "node ./dist/site/server.js",
-    "dev": "node -r ts-node/register ./*.ts",
+    "dev": "esno server.ts",
     "build": "tsc --outDir dist"
-  },
-  "devDependencies": {
-    "ts-node": "^9.1.1"
   }
 }

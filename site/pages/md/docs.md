@@ -164,7 +164,7 @@ app.listen(3000)
 
 The app object has methods for
 
-- Routing HTTP requests; see for example, `app.METHOD` and [`app.param`](#appparam).
+- Routing HTTP requests; see for example, [`app.METHOD`](#appmethod).
 - Configuring middleware; see [`app.route`](#approute).
 - Rendering HTML views; see [`app.render`](#apprender).
 - Registering a template engine; see [`app.engine`](#appengine).
@@ -370,16 +370,6 @@ Coming soon...
 Routes an HTTP request, where METHOD is the HTTP method of the request, such as GET, PUT, POST, and so on, in lowercase. Thus, the actual methods are app.get(), app.post(), app.put(), and so on.
 
 ##### Routing methods
-
-Not all methods aren't added yet.
-
-- get
-- post
-- put
-- patch
-- head
-- delete
-- options
 
 #### `app.all`
 
@@ -850,11 +840,11 @@ For more information, or if you have issues or concerns, see [accepts](https://g
 
 #### `req.acceptsEncodings`
 
-Returns the first accepted encoding of the specified encodings, based on the request’s Accept-Encoding HTTP header field. If none of the specified encodings is accepted, returns `false`.
+Returns the first accepted encoding of the specified encodings, based on the request’s `Accept-Encoding` HTTP header field. If none of the specified encodings is accepted, returns `false`.
 
 #### `req.acceptsCharsets`
 
-Returns the first accepted charset of the specified character sets, based on the request’s Accept-Charset HTTP header field. If none of the specified charsets is accepted, returns .`false`
+Returns the first accepted charset of the specified character sets, based on the request’s `Accept-Charset` HTTP header field. If none of the specified charsets is accepted, returns .`false`
 
 #### `req.get`
 
@@ -911,7 +901,7 @@ app.use((req, res) => {
 
 Appends the specified `value` to the HTTP response `header` field. If the header is not already set, it creates the header with the specified value. The value parameter can be a string or an array.
 
-> calling res.set() after res.append() will reset the previously-set header value.
+> calling [`res.set()`](#resset) after [`res.append()`](#resappend) will reset the previously-set header value.
 
 ```js
 res.append('Link', ['<http://localhost/>', '<http://localhost:3000/>'])
@@ -957,7 +947,7 @@ res.cookie('rememberme', '1', {
 
 Clears the cookie specified by `name`. For details about the `options` object, see [`res.cookie()`](#rescookie).
 
-> Web browsers and other compliant clients will only clear the cookie if the given options is identical to those given to res.cookie(), excluding expires and maxAge.
+> Web browsers and other compliant clients will only clear the cookie if the given options is identical to those given to [`res.cookie()`](#rescookie), excluding expires and maxAge.
 
 ```ts
 res.cookie('name', 'tobi', { path: '/admin' })
@@ -977,9 +967,9 @@ res.status(404).end()
 
 #### `res.json`
 
-Sends a JSON response. This method sends a response (with the correct content-type) that is the parameter converted to a JSON string using [`JSON.stringify()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify).
+Sends a JSON response. This method sends a response (with the correct `Content-Type` header) that is the parameter converted to a JSON string using [`JSON.stringify()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify).
 
-The parameter can be any JSON type, including object, array, string, boolean, number, or null, and you can also use it to convert other values to JSON.
+The body can be any kind of JSON, including object, array, `string`, `boolean`, `number`, or `null`.
 
 ```ts
 res.json(null)
@@ -991,7 +981,7 @@ res.status(500).json({ error: 'message' })
 
 Sends the HTTP response.
 
-The body parameter can be a `Buffer` object, a string, an object, or an array.
+The body can be a `Buffer` object, a string, an object, or an array.
 
 ```ts
 res.send(Buffer.from('whoop'))
@@ -1001,9 +991,9 @@ res.status(404).send('Sorry, we cannot find that!')
 res.status(500).send({ error: 'something blew up' })
 ```
 
-This method performs many useful tasks for simple non-streaming responses: For example, it automatically assigns the `Content-Length` HTTP response header field (unless previously defined) and provides automatic HEAD and HTTP cache freshness support.
+This method performs many useful tasks for simple non-streaming responses: For example, it automatically set the proper `Content-Length` header value and provides automatic HEAD and HTTP cache freshness support.
 
-When the parameter is a Buffer object, the method sets the `Content-Type` response header field to `"application/octet-stream"`, unless previously defined as shown below:
+When the parameter is a `Buffer` object, the method sets the `Content-Type` response header field to `"application/octet-stream"`, unless previously defined as shown below:
 
 ```ts
 res.set('Content-Type', 'text/html')
@@ -1049,17 +1039,17 @@ If an unsupported status code is specified, the HTTP status is still set to stat
 res.sendStatus(9999) // equivalent to res.status(9999).send('9999')
 ```
 
+[More about HTTP Status Codes](http://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
+
 #### `res.sendFile`
 
-Sends a file by piping a stream to response. It also checks for extension to set a proper `Content-Type` header.
+Sends a file by piping a stream to response. It also checks for extension to set a proper `Content-Type` header field.
 
 > Path argument must be absolute. To use a relative path, specify the `root` option first.
 
 ```js
 res.sendFile('song.mp3', { root: process.cwd() }, (err) => console.log(err))
 ```
-
-[More about HTTP Status Codes](http://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
 
 #### `res.set`
 
@@ -1189,7 +1179,7 @@ res.type('png')
 
 Send JSON response with JSONP callback support. `res.jsonp` isn't used that often so it's located in a separate package - [`@tinyhttp/jsonp`](https://github.com/talentlessguy/tinyhttp/blob/master/packages/jsonp)
 
-Here's a way how to enable it:
+Here's how to enable it:
 
 ```js
 import { jsonp } from '@tinyhttp/jsonp'
