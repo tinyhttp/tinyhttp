@@ -177,19 +177,13 @@ export class App<
     const fns = args.slice(1)
 
     if (base === '/') {
-      for (const fn of fns) {
-        if (Array.isArray(fn)) {
-          super.use(base, fn.map(mount))
-        } else {
-          super.use(base, fns.map(mount))
-        }
-      }
+      for (const fn of fns.flat()) super.use(base, mount(fn as Handler))
     } else if (typeof base === 'function' || base instanceof App) {
       super.use('/', [base, ...fns].map(mount))
     } else if (fns.some((fn) => fn instanceof App)) {
       super.use(
         base,
-        fns.map((fn: App) => {
+        fns.flatMap((fn: App) => {
           if (fn instanceof App) {
             fn.mountpath = typeof base === 'string' ? base : '/'
             fn.parent = this

@@ -95,7 +95,7 @@ type RouterMethodParams<Req extends any = any, Res extends any = any> = Paramete
 export type UseMethod<Req extends any = any, Res extends any = any, App extends Router = any> = (
   path: RouterPathOrHandler<Req, Res> | App,
   handler?: RouterHandler<Req, Res> | App,
-  ...handlers: RouterHandler<Req, Res>[]
+  ...handlers: (RouterHandler<Req, Res> | App)[]
 ) => any
 
 export type UseMethodParams<Req extends any = any, Res extends any = any, App extends Router = any> = Parameters<

@@ -127,6 +127,18 @@ describe('Testing App routing', () => {
   it('should throw 404 on no routes', async () => {
     await makeFetch(new App().listen())('/').expect(404)
   })
+  it('should flatten the array of wares', async () => {
+    const app = new App()
+
+    let counter = 1
+
+    app.use('/abc', [(_1, _2, next) => counter++ && next(), (_1, _2, next) => counter++ && next()], (_req, res) => {
+      expect(counter).toBe(3)
+      res.send('Hello World')
+    })
+
+    await makeFetch(app.listen())('/abc').expect(200, 'Hello World')
+  })
   describe('next(err)', () => {
     it('next function skips current middleware', async () => {
       const app = new App()
