@@ -1,6 +1,4 @@
-import rg from 'regexparam'
-import * as qs from 'querystring'
-import { ParsedUrlQuery } from 'querystring'
+import { parse, ParsedUrlQuery } from 'querystring'
 
 type Regex = {
   keys: string[]
@@ -27,4 +25,4 @@ export const getPathname = (u: string) => {
   return u.slice(0, end === -1 ? u.length : end)
 }
 
-export const getQueryParams = (url = '/'): ParsedUrlQuery => qs.parse(url.slice(url.indexOf('?') + 1))
+export const getQueryParams = (url = '/'): ParsedUrlQuery => parse(url.slice(url.indexOf('?') + 1))

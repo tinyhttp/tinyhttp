@@ -39,8 +39,5 @@
   "license": "MIT",
   "scripts": {
     "build": "rollup -c ./rollup.config.js"
-  },
-  "dependencies": {
-    "regexparam": "^1.3.0"
   }
 }
