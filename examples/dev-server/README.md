@@ -5,7 +5,7 @@ Development server example with [Sosse](https://github.com/sossejs/sosse).
 ## Setup
 
 ```sh
-pnpm install
+tinyhttp new dev-server
 ```
 
 ## Run

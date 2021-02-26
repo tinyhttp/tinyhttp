@@ -5,7 +5,7 @@ Simple authentication example with a session cookie using [@tinyhttp/session](ht
 ## Setup
 
 ```sh
-pnpm install
+tinyhttp new session
 ```
 
 ## Run

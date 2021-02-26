@@ -5,7 +5,7 @@ Example of an async middleware that uses file system (in this case, reads a file
 ## Setup
 
 ```sh
-pnpm install
+tinyhttp new async
 ```
 
 ## Run

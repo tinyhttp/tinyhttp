@@ -5,7 +5,7 @@ Simple authentication example using [JWT](https://jwt.io/) and tinyhttp.
 ## Setup
 
 ```sh
-pnpm install
+tinyhttp new jwt
 ```
 
 ## Run

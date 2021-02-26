@@ -1,13 +1,13 @@
-# Postgresql example
+# PostgreSQL example
 
 A simple user app using tinyhttp and [PostgreSQL](https://www.postgresql.org/).
 
 ## Setup
 
-### Install dependencies
+### Clone the example
 
 ```sh
-npm install
+tinyhttp new postgresql
 ```
 
 ### Install PostgreSQL

@@ -5,7 +5,7 @@ Basic [GraphQL](https://graphql.org) API with tinyhttp and [express-graphql](htt
 ## Setup
 
 ```sh
-pnpm install
+tinyhttp new graphql
 ```
 
 ## Run

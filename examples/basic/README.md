@@ -5,7 +5,7 @@ Basic tinyhttp example with simple routing and route pattern matching.
 ## Setup
 
 ```sh
-pnpm install
+tinyhttp new basic
 ```
 
 ## Run

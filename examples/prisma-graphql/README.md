@@ -5,7 +5,7 @@ A simple [GraphQL](https://graphql.org/) API using tinyhttp and [Prisma](https:/
 ## Setup
 
 ```sh
-pnpm install
+tinyhttp new prisma-graphql
 ```
 
 ## Run

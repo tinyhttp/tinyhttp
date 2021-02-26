@@ -5,7 +5,7 @@ tinyhttp + [preact](https://preactjs.com) + [preact-render-to-string](https://gi
 ## Setup
 
 ```sh
-pnpm install
+tinyhttp new preact-ssr
 ```
 
 ## Run

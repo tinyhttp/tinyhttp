@@ -5,7 +5,7 @@ Example of using cookies in tinyhttp.
 ## Setup
 
 ```sh
-pnpm install
+tinyhttp new cookie
 ```
 
 ## Run

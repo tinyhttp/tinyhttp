@@ -5,7 +5,7 @@ Simple example of clustering a tinyhttp application using built-in [`cluster`](h
 ## Setup
 
 ```sh
-pnpm install
+tinyhttp new cluster
 ```
 
 ## Run

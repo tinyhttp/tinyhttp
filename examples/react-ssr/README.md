@@ -5,7 +5,7 @@ tinyhttp + [React](https://reactjs.org/) SSR example with [ReactDOMServer](https
 ## Install
 
 ```sh
-pnpm install
+tinyhttp new react-ssr
 ```
 
 ## Run

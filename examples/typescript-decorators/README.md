@@ -6,7 +6,7 @@ This way you can separate the logic based on the entities you use.
 ## Setup
 
 ```sh
-pnpm install
+tinyhttp new typescript-decorators
 ```
 
 ## Run

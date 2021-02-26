@@ -5,7 +5,7 @@ Example Lambda function using [Serverless framework](https://www.serverless.com/
 ## Setup
 
 ```sh
-pnpm i
+tinyhttp new aws
 ```
 
 ## Run

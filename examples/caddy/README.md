@@ -9,7 +9,7 @@ Simple example of a tinyhttp app with Caddy
 ## Setup
 
 ```sh
-pnpm install
+tinyhttp new caddy
 ```
 
 ## Run

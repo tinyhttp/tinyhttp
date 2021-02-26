@@ -5,11 +5,11 @@ tinyhttp + [Sapper](https://sapper.svelte.dev/) simple example using the [offici
 ## Install
 
 ```sh
-pnpm install
+tinyhttp new sapper
 ```
 
 ## Run
 
 ```sh
-pnpm run dev
+pnpm dev
 ```

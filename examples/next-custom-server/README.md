@@ -9,7 +9,7 @@ Example of [Next.js](https://nextjs.org) custom server with tinyhttp, deployed o
 ### Install dependencies
 
 ```sh
-pnpm install
+tinyhttp new next-custom-server
 ```
 
 ### Install Vercel and create a new project

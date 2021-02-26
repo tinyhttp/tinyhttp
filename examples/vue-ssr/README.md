@@ -5,7 +5,7 @@ tinyhttp + [Vue](https://vuejs.org/) SSR example with templates and server-side 
 ## Install
 
 ```sh
-pnpm install
+tinyhttp new vue-ssr
 ```
 
 ## Run

@@ -5,7 +5,7 @@ tinyhttp example with using sub-apps to group middlewares and mount them on a sp
 ## Setup
 
 ```sh
-pnpm install
+tinyhttp new subapps
 ```
 
 ## Run

@@ -5,7 +5,7 @@ Example of request body validation using [fastest-validator](https://github.com/
 ## Install
 
 ```sh
-$ pnpm install
+tinyhttp new validator
 ```
 
 ## Run

@@ -5,7 +5,7 @@ Custom 404 handler example for tinyhttp.
 ## Setup
 
 ```sh
-pnpm install
+tinyhttp new no-match-handler
 ```
 
 ## Run

@@ -1,13 +1,13 @@
-# Postgresql example
+# PostgreSQL + TypeORM example
 
 A simple user app using tinyhttp and [PostgreSQL](https://www.postgresql.org/) with [TypeORM](https://typeorm.io/).
 
 ## Setup
 
-### Install dependencies
+### Clone the example
 
 ```sh
-pnpm install
+tinyhttp new postgresql-typeorm
 ```
 
 ### Install PostgreSQL

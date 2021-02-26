@@ -7,7 +7,7 @@ A simple products app with [FaunaDB](https://fauna.com) test data.
 ### Install dependencies
 
 ```sh
-pnpm install
+tinyhttp new async
 ```
 
 ### Create a database

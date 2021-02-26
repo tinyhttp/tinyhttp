@@ -6,9 +6,10 @@ A simple Todo app using tinyhttp and [CouchDB Nano](https://github.com/apache/co
 
 ### Set up
 
-```bash
-pnpm install
+```sh
+tinyhttp new couchdb
 ```
+
 <br>
 
 > [Download the couchDB](https://docs.couchdb.org/en/stable/install/index.html) in your local machine and set up the local enviornment accordingly.
@@ -16,14 +17,14 @@ pnpm install
 > Skip if you already have it installed;
 
 ### Run
+
 ```bash
 node index.js
 ```
 
-
 ### Endpoints
 
-- `GET /todos` -  returns all the existing tasks.
+- `GET /todos` - returns all the existing tasks.
 - `POST /todos` - adds a new task to the database.
 - `PUT /todos` - updates an existing task. Requires the items's `_rev` property along with the `task` and `date`.
 - `DELETE /todos` - deletes an existing task. Requires the `_id` and `_rev` property of the target item.

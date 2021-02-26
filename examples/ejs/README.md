@@ -5,7 +5,7 @@ Basic example of using tinyhttp and [EJS](https://github.com/tj/ejs).
 ## Install
 
 ```sh
-pnpm i
+tinyhttp new ejs
 ```
 
 ## Run

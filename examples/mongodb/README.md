@@ -7,7 +7,7 @@ A simple note app using tinyhttp and [MongoDB](https://www.mongodb.com).
 ### Install dependencies
 
 ```sh
-pnpm install
+tinyhttp new mongodb
 ```
 
 ### Create a database

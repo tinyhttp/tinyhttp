@@ -7,7 +7,7 @@ See [hyperapp-fullstack-starter](https://github.com/talentlessguy/hyperapp-fulls
 ## Install
 
 ```sh
-pnpm install
+tinyhttp new hyperapp-ssr
 ```
 
 ## Run

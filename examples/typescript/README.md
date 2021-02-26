@@ -5,7 +5,7 @@ Minimal [TypeScript](https://www.typescriptlang.org/) setup for tinyhttp using [
 ## Setup
 
 ```sh
-pnpm install
+tinyhttp new typescript
 ```
 
 ## Run

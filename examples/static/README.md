@@ -5,7 +5,7 @@ Simple example with using tinyhttp and [sirv](https://github.com/lukeed/sirv/)
 ## Install
 
 ```sh
-pnpm i
+tinyhttp new static
 ```
 
 ## Run

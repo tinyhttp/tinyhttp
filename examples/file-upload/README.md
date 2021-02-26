@@ -5,7 +5,7 @@ Simple tinyhttp + [formidable](https://github.com/node-formidable/formidable) ex
 ## Install
 
 ```sh
-pnpm i
+tinyhttp new file-upload
 ```
 
 ## Run

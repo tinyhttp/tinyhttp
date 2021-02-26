@@ -7,7 +7,7 @@ A simple posts app using tinyhttp and [LowDB](https://github.com/typicode/lowdb)
 ### Install dependencies
 
 ```sh
-pnpm install
+tinyhttp new lowdb
 ```
 
 ## Run

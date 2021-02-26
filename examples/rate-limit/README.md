@@ -7,7 +7,7 @@ The example creates a server with the routes /unlimited-route and /limited-route
 ## Setup
 
 ```sh
-pnpm install
+tinyhttp new rate-limit
 ```
 
 ## Run

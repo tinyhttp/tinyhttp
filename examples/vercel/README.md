@@ -9,7 +9,7 @@ Example of serverless function with tinyhttp and [Vercel](https://vercel.com).
 ### Install dependencies
 
 ```sh
-pnpm install
+tinyhttp new vercel
 ```
 
 ### Install Vercel and create a new project

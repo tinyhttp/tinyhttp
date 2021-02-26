@@ -5,7 +5,7 @@ Markdown blog example with tinyhttp + [marked](https://marked.js.org/), [markdow
 ## Setup
 
 ```sh
-pnpm install
+tinyhttp new markdown-blog
 ```
 
 ## Run

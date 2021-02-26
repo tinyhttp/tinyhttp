@@ -3,6 +3,7 @@
 Simple HTTP/2 server using `tinyhttp` and `http2` module.
 
 ## Setup
+
 Generate the certificate key.
 
 ```sh
@@ -11,11 +12,13 @@ openssl req -x509 -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost' \
 ```
 
 Install all dependencies
+
 ```sh
-pnpm install
+tinyhttp new http2
 ```
 
 ## Run
+
 ```sh
 node index.js
 ```

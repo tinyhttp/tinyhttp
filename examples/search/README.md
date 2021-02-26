@@ -5,7 +5,7 @@ A simple search app using tinyhttp.
 ## Setup
 
 ```sh
-pnpm i
+tinyhttp new search
 ```
 
 ## Run

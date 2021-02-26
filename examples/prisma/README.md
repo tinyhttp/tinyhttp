@@ -5,7 +5,7 @@ A simple REST API using tinyhttp and [Prisma](https://www.prisma.io/)
 ## Setup
 
 ```sh
-pnpm install
+tinyhttp new prisma
 ```
 
 ## Run
