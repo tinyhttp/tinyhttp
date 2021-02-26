@@ -55,12 +55,11 @@ function getPathname(req: Request) {
   }
 }
 
-function isFresh(req: Request, res: Response) {
-  return fresh(req.headers, {
+const isFresh = (req: Request, res: Response) =>
+  fresh(req.headers, {
     etag: res.getHeader('ETag'),
     'last-modified': res.getHeader('Last-Modified')
   })
-}
 
 async function resolveSync(iconPath: string) {
   const path = resolve(iconPath)
@@ -71,23 +70,21 @@ async function resolveSync(iconPath: string) {
   return path
 }
 
-function send(req: Request, res: Response, icon: any) {
+function send(req: Request, res: Response, icon: FaviconBody) {
   // Set headers
   const headers = icon.headers
   const keys = Object.keys(headers)
   for (const key of keys) res.setHeader(key, headers[key])
 
   // Validate freshness
-  if (isFresh(req, res)) {
-    res.statusCode = 304
-    res.end()
-    return
-  }
+  if (isFresh(req, res)) return res.writeHead(304).end()
 
   // Send icon
-  res.statusCode = 200
-  res.setHeader('Content-Length', icon.body.length)
-  res.setHeader('Content-Type', 'image/x-icon')
+
+  res.writeHead(200, {
+    'Content-Length': icon.body.length,
+    'Content-Type': 'image/x-icon'
+  })
   res.end(icon.body)
 }
 
@@ -108,30 +105,23 @@ export async function favicon(path: string | Buffer, options?: FaviconOptions) {
   else if (typeof path === 'string') path = await resolveSync(path)
 
   return async function favicon(req: Request, res: Response, next?: (err?: any) => void) {
-    if (getPathname(req) !== '/favicon.ico') {
-      next?.()
-      return
-    }
+    if (getPathname(req) !== '/favicon.ico') return next?.()
 
     if (req.method !== 'GET' && req.method !== 'HEAD') {
       res.statusCode = req.method === 'OPTIONS' ? 200 : 405
       res.setHeader('Allow', 'GET, HEAD, OPTIONS')
       res.setHeader('Content-Length', '0')
-      res.end()
-      return
+
+      return res.end()
     }
 
-    if (icon) {
-      send(req, res, icon)
-      return
-    }
+    if (icon) return send(req, res, icon)
 
     let buf: Buffer
 
     try {
       buf = await readFile(path)
-      icon = createIcon(buf, maxAge)
-      send(req, res, icon)
+      send(req, res, (icon = createIcon(buf, maxAge)))
     } catch (e) {
       return next?.(e)
     }

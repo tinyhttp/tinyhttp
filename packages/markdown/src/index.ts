@@ -6,32 +6,35 @@ import md, { MarkedOptions } from 'marked'
 import path from 'path'
 import { send } from '@tinyhttp/send'
 
-type Caching =
-  | Partial<{
-      maxAge: number
-      immutable: boolean
-    }>
-  | false
+type Caching = Partial<{
+  maxAge: number
+  immutable: boolean
+}>
 
 export type MarkdownServerHandlerOptions = Partial<{
   prefix: string
   stripExtension: boolean
   markedOptions: MarkedOptions
-  caching: Caching
+  caching: Caching | false
 }>
 
 type Request = Pick<IncomingMessage, 'url' | 'method'> & { originalUrl?: string }
 
-type Response = Pick<ServerResponse, 'end' | 'setHeader' | 'statusCode' | 'removeHeader' | 'getHeader'>
+type Response = Pick<ServerResponse, 'end' | 'setHeader' | 'statusCode' | 'removeHeader' | 'getHeader'> &
+  NodeJS.WritableStream
 
-const enableCaching = (res: Response, caching: Caching) => {
-  if (caching) {
-    let cc = caching.maxAge != null && `public,max-age=${caching.maxAge}`
-    if (cc && caching.immutable) cc += ',immutable'
-    else if (cc && caching.maxAge === 0) cc += ',must-revalidate'
+const enableCaching = (
+  res: Response,
+  caching: Partial<{
+    maxAge: number
+    immutable: boolean
+  }>
+) => {
+  let cc = caching.maxAge != null && `public,max-age=${caching.maxAge}`
+  if (cc && caching.immutable) cc += ',immutable'
+  else if (cc && caching.maxAge === 0) cc += ',must-revalidate'
 
-    res.setHeader('Cache-Control', cc)
-  }
+  res.setHeader('Cache-Control', cc)
 }
 
 const sendStream = async (
@@ -39,15 +42,15 @@ const sendStream = async (
   markedOptions: MarkedOptions,
   req: Request,
   res: Response,
-  caching: Caching
+  caching: Caching | false
 ) => {
-  const stream = await readFile(path)
+  const file = await readFile(path)
 
-  enableCaching(res, caching)
+  if (caching) enableCaching(res, caching)
 
   res.setHeader('Content-Type', 'text/html; charset=utf-8')
 
-  send(req, res)(md(stream.toString(), markedOptions))
+  send(req, res)(md(file.toString(), markedOptions))
 }
 
 export const markdownStaticHandler = (dir?: string, opts: MarkdownServerHandlerOptions = {}) => async <
@@ -56,7 +59,7 @@ export const markdownStaticHandler = (dir?: string, opts: MarkdownServerHandlerO
 >(
   req: Req,
   res: Res,
-  next
+  next: (err?: any) => void
 ) => {
   const { prefix = '/', stripExtension = true, markedOptions = null, caching = false } = opts
 
@@ -76,14 +79,9 @@ export const markdownStaticHandler = (dir?: string, opts: MarkdownServerHandlerO
     let filename: string
 
     if (url === prefix) {
-      const idxFile = [
-        `index.md`,
-        `index.markdown`,
-        `readme.md`,
-        `README.md`,
-        `readme.markdown`,
-        `readme.md`
-      ].find((file) => existsSync(path.join(fullPath, file)))
+      const rgx = /(index|readme).(md|markdown)/i
+
+      const idxFile = files.find((file) => rgx.test(file))
 
       if (idxFile) {
         await sendStream(path.join(fullPath, idxFile), markedOptions, req, res, caching)

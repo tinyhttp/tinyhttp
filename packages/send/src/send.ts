@@ -4,7 +4,7 @@ import { setCharset, createETag } from './utils'
 
 type Req = Pick<I, 'method'>
 
-type Res = Pick<S, 'setHeader' | 'removeHeader' | 'end' | 'getHeader' | 'statusCode'> & NodeJS.WritableStream
+type Res = Pick<S, 'setHeader' | 'removeHeader' | 'end' | 'getHeader' | 'statusCode'>
 
 /**
  * Sends the HTTP response.
