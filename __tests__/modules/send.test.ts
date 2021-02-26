@@ -116,10 +116,16 @@ describe('Testing @tinyhttp/send', () => {
       fs.unlinkSync(testFilePath)
     })
 
+    it('should send the file', async () => {
+      const app = runServer((req, res) => sendFile(req, res)(testFilePath, {}))
+
+      await makeFetch(app)('/').expect('Hello World')
+    })
+
     it('should throw if path is not absolute', async () => {
-      const app = runServer(async (_, res) => {
+      const app = runServer(async (req, res) => {
         try {
-          await sendFile(res)('../relative/path', {})
+          sendFile(req, res)('../relative/path', {})
         } catch (err) {
           expect(err.message).toMatch(/absolute/)
 
@@ -134,7 +140,7 @@ describe('Testing @tinyhttp/send', () => {
       await makeFetch(app)('/')
     })
     it('should set the Content-Type header based on the filename', async () => {
-      const app = runServer((_, res) => sendFile(res)(testFilePath, {}))
+      const app = runServer((req, res) => sendFile(req, res)(testFilePath, {}))
 
       await makeFetch(app)('/').expectHeader('Content-Type', 'text/plain; charset=utf-8')
     })
@@ -142,9 +148,46 @@ describe('Testing @tinyhttp/send', () => {
       const HEADER_NAME = 'Test-Header'
       const HEADER_VALUE = 'Hello World'
 
-      const app = runServer((_, res) => sendFile(res)(testFilePath, { headers: { [HEADER_NAME]: HEADER_VALUE } }))
+      const app = runServer((req, res) =>
+        sendFile(req, res)(testFilePath, { headers: { [HEADER_NAME]: HEADER_VALUE } })
+      )
 
       await makeFetch(app)('/').expectHeader(HEADER_NAME, HEADER_VALUE)
+    })
+    /* it('should use custom ReadStream options', async () => {
+      const app = runServer((req, res) =>
+        sendFile(req, res)(testFilePath, {
+          start: 0,
+          end: 5
+        })
+      )
+      await makeFetch(app)('/').expectStatus(200).expect('Content-Length', '5').expect('Hello')
+    }) */
+    it('should support Range header', async () => {
+      const app = runServer((req, res) => sendFile(req, res)(testFilePath))
+      await makeFetch(app)('/', {
+        headers: {
+          Range: 'bytes=0-4'
+        }
+      })
+        .expectStatus(206)
+        .expect('Content-Length', '5')
+        .expect('Accept-Ranges', 'bytes')
+        .expect('Hello')
+    })
+    it('should send 419 if out of range', async () => {
+      const app = runServer((req, res) => sendFile(req, res)(testFilePath))
+      await makeFetch(app)('/', {
+        headers: {
+          Range: 'bytes=0-666'
+        }
+      })
+        .expectStatus(416)
+        .expectHeader('Content-Range', 'bytes */11')
+    })
+    it('should set default encoding to UTF-8', async () => {
+      const app = runServer((req, res) => sendFile(req, res)(testFilePath))
+      await makeFetch(app)('/').expectStatus(200).expectHeader('Content-Encoding', 'utf-8')
     })
   })
 })

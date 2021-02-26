@@ -2,7 +2,7 @@ import { parse, format } from 'es-content-type'
 import { eTag } from '@tinyhttp/etag'
 import { Stats } from 'fs'
 
-export const createETag = (body: Buffer | string | Stats, encoding: 'utf8' | undefined) => {
+export const createETag = (body: Buffer | string | Stats, encoding: BufferEncoding) => {
   if (body instanceof Stats) {
     return eTag(body, { weak: true })
   } else {
