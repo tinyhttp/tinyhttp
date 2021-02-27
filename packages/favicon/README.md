@@ -37,11 +37,7 @@ import { favicon } from '@tinyhttp/favicon'
 import { createServer } from 'http'
 import path from 'path'
 
-const server = http.createServer(async (req, res) => {
-  return (await favicon(path.join(process.cwd(), 'public', 'favicon.ico')))(req, res)
-})
-
-server.listen(3000)
+http.createServer(favicon(path.join(process.cwd(), 'public', 'favicon.ico')).listen(3000)
 ```
 
 [npm-badge]: https://img.shields.io/npm/v/@tinyhttp/favicon?style=flat-square
