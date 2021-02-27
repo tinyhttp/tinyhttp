@@ -10,8 +10,8 @@ Using [fastify benchmark tool](https://github.com/talentlessguy/benchmarks)
 
 ## System
 
-- kernel: 5.7.19-2
-- node: 15.5
+- kernel: 5.10.15-1
+- node: 15.8
 
 ## Conditions
 
