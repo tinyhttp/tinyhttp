@@ -6,15 +6,11 @@ type Filter = string | RegExp
 const processIpFilters = (ip: string, filter: Filter[], strict: boolean): boolean => {
   if (typeof ip !== 'string') throw new TypeError('ip-filter: expect `ip` to be a string')
 
-  const strictMode = strict ?? true
-
-  if (strictMode && !ipRegex().test(ip)) throw new Error(`@tinyhttp/ip-filter: Invalid IP: ${ip}`)
+  if ((strict ?? true) && !ipRegex().test(ip)) throw new Error(`@tinyhttp/ip-filter: Invalid IP: ${ip}`)
 
   const results = filter.map((f) => {
     if (typeof f === 'string') {
-      const regex = new RegExp(f)
-
-      return regex.test(ip)
+      return new RegExp(f).test(ip)
     } else if (f instanceof RegExp) return f.test(ip)
   })
 

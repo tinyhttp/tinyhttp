@@ -10,7 +10,7 @@ function createServer(path?: string | Buffer, opts?: Omit<FaviconOptions, 'path'
   const _favicon = favicon(_path, opts)
   const server = http.createServer(
     async (req, res) =>
-      void (await _favicon)(req, res, (err) => {
+      void _favicon(req, res, (err) => {
         res.statusCode = err ? err.status || 500 : 404
         res.end(err ? err.message : 'oops')
       })
@@ -22,27 +22,21 @@ function createServer(path?: string | Buffer, opts?: Omit<FaviconOptions, 'path'
 describe('favicon function test', () => {
   describe('args', () => {
     describe('path', () => {
-      it('should be required', async () => {
-        try {
-          // @ts-ignore
-          await favicon()
-        } catch (e) {
-          expect((e as TypeError).message).toBe('path to favicon.ico is required')
-        }
-      })
       it('should accept buffer', async () => {
-        expect(await favicon(Buffer.alloc(20))).not.toThrow()
+        const server = createServer(Buffer.alloc(20))
+
+        await makeFetch(server)('/favicon.ico').expect(200)
       })
       it('should not be dir', async () => {
         try {
-          await favicon(__dirname)
+          favicon(__dirname)
         } catch (e) {
           expect((e as NodeJS.ErrnoException).message).toMatch(/EISDIR, illegal operation on directory/)
         }
       })
       it('should exist', async () => {
         try {
-          await favicon('nothing')
+          favicon('nothing')
         } catch (e) {
           expect((e as NodeJS.ErrnoException).message).toMatch(/ENOENT/)
         }
@@ -144,13 +138,16 @@ describe('favicon function test', () => {
       })
     })
 
-    /*  describe('icon', function () {
+    describe('icon', function () {
       describe('buffer', () => {
         it('should be served from buffer', async () => {
           const buffer = Buffer.alloc(20, '#')
           const server = createServer(buffer)
 
-          await makeFetch(server)('/favicon.ico').expectHeader('Content-Length', '20').expectBody(buffer)
+          await makeFetch(server)('/favicon.ico')
+            .expectHeader('Content-Type', 'image/x-icon')
+            .expectHeader('Content-Length', '20')
+            .expectBody(buffer.toString())
         })
 
         it('should be copied', async () => {
@@ -161,9 +158,12 @@ describe('favicon function test', () => {
           buffer.fill('?')
           expect(buffer.toString()).toStrictEqual('????????????????????')
 
-          await makeFetch(server)('/favicon.ico').expectHeader('Content-Length', '20').expectBody(Buffer.from('####################'))
+          await makeFetch(server)('/favicon.ico')
+            .expectHeader('Content-Length', '20')
+            .expectHeader('Content-Type', 'image/x-icon')
+            .expectBody(Buffer.from('####################').toString())
         })
       })
-    }) */
+    })
   })
 })

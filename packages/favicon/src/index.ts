@@ -1,10 +1,10 @@
-import { readFile, stat } from 'fs/promises'
 import { eTag } from '@tinyhttp/etag'
 import fresh from 'es-fresh'
 import { resolve } from 'path'
 import ms from 'ms'
-import url from 'url'
 import { IncomingMessage as Request, ServerResponse as Response } from 'http'
+import { getPathname } from '@tinyhttp/url'
+import { readFileSync, statSync } from 'fs'
 
 /**
  * Favicon options
@@ -47,23 +47,15 @@ function createIsDirError(path: string) {
   return error
 }
 
-function getPathname(req: Request) {
-  try {
-    return url.parse(req.url).pathname
-  } catch (e) {
-    return undefined
-  }
-}
-
 const isFresh = (req: Request, res: Response) =>
   fresh(req.headers, {
     etag: res.getHeader('ETag'),
     'last-modified': res.getHeader('Last-Modified')
   })
 
-async function resolveSync(iconPath: string) {
+function resolveSync(iconPath: string) {
   const path = resolve(iconPath)
-  const s = await stat(path)
+  const s = statSync(path)
 
   if (s.isDirectory()) throw createIsDirError(path)
 
@@ -95,17 +87,15 @@ function send(req: Request, res: Response, icon: FaviconBody) {
  * @param options Middleware options
  */
 
-export async function favicon(path: string | Buffer, options?: FaviconOptions) {
+export function favicon(path: string | Buffer, options?: FaviconOptions) {
   let icon: FaviconBody // favicon cache
   const maxAge = calcMaxAge(options?.maxAge)
 
-  if (!path) throw new TypeError('path to favicon.ico is required')
-
   if (Buffer.isBuffer(path)) icon = createIcon(Buffer.from(path), maxAge)
-  else if (typeof path === 'string') path = await resolveSync(path)
+  else if (typeof path === 'string') path = resolveSync(path)
 
-  return async function favicon(req: Request, res: Response, next?: (err?: any) => void) {
-    if (getPathname(req) !== '/favicon.ico') return next?.()
+  return function favicon(req: Request, res: Response, next?: (err?: any) => void) {
+    if (getPathname(req.url) !== '/favicon.ico') return next?.()
 
     if (req.method !== 'GET' && req.method !== 'HEAD') {
       res.statusCode = req.method === 'OPTIONS' ? 200 : 405
@@ -120,7 +110,7 @@ export async function favicon(path: string | Buffer, options?: FaviconOptions) {
     let buf: Buffer
 
     try {
-      buf = await readFile(path)
+      buf = readFileSync(path)
       send(req, res, (icon = createIcon(buf, maxAge)))
     } catch (e) {
       return next?.(e)

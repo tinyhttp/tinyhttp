@@ -34,11 +34,7 @@ new App()
     md('docs', {
       prefix: '/docs',
       stripExtension: true,
-      markedExtensions: [
-        {
-          headerIds: true
-        }
-      ]
+      markedExtensions: [{ headerIds: true }]
     })
   )
   .listen(3000)

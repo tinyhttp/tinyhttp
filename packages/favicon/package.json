@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "@tinyhttp/etag": "workspace:*",
+    "@tinyhttp/url": "workspace:^1.2.1",
     "es-fresh": "^0.0.8",
     "ms": "^2.1.3"
   }

@@ -2,7 +2,7 @@
 
 [![npm (scoped)](https://img.shields.io/npm/v/@tinyhttp/logger?style=flat-square)](https://npmjs.com/package/@tinyhttp/logger) [![npm](https://img.shields.io/npm/dt/@tinyhttp/logger?style=flat-square)](https://npmjs.com/package/@tinyhttp/logger) [![](https://img.shields.io/badge/website-visit-hotpink?style=flat-square)](https://tinyhttp.v1rtl.site/mw/logger)
 
-Simple HTTP logger for tinyhttp.
+Simple HTTP logger.
 
 ## Install
 

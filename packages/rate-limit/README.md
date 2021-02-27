@@ -16,13 +16,8 @@ pnpm i @tinyhttp/rate-limit
 import { App } from '@tinyhttp/app'
 import { rateLimit } from '@tinyhttp/rate-limit'
 
-new App().get(
-  'limited-route',
-  rateLimit({
-    max: 10,
-    windowMs: 60 * 1000 // 1 minute
-  }),
-  (_, res) => res.send('Limited route')
+new App().get('limited-route', rateLimit({ max: 10, windowMs: 60 * 1000 /* 1 minute */ }), (_, res) =>
+  res.send('Limited route')
 )
 ```
 

@@ -2,7 +2,7 @@ import { MemoryStore } from '../../../packages/rate-limit/src'
 
 const key = '127.0.0.1'
 
-const testHelper = (increaseFunction, key): Promise<{ current: number }> => {
+const testHelper = (increaseFunction, key: string): Promise<{ current: number }> => {
   return new Promise((resolve) => {
     increaseFunction(key, (_, hitCount) => resolve({ current: hitCount }))
   })

@@ -113,7 +113,7 @@ export function rateLimit(options?: Partial<RateLimitOptions>) {
         }
 
         if (skipFailedRequests) {
-          res.on('finish', function () {
+          res.on('finish', () => {
             if (res.statusCode >= 400) decrementKey()
           })
 
@@ -125,7 +125,7 @@ export function rateLimit(options?: Partial<RateLimitOptions>) {
         }
 
         if (skipSuccessfulRequests) {
-          res.on('finish', function () {
+          res.on('finish', () => {
             if (res.statusCode < 400) store.decrement(key)
           })
         }
