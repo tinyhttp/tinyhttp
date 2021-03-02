@@ -71,32 +71,32 @@ describe('Request extensions', () => {
     })
   })
   describe('req.acceptsEncodings()', () => {
-  	it('should detect "Accept-Encoding" header', async () => {
-  	  const app = runServer((req, res) => {
-  	  	const encodings = getAcceptsEncodings(req)()
+    it('should detect "Accept-Encoding" header', async () => {
+      const app = runServer((req, res) => {
+        const encodings = getAcceptsEncodings(req)()
 
-  	  	res.end(encodings[0])
-  	  })
+        res.end(encodings[0])
+      })
 
-  	  await makeFetch(app)('/', {
-  	  	headers: {
-  	  		'Accept-Encoding': 'gzip'
-  	  	}
-  	  }).expect('gzip')
-  	})
-  	it('should parse multiple values', async () => {
-  		const app = runServer((req, res) => {
-  			const encodings = getAcceptsEncodings(req)()
+      await makeFetch(app)('/', {
+        headers: {
+          'Accept-Encoding': 'gzip'
+        }
+      }).expect('gzip')
+    })
+    it('should parse multiple values', async () => {
+      const app = runServer((req, res) => {
+        const encodings = getAcceptsEncodings(req)()
 
-  			res.end((encodings as string[]).join(' | '))
-  		})
+        res.end((encodings as string[]).join(' | '))
+      })
 
-  		await makeFetch(app)('/', {
-  			headers: {
-  				'Accept-Encoding': 'gzip, br'
-  			}
-  		}).expect('gzip | br | identity')
-  	})
+      await makeFetch(app)('/', {
+        headers: {
+          'Accept-Encoding': 'gzip, br'
+        }
+      }).expect('gzip | br | identity')
+    })
   })
   describe('req.fresh', () => {
     it('returns false if method is neither GET nor HEAD', async () => {
