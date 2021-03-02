@@ -2,6 +2,7 @@ import { makeFetch } from 'supertest-fetch'
 import {
   checkIfXMLHttpRequest,
   getAccepts,
+  getAcceptsEncodings,
   getFreshOrStale,
   getRequestHeader,
   getRangeFromHeader,
@@ -55,7 +56,7 @@ describe('Request extensions', () => {
         }
       }).expect('text/plain')
     })
-    it('should detect multiple values in "Accept"', async () => {
+    it('should parse multiple values', async () => {
       const app = runServer((req, res) => {
         const accepts = getAccepts(req)()
 
@@ -69,19 +70,57 @@ describe('Request extensions', () => {
       }).expect('text/plain | text/html')
     })
   })
+  describe('req.acceptsEncodings()', () => {
+  	it('should detect "Accept-Encoding" header', async () => {
+  	  const app = runServer((req, res) => {
+  	  	const encodings = getAcceptsEncodings(req)()
+
+  	  	res.end(encodings[0])
+  	  })
+
+  	  await makeFetch(app)('/', {
+  	  	headers: {
+  	  		'Accept-Encoding': 'gzip'
+  	  	}
+  	  }).expect('gzip')
+  	})
+  	it('should parse multiple values', async () => {
+  		const app = runServer((req, res) => {
+  			const encodings = getAcceptsEncodings(req)()
+
+  			res.end((encodings as string[]).join(' | '))
+  		})
+
+  		await makeFetch(app)('/', {
+  			headers: {
+  				'Accept-Encoding': 'gzip, br'
+  			}
+  		}).expect('gzip | br | identity')
+  	})
+  })
   describe('req.fresh', () => {
     it('returns false if method is neither GET nor HEAD', async () => {
       const app = runServer((req, res) => {
         const fresh = getFreshOrStale(req, res)
 
-        res.end(fresh ? 'fresh' : 'rotten')
+        res.end(fresh ? 'fresh' : 'stale')
       })
 
       await makeFetch(app)('/', {
         method: 'POST',
         body: 'Hello World'
-      }).expect('rotten')
+      }).expect('stale')
     })
+    /* it('returns true if is GET', async () => {
+          const app = runServer((req, res) => {
+             const fresh = getFreshOrStale(req, res)
+    
+             res.end(fresh ? 'fresh' : 'stale')
+          })
+    
+          await makeFetch(app)('/').expect('fresh')
+       })
+    */
   })
   it('returns false if status code is neither >=200 nor < 300, nor 304', async () => {
     const app = runServer((req, res) => {
@@ -89,10 +128,10 @@ describe('Request extensions', () => {
 
       const fresh = getFreshOrStale(req, res)
 
-      res.end(fresh ? 'fresh' : 'rotten')
+      res.end(fresh ? 'fresh' : 'stale')
     })
 
-    await makeFetch(app)('/').expect('rotten')
+    await makeFetch(app)('/').expect('stale')
   })
 
   describe('req.range', () => {

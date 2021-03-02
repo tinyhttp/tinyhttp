@@ -9,7 +9,8 @@ import {
   getQueryParams,
   getAccepts,
   getAcceptsCharsets,
-  getAcceptsEncodings
+  getAcceptsEncodings,
+  getAcceptsLanguages
 } from '@tinyhttp/req'
 import { getProtocol, getHostname, getIP, getIPs } from './request'
 import {
@@ -74,6 +75,8 @@ export const extendMiddleware = <EngineOptions>(app: App) => (
   req.accepts = getAccepts(req)
   req.acceptsCharsets = getAcceptsCharsets(req)
   req.acceptsEncodings = getAcceptsEncodings(req)
+  req.acceptsLanguages = getAcceptsLanguages(req)
+
   req.xhr = checkIfXMLHttpRequest(req)
 
   res.header = res.set = setHeader<Response>(res)
