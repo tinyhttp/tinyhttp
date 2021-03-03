@@ -5,7 +5,7 @@ const app = new App()
 
 app.get('/', async (_, res) => {
   const file = await readFile(`${process.cwd()}/test.txt`)
-  
+
   res.send(file.toString())
 })
 

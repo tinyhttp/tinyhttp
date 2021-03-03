@@ -65,6 +65,8 @@ type RegexParams = {
   pattern: RegExp
 }
 
+type RIM<Req, Res, App> = (...args: RouterMethodParams<Req, Res>) => App
+
 export interface Middleware<Req extends any = any, Res extends any = any> {
   method?: Method
   handler: Handler<Req, Res>
@@ -153,167 +155,61 @@ export class Router<App extends Router = any, Req extends any = any, Res extends
   parent: App
   apps: Record<string, App> = {}
 
-  get(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'GET',
-      type: 'route'
-    })
+  acl: RIM<Req, Res, this>
+  bind: RIM<Req, Res, this>
+  checkout: RIM<Req, Res, this>
+  connect: RIM<Req, Res, this>
+  copy: RIM<Req, Res, this>
+  delete: RIM<Req, Res, this>
+  get: RIM<Req, Res, this>
+  head: RIM<Req, Res, this>
+  link: RIM<Req, Res, this>
+  lock: RIM<Req, Res, this>
+  merge: RIM<Req, Res, this>
+  mkactivity: RIM<Req, Res, this>
+  mkcalendar: RIM<Req, Res, this>
+  mkcol: RIM<Req, Res, this>
+  move: RIM<Req, Res, this>
+  notify: RIM<Req, Res, this>
+  options: RIM<Req, Res, this>
+  patch: RIM<Req, Res, this>
+  post: RIM<Req, Res, this>
+  pri: RIM<Req, Res, this>
+  propfind: RIM<Req, Res, this>
+  proppatch: RIM<Req, Res, this>
+  purge: RIM<Req, Res, this>
+  put: RIM<Req, Res, this>
+  rebind: RIM<Req, Res, this>
+  report: RIM<Req, Res, this>
+  search: RIM<Req, Res, this>
+  source: RIM<Req, Res, this>
+  subscribe: RIM<Req, Res, this>
+  trace: RIM<Req, Res, this>
+  unbind: RIM<Req, Res, this>
+  unlink: RIM<Req, Res, this>
+  unlock: RIM<Req, Res, this>
+  unsubscribe: RIM<Req, Res, this>
 
-    return this
+  constructor() {
+    for (const m of METHODS) {
+      this[m.toLowerCase()] = this.add(m as Method)
+    }
   }
-  post(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'POST',
-      type: 'route'
-    })
-    return this
+
+  add(method: Method) {
+    return (...args: RouterMethodParams<Req, Res>) => {
+      pushMiddleware<Req, Res>(this.middleware)({
+        path: args[0],
+        handler: args[1],
+        handlers: args.slice(2) as Handler<Req, Res>[],
+        method,
+        type: 'route'
+      })
+
+      return this
+    }
   }
-  put(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'PUT',
-      type: 'route'
-    })
-    return this
-  }
-  patch(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'PATCH',
-      type: 'route'
-    })
-    return this
-  }
-  head(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'HEAD',
-      type: 'route'
-    })
-    return this
-  }
-  delete(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'DELETE',
-      type: 'route'
-    })
-    return this
-  }
-  options(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'OPTIONS',
-      type: 'route'
-    })
-    return this
-  }
-  checkout(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'CHECKOUT',
-      type: 'route'
-    })
-    return this
-  }
-  copy(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'COPY',
-      type: 'route'
-    })
-    return this
-  }
-  lock(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'LOCK',
-      type: 'route'
-    })
-    return this
-  }
-  unlock(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'UNLOCK',
-      type: 'route'
-    })
-    return this
-  }
-  merge(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'MERGE',
-      type: 'route'
-    })
-    return this
-  }
-  mkactivity(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'MKACTIVITY',
-      type: 'route'
-    })
-    return this
-  }
-  mkcol(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'MKCOL',
-      type: 'route'
-    })
-    return this
-  }
-  move(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'MOVE',
-      type: 'route'
-    })
-    return this
-  }
-  search(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'SEARCH',
-      type: 'route'
-    })
-    return this
-  }
+
   msearch(...args: RouterMethodParams<Req, Res>) {
     pushMiddleware<Req, Res>(this.middleware)({
       path: args[0],
@@ -322,178 +218,10 @@ export class Router<App extends Router = any, Req extends any = any, Res extends
       method: 'M-SEARCH',
       type: 'route'
     })
+
     return this
   }
-  notify(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'NOTIFY',
-      type: 'route'
-    })
-    return this
-  }
-  purge(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'PURGE',
-      type: 'route'
-    })
-    return this
-  }
-  report(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'REPORT',
-      type: 'route'
-    })
-    return this
-  }
-  subscribe(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'SUBSCRIBE',
-      type: 'route'
-    })
-    return this
-  }
-  unsubscribe(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'UNSUBSCRIBE',
-      type: 'route'
-    })
-    return this
-  }
-  trace(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'TRACE',
-      type: 'route'
-    })
-    return this
-  }
-  acl(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'ACL',
-      type: 'route'
-    })
-    return this
-  }
-  connect(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'CONNECT',
-      type: 'route'
-    })
-    return this
-  }
-  bind(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'BIND',
-      type: 'route'
-    })
-    return this
-  }
-  unbind(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'UNBIND',
-      type: 'route'
-    })
-    return this
-  }
-  rebind(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'REBIND',
-      type: 'route'
-    })
-    return this
-  }
-  link(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'LINK',
-      type: 'route'
-    })
-    return this
-  }
-  unlink(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'UNLINK',
-      type: 'route'
-    })
-    return this
-  }
-  mkcalendar(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'MKCALENDAR',
-      type: 'route'
-    })
-    return this
-  }
-  propfind(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'PROPFIND',
-      type: 'route'
-    })
-    return this
-  }
-  proppatch(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'PROPPATCH',
-      type: 'route'
-    })
-    return this
-  }
-  source(...args: RouterMethodParams<Req, Res>) {
-    pushMiddleware<Req, Res>(this.middleware)({
-      path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
-      method: 'SOURCE',
-      type: 'route'
-    })
-    return this
-  }
+
   all(...args: RouterMethodParams<Req, Res>) {
     for (const method of METHODS) {
       pushMiddleware(this.middleware)({
@@ -513,9 +241,9 @@ export class Router<App extends Router = any, Req extends any = any, Res extends
    * mounted it.
    *
    * For example if the application was
-   * mounted as "/admin", which itself
-   * was mounted as "/blog" then the
-   * return value would be "/blog/admin".
+   * mounted as `"/admin"`, which itself
+   * was mounted as `"/blog"` then the
+   * return value would be `"/blog/admin"`.
    *
    */
   path(): string {
