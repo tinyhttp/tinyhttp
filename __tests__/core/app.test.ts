@@ -535,14 +535,8 @@ describe('Route handlers', () => {
 
     await fetch('/').expect(200, 'hello world')
   })
-  /* it('router accepts array of wares', async () => {
-    const app = new App({
-      onError: (err, _, res) => {
-        console.log(err)
-
-        res.sendStatus(500)
-      }
-    })
+  it('router accepts array of wares', async () => {
+    const app = new App()
 
     app.get(
       '/',
@@ -574,7 +568,7 @@ describe('Route handlers', () => {
     const fetch = makeFetch(server)
 
     await fetch('/').expect(200, 'hello world')
-  }) */
+  })
   it('router methods do not match loosely', async () => {
     const app = new App()
 

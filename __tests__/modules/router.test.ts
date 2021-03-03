@@ -128,20 +128,21 @@ describe('Testing Router', () => {
 })
 
 describe('Testing HTTP methods', () => {
-  /* it('should accept arrays for first argument', () => {
+  it('should accept arrays for first second arg', () => {
     const router = new Router()
 
-    router.get('/', [() => 1, () => 2])
+    router.get('/', [() => 0, () => 0])
 
     expect(router.middleware.length).toBe(2)
   })
-  it('should accept arrays for first and second argument', () => {
+  it('should accept arrays for third argument', () => {
     const router = new Router()
 
-    router.get('/', [() => 1, () => 2], [() => 3])
+    router.get('/', () => 0, [() => 0, () => 0])
 
     expect(router.middleware.length).toBe(3)
-  }) */
+  })
+
   it('app.get should set GET as HTTP method', () => {
     const router = new Router()
 

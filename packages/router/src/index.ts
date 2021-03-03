@@ -88,8 +88,8 @@ export type RouterPathOrHandler<Req extends any = any, Res extends any = any> = 
 
 export type RouterMethod<Req extends any = any, Res extends any = any> = (
   path: string | Handler<Req, Res>,
-  handler?: Handler<Req, Res>,
-  ...handlers: Handler<Req, Res>[]
+  handler?: RouterHandler<Req, Res>,
+  ...handlers: RouterHandler<Req, Res>[]
 ) => any
 
 type RouterMethodParams<Req extends any = any, Res extends any = any> = Parameters<RouterMethod<Req, Res>>
@@ -97,7 +97,7 @@ type RouterMethodParams<Req extends any = any, Res extends any = any> = Paramete
 export type UseMethod<Req extends any = any, Res extends any = any, App extends Router = any> = (
   path: RouterPathOrHandler<Req, Res> | App,
   handler?: RouterHandler<Req, Res> | App,
-  ...handlers: (RouterHandler<Req, Res> | App)[]
+  ...handlers: RouterHandler<Req, Res>[]
 ) => any
 
 export type UseMethodParams<Req extends any = any, Res extends any = any, App extends Router = any> = Parameters<
@@ -126,14 +126,14 @@ const pushMiddleware = <Req extends any = any, Res extends any = any>(mw: Middle
   type
 }: MethodHandler<Req, Res> & {
   method?: Method
-  handlers?: Handler<Req, Res>[]
+  handlers?: RouterHandler<Req, Res>[]
 }) => {
   const m = createMiddlewareFromRoute<Req, Res>({ path, handler, method, type })
 
   let waresFromHandlers: { handler: Handler<Req, Res> }[] = []
 
   if (handlers) {
-    waresFromHandlers = handlers.map((handler) =>
+    waresFromHandlers = handlers.flat().map((handler) =>
       createMiddlewareFromRoute<Req, Res>({
         path,
         handler,
@@ -198,10 +198,11 @@ export class Router<App extends Router = any, Req extends any = any, Res extends
 
   add(method: Method) {
     return (...args: RouterMethodParams<Req, Res>) => {
+      const handlers = args.slice(1).flat() as Handler<Req, Res>[]
       pushMiddleware<Req, Res>(this.middleware)({
         path: args[0],
-        handler: args[1],
-        handlers: args.slice(2) as Handler<Req, Res>[],
+        handler: handlers[0],
+        handlers: handlers.slice(1),
         method,
         type: 'route'
       })
@@ -211,10 +212,12 @@ export class Router<App extends Router = any, Req extends any = any, Res extends
   }
 
   msearch(...args: RouterMethodParams<Req, Res>) {
+    const handlers = args.slice(1).flat() as Handler<Req, Res>[]
+
     pushMiddleware<Req, Res>(this.middleware)({
       path: args[0],
-      handler: args[1],
-      handlers: args.slice(2) as Handler<Req, Res>[],
+      handler: handlers[0],
+      handlers: handlers.slice(1),
       method: 'M-SEARCH',
       type: 'route'
     })
@@ -223,11 +226,13 @@ export class Router<App extends Router = any, Req extends any = any, Res extends
   }
 
   all(...args: RouterMethodParams<Req, Res>) {
+    const handlers = args.slice(1).flat() as Handler<Req, Res>[]
+
     for (const method of METHODS) {
       pushMiddleware(this.middleware)({
         path: args[0],
-        handler: args[1],
-        handlers: args.slice(2) as Handler<Req, Res>[],
+        handler: handlers[0],
+        handlers: handlers.slice(1),
         method,
         type: 'route'
       })
