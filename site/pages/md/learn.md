@@ -58,7 +58,7 @@
   <ul>
     <li><a href="#database-integration">Database integration</a></li>
     <li><a href="#deployment">Deployment</a></li>
-    <li><a href="old-versions-of-node-js">Old versions of Node.js</a></li>
+    <li><a href="#older-versions-of-nodejs">Old versions of Node.js</a></li>
   </ul>
 </aside>
 
