@@ -8,6 +8,8 @@ import * as colorette from 'colorette'
 import editPkgJson from 'edit-json-file'
 import ora from 'ora'
 
+import { installPackages, fileFetcher } from './utils'
+
 const runCmd = promisify(exec)
 
 const msg = (m: string, color: string) => console.log(colorette[color](m))
@@ -84,39 +86,6 @@ if (info?.name) pkg = info.name as typeof pkg
 if (options.pkg) pkg = options.pkg
 
 const file = editPkgJson('../package.json')
-
-const fileFetcher = async (data: any, statusCode: number, dir?: string) => {
-  const spinner = ora()
-
-  spinner.start(colorette.blue(`Fetching ${data.length} files...`))
-
-  if (statusCode !== 200) console.warn(`Bad status code: ${statusCode}`)
-
-  // Download files
-  for (const { name, download_url, type, url } of data) {
-    if (type !== 'dir') {
-      spinner.text = `Fetching ${name} file`
-      const { data } = await get(download_url, httpHeaders)
-
-      try {
-        await writeFile(dir ? `${dir}/${name}` : name, data)
-      } catch {
-        throw new Error('Failed to create a project file')
-      }
-    } else {
-      spinner.text = `Scanning ${name} directory`
-      try {
-        await mkdir(name)
-      } catch {
-        throw new Error('Failed to create a project subdirectory')
-      }
-      const { data, statusCode } = await get(url, httpHeaders)
-      await fileFetcher(data, statusCode, name)
-    }
-  }
-
-  spinner.stop()
-}
 
 cli
   .version(file.get('version'))
@@ -233,23 +202,6 @@ cli
         ...newDeps
       })
       .save()
-
-    // Install packages
-
-    const depCount =
-      (Object.keys(file.get('dependencies')) || []).length + (Object.keys(file.get('devDependencies')) || []).length
-
-    const spinner = ora()
-
-    spinner.start(colorette.cyan(`Installing ${depCount} package${depCount > 1 ? 's' : ''} with ${pkg} 📦`))
-
-    try {
-      await runCmd(`${pkg} ${pkg === 'yarn' ? 'add' : 'i'}`)
-    } catch {
-      throw new Error('Failed to install packages')
-    }
-
-    spinner.stop()
 
     // Finish
 
