@@ -11,8 +11,7 @@
     "highlight.js": "^10.6.0",
     "marked": "^2.0.0",
     "node-fetch-cache": "^1.0.6",
-    "sirv": "^1.0.11",
-    "streamdown": "^1.0.3"
+    "sirv": "^1.0.11"
   },
   "scripts": {
     "start": "node ./dist/site/server.js",

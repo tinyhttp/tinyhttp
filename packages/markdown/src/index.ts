@@ -1,15 +1,9 @@
 import { IncomingMessage, ServerResponse } from 'http'
 import { parse } from 'path'
-import { existsSync } from 'fs'
 import { readFile, readdir } from 'fs/promises'
 import md, { MarkedOptions } from 'marked'
 import path from 'path'
-import { send } from '@tinyhttp/send'
-
-type Caching = Partial<{
-  maxAge: number
-  immutable: boolean
-}>
+import { send, Caching, enableCaching } from '@tinyhttp/send'
 
 export type MarkdownServerHandlerOptions = Partial<{
   prefix: string
@@ -20,22 +14,8 @@ export type MarkdownServerHandlerOptions = Partial<{
 
 type Request = Pick<IncomingMessage, 'url' | 'method'> & { originalUrl?: string }
 
-type Response = Pick<ServerResponse, 'end' | 'setHeader' | 'statusCode' | 'removeHeader' | 'getHeader'> &
+type Response = Pick<ServerResponse, 'end' | 'setHeader' | 'statusCode' | 'removeHeader' | 'getHeader' | 'writeHead'> &
   NodeJS.WritableStream
-
-const enableCaching = (
-  res: Response,
-  caching: Partial<{
-    maxAge: number
-    immutable: boolean
-  }>
-) => {
-  let cc = caching.maxAge != null && `public,max-age=${caching.maxAge}`
-  if (cc && caching.immutable) cc += ',immutable'
-  else if (cc && caching.maxAge === 0) cc += ',must-revalidate'
-
-  res.setHeader('Cache-Control', cc)
-}
 
 const sendStream = async (
   path: string,

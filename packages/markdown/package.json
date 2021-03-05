@@ -35,7 +35,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/send": "workspace:^1.2.2",
+    "@tinyhttp/send": "workspace:*",
     "marked": "^2.0.0"
   },
   "engines": {
