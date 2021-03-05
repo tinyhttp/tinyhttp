@@ -21,11 +21,28 @@ export type SendFileOptions = ReadStreamOptions &
   Partial<{
     root: string
     headers: Record<string, any>
+    caching: Partial<{
+      maxAge: number
+      immutable: boolean
+    }>
   }>
+
+export type Caching = Partial<{
+  maxAge: number
+  immutable: boolean
+}>
 
 type Req = Pick<I, 'headers'>
 
 type Res = Pick<S, 'setHeader' | 'statusCode' | 'writeHead'> & NodeJS.WritableStream
+
+export const enableCaching = (res: Res, caching: Caching) => {
+  let cc = caching.maxAge != null && `public,max-age=${caching.maxAge}`
+  if (cc && caching.immutable) cc += ',immutable'
+  else if (cc && caching.maxAge === 0) cc += ',must-revalidate'
+
+  res.setHeader('Cache-Control', cc)
+}
 
 /**
  * Sends a file by piping a stream to response.
@@ -41,9 +58,11 @@ export const sendFile = <Request extends Req = Req, Response extends Res = Res>(
   opts: SendFileOptions = {},
   cb?: (err?: any) => void
 ) => {
-  const { root, headers = {}, encoding = 'utf-8', ...options } = opts
+  const { root, headers = {}, encoding = 'utf-8', caching, ...options } = opts
 
   if (!isAbsolute(path) && !root) throw new TypeError('path must be absolute')
+
+  if (caching) enableCaching(res, caching)
 
   const filePath = root ? join(root, path) : path
 

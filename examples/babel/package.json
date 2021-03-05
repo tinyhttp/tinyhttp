@@ -1,0 +1,21 @@
+{
+  "name": "babel",
+  "version": "1.0.0",
+  "main": "server.js",
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*"
+  },
+  "scripts": {
+    "dev": "babel-node server.js",
+    "build": "babel server.js -d dist",
+    "start": "node ./dist/server.js"
+  },
+  "private": true,
+  "devDependencies": {
+    "@babel/cli": "^7.13.0",
+    "@babel/core": "^7.13.8",
+    "@babel/node": "^7.13.0",
+    "@babel/preset-env": "^7.13.9",
+    "core-js": "3"
+  }
+}
