@@ -58,6 +58,7 @@
   <ul>
     <li><a href="#database-integration">Database integration</a></li>
     <li><a href="#deployment">Deployment</a></li>
+    <li><a href="old-versions-of-node-js">Old versions of Node.js</a></li>
   </ul>
 </aside>
 
@@ -78,13 +79,13 @@ Also, because a lot of express middlewares depend on legacy modules themselves, 
 tinyhttp directly mostly depends on helper modules:
 
 ```sh
-@tinyhttp/app 1.1.12
-├── @tinyhttp/cookie 1.1.1
-├── @tinyhttp/proxy-addr 1.1.1
-├── @tinyhttp/req 1.1.2
-├── @tinyhttp/res 1.1.3
-├── @tinyhttp/router 1.1.2
-└── regexparam 1.3.0
+@tinyhttp/app
+├── @tinyhttp/cookie
+├── @tinyhttp/proxy-addr
+├── @tinyhttp/req
+├── @tinyhttp/res
+├── @tinyhttp/router
+└── regexparam
 ```
 
 The core `@tinyhttp/app` module depends on small helper modules like `@tinyhttp/router` for easier maintaining and ability to use tinyhttp features outside of tinyhttp (to build your own web framework for example).
@@ -92,53 +93,53 @@ The core `@tinyhttp/app` module depends on small helper modules like `@tinyhttp/
 this is how the full dependency tree of `@tinyhttp/app` looks like:
 
 ```sh
-  @tinyhttp/app 1.1.12
-│ ├── @tinyhttp/cookie 1.1.1
-│ ├─┬ @tinyhttp/proxy-addr 1.1.1
-│ │ ├── @tinyhttp/forwarded 1.1.1
-│ │ └── ipaddr.js 2.0.0
-│ ├─┬ @tinyhttp/req 1.1.2
-│ │ ├─┬ @tinyhttp/accepts 1.1.1
-│ │ │ ├─┬ es-mime-types 0.0.16
-│ │ │ │ └── mime-db 1.45.0
-│ │ │ └── negotiator 0.6.2
-│ │ ├─┬ @tinyhttp/type-is 1.1.1
-│ │ │ ├── es-content-type 0.0.10
-│ │ │ └─┬ es-mime-types 0.0.16
-│ │ │   └── mime-db 1.45.0
-│ │ ├─┬ @tinyhttp/url 1.1.2
-│ │ │ └── regexparam 1.3.0
-│ │ ├── es-fresh 0.0.8
-│ │ └── range-parser 1.2.1
-│ ├─┬ @tinyhttp/res 1.1.3
-│ │ ├── @tinyhttp/content-disposition 1.1.1
-│ │ ├── @tinyhttp/cookie 1.1.1
-│ │ ├── @tinyhttp/cookie-signature 1.1.1
-│ │ ├── @tinyhttp/encode-url 0.1.1
-│ │ ├─┬ @tinyhttp/req 1.1.2
-│ │ │ ├─┬ @tinyhttp/accepts 1.1.1
-│ │ │ │ ├─┬ es-mime-types 0.0.16
-│ │ │ │ │ └── mime-db 1.45.0
-│ │ │ │ └── negotiator 0.6.2
-│ │ │ ├─┬ @tinyhttp/type-is 1.1.1
-│ │ │ │ ├── es-content-type 0.0.10
-│ │ │ │ └─┬ es-mime-types 0.0.16
-│ │ │ │   └── mime-db 1.45.0
-│ │ │ ├─┬ @tinyhttp/url 1.1.2
-│ │ │ │ └── regexparam 1.3.0
-│ │ │ ├── es-fresh 0.0.8
-│ │ │ └── range-parser 1.2.1
-│ │ ├─┬ @tinyhttp/send 1.1.1
-│ │ │ ├── @tinyhttp/etag 1.1.1
-│ │ │ ├── es-content-type 0.0.10
-│ │ │ └─┬ es-mime-types 0.0.16
-│ │ │   └── mime-db 1.45.0
-│ │ ├─┬ es-mime-types 0.0.16
-│ │ │ └── mime-db 1.45.0
-│ │ ├── es-vary 0.0.8
-│ │ └── escape-html 1.0.3
-│ ├── @tinyhttp/router 1.1.2
-│ └── regexparam 1.3.0
+  @tinyhttp/app
+│ ├── @tinyhttp/cookie
+│ ├─┬ @tinyhttp/proxy-addr
+│ │ ├── @tinyhttp/forwarded
+│ │ └── ipaddr.js
+│ ├─┬ @tinyhttp/req
+│ │ ├─┬ @tinyhttp/accepts
+│ │ │ ├─┬ es-mime-types
+│ │ │ │ └── mime-db
+│ │ │ └── negotiator
+│ │ ├─┬ @tinyhttp/type-is
+│ │ │ ├── es-content-type
+│ │ │ └─┬ es-mime-types
+│ │ │   └── mime-db
+│ │ ├─┬ @tinyhttp/url
+│ │ │ └── regexparam
+│ │ ├── es-fresh
+│ │ └── range-parser
+│ ├─┬ @tinyhttp/res
+│ │ ├── @tinyhttp/content-disposition
+│ │ ├── @tinyhttp/cookie
+│ │ ├── @tinyhttp/cookie-signature
+│ │ ├── @tinyhttp/encode-url
+│ │ ├─┬ @tinyhttp/req
+│ │ │ ├─┬ @tinyhttp/accepts
+│ │ │ │ ├─┬ es-mime-types
+│ │ │ │ │ └── mime-db
+│ │ │ │ └── negotiator
+│ │ │ ├─┬ @tinyhttp/type-is
+│ │ │ │ ├── es-content-type
+│ │ │ │ └─┬ es-mime-types
+│ │ │ │   └── mime-db
+│ │ │ ├─┬ @tinyhttp/url
+│ │ │ │ └── regexparam
+│ │ │ ├── es-fresh
+│ │ │ └── range-parser
+│ │ ├─┬ @tinyhttp/send
+│ │ │ ├── @tinyhttp/etag
+│ │ │ ├── es-content-type
+│ │ │ └─┬ es-mime-types
+│ │ │   └── mime-db
+│ │ ├─┬ es-mime-types
+│ │ │ └── mime-db
+│ │ ├── es-vary
+│ │ └── escape-html
+│ ├── @tinyhttp/router
+│ └── regexparam
 ```
 
 Because Express contains a lot of legacy modules, the dependency tree of tinyhttp is much smaller.
@@ -660,5 +661,11 @@ There are articles of deploying an Express / Node.js app with Docker. You can us
 
 - [Run Express in Docker](https://dev.to/tirthaguha/run-express-in-docker-2o44)
 - [Dockerizing a Node.js web app](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/)
+
+### Older versions of Node.js
+
+In case you have to run your application in an old Node.js environment (>= 12.4) you can set up [Babel](https://babeljs.io/) to compile modern syntax from ES2019 to older versions.
+
+See [Babel example](https://github.com/talentlessguy/tinyhttp/blob/master/examples/babel/server.js) for complete setup.
 
 </main>
