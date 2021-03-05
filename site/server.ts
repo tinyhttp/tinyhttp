@@ -12,6 +12,12 @@ const fetch = fetchCache(`${__dirname}/.cache`)
 const app = new App({
   settings: {
     networkExtensions: true
+  },
+  noMatchHandler: (_, res) => {
+    res.format({
+      text: (_, res) => res.sendStatus(404),
+      html: (_, res) => res.sendFile(`${process.cwd()}/static/404.html`)
+    })
   }
 })
 
