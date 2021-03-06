@@ -19,7 +19,7 @@ describe('CLI utils', () => {
       })
     })
   })
-  describe('install(pkgManager, ...pkgs)', () => {
+  /* describe('install(pkgManager, ...pkgs)', () => {
     let cwd: string
     beforeEach(async () => {
       cwd = process.cwd()
@@ -60,5 +60,5 @@ describe('CLI utils', () => {
 
       expect(Object.keys(dependencies)).toContain('milliparsec')
     })
-  })
+  }) */
 })
