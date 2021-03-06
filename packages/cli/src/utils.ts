@@ -1,7 +1,17 @@
 import { writeFile, mkdir } from 'fs/promises'
 import ora from 'ora'
 import { get } from 'httpie'
+import editPkgJson from 'edit-json-file'
 import * as colorette from 'colorette'
+import { exec } from 'child_process'
+import { promisify } from 'util'
+
+export const msg = (m: string, color: string) => console.log(colorette[color](m))
+
+export const runCmd = promisify(exec)
+
+export const install = async (pkg: string, pkgs: string[], dev = true) =>
+  await runCmd(`${pkg} ${pkg === 'yarn' ? 'add' : 'i'} ${dev ? '-D' : '-S'} ${pkgs.join(' ')}`)
 
 const httpHeaders = {
   headers: { 'user-agent': 'node.js' }
@@ -40,29 +50,27 @@ export const fileFetcher = async (data: any, statusCode: number, dir?: string) =
   spinner.stop()
 }
 
-export const installPackages = async () => {
-
+export const installPackages = async (pkg: string) => {
   // Edit package.json
-  
-      const file = editPkgJson('package.json')
-  
-      const allDeps = Object.keys(file.get('dependencies'))
-  
-      // Replace "workspace:*" with "latest"
-  
-      const thDeps = allDeps.filter((x) => x.startsWith('@tinyhttp'))
-  
-      const newDeps = {}
-  
-      for (const dep of thDeps) newDeps[dep] = 'latest'
-  
-      file
-        .set('dependencies', {
-          ...file.get('dependencies'),
-          ...newDeps
-        })
-        .save()
-       
+
+  const file = editPkgJson('package.json')
+
+  const allDeps = Object.keys(file.get('dependencies'))
+
+  // Replace "workspace:*" with "latest"
+
+  const thDeps = allDeps.filter((x) => x.startsWith('@tinyhttp'))
+
+  const newDeps = {}
+
+  for (const dep of thDeps) newDeps[dep] = 'latest'
+
+  file
+    .set('dependencies', {
+      ...file.get('dependencies'),
+      ...newDeps
+    })
+    .save()
 
   const depCount =
     (Object.keys(file.get('dependencies')) || []).length + (Object.keys(file.get('devDependencies')) || []).length
@@ -78,4 +86,33 @@ export const installPackages = async () => {
   }
 
   spinner.stop()
+}
+
+const ESLINT_JS_CONFIG = `
+{
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "plugins": ["prettier"],
+  "extends": ["eslint:recommended", "prettier"],
+}
+`
+
+export const setupEslint = async (pkg: string) => {
+  msg(`Setting up ESLint`, 'green')
+  try {
+    await install(pkg, ['eslint', 'prettier', 'eslint-config-prettier', 'eslint-plugin-prettier'], true)
+  } catch {
+    throw new Error('Failed to install ESLint')
+  }
+  try {
+    await writeFile('.eslintrc', ESLINT_JS_CONFIG)
+  } catch {
+    throw new Error('Failed to create ESLint config')
+  }
 }

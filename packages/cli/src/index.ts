@@ -1,33 +1,10 @@
 import cac from 'cac'
 import pm from 'which-pm-runs'
-import { exec } from 'child_process'
 import { mkdir, writeFile } from 'fs/promises'
-import { promisify } from 'util'
 import { get } from 'httpie'
-import * as colorette from 'colorette'
 import editPkgJson from 'edit-json-file'
-import ora from 'ora'
 
-import { installPackages, fileFetcher } from './utils'
-
-const runCmd = promisify(exec)
-
-const msg = (m: string, color: string) => console.log(colorette[color](m))
-
-const ESLINT_JS_CONFIG = `
-{
-  "env": {
-    "es6": true,
-    "node": true
-  },
-  "parserOptions": {
-    "ecmaVersion": 2020,
-    "sourceType": "module"
-  },
-  "plugins": ["prettier"],
-  "extends": ["eslint:recommended", "prettier"],
-}
-`
+import { installPackages, fileFetcher, install, setupEslint, msg } from './utils'
 
 const ESLINT_TS_CONFIG = `
 {
@@ -69,9 +46,6 @@ const PRETTIER_CONFIG = `
 const httpHeaders = {
   headers: { 'user-agent': 'node.js' }
 }
-
-const install = (pkg: string, pkgs: string[], dev = true) =>
-  runCmd(`${pkg} ${pkg === 'yarn' ? 'add' : 'i'} ${dev ? '-D' : '-S'} ${pkgs.join(' ')}`)
 
 const cli = cac('tinyhttp')
 
@@ -135,28 +109,14 @@ cli
       }
     }
 
-    const setupEslint = async () => {
-      msg(`Setting up ESLint`, 'green')
-      try {
-        await install(pkg, ['eslint', 'prettier', 'eslint-config-prettier', 'eslint-plugin-prettier'], true)
-      } catch {
-        throw new Error('Failed to install ESLint')
-      }
-      try {
-        await writeFile('.eslintrc', ESLINT_JS_CONFIG)
-      } catch {
-        throw new Error('Failed to create ESLint config')
-      }
-    }
-
     if (options.full) {
       setupPrettier()
-      setupEslint()
+      setupEslint(pkg)
     }
 
     if (options.prettier) await setupPrettier()
 
-    if (options.eslint) await setupEslint()
+    if (options.eslint) await setupEslint(pkg)
 
     if (options['eslint-ts']) {
       msg(`Setting up ESLint for TypeScript`, 'green')
@@ -182,26 +142,7 @@ cli
       }
     }
 
-    // Edit package.json
-
-    const file = editPkgJson('package.json')
-
-    const allDeps = Object.keys(file.get('dependencies'))
-
-    // Replace "workspace:*" with "latest"
-
-    const thDeps = allDeps.filter((x) => x.startsWith('@tinyhttp'))
-
-    const newDeps = {}
-
-    for (const dep of thDeps) newDeps[dep] = 'latest'
-
-    file
-      .set('dependencies', {
-        ...file.get('dependencies'),
-        ...newDeps
-      })
-      .save()
+    await installPackages(pkg)
 
     // Finish
 
