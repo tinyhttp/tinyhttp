@@ -178,4 +178,20 @@ describe('parse(string)', () => {
       })
     })
   })
+  describe('with extended parameters', function () {
+    it('should reject quoted extended parameter value', function () {
+      try {
+        parse('attachment; filename*="UTF-8\'\'%E2%82%AC%20rates.pdf"')
+      } catch (e) {
+        expect(e.message).toMatch(/invalid extended.*value/)
+      }
+    })
+
+    it('should parse UTF-8 extended parameter value', function () {
+      expect(parse("attachment; filename*=UTF-8''%E2%82%AC%20rates.pdf")).toEqual({
+        type: 'attachment',
+        parameters: { filename: '€ rates.pdf' }
+      })
+    })
+  })
 })
