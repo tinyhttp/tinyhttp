@@ -193,5 +193,74 @@ describe('parse(string)', () => {
         parameters: { filename: '€ rates.pdf' }
       })
     })
+
+    it('should parse ISO-8859-1 extended parameter value', function () {
+      expect(parse("attachment; filename*=ISO-8859-1''%A3%20rates.pdf")).toEqual({
+        type: 'attachment',
+        parameters: { filename: '£ rates.pdf' }
+      })
+      expect(parse("attachment; filename*=ISO-8859-1''%82%20rates.pdf")).toEqual({
+        type: 'attachment',
+        parameters: { filename: '? rates.pdf' }
+      })
+    })
+
+    it('should not be case-sensitive for charser', function () {
+      expect(parse("attachment; filename*=utf-8''%E2%82%AC%20rates.pdf")).toEqual({
+        type: 'attachment',
+        parameters: { filename: '€ rates.pdf' }
+      })
+    })
+
+    it('should reject unsupported charset', function () {
+      try {
+        parse("attachment; filename*=ISO-8859-2''%A4%20rates.pdf")
+      } catch (e) {
+        expect(e.message).toMatch(/unsupported charset/)
+      }
+    })
+
+    it('should parse with embedded language', function () {
+      expect(parse("attachment; filename*=UTF-8'en'%E2%82%AC%20rates.pdf")).toEqual({
+        type: 'attachment',
+        parameters: { filename: '€ rates.pdf' }
+      })
+    })
+
+    it('should prefer extended parameter value', function () {
+      expect(parse('attachment; filename="EURO rates.pdf"; filename*=UTF-8\'\'%E2%82%AC%20rates.pdf')).toEqual({
+        type: 'attachment',
+        parameters: { filename: '€ rates.pdf' }
+      })
+      expect(parse('attachment; filename*=UTF-8\'\'%E2%82%AC%20rates.pdf; filename="EURO rates.pdf"')).toEqual({
+        type: 'attachment',
+        parameters: { filename: '€ rates.pdf' }
+      })
+    })
+  })
+  describe('from TC 2231', function () {
+    describe('Disposition-Type Inline', function () {
+      it('should parse "inline"', function () {
+        expect(parse('inline')).toEqual({
+          type: 'inline',
+          parameters: {}
+        })
+      })
+
+      it('should reject ""inline""', function () {
+        try {
+          parse('"inline"')
+        } catch (e) {
+          expect(e.message).toMatch(/invalid type format/)
+        }
+      })
+
+      it('should parse "inline; filename="foo.html""', function () {
+        expect(parse('inline; filename="foo.html"')).toEqual({
+          type: 'inline',
+          parameters: { filename: 'foo.html' }
+        })
+      })
+    })
   })
 })
