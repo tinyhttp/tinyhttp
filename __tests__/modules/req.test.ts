@@ -111,16 +111,36 @@ describe('Request extensions', () => {
         body: 'Hello World'
       }).expect('stale')
     })
-    /* it('returns true if is GET', async () => {
-          const app = runServer((req, res) => {
-             const fresh = getFreshOrStale(req, res)
-    
-             res.end(fresh ? 'fresh' : 'stale')
-          })
-    
-          await makeFetch(app)('/').expect('fresh')
-       })
-    */
+    it('returns true when the resource is not modified', async () => {
+      const etag = '123'
+      const app = runServer((req, res) => {
+        res.setHeader('ETag', etag)
+        const fresh = getFreshOrStale(req, res)
+
+        res.end(fresh ? 'fresh' : 'stale')
+      })
+
+      await makeFetch(app)('/', {
+        headers: {
+          'If-None-Match': etag
+        }
+      }).expect('fresh')
+    })
+    it('should return false when the resource is modified', async () => {
+      const etag = '123'
+      const app = runServer((req, res) => {
+        res.setHeader('ETag', etag)
+        const fresh = getFreshOrStale(req, res)
+
+        res.end(fresh ? 'fresh' : 'stale')
+      })
+
+      await makeFetch(app)('/', {
+        headers: {
+          'If-None-Match': '12345'
+        }
+      }).expect('stale')
+    })
   })
   it('returns false if status code is neither >=200 nor < 300, nor 304', async () => {
     const app = runServer((req, res) => {
