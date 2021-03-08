@@ -91,11 +91,91 @@ describe('parse(string)', () => {
         expect(e.message).toBe('invalid parameter format')
       }
     })
-    // TODO: copypaste tests from https://github.com/jshttp/content-disposition/blob/master/test/test.js#L258-L278
+
+    it('should reject invalid parameter value', function () {
+      try {
+        parse('attachment; filename=trolly,trains')
+      } catch (e) {
+        expect(e.message).toMatch(/invalid parameter format/)
+      }
+    })
+
+    it('should reject invalid parameters', function () {
+      try {
+        parse('attachment; filename=total/; foo=bar')
+      } catch (e) {
+        expect(e.message).toMatch(/invalid parameter format/)
+      }
+    })
+
+    it('should reject duplicate parameters', function () {
+      try {
+        parse('attachment; filename=foo; filename=bar')
+      } catch (e) {
+        expect(e.message).toMatch(/invalid duplicate parameter/)
+      }
+    })
+
+    it('should reject missing type', function () {
+      try {
+        parse('filename="plans.pdf"')
+      } catch (e) {
+        expect(e.message).toMatch(/invalid type format/)
+      }
+
+      try {
+        parse('; filename="plans.pdf"')
+      } catch (e) {
+        expect(e.message).toMatch(/invalid type format/)
+      }
+    })
+
     it('should lower-case parameter name', () => {
       expect(parse('attachment; FILENAME="plans.pdf"')).toStrictEqual(
         new ContentDisposition('attachment', { filename: 'plans.pdf' })
       )
+    })
+
+    it('should parse quoted parameter value', function () {
+      expect(parse('attachment; filename="plans.pdf"')).toEqual({
+        type: 'attachment',
+        parameters: { filename: 'plans.pdf' }
+      })
+    })
+
+    it('should parse & unescape quoted value', function () {
+      expect(parse('attachment; filename="the \\"plans\\".pdf"')).toEqual({
+        type: 'attachment',
+        parameters: { filename: 'the "plans".pdf' }
+      })
+    })
+
+    it('should include all parameters', function () {
+      expect(parse('attachment; filename="plans.pdf"; foo=bar')).toEqual({
+        type: 'attachment',
+        parameters: { filename: 'plans.pdf', foo: 'bar' }
+      })
+    })
+
+    it('should parse parameters separated with any LWS', function () {
+      expect(parse('attachment;filename="plans.pdf" \t;    \t\t foo=bar')).toEqual({
+        type: 'attachment',
+        parameters: { filename: 'plans.pdf', foo: 'bar' }
+      })
+    })
+
+    it('should parse token filename', function () {
+      expect(parse('attachment; filename=plans.pdf')).toEqual({
+        type: 'attachment',
+        parameters: { filename: 'plans.pdf' }
+      })
+    })
+
+    it('should parse ISO-8859-1 filename', function () {
+      expect(parse('attachment; filename="£ rates.pdf"')).toEqual({
+        type: 'attachment',
+        parameters: { filename: '£ rates.pdf' }
+      })
     })
   })
 })
