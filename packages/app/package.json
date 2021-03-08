@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/app",
-  "version": "1.2.12",
+  "version": "1.2.13",
   "description": "0-legacy, tiny & fast web framework as a replacement of Express",
   "type": "module",
   "homepage": "https://tinyhttp.v1rtl.site",
