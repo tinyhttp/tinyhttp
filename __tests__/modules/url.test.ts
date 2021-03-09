@@ -1,12 +1,11 @@
-import { getQueryParams, getURLParams } from '../../packages/url/src'
-import { parse } from 'url'
+import { getQueryParams, getURLParams, getPathname } from '../../packages/url/src'
 import rg from 'regexparam'
 
 describe('getQueryParams(url)', () => {
   it('parses query params the same way as url.parse(str, true)', () => {
     const str = '/hello?world=42'
 
-    expect(getQueryParams(str)).toEqual(parse(str, true).query)
+    expect(getQueryParams(str)).toEqual({ world: '42' })
   })
 })
 
@@ -27,5 +26,14 @@ describe('getURLParams(reqUrl, url)', () => {
       a: 'hello',
       b: 'world'
     })
+  })
+})
+describe('getPathname(url)', () => {
+  it('returns pathname of a path', () => {
+    expect(getPathname('/abc/def')).toBe('/abc/def')
+    expect(getPathname('/abc')).toBe('/abc')
+  })
+  it('does not include query params', () => {
+    expect(getPathname('/abc?def=hgi')).toBe('/abc')
   })
 })
