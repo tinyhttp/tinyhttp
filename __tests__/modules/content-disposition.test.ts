@@ -261,6 +261,43 @@ describe('parse(string)', () => {
           parameters: { filename: 'foo.html' }
         })
       })
+
+      it('should parse "inline; filename="Not an attachment!""', function () {
+        expect(parse('inline; filename="Not an attachment!"')).toEqual({
+          type: 'inline',
+          parameters: { filename: 'Not an attachment!' }
+        })
+      })
+
+      it('should parse "inline; filename="foo.pdf""', function () {
+        expect(parse('inline; filename="foo.pdf"')).toEqual({
+          type: 'inline',
+          parameters: { filename: 'foo.pdf' }
+        })
+      })
+    })
+    describe('Disposition-Type Attachment', function () {
+      it('should parse "attachment"', function () {
+        expect(parse('attachment')).toEqual({
+          type: 'attachment',
+          parameters: {}
+        })
+      })
+
+      it('should reject ""attachment""', function () {
+        try {
+          parse('"attachment')
+        } catch (e) {
+          expect(e.message).toMatch(/invalid type format/)
+        }
+      })
+
+      it('should parse "ATTACHMENT"', function () {
+        expect(parse('ATTACHMENT')).toEqual({
+          type: 'attachment',
+          parameters: {}
+        })
+      })
     })
   })
 })
