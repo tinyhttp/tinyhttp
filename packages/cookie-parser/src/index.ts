@@ -89,6 +89,7 @@ export const cookieParser = (secret?: string | string[]) => {
 
     req.secret = secrets[0]
     req.cookies = Object.create(null)
+    req.signedCookies = Object.create(null)
 
     if (!cookies) {
       next?.()

@@ -6,21 +6,30 @@ import { makeFetch } from 'supertest-fetch'
 
 function createServer(secret?: any) {
   const _parser = cookieParser(secret)
-  return http.createServer((req: Request, res: Response) => {
-    _parser(req, res, (err) => {
+  return http.createServer((req, res) => {
+    _parser(req as Request, res as Response, (err) => {
       if (err) {
         res.statusCode = 500
         res.end(err.message)
         return
       }
 
-      const cookies = req.url === '/signed' ? req.signedCookies : req.cookies
+      const cookies = req.url === '/signed' ? (req as Request).signedCookies : (req as Request).cookies
       res.end(JSON.stringify(cookies))
     })
   })
 }
 
 describe('cookieParser()', () => {
+  describe('when no cookies are sent', function () {
+    it('should default req.cookies to {}', async () => {
+      await makeFetch(createServer('keyboard cat'))('/').expect(200, '{}')
+    })
+
+    it('should default req.signedCookies to {}', async () => {
+      await makeFetch(createServer('keyboard cat'))('/signed').expect(200, '{}')
+    })
+  })
   describe('when cookies are sent', function () {
     it('should populate req.cookies', async () => {
       await makeFetch(createServer('keyboard cat'))('/', {
@@ -49,17 +58,19 @@ describe('cookieParser()', () => {
 
   describe('when req.cookies exists', function () {
     it('should do nothing', async () => {
-      const server = http.createServer((req: Request, res: Response) => {
-        req.cookies = { fizz: 'buzz' }
+      const server = http.createServer((req, res) => {
+        const r = req as Request
 
-        cookieParser()(req, res, (err) => {
+        r.cookies = { fizz: 'buzz' }
+
+        cookieParser()(r, res as Response, (err) => {
           if (err) {
             res.statusCode = 500
             res.end(err.message)
             return
           }
 
-          res.end(JSON.stringify(req.cookies))
+          res.end(JSON.stringify(r.cookies))
         })
       })
 
