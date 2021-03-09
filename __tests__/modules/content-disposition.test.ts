@@ -27,13 +27,6 @@ describe('contentDisposition(filename)', () => {
 })
 
 describe('parse(string)', () => {
-  it('should require a string', () => {
-    try {
-      parse(null as string)
-    } catch (e) {
-      expect(e.message).toBe('argument string is required')
-    }
-  })
   describe('with type', () => {
     it('should throw on quoted value', () => {
       try {

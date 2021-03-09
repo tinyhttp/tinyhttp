@@ -49,15 +49,13 @@ function ustring(val: unknown): string {
   return "UTF-8''" + encoded
 }
 
-function format(
-  obj: Partial<{
-    parameters: Record<any, any>
-    type: string | boolean | undefined
-  }>
-) {
-  const parameters = obj.parameters
-  const type = obj.type
-
+function format({
+  parameters,
+  type
+}: Partial<{
+  parameters: Record<any, any>
+  type: string | boolean | undefined
+}>) {
   if (!type || typeof type !== 'string' || !TOKEN_REGEXP.test(type)) throw new TypeError('invalid type')
 
   // start with normalized type
@@ -122,15 +120,13 @@ const pdecode = (_str: string, hex: string) => String.fromCharCode(parseInt(hex,
 
 export function contentDisposition(
   filename?: string,
-  options?: Partial<{
+  options: Partial<{
     type: string
     fallback: string | boolean
-  }>
+  }> = {}
 ) {
-  const opts = options || {}
-
   // format into string
-  return format(new ContentDisposition(opts.type || 'attachment', createParams(filename, opts.fallback)))
+  return format(new ContentDisposition(options.type || 'attachment', createParams(filename, options.fallback)))
 }
 
 function decodefield(str: string) {
@@ -164,8 +160,6 @@ function decodefield(str: string) {
  * @param string string
  */
 export function parse(string: string) {
-  if (!string || typeof string !== 'string') throw new TypeError('argument string is required')
-
   let match = DISPOSITION_TYPE_REGEXP.exec(string)
 
   if (!match) throw new TypeError('invalid type format')
