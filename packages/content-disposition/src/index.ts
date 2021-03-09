@@ -86,8 +86,6 @@ function createParams(filename?: string, fallback?: string | boolean) {
     }
   > = {}
 
-  if (typeof filename !== 'string') throw new TypeError('filename must be a string')
-
   // fallback defaults to true
   if (fallback === undefined) fallback = true
 

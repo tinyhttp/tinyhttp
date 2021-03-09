@@ -7,10 +7,6 @@ describe('contentDisposition()', () => {
 })
 
 describe('contentDisposition(filename)', () => {
-  it('should require a string', () => {
-    expect(contentDisposition.bind(null, 42)).toThrow(/filename.*string/)
-  })
-
   it('should create a header with file name', () => {
     expect(contentDisposition('plans.pdf')).toBe('attachment; filename="plans.pdf"')
   })
