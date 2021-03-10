@@ -107,13 +107,6 @@ export function favicon(path: string | Buffer, options?: FaviconOptions) {
 
     if (icon) return send(req, res, icon)
 
-    let buf: Buffer
-
-    try {
-      buf = readFileSync(path)
-      send(req, res, (icon = createIcon(buf, maxAge)))
-    } catch (e) {
-      return next?.(e)
-    }
+    send(req, res, (icon = createIcon(readFileSync(path), maxAge)))
   }
 }

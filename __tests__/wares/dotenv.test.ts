@@ -9,6 +9,7 @@ const envFile = fs.readFileSync(envPath, { encoding: 'utf8' })
 const parsed = dotenv.parse(envFile)
 
 describe('Dotenv parsing', () => {
+  const expectedPayload = { SERVER: 'localhost', PASSWORD: 'password', DB: 'tests' }
   it('sets basic environment variable', () => {
     expect(parsed.BASIC).toBe('basic')
   })
@@ -40,17 +41,46 @@ describe('Dotenv parsing', () => {
     const payload = dotenv.parse(Buffer.from('BUFFER=true'))
     expect(payload.BUFFER).toBe('true')
   })
+  it('can parse (\\r) line endings', () => {
+    const payload = dotenv.parse(Buffer.from('SERVER=localhost\rPASSWORD=password\rDB=tests\r'))
+
+    expect(payload).toEqual(expectedPayload)
+  })
+  it('can parse (\\n) line endings', () => {
+    const payload = dotenv.parse(Buffer.from('SERVER=localhost\nPASSWORD=password\nDB=tests\n'))
+
+    expect(payload).toEqual(expectedPayload)
+  })
+  it('can parse (\\r\\n) line endings', () => {
+    const payload = dotenv.parse(Buffer.from('SERVER=localhost\r\nPASSWORD=password\r\nDB=tests\r\n'))
+
+    expect(payload).toEqual(expectedPayload)
+  })
+  it('debug works', () => {
+    const log = console.log
+
+    console.log = (x: unknown) => {
+      expect(x).toBe('[dotenv][DEBUG] did not match key and value when parsing line 1: what is this')
+    }
+
+    dotenv.parse(Buffer.from('what is this'), { debug: true })
+
+    console.log = log
+  })
 })
 
 describe('Dotenv config', () => {
   afterEach(() => {
     process.env = {}
   })
-  it('takes path as option', () => {
-    const parsed = dotenv.config({ path: envPath })
+  describe('options', () => {
+    it('takes path as option', () => {
+      const { parsed } = dotenv.config({ path: envPath })
 
-    expect(parsed.parsed.BASIC).toBe('basic')
+      expect(parsed.BASIC).toBe('basic')
+    })
   })
+
   it('populates process.env', () => {
     dotenv.config({ path: envPath })
 

@@ -1,4 +1,5 @@
 import { favicon, FaviconOptions } from '../../packages/favicon/src'
+import { App } from '../../packages/app/src'
 import http from 'http'
 import path from 'path'
 import { makeFetch } from 'supertest-fetch'
@@ -42,6 +43,7 @@ describe('favicon function test', () => {
         }
       })
     })
+
     describe('options.maxAge', function () {
       it('should be in cache-control', async () => {
         const server = createServer(null, { maxAge: 5000 })
