@@ -8,8 +8,11 @@ const envFile = fs.readFileSync(envPath, { encoding: 'utf8' })
 
 const parsed = dotenv.parse(envFile)
 
+const mockParseResponse = { test: 'foo' }
+
+const expectedPayload = { SERVER: 'localhost', PASSWORD: 'password', DB: 'tests' }
+
 describe('Dotenv parsing', () => {
-  const expectedPayload = { SERVER: 'localhost', PASSWORD: 'password', DB: 'tests' }
   it('sets basic environment variable', () => {
     expect(parsed.BASIC).toBe('basic')
   })
@@ -79,11 +82,44 @@ describe('Dotenv config', () => {
 
       expect(parsed.BASIC).toBe('basic')
     })
+    it('takes encoding as option', () => {
+      const readFileSync = fs.readFileSync
+      const encoding = 'latin1'
+
+      // @ts-ignore
+      fs.readFileSync = (
+        _path: Parameters<typeof fs.readFileSync>[0],
+        options: Parameters<typeof fs.readFileSync>[1]
+      ) => {
+        expect(typeof options !== 'string' && options.encoding).toBe(encoding)
+      }
+
+      dotenv.config({ encoding })
+
+      fs.readFileSync = readFileSync
+    })
   })
 
-  it('populates process.env', () => {
-    dotenv.config({ path: envPath })
+  it('reads path with encoding, parsing output to process.env', () => {
+    const { parsed } = dotenv.config({ path: envPath })
 
-    expect(process.env.BASIC).toBe('basic')
+    expect(parsed.test).toEqual(mockParseResponse.test)
+  })
+
+  it('does not write over keys already in process.env', () => {
+    const existing = 'bar'
+    process.env.test = existing
+    const env = dotenv.config({ path: envPath })
+
+    expect(env.parsed?.test).toBe(mockParseResponse.test)
+    expect(process.env.test).toBe(existing)
+  })
+
+  it('does not write over keys already in process.env if the key has a falsy value', () => {
+    const existing = ''
+    process.env.test = existing
+    const env = dotenv.config({ path: envPath })
+
+    expect(env.parsed?.test).toBe(mockParseResponse.test)
   })
 })
