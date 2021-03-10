@@ -3,7 +3,7 @@ import { Response } from '../../packages/app/src'
 import { jwt, Request } from '../../packages/jwt/src'
 import fs from 'fs'
 
-describe('JsonWebToken tests', () => {
+describe('JWT tests', () => {
   const req = {} as Request
   const res = {} as Response
 
@@ -18,7 +18,7 @@ describe('JsonWebToken tests', () => {
 
     req.headers.authorization = 'Bearer ' + token
 
-    jwt({ secret: secret, algorithm: 'HS256' })(req, res, () => {
+    jwt({ secret: secret })(req, res, () => {
       expect('bar').toBe(req.user.foo)
     })
   })
@@ -52,7 +52,7 @@ describe('JsonWebToken tests', () => {
 
     req.headers.authorization = 'Bearer ' + token
 
-    jwt({ secret: true_secret, algorithm: 'HS256' })(req, res, () => {
+    jwt({ secret: true_secret })(req, res, () => {
       expect(req.user.foo).toBeUndefined()
     })
   })
