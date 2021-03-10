@@ -8,7 +8,7 @@ import { onErrorHandler } from './onError'
 import { Middleware, Handler, NextFunction, Router, UseMethodParams } from '@tinyhttp/router'
 import { extendMiddleware } from './extend'
 import rg from 'regexparam'
-import { getPathname } from '@tinyhttp/req'
+import { getPathname, getFreshOrStale } from '@tinyhttp/req'
 
 /**
  * Add leading slash if not present (e.g. path -> /path, /path -> /path)
@@ -243,7 +243,9 @@ export class App<
         type: 'mw',
         path: '/'
       },
+
       ...this.find(pathname, req.method),
+
       {
         handler: this.noMatchHandler,
         type: 'mw',

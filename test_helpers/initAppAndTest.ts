@@ -3,7 +3,12 @@ import type { Handler } from '../packages/app/src'
 
 import { makeFetch } from 'supertest-fetch'
 
-export const InitAppAndTest = (handler: Handler, route?: string, method = 'get', settings = {}) => {
+export const InitAppAndTest = (
+  handler: Handler,
+  route?: string,
+  method = 'get',
+  settings: ConstructorParameters<typeof App>[0] = {}
+) => {
   const app = new App(settings)
 
   if (route) {

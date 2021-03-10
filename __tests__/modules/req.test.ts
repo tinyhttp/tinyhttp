@@ -20,7 +20,7 @@ describe('Request extensions', () => {
 
       await makeFetch(app)('/').expect('*/*')
     })
-    it('should handle referrer "r"s', async () => {
+    it('should handle "referer"', async () => {
       const app = runServer((req, res) => {
         res.end(getRequestHeader(req)('referrer'))
       })
@@ -29,6 +29,18 @@ describe('Request extensions', () => {
         headers: {
           'Referrer-Policy': 'unsafe-url',
           referer: 'localhost:3000'
+        }
+      }).expect('localhost:3000')
+    })
+    it('should handle "referrer"', async () => {
+      const app = runServer((req, res) => {
+        res.end(getRequestHeader(req)('referrer'))
+      })
+
+      await makeFetch(app)('/', {
+        headers: {
+          'Referrer-Policy': 'unsafe-url',
+          referrer: 'localhost:3000'
         }
       }).expect('localhost:3000')
     })
@@ -141,17 +153,17 @@ describe('Request extensions', () => {
         }
       }).expect('stale')
     })
-  })
-  it('returns false if status code is neither >=200 nor < 300, nor 304', async () => {
-    const app = runServer((req, res) => {
-      res.statusCode = 418
+    it('returns false if status code is neither >=200 nor < 300, nor 304', async () => {
+      const app = runServer((req, res) => {
+        res.statusCode = 418
 
-      const fresh = getFreshOrStale(req, res)
+        const fresh = getFreshOrStale(req, res)
 
-      res.end(fresh ? 'fresh' : 'stale')
+        res.end(fresh ? 'fresh' : 'stale')
+      })
+
+      await makeFetch(app)('/').expect('stale')
     })
-
-    await makeFetch(app)('/').expect('stale')
   })
 
   describe('req.range', () => {

@@ -66,11 +66,6 @@ export const extendMiddleware = <EngineOptions>(app: App) => (
 
   req.query = getQueryParams(req.url)
 
-  if (settings?.freshnessTesting) {
-    req.fresh = getFreshOrStale(req, res)
-    req.stale = !req.fresh
-  }
-
   req.range = getRangeFromHeader(req)
   req.accepts = getAccepts(req)
   req.acceptsCharsets = getAcceptsCharsets(req)
@@ -98,6 +93,11 @@ export const extendMiddleware = <EngineOptions>(app: App) => (
   res.download = download<Request, Response>(req, res)
   res.append = append<Response>(res)
   res.locals = res.locals || Object.create(null)
+
+  if (settings?.freshnessTesting) {
+    req.fresh = getFreshOrStale.bind(null, req, res)
+    req.stale = !req.fresh
+  }
 
   if (settings.enableReqRoute) {
     req.route = getRouteFromApp(app, (app as unknown) as Handler<Request, Response>)
