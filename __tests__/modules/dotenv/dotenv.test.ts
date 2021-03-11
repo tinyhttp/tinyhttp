@@ -1,8 +1,8 @@
 import fs from 'fs'
 import path from 'path'
-import * as dotenv from '../../packages/dotenv/src'
+import * as dotenv from '../../../packages/dotenv/src'
 
-const envPath = path.join(__dirname, '../fixtures/.env')
+const envPath = path.join(__dirname, '../../fixtures/.env')
 
 const envFile = fs.readFileSync(envPath, { encoding: 'utf8' })
 

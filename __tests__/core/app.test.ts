@@ -724,7 +724,12 @@ describe('App settings', () => {
       expect(app.settings.xPoweredBy).toBe(true)
     })
     it('should set X-Powered-By to "tinyhttp"', async () => {
-      const app = new App()
+      const { fetch } = InitAppAndTest((_req, res) => void res.send('hi'))
+
+      await fetch('/').expectHeader('X-Powered-By', 'tinyhttp')
+    })
+    it('when disabled should not send anything', async () => {
+      const app = new App({ settings: { xPoweredBy: false } })
 
       app.use((_req, res) => void res.send('hi'))
 
@@ -732,7 +737,7 @@ describe('App settings', () => {
 
       const fetch = makeFetch(server)
 
-      await fetch('/').expectHeader('X-Powered-By', 'tinyhttp')
+      await fetch('/').expectHeader('X-Powered-By', null)
     })
   })
   describe('bindAppToReqRes', () => {
@@ -756,6 +761,50 @@ describe('App settings', () => {
       const server = app.listen()
 
       await makeFetch(server)('/').expect(200)
+    })
+  })
+  describe('networkExtensions', () => {
+    it('enables req.fresh', async () => {
+      const etag = '123'
+      const { fetch } = InitAppAndTest(
+        (req, res) => {
+          res.set('ETag', etag).send(`${req.fresh ? 'fresh' : 'stale'}`)
+        },
+        '/',
+        'GET',
+        { settings: { freshnessTesting: true } }
+      )
+
+      await fetch('/', { headers: { 'If-None-Match': etag } }).expect(200, 'fresh')
+    })
+    it('disabled', async () => {
+      const etag = '123'
+      const { fetch } = InitAppAndTest(
+        (req, res) => {
+          res.set('ETag', etag).send(`${req.fresh ? 'fresh' : 'stale'}`)
+        },
+        '/',
+        'GET',
+        { settings: { freshnessTesting: false } }
+      )
+
+      await fetch('/', { headers: { 'If-None-Match': etag } }).expect(200, 'stale')
+    })
+  })
+  describe('enableReqRoute', () => {
+    it('attach current fn to req.route when enabled', async () => {
+      const app = new App({ settings: { enableReqRoute: true } })
+
+      app.use((req, res) => {
+        expect(req.route).toEqual(app.middleware[0])
+        res.end()
+      })
+
+      const server = app.listen()
+
+      const fetch = makeFetch(server)
+
+      await fetch('/').expect(200)
     })
   })
 })

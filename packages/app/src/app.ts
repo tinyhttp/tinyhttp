@@ -1,6 +1,6 @@
 import { createServer, Server } from 'http'
 import path from 'path'
-import { getURLParams } from './request'
+import { getRouteFromApp, getURLParams } from './request'
 import type { Request } from './request'
 import type { Response } from './response'
 import type { ErrorHandler } from './onError'
@@ -261,6 +261,8 @@ export class App<
       req.path = getPathname(req.url)
 
       if (type === 'route') req.params = getURLParams(regex, pathname)
+
+      if (this.settings?.enableReqRoute) req.route = getRouteFromApp(this as any, handler)
 
       await applyHandler<Req, Res>((handler as unknown) as Handler<Req, Res>)(req, res, next)
     }

@@ -99,9 +99,5 @@ export const extendMiddleware = <EngineOptions>(app: App) => (
     req.stale = !req.fresh
   }
 
-  if (settings.enableReqRoute) {
-    req.route = getRouteFromApp(app, (app as unknown) as Handler<Request, Response>)
-  }
-
   next()
 }
