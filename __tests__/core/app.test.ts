@@ -1,4 +1,5 @@
 import http from 'http'
+import path from 'path'
 import { readFile } from 'fs/promises'
 import { App } from '../../packages/app/src'
 
@@ -691,7 +692,7 @@ describe('Subapps', () => {
 })
 
 describe('Template engines', () => {
-  it('Works with eta out of the box', async () => {
+  it('works with eta out of the box', async () => {
     const app = new App<EtaConfig>()
 
     app.engine('eta', renderFile)
@@ -713,6 +714,25 @@ describe('Template engines', () => {
     const fetch = makeFetch(server)
 
     await fetch('/').expectBody('Hello from Eta')
+  })
+  it('can render without data passed', async () => {
+    const pwd = process.cwd()
+    process.chdir(path.resolve(pwd, '__tests__/fixtures'))
+
+    const app = new App<EtaConfig>()
+
+    app.engine('eta', renderFile)
+
+    app.use((_, res) => {
+      res.render('empty.eta')
+      process.chdir(pwd)
+    })
+
+    const server = app.listen()
+
+    const fetch = makeFetch(server)
+
+    await fetch('/').expectBody('Hello World')
   })
 })
 
