@@ -329,6 +329,241 @@ describe('parse(string)', () => {
           parameters: { filename: "Here's a semicolon;.html" }
         })
       })
+
+      it('should parse "attachment; foo="bar"; filename="foo.html""', function () {
+        expect(parse('attachment; foo="bar"; filename="foo.html"')).toEqual({
+          type: 'attachment',
+          parameters: { filename: 'foo.html', foo: 'bar' }
+        })
+      })
+
+      it('should parse "attachment; foo="\\"\\\\";filename="foo.html""', function () {
+        expect(parse('attachment; foo="\\"\\\\";filename="foo.html"')).toEqual({
+          type: 'attachment',
+          parameters: { filename: 'foo.html', foo: '"\\' }
+        })
+      })
+
+      it('should parse "attachment; FILENAME="foo.html""', function () {
+        expect(parse('attachment; FILENAME="foo.html"')).toEqual({
+          type: 'attachment',
+          parameters: { filename: 'foo.html' }
+        })
+      })
+
+      it('should parse "attachment; filename=foo.html"', function () {
+        expect(parse('attachment; filename=foo.html')).toEqual({
+          type: 'attachment',
+          parameters: { filename: 'foo.html' }
+        })
+      })
+
+      it('should reject "attachment; filename=foo,bar.html"', function () {
+        try {
+          parse('attachment; filename=foo,bar.html')
+        } catch (e) {
+          expect(e.message).toMatch(/invalid parameter format/)
+        }
+      })
+
+      it('should reject "attachment; filename=foo.html ;"', function () {
+        try {
+          parse('attachment; filename=foo.html ;')
+        } catch (e) {
+          expect(e.message).toMatch(/invalid parameter format/)
+        }
+      })
+
+      it('should reject "attachment; ;filename=foo"', function () {
+        try {
+          parse('attachment; ;filename=foo')
+        } catch (e) {
+          expect(e.message).toMatch(/invalid parameter format/)
+        }
+      })
+
+      it('should reject "attachment; filename=foo bar.html"', function () {
+        try {
+          parse('attachment; filename=foo bar.html')
+        } catch (e) {
+          expect(e.message).toMatch(/invalid parameter format/)
+        }
+      })
+
+      it("should parse \"attachment; filename='foo.bar'", function () {
+        expect(parse("attachment; filename='foo.bar'")).toEqual({
+          type: 'attachment',
+          parameters: { filename: "'foo.bar'" }
+        })
+      })
+
+      it('should parse "attachment; filename="foo-ä.html""', function () {
+        expect(parse('attachment; filename="foo-ä.html"')).toEqual({
+          type: 'attachment',
+          parameters: { filename: 'foo-ä.html' }
+        })
+      })
+
+      it('should parse "attachment; filename="foo-Ã¤.html""', function () {
+        expect(parse('attachment; filename="foo-Ã¤.html"')).toEqual({
+          type: 'attachment',
+          parameters: { filename: 'foo-Ã¤.html' }
+        })
+      })
+
+      it('should parse "attachment; filename="foo-%41.html""', function () {
+        expect(parse('attachment; filename="foo-%41.html"')).toEqual({
+          type: 'attachment',
+          parameters: { filename: 'foo-%41.html' }
+        })
+      })
+
+      it('should parse "attachment; filename="50%.html""', function () {
+        expect(parse('attachment; filename="50%.html"')).toEqual({
+          type: 'attachment',
+          parameters: { filename: '50%.html' }
+        })
+      })
+
+      it('should parse "attachment; filename="foo-%\\41.html""', function () {
+        expect(parse('attachment; filename="foo-%\\41.html"')).toEqual({
+          type: 'attachment',
+          parameters: { filename: 'foo-%41.html' }
+        })
+      })
+
+      it('should parse "attachment; name="foo-%41.html""', function () {
+        expect(parse('attachment; name="foo-%41.html"')).toEqual({
+          type: 'attachment',
+          parameters: { name: 'foo-%41.html' }
+        })
+      })
+
+      it('should parse "attachment; filename="ä-%41.html""', function () {
+        expect(parse('attachment; filename="ä-%41.html"')).toEqual({
+          type: 'attachment',
+          parameters: { filename: 'ä-%41.html' }
+        })
+      })
+
+      it('should parse "attachment; filename="foo-%c3%a4-%e2%82%ac.html""', function () {
+        expect(parse('attachment; filename="foo-%c3%a4-%e2%82%ac.html"')).toEqual({
+          type: 'attachment',
+          parameters: { filename: 'foo-%c3%a4-%e2%82%ac.html' }
+        })
+      })
+
+      it('should parse "attachment; filename ="foo.html""', function () {
+        expect(parse('attachment; filename ="foo.html"')).toEqual({
+          type: 'attachment',
+          parameters: { filename: 'foo.html' }
+        })
+      })
+
+      it('should reject "attachment; filename="foo.html"; filename="bar.html"', function () {
+        expect(parse.bind(null, 'attachment; filename="foo.html"; filename="bar.html"')).toThrow(
+          /invalid duplicate parameter/
+        )
+      })
+
+      it('should reject "attachment; filename=foo[1](2).html"', function () {
+        expect(parse.bind(null, 'attachment; filename=foo[1](2).html')).toThrow(/invalid parameter format/)
+      })
+
+      it('should reject "attachment; filename=foo-ä.html"', function () {
+        expect(parse.bind(null, 'attachment; filename=foo-ä.html')).toThrow(/invalid parameter format/)
+      })
+
+      it('should reject "attachment; filename=foo-Ã¤.html"', function () {
+        expect(parse.bind(null, 'attachment; filename=foo-Ã¤.html')).toThrow(/invalid parameter format/)
+      })
+
+      it('should reject "filename=foo.html"', function () {
+        expect(parse.bind(null, 'filename=foo.html')).toThrow(/invalid type format/)
+      })
+
+      it('should reject "x=y; filename=foo.html"', function () {
+        expect(parse.bind(null, 'x=y; filename=foo.html')).toThrow(/invalid type format/)
+      })
+
+      it('should reject ""foo; filename=bar;baz"; filename=qux"', function () {
+        expect(parse.bind(null, '"foo; filename=bar;baz"; filename=qux')).toThrow(/invalid type format/)
+      })
+
+      it('should reject "filename=foo.html, filename=bar.html"', function () {
+        expect(parse.bind(null, 'filename=foo.html, filename=bar.html')).toThrow(/invalid type format/)
+      })
+
+      it('should reject "; filename=foo.html"', function () {
+        expect(parse.bind(null, '; filename=foo.html')).toThrow(/invalid type format/)
+      })
+
+      it('should reject ": inline; attachment; filename=foo.html', function () {
+        expect(parse.bind(null, ': inline; attachment; filename=foo.html')).toThrow(/invalid type format/)
+      })
+
+      it('should reject "inline; attachment; filename=foo.html', function () {
+        expect(parse.bind(null, 'inline; attachment; filename=foo.html')).toThrow(/invalid parameter format/)
+      })
+
+      it('should reject "attachment; inline; filename=foo.html', function () {
+        expect(parse.bind(null, 'attachment; inline; filename=foo.html')).toThrow(/invalid parameter format/)
+      })
+
+      it('should reject "attachment; filename="foo.html".txt', function () {
+        expect(parse.bind(null, 'attachment; filename="foo.html".txt')).toThrow(/invalid parameter format/)
+      })
+
+      it('should reject "attachment; filename="bar', function () {
+        expect(parse.bind(null, 'attachment; filename="bar')).toThrow(/invalid parameter format/)
+      })
+
+      it('should reject "attachment; filename=foo"bar;baz"qux', function () {
+        expect(parse.bind(null, 'attachment; filename=foo"bar;baz"qux')).toThrow(/invalid parameter format/)
+      })
+
+      it('should reject "attachment; filename=foo.html, attachment; filename=bar.html', function () {
+        expect(parse.bind(null, 'attachment; filename=foo.html, attachment; filename=bar.html')).toThrow(
+          /invalid parameter format/
+        )
+      })
+
+      it('should reject "attachment; foo=foo filename=bar', function () {
+        expect(parse.bind(null, 'attachment; foo=foo filename=bar')).toThrow(/invalid parameter format/)
+      })
+
+      it('should reject "attachment; filename=bar foo=foo', function () {
+        expect(parse.bind(null, 'attachment; filename=bar foo=foo')).toThrow(/invalid parameter format/)
+      })
+
+      it('should reject "attachment filename=bar', function () {
+        expect(parse.bind(null, 'attachment filename=bar')).toThrow(/invalid type format/)
+      })
+
+      it('should reject "filename=foo.html; attachment', function () {
+        expect(parse.bind(null, 'filename=foo.html; attachment')).toThrow(/invalid type format/)
+      })
+
+      it('should parse "attachment; xfilename=foo.html"', function () {
+        expect(parse('attachment; xfilename=foo.html')).toEqual({
+          type: 'attachment',
+          parameters: { xfilename: 'foo.html' }
+        })
+      })
+
+      it('should parse "attachment; filename="/foo.html""', function () {
+        expect(parse('attachment; filename="/foo.html"')).toEqual({
+          type: 'attachment',
+          parameters: { filename: '/foo.html' }
+        })
+      })
+
+      it('should parse "attachment; filename="\\\\foo.html""', function () {
+        expect(parse('attachment; filename="\\\\foo.html"')).toEqual({
+          type: 'attachment',
+          parameters: { filename: '\\foo.html' }
+        })
+      })
     })
   })
 })
