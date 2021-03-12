@@ -287,6 +287,48 @@ describe('parse(string)', () => {
           parameters: {}
         })
       })
+
+      it('should parse "attachment; filename="foo.html""', function () {
+        expect(parse('attachment; filename="foo.html"')).toEqual({
+          type: 'attachment',
+          parameters: { filename: 'foo.html' }
+        })
+      })
+
+      it('should parse "attachment; filename="0000000000111111111122222""', function () {
+        expect(parse('attachment; filename="0000000000111111111122222"')).toEqual({
+          type: 'attachment',
+          parameters: { filename: '0000000000111111111122222' }
+        })
+      })
+
+      it('should parse "attachment; filename="00000000001111111111222222222233333""', function () {
+        expect(parse('attachment; filename="00000000001111111111222222222233333"')).toEqual({
+          type: 'attachment',
+          parameters: { filename: '00000000001111111111222222222233333' }
+        })
+      })
+
+      it('should parse "attachment; filename="f\\oo.html""', function () {
+        expect(parse('attachment; filename="f\\oo.html"')).toEqual({
+          type: 'attachment',
+          parameters: { filename: 'foo.html' }
+        })
+      })
+
+      it('should parse "attachment; filename="\\"quoting\\" tested.html""', function () {
+        expect(parse('attachment; filename="\\"quoting\\" tested.html"')).toEqual({
+          type: 'attachment',
+          parameters: { filename: '"quoting" tested.html' }
+        })
+      })
+
+      it('should parse "attachment; filename="Here\'s a semicolon;.html""', function () {
+        expect(parse('attachment; filename="Here\'s a semicolon;.html"')).toEqual({
+          type: 'attachment',
+          parameters: { filename: "Here's a semicolon;.html" }
+        })
+      })
     })
   })
 })
