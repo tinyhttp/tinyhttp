@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/cookie-signature",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "HTTP cookie signing and unsigning",
   "homepage": "https://tinyhttp.v1rtl.site",
   "repository": {
@@ -12,9 +12,9 @@
     "node": ">=12.4.0"
   },
   "type": "module",
-  "main": "dist/index.cjs",
-  "types": "dist/index.d.ts",
-  "module": "dist/index.js",
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.ts",
+  "module": "./dist/index.js",
   "exports": {
     ".": {
       "import": "./dist/index.js",

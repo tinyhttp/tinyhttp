@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/favicon",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "type": "module",
   "description": "favicon middleware",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -9,9 +9,9 @@
     "url": "https://github.com/talentlessguy/tinyhttp.git",
     "directory": "packages/favicon"
   },
-  "main": "dist/index.cjs",
-  "types": "dist/index.d.ts",
-  "module": "dist/index.js",
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.ts",
+  "module": "./dist/index.js",
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@tinyhttp/etag": "workspace:*",
-    "@tinyhttp/url": "workspace:^1.2.1",
+    "@tinyhttp/url": "workspace:^1.2.2",
     "es-fresh": "^0.0.8",
     "ms": "^2.1.3"
   }
