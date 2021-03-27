@@ -1,19 +1,13 @@
 {
   "name": "@tinyhttp/cli",
   "description": "CLI to setup tinyhttp apps",
-  "version": "1.2.1",
+  "version": "1.2.3",
   "type": "module",
   "homepage": "https://tinyhttp.v1rtl.site",
-  "funding": [
-    {
-      "type": "ko-fi",
-      "url": "https://ko-fi.com/v1rtl"
-    },
-    {
-      "type": "liberapay",
-      "url": "https://liberapay.com/v1rtl"
-    }
-  ],
+  "funding": {
+    "type": "individual",
+    "url": "https://github.com/talentlessguy/tinyhttp?sponsor=1"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/talentlessguy/tinyhttp.git",

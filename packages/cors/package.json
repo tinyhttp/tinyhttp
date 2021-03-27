@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/cors",
-  "version": "1.2.2",
+  "version": "1.2.4",
   "description": "tinyhttp CORS module",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -14,16 +14,10 @@
     "./package.json": "./package.json",
     "./": "./"
   },
-  "funding": [
-    {
-      "type": "ko-fi",
-      "url": "https://ko-fi.com/v1rtl"
-    },
-    {
-      "type": "liberapay",
-      "url": "https://liberapay.com/v1rtl"
-    }
-  ],
+  "funding": {
+    "type": "individual",
+    "url": "https://github.com/talentlessguy/tinyhttp?sponsor=1"
+  },
   "homepage": "https://tinyhttp.v1rtl.site",
   "repository": {
     "type": "git",
