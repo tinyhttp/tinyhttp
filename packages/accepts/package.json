@@ -3,6 +3,16 @@
   "description": "accepts rewrite in TypeScript with ESM and CommonJS targets",
   "version": "1.2.1",
   "homepage": "https://tinyhttp.v1rtl.site",
+  "funding": [
+    {
+      "type": "ko-fi",
+      "url": "https://ko-fi.com/v1rtl"
+    },
+    {
+      "type": "liberapay",
+      "url": "https://liberapay.com/v1rtl"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/talentlessguy/tinyhttp.git",

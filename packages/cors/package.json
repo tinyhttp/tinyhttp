@@ -14,6 +14,16 @@
     "./package.json": "./package.json",
     "./": "./"
   },
+  "funding": [
+    {
+      "type": "ko-fi",
+      "url": "https://ko-fi.com/v1rtl"
+    },
+    {
+      "type": "liberapay",
+      "url": "https://liberapay.com/v1rtl"
+    }
+  ],
   "homepage": "https://tinyhttp.v1rtl.site",
   "repository": {
     "type": "git",
