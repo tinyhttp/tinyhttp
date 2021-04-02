@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/favicon",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "type": "module",
   "description": "favicon middleware",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@tinyhttp/etag": "workspace:*",
-    "@tinyhttp/url": "workspace:^1.2.2",
+    "@tinyhttp/url": "workspace:^1.2.3",
     "es-fresh": "^0.0.8",
     "ms": "^2.1.3"
   }
