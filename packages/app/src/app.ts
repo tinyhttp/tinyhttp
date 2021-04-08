@@ -5,7 +5,7 @@ import type { Request } from './request'
 import type { Response } from './response'
 import type { ErrorHandler } from './onError'
 import { onErrorHandler } from './onError'
-import { Middleware, Handler, NextFunction, Router, UseMethodParams } from '@tinyhttp/router'
+import { Middleware, Handler, NextFunction, Router, UseMethodParams, pushMiddleware } from '@tinyhttp/router'
 import { extendMiddleware } from './extend'
 import rg from 'regexparam'
 import { getPathname, getFreshOrStale } from '@tinyhttp/req'
@@ -174,25 +174,49 @@ export class App<
   use(...args: UseMethodParams<Req, Res, App>) {
     const base = args[0]
 
-    const fns = args.slice(1)
+    const fns = args.slice(1).flat()
+
+    if (base instanceof App) {
+      // Set App parent to current App
+      base.parent = this
+
+      // Mount on root
+      base.mountpath = '/'
+
+      this.apps['/'] = base
+    }
+
+    const path = typeof base === 'string' ? base : '/'
+
+    let regex: { keys: string[]; pattern: RegExp }
+
+    for (const fn of fns) {
+      if (fn instanceof App) {
+        regex = rg(path, true)
+
+        fn.mountpath = path
+
+        this.apps[path] = fn
+
+        fn.parent = this
+      }
+    }
 
     if (base === '/') {
-      for (const fn of fns.flat()) super.use(base, mount(fn as Handler))
+      for (const fn of fns) super.use(base, mount(fn as Handler))
     } else if (typeof base === 'function' || base instanceof App) {
       super.use('/', [base, ...fns].map(mount))
-    } else if (fns.some((fn) => fn instanceof App)) {
-      super.use(
-        base,
-        fns.flatMap((fn: App) => {
-          if (fn instanceof App) {
-            fn.mountpath = typeof base === 'string' ? base : '/'
-            fn.parent = this
-          }
-
-          return mount(fn)
-        })
-      )
-    } else super.use(...args)
+    } else if (Array.isArray(base)) {
+      super.use('/', [...base, ...fns].map(mount))
+    } else {
+      pushMiddleware(this.middleware)({
+        path: base as string,
+        regex,
+        type: 'mw',
+        handler: mount(fns[0] as Handler),
+        handlers: fns.slice(1).map(mount)
+      })
+    }
 
     return this // chainable
   }
@@ -215,7 +239,7 @@ export class App<
 
   find(url: string) {
     return this.middleware.filter((m) => {
-      m.regex = m.type === 'mw' ? rg(m.path, true) : rg(m.path)
+      m.regex = m.regex || rg(m.path, m.type === 'mw')
 
       return m.regex.pattern.test(url)
     })
@@ -271,11 +295,19 @@ export class App<
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
       const { path, handler, type, regex } = mw
 
-      req.url = lead(req.url.substring(path.length)) || '/'
+      const params = regex ? getURLParams(regex, pathname) : {}
+
+      if (type === 'route') req.params = params
+
+      if (path.includes(':')) {
+        const url = req.url.slice(req.url.indexOf(Object.values(params)[0]) + Object.values(params)[0].length)
+
+        req.url = lead(url)
+      } else {
+        req.url = lead(req.url.substring(path.length))
+      }
 
       req.path = getPathname(req.url)
-
-      if (type === 'route') req.params = getURLParams(regex, pathname)
 
       if (this.settings?.enableReqRoute) req.route = getRouteFromApp(this as any, handler)
 

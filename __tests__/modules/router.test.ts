@@ -63,68 +63,6 @@ describe('Testing Router', () => {
       expect(app.middleware.every((x) => x.path === '/path')).toBe(true)
     })
   })
-  describe('Subapps', () => {
-    it('should mount app on a specified path', () => {
-      const app = new Router<Router>()
-
-      const subapp = new Router()
-
-      app.use('/subapp', subapp)
-
-      expect(subapp.mountpath).toBe('/subapp')
-    })
-    it('should mount on "/" if path is not specified', () => {
-      const app = new Router<Router>()
-
-      const subapp = new Router()
-
-      app.use(subapp)
-
-      expect(subapp.mountpath).toBe('/')
-    })
-    it('app.parent should reference to the app it was mounted on', () => {
-      const app = new Router<Router>()
-
-      const subapp = new Router()
-
-      app.use(subapp)
-
-      expect(subapp.parent).toBe(app)
-    })
-    it('app.path() should return the mountpath', () => {
-      const app = new Router<Router>()
-
-      const subapp = new Router()
-
-      app.use('/subapp', subapp)
-
-      expect(subapp.path()).toBe('/subapp')
-    })
-    it('app.path() should nest mountpaths', () => {
-      const app = new Router<Router>()
-
-      const subapp = new Router<Router>()
-
-      const subsubapp = new Router()
-
-      subapp.use('/admin', subsubapp)
-
-      app.use('/blog', subapp)
-
-      expect(subsubapp.path()).toBe('/blog/admin')
-    })
-    it('middlewares of a subapp get prefixed with mountpath', () => {
-      const app = new Router<Router>()
-
-      const subapp = new Router<Router>()
-
-      subapp.use('/path', (_req, _res) => void 0)
-
-      app.use('/subapp', subapp)
-
-      expect(subapp.middleware[0].path).toBe('/subapp/path')
-    })
-  })
 })
 
 describe('Testing HTTP methods', () => {
@@ -435,7 +373,7 @@ describe('Testing HTTP methods', () => {
 
     router.all('/', () => void 0)
 
-    expect(router.middleware.map((x) => x.method).length).toBe(METHODS.length)
+    expect(router.middleware[0].type).toBe('route')
   })
 })
 

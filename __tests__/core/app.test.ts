@@ -709,6 +709,97 @@ describe('Subapps', () => {
 
     await fetch('/test3/abc').expect(200, '/abc')
   })
+
+  it('should mount app on a specified path', () => {
+    const app = new App()
+
+    const subapp = new App()
+
+    app.use('/subapp', subapp)
+
+    expect(subapp.mountpath).toBe('/subapp')
+  })
+  it('should mount on "/" if path is not specified', () => {
+    const app = new App()
+
+    const subapp = new App()
+
+    app.use(subapp)
+
+    expect(subapp.mountpath).toBe('/')
+  })
+  it('app.parent should reference to the app it was mounted on', () => {
+    const app = new App()
+
+    const subapp = new App()
+
+    app.use(subapp)
+
+    expect(subapp.parent).toBe(app)
+  })
+  it('app.path() should return the mountpath', () => {
+    const app = new App()
+
+    const subapp = new App()
+
+    app.use('/subapp', subapp)
+
+    expect(subapp.path()).toBe('/subapp')
+  })
+  it('app.path() should nest mountpaths', () => {
+    const app = new App()
+
+    const subapp = new App()
+
+    const subsubapp = new App()
+
+    subapp.use('/admin', subsubapp)
+
+    app.use('/blog', subapp)
+
+    expect(subsubapp.path()).toBe('/blog/admin')
+  })
+  it('middlewares of a subapp should preserve the path', () => {
+    const app = new App()
+
+    const subapp = new App()
+
+    subapp.use('/path', (_req, _res) => void 0)
+
+    app.use('/subapp', subapp)
+
+    expect(subapp.middleware[0].path).toBe('/path')
+  })
+  it('matches when mounted on params', async () => {
+    const app = new App()
+
+    const subApp = new App()
+
+    subApp.get('/', (_, res) => res.send('hit'))
+
+    app.use('/users/:userID', subApp)
+
+    const server = app.listen()
+
+    const fetch = makeFetch(server)
+
+    await fetch('/users/123/').expect(200, 'hit')
+  })
+  it('matches when mounted on params and on custom subapp route', async () => {
+    const app = new App()
+
+    const subApp = new App()
+
+    subApp.get('/route', (_, res) => res.send('hit'))
+
+    app.use('/users/:userID', subApp)
+
+    const server = app.listen()
+
+    const fetch = makeFetch(server)
+
+    await fetch('/users/123/route').expect(200, 'hit')
+  })
 })
 
 describe('Template engines', () => {

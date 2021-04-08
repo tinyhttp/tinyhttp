@@ -118,7 +118,11 @@ const createMiddlewareFromRoute = <Req extends any = any, Res extends any = any>
   path: typeof path === 'string' ? path : '/'
 })
 
-const pushMiddleware = <Req extends any = any, Res extends any = any>(mw: Middleware[]) => ({
+/**
+ * Push wares to a middleware array
+ * @param mw Middleware arrays
+ */
+export const pushMiddleware = <Req extends any = any, Res extends any = any>(mw: Middleware[]) => ({
   path,
   handler,
   method,
@@ -228,15 +232,13 @@ export class Router<App extends Router = any, Req extends any = any, Res extends
   all(...args: RouterMethodParams<Req, Res>) {
     const handlers = args.slice(1).flat() as Handler<Req, Res>[]
 
-    for (const method of METHODS) {
-      pushMiddleware(this.middleware)({
-        path: args[0],
-        handler: handlers[0],
-        handlers: handlers.slice(1),
-        method,
-        type: 'route'
-      })
-    }
+    pushMiddleware(this.middleware)({
+      path: args[0],
+      handler: handlers[0],
+      handlers: handlers.slice(1),
+      type: 'route'
+    })
+
     return this
   }
 
@@ -257,71 +259,26 @@ export class Router<App extends Router = any, Req extends any = any, Res extends
 
   /**
    * Push middleware to the stack
-   * @param path path that middleware will handle if request URL starts with it
-   * @param handler handler function
-   * @param handlers the rest handler functions
    */
   use(...args: UseMethodParams<Req, Res, App>) {
-    const path = args[0]
+    const base = args[0]
 
-    const handler = args[1]
+    const handlers = args.slice(1).flat()
 
-    const handlers = args.slice(2).flat()
-
-    // app.use('/subapp', subApp)
-    if (typeof path === 'string' && handler instanceof Router) {
-      // Set mountpath to the specified path
-      handler.mountpath = path
-      // Set App parent to current App
-      handler.parent = this
-
-      // Prefix paths with a mountpath
-
-      for (const mw of handler.middleware) mw.path = mw.path === '/' ? handler.mountpath : handler.mountpath + mw.path
-
-      this.apps[path] = handler
-    }
-    // app.use(subApp)
-    else if (path instanceof Router) {
-      // Set App parent to current App
-      path.parent = this
-
-      // Mount on root
-      path.mountpath = '/'
-
-      this.apps['/'] = path
-    } else if (!(handler instanceof Router)) {
-      let totalHandlers: Handler[] = []
-
-      if (typeof path !== 'string' && Array.isArray(path)) {
-        for (const h of path.slice(1)) totalHandlers.push(h)
-      }
-
-      if (handler && Array.isArray(handler)) {
-        if (typeof path === 'string') {
-          for (const h of handler.slice(1)) totalHandlers.push(h)
-        } else {
-          for (const h of handler) totalHandlers.push(h)
-        }
-      }
-
-      totalHandlers = totalHandlers.concat(handlers as Handler[])
-
-      let mainHandler: Handler
-
-      if (typeof path === 'string') {
-        if (Array.isArray(handler)) mainHandler = handler[0]
-        else mainHandler = handler
-      } else {
-        mainHandler = Array.isArray(path) ? path[0] : (path as Handler)
-
-        if (typeof handler === 'function') totalHandlers.unshift(handler)
-      }
-
+    if (typeof base === 'string') {
       pushMiddleware(this.middleware)({
-        path: path as string,
-        handler: mainHandler,
-        handlers: totalHandlers,
+        path: base,
+        handler: handlers[0] as Handler,
+        handlers: handlers.slice(1) as Handler[],
+        type: 'mw'
+      })
+    } else {
+      pushMiddleware(this.middleware)({
+        path: '/',
+        handler: Array.isArray(base) ? base[0] : (base as Handler),
+        handlers: Array.isArray(base)
+          ? [...(base.slice(1) as Handler[]), ...(handlers as Handler[])]
+          : (handlers as Handler[]),
         type: 'mw'
       })
     }
