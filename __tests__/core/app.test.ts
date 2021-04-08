@@ -452,6 +452,26 @@ describe('HTTP methods', () => {
 
     await fetch('/', { method: 'TRACE' }).expect(200, 'TRACE')
   })
+  it('HEAD request works when any of the method handlers are defined', async () => {
+    const app = new App()
+
+    app.get('/', (_, res) => res.send('It works'))
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    await fetch('/', { method: 'HEAD' }).expect(204)
+  })
+  it('HEAD request does not work for undefined handlers', async () => {
+    const app = new App()
+
+    app.get('/', (_, res) => res.send('It works'))
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    await fetch('/hello', { method: 'HEAD' }).expect(404)
+  })
 })
 
 describe('Route handlers', () => {

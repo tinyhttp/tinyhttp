@@ -213,11 +213,11 @@ export class App<
     return app
   }
 
-  find(url: string, method: string) {
+  find(url: string) {
     return this.middleware.filter((m) => {
       m.regex = m.type === 'mw' ? rg(m.path, true) : rg(m.path)
 
-      return (m.method ? m.method === method : true) && m.regex.pattern.test(url)
+      return m.regex.pattern.test(url)
     })
   }
 
@@ -237,21 +237,36 @@ export class App<
 
     const pathname = getPathname(req.originalUrl)
 
+    const matched = this.find(pathname)
+
     const mw: Middleware[] = [
       {
         handler: exts,
         type: 'mw',
         path: '/'
       },
-
-      ...this.find(pathname, req.method),
-
-      {
-        handler: this.noMatchHandler,
-        type: 'mw',
-        path: '/'
-      }
+      ...matched.filter((x) => (x.method ? x.method === req.method : true))
     ]
+
+    if (matched[0] != null) {
+      mw.push({
+        type: 'mw',
+        handler: (req, res, next) => {
+          if (req.method === 'HEAD') {
+            res.statusCode = 204
+            return res.end('')
+          }
+          next()
+        },
+        path: '/'
+      })
+    }
+
+    mw.push({
+      handler: this.noMatchHandler,
+      type: 'mw',
+      path: '/'
+    })
 
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
       const { path, handler, type, regex } = mw
