@@ -43,6 +43,11 @@ describe('Testing @tinyhttp/send', () => {
 
       await makeFetch(app)('/').expectHeader('Content-Type', 'application/json').expectBody({ hello: 'world' })
     })
+    it.only('should send a buffer', async () => {
+      const app = runServer((req, res) => send(req, res)(Buffer.from('Hello World')))
+
+      await makeFetch(app)('/').expect('Hello World')
+    })
     it('should send nothing on a HEAD request', async () => {
       const app = runServer((req, res) => send(req, res)('Hello World'))
 

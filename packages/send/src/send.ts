@@ -22,18 +22,18 @@ export const send = <Request extends Req = Req, Response extends Res = Res>(req:
 ): Response => {
   let bodyToSend = body
 
-  // in case of object - turn it to json
-  if (typeof body === 'object' && body !== null) {
+  if (Buffer.isBuffer(body)) {
+    bodyToSend = body
+  } else if (typeof body === 'object' && body !== null) {
+    // in case of object - turn it to json
     bodyToSend = JSON.stringify(body, null, 2)
-  } else {
-    if (typeof body === 'string') {
-      // reflect this in content-type
-      const type = res.getHeader('Content-Type')
+  } else if (typeof body === 'string') {
+    // reflect this in content-type
+    const type = res.getHeader('Content-Type')
 
-      if (type && typeof type === 'string') {
-        res.setHeader('Content-Type', setCharset(type, 'utf-8'))
-      } else res.setHeader('Content-Type', setCharset('text/html', 'utf-8'))
-    }
+    if (type && typeof type === 'string') {
+      res.setHeader('Content-Type', setCharset(type, 'utf-8'))
+    } else res.setHeader('Content-Type', setCharset('text/html', 'utf-8'))
   }
 
   // Set encoding
@@ -64,6 +64,7 @@ export const send = <Request extends Req = Req, Response extends Res = Res>(req:
       return
     } else if (Buffer.isBuffer(body)) {
       if (!res.getHeader('Content-Type')) res.setHeader('content-type', 'application/octet-stream')
+      res.end(bodyToSend)
     } else encoding ? json(res)(bodyToSend, encoding) : json(res)(bodyToSend)
   } else {
     if (typeof bodyToSend !== 'string') bodyToSend = bodyToSend.toString()
