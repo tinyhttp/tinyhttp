@@ -670,3 +670,10 @@ In case you have to run your application in an old Node.js environment (>= 12.4)
 See [Babel example](https://github.com/talentlessguy/tinyhttp/blob/master/examples/babel/server.js) for complete setup.
 
 </main>
+
+<footer>
+  <span>v1rtl © <a href="https://github.com/talentlessguy/tinyhttp/blob/master/LICENSE">MIT License</a></span>
+      <span
+        ><a href="https://deta.sh"><img height="72px" alt="Deta" src="/images/deta.png" /></a
+      ></span>
+</footer>
