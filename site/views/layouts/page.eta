@@ -7,20 +7,18 @@
     <meta property="og:title" content="tinyhttp — 0-legacy, tiny & fast web framework as a replacement of Express" />
     <meta property="og:site_name" content="tinyhttp.v1rtl.site" />
     <meta property="og:url" content="https://tinyhttp.v1rtl.site" />
-    <meta
-      name="description"
-      content="tinyhttp is a modern Express-like web framework for Node.js. It uses a bare minimum amount of dependencies trying to avoid legacy hell."
-    />
+    <meta name="description" content="tinyhttp is a modern Express-like web framework for Node.js. It uses a bare minimum amount of dependencies trying to avoid legacy hell." />
     <meta
       property="og:description"
       content="tinyhttp is a modern Express-like web framework for Node.js. It uses a bare minimum amount of dependencies trying to avoid legacy hell."
     />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://tinyhttp.v1rtl.site/cover.jpg" />
+    <title><%= it.title %></title>
     <link rel="stylesheet" href="/css/shared.css" />
-    <link rel="stylesheet" href="/css/search.css" />
     <link rel="stylesheet" href="/inter.css" />
-    <title>Middleware | tinyhttp</title>
+    <link rel="stylesheet" href="/css/hljs.css" />
+    <%= it.head %>
   </head>
   <body>
     <nav>
@@ -33,40 +31,6 @@
       <a href="/mw">Middleware</a>
       <a href="https://github.com/talentlessguy/tinyhttp#donate">Donate</a>
     </nav>
-    <main>
-      <form method="GET">
-        <h1>Search</h1>
-        <div>
-          <input id="search" name="q" />
-          <button>search</button>
-        </div>
-      </form>
-      <div id="pkgs">{pkgTemplates}</div>
-    </main>
-    <script type="module">
-      const pkgs = [{ pkgs }]
-
-      const inp = document.getElementById('search')
-
-      const cont = document.getElementById('pkgs')
-
-      inp.oninput = (e) => {
-        const query = e.currentTarget.value
-
-        const results = pkgs.filter((el) => {
-          return el.indexOf(query.toLowerCase()) > -1
-        })
-
-        cont.innerHTML = results
-          .map(
-            (r) => `<a class="mw_preview" href="/mw/${r}">
-  <div>
-    <h3>${r}</h3>
-  </div>
-</a>`
-          )
-          .join('<br />')
-      }
-    </script>
+    <%~ it.body %>
   </body>
 </html>

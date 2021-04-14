@@ -1,0 +1,23 @@
+<% layout('../layouts/page.eta') %>
+
+<main>
+  <div id="readme"><%= it.readme %></div>
+  <div id="meta">
+    <div id="meta_container">
+      <div>
+        <h2>Install</h2>
+        <div id="code">
+          <code> <img src="/images/prompt.svg" /> pnpm i <%= it.pkg %> </code>
+        </div>
+      </div>
+      <div>
+        <h2>Version</h2>
+        <%= it.version %>
+      </div>
+      <div>
+        <h2>Source</h2>
+        <a target="_blank" rel="noopener noreferrer" href="<%= it.link %>"><%= it.dir %></a>
+      </div>
+    </div>
+  </div>
+</main>

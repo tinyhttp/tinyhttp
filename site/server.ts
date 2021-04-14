@@ -3,13 +3,15 @@ import serve from 'sirv'
 import { markdownStaticHandler as md } from '@tinyhttp/markdown'
 import { logger } from '@tinyhttp/logger'
 import { createReadStream } from 'fs'
-import { transformMWPageStream, transformPageIndexStream } from './streams'
 import fetchCache from 'node-fetch-cache'
 import hljs from 'highlight.js'
+import * as eta from 'eta'
+import { EtaConfig } from 'eta/dist/types/config'
+import marked from 'marked'
 
 const fetch = fetchCache(`${__dirname}/.cache`)
 
-const app = new App({
+const app = new App<EtaConfig>({
   settings: {
     networkExtensions: true
   },
@@ -20,8 +22,6 @@ const app = new App({
     })
   }
 })
-
-const HTML_PATH = `${process.cwd()}/pages/html`
 
 const PORT = parseInt(process.env.PORT, 10) || 3000
 
@@ -44,6 +44,7 @@ const NON_MW_PKGS: string[] = [
 ]
 
 app
+  .engine('eta', eta.renderFile)
   .use(
     logger({
       ip: true,
@@ -66,20 +67,36 @@ app
 
       const json = await request.json()
 
-      const readStream = createReadStream(`${HTML_PATH}/search.html`)
-
-      let transformer = transformPageIndexStream(json.filter((e) => !NON_MW_PKGS.includes(e.name)))
+      let pkgs = json.filter((e) => !NON_MW_PKGS.includes(e.name))
 
       if (req.query.q) {
-        const results = json.filter((el: any) => {
+        pkgs = json.filter((el: any) => {
           const query = req.query.q as string
 
           return el.name.indexOf(query.toLowerCase()) > -1
         })
-        transformer = transformPageIndexStream(results.filter((e) => !NON_MW_PKGS.includes(e.name)))
       }
 
-      readStream.pipe(transformer).pipe(res)
+      res.render(
+        'pages/search.eta',
+        {
+          title: 'Middleware',
+          pkgTemplates: pkgs
+            .map(
+              (mw) => `
+<a class="mw_preview" href="/mw/${mw.name}">
+  <div>
+    <h3>${mw.name}</h3>
+  </div>
+</a>
+`,
+              pkgs
+            )
+            .join('<br />'),
+          head: `<link rel="stylesheet" href="/css/search.css" />`
+        },
+        { renderOptions: { autoEscape: false } }
+      )
     } catch (e) {
       next(e)
     }
@@ -101,21 +118,50 @@ app
 
       if (status === 404) res.sendStatus(status)
       else {
-        const readStream = createReadStream(`${HTML_PATH}/mw.html`)
+        const name = json.name
+        const version = json['dist-tags'].latest
 
-        readStream.pipe(transformMWPageStream(json)).pipe(res)
+        const pkgBody = json.versions[version]
+
+        const readme = marked(json.readme || '', {
+          highlight(code, language) {
+            if (!language) language = 'txt'
+
+            return hljs.highlight(code, { language }).value
+          }
+        })
+
+        const repo = pkgBody.repository
+
+        const dir = repo.directory
+
+        const link = repo.url.replace(repo.type + '+', '').replace('.git', '')
+
+        res.render(
+          `pages/mw.eta`,
+          {
+            link,
+            dir,
+            readme,
+            pkg: name,
+            version,
+            title: `${name} | tinyhttp`,
+            head: `<link rel="stylesheet" href="/css/mw.css" />`
+          },
+          { renderOptions: { autoEscape: false } }
+        )
       }
     }
   })
   .use(
-    md('pages/md', {
+    md('static', {
       stripExtension: true,
 
       markedOptions: {
-        highlight: (code, lang) => {
-          if (!lang) lang = 'txt'
+        highlight(code, language) {
+          if (!language) language = 'txt'
 
-          return hljs.highlight(lang, code).value
+          return hljs.highlight(code, { language }).value
         },
         headerIds: true
       },

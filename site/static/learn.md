@@ -605,6 +605,7 @@ As for Serverless, you can pick any of the serverless platforms. Here is a table
 | [Vercel (Lambda)](https://vercel.com) | Yes            |
 | [AWS](https://aws.amazon.com)         | Yes (one year) |
 | [Render](https://render.com)          | No             |
+| [Deta](https://deta.sh)               | Yes            |
 
 You can check out the [Vercel](https://github.com/talentlessguy/tinyhttp/tree/master/examples/vercel) and [AWS](https://github.com/talentlessguy/tinyhttp/tree/master/examples/aws) examples in the tinyhttp repo.
 
