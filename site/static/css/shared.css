@@ -52,9 +52,19 @@ nav a:hover {
 
 footer {
   padding: 3rem;
-  padding-bottom: 6rem;
+  padding-bottom: 8rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+footer span:nth-of-type(2) {
+  display: inherit;
+  align-items: inherit;
+}
+
+footer img {
+  margin-left: 1rem;
 }
 
 pre {
