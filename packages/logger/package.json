@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/logger",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "type": "module",
   "description": "simple HTTP logger for tinyhttp",
   "homepage": "https://tinyhttp.v1rtl.site",
