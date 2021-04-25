@@ -1,0 +1,14 @@
+{
+  "name": "deta",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@tinyhttp/app": "workspace:^1.2.23",
+    "@tinyhttp/dotenv": "workspace:^1.2.4",
+    "deta": "^0.0.8",
+    "milliparsec": "^2.0.4"
+  },
+  "devDependencies": {
+    "@types/deta": "^0.0.0"
+  }
+}

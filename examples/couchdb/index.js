@@ -24,47 +24,30 @@ app.use('/todos', bodyParser.urlencoded({ extended: false }))
 app.use('/todos', bodyParser.json())
 
 // get all tasks
-app.get('/todos', async (_, res, next) => {
-  try {
-    const { rows } = await todoDB.list({ include_docs: true })
-    res.send(rows)
-    next()
-  } catch (e) {
-    next(e)
-  }
+app.get('/todos', async (_, res) => {
+  const { rows } = await todoDB.list({ include_docs: true })
+  res.send(rows)
 })
 
 // add a new task
-app.post('/todos', async (req, res, next) => {
-  try {
-    const { task, date } = req.body
-    await todoDB.insert({ task, date })
-    res.send(`New task "${task}" has been added!`)
-  } catch (e) {
-    next(e)
-  }
+app.post('/todos', async (req, res) => {
+  const { task, date } = req.body
+  await todoDB.insert({ task, date })
+  res.send(`New task "${task}" has been added!`)
 })
 
 // update an existing task
-app.put('/todos', async (req, res, next) => {
-  try {
-    const { _id, _rev, task, date } = req.body
-    await todoDB.insert({ _id, _rev, task, date })
-    res.send(`Task ${task} has been updated!`)
-  } catch (e) {
-    next(e)
-  }
+app.put('/todos', async (req, res) => {
+  const { _id, _rev, task, date } = req.body
+  await todoDB.insert({ _id, _rev, task, date })
+  res.send(`Task ${task} has been updated!`)
 })
 
 // delete a existing task
-app.delete('/todos', async (req, res, next) => {
-  try {
-    const { _id, _rev, task } = req.body
-    await todoDB.destroy(_id, _rev)
-    res.send(`Task "${task} has been removed!"`)
-  } catch (e) {
-    next(e)
-  }
+app.delete('/todos', async (req, res) => {
+  const { _id, _rev, task } = req.body
+  await todoDB.destroy(_id, _rev)
+  res.send(`Task "${task} has been removed!"`)
 })
 
 app.listen(PORT, () => console.log(`server is live at ${PORT}`))

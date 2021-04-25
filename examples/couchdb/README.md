@@ -4,7 +4,7 @@ A simple Todo app using tinyhttp and [CouchDB Nano](https://github.com/apache/co
 
 > [Nano](https://github.com/apache/couchdb-nano) is the Offical Apache CouchDB library for [Node.js](https://nodejs.org/en/)
 
-### Set up
+## Setup
 
 ```sh
 tinyhttp new couchdb
@@ -16,13 +16,13 @@ tinyhttp new couchdb
 
 > Skip if you already have it installed;
 
-### Run
+## Run
 
 ```bash
 node index.js
 ```
 
-### Endpoints
+## Endpoints
 
 - `GET /todos` - returns all the existing tasks.
 - `POST /todos` - adds a new task to the database.
