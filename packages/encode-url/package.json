@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/encode-url",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "encode-url rewrite in TypeScript with ESM and CommonJS targets",
   "type": "module",
   "main": "./dist/index.cjs",
