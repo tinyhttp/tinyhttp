@@ -25,26 +25,26 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: setup caching
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.PNPM_CACHE_FOLDER }}
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
+      # - name: setup caching
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: ${{ env.PNPM_CACHE_FOLDER }}
+      #     key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-pnpm-
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v1.4.4
+        uses: actions/setup-node@v2
         with:
-          node-version: 15.8.0
+          node-version: 15.14.0
 
       - name: install pnpm
-        uses: pnpm/action-setup@v1.2.1
+        uses: pnpm/action-setup@v2.0.1
         with:
-          version: 5.17.1
+          version: 6.2.2
 
-      - name: setup pnpm config
-        run: pnpm config set store-dir $PNPM_CACHE_FOLDER
+      # - name: setup pnpm config
+      #   run: pnpm config set store-dir $PNPM_CACHE_FOLDER
 
       - name: install dependencies
         run: pnpm install
@@ -62,4 +62,4 @@ jobs:
         run: pnpm test
 
       - name: Collect coverage
-        uses: codecov/codecov-action@v1.0.10
+        uses: codecov/codecov-action@v1.4.1
