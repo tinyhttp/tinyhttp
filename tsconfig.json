@@ -8,17 +8,14 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "downlevelIteration": true,
-    "noUnusedLocals": false,
     "noImplicitAny": false,
     "noUnusedParameters": true,
     "preserveConstEnums": true,
     "skipLibCheck": true,
     "moduleResolution": "Node",
     "sourceMap": false,
-    "allowUnusedLabels": true,
-    "allowUmdGlobalAccess": false,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true
   },
-  "exclude": ["__tests__", "examples", "packages/*/dist"]
+  "exclude": ["tests", "examples", "packages/*/dist"]
 }
