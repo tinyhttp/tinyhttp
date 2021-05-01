@@ -41,11 +41,11 @@
     "@tinyhttp/encode-url": "workspace:*",
     "@tinyhttp/req": "workspace:*",
     "@tinyhttp/send": "workspace:*",
-    "es-mime-types": "^0.0.16",
+    "es-mime-types": "^0.1.2",
     "es-vary": "^0.0.8",
     "escape-html": "^1.0.3"
   },
   "devDependencies": {
-    "@types/escape-html": "^1.0.0"
+    "@types/escape-html": "^1.0.1"
   }
 }

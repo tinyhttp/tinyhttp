@@ -32,7 +32,7 @@
     "@types/negotiator": "^0.6.1"
   },
   "dependencies": {
-    "es-mime-types": "^0.0.16",
+    "es-mime-types": "^0.1.2",
     "negotiator": "^0.6.2"
   },
   "scripts": {
