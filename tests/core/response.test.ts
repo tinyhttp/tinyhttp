@@ -1,3 +1,4 @@
+import { describe, it } from '@jest/globals'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 
 describe('Response properties', () => {

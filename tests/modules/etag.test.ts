@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals'
 import { eTag } from '../../packages/etag/src'
 import { Stats } from 'fs'
 

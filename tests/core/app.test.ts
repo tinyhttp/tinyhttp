@@ -1,3 +1,4 @@
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals'
 import http from 'http'
 import path from 'path'
 import { readFile } from 'fs/promises'
@@ -84,7 +85,7 @@ describe('Testing App', () => {
 
     app
       .use(async (req, _res, next) => {
-        req.body = await readFile(`${process.cwd()}/__tests__/fixtures/test.txt`)
+        req.body = await readFile(`${process.cwd()}/tests/fixtures/test.txt`)
         next()
       })
       .use((req, res) => res.send(req.body.toString()))
@@ -815,7 +816,7 @@ describe('Template engines', () => {
           name: 'Eta'
         },
         {
-          viewsFolder: `${process.cwd()}/__tests__/fixtures/views`
+          viewsFolder: `${process.cwd()}/tests/fixtures/views`
         }
       )
     })
@@ -828,7 +829,7 @@ describe('Template engines', () => {
   })
   it('can render without data passed', async () => {
     const pwd = process.cwd()
-    process.chdir(path.resolve(pwd, '__tests__/fixtures'))
+    process.chdir(path.resolve(pwd, 'tests/fixtures'))
 
     const app = new App<EtaConfig>()
 

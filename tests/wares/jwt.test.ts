@@ -1,6 +1,8 @@
+import { describe, expect, it, beforeEach } from '@jest/globals'
 import jsonwebtoken from 'jsonwebtoken'
-import { Response } from '../../packages/app/src'
-import { jwt, Request } from '../../packages/jwt/src'
+import type { Response } from '../../packages/app/src'
+import { jwt } from '../../packages/jwt/src'
+import type { Request } from '../../packages/jwt/src'
 import fs from 'fs'
 
 describe('JWT tests', () => {
@@ -35,8 +37,8 @@ describe('JWT tests', () => {
   })
 
   it('should handle private key encryption', () => {
-    const privateKey = fs.readFileSync('__tests__/fixtures/jwt/private', { encoding: 'utf-8' })
-    const publicKey = fs.readFileSync('__tests__/fixtures/jwt/public', { encoding: 'utf-8' })
+    const privateKey = fs.readFileSync('tests/fixtures/jwt/private', { encoding: 'utf-8' })
+    const publicKey = fs.readFileSync('tests/fixtures/jwt/public', { encoding: 'utf-8' })
 
     req.headers.authorization = 'Bearer ' + jsonwebtoken.sign({ foo: 'bar' }, privateKey, { algorithm: 'RS256' })
 

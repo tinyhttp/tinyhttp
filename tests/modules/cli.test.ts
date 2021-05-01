@@ -1,7 +1,13 @@
+import { describe, expect, it } from '@jest/globals'
 import path from 'path'
 import { rm, readdir, mkdir, readFile } from 'fs/promises'
 import { exec } from 'child_process'
 import { runCmd, install } from '../../packages/cli/src/utils'
+
+import { dirname, filename } from 'dirname-filename-esm'
+
+const __dirname = dirname(import.meta)
+const __filename = filename(import.meta)
 
 const FIXTURES_PATH = path.join(__dirname, '../fixtures')
 

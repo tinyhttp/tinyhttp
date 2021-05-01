@@ -1,19 +1,21 @@
-import { botDetector, RequestWithBotDetector } from '../../packages/bot-detector/src'
+import { describe, it } from '@jest/globals'
+import { botDetector } from '../../packages/bot-detector/src'
+import type { RequestWithBotDetector } from '../../packages/bot-detector/src'
 import { makeFetch } from 'supertest-fetch'
-import { Response } from '../../packages/app/src'
+import type { Response } from '../../packages/app/src/response'
 import http from 'http'
 
 function createServer() {
   const _detector = botDetector()
-  return http.createServer((req: RequestWithBotDetector, res: Response) => {
-    _detector(req, res, (err) => {
+  return http.createServer((req, res) => {
+    _detector(req as RequestWithBotDetector, res as Response, (err) => {
       if (err) {
         res.statusCode = 500
         res.end(err.message)
         return
       }
 
-      const { isBot, botName } = req
+      const { isBot, botName } = req as RequestWithBotDetector
       res.end(JSON.stringify({ isBot, botName }))
     })
   })

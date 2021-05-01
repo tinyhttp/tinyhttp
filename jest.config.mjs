@@ -10,5 +10,6 @@ export default {
     '^.+\\.(t|j)sx?$': 'ts-jest'
   },
   testRegex: '(/tests/.*|\\.(test))\\.(ts|tsx|js)$',
-  moduleFileExtensions: ['ts', 'js', 'json']
+  moduleFileExtensions: ['ts', 'js', 'json'],
+  modulePathIgnorePatterns: ['tests/wares/rate-limit/rate-limit.test.ts']
 }

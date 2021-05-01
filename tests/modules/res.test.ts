@@ -1,7 +1,7 @@
-import { describe, expect } from '@jest/globals'
+import { describe, expect, it } from '@jest/globals'
 import { makeFetch } from 'supertest-fetch'
 import path from 'path'
-import { Request, Response } from '../../packages/app/src'
+import type { Request, Response } from '../../packages/app/src'
 import {
   formatResponse,
   getResponseHeader,
@@ -18,6 +18,10 @@ import {
   setLocationHeader
 } from '../../packages/res/src'
 import { runServer } from '../../test_helpers/runServer'
+import { dirname, filename } from 'dirname-filename-esm'
+
+const __dirname = dirname(import.meta)
+const __filename = filename(import.meta)
 
 describe('Response extensions', () => {
   describe('res.set(field, val)', () => {

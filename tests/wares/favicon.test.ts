@@ -1,8 +1,13 @@
+import { describe, expect, it, beforeEach } from '@jest/globals'
 import { favicon, FaviconOptions } from '../../packages/favicon/src'
 import { App } from '../../packages/app/src'
 import http from 'http'
 import path from 'path'
 import { makeFetch } from 'supertest-fetch'
+import { dirname, filename } from 'dirname-filename-esm'
+
+const __dirname = dirname(import.meta)
+const __filename = filename(import.meta)
 
 const FAVICON_PATH = path.join(__dirname, '../fixtures/favicon.ico')
 

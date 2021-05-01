@@ -1,3 +1,4 @@
+import { describe, it } from '@jest/globals'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import { App } from '../../packages/app/src/app'
 import { makeFetch } from 'supertest-fetch'

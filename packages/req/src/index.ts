@@ -1,6 +1,6 @@
 import { IncomingMessage as Request, ServerResponse as Response } from 'http'
 import parseRange, { Options } from 'range-parser'
-import fresh from 'es-fresh'
+import { fresh } from 'es-fresh'
 import { typeIs } from '@tinyhttp/type-is'
 
 export * from './accepts'

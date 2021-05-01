@@ -1,5 +1,5 @@
 import { eTag } from '@tinyhttp/etag'
-import fresh from 'es-fresh'
+import { fresh } from 'es-fresh'
 import { resolve } from 'path'
 import ms from 'ms'
 import { IncomingMessage as Request, ServerResponse as Response } from 'http'

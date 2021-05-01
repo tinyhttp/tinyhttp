@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals'
 import { encodeUrl } from '../../packages/encode-url/src'
 
 describe('encodeUrl(url)', () => {

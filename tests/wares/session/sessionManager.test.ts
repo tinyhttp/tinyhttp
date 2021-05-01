@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals'
 import { SessionManager, MemoryStore } from '../../../packages/session/src'
 
 describe('SessionManager(opts)', () => {

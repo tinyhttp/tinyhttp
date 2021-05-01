@@ -1,8 +1,14 @@
+import { describe, expect, it, beforeAll, afterAll } from '@jest/globals'
 import fs from 'fs'
 import path from 'path'
 import { makeFetch } from 'supertest-fetch'
 import { json, send, sendFile, sendStatus, status } from '../../packages/send/src'
 import { runServer } from '../../test_helpers/runServer'
+
+import { dirname, filename } from 'dirname-filename-esm'
+
+const __dirname = dirname(import.meta)
+const __filename = filename(import.meta)
 
 describe('Testing @tinyhttp/send', () => {
   describe('json(body)', () => {

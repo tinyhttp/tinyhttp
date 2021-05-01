@@ -1,6 +1,11 @@
+import { describe, expect, it } from '@jest/globals'
 import { markdownStaticHandler } from '../../packages/markdown/src'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import path from 'path'
+import { dirname, filename } from 'dirname-filename-esm'
+
+const __dirname = dirname(import.meta)
+const __filename = filename(import.meta)
 
 const STATIC_FOLDER = path.join(__dirname, '../fixtures')
 

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
-    "module": "ESNext",
+    "target": "ES2020",
+    "module": "esnext",
     "declaration": true,
     "preserveSymlinks": true,
     "outDir": "dist",
@@ -15,7 +15,8 @@
     "moduleResolution": "Node",
     "sourceMap": false,
     "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true
   },
   "exclude": ["tests", "examples", "packages/*/dist"]
 }

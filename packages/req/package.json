@@ -9,6 +9,7 @@
     "url": "https://github.com/talentlessguy/tinyhttp.git",
     "directory": "packages/req"
   },
+  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
@@ -38,7 +39,7 @@
     "@tinyhttp/accepts": "workspace:*",
     "@tinyhttp/type-is": "workspace:*",
     "@tinyhttp/url": "workspace:*",
-    "es-fresh": "^0.0.8",
+    "es-fresh": "^0.0.10",
     "range-parser": "^1.2.1"
   },
   "devDependencies": {

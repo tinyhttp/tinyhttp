@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals'
 import { typeIs } from '../../packages/type-is/src'
 
 describe('typeIs', () => {

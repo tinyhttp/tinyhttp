@@ -9,6 +9,7 @@
     "url": "https://github.com/talentlessguy/tinyhttp.git",
     "directory": "packages/rate-limit"
   },
+  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {

@@ -1,6 +1,12 @@
+import { describe, expect, it, afterEach } from '@jest/globals'
 import fs from 'fs'
 import path from 'path'
 import * as dotenv from '../../packages/dotenv/src'
+
+import { dirname, filename } from 'dirname-filename-esm'
+
+const __dirname = dirname(import.meta)
+const __filename = filename(import.meta)
 
 const envPath = path.join(__dirname, '../fixtures/.env')
 

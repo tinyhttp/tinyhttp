@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals'
 import { jsonp } from '../../packages/jsonp/src/index'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 
