@@ -146,7 +146,7 @@ describe('Testing App routing', () => {
     const route1 = new App()
     route1.get('/route1', (req, res) => res.send('route1'))
 
-    const route2= new App()
+    const route2 = new App()
     route2.get('/route2', (req, res) => res.send('route2'))
 
     app.use('abc/', route1, route2)

@@ -215,9 +215,7 @@ export class App<
         type: 'mw',
         handler: mount(fns[0] as Handler),
         handlers: fns.slice(1).map(mount),
-        fullPaths: fns.flat().map((fn) =>
-          lead(base as string) + fn.middleware[0].path.substring(1)
-        )
+        fullPaths: fns.flat().map((fn) => lead(base as string) + fn.middleware[0].path.substring(1))
       })
     }
 
