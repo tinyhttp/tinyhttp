@@ -43,7 +43,7 @@
     "rm-changelogs": "rm -rf packages/*/CHANGELOG.md",
     "chgset": "pnpm chgset:run && pnpm chgset:version && pnpm rm-changelogs",
     "release": "changeset publish",
-    "test": "jest --detectOpenHandles",
+    "test": "TESTING=true jest --detectOpenHandles",
     "lint": "eslint . --ext=js,mjs,ts,cjs",
     "format": "prettier --check \"./**/*.{ts,js,mjs,cjs}\"",
     "echo:ancestor": "echo ${ANCESTOR_REF:-$(git merge-base origin/master HEAD)}",
