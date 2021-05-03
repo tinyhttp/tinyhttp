@@ -137,7 +137,7 @@ export const pushMiddleware = <Req extends any = any, Res extends any = any>(mw:
   handlers?: RouterHandler<Req, Res>[]
   fullPaths?: string[]
 }) => {
-  const m = createMiddlewareFromRoute<Req, Res>({ path, handler, method, type, fullPath : fullPaths == null ? null : fullPaths[0] })
+  const m = createMiddlewareFromRoute<Req, Res>({ path, handler, method, type, fullPath : fullPaths?.[0] })
 
   let waresFromHandlers: { handler: Handler<Req, Res> }[] = []
 
