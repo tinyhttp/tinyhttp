@@ -214,7 +214,10 @@ export class App<
         regex,
         type: 'mw',
         handler: mount(fns[0] as Handler),
-        handlers: fns.slice(1).map(mount)
+        handlers: fns.slice(1).map(mount),
+        fullPaths: fns.flat().map((fn) =>
+          lead(base as string) + fn.middleware[0].path.substring(1)
+        )
       })
     }
 
@@ -241,7 +244,7 @@ export class App<
     return this.middleware.filter((m) => {
       m.regex = m.regex || rg(m.path, m.type === 'mw')
 
-      return m.regex.pattern.test(url)
+      return m.regex.pattern.test(url) && (m.type === 'mw' ? m.fullPath == url : true)
     })
   }
 

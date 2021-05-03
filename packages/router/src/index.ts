@@ -80,6 +80,7 @@ export type MethodHandler<Req extends any = any, Res extends any = any> = {
   handler?: Handler<Req, Res>
   type: MiddlewareType
   regex?: RegexParams
+  fullPath?: string
 }
 
 export type RouterHandler<Req extends any = any, Res extends any = any> = Handler<Req, Res> | Handler<Req, Res>[]
@@ -109,13 +110,15 @@ export type UseMethodParams<Req extends any = any, Res extends any = any, App ex
 const createMiddlewareFromRoute = <Req extends any = any, Res extends any = any>({
   path,
   handler,
+  fullPath,
   method
 }: MethodHandler<Req, Res> & {
   method?: Method
 }) => ({
   method,
   handler: handler || (path as Handler),
-  path: typeof path === 'string' ? path : '/'
+  path: typeof path === 'string' ? path : '/',
+  fullPath: typeof path === 'string' ? fullPath : path
 })
 
 /**
@@ -127,23 +130,28 @@ export const pushMiddleware = <Req extends any = any, Res extends any = any>(mw:
   handler,
   method,
   handlers,
-  type
+  type,
+  fullPaths
 }: MethodHandler<Req, Res> & {
   method?: Method
   handlers?: RouterHandler<Req, Res>[]
+  fullPaths?: string[]
 }) => {
-  const m = createMiddlewareFromRoute<Req, Res>({ path, handler, method, type })
+  const m = createMiddlewareFromRoute<Req, Res>({ path, handler, method, type, fullPath : fullPaths == null ? null : fullPaths[0] })
 
   let waresFromHandlers: { handler: Handler<Req, Res> }[] = []
 
   if (handlers) {
-    waresFromHandlers = handlers.flat().map((handler) =>
-      createMiddlewareFromRoute<Req, Res>({
+    waresFromHandlers = handlers.flat().map((handler) => {
+      let idx = 1
+      return createMiddlewareFromRoute<Req, Res>({
         path,
         handler,
         method,
-        type
+        type,
+        fullPath: fullPaths == null ? null : fullPaths[idx++]
       })
+    }
     )
   }
 
