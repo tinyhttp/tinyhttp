@@ -149,11 +149,16 @@ describe('Testing App routing', () => {
     const route2 = new App()
     route2.get('/route2', (_req, res) => res.send('route2'))
 
-    app.use('/abc', ...[route1, route2])
+    const route3 = new App()
+    route3.get('/route3', (_req, res) => res.send('route3'))
+
+    app.use('/abc', ...[route1, route2, route3])
 
     await makeFetch(app.listen())('/abc/route1').expect(200, 'route1')
 
     await makeFetch(app.listen())('/abc/route2').expect(200, 'route2')
+
+    await makeFetch(app.listen())('/abc/route3').expect(200, 'route3')
   })
   describe('next(err)', () => {
     it('next function skips current middleware', async () => {

@@ -141,10 +141,10 @@ export const pushMiddleware = <Req extends any = any, Res extends any = any>(mw:
   const m = createMiddlewareFromRoute<Req, Res>({ path, handler, method, type, fullPath: fullPaths?.[0] })
 
   let waresFromHandlers: { handler: Handler<Req, Res> }[] = []
+  let idx = 1
 
   if (handlers) {
     waresFromHandlers = handlers.flat().map((handler) => {
-      let idx = 1
       return createMiddlewareFromRoute<Req, Res>({
         path,
         handler,
