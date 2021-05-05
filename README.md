@@ -91,7 +91,7 @@ See [COMPARISON.md](COMPARISON.md).
 
 ## Benchmarks
 
-Check [benchmark](benchmark) folder.
+See [global framework benchmark](https://web-frameworks-benchmark.netlify.app/result?f=tinyhttp).
 
 ## Contributing
 
