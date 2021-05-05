@@ -91,7 +91,7 @@ See [COMPARISON.md](COMPARISON.md).
 
 ## Benchmarks
 
-See [global framework benchmark](https://web-frameworks-benchmark.netlify.app/result?f=tinyhttp).
+See [global framework benchmark](https://web-frameworks-benchmark.netlify.app/result?f=tinyhttp,express,polka,fastify).
 
 ## Contributing
 
