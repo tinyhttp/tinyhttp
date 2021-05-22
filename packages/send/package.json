@@ -39,6 +39,6 @@
   "dependencies": {
     "@tinyhttp/etag": "workspace:*",
     "es-content-type": "^0.0.10",
-    "es-mime-types": "^0.0.16"
+    "es-mime-types": "^0.1.2"
   }
 }
