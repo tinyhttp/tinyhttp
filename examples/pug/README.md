@@ -1,6 +1,6 @@
 # EJS example
 
-Basic example of using tinyhttp, [Pug](https://pugjs.org) and [@tinyhttp/pug](https://github.com/talentlessguy/tinyhttp/tree/master/packages/pug).
+Basic example of using tinyhttp and the [Pug](https://pugjs.org) template engine.
 
 ## Install
 
