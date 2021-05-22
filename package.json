@@ -47,7 +47,11 @@
     "rm-changelogs": "rm -rf packages/*/CHANGELOG.md",
     "chgset": "pnpm chgset:run && pnpm chgset:version && pnpm rm-changelogs",
     "release": "changeset publish",
+<<<<<<< HEAD
     "test": "NODE_OPTIONS=--experimental-vm-modules TESTING=true jest",
+=======
+    "test": "TESTING=true jest --detectOpenHandles",
+>>>>>>> 03bf3fcebe9b38320c4e9329830d8ec54dc89a68
     "lint": "eslint . --ext=js,mjs,ts,cjs",
     "format": "prettier --check \"./**/*.{ts,js,mjs,cjs}\"",
     "echo:ancestor": "echo ${ANCESTOR_REF:-$(git merge-base origin/master HEAD)}",

@@ -6,7 +6,7 @@ import type { Response } from './response'
 export type ErrorHandler = (err: any, req: Request, res: Response, next?: NextFunction) => void
 
 export const onErrorHandler: ErrorHandler = (err: any, _req: Request, res: Response) => {
-  if (!process.env.TESTING) console.error(err)
+  if (!process.env.TESTING && err instanceof Error) console.error(err)
 
   const code = err.code in STATUS_CODES ? err.code : err.status
 
