@@ -100,6 +100,17 @@ describe('Testing @tinyhttp/send', () => {
 
       await makeFetch(app)('/').expectStatus(418)
     })
+    it('supports nesting', async () => {
+      const app = runServer((_, res) => {
+        const r = status(res)(418)
+
+        expect(r).toBe(res)
+
+        r.end()
+      })
+
+      await makeFetch(app)('/').expectStatus(418)
+    })
   })
 
   describe('sendStatus(status)', () => {
