@@ -11,5 +11,5 @@ export default {
   },
   testRegex: '(/tests/.*|\\.(test))\\.(ts|tsx|js)$',
   moduleFileExtensions: ['ts', 'js', 'json'],
-  modulePathIgnorePatterns: ['tests/wares/rate-limit/rate-limit.test.ts']
+  modulePathIgnorePatterns: ['tests/wares/rate-limit/rate-limit.test.ts', 'uvu_tests']
 }
