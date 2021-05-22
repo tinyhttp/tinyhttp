@@ -81,7 +81,7 @@ See tinyhttp ["Learn" page](https://tinyhttp.v1rtl.site/learn) for complete guid
 
 ## Middlewares
 
-tinyhttp offers a list of premade middleware for common tasks, such as [session](https://tinyhttp.v1rtl.site/mw/session), [logger](https://tinyhttp.v1rtl.site/mw/logger) and [jwt](https://tinyhttp.v1rtl.site/mw/jwt).
+tinyhttp offers a list of premade middleware for common tasks, such as [rate limiting](https://tinyhttp.v1rtl.site/mw/rate-limit), [logging](https://tinyhttp.v1rtl.site/mw/logger) and [JWT integration](https://tinyhttp.v1rtl.site/mw/jwt).
 
 Search and explore the full list at [middleware search page](https://tinyhttp.v1rtl.site/mw).
 
