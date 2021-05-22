@@ -14,14 +14,14 @@ type Res = Pick<S, 'setHeader' | 'removeHeader' | 'end' | 'getHeader' | 'statusC
  * @param req Request
  * @param res Response
  */
-export const sendStatus = <Request extends Req = Req, Response extends Res = Res>(req: Request, res: Response) => (
-  statusCode: number
-): Response => {
-  const body = STATUS_CODES[statusCode] || String(statusCode)
+export const sendStatus =
+  <Request extends Req = Req, Response extends Res = Res>(req: Request, res: Response) =>
+  (statusCode: number): Response => {
+    const body = STATUS_CODES[statusCode] || String(statusCode)
 
-  res.statusCode = statusCode
+    res.statusCode = statusCode
 
-  res.setHeader('Content-Type', 'text/plain')
+    res.setHeader('Content-Type', 'text/plain')
 
-  return send(req, res)(body)
-}
+    return send(req, res)(body)
+  }

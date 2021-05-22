@@ -4,22 +4,20 @@ import { Request } from './request'
 import { App, TemplateEngineOptions } from './app'
 import type { ReadStreamOptions, FormatProps, DownloadOptions } from '@tinyhttp/res'
 
-export const renderTemplate = <O>(_req: Request, res: Response, app: App) => (
-  file: string,
-  data?: Record<string, any>,
-  options?: TemplateEngineOptions<O>
-): Response => {
-  app.render(
-    file,
-    data,
-    (err: unknown, html: unknown) => {
-      if (err) throw err
-      res.send(html)
-    },
-    options
-  )
-  return res
-}
+export const renderTemplate =
+  <O>(_req: Request, res: Response, app: App) =>
+  (file: string, data?: Record<string, any>, options?: TemplateEngineOptions<O>): Response => {
+    app.render(
+      file,
+      data,
+      (err: unknown, html: unknown) => {
+        if (err) throw err
+        res.send(html)
+      },
+      options
+    )
+    return res
+  }
 
 export interface Response<O = any> extends ServerResponse {
   header(field: string | Record<string, unknown>, val?: string | any[]): Response

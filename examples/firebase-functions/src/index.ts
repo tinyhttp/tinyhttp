@@ -14,7 +14,7 @@ tinyhttp.use('/', (_, res) => {
 })
 
 /** Make firebase function handler compatible with tinyhttp */
-const onRequest = (functions.https.onRequest as unknown) as (
+const onRequest = functions.https.onRequest as unknown as (
   handler: (req: Request, res: Response) => void | Promise<void>
 ) => functions.HttpsFunction
 // Create and Deploy Your First Cloud Functions
