@@ -61,7 +61,7 @@ export type Method = typeof METHODS[number]
 export type MiddlewareType = 'mw' | 'route'
 
 type RegexParams = {
-  keys: string[]
+  keys: string[] | false
   pattern: RegExp
 }
 
