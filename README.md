@@ -147,6 +147,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/lakgani"><img src="https://avatars.githubusercontent.com/u/8769642?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ganesh Pendyala</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=lakgani" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/khmm12"><img src="https://avatars.githubusercontent.com/u/4437249?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Maxim</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/issues?q=author%3Akhmm12" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/wasd845"><img src="https://avatars.githubusercontent.com/u/15626210?v=4?s=100" width="100px;" alt=""/><br /><sub><b>wasd845</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/issues?q=author%3Awasd845" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://bandism.net/"><img src="https://avatars.githubusercontent.com/u/22633385?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ikko Ashimine</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=eltociear" title="Documentation">📖</a></td>
   </tr>
 </table>
 
