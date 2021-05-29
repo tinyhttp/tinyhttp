@@ -332,6 +332,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "angristan",
+      "name": "Stanislas",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11699655?v=4",
+      "profile": "https://stanislas.blog",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
