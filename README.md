@@ -15,7 +15,7 @@ _**tinyhttp**_ is a modern [Express](https://expressjs.com/)-like web framework 
 
 Here is a short list of most important features that tinyhttp has:
 
-- ⚡ [2x faster](benchmark) than Express
+- ⚡ [2x faster](#benchmarks) than Express
 - ⚙ Full Express middleware support
 - ↪ Async middleware support
 - ☑ Native ESM and CommonJS support
