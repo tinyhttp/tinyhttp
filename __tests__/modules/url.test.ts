@@ -1,5 +1,5 @@
 import { getQueryParams, getURLParams, getPathname } from '../../packages/url/src'
-import rg from 'regexparam'
+import { parse as rg } from 'regexparam'
 
 describe('getQueryParams(url)', () => {
   it('parses query params the same way as url.parse(str, true)', () => {

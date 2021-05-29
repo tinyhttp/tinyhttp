@@ -7,7 +7,7 @@ import type { ErrorHandler } from './onError'
 import { onErrorHandler } from './onError'
 import { Middleware, Handler, NextFunction, Router, UseMethodParams, pushMiddleware } from '@tinyhttp/router'
 import { extendMiddleware } from './extend'
-import rg from 'regexparam'
+import { parse as rg } from 'regexparam'
 import { getPathname, getFreshOrStale } from '@tinyhttp/req'
 
 /**
