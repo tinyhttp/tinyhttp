@@ -179,6 +179,10 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 [![Bitcoin](https://badge-crypto.vercel.app/api/badge?coin=btc&address=3PxedDftWBXujWtr7TbWQSiYTsZJoMD8K5)](https://badge-crypto.vercel.app/btc/3PxedDftWBXujWtr7TbWQSiYTsZJoMD8K5) [![Ethereum](https://badge-crypto.vercel.app/api/badge?balance=true&coin=eth&address=0xD3B282e9880cDcB1142830731cD83f7ac0e1043f)
 ](https://badge-crypto.vercel.app/eth/0xD3B282e9880cDcB1142830731cD83f7ac0e1043f)
 
+The best way to support the project is to stake it on [**DEV**](https://stakes.social/0x14308514785B216904a41aB817282d25425Cce39). Note that you also get rewarded by staking, as well as the project author.
+
+[![DEV](https://badge.devprotocol.xyz/0x14308514785B216904a41aB817282d25425Cce39)](https://stakes.social/0x14308514785B216904a41aB817282d25425Cce39)
+
 ## License
 
 MIT © [v1rtl](https://v1rtl.site)
