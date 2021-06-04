@@ -4,13 +4,7 @@
   "description": "tinyhttp IP filtering middleware",
   "types": "./dist/index.d.ts",
   "type": "module",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js"
-    },
-    "./package.json": "./package.json",
-    "./": "./"
-  },
+  "exports": "./dist/index.js",
   "homepage": "https://tinyhttp.v1rtl.site",
   "repository": {
     "type": "git",

@@ -10,13 +10,7 @@
     "directory": "packages/logger"
   },
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js"
-    },
-    "./package.json": "./package.json",
-    "./": "./"
-  },
+  "exports": "./dist/index.js",
   "keywords": [
     "tinyhttp",
     "node.js",
@@ -29,7 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "colorette": "^1.2.2",
-    "dayjs": "^1.10.4",
+    "dayjs": "^1.10.5",
     "http-status-emojis": "^2.2.0"
   },
   "engines": {

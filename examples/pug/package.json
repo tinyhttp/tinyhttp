@@ -1,5 +1,5 @@
 {
-  "name": "ejs",
+  "name": "pug",
   "private": true,
   "type": "module",
   "dependencies": {

@@ -8,7 +8,7 @@ import { onErrorHandler } from './onError'
 import { Middleware, Handler, NextFunction, Router, UseMethodParams, pushMiddleware } from '@tinyhttp/router'
 import { extendMiddleware } from './extend'
 import { parse as rg } from 'regexparam'
-import { getPathname, getFreshOrStale } from '@tinyhttp/req'
+import { getPathname } from '@tinyhttp/req'
 
 /**
  * Add leading slash if not present (e.g. path -> /path, /path -> /path)

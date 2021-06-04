@@ -1,6 +1,5 @@
-import { App } from '../packages/app/src'
-import type { Handler } from '../packages/app/src'
-
+import { App } from '../packages/app/src/index'
+import type { Handler } from '../packages/app/src/index'
 import { makeFetch } from 'supertest-fetch'
 
 export const InitAppAndTest = (
@@ -11,11 +10,8 @@ export const InitAppAndTest = (
 ) => {
   const app = new App(settings)
 
-  if (route) {
-    app[method.toLowerCase()](route, handler)
-  } else {
-    app.use(handler)
-  }
+  if (route) app[method.toLowerCase()](route, handler)
+  else app.use(handler)
 
   const server = app.listen()
 

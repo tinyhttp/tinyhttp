@@ -4,13 +4,7 @@
   "description": "tinyhttp CORS module",
   "type": "module",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js"
-    },
-    "./package.json": "./package.json",
-    "./": "./"
-  },
+  "exports": "./dist/index.js",
   "funding": {
     "type": "individual",
     "url": "https://github.com/talentlessguy/tinyhttp?sponsor=1"
@@ -33,7 +27,7 @@
     "node": ">=12.4.0"
   },
   "dependencies": {
-    "es-vary": "^0.0.8"
+    "es-vary": "^0.1.1"
   },
   "author": "v1rtl",
   "license": "MIT",

@@ -14,14 +14,7 @@
     "directory": "packages/bot-detector"
   },
   "types": "./dist/index.d.ts",
-  "main": "dist/index.js",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js"
-    },
-    "./package.json": "./package.json",
-    "./": "./"
-  },
+  "exports": "./dist/index.js",
   "files": [
     "dist"
   ],

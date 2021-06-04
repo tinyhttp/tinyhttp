@@ -10,10 +10,9 @@ import { dirname, filename } from 'dirname-filename-esm'
 const __dirname = dirname(import.meta)
 const __filename = filename(import.meta)
 
-describe('Testing @tinyhttp/send', () => {
-  describe('json(body)', () => {
-    it('should send a json-stringified reply when an object is passed', async () => {
-      const app = runServer((_, res) => json(res)({ hello: 'world' }))
+describe('json(body)', () => {
+  it('should send a json-stringified reply when an object is passed', async () => {
+    const app = runServer((_, res) => json(res)({ hello: 'world' }))
 
     await makeFetch(app)('/').expect({ hello: 'world' })
   })
@@ -28,6 +27,7 @@ describe('Testing @tinyhttp/send', () => {
     await makeFetch(app)('/').expect(null)
   })
 })
+
 describe('send(body)', () => {
   it('should send a plain text', async () => {
     const app = runServer((req, res) => send(req, res)('Hello World'))

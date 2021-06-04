@@ -11,13 +11,7 @@
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js"
-    },
-    "./package.json": "./package.json",
-    "./": "./"
-  },
+  "exports": "./dist/index.js",
   "keywords": [
     "tinyhttp",
     "node.js",
@@ -42,7 +36,7 @@
     "@tinyhttp/req": "workspace:*",
     "@tinyhttp/send": "workspace:*",
     "es-mime-types": "^0.1.2",
-    "es-vary": "^0.0.8",
+    "es-vary": "^0.1.1",
     "escape-html": "^1.0.3"
   },
   "devDependencies": {

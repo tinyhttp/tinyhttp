@@ -1,5 +1,6 @@
 export default {
   testEnvironment: 'node',
+  extensionsToTreatAsEsm: ['.ts'],
   preset: 'ts-jest/presets/default-esm',
   globals: {
     'ts-jest': {
@@ -11,5 +12,6 @@ export default {
   },
   testRegex: '(/tests/.*|\\.(test))\\.(ts|tsx|js)$',
   moduleFileExtensions: ['ts', 'js', 'json'],
-  modulePathIgnorePatterns: ['tests/wares/rate-limit/rate-limit.test.ts', 'uvu_tests']
+  resolver: './resolver.cjs',
+  modulePathIgnorePatterns: ['tests/wares/rate-limit/rate-limit.test.ts', 'uvu_tests', 'examples', 'site']
 }

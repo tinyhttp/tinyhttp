@@ -33,7 +33,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "cac": "^6.7.2",
+    "cac": "^6.7.3",
     "colorette": "^1.2.2",
     "edit-json-file": "^1.6.0",
     "httpie": "^1.1.2",

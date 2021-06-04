@@ -13,13 +13,7 @@
     "node": ">=12.4.0"
   },
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js"
-    },
-    "./package.json": "./package.json",
-    "./": "./"
-  },
+  "exports": "./dist/index.js",
   "keywords": [
     "tinyhttp",
     "node.js",
