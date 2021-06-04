@@ -19,7 +19,7 @@ export const cors = (opts: AccessControlOptions = {}) => {
   const {
     origin = '*',
     methods = ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-    allowedHeaders,
+    allowedHeaders = ['content-type'],
     exposedHeaders,
     credentials,
     maxAge,
