@@ -33,55 +33,54 @@ const sendStream = async (
   send(req, res)(md(file.toString(), markedOptions))
 }
 
-export const markdownStaticHandler = (dir?: string, opts: MarkdownServerHandlerOptions = {}) => async <
-  Req extends Request = Request,
-  Res extends Response = Response
->(
-  req: Req,
-  res: Res,
-  next: (err?: any) => void
-) => {
-  const { prefix = '/', stripExtension = true, markedOptions = null, caching = false } = opts
+export const markdownStaticHandler =
+  (dir?: string, opts: MarkdownServerHandlerOptions = {}) =>
+  async <Req extends Request = Request, Res extends Response = Response>(
+    req: Req,
+    res: Res,
+    next: (err?: any) => void
+  ) => {
+    const { prefix = '/', stripExtension = true, markedOptions = null, caching = false } = opts
 
-  const url = req.originalUrl || req.url
+    const url = req.originalUrl || req.url
 
-  const urlMatchesPrefix = url.startsWith(prefix)
+    const urlMatchesPrefix = url.startsWith(prefix)
 
-  const unPrefixedURL: string = prefix === '/' ? url.replace(prefix, '') : url.replace(prefix, '').slice(1)
+    const unPrefixedURL: string = prefix === '/' ? url.replace(prefix, '') : url.replace(prefix, '').slice(1)
 
-  const fullPath = path.join(dir, parse(unPrefixedURL).dir)
+    const fullPath = path.join(dir, parse(unPrefixedURL).dir)
 
-  let files: string[]
+    let files: string[]
 
-  try {
-    files = await readdir(fullPath)
+    try {
+      files = await readdir(fullPath)
 
-    let filename: string
+      let filename: string
 
-    if (url === prefix) {
-      const rgx = /(index|readme).(md|markdown)/i
+      if (url === prefix) {
+        const rgx = /(index|readme).(md|markdown)/i
 
-      const idxFile = files.find((file) => rgx.test(file))
+        const idxFile = files.find((file) => rgx.test(file))
 
-      if (idxFile) {
-        await sendStream(path.join(fullPath, idxFile), markedOptions, req, res, caching)
-        return
+        if (idxFile) {
+          await sendStream(path.join(fullPath, idxFile), markedOptions, req, res, caching)
+          return
+        } else next()
+      }
+      if (stripExtension) {
+        filename = files.find((f) => {
+          const { name, ext } = parse(f)
+
+          return /\.(md|markdown)/.test(ext) && unPrefixedURL === name
+        })
+      } else {
+        filename = files.find((f) => f === decodeURI(unPrefixedURL))
+      }
+
+      if (urlMatchesPrefix && filename) {
+        await sendStream(path.join(fullPath, filename), markedOptions, req, res, caching)
       } else next()
+    } catch {
+      next?.()
     }
-    if (stripExtension) {
-      filename = files.find((f) => {
-        const { name, ext } = parse(f)
-
-        return /\.(md|markdown)/.test(ext) && unPrefixedURL === name
-      })
-    } else {
-      filename = files.find((f) => f === decodeURI(unPrefixedURL))
-    }
-
-    if (urlMatchesPrefix && filename) {
-      await sendStream(path.join(fullPath, filename), markedOptions, req, res, caching)
-    } else next()
-  } catch {
-    next?.()
   }
-}

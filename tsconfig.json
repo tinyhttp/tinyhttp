@@ -13,7 +13,6 @@
     "preserveConstEnums": true,
     "skipLibCheck": true,
     "moduleResolution": "Node",
-    "sourceMap": false,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "allowJs": true

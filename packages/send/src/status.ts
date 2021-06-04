@@ -7,8 +7,10 @@ type Res = Pick<S, 'statusCode'>
  *
  * @param res Response
  */
-export const status = <Response extends Res = Res>(res: Response) => (status: number): Response => {
-  res.statusCode = status
+export const status =
+  <Response extends Res = Res>(res: Response) =>
+  (status: number): Response => {
+    res.statusCode = status
 
-  return res
-}
+    return res
+  }

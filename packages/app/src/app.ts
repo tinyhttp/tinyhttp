@@ -7,7 +7,7 @@ import type { ErrorHandler } from './onError'
 import { onErrorHandler } from './onError'
 import { Middleware, Handler, NextFunction, Router, UseMethodParams, pushMiddleware } from '@tinyhttp/router'
 import { extendMiddleware } from './extend'
-import rg from 'regexparam'
+import { parse as rg } from 'regexparam'
 import { getPathname, getFreshOrStale } from '@tinyhttp/req'
 
 /**
@@ -18,15 +18,17 @@ const lead = (x: string) => (x.charCodeAt(0) === 47 ? x : '/' + x)
 
 const mount = (fn: App | Handler) => (fn instanceof App ? fn.attach : fn)
 
-export const applyHandler = <Req, Res>(h: Handler<Req, Res>) => async (req: Req, res: Res, next?: NextFunction) => {
-  try {
-    if (h[Symbol.toStringTag] === 'AsyncFunction') {
-      await h(req, res, next)
-    } else h(req, res, next)
-  } catch (e) {
-    next(e)
+export const applyHandler =
+  <Req, Res>(h: Handler<Req, Res>) =>
+  async (req: Req, res: Res, next?: NextFunction) => {
+    try {
+      if (h[Symbol.toStringTag] === 'AsyncFunction') {
+        await h(req, res, next)
+      } else h(req, res, next)
+    } catch (e) {
+      next(e)
+    }
   }
-}
 /**
  * tinyhttp App has a few settings for toggling features
  */
@@ -322,7 +324,7 @@ export class App<
 
       if (this.settings?.enableReqRoute) req.route = getRouteFromApp(this as any, handler)
 
-      await applyHandler<Req, Res>((handler as unknown) as Handler<Req, Res>)(req, res, next)
+      await applyHandler<Req, Res>(handler as unknown as Handler<Req, Res>)(req, res, next)
     }
 
     let idx = 0

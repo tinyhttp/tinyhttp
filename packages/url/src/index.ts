@@ -1,7 +1,7 @@
 import { parse, ParsedUrlQuery } from 'querystring'
 
 type Regex = {
-  keys: string[]
+  keys: string[] | false
   pattern: RegExp
 }
 
@@ -10,7 +10,7 @@ export const getURLParams = ({ pattern, keys }: Regex, reqUrl = '/'): URLParams 
 
   const params = {}
 
-  if (matches) for (let i = 0; i < keys.length; i++) params[keys[i]] = matches[i + 1]
+  if (matches && typeof keys !== 'boolean') for (let i = 0; i < keys.length; i++) params[keys[i]] = matches[i + 1]
 
   return params
 }

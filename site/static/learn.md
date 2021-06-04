@@ -528,7 +528,6 @@ As a rule, when you develop web applications, a web framework is not enough. Thi
 
 ### Session
 
-- [@tinyhttp/session](https://tinyhttp.v1rtl.site/mw/session) - Session middleware for tinyhttp. A rewrite of [micro-session](https://github.com/meyer9/micro-session).
 - [express-session](https://github.com/expressjs/session) - Simple session middleware for Express
 - [micro-session](https://github.com/meyer9/micro-session) - Session middleware for micro
 - [next-session](https://github.com/hoangvvo/next-session) - Simple promise-based session middleware for Next.js, micro, Express, and more

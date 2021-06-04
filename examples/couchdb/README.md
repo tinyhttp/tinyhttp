@@ -12,7 +12,7 @@ tinyhttp new couchdb
 
 <br>
 
-> [Download the couchDB](https://docs.couchdb.org/en/stable/install/index.html) in your local machine and set up the local enviornment accordingly.
+> [Download the couchDB](https://docs.couchdb.org/en/stable/install/index.html) in your local machine and set up the local environment accordingly.
 
 > Skip if you already have it installed;
 

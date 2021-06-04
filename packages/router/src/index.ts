@@ -61,7 +61,7 @@ export type Method = typeof METHODS[number]
 export type MiddlewareType = 'mw' | 'route'
 
 type RegexParams = {
-  keys: string[]
+  keys: string[] | false
   pattern: RegExp
 }
 
@@ -126,37 +126,39 @@ const createMiddlewareFromRoute = <Req extends any = any, Res extends any = any>
  * Push wares to a middleware array
  * @param mw Middleware arrays
  */
-export const pushMiddleware = <Req extends any = any, Res extends any = any>(mw: Middleware[]) => ({
-  path,
-  handler,
-  method,
-  handlers,
-  type,
-  fullPaths
-}: MethodHandler<Req, Res> & {
-  method?: Method
-  handlers?: RouterHandler<Req, Res>[]
-  fullPaths?: string[]
-}) => {
-  const m = createMiddlewareFromRoute<Req, Res>({ path, handler, method, type, fullPath: fullPaths?.[0] })
+export const pushMiddleware =
+  <Req extends any = any, Res extends any = any>(mw: Middleware[]) =>
+  ({
+    path,
+    handler,
+    method,
+    handlers,
+    type,
+    fullPaths
+  }: MethodHandler<Req, Res> & {
+    method?: Method
+    handlers?: RouterHandler<Req, Res>[]
+    fullPaths?: string[]
+  }) => {
+    const m = createMiddlewareFromRoute<Req, Res>({ path, handler, method, type, fullPath: fullPaths?.[0] })
 
-  let waresFromHandlers: { handler: Handler<Req, Res> }[] = []
-  let idx = 1
+    let waresFromHandlers: { handler: Handler<Req, Res> }[] = []
+    let idx = 1
 
-  if (handlers) {
-    waresFromHandlers = handlers.flat().map((handler) =>
-      createMiddlewareFromRoute<Req, Res>({
-        path,
-        handler,
-        method,
-        type,
-        fullPath: fullPaths == null ? null : fullPaths[idx++]
-      })
-    )
+    if (handlers) {
+      waresFromHandlers = handlers.flat().map((handler) =>
+        createMiddlewareFromRoute<Req, Res>({
+          path,
+          handler,
+          method,
+          type,
+          fullPath: fullPaths == null ? null : fullPaths[idx++]
+        })
+      )
+    }
+
+    for (const mdw of [m, ...waresFromHandlers]) mw.push({ ...mdw, type })
   }
-
-  for (const mdw of [m, ...waresFromHandlers]) mw.push({ ...mdw, type })
-}
 
 /**
  * tinyhttp Router. Manages middleware and has HTTP methods aliases, e.g. `app.get`, `app.put`

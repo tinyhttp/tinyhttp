@@ -70,7 +70,7 @@ describe('rate-limit', () => {
     })
 
     it('should accept new connections from a blocked IP after block interval', async () => {
-      jest.useFakeTimers()
+      jest.useFakeTimers('legacy')
       const app = createAppWith(
         rateLimit({
           max: 2,
@@ -86,7 +86,7 @@ describe('rate-limit', () => {
     })
 
     it('should work repeatedly', async () => {
-      jest.useFakeTimers()
+      jest.useFakeTimers('legacy')
 
       const app = createAppWith(
         rateLimit({

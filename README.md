@@ -15,7 +15,7 @@ _**tinyhttp**_ is a modern [Express](https://expressjs.com/)-like web framework 
 
 Here is a short list of most important features that tinyhttp has:
 
-- ⚡ [2x faster](benchmark) than Express
+- ⚡ [2x faster](#benchmarks) than Express
 - ⚙ Full Express middleware support
 - ↪ Async middleware support
 - ☑ Native ESM and CommonJS support
@@ -81,7 +81,7 @@ See tinyhttp ["Learn" page](https://tinyhttp.v1rtl.site/learn) for complete guid
 
 ## Middlewares
 
-tinyhttp offers a list of premade middleware for common tasks, such as [session](https://tinyhttp.v1rtl.site/mw/session), [logger](https://tinyhttp.v1rtl.site/mw/logger) and [jwt](https://tinyhttp.v1rtl.site/mw/jwt).
+tinyhttp offers a list of premade middleware for common tasks, such as [rate limiting](https://tinyhttp.v1rtl.site/mw/rate-limit), [logging](https://tinyhttp.v1rtl.site/mw/logger) and [JWT integration](https://tinyhttp.v1rtl.site/mw/jwt).
 
 Search and explore the full list at [middleware search page](https://tinyhttp.v1rtl.site/mw).
 
@@ -147,6 +147,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/lakgani"><img src="https://avatars.githubusercontent.com/u/8769642?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ganesh Pendyala</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=lakgani" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/khmm12"><img src="https://avatars.githubusercontent.com/u/4437249?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Maxim</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/issues?q=author%3Akhmm12" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/wasd845"><img src="https://avatars.githubusercontent.com/u/15626210?v=4?s=100" width="100px;" alt=""/><br /><sub><b>wasd845</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/issues?q=author%3Awasd845" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://bandism.net/"><img src="https://avatars.githubusercontent.com/u/22633385?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ikko Ashimine</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=eltociear" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://stanislas.blog"><img src="https://avatars.githubusercontent.com/u/11699655?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Stanislas</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=angristan" title="Documentation">📖</a></td>
   </tr>
 </table>
 

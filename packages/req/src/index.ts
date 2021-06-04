@@ -7,17 +7,19 @@ export * from './accepts'
 
 export * from '@tinyhttp/url'
 
-export const getRequestHeader = (req: Pick<Request, 'headers'>) => (header: string): string | string[] => {
-  const lc = header.toLowerCase()
+export const getRequestHeader =
+  (req: Pick<Request, 'headers'>) =>
+  (header: string): string | string[] => {
+    const lc = header.toLowerCase()
 
-  switch (lc) {
-    case 'referer':
-    case 'referrer':
-      return req.headers.referrer || req.headers.referer
-    default:
-      return req.headers[lc]
+    switch (lc) {
+      case 'referer':
+      case 'referrer':
+        return req.headers.referrer || req.headers.referer
+      default:
+        return req.headers[lc]
+    }
   }
-}
 
 export const getRangeFromHeader = (req: Pick<Request, 'headers'>) => (size: number, options?: Options) => {
   const range = getRequestHeader(req)('Range') as string
@@ -51,5 +53,7 @@ export const getFreshOrStale = (
 export const checkIfXMLHttpRequest = (req: Pick<Request, 'headers'>) =>
   req.headers['X-Requested-With'] === 'XMLHttpRequest'
 
-export const reqIs = (req: Pick<Request, 'headers'>) => (...types: string[]): boolean =>
-  typeIs(req.headers['content-type'], ...types)
+export const reqIs =
+  (req: Pick<Request, 'headers'>) =>
+  (...types: string[]): boolean =>
+    typeIs(req.headers['content-type'], ...types)

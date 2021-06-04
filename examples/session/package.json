@@ -3,8 +3,8 @@
   "private": true,
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "@tinyhttp/session": "workspace:*",
-    "milliparsec": "^1.0.4"
+    "milliparsec": "^2.0.5",
+    "next-session": "^3.4.0"
   },
   "type": "module",
   "module": "index.js",

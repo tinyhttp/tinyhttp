@@ -53,61 +53,59 @@ export const enableCaching = (res: Res, caching: Caching) => {
  *
  * @param res Response
  */
-export const sendFile = <Request extends Req = Req, Response extends Res = Res>(req: Request, res: Response) => (
-  path: string,
-  opts: SendFileOptions = {},
-  cb?: (err?: any) => void
-) => {
-  const { root, headers = {}, encoding = 'utf-8', caching, ...options } = opts
+export const sendFile =
+  <Request extends Req = Req, Response extends Res = Res>(req: Request, res: Response) =>
+  (path: string, opts: SendFileOptions = {}, cb?: (err?: any) => void) => {
+    const { root, headers = {}, encoding = 'utf-8', caching, ...options } = opts
 
-  if (!isAbsolute(path) && !root) throw new TypeError('path must be absolute')
+    if (!isAbsolute(path) && !root) throw new TypeError('path must be absolute')
 
-  if (caching) enableCaching(res, caching)
+    if (caching) enableCaching(res, caching)
 
-  const filePath = root ? join(root, path) : path
+    const filePath = root ? join(root, path) : path
 
-  const stats = statSync(filePath)
+    const stats = statSync(filePath)
 
-  headers['Content-Encoding'] = encoding
+    headers['Content-Encoding'] = encoding
 
-  headers['Last-Modified'] = stats.mtime.toUTCString()
+    headers['Last-Modified'] = stats.mtime.toUTCString()
 
-  headers['Content-Type'] = contentType(extname(path))
+    headers['Content-Type'] = contentType(extname(path))
 
-  headers['ETag'] = createETag(stats, encoding)
+    headers['ETag'] = createETag(stats, encoding)
 
-  let status = 200
+    let status = 200
 
-  if (req.headers['range']) {
-    status = 206
-    const [x, y] = req.headers.range.replace('bytes=', '').split('-')
-    const end = (options.end = parseInt(y, 10) || stats.size - 1)
-    const start = (options.start = parseInt(x, 10) || 0)
+    if (req.headers['range']) {
+      status = 206
+      const [x, y] = req.headers.range.replace('bytes=', '').split('-')
+      const end = (options.end = parseInt(y, 10) || stats.size - 1)
+      const start = (options.start = parseInt(x, 10) || 0)
 
-    if (start >= stats.size || end >= stats.size) {
-      res
-        .writeHead(416, {
-          'Content-Range': `bytes */${stats.size}`
-        })
-        .end()
-      return res
+      if (start >= stats.size || end >= stats.size) {
+        res
+          .writeHead(416, {
+            'Content-Range': `bytes */${stats.size}`
+          })
+          .end()
+        return res
+      }
+      headers['Content-Range'] = `bytes ${start}-${end}/${stats.size}`
+      headers['Content-Length'] = end - start + 1
+      headers['Accept-Ranges'] = 'bytes'
+    } else {
+      headers['Content-Length'] = stats.size
     }
-    headers['Content-Range'] = `bytes ${start}-${end}/${stats.size}`
-    headers['Content-Length'] = end - start + 1
-    headers['Accept-Ranges'] = 'bytes'
-  } else {
-    headers['Content-Length'] = stats.size
+
+    for (const [k, v] of Object.entries(headers)) res.setHeader(k, v)
+
+    res.writeHead(status, headers)
+
+    const stream = createReadStream(filePath, options)
+
+    if (cb) stream.on('error', (err) => cb(err)).on('end', () => cb())
+
+    stream.pipe(res)
+
+    return res
   }
-
-  for (const [k, v] of Object.entries(headers)) res.setHeader(k, v)
-
-  res.writeHead(status, headers)
-
-  const stream = createReadStream(filePath, options)
-
-  if (cb) stream.on('error', (err) => cb(err)).on('end', () => cb())
-
-  stream.pipe(res)
-
-  return res
-}

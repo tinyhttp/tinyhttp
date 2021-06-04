@@ -1,16 +1,21 @@
 import { App } from '@tinyhttp/app'
 import { urlencoded } from 'milliparsec'
-import { SessionManager, MemoryStore } from '@tinyhttp/session'
+import session from 'next-session/dist/connect.js'
+import MemoryStore from 'next-session/dist/store/memory.js'
+
+const modDefault = (x) => x.default
 
 const app = new App()
-const store = new MemoryStore()
+const store = new (modDefault(MemoryStore))()
 
 app.use(urlencoded())
 
-const getSession = SessionManager({
+const sessionWare = modDefault(session)({
   store,
   secret: 'super secret text'
 })
+
+app.use(sessionWare)
 
 app.get('/', (_req, res) => {
   res.send('Go to "/login" page to login')
@@ -18,7 +23,6 @@ app.get('/', (_req, res) => {
 
 app.post('/login', async (req, res) => {
   const { body } = req
-  const session = await getSession(req, res)
 
   console.log(`Received body: ${JSON.stringify(req.body)}`)
 
@@ -27,21 +31,19 @@ app.post('/login', async (req, res) => {
     return
   }
 
-  session.isLoggedIn = true
-  session.user = 'admin'
+  req.session.isLoggedIn = true
+  req.session.user = 'admin'
 
   res.status(204).end()
 })
 
 app.get('/admin', async (req, res) => {
-  const session = await getSession(req, res)
-
-  if (!session.isLoggedIn) {
+  if (!req.session.isLoggedIn) {
     res.status(403).send('Authorized personnel only!')
     return
   }
 
-  return res.send(`Welcome ${session.user}`)
+  return res.send(`Welcome ${req.session.user}`)
 })
 
 app.listen(3000)

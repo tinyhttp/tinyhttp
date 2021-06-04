@@ -1,7 +1,9 @@
 import { App } from '@tinyhttp/app'
-import { pug } from '@tinyhttp/pug'
+import { renderFile } from 'pug'
 
-const app = pug()(new App())
+const app = new App()
+
+app.engine('pug', (path, _, opts, cb) => renderFile(path, opts, cb))
 
 app.use((_, res) => void res.render('index.pug'))
 

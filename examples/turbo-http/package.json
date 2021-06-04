@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "name": "turbo-http",
+  "type": "module",
+  "dependencies": {
+    "@tinyhttp/app": "workspace:^1.3.6",
+    "@tinyhttp/send": "workspace:^1.3.0",
+    "turbo-http": "^0.3.2"
+  }
+}
