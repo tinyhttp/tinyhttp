@@ -16,7 +16,7 @@ _**tinyhttp**_ is a modern [Express](https://expressjs.com/)-like web framework 
 Here is a short list of most important features that tinyhttp has:
 
 - ⚡ [2x faster](#benchmarks) than Express
-- ⚙ Full Express middleware support
+- ⚙ Express middleware compat
 - ↪ Async middleware support
 - ☑ Native ESM and CommonJS support
 - 🚀 No legacy dependencies, just the JavaScript itself
@@ -27,7 +27,7 @@ Visit [tinyhttp website](https://tinyhttp.v1rtl.site) for docs, guides and middl
 
 ## Install
 
-tinyhttp requires [Node.js 12.4 or newer](https://node.green/#ES2019).
+[Node.js 12.4 or newer](https://node.green/#ES2019) is required.
 
 ```sh
 pnpm i @tinyhttp/app
@@ -49,7 +49,7 @@ tinyhttp new basic my-app
 cd my-app
 ```
 
-The app structure is quite similar to Express, except that you need to import `App` from `@tinyhttp/app` instead of default import from `express`.
+The app structure is quite similar to Express:.
 
 ```ts
 import { App } from '@tinyhttp/app'
@@ -59,12 +59,11 @@ const app = new App()
 
 app
   .use(logger())
-  .use(function someMiddleware(req, res, next) {
-    console.log('Did a request')
+  .use(async function someMiddleware(req, res, next) {
+    await someFunc()
     next()
   })
   .get('/', (_, res) => res.send('<h1>Hello World</h1>'))
-  .get('/page/:page/', (req, res) => res.status(200).send(`You just opened ${req.params.page}`))
   .listen(3000)
 ```
 
