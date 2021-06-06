@@ -27,15 +27,10 @@ Visit [tinyhttp website](https://tinyhttp.v1rtl.site) for docs, guides and middl
 
 ## Install
 
-tinyhttp requires [Node.js 12.4.0 or newer](https://node.green/#ES2019). It is recommended to use [pnpm](https://pnpm.js.org/), although it isn't required.
+tinyhttp requires [Node.js 12.4 or newer](https://node.green/#ES2019).
 
 ```sh
-# npm
-npm i @tinyhttp/app
-# pnpm
 pnpm i @tinyhttp/app
-# yarn
-yarn add @tinyhttp/app
 ```
 
 ## Docs
@@ -68,12 +63,8 @@ app
     console.log('Did a request')
     next()
   })
-  .get('/', (_, res) => {
-    res.send('<h1>Hello World</h1>')
-  })
-  .get('/page/:page/', (req, res) => {
-    res.status(200).send(`You just opened ${req.params.page}`)
-  })
+  .get('/', (_, res) => res.send('<h1>Hello World</h1>'))
+  .get('/page/:page/', (req, res) => res.status(200).send(`You just opened ${req.params.page}`))
   .listen(3000)
 ```
 
@@ -93,9 +84,29 @@ See [COMPARISON.md](COMPARISON.md).
 
 See [global framework benchmark](https://web-frameworks-benchmark.netlify.app/result?f=tinyhttp,express,polka,fastify).
 
-## Contributing
+## Donate
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+[![PayPal](https://img.shields.io/badge/PayPal-cyan?style=flat-square&logo=paypal)](https://paypal.me/v1rtl) [![ko-fi](https://img.shields.io/badge/kofi-pink?style=flat-square&logo=ko-fi)](https://ko-fi.com/v1rtl) [![Qiwi](https://img.shields.io/badge/qiwi-white?style=flat-square&logo=qiwi)](https://qiwi.com/n/V1RTL) [![Yandex Money](https://img.shields.io/badge/Yandex_Money-yellow?style=flat-square&logo=yandex)](https://money.yandex.ru/to/410014774355272)
+
+[![Bitcoin](https://badge-crypto.vercel.app/api/badge?coin=btc&address=3PxedDftWBXujWtr7TbWQSiYTsZJoMD8K5)](https://badge-crypto.vercel.app/btc/3PxedDftWBXujWtr7TbWQSiYTsZJoMD8K5) [![Ethereum](https://badge-crypto.vercel.app/api/badge?balance=true&coin=eth&address=0xD3B282e9880cDcB1142830731cD83f7ac0e1043f)
+](https://badge-crypto.vercel.app/eth/0xD3B282e9880cDcB1142830731cD83f7ac0e1043f)
+
+The best way to support the project is to stake it on [**DEV**](https://stakes.social/0x14308514785B216904a41aB817282d25425Cce39). Note that you also get rewarded by staking, as well as the project author.
+
+[![DEV](https://badge.devprotocol.xyz/0x14308514785B216904a41aB817282d25425Cce39)](https://stakes.social/0x14308514785B216904a41aB817282d25425Cce39)
+
+## Sponsors 💰
+
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="http://deta.sh?ref=tinyhttp"><img src="https://i.snipboard.io/VFbSna.jpg" width="100px;" alt=""/><br /><sub><b>Deta</b></sub></td> <td align="center"><a href="https://molefrog.com/"><img src="https://avatars3.githubusercontent.com/u/671276?v=4" width="100px;" alt=""/><br /><sub><b>molefrog</b></sub></td> <td align="center"><a href="https://thecarrots.io/"><img src="https://i.snipboard.io/PEDbp3.jpg" width="100px;" alt=""/><br /><sub><b>Carrots</b></sub></td>
+  </tr>
+  
+</table>
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
 
 ## Contributors ✨
 
@@ -161,30 +172,6 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
-
-## Sponsors 💰
-
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tr>
-    <td align="center"><a href="http://deta.sh?ref=tinyhttp"><img src="https://i.snipboard.io/VFbSna.jpg" width="100px;" alt=""/><br /><sub><b>Deta</b></sub></td> <td align="center"><a href="https://molefrog.com/"><img src="https://avatars3.githubusercontent.com/u/671276?v=4" width="100px;" alt=""/><br /><sub><b>molefrog</b></sub></td> <td align="center"><a href="https://thecarrots.io/"><img src="https://i.snipboard.io/PEDbp3.jpg" width="100px;" alt=""/><br /><sub><b>Carrots</b></sub></td>
-  </tr>
-  
-</table>
-<!-- markdownlint-enable -->
-<!-- prettier-ignore-end -->
-
-## Donate
-
-[![PayPal](https://img.shields.io/badge/PayPal-cyan?style=flat-square&logo=paypal)](https://paypal.me/v1rtl) [![ko-fi](https://img.shields.io/badge/kofi-pink?style=flat-square&logo=ko-fi)](https://ko-fi.com/v1rtl) [![Qiwi](https://img.shields.io/badge/qiwi-white?style=flat-square&logo=qiwi)](https://qiwi.com/n/V1RTL) [![Yandex Money](https://img.shields.io/badge/Yandex_Money-yellow?style=flat-square&logo=yandex)](https://money.yandex.ru/to/410014774355272)
-
-[![Bitcoin](https://badge-crypto.vercel.app/api/badge?coin=btc&address=3PxedDftWBXujWtr7TbWQSiYTsZJoMD8K5)](https://badge-crypto.vercel.app/btc/3PxedDftWBXujWtr7TbWQSiYTsZJoMD8K5) [![Ethereum](https://badge-crypto.vercel.app/api/badge?balance=true&coin=eth&address=0xD3B282e9880cDcB1142830731cD83f7ac0e1043f)
-](https://badge-crypto.vercel.app/eth/0xD3B282e9880cDcB1142830731cD83f7ac0e1043f)
-
-The best way to support the project is to stake it on [**DEV**](https://stakes.social/0x14308514785B216904a41aB817282d25425Cce39). Note that you also get rewarded by staking, as well as the project author.
-
-[![DEV](https://badge.devprotocol.xyz/0x14308514785B216904a41aB817282d25425Cce39)](https://stakes.social/0x14308514785B216904a41aB817282d25425Cce39)
 
 ## License
 
