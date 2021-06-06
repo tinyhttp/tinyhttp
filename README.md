@@ -9,7 +9,7 @@
 [![Codecov](https://img.shields.io/codecov/c/gh/talentlessguy/tinyhttp?style=flat-square)][codecov]
 ![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/@tinyhttp/app.svg?style=flat-square) [![Codacy grade](https://img.shields.io/codacy/grade/239a8cc7bca24042940f018a1ccec72f?style=flat-square)][codacy-url] [![Last commit](https://img.shields.io/github/last-commit/talentlessguy/tinyhttp.svg?style=flat-square)][gh-url] [![NPM](https://img.shields.io/npm/l/@tinyhttp/app?style=flat-square)][license]
 
-> 🦕 tinyhttp now has a [Deno port](https://github.com/talentlessguy/tinyhttp-deno) (work in progress)
+> 🦕 tinyhttp now has a [Deno port](https://github.com/deno-libs/tinyhttp) (work in progress)
 
 _**tinyhttp**_ is a modern [Express](https://expressjs.com/)-like web framework written in TypeScript and compiled to native ESM, that uses a bare minimum amount of dependencies trying to avoid legacy hell.
 
