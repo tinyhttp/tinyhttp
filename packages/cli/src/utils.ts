@@ -73,7 +73,7 @@ export const installPackages = async (pkg: string) => {
     .save()
 
   const depCount =
-    (Object.keys(file.get('dependencies')) || []).length + (Object.keys(file.get('devDependencies')) || []).length
+    (Object.keys(file.get('dependencies')) || []).length + (Object.keys(file.get('devDependencies') || {}) || []).length
 
   const spinner = ora()
 
