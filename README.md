@@ -172,10 +172,6 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
-## License
-
-MIT © [v1rtl](https://v1rtl.site)
-
 [site-url]: https://tinyhttp.v1rtl.site
 [npm-url]: https://npmjs.com/package/@tinyhttp/app
 [codecov]: https://codecov.io/gh/talentlessguy/tinyhttp
