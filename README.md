@@ -7,16 +7,16 @@
 
 [![](https://img.shields.io/badge/website-visit-hotpink?style=flat-square)][site-url] [![npm](https://img.shields.io/npm/dm/@tinyhttp/app?style=flat-square)][npm-url] [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/talentlessguy/tinyhttp/CI?style=flat-square)][github-actions]
 [![Codecov](https://img.shields.io/codecov/c/gh/talentlessguy/tinyhttp?style=flat-square)][codecov]
-![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/@tinyhttp/app.svg?style=flat-square) [![Codacy grade](https://img.shields.io/codacy/grade/239a8cc7bca24042940f018a1ccec72f?style=flat-square)][codacy-url] [![Last commit](https://img.shields.io/github/last-commit/talentlessguy/tinyhttp.svg?style=flat-square)][gh-url] [![NPM](https://img.shields.io/npm/l/@tinyhttp/app?style=flat-square)][license]
+![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/@tinyhttp/app.svg?style=flat-square) [![Codacy grade](https://img.shields.io/codacy/grade/239a8cc7bca24042940f018a1ccec72f?style=flat-square)][codacy-url]
 
-> 🦕 tinyhttp now has a [Deno port](https://github.com/talentlessguy/tinyhttp-deno) (work in progress)
+> 🦕 tinyhttp now has a [Deno port](https://github.com/deno-libs/tinyhttp) (work in progress)
 
 _**tinyhttp**_ is a modern [Express](https://expressjs.com/)-like web framework written in TypeScript and compiled to native ESM, that uses a bare minimum amount of dependencies trying to avoid legacy hell.
 
 Here is a short list of most important features that tinyhttp has:
 
 - ⚡ [2x faster](#benchmarks) than Express
-- ⚙ Full Express middleware support
+- ⚙ Express middleware compat
 - ↪ Async middleware support
 - ☑ Native ESM and CommonJS support
 - 🚀 No legacy dependencies, just the JavaScript itself
@@ -27,15 +27,10 @@ Visit [tinyhttp website](https://tinyhttp.v1rtl.site) for docs, guides and middl
 
 ## Install
 
-tinyhttp requires [Node.js 12.4.0 or newer](https://node.green/#ES2019). It is recommended to use [pnpm](https://pnpm.js.org/), although it isn't required.
+[Node.js 12.4 or newer](https://node.green/#ES2019) is required.
 
 ```sh
-# npm
-npm i @tinyhttp/app
-# pnpm
 pnpm i @tinyhttp/app
-# yarn
-yarn add @tinyhttp/app
 ```
 
 ## Docs
@@ -54,7 +49,7 @@ tinyhttp new basic my-app
 cd my-app
 ```
 
-The app structure is quite similar to Express, except that you need to import `App` from `@tinyhttp/app` instead of default import from `express`.
+The app structure is quite similar to Express:.
 
 ```ts
 import { App } from '@tinyhttp/app'
@@ -64,16 +59,11 @@ const app = new App()
 
 app
   .use(logger())
-  .use(function someMiddleware(req, res, next) {
-    console.log('Did a request')
+  .use(async function someMiddleware(req, res, next) {
+    await someFunc()
     next()
   })
-  .get('/', (_, res) => {
-    res.send('<h1>Hello World</h1>')
-  })
-  .get('/page/:page/', (req, res) => {
-    res.status(200).send(`You just opened ${req.params.page}`)
-  })
+  .get('/', (_, res) => res.send('<h1>Hello World</h1>'))
   .listen(3000)
 ```
 
@@ -93,9 +83,29 @@ See [COMPARISON.md](COMPARISON.md).
 
 See [global framework benchmark](https://web-frameworks-benchmark.netlify.app/result?f=tinyhttp,express,polka,fastify).
 
-## Contributing
+## Donate
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+[![PayPal](https://img.shields.io/badge/PayPal-cyan?style=flat-square&logo=paypal)](https://paypal.me/v1rtl) [![ko-fi](https://img.shields.io/badge/kofi-pink?style=flat-square&logo=ko-fi)](https://ko-fi.com/v1rtl) [![Qiwi](https://img.shields.io/badge/qiwi-white?style=flat-square&logo=qiwi)](https://qiwi.com/n/V1RTL) [![Yandex Money](https://img.shields.io/badge/Yandex_Money-yellow?style=flat-square&logo=yandex)](https://money.yandex.ru/to/410014774355272)
+
+[![Bitcoin](https://badge-crypto.vercel.app/api/badge?coin=btc&address=3PxedDftWBXujWtr7TbWQSiYTsZJoMD8K5)](https://badge-crypto.vercel.app/btc/3PxedDftWBXujWtr7TbWQSiYTsZJoMD8K5) [![Ethereum](https://badge-crypto.vercel.app/api/badge?balance=true&coin=eth&address=0xD3B282e9880cDcB1142830731cD83f7ac0e1043f)
+](https://badge-crypto.vercel.app/eth/0xD3B282e9880cDcB1142830731cD83f7ac0e1043f)
+
+The best way to support the project is to stake it on [**DEV**](https://stakes.social/0x14308514785B216904a41aB817282d25425Cce39). Note that you also get rewarded by staking, as well as the project author.
+
+[![DEV](https://badge.devprotocol.xyz/0x14308514785B216904a41aB817282d25425Cce39)](https://stakes.social/0x14308514785B216904a41aB817282d25425Cce39)
+
+## Sponsors 💰
+
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="http://deta.sh?ref=tinyhttp"><img src="https://i.snipboard.io/VFbSna.jpg" width="100px;" alt=""/><br /><sub><b>Deta</b></sub></td> <td align="center"><a href="https://molefrog.com/"><img src="https://avatars3.githubusercontent.com/u/671276?v=4" width="100px;" alt=""/><br /><sub><b>molefrog</b></sub></td>
+  </tr>
+  
+</table>
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
 
 ## Contributors ✨
 
@@ -150,6 +160,10 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://bandism.net/"><img src="https://avatars.githubusercontent.com/u/22633385?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ikko Ashimine</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=eltociear" title="Documentation">📖</a></td>
     <td align="center"><a href="https://stanislas.blog"><img src="https://avatars.githubusercontent.com/u/11699655?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Stanislas</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=angristan" title="Documentation">📖</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://n1ru4l.cloud"><img src="https://avatars.githubusercontent.com/u/14338007?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Laurin Quast</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/commits?author=n1ru4l" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/RhnSharma"><img src="https://avatars.githubusercontent.com/u/22129063?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rohan Sharma</b></sub></a><br /><a href="https://github.com/talentlessguy/tinyhttp/issues?q=author%3ARhnSharma" title="Bug reports">🐛</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-restore -->
@@ -159,38 +173,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
-## Sponsors 💰
-
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tr>
-    <td align="center"><a href="http://deta.sh?ref=tinyhttp"><img src="https://i.snipboard.io/VFbSna.jpg" width="100px;" alt=""/><br /><sub><b>Deta</b></sub></td> <td align="center"><a href="https://molefrog.com/"><img src="https://avatars3.githubusercontent.com/u/671276?v=4" width="100px;" alt=""/><br /><sub><b>molefrog</b></sub></td> <td align="center"><a href="https://thecarrots.io/"><img src="https://i.snipboard.io/PEDbp3.jpg" width="100px;" alt=""/><br /><sub><b>Carrots</b></sub></td>
-  </tr>
-  
-</table>
-<!-- markdownlint-enable -->
-<!-- prettier-ignore-end -->
-
-## Donate
-
-The best way to support the project is to stake it on [**DEV**](https://stakes.social/0x14308514785B216904a41aB817282d25425Cce39). Note that you also get rewarded by staking, as well as the project author.
-
-[![DEV](https://badge.devprotocol.xyz/0x14308514785B216904a41aB817282d25425Cce39)](https://stakes.social/0x14308514785B216904a41aB817282d25425Cce39)
-
-[![PayPal](https://img.shields.io/badge/PayPal-cyan?style=flat-square&logo=paypal)](https://paypal.me/v1rtl) [![ko-fi](https://img.shields.io/badge/kofi-pink?style=flat-square&logo=ko-fi)](https://ko-fi.com/v1rtl) [![Qiwi](https://img.shields.io/badge/qiwi-white?style=flat-square&logo=qiwi)](https://qiwi.com/n/V1RTL) [![Yandex Money](https://img.shields.io/badge/Yandex_Money-yellow?style=flat-square&logo=yandex)](https://money.yandex.ru/to/410014774355272)
-
-[![Bitcoin](https://badge-crypto.vercel.app/api/badge?coin=btc&address=3PxedDftWBXujWtr7TbWQSiYTsZJoMD8K5)](https://badge-crypto.vercel.app/btc/3PxedDftWBXujWtr7TbWQSiYTsZJoMD8K5) [![Ethereum](https://badge-crypto.vercel.app/api/badge?balance=true&coin=eth&address=0xD3B282e9880cDcB1142830731cD83f7ac0e1043f)
-](https://badge-crypto.vercel.app/eth/0xD3B282e9880cDcB1142830731cD83f7ac0e1043f)
-
-## License
-
-MIT © [v1rtl](https://v1rtl.site)
-
 [site-url]: https://tinyhttp.v1rtl.site
 [npm-url]: https://npmjs.com/package/@tinyhttp/app
 [codecov]: https://codecov.io/gh/talentlessguy/tinyhttp
 [github-actions]: https://github.com/talentlessguy/tinyhttp/actions
-[license]: https://github.com/talentlessguy/tinyhttp/blob/master/LICENSE
-[gh-url]: https://github.com/talentlessguy/tinyhttp
 [codacy-url]: https://www.codacy.com/manual/talentlessguy/tinyhttp
