@@ -7,7 +7,7 @@
 
 [![](https://img.shields.io/badge/website-visit-hotpink?style=flat-square)][site-url] [![npm](https://img.shields.io/npm/dm/@tinyhttp/app?style=flat-square)][npm-url] [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/talentlessguy/tinyhttp/CI?style=flat-square)][github-actions]
 [![Codecov](https://img.shields.io/codecov/c/gh/talentlessguy/tinyhttp?style=flat-square)][codecov]
-![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/@tinyhttp/app.svg?style=flat-square) [![Codacy grade](https://img.shields.io/codacy/grade/239a8cc7bca24042940f018a1ccec72f?style=flat-square)][codacy-url] [![Last commit](https://img.shields.io/github/last-commit/talentlessguy/tinyhttp.svg?style=flat-square)][gh-url] [![NPM](https://img.shields.io/npm/l/@tinyhttp/app?style=flat-square)][license]
+![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/@tinyhttp/app.svg?style=flat-square) [![Codacy grade](https://img.shields.io/codacy/grade/239a8cc7bca24042940f018a1ccec72f?style=flat-square)][codacy-url]
 
 > 🦕 tinyhttp now has a [Deno port](https://github.com/deno-libs/tinyhttp) (work in progress)
 
@@ -177,6 +177,4 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 [npm-url]: https://npmjs.com/package/@tinyhttp/app
 [codecov]: https://codecov.io/gh/talentlessguy/tinyhttp
 [github-actions]: https://github.com/talentlessguy/tinyhttp/actions
-[license]: https://github.com/talentlessguy/tinyhttp/blob/master/LICENSE
-[gh-url]: https://github.com/talentlessguy/tinyhttp
 [codacy-url]: https://www.codacy.com/manual/talentlessguy/tinyhttp
