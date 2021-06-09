@@ -1,8 +1,6 @@
-![](https://tinyhttp.v1rtl.site/cover.jpg)
-
 <div align="center">
-<h1>tinyhttp</h1>
-<p>⚡ Tiny web framework as a replacement of Express</p>
+<img width="500px" src="https://tinyhttp.v1rtl.site/images/logo.svg" alt="tinyhttp" />
+<p><sub>⚡ Tiny web framework as a replacement of Express</sub></p><br />
 
 [![](https://img.shields.io/badge/website-visit-hotpink?style=for-the-badge)][site-url] [![npm](https://img.shields.io/npm/dt/@tinyhttp/app?style=for-the-badge&color=hotpink)][npm-url] [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/talentlessguy/tinyhttp/CI?style=for-the-badge&logo=github&label=&color=hotpink)][github-actions]
 [![Codecov](https://img.shields.io/codecov/c/gh/talentlessguy/tinyhttp?style=for-the-badge&logo=codecov&label=coverage&color=hotpink)][codecov] [![Codacy grade](https://img.shields.io/codacy/grade/239a8cc7bca24042940f018a1ccec72f?style=for-the-badge&logo=codacy&label=codacy&color=hotpink)][codacy-url]
