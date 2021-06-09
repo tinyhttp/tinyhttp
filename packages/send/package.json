@@ -9,7 +9,6 @@
     "url": "https://github.com/talentlessguy/tinyhttp.git",
     "directory": "packages/res"
   },
-  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": "./dist/index.js",
   "keywords": [
@@ -32,7 +31,7 @@
   },
   "dependencies": {
     "@tinyhttp/etag": "workspace:*",
-    "es-content-type": "^0.0.10",
-    "es-mime-types": "^0.1.2"
+    "es-content-type": "^0.1.0",
+    "es-mime-types": "^0.1.3"
   }
 }

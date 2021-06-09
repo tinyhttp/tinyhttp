@@ -139,7 +139,7 @@ the server in the future if the browser does not have an HTTPS connection.
 ```ts
 import { App } from '@tinyhttp/app'
 import { parse, serialize } from '@tinyhttp/cookie'
-import escapeHtml from 'escape-html'
+import { escapeHTML } from 'es-escape-html'
 
 new App()
   .use((req, res) => {
@@ -166,7 +166,7 @@ new App()
 
     res.set('Content-Type', 'text/html; charset=UTF-8')
 
-    res.write(name ? `<p>Welcome back, <strong>${escapeHtml(name)}</strong>!</p>` : '<p>Hello, new visitor!</p>')
+    res.write(name ? `<p>Welcome back, <strong>${escapeHTML(name)}</strong>!</p>` : '<p>Hello, new visitor!</p>')
 
     res.write('<form method="GET">')
     res.write('<input placeholder="enter your name" name="name"><input type="submit" value="Set Name">')

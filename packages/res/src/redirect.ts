@@ -1,5 +1,5 @@
 import { IncomingMessage as I, ServerResponse as S, STATUS_CODES } from 'http'
-import escapeHtml from 'escape-html'
+import { escapeHTML } from 'es-escape-html'
 import { formatResponse } from './format'
 import { setLocationHeader } from './headers'
 
@@ -32,7 +32,7 @@ export const redirect =
         body = STATUS_CODES[status] + '. Redirecting to ' + address
       },
       html: () => {
-        const u = escapeHtml(address)
+        const u = escapeHTML(address)
 
         body = `<p>${STATUS_CODES[status]}. Redirecting to <a href="${u}">${u}</a></p>`
       }

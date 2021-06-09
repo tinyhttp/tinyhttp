@@ -37,7 +37,7 @@
     "colorette": "^1.2.2",
     "edit-json-file": "^1.6.0",
     "httpie": "^1.1.2",
-    "ora": "^5.4.0",
+    "ora": "^5.4.1",
     "which-pm-runs": "^1.0.0"
   },
   "scripts": {
