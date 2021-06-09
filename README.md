@@ -3,11 +3,12 @@
 <div align="center">
 <h1>tinyhttp</h1>
 <p>⚡ Tiny web framework as a replacement of Express</p>
-</div>
 
-[![](https://img.shields.io/badge/website-visit-hotpink?style=flat-square)][site-url] [![npm](https://img.shields.io/npm/dm/@tinyhttp/app?style=flat-square)][npm-url] [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/talentlessguy/tinyhttp/CI?style=flat-square)][github-actions]
-[![Codecov](https://img.shields.io/codecov/c/gh/talentlessguy/tinyhttp?style=flat-square)][codecov]
-![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/@tinyhttp/app.svg?style=flat-square) [![Codacy grade](https://img.shields.io/codacy/grade/239a8cc7bca24042940f018a1ccec72f?style=flat-square)][codacy-url]
+[![](https://img.shields.io/badge/website-visit-hotpink?style=for-the-badge)][site-url] [![npm](https://img.shields.io/npm/dt/@tinyhttp/app?style=for-the-badge&color=hotpink)][npm-url] [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/talentlessguy/tinyhttp/CI?style=for-the-badge&logo=github&label=&color=hotpink)][github-actions]
+[![Codecov](https://img.shields.io/codecov/c/gh/talentlessguy/tinyhttp?style=for-the-badge&logo=codecov&label=coverage&color=hotpink)][codecov]
+![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/@tinyhttp/app.svg?style=for-the-badge&logo=snyk&label=vulns&color=hotpink) [![Codacy grade](https://img.shields.io/codacy/grade/239a8cc7bca24042940f018a1ccec72f?style=for-the-badge&logo=codacy&label=codacy&color=hotpink)][codacy-url]
+
+</div>
 
 > 🦕 tinyhttp now has a [Deno port](https://github.com/deno-libs/tinyhttp) (work in progress)
 
