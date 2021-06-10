@@ -1,3 +1,5 @@
+<br /><br /><br />
+
 <div align="center">
 <img width="500px" src="https://tinyhttp.v1rtl.site/images/logo.svg" alt="tinyhttp" />
 <p><sub>⚡ Tiny web framework as a replacement of Express</sub></p><br />
@@ -6,6 +8,7 @@
 [![Codecov](https://img.shields.io/codecov/c/gh/talentlessguy/tinyhttp?style=for-the-badge&logo=codecov&label=coverage&color=hotpink)][codecov] [![Codacy grade](https://img.shields.io/codacy/grade/239a8cc7bca24042940f018a1ccec72f?style=for-the-badge&logo=codacy&label=codacy&color=hotpink)][codacy-url]
 
 </div>
+<br /><br />
 
 > 🦕 tinyhttp now has a [Deno port](https://github.com/deno-libs/tinyhttp) (work in progress)
 
