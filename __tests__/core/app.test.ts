@@ -480,7 +480,7 @@ describe('HTTP methods', () => {
     const server = app.listen()
     const fetch = makeFetch(server)
 
-    await fetch('/', { method: 'HEAD' }).expect(204)
+    await fetch('/', { method: 'HEAD' }).expect(200)
   })
   it('HEAD request does not work for undefined handlers', async () => {
     const app = new App()

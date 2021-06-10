@@ -282,7 +282,7 @@ export class App<
         type: 'mw',
         path: '/'
       },
-      ...matched.filter((x) => (x.method ? x.method === req.method : true))
+      ...matched.filter((x) => req.method === 'HEAD' || (x.method ? x.method === req.method : true))
     ]
 
     if (matched[0] != null) {
