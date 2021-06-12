@@ -4,7 +4,7 @@ import { mkdir, writeFile } from 'fs/promises'
 import { get } from 'httpie'
 import editPkgJson from 'edit-json-file'
 
-import { installPackages, fileFetcher, install, setupEslint, msg } from './utils'
+import { installPackages, fileFetcher, install, setupEslint, msg, setPackageJsonName } from './utils'
 
 const ESLINT_TS_CONFIG = `
 {
@@ -142,6 +142,7 @@ cli
       }
     }
 
+    setPackageJsonName(dir)
     await installPackages(pkg)
 
     // Finish
