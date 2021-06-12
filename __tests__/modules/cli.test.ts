@@ -1,7 +1,7 @@
 import path from 'path'
 import { rm, readdir, mkdir, readFile } from 'fs/promises'
 import { exec } from 'child_process'
-import { runCmd, install } from '../../packages/cli/src/utils'
+import { runCmd, install, setPackageJsonName } from '../../packages/cli/src/utils'
 
 const FIXTURES_PATH = path.join(__dirname, '../fixtures')
 
@@ -17,6 +17,28 @@ describe('CLI utils', () => {
       exec('pwd', (_, stdout) => (syncStdout += stdout)).on('close', () => {
         expect(stdout).toBe(syncStdout)
       })
+    })
+  })
+
+  describe('setPackageJsonName(name)', () => {
+    let cwd: string
+    it('sets name correctly', async () => {
+      const name = 'aTestName'
+      cwd = process.cwd()
+
+      await mkdir(MOD_PATH)
+      process.chdir(MOD_PATH)
+
+      await runCmd('pnpm init -y')
+
+      setPackageJsonName(name)
+      const pkgJSON = await readFile('package.json')
+      const { name: packageName } = JSON.parse(pkgJSON.toString())
+      expect(packageName).toEqual(name)
+
+      // Cleanup
+      process.chdir(cwd)
+      await rm(MOD_PATH, { recursive: true, force: true })
     })
   })
   /* describe('install(pkgManager, ...pkgs)', () => {

@@ -116,3 +116,8 @@ export const setupEslint = async (pkg: string) => {
     throw new Error('Failed to create ESLint config')
   }
 }
+
+export const setPackageJsonName = (name: string) => {
+  const file = editPkgJson('package.json')
+  file.set('name', name).save()
+}
