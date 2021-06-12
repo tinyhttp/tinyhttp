@@ -16,7 +16,7 @@ _**tinyhttp**_ is a modern [Express](https://expressjs.com/)-like web framework 
 
 Here is a short list of most important features that tinyhttp has:
 
-- ⚡ [2x faster](#benchmarks) than Express
+- ⚡ [2x faster](https://web-frameworks-benchmark.netlify.app/result?f=tinyhttp,express,polka,fastify) than Express
 - ⚙ Express middleware compat
 - ↪ Async middleware support
 - ☑ Native ESM and CommonJS support
@@ -57,10 +57,6 @@ Search and explore the full list at [middleware search page](https://tinyhttp.v1
 ## Comparison
 
 See [COMPARISON.md](COMPARISON.md).
-
-## Benchmarks
-
-See [global framework benchmark](https://web-frameworks-benchmark.netlify.app/result?f=tinyhttp,express,polka,fastify).
 
 ## Donate
 
