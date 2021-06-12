@@ -34,10 +34,6 @@ Visit [tinyhttp website](https://tinyhttp.v1rtl.site) for docs, guides and middl
 pnpm i @tinyhttp/app
 ```
 
-## Docs
-
-You can see the documentation [here](https://tinyhttp.v1rtl.site/docs).
-
 ## Get Started
 
 Create a new project using [tinyhttp CLI](https://github.com/talentlessguy/tinyhttp/tree/master/packages/cli):
@@ -48,24 +44,6 @@ pnpm i -g @tinyhttp/cli
 tinyhttp new basic my-app
 
 cd my-app
-```
-
-The app structure is quite similar to Express:.
-
-```ts
-import { App } from '@tinyhttp/app'
-import { logger } from '@tinyhttp/logger'
-
-const app = new App()
-
-app
-  .use(logger())
-  .use(async function someMiddleware(req, res, next) {
-    await someFunc()
-    next()
-  })
-  .get('/', (_, res) => res.send('<h1>Hello World</h1>'))
-  .listen(3000)
 ```
 
 See tinyhttp ["Learn" page](https://tinyhttp.v1rtl.site/learn) for complete guide.
