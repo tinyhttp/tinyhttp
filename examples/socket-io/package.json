@@ -1,0 +1,14 @@
+{
+  "name": "socket-io",
+  "private": true,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*",
+    "@tinyhttp/logger": "workspace:*",
+    "socket.io": "^4.1.2"
+  },
+  "type": "module"
+}
