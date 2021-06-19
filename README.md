@@ -36,7 +36,7 @@ pnpm i @tinyhttp/app
 
 ## Get Started
 
-Create a new project using [tinyhttp CLI](https://github.com/talentlessguy/tinyhttp/tree/master/packages/cli):
+Create a new project using [tinyhttp CLI](https://github.com/tinyhttp/cli):
 
 ```sh
 pnpm i -g @tinyhttp/cli
