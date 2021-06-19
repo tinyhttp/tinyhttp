@@ -4,7 +4,7 @@
 <img width="500px" src="https://tinyhttp.v1rtl.site/images/logo.svg" alt="tinyhttp" />
 <p><sub>⚡ Tiny web framework as a replacement of Express</sub></p><br />
 
-[![](https://img.shields.io/badge/website-visit-hotpink?style=for-the-badge)][site-url] [![npm](https://img.shields.io/npm/dt/@tinyhttp/app?style=for-the-badge&color=hotpink)][npm-url] [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/tinyhttp/tinyhttp/CI?style=for-the-badge&logo=github&label=&color=hotpink)][github-actions] [![Coverage](https://img.shields.io/codacy/coverage/239a8cc7bca24042940f018a1ccec72f?style=for-the-badge&color=hotpink)][codacy-url] [![Codacy grade](https://img.shields.io/codacy/grade/239a8cc7bca24042940f018a1ccec72f?style=for-the-badge&logo=codacy&label=codacy&color=hotpink)][codacy-url]
+[![](https://img.shields.io/badge/website-visit-hotpink?style=for-the-badge)][site-url] [![npm](https://img.shields.io/npm/dt/@tinyhttp/app?style=for-the-badge&color=hotpink)][npm-url] [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/tinyhttp/tinyhttp/CI?style=for-the-badge&logo=github&label=&color=hotpink)][github-actions] [![Coverage](https://img.shields.io/codacy/coverage/239a8cc7bca24042940f018a1ccec72f?style=for-the-badge&color=hotpink)][codacy-url] [![Codacy grade](https://img.shields.io/codacy/grade/239a8cc7bca24042940f018a1ccec72f?style=for-the-badge&logo=codacy&label=codacy&color=hotpink)][codacy-url] [![](https://img.shields.io/badge/donate-DEV-hotpink?style=for-the-badge)](https://stakes.social/0x14308514785B216904a41aB817282d25425Cce39)
 
 </div>
 <br /><br />
@@ -13,7 +13,7 @@
 
 _**tinyhttp**_ is a modern [Express](https://expressjs.com/)-like web framework written in TypeScript and compiled to native ESM, that uses a bare minimum amount of dependencies trying to avoid legacy hell.
 
-Here is a short list of most important features that tinyhttp has:
+## Features
 
 - ⚡ [2x faster](https://web-frameworks-benchmark.netlify.app/result?f=tinyhttp,express,polka,fastify) than Express
 - ⚙ Express middleware compat
@@ -27,48 +27,21 @@ Visit [tinyhttp website](https://tinyhttp.v1rtl.site) for docs, guides and middl
 
 ## Install
 
-[Node.js 12.4 or newer](https://node.green/#ES2019) is required.
+[Node.js 12.4+](https://node.green/#ES2019) is required.
 
 ```sh
 pnpm i @tinyhttp/app
 ```
 
-## Get Started
-
-Create a new project using [tinyhttp CLI](https://github.com/tinyhttp/cli):
-
-```sh
-pnpm i -g @tinyhttp/cli
-
-tinyhttp new basic my-app
-
-cd my-app
-```
-
-See tinyhttp ["Learn" page](https://tinyhttp.v1rtl.site/learn) for complete guide.
-
-## Middlewares
-
-tinyhttp offers a list of premade middleware for common tasks, such as [rate limiting](https://tinyhttp.v1rtl.site/mw/rate-limit), [logging](https://tinyhttp.v1rtl.site/mw/logger) and [JWT integration](https://tinyhttp.v1rtl.site/mw/jwt).
-
-Search and explore the full list at [middleware search page](https://tinyhttp.v1rtl.site/mw).
-
-## Comparison
-
-See [COMPARISON.md](COMPARISON.md).
-
 ## Donate
-
-[![PayPal](https://img.shields.io/badge/PayPal-cyan?style=flat-square&logo=paypal)](https://paypal.me/v1rtl) [![ko-fi](https://img.shields.io/badge/kofi-pink?style=flat-square&logo=ko-fi)](https://ko-fi.com/v1rtl) [![Qiwi](https://img.shields.io/badge/qiwi-white?style=flat-square&logo=qiwi)](https://qiwi.com/n/V1RTL) [![Yandex Money](https://img.shields.io/badge/Yandex_Money-yellow?style=flat-square&logo=yandex)](https://money.yandex.ru/to/410014774355272)
-
-[![Bitcoin](https://badge-crypto.vercel.app/api/badge?coin=btc&address=3PxedDftWBXujWtr7TbWQSiYTsZJoMD8K5)](https://badge-crypto.vercel.app/btc/3PxedDftWBXujWtr7TbWQSiYTsZJoMD8K5) [![Ethereum](https://badge-crypto.vercel.app/api/badge?balance=true&coin=eth&address=0xD3B282e9880cDcB1142830731cD83f7ac0e1043f)
-](https://badge-crypto.vercel.app/eth/0xD3B282e9880cDcB1142830731cD83f7ac0e1043f)
-
-The best way to support the project is to stake it on [**DEV**](https://stakes.social/0x14308514785B216904a41aB817282d25425Cce39). Note that you also get rewarded by staking, as well as the project author.
 
 [![DEV](https://badge.devprotocol.xyz/0x14308514785B216904a41aB817282d25425Cce39)](https://stakes.social/0x14308514785B216904a41aB817282d25425Cce39)
 
-## Sponsors 💰
+The best way to support the project is to stake it on [**stakes.social**](https://stakes.social/0x14308514785B216904a41aB817282d25425Cce39). Note that you also get rewarded by staking, as well as the project author.
+
+**Each address that stakes more than 1K DEV gets bonus 10DEV!** Rewarded addresses will be listed here.
+
+## Sponsors
 
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
