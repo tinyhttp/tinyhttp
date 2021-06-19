@@ -61,5 +61,7 @@ jobs:
       - name: run tests
         run: pnpm test
 
-      - name: Collect coverage
-        uses: codecov/codecov-action@v1.5.0
+      - name: collect coverage
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
