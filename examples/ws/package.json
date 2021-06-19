@@ -1,0 +1,10 @@
+{
+  "name": "ws",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*",
+    "tinyws": "^0.0.4",
+    "ws": "^7.5.0"
+  }
+}
