@@ -1,9 +1,8 @@
 import { unless } from '../../packages/unless/src'
 import type { UnlessMiddlewareOptions, CustomUnless } from '../../packages/unless/src'
-import type { Request, Response, NextFunction } from './../../packages/app'
+import type { Request, Response } from '../../packages/app/dist'
 import { createServer } from 'http'
 import { makeFetch } from 'supertest-fetch'
-import type { Middleware, SyncHandler } from '../../packages/app/src'
 
 function exampleMiddleware(_: Request, res: Response): void {
   res.setHeader('MW', 1)

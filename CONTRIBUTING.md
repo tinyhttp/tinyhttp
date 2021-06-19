@@ -69,14 +69,14 @@ Here's a small list of requirements for your PR:
 - Copy `package.json`, `README.md` and `rollup.config.js` from any near folder and edit the `name`, `version` etc fields
 - Create `src/index.ts` file
 - Write some code
-- Go to `__tests__/mw` folder
+- Go to `tests/mw` folder
 - Write some tests
 - Pull request!
 
 ### Adding new non-middleware module
 
 - Same 4 fields as for middleware
-- Go to `__tests__/modules` folder
+- Go to `tests/modules` folder
 - Write some tests
 - Pull request!
 

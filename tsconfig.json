@@ -17,5 +17,5 @@
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true
   },
-  "exclude": ["__tests__", "examples", "packages/*/dist"]
+  "exclude": ["examples", "packages/*/dist"]
 }

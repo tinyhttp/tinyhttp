@@ -35,8 +35,8 @@ describe('JWT tests', () => {
   })
 
   it('should handle private key encryption', () => {
-    const privateKey = fs.readFileSync('__tests__/fixtures/jwt/private', { encoding: 'utf-8' })
-    const publicKey = fs.readFileSync('__tests__/fixtures/jwt/public', { encoding: 'utf-8' })
+    const privateKey = fs.readFileSync('tests/fixtures/jwt/private', { encoding: 'utf-8' })
+    const publicKey = fs.readFileSync('tests/fixtures/jwt/public', { encoding: 'utf-8' })
 
     req.headers.authorization = 'Bearer ' + jsonwebtoken.sign({ foo: 'bar' }, privateKey, { algorithm: 'RS256' })
 

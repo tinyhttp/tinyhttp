@@ -1,7 +1,9 @@
 import fs from 'fs'
 import path from 'path'
 import { makeFetch } from 'supertest-fetch'
+import { App } from '../../packages/app/src'
 import { json, send, sendFile, sendStatus, status } from '../../packages/send/src'
+import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import { runServer } from '../../test_helpers/runServer'
 
 describe('json(body)', () => {
@@ -90,6 +92,24 @@ describe('send(body)', () => {
       'Content-Type',
       'application/octet-stream'
     )
+  })
+  it('should set 304 status for fresh requests', async () => {
+    const etag = 'abc'
+
+    const app = new App({ settings: { freshnessTesting: true } })
+
+    const server = app.listen()
+
+    app.use((_req, res) => {
+      const str = Array(1000).join('-')
+      res.set('ETag', etag).send(str)
+    })
+
+    await makeFetch(server)('/', {
+      headers: {
+        'If-None-Match': etag
+      }
+    }).expectStatus(304)
   })
 })
 

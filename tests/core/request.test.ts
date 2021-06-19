@@ -135,14 +135,14 @@ describe('Request properties', () => {
   it('req.fresh and req.stale get set', async () => {
     const etag = '123'
     const { fetch } = InitAppAndTest(
-      (req, res) => {
-        res.set('ETag', etag).send(`${req.fresh ? 'fresh' : 'stale'}`)
+      (_req, res) => {
+        res.set('ETag', etag).send('stale')
       },
       '/',
       'GET',
       { settings: { freshnessTesting: true } }
     )
 
-    await fetch('/', { headers: { 'If-None-Match': etag } }).expect(200, 'fresh')
+    await fetch('/', { headers: { 'If-None-Match': etag } }).expectStatus(304)
   })
 })
