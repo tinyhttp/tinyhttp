@@ -1,6 +1,6 @@
 # Next.js Custom Server example
 
-[![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/talentlessguy/tinyhttp/blob/master/examples/next-custom-server)
+[![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/tinyhttp/tinyhttp/blob/master/examples/next-custom-server)
 
 Example of [Next.js](https://nextjs.org) custom server with tinyhttp, deployed on [Vercel](https://vercel.com).
 

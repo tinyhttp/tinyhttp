@@ -5,11 +5,11 @@
   "homepage": "https://tinyhttp.v1rtl.site",
   "funding": {
     "type": "individual",
-    "url": "https://github.com/talentlessguy/tinyhttp?sponsor=1"
+    "url": "https://github.com/tinyhttp/tinyhttp?sponsor=1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/talentlessguy/tinyhttp.git",
+    "url": "https://github.com/tinyhttp/tinyhttp.git",
     "directory": "packages/cookie-signature"
   },
   "engines": {

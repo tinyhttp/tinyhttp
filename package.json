@@ -2,7 +2,7 @@
   "name": "@tinyhttp/monorepo",
   "version": "0.0.1",
   "private": true,
-  "repository": "https://github.com/talentlessguy/tinyhttp.git",
+  "repository": "https://github.com/tinyhttp/tinyhttp.git",
   "author": "talentlessguy <pilll.PL22@gmail.com>",
   "license": "MIT",
   "engines": {

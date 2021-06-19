@@ -10,10 +10,10 @@ Contributions are always welcome, here's an instruction of how to contribute.
 
 ```sh
 # git
-git clone https://github.com/talentlessguy/tinyhttp.git
+git clone https://github.com/tinyhttp/tinyhttp.git
 
 # (or) hub
-hub clone talentlessguy/tinyhttp
+hub clone tinyhttp/tinyhttp
 ```
 
 - Install Node.js (v14 is recommended because tests use `fs/promises`) and `pnpm`:
