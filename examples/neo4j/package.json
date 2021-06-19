@@ -1,0 +1,13 @@
+{
+  "name": "neo4j",
+  "private": true,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*",
+    "neo4j-driver": "^4.1.2"
+  },
+  "type": "module"
+}
