@@ -93,7 +93,7 @@ describe('send(body)', () => {
       'application/octet-stream'
     )
   })
-  /* it('should set 304 status for fresh requests', async () => {
+  it('should set 304 status for fresh requests', async () => {
     const etag = 'abc'
 
     const app = new App({ settings: { freshnessTesting: true } })
@@ -110,7 +110,7 @@ describe('send(body)', () => {
         'If-None-Match': etag
       }
     }).expectStatus(304)
-  }) */
+  })
 })
 
 describe('status(status)', () => {
