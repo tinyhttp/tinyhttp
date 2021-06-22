@@ -359,11 +359,20 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "tbhmens",
+      "name": "tbhmens",
+      "avatar_url": "https://avatars.githubusercontent.com/u/57283066?v=4",
+      "profile": "https://github.com/tbhmens",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
   "projectName": "tinyhttp",
-  "projectOwner": "talentlessguy",
+  "projectOwner": "tinyhttp",
   "repoType": "github",
   "repoHost": "https://github.com",
   "skipCi": true

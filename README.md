@@ -110,6 +110,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://n1ru4l.cloud"><img src="https://avatars.githubusercontent.com/u/14338007?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Laurin Quast</b></sub></a><br /><a href="https://github.com/tinyhttp/tinyhttp/commits?author=n1ru4l" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/RhnSharma"><img src="https://avatars.githubusercontent.com/u/22129063?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rohan Sharma</b></sub></a><br /><a href="https://github.com/tinyhttp/tinyhttp/issues?q=author%3ARhnSharma" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/tbhmens"><img src="https://avatars.githubusercontent.com/u/57283066?v=4?s=100" width="100px;" alt=""/><br /><sub><b>tbhmens</b></sub></a><br /><a href="https://github.com/tinyhttp/tinyhttp/commits?author=tbhmens" title="Code">💻</a></td>
   </tr>
 </table>
 
