@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/ip-filter",
-  "version": "1.3.9",
+  "version": "1.3.10",
   "description": "tinyhttp IP filtering middleware",
   "main": "./dist/index.cjs",
   "types": "./dist/index.d.ts",
@@ -36,7 +36,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/app": "1.3.9",
+    "@tinyhttp/app": "1.3.10",
     "ip-regex": "^4.3.0"
   },
   "engines": {
