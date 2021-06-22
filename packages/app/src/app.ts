@@ -18,7 +18,7 @@ const lead = (x: string) => (x.charCodeAt(0) === 47 ? x : '/' + x)
 
 const mount = (fn: App | Handler) => (fn instanceof App ? fn.attach : fn)
 
-export const applyHandler =
+const applyHandler =
   <Req, Res>(h: Handler<Req, Res>) =>
   async (req: Req, res: Res, next?: NextFunction) => {
     try {
