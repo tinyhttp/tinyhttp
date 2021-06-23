@@ -368,6 +368,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "wakeupmh",
+      "name": "Marcos Henrique",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14917870?v=4",
+      "profile": "http://dev.to/wakeupmh",
+      "contributions": [
+        "example"
+      ]
     }
   ],
   "contributorsPerLine": 7,
