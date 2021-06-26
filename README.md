@@ -4,7 +4,7 @@
 <img width="500px" src="https://tinyhttp.v1rtl.site/images/logo.svg" alt="tinyhttp" />
 <p><sub>⚡ Tiny web framework as a replacement of Express</sub></p><br />
 
-[![](https://img.shields.io/badge/website-visit-hotpink?style=for-the-badge)][site-url] [![npm](https://img.shields.io/npm/dt/@tinyhttp/app?style=for-the-badge&color=hotpink)][npm-url] [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/tinyhttp/tinyhttp/CI?style=for-the-badge&logo=github&label=&color=hotpink)][github-actions] [![Coverage](https://img.shields.io/codacy/coverage/239a8cc7bca24042940f018a1ccec72f?style=for-the-badge&color=hotpink)][codacy-url] [![Codacy grade](https://img.shields.io/codacy/grade/239a8cc7bca24042940f018a1ccec72f?style=for-the-badge&logo=codacy&label=codacy&color=hotpink)][codacy-url] [![](https://img.shields.io/badge/donate-DEV-hotpink?style=for-the-badge)](https://stakes.social/0x14308514785B216904a41aB817282d25425Cce39)
+[![](https://img.shields.io/badge/website-visit-hotpink?style=for-the-badge)][site-url] [![npm](https://img.shields.io/npm/dt/@tinyhttp/app?style=for-the-badge&color=hotpink)][npm-url] [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/tinyhttp/tinyhttp/CI?style=for-the-badge&logo=github&label=&color=hotpink)][github-actions] [![Coverage][codacy-coverage]][codacy-url] [![Codacy grade][codacy-grade]][codacy-url] [![](https://img.shields.io/badge/donate-DEV-hotpink?style=for-the-badge)](https://stakes.social/0x14308514785B216904a41aB817282d25425Cce39)
 
 </div>
 <br /><br />
@@ -124,6 +124,7 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 [site-url]: https://tinyhttp.v1rtl.site
 [npm-url]: https://npmjs.com/package/@tinyhttp/app
-[codeclimate]: https://codeclimate.com/github/tinyhttp/tinyhttp
 [github-actions]: https://github.com/tinyhttp/tinyhttp/actions
-[codacy-url]: https://www.codacy.com/manual/tinyhttp/tinyhttp
+[codacy-url]: https://app.codacy.com/gh/talentlessguy/tinyhttp
+[codacy-grade]: https://img.shields.io/codacy/grade/239a8cc7bca24042940f018a1ccec72f?style=for-the-badge&logo=codacy&label=codacy&color=hotpink
+[codacy-coverage]: https://img.shields.io/codacy/coverage/239a8cc7bca24042940f018a1ccec72f?style=for-the-badge&color=hotpink
