@@ -1,6 +1,6 @@
 # Malibu example
 
-Simple Tinyhttp app using [Malibu](https://github.com/tinyhttp/malibu) as the CSRF middleware
+Simple tinyhttp app using [Malibu](https://github.com/tinyhttp/malibu) as the CSRF middleware
 
 ## Setup
 
