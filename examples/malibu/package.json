@@ -1,0 +1,15 @@
+{
+  "type": "module",
+  "name": "malibu",
+  "private": true,
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*",
+    "@tinyhttp/cookie-parser": "workspace:*",
+    "malibu": "^1.0.3",
+    "milliparsec": "^2.1.1"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "main": "index.js"
+}
