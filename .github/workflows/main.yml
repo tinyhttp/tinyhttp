@@ -63,9 +63,8 @@ jobs:
       - name: run tests
         run: pnpm test
 
-      - name: collect coverage
-        env:
-          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
-        uses: codacy/codacy-coverage-reporter-action@v1
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
         with:
-          project-token: $CODACY_PROJECT_TOKEN
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./coverage.lcov
