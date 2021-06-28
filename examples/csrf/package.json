@@ -6,7 +6,7 @@
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/cookie-parser": "workspace:*",
     "malibu": "^1.0.3",
-    "milliparsec": "^2.1.1"
+    "milliparsec": "^2.2.0"
   },
   "scripts": {
     "start": "node index.js"
