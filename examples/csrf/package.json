@@ -1,6 +1,6 @@
 {
   "type": "module",
-  "name": "malibu",
+  "name": "csrf",
   "private": true,
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
