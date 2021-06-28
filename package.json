@@ -37,6 +37,7 @@
     "typescript": "^4.3.4"
   },
   "scripts": {
+    "prerelease": "pnpm lint && pnpm build && pnpm test",
     "chgset:run": "changeset",
     "chgset:version": "changeset version",
     "rm-changelogs": "rm -rf packages/*/CHANGELOG.md",
@@ -48,7 +49,6 @@
     "echo:ancestor": "echo ${ANCESTOR_REF:-$(git merge-base origin/master HEAD)}",
     "build": "pnpm -r build",
     "build:ancestor": "pnpm --filter ...[$(pnpm --silent echo:ancestor)] build",
-    "prepare": "husky install",
-    "prerelease": "husky install"
+    "postinstall": "husky install"
   }
 }
