@@ -378,6 +378,16 @@
       "contributions": [
         "example"
       ]
+    },
+    {
+      "login": "massivefermion",
+      "name": "massivefermion",
+      "avatar_url": "https://avatars.githubusercontent.com/u/25373436?v=4",
+      "profile": "https://github.com/massivefermion",
+      "contributions": [
+        "plugin",
+        "example"
+      ]
     }
   ],
   "contributorsPerLine": 7,
