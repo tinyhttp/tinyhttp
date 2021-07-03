@@ -17,8 +17,6 @@ env:
 jobs:
   # This workflow contains a single job called "build"
   build:
-    # Use environment for CI
-    environment: ci
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -38,12 +36,12 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v2
         with:
-          node-version: 15.14.0
+          node-version: 14.x
 
       - name: install pnpm
         uses: pnpm/action-setup@v2.0.1
         with:
-          version: 6.2.2
+          version: 6.x
 
       - name: setup pnpm config
         run: pnpm config set store-dir $PNPM_CACHE_FOLDER
