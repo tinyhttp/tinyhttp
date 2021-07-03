@@ -96,7 +96,7 @@ describe('send(body)', () => {
   it('should set 304 status for fresh requests', async () => {
     const etag = 'abc'
 
-    const app = new App({ settings: { freshnessTesting: true } })
+    const app = new App()
 
     const server = app.listen()
 

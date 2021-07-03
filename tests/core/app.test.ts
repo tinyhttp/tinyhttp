@@ -914,34 +914,6 @@ describe('App settings', () => {
       await makeFetch(server)('/').expect(200)
     })
   })
-  describe('networkExtensions', () => {
-    it('enables req.fresh', async () => {
-      const etag = '123'
-      const { fetch } = InitAppAndTest(
-        (req, res) => {
-          res.set('ETag', etag).send(`${req.fresh ? 'fresh' : 'stale'}`)
-        },
-        '/',
-        'GET',
-        { settings: { freshnessTesting: true } }
-      )
-
-      await fetch('/', { headers: { 'If-None-Match': etag } }).expect(304)
-    })
-    it('disabled', async () => {
-      const etag = '123'
-      const { fetch } = InitAppAndTest(
-        (req, res) => {
-          res.set('ETag', etag).send(`${req.fresh ? 'fresh' : 'stale'}`)
-        },
-        '/',
-        'GET',
-        { settings: { freshnessTesting: false } }
-      )
-
-      await fetch('/', { headers: { 'If-None-Match': etag } }).expect(200, 'stale')
-    })
-  })
   describe('enableReqRoute', () => {
     it('attach current fn to req.route when enabled', async () => {
       const app = new App({ settings: { enableReqRoute: true } })

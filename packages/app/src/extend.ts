@@ -92,10 +92,8 @@ export const extendMiddleware =
     res.append = append<Response>(res)
     res.locals = res.locals || Object.create(null)
 
-    if (settings?.freshnessTesting) {
-      Object.defineProperty(req, 'fresh', { get: getFreshOrStale.bind(null, req, res) })
-      req.stale = !req.fresh
-    }
+    Object.defineProperty(req, 'fresh', { get: getFreshOrStale.bind(null, req, res), configurable: true })
+    req.stale = !req.fresh
 
     next()
   }

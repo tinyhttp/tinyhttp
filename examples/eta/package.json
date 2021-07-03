@@ -3,13 +3,13 @@
   "private": true,
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "eta": "^1.12.0"
-  },
-  "devDependencies": {
-    "ts-node": "^9.1.1"
+    "eta": "^1.12.2"
   },
   "scripts": {
-    "start": "ts-node index.ts"
+    "start": "esmo index.ts"
   },
-  "main": "index.js"
+  "main": "index.js",
+  "devDependencies": {
+    "esmo": "^0.7.3"
+  }
 }

@@ -139,8 +139,7 @@ describe('Request properties', () => {
         res.set('ETag', etag).send('stale')
       },
       '/',
-      'GET',
-      { settings: { freshnessTesting: true } }
+      'GET'
     )
 
     await fetch('/', { headers: { 'If-None-Match': etag } }).expectStatus(304)

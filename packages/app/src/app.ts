@@ -34,7 +34,6 @@ const applyHandler =
  */
 export type AppSettings = Partial<{
   networkExtensions: boolean
-  freshnessTesting: boolean
   subdomainOffset: number
   bindAppToReqRes: boolean
   xPoweredBy: string | boolean
@@ -51,7 +50,7 @@ export type TemplateFunc<O> = (
   cb: (err: Error, html: unknown) => void
 ) => void
 
-export type TemplateEngineOptions<O = any> = Partial<{
+export type TemplateEngineOptions<O extends any> = Partial<{
   cache: boolean
   ext: string
   renderOptions: Partial<O>
