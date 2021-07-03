@@ -40,6 +40,9 @@ jobs:
       - name: setup pnpm config
         run: pnpm config set store-dir $PNPM_CACHE_FOLDER
 
+      - name: install packages
+        run: pnpm install
+
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@master
