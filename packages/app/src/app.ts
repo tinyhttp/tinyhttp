@@ -312,7 +312,8 @@ export class App<
       if (type === 'route') req.params = params
 
       if (path.includes(':')) {
-        const url = req.url.slice(req.url.indexOf(Object.values(params)[0]) + Object.values(params)[0].length)
+        const first = Object.values(params)[0]
+        const url = req.url.slice(req.url.indexOf(first) + first?.length)
 
         req.url = lead(url)
       } else {
