@@ -86,13 +86,13 @@ export interface Request extends IncomingMessage {
   path: string
   url: string
   query: ParsedUrlQuery
-  params?: URLParams
+  params: URLParams
   connection: Connection
-  route?: Middleware | undefined
+  route?: Middleware
   protocol: Protocol
   secure: boolean
   xhr: boolean
-  hostname: string | undefined
+  hostname?: string
   ip?: string
   ips?: string[]
   subdomains?: string[]
