@@ -8,7 +8,7 @@ import { onErrorHandler } from './onError'
 import { Middleware, Handler, NextFunction, Router, UseMethodParams, pushMiddleware } from '@tinyhttp/router'
 import { extendMiddleware } from './extend'
 import { parse as rg } from 'regexparam'
-import { getPathname, getFreshOrStale } from '@tinyhttp/req'
+import { getPathname } from '@tinyhttp/req'
 
 /**
  * Add leading slash if not present (e.g. path -> /path, /path -> /path)
@@ -314,13 +314,12 @@ export class App<
       if (path.includes(':')) {
         const first = Object.values(params)[0]
         const url = req.url.slice(req.url.indexOf(first) + first?.length)
-
         req.url = lead(url)
       } else {
         req.url = lead(req.url.substring(path.length))
       }
 
-      req.path = getPathname(req.url)
+      if (!req.path) req.path = getPathname(req.url)
 
       if (this.settings?.enableReqRoute) req.route = getRouteFromApp(this as any, handler)
 
