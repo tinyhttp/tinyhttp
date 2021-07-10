@@ -1,5 +1,6 @@
-import { Request, Response, NextFunction } from '@tinyhttp/app'
+import { IncomingMessage as Request, ServerResponse as Response } from 'http'
 import { MemoryStore, Store } from './memory-store'
+import { send, status } from '@tinyhttp/send'
 
 export interface RequestWithRateLimit extends Request {
   rateLimit?: {
@@ -8,6 +9,7 @@ export interface RequestWithRateLimit extends Request {
     remaining: number
     resetTime: Date
   }
+  ip?: string
 }
 
 export interface RateLimitOptions {
@@ -19,7 +21,7 @@ export interface RateLimitOptions {
   skipFailedRequests: boolean
   skipSuccessfulRequests: boolean
   draftPolliRatelimitHeaders: boolean
-  keyGenerator: (req: Request) => string
+  keyGenerator: (req: RequestWithRateLimit) => string
   shouldSkip: (req: Request, res: Response) => boolean
   onLimitReached: (req: Request, res: Response) => void
   store?: Store
@@ -69,7 +71,7 @@ export function rateLimit(options?: Partial<RateLimitOptions>) {
     })
   }
 
-  async function middleware(req: RequestWithRateLimit, res: Response, next: NextFunction) {
+  async function middleware(req: RequestWithRateLimit, res: Response, next: (err?: any) => void) {
     if (shouldSkip(req, res)) return next()
 
     const key = keyGenerator(req)
@@ -87,7 +89,7 @@ export function rateLimit(options?: Partial<RateLimitOptions>) {
 
       if (headers && !res.headersSent) {
         res.setHeader('X-RateLimit-Limit', maxResult)
-        res.setHeader('X-RateLimit-Remaining', (req as any).rateLimit.remaining)
+        res.setHeader('X-RateLimit-Remaining', req.rateLimit.remaining)
         if (resetTime instanceof Date) {
           // provide the current date to help avoid issues with incorrect clocks
           res.setHeader('Date', new Date().toUTCString())
@@ -96,7 +98,7 @@ export function rateLimit(options?: Partial<RateLimitOptions>) {
       }
       if (draftPolliRatelimitHeaders && !res.headersSent) {
         res.setHeader('RateLimit-Limit', maxResult)
-        res.setHeader('RateLimit-Remaining', (req as any).rateLimit.remaining)
+        res.setHeader('RateLimit-Remaining', req.rateLimit.remaining)
         if (resetTime) {
           const deltaSeconds = Math.ceil((resetTime.getTime() - Date.now()) / 1000)
           res.setHeader('RateLimit-Reset', Math.max(0, deltaSeconds))
@@ -137,7 +139,9 @@ export function rateLimit(options?: Partial<RateLimitOptions>) {
 
       if (max && current > max) {
         if (headers && !res.headersSent) res.setHeader('Retry-After', Math.ceil(windowMs / 1000))
-        return res.status(statusCode).send(message)
+        status(res)(statusCode)
+        send(req, res)(message)
+        return
       }
 
       next()

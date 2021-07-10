@@ -1,5 +1,5 @@
 import ipRegex from 'ip-regex'
-import { Request, Response } from '@tinyhttp/app'
+import { IncomingMessage as Request, ServerResponse as Response } from 'http'
 
 type Filter = string | RegExp
 
@@ -24,20 +24,21 @@ export type IPFilterOptions = {
   forbidden?: string
 }
 
-export const ipFilter = (opts?: IPFilterOptions) => (req: Request, res: Response, next?: (err?: Error) => void) => {
-  const ip = opts.ip ?? req.ip
+export const ipFilter =
+  (opts?: IPFilterOptions) => (req: Request & { ip?: string }, res: Response, next?: (err?: Error) => void) => {
+    const ip = opts.ip ?? req.ip
 
-  let isBadIP: boolean
+    let isBadIP: boolean
 
-  try {
-    isBadIP = processIpFilters(ip, opts.filter, opts.strict)
-  } catch (e) {
-    next(e)
+    try {
+      isBadIP = processIpFilters(ip, opts.filter, opts.strict)
+    } catch (e) {
+      next(e)
+    }
+
+    if (isBadIP) {
+      res.writeHead(403, opts.forbidden ?? '403 Forbidden').end()
+    } else {
+      next()
+    }
   }
-
-  if (isBadIP) {
-    res.writeHead(403, opts.forbidden ?? '403 Forbidden').end()
-  } else {
-    next()
-  }
-}
