@@ -212,7 +212,6 @@ export class App<
     } else {
       const handlerPaths = []
       const handlerFunctions = []
-      let idx = 0
       for (const fn of fns) {
         if (fn instanceof App && fn.middleware?.length) {
           for (const mw of fn.middleware) {
@@ -223,7 +222,6 @@ export class App<
           handlerPaths.push('')
           handlerFunctions.push(fn)
         }
-        ++idx
       }
       pushMiddleware(this.middleware)({
         path: base as string,
