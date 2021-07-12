@@ -210,17 +210,28 @@ export class App<
     } else if (Array.isArray(base)) {
       super.use('/', [...base, ...fns].map(mount))
     } else {
+      const handlerPaths = []
+      const handlerFunctions = []
+      let idx = 0
+      for (const fn of fns) {
+        if (fn instanceof App && fn.middleware?.length) {
+          for (const mw of fn.middleware) {
+            handlerPaths.push(lead(base as string) + lead(mw.path))
+            handlerFunctions.push(fn)
+          }
+        } else {
+          handlerPaths.push('')
+          handlerFunctions.push(fn)
+        }
+        ++idx
+      }
       pushMiddleware(this.middleware)({
         path: base as string,
         regex,
         type: 'mw',
-        handler: mount(fns[0] as Handler),
-        handlers: fns.slice(1).map(mount),
-        fullPaths: fns
-          .flat()
-          .map((fn) =>
-            fn instanceof App && fn.middleware?.[0] ? lead(base as string) + lead(fn.middleware?.[0].path) : ''
-          )
+        handler: mount(handlerFunctions[0] as Handler),
+        handlers: handlerFunctions.slice(1).map(mount),
+        fullPaths: handlerPaths
       })
     }
 
