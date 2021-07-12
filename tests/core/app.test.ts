@@ -96,7 +96,7 @@ describe('Testing App', () => {
 })
 
 describe('Testing App routing', () => {
-  it('should add routes added before App.use', async () => {
+  it('should add routes added before app.use', async () => {
     const app = new App()
 
     const router = new App()
