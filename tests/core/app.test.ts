@@ -96,6 +96,25 @@ describe('Testing App', () => {
 })
 
 describe('Testing App routing', () => {
+  it('should add routes added before app.use', async () => {
+    const app = new App()
+
+    const router = new App()
+    router.get('/list', (_, res) => {
+      res.send('router/list')
+    })
+
+    router.get('/find', (_, res) => {
+      res.send('router/find')
+    })
+    app.use('/router', router)
+
+    const server = app.listen(3000)
+
+    await makeFetch(server)('/router/list').expect(200, 'router/list')
+
+    await makeFetch(server)('/router/find').expect(200, 'router/find')
+  })
   it('should respond on matched route', async () => {
     const { fetch } = InitAppAndTest((_req, res) => void res.send('Hello world'), '/route')
 
