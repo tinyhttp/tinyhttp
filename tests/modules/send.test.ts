@@ -214,4 +214,12 @@ describe('sendFile(path)', () => {
     const app = runServer((req, res) => sendFile(req, res)(testFilePath))
     await makeFetch(app)('/').expectStatus(200).expectHeader('Content-Encoding', 'utf-8')
   })
+  it('should inherit the previously set status code', async () => {
+    const app = runServer((req, res) => {
+      res.statusCode = 418
+      sendFile(req, res)(testFilePath)
+    })
+
+    await makeFetch(app)('/').expectStatus(418)
+  })
 })

@@ -74,7 +74,7 @@ export const sendFile =
 
     headers['ETag'] = createETag(stats, encoding)
 
-    let status = 200
+    let status = res.statusCode || 200
 
     if (req.headers['range']) {
       status = 206
