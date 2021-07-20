@@ -1,6 +1,6 @@
 # Serverless example
 
-[![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/talentlessguy/tinyhttp/blob/master/examples/serverless)
+[![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/tinyhttp/tinyhttp/blob/master/examples/serverless)
 
 Example of serverless function with tinyhttp and [Vercel](https://vercel.com).
 

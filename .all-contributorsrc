@@ -294,7 +294,8 @@
       "profile": "https://reinaldyrafli.com",
       "contributions": [
         "code",
-        "bug"
+        "bug",
+        "example"
       ]
     },
     {
@@ -359,11 +360,48 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "tbhmens",
+      "name": "tbhmens",
+      "avatar_url": "https://avatars.githubusercontent.com/u/57283066?v=4",
+      "profile": "https://github.com/tbhmens",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "wakeupmh",
+      "name": "Marcos Henrique",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14917870?v=4",
+      "profile": "http://dev.to/wakeupmh",
+      "contributions": [
+        "example"
+      ]
+    },
+    {
+      "login": "massivefermion",
+      "name": "massivefermion",
+      "avatar_url": "https://avatars.githubusercontent.com/u/25373436?v=4",
+      "profile": "https://github.com/massivefermion",
+      "contributions": [
+        "plugin",
+        "example"
+      ]
+    },
+    {
+      "login": "sbencoding",
+      "name": "Benjamin Selyem",
+      "avatar_url": "https://avatars.githubusercontent.com/u/51536773?v=4",
+      "profile": "https://github.com/sbencoding",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
   "projectName": "tinyhttp",
-  "projectOwner": "talentlessguy",
+  "projectOwner": "tinyhttp",
   "repoType": "github",
   "repoHost": "https://github.com",
   "skipCi": true

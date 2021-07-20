@@ -17,5 +17,5 @@
     "allowSyntheticDefaultImports": true,
     "allowJs": true
   },
-  "exclude": ["tests", "examples", "packages/*/dist"]
+  "exclude": ["examples", "packages/*/dist"]
 }

@@ -1,11 +1,13 @@
-export * from './app'
+export { App } from './app'
+export type { AppSettings, TemplateEngineOptions, TemplateFunc } from './app'
 export * from './request'
 import type { Request } from './request'
 export * from './response'
 import type { Response } from './response'
-export * from './extend'
+export { extendMiddleware } from './extend'
+export { onErrorHandler } from './onError'
 export type { ErrorHandler } from './onError'
-import {
+import type {
   NextFunction,
   Handler as RHandler,
   AsyncHandler as RAsyncHandler,

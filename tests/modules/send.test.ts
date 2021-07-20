@@ -2,7 +2,9 @@ import { describe, expect, it, beforeAll, afterAll } from '@jest/globals'
 import fs from 'fs'
 import path from 'path'
 import { makeFetch } from 'supertest-fetch'
+import { App } from '../../packages/app/src'
 import { json, send, sendFile, sendStatus, status } from '../../packages/send/src'
+import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import { runServer } from '../../test_helpers/runServer'
 
 import { dirname, filename } from 'dirname-filename-esm'
@@ -97,6 +99,24 @@ describe('send(body)', () => {
       'Content-Type',
       'application/octet-stream'
     )
+  })
+  it('should set 304 status for fresh requests', async () => {
+    const etag = 'abc'
+
+    const app = new App()
+
+    const server = app.listen()
+
+    app.use((_req, res) => {
+      const str = Array(1000).join('-')
+      res.set('ETag', etag).send(str)
+    })
+
+    await makeFetch(server)('/', {
+      headers: {
+        'If-None-Match': etag
+      }
+    }).expectStatus(304)
   })
 })
 
@@ -200,5 +220,13 @@ describe('sendFile(path)', () => {
   it('should set default encoding to UTF-8', async () => {
     const app = runServer((req, res) => sendFile(req, res)(testFilePath))
     await makeFetch(app)('/').expectStatus(200).expectHeader('Content-Encoding', 'utf-8')
+  })
+  it('should inherit the previously set status code', async () => {
+    const app = runServer((req, res) => {
+      res.statusCode = 418
+      sendFile(req, res)(testFilePath)
+    })
+
+    await makeFetch(app)('/').expectStatus(418)
   })
 })

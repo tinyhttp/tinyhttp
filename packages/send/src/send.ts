@@ -2,7 +2,7 @@ import { IncomingMessage as I, ServerResponse as S } from 'http'
 import { json } from './json'
 import { setCharset, createETag } from './utils'
 
-type Req = Pick<I, 'method'>
+type Req = Pick<I, 'method'> & { fresh?: boolean }
 
 type Res = Pick<S, 'setHeader' | 'removeHeader' | 'end' | 'getHeader' | 'statusCode'>
 
@@ -44,6 +44,9 @@ export const send =
     if (body && !res.getHeader('etag') && (etag = createETag(bodyToSend, encoding))) {
       res.setHeader('etag', etag)
     }
+
+    // freshness
+    if (req.fresh) res.statusCode = 304
 
     // strip irrelevant headers
     if (res.statusCode === 204 || res.statusCode === 304) {

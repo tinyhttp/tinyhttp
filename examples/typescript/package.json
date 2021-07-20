@@ -1,14 +1,14 @@
 {
   "name": "typescript",
   "private": true,
+  "type": "module",
   "scripts": {
-    "start": "node -r esm -r ts-node/register ./*.ts"
+    "start": "node --loader ts-node/esm index.ts"
   },
   "dependencies": {
     "@tinyhttp/app": "workspace:*"
   },
   "devDependencies": {
-    "esm": "^3.2.25",
-    "ts-node": "^9.0.0"
+    "ts-node": "^10.0.0"
   }
 }

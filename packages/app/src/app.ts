@@ -18,7 +18,7 @@ const lead = (x: string) => (x.charCodeAt(0) === 47 ? x : '/' + x)
 
 const mount = (fn: App | Handler) => (fn instanceof App ? fn.attach : fn)
 
-export const applyHandler =
+const applyHandler =
   <Req, Res>(h: Handler<Req, Res>) =>
   async (req: Req, res: Res, next?: NextFunction) => {
     try {
@@ -34,7 +34,6 @@ export const applyHandler =
  */
 export type AppSettings = Partial<{
   networkExtensions: boolean
-  freshnessTesting: boolean
   subdomainOffset: number
   bindAppToReqRes: boolean
   xPoweredBy: string | boolean
@@ -51,7 +50,7 @@ export type TemplateFunc<O> = (
   cb: (err: Error, html: unknown) => void
 ) => void
 
-export type TemplateEngineOptions<O = any> = Partial<{
+export type TemplateEngineOptions<O extends any> = Partial<{
   cache: boolean
   ext: string
   renderOptions: Partial<O>
@@ -211,17 +210,26 @@ export class App<
     } else if (Array.isArray(base)) {
       super.use('/', [...base, ...fns].map(mount))
     } else {
+      const handlerPaths = []
+      const handlerFunctions = []
+      for (const fn of fns) {
+        if (fn instanceof App && fn.middleware?.length) {
+          for (const mw of fn.middleware) {
+            handlerPaths.push(lead(base as string) + lead(mw.path))
+            handlerFunctions.push(fn)
+          }
+        } else {
+          handlerPaths.push('')
+          handlerFunctions.push(fn)
+        }
+      }
       pushMiddleware(this.middleware)({
         path: base as string,
         regex,
         type: 'mw',
-        handler: mount(fns[0] as Handler),
-        handlers: fns.slice(1).map(mount),
-        fullPaths: fns
-          .flat()
-          .map((fn) =>
-            fn instanceof App && fn.middleware?.[0] ? lead(base as string) + lead(fn.middleware?.[0].path) : ''
-          )
+        handler: mount(handlerFunctions[0] as Handler),
+        handlers: handlerFunctions.slice(1).map(mount),
+        fullPaths: handlerPaths
       })
     }
 
@@ -282,7 +290,7 @@ export class App<
         type: 'mw',
         path: '/'
       },
-      ...matched.filter((x) => (x.method ? x.method === req.method : true))
+      ...matched.filter((x) => req.method === 'HEAD' || (x.method ? x.method === req.method : true))
     ]
 
     if (matched[0] != null) {
@@ -313,14 +321,14 @@ export class App<
       if (type === 'route') req.params = params
 
       if (path.includes(':')) {
-        const url = req.url.slice(req.url.indexOf(Object.values(params)[0]) + Object.values(params)[0].length)
-
+        const first = Object.values(params)[0]
+        const url = req.url.slice(req.url.indexOf(first) + first?.length)
         req.url = lead(url)
       } else {
         req.url = lead(req.url.substring(path.length))
       }
 
-      req.path = getPathname(req.url)
+      if (!req.path) req.path = getPathname(req.url)
 
       if (this.settings?.enableReqRoute) req.route = getRouteFromApp(this as any, handler)
 

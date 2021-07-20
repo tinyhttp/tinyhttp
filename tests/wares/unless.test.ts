@@ -1,7 +1,7 @@
 import { describe, it } from '@jest/globals'
 import { unless } from '../../packages/unless/src'
 import type { UnlessMiddlewareOptions, CustomUnless } from '../../packages/unless/src'
-import type { Request, Response } from './../../packages/app'
+import type { Request, Response } from '../../packages/app/dist'
 import { createServer } from 'http'
 import { makeFetch } from 'supertest-fetch'
 

@@ -1,0 +1,16 @@
+version: "3.2"
+services:
+  neo4j:
+    image: neo4j:latest
+    container_name: 'devneo4j'
+    volumes:
+      - '$HOME/neo4j/data:/data'
+      - '$HOME/neo4j/conf/:/conf/'
+    ports:
+      - 7474:7474
+      - 7687:7687
+    restart: on-failure
+    command: neo4j
+
+volumes:
+  dgraph:

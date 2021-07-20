@@ -97,6 +97,25 @@ describe('Testing App', () => {
 })
 
 describe('Testing App routing', () => {
+  it('should add routes added before app.use', async () => {
+    const app = new App()
+
+    const router = new App()
+    router.get('/list', (_, res) => {
+      res.send('router/list')
+    })
+
+    router.get('/find', (_, res) => {
+      res.send('router/find')
+    })
+    app.use('/router', router)
+
+    const server = app.listen(3000)
+
+    await makeFetch(server)('/router/list').expect(200, 'router/list')
+
+    await makeFetch(server)('/router/find').expect(200, 'router/find')
+  })
   it('should respond on matched route', async () => {
     const { fetch } = InitAppAndTest((_req, res) => void res.send('Hello world'), '/route')
 
@@ -481,7 +500,7 @@ describe('HTTP methods', () => {
     const server = app.listen()
     const fetch = makeFetch(server)
 
-    await fetch('/', { method: 'HEAD' }).expect(204)
+    await fetch('/', { method: 'HEAD' }).expect(200)
   })
   it('HEAD request does not work for undefined handlers', async () => {
     const app = new App()
@@ -686,7 +705,7 @@ describe('Subapps', () => {
 
     app.route('/path').get((_, res) => res.send('Hello World'))
   })
-  /*   it('req.originalUrl does not change', async () => {
+  /* it('req.originalUrl does not change', async () => {
     const app = new App()
 
     const subApp = new App()
@@ -711,6 +730,7 @@ describe('Subapps', () => {
       path: '/route'
     })
   }) */
+
   it('lets other wares handle the URL if subapp doesnt have that path', async () => {
     const app = new App()
 
@@ -913,34 +933,6 @@ describe('App settings', () => {
       const server = app.listen()
 
       await makeFetch(server)('/').expect(200)
-    })
-  })
-  describe('networkExtensions', () => {
-    it('enables req.fresh', async () => {
-      const etag = '123'
-      const { fetch } = InitAppAndTest(
-        (req, res) => {
-          res.set('ETag', etag).send(`${req.fresh ? 'fresh' : 'stale'}`)
-        },
-        '/',
-        'GET',
-        { settings: { freshnessTesting: true } }
-      )
-
-      await fetch('/', { headers: { 'If-None-Match': etag } }).expect(200, 'fresh')
-    })
-    it('disabled', async () => {
-      const etag = '123'
-      const { fetch } = InitAppAndTest(
-        (req, res) => {
-          res.set('ETag', etag).send(`${req.fresh ? 'fresh' : 'stale'}`)
-        },
-        '/',
-        'GET',
-        { settings: { freshnessTesting: false } }
-      )
-
-      await fetch('/', { headers: { 'If-None-Match': etag } }).expect(200, 'stale')
     })
   })
   describe('enableReqRoute', () => {

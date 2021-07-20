@@ -21,7 +21,8 @@ app.use(
       { name: 'Eta', func },
       {
         renderOptions: {
-          async: true
+          async: true,
+          cache: true
         }
       }
     )

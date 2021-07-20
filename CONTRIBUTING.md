@@ -10,10 +10,10 @@ Contributions are always welcome, here's an instruction of how to contribute.
 
 ```sh
 # git
-git clone https://github.com/talentlessguy/tinyhttp.git
+git clone https://github.com/tinyhttp/tinyhttp.git
 
 # (or) hub
-hub clone talentlessguy/tinyhttp
+hub clone tinyhttp/tinyhttp
 ```
 
 - Install Node.js (v14 is recommended because tests use `fs/promises`) and `pnpm`:
@@ -61,22 +61,18 @@ Here's a small list of requirements for your PR:
 - it should build without errors and warnings (except edge cases)
 - it should have been tested
 - PR must have a clear description of what it does, which part of the repo it affects
-- if PR is adding a new middleware, it should have an example in the description.
+- if PR is adding a new middleware, please contact [talentlessguy](https://t.me/talentless_guy) instead. We'll create a new repo in this org for you.
 
 ### Adding new middleware
 
-- Create a `<name>` folder in `packages` folder
-- Copy `package.json`, `README.md` and `rollup.config.js` from any near folder and edit the `name`, `version` etc fields
-- Create `src/index.ts` file
-- Write some code
-- Go to `__tests__/mw` folder
-- Write some tests
-- Pull request!
+- Create a new repository from official template
+- Open an issue with "new middleware" label or contact [talentlessguy](https://t.me/talentless_guy)
 
 ### Adding new non-middleware module
 
-- Same 4 fields as for middleware
-- Go to `__tests__/modules` folder
+- Copy package.json from nearest package to match the style
+- Write a good README, following the style from other packages
+- Go to `tests/modules` folder
 - Write some tests
 - Pull request!
 
