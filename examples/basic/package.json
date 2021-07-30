@@ -7,7 +7,7 @@
   "main": "index.js",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "@tinyhttp/logger": "workspace:*"
+    "@tinyhttp/logger": "latest"
   },
   "type": "module"
 }
