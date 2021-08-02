@@ -13,4 +13,4 @@ Below there is a table comparing tinyhttp, [Express](https://expressjs.com) and 
 | Package size (core only)             | 35.2 kB  | 208 kB     | 25.5 kB |
 | Built-in middlewares                 | ✖️       | ✔️         | ✖️      |
 
-For the detailed performance report see [benchmarks](benchmark/README.md)
+For the detailed performance report see [benchmarks](https://web-frameworks-benchmark.netlify.app/compare?f=polka,tinyhttp,express)
