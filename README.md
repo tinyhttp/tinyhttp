@@ -114,6 +114,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="http://dev.to/wakeupmh"><img src="https://avatars.githubusercontent.com/u/14917870?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Marcos Henrique</b></sub></a><br /><a href="#example-wakeupmh" title="Examples">💡</a></td>
     <td align="center"><a href="https://github.com/massivefermion"><img src="https://avatars.githubusercontent.com/u/25373436?v=4?s=100" width="100px;" alt=""/><br /><sub><b>massivefermion</b></sub></a><br /><a href="#plugin-massivefermion" title="Plugin/utility libraries">🔌</a> <a href="#example-massivefermion" title="Examples">💡</a></td>
     <td align="center"><a href="https://github.com/sbencoding"><img src="https://avatars.githubusercontent.com/u/51536773?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Benjamin Selyem</b></sub></a><br /><a href="https://github.com/tinyhttp/tinyhttp/issues?q=author%3Asbencoding" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://ar.al"><img src="https://avatars.githubusercontent.com/u/41798?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Aral Balkan</b></sub></a><br /><a href="https://github.com/tinyhttp/tinyhttp/commits?author=aral" title="Documentation">📖</a></td>
   </tr>
 </table>
 
