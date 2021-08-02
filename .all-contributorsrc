@@ -397,6 +397,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "aral",
+      "name": "Aral Balkan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/41798?v=4",
+      "profile": "https://ar.al",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
