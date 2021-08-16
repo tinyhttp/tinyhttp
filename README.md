@@ -116,6 +116,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/sbencoding"><img src="https://avatars.githubusercontent.com/u/51536773?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Benjamin Selyem</b></sub></a><br /><a href="https://github.com/tinyhttp/tinyhttp/issues?q=author%3Asbencoding" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://ar.al"><img src="https://avatars.githubusercontent.com/u/41798?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Aral Balkan</b></sub></a><br /><a href="https://github.com/tinyhttp/tinyhttp/commits?author=aral" title="Documentation">📖</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://sonny.re"><img src="https://avatars.githubusercontent.com/u/19673?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Sonny Piers</b></sub></a><br /><a href="https://github.com/tinyhttp/tinyhttp/commits?author=sonnyp" title="Documentation">📖</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-restore -->
