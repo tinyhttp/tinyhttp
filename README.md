@@ -29,9 +29,19 @@ Visit [tinyhttp website](https://tinyhttp.v1rtl.site) for docs, guides and middl
 
 [Node.js 12.4+](https://node.green/#ES2019) is required.
 
+
+### NPM
+
 ```sh
-pnpm i @tinyhttp/app
+npm i @tinyhttp/app
 ```
+
+### Yarn
+
+```sh
+yarn add @tinyhttp/app
+```
+
 
 ## Donate
 
