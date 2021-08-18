@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Something not working? File an bug report
 title: ''
 labels: bug
 assignees: ''
@@ -25,7 +25,7 @@ A clear and concise description of what you expected to happen.
 **Versions**
 
 - `node`: 14
-- `@tinyhttp/app`: 0.X
+- `@tinyhttp/app`: 1.3.X
 
 **Additional context**
 
