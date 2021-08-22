@@ -7,7 +7,9 @@ import {
   getFreshOrStale,
   getRequestHeader,
   getRangeFromHeader,
-  reqIs
+  reqIs,
+  getAcceptsCharsets,
+  getAcceptsLanguages
 } from '../../packages/req/src'
 import { Ranges } from 'range-parser'
 import { runServer } from '../../test_helpers/runServer'
@@ -114,6 +116,62 @@ describe('Request extensions', () => {
           'Accept-Encoding': 'gzip, br'
         }
       }).expect('gzip | br | identity')
+    })
+  })
+  describe('req.acceptsCharsets()', () => {
+    it('should detect "Accept-Charset" header', async () => {
+      const app = runServer((req, res) => {
+        const charsets = getAcceptsCharsets(req)()
+
+        res.end(charsets[0])
+      })
+
+      await makeFetch(app)('/', {
+        headers: {
+          'Accept-Charset': 'utf-8'
+        }
+      }).expect('utf-8')
+    })
+    it('should parse multiple values', async () => {
+      const app = runServer((req, res) => {
+        const charsets = getAcceptsCharsets(req)()
+
+        res.end((charsets as string[]).join(' | '))
+      })
+
+      await makeFetch(app)('/', {
+        headers: {
+          'Accept-Charset': 'utf-8, iso-8859-1'
+        }
+      }).expect('utf-8 | iso-8859-1')
+    })
+  })
+  describe('req.acceptsLanguages()', () => {
+    it('should detect "Accept-Language" header', async () => {
+      const app = runServer((req, res) => {
+        const languages = getAcceptsLanguages(req)()
+
+        res.end(languages[0])
+      })
+
+      await makeFetch(app)('/', {
+        headers: {
+          'Accept-Language': 'ru-RU'
+        }
+      }).expect('ru-RU')
+    })
+    it('should parse multiple values', async () => {
+      const app = runServer((req, res) => {
+        const languages = getAcceptsLanguages(req)()
+
+        res.end((languages as string[]).join(' | '))
+      })
+
+      await makeFetch(app)('/', {
+        headers: {
+          'Accept-Language': 'ru-RU, ru;q=0.9, en-US;q=0.8'
+        }
+      }).expect('ru-RU | ru | en-US')
     })
   })
   describe('req.fresh', () => {
