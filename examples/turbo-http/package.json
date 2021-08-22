@@ -3,8 +3,8 @@
   "name": "turbo-http",
   "type": "module",
   "dependencies": {
-    "@tinyhttp/app": "workspace:^1.3.6",
-    "@tinyhttp/send": "workspace:^1.3.0",
+    "@tinyhttp/app": "workspace:*",
+    "@tinyhttp/send": "workspace:*",
     "turbo-http": "^0.3.2"
   }
 }

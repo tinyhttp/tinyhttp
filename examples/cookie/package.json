@@ -4,7 +4,7 @@
   "type": "module",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "@tinyhttp/cookie-parser": "workspace:*"
+    "@tinyhttp/cookie-parser": "*"
   },
   "scripts": {
     "start": "node index.js"

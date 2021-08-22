@@ -4,7 +4,7 @@
   "type": "module",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "@tinyhttp/markdown": "workspace:*"
+    "@tinyhttp/markdown": "*"
   },
   "scripts": {
     "start": "node index.js"

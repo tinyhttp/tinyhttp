@@ -7,6 +7,6 @@
   },
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "@tinyhttp/rate-limit": "workspace:*"
+    "@tinyhttp/rate-limit": "*"
   }
 }

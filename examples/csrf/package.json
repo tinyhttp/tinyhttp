@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "@tinyhttp/cookie-parser": "workspace:*",
+    "@tinyhttp/cookie-parser": "*",
     "malibu": "^1.0.3",
     "milliparsec": "^2.2.0"
   },
