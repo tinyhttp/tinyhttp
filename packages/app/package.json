@@ -32,11 +32,11 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "@tinyhttp/cookie": "workspace:1.3.0",
-    "@tinyhttp/proxy-addr": "workspace:1.3.0",
-    "@tinyhttp/req": "workspace:1.3.1",
-    "@tinyhttp/res": "workspace:1.3.3",
-    "@tinyhttp/router": "workspace:1.3.3",
+    "@tinyhttp/cookie": "workspace:*",
+    "@tinyhttp/proxy-addr": "workspace:*",
+    "@tinyhttp/req": "workspace:*",
+    "@tinyhttp/res": "workspace:*",
+    "@tinyhttp/router": "workspace:*",
     "regexparam": "^2.0.0"
   },
   "scripts": {

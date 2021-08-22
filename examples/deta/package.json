@@ -3,8 +3,8 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@tinyhttp/app": "workspace:^1.2.23",
-    "@tinyhttp/dotenv": "workspace:^1.2.4",
+    "@tinyhttp/app": "workspace:*",
+    "@tinyhttp/dotenv": "workspace:*",
     "deta": "^0.0.8",
     "milliparsec": "^2.0.4"
   },

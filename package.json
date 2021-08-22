@@ -53,7 +53,6 @@
     "format:fix": "prettier --write \"./**/*.{ts,js,mjs,cjs,md}\"",
     "echo:ancestor": "echo ${ANCESTOR_REF:-$(git merge-base origin/master HEAD)}",
     "build": "pnpm -r build",
-    "postinstall": "husky install",
-    "test_uvu": "node --loader ts-node/esm --experimental-specifier-resolution=node node_modules/uvu/bin.js uvu_tests"
+    "postinstall": "husky install"
   }
 }
