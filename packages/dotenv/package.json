@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/dotenv",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "description": "0-dependency module to load envinronmental variables from .env to process.env",
   "type": "module",
   "types": "./dist/index.d.ts",
