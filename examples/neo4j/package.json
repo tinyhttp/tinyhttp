@@ -4,7 +4,6 @@
   "scripts": {
     "start": "node index.js"
   },
-  "main": "index.js",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "neo4j-driver": "^4.3.3"

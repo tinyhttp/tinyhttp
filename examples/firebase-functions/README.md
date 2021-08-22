@@ -7,8 +7,8 @@ Feel free to modify `.firebaserc` and `firebase.json` to fit your needs.
 ## Setup
 
 ```sh
-pnpm install -g firebase-tools # Install Firebase CLI
-firebase login
+pnpm i
+pnpx firebase login
 tinyhttp new firebase-functions
 ```
 

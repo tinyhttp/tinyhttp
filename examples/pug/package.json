@@ -9,7 +9,6 @@
   "scripts": {
     "start": "node index.js"
   },
-  "main": "index.js",
   "devDependencies": {
     "@types/pug": "^2.0.5"
   }

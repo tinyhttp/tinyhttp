@@ -6,3 +6,4 @@ examples/dev-server/public/sosseDevSocketClient/main.umd.js
 benchmark
 site/static/js/index.js
 examples/aws/.build
+examples/firebase-functions/lib

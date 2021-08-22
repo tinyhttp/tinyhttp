@@ -4,7 +4,6 @@
   "scripts": {
     "start": "node index.js"
   },
-  "main": "index.js",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/logger": "^1.3.0"
