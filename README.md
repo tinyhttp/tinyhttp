@@ -118,6 +118,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="https://sonny.re"><img src="https://avatars.githubusercontent.com/u/19673?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Sonny Piers</b></sub></a><br /><a href="https://github.com/tinyhttp/tinyhttp/commits?author=sonnyp" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/paolotiu"><img src="https://avatars.githubusercontent.com/u/61054234?v=4?s=100" width="100px;" alt=""/><br /><sub><b>paolotiu</b></sub></a><br /><a href="https://github.com/tinyhttp/tinyhttp/commits?author=paolotiu" title="Code">💻</a></td>
   </tr>
 </table>
 
