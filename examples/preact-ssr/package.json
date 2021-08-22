@@ -4,9 +4,9 @@
   "type": "module",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "htm": "^3.0.4",
-    "preact": "^10.5.7",
-    "preact-render-to-string": "^5.1.12"
+    "htm": "^3.1.0",
+    "preact": "^10.5.14",
+    "preact-render-to-string": "^5.1.19"
   },
   "scripts": {
     "start": "node index.js"

@@ -5,11 +5,10 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/dotenv": "workspace:*",
-    "faunadb": "^4.0.0",
-    "milliparsec": "^1.0.4"
+    "faunadb": "^4.3.0",
+    "milliparsec": "^2.2.0"
   },
   "scripts": {
     "start": "node index.js"
-  },
-  "main": "index.js"
+  }
 }

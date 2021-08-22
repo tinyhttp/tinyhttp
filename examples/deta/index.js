@@ -1,9 +1,7 @@
 import { App } from '@tinyhttp/app'
 import * as dotenv from '@tinyhttp/dotenv'
-import DetaMod from 'deta'
+import { Deta } from 'deta'
 import * as parser from 'milliparsec'
-
-const { Deta } = DetaMod
 
 dotenv.config()
 

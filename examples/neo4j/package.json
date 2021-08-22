@@ -7,7 +7,7 @@
   "main": "index.js",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "neo4j-driver": "^4.1.2"
+    "neo4j-driver": "^4.3.3"
   },
   "type": "module"
 }

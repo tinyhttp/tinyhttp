@@ -6,13 +6,12 @@
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/dotenv": "workspace:*",
     "body-parser": "1.19.0",
-    "nano": "9.0.1"
+    "nano": "9.0.3"
   },
   "devDependencies": {
-    "@types/body-parser": "^1.19.0"
+    "@types/body-parser": "^1.19.1"
   },
   "scripts": {
     "start": "node index.js"
-  },
-  "main": "index.js"
+  }
 }

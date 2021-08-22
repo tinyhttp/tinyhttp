@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "milliparsec": "^2.0.5",
+    "milliparsec": "^2.2.0",
     "next-session": "^3.4.0"
   },
   "type": "module",

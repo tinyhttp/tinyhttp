@@ -11,6 +11,6 @@
   },
   "main": "index.js",
   "devDependencies": {
-    "@types/pug": "^2.0.4"
+    "@types/pug": "^2.0.5"
   }
 }

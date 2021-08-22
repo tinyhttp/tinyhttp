@@ -5,10 +5,7 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/dotenv": "workspace:*",
-    "deta": "^0.0.8",
-    "milliparsec": "^2.0.4"
-  },
-  "devDependencies": {
-    "@types/deta": "^0.0.0"
+    "deta": "^1.0.0",
+    "milliparsec": "^2.2.0"
   }
 }

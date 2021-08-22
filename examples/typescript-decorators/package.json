@@ -9,6 +9,6 @@
     "express-decorators": "^1.2.1"
   },
   "devDependencies": {
-    "ts-node": "^9.0.0"
+    "ts-node": "^10.2.1"
   }
 }

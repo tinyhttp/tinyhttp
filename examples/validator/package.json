@@ -4,8 +4,8 @@
   "type": "module",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "fastest-validator": "^1.9.0",
-    "milliparsec": "^1.0.4"
+    "fastest-validator": "^1.11.1",
+    "milliparsec": "^2.2.0"
   },
   "scripts": {
     "start": "node index.js"
