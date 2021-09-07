@@ -1,5 +1,3 @@
-import { basename } from 'path'
-
 // eslint-disable-next-line no-control-regex
 const ENCODE_URL_ATTR_CHAR_REGEXP = /[\x00-\x20"'()*,/:;<=>?@[\\\]{}\x7f]/g
 
@@ -50,6 +48,8 @@ function ustring(val: unknown): string {
 
   return "UTF-8''" + encoded
 }
+
+const basename = (str: string) => str.slice(str.lastIndexOf('/') + 1)
 
 function format({
   parameters,
