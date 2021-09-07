@@ -28,6 +28,15 @@ describe('getURLParams(reqUrl, url)', () => {
       b: 'world'
     })
   })
+  it('URL params are URI encoded', () => {
+    const reqUrl = '/Foo%20Bar'
+
+    const regex = rg('/:url')
+
+    expect(getURLParams(regex, reqUrl)).toStrictEqual({
+      url: 'Foo Bar'
+    })
+  })
 })
 describe('getPathname(url)', () => {
   it('returns pathname of a path', () => {
