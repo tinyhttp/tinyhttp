@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/proxy-addr",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "type": "module",
   "description": "proxy-addr rewrite with TypeScript and ESM support",
   "homepage": "https://tinyhttp.v1rtl.site",
