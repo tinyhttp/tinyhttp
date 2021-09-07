@@ -1,7 +1,7 @@
 {
   "name": "@tinyhttp/content-disposition",
   "description": "content-disposition rewrite in TypeScript with ESM and CommonJS targets",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "homepage": "https://tinyhttp.v1rtl.site",
   "funding": {
     "type": "individual",
