@@ -39,7 +39,7 @@ jobs:
           node-version: 14.x
 
       - name: install pnpm
-        uses: pnpm/action-setup@v2.0.1
+        uses: pnpm/action-setup@v2
         with:
           version: 6.x
 
