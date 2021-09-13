@@ -318,7 +318,7 @@ export class App<
 
       const params = regex ? getURLParams(regex, pathname) : {}
 
-      if (type === 'route') req.params = params
+      req.params = { ...req.params, ...params }
 
       if (path.includes(':')) {
         const first = Object.values(params)[0]

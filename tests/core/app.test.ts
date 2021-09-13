@@ -816,7 +816,7 @@ describe('Subapps', () => {
 
     const subApp = new App()
 
-    subApp.get('/', (_, res) => res.send('hit'))
+    subApp.get('/', (req, res) => res.send(req.params.userID))
 
     app.use('/users/:userID', subApp)
 
@@ -824,14 +824,14 @@ describe('Subapps', () => {
 
     const fetch = makeFetch(server)
 
-    await fetch('/users/123/').expect(200, 'hit')
+    await fetch('/users/123/').expect(200, '123')
   })
   it('matches when mounted on params and on custom subapp route', async () => {
     const app = new App()
 
     const subApp = new App()
 
-    subApp.get('/route', (_, res) => res.send('hit'))
+    subApp.get('/route', (req, res) => res.send(req.params.userID))
 
     app.use('/users/:userID', subApp)
 
@@ -839,7 +839,7 @@ describe('Subapps', () => {
 
     const fetch = makeFetch(server)
 
-    await fetch('/users/123/route').expect(200, 'hit')
+    await fetch('/users/123/route').expect(200, '123')
   })
 })
 
