@@ -1,4 +1,4 @@
-# @tinyhttp/accepts
+# @tinyhttp/content-disposition
 
 > [`content-disposition`](https://github.com/jshttp/content-disposition) rewrite in TypeScript with ESM and CommonJS targets.
 
