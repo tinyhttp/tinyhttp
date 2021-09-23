@@ -36,7 +36,7 @@ app.put('/todos', async (req, res) => {
 })
 
 app.delete('/todos', async (req, res) => {
-  const { key } = req.body
+  const { key, task } = req.body
   await db.delete(key)
   res.send(`Task ${task} has been updated!`)
 })

@@ -1,13 +1,14 @@
 import { App } from '../packages/app/src/index'
 import type { Handler } from '../packages/app/src/index'
-import { makeFetch } from 'supertest-fetch'
+import { FetchFunction, makeFetch } from 'supertest-fetch'
+import { Server } from 'http'
 
 export const InitAppAndTest = (
   handler: Handler,
   route?: string,
   method = 'get',
   settings: ConstructorParameters<typeof App>[0] = {}
-) => {
+): { fetch: FetchFunction; app: App; server: Server } => {
   const app = new App(settings)
 
   if (route) app[method.toLowerCase()](route, handler)

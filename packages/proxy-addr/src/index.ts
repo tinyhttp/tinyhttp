@@ -23,7 +23,7 @@ const IP_RANGES = {
 function alladdrs(
   req: Pick<IncomingMessage, 'headers' | 'connection'>,
   trust: ((...args: any[]) => any) | any[] | string[] | string
-) {
+): string[] {
   // get addresses
 
   const addrs = forwarded(req)
@@ -43,10 +43,10 @@ function alladdrs(
  *
  * @param  val
  */
-function compile(val: string | string[] | number[]) {
-  let trust
+function compile(val: string | string[] | number[]): (addr: string) => boolean {
+  let trust: string[]
   if (typeof val === 'string') trust = [val]
-  else if (Array.isArray(val)) trust = val.slice()
+  else if (Array.isArray(val)) trust = val.slice() as string[]
   else throw new TypeError('unsupported trust argument')
 
   for (let i = 0; i < trust.length; i++) {
@@ -64,7 +64,7 @@ function compile(val: string | string[] | number[]) {
 /**
  * Compile `arr` elements into range subnets.
  */
-function compileRangeSubnets(arr: any[]) {
+function compileRangeSubnets(arr: string[]) {
   const rangeSubnets = new Array(arr.length)
   for (let i = 0; i < arr.length; i++) rangeSubnets[i] = parseIPNotation(arr[i])
 
@@ -75,7 +75,7 @@ function compileRangeSubnets(arr: any[]) {
  *
  * @param rangeSubnets
  */
-function compileTrust(rangeSubnets: any[]) {
+function compileTrust(rangeSubnets: (IPv4 | IPv6)[]) {
   // Return optimized function based on length
   const len = rangeSubnets.length
   return len === 0 ? trustNone : len === 1 ? trustSingle(rangeSubnets[0]) : trustMulti(rangeSubnets)
@@ -86,7 +86,7 @@ function compileTrust(rangeSubnets: any[]) {
  * @param {String} note
  * @private
  */
-export function parseIPNotation(note: string) {
+export function parseIPNotation(note: string): [IPv4 | IPv6, string | number] {
   const pos = note.lastIndexOf('/')
   const str = pos !== -1 ? note.substring(0, pos) : note
 
@@ -133,7 +133,7 @@ function parseNetmask(netmask: string) {
 export function proxyaddr(
   req: Pick<IncomingMessage, 'headers' | 'connection'>,
   trust: ((...args: any[]) => any) | any[] | string[] | string
-) {
+): string {
   const addrs = alladdrs(req, trust)
 
   return addrs[addrs.length - 1]

@@ -4,13 +4,10 @@ import path from 'path'
 import { makeFetch } from 'supertest-fetch'
 import { App } from '../../packages/app/src'
 import { json, send, sendFile, sendStatus, status } from '../../packages/send/src'
-import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import { runServer } from '../../test_helpers/runServer'
-
-import { dirname, filename } from 'dirname-filename-esm'
+import { dirname } from 'dirname-filename-esm'
 
 const __dirname = dirname(import.meta)
-const __filename = filename(import.meta)
 
 describe('json(body)', () => {
   it('should send a json-stringified reply when an object is passed', async () => {

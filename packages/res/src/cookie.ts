@@ -6,7 +6,7 @@ import { append } from './append'
 type Res = Pick<S, 'setHeader' | 'getHeader'>
 
 export const setCookie =
-  <Request extends any = any, Response extends Res = Res>(
+  <Request extends I = I, Response extends Res = Res>(
     req: Request & {
       secret?: string | string[]
     },
@@ -43,7 +43,7 @@ export const setCookie =
   }
 
 export const clearCookie =
-  <Request extends any = any, Response extends Res = Res>(req: Request, res: Response) =>
+  <Request extends I = I, Response extends Res = Res>(req: Request, res: Response) =>
   (name: string, options?: cookie.SerializeOptions): Response => {
     return setCookie(req, res)(name, '', Object.assign({}, { expires: new Date(1), path: '/' }, options))
   }

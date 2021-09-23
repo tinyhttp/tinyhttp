@@ -67,7 +67,7 @@ export type SerializeOptions = Partial<{
   expires: Date
 }>
 
-export function serialize(name: string, val: string, opt: SerializeOptions = {}) {
+export function serialize(name: string, val: string, opt: SerializeOptions = {}): string {
   if (!opt.encode) opt.encode = encodeURIComponent
 
   if (!fieldContentRegExp.test(name)) throw new TypeError('argument name is invalid')

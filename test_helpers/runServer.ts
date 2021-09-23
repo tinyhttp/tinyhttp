@@ -1,6 +1,6 @@
-import { createServer, IncomingMessage as Request, ServerResponse as Response } from 'http'
+import { createServer, IncomingMessage as Request, Server, ServerResponse as Response } from 'http'
 
-export const runServer = (func: (req: Request, res: Response) => any) => {
+export const runServer = (func: (req: Request, res: Response) => void): Server => {
   const s = createServer((req, res) => {
     func(req, res)
   })

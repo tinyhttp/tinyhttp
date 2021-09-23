@@ -1,4 +1,5 @@
-import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { describe, expect, it } from '@jest/globals'
 import http from 'http'
 import path from 'path'
 import { readFile } from 'fs/promises'

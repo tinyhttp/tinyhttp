@@ -22,7 +22,7 @@ export type URLParams = {
   [key: string]: string
 }
 
-export const getPathname = (u: string) => {
+export const getPathname = (u: string): string => {
   const end = u.indexOf('?')
 
   return u.slice(0, end === -1 ? u.length : end)

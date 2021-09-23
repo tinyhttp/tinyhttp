@@ -29,9 +29,7 @@ describe('Cookie parsing', () => {
   it('should decode with a custom decoder', () => {
     expect(
       cookie.parse('foo=%1;bar=bar;foo=boo', {
-        decode: (_val: string) => {
-          return 'foobar'
-        }
+        decode: () => 'foobar'
       })
     ).toStrictEqual({ foo: 'foobar', bar: 'foobar' })
   })

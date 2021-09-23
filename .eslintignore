@@ -7,3 +7,4 @@ benchmark
 site/static/js/index.js
 examples/aws/.build
 examples/firebase-functions/lib
+build

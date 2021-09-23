@@ -18,10 +18,9 @@ import {
   setLocationHeader
 } from '../../packages/res/src'
 import { runServer } from '../../test_helpers/runServer'
-import { dirname, filename } from 'dirname-filename-esm'
+import { dirname } from 'dirname-filename-esm'
 
 const __dirname = dirname(import.meta)
-const __filename = filename(import.meta)
 
 describe('Response extensions', () => {
   describe('res.set(field, val)', () => {

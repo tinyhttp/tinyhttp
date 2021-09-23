@@ -19,7 +19,7 @@ function tryNormalizeType(value: string) {
   }
 }
 
-function mimeMatch(expected: string | boolean, actual: string | boolean) {
+function mimeMatch(expected: string | boolean, actual: string | boolean): boolean {
   // invalid type
   if (expected === false) return false
 

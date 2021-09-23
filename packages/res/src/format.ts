@@ -1,4 +1,4 @@
-import { IncomingMessage as I, ServerResponse as S } from 'http'
+import { IncomingMessage as I } from 'http'
 import { getAccepts } from '@tinyhttp/req'
 import { setVaryHeader } from './headers'
 import { normalizeType, normalizeTypes } from './util'
@@ -12,7 +12,7 @@ export type FormatProps = {
 export type FormatError = Error & {
   status: number
   statusCode: number
-  types: any[]
+  types: string[]
 }
 
 type next = (err?: FormatError) => void
@@ -25,7 +25,7 @@ export const formatResponse =
     res: Response,
     next: Next
   ) =>
-  (obj: FormatProps) => {
+  (obj: FormatProps): Response => {
     const fn = obj.default
 
     if (fn) delete obj.default

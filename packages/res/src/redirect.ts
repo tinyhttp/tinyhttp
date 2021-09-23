@@ -15,7 +15,7 @@ export const redirect =
     res: Response,
     next: Next
   ) =>
-  (url: string, status?: number) => {
+  (url: string, status?: number): Response => {
     let address = url
     status = status || 302
 

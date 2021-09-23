@@ -1,5 +1,5 @@
 import { IncomingMessage as I, ServerResponse as S } from 'http'
-import { createReadStream, ReadStream, statSync } from 'fs'
+import { createReadStream, statSync } from 'fs'
 import { isAbsolute, extname } from 'path'
 import { contentType } from 'es-mime-types'
 import { createETag } from './utils'
@@ -36,12 +36,12 @@ type Req = Pick<I, 'headers'>
 
 type Res = Pick<S, 'setHeader' | 'statusCode' | 'writeHead'> & NodeJS.WritableStream
 
-export const enableCaching = (res: Res, caching: Caching) => {
+export const enableCaching = (res: Res, caching: Caching): void => {
   let cc = caching.maxAge != null && `public,max-age=${caching.maxAge}`
   if (cc && caching.immutable) cc += ',immutable'
   else if (cc && caching.maxAge === 0) cc += ',must-revalidate'
 
-  res.setHeader('Cache-Control', cc)
+  if (cc) res.setHeader('Cache-Control', cc)
 }
 
 /**
@@ -55,7 +55,7 @@ export const enableCaching = (res: Res, caching: Caching) => {
  */
 export const sendFile =
   <Request extends Req = Req, Response extends Res = Res>(req: Request, res: Response) =>
-  (path: string, opts: SendFileOptions = {}, cb?: (err?: any) => void) => {
+  (path: string, opts: SendFileOptions = {}, cb?: (err?: any) => void): Response => {
     const { root, headers = {}, encoding = 'utf-8', caching, ...options } = opts
 
     if (!isAbsolute(path) && !root) throw new TypeError('path must be absolute')

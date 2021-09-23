@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { describe, expect, it } from '@jest/globals'
 import { Accepts } from '../../packages/accepts/src'
 

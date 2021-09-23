@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* HELPER TYPES */
 
 export type NextFunction = (err?: any) => void
@@ -139,7 +140,7 @@ export const pushMiddleware =
     method?: Method
     handlers?: RouterHandler<Req, Res>[]
     fullPaths?: string[]
-  }) => {
+  }): void => {
     const m = createMiddlewareFromRoute<Req, Res>({ path, handler, method, type, fullPath: fullPaths?.[0] })
 
     let waresFromHandlers: { handler: Handler<Req, Res> }[] = []
@@ -211,7 +212,7 @@ export class Router<App extends Router = any, Req extends any = any, Res extends
   }
 
   add(method: Method) {
-    return (...args: RouterMethodParams<Req, Res>) => {
+    return (...args: RouterMethodParams<Req, Res>): this => {
       const handlers = args.slice(1).flat() as Handler<Req, Res>[]
       pushMiddleware<Req, Res>(this.middleware)({
         path: args[0],
@@ -225,7 +226,7 @@ export class Router<App extends Router = any, Req extends any = any, Res extends
     }
   }
 
-  msearch(...args: RouterMethodParams<Req, Res>) {
+  msearch(...args: RouterMethodParams<Req, Res>): this {
     const handlers = args.slice(1).flat() as Handler<Req, Res>[]
 
     pushMiddleware<Req, Res>(this.middleware)({
@@ -239,7 +240,7 @@ export class Router<App extends Router = any, Req extends any = any, Res extends
     return this
   }
 
-  all(...args: RouterMethodParams<Req, Res>) {
+  all(...args: RouterMethodParams<Req, Res>): this {
     const handlers = args.slice(1).flat() as Handler<Req, Res>[]
 
     pushMiddleware(this.middleware)({
@@ -270,7 +271,7 @@ export class Router<App extends Router = any, Req extends any = any, Res extends
   /**
    * Push middleware to the stack
    */
-  use(...args: UseMethodParams<Req, Res, App>) {
+  use(...args: UseMethodParams<Req, Res, App>): this {
     const base = args[0]
 
     const handlers = args.slice(1).flat()

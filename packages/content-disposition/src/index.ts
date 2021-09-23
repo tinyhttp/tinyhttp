@@ -29,8 +29,8 @@ const getlatin1 = (val: unknown) => {
 
 export class ContentDisposition {
   type: string
-  parameters: Record<any, any>
-  constructor(type: string, parameters: Record<any, any>) {
+  parameters: Record<string, any>
+  constructor(type: string, parameters: Record<string, any>) {
     this.type = type
     this.parameters = parameters
   }
@@ -55,7 +55,7 @@ function format({
   parameters,
   type
 }: Partial<{
-  parameters: Record<any, any>
+  parameters: Record<string, any>
   type: string | boolean | undefined
 }>) {
   if (!type || typeof type !== 'string' || !TOKEN_REGEXP.test(type)) throw new TypeError('invalid type')
@@ -81,7 +81,7 @@ function createParams(filename?: string, fallback?: string | boolean) {
   if (filename === undefined) return
 
   const params: Partial<
-    Record<string, any> & {
+    Record<string, string> & {
       filename: string
     }
   > = {}
@@ -126,7 +126,7 @@ export function contentDisposition(
     type: string
     fallback: string | boolean
   }> = {}
-) {
+): string {
   // format into string
   return format(new ContentDisposition(options.type || 'attachment', createParams(filename, options.fallback)))
 }
@@ -161,7 +161,7 @@ function decodefield(str: string) {
  * Parse Content-Disposition header string.
  * @param string string
  */
-export function parse(string: string) {
+export function parse(string: string): ContentDisposition {
   let match = DISPOSITION_TYPE_REGEXP.exec(string)
 
   if (!match) throw new TypeError('invalid type format')

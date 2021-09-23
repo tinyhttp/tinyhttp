@@ -1,5 +1,5 @@
 import { IncomingMessage as Request, ServerResponse as Response } from 'http'
-import parseRange, { Options } from 'range-parser'
+import parseRange, { Options, Ranges, Result } from 'range-parser'
 import { fresh } from 'es-fresh'
 import { typeIs } from '@tinyhttp/type-is'
 
@@ -21,18 +21,20 @@ export const getRequestHeader =
     }
   }
 
-export const getRangeFromHeader = (req: Pick<Request, 'headers'>) => (size: number, options?: Options) => {
-  const range = getRequestHeader(req)('Range') as string
+export const getRangeFromHeader =
+  (req: Pick<Request, 'headers'>) =>
+  (size: number, options?: Options): Result | Ranges => {
+    const range = getRequestHeader(req)('Range') as string
 
-  if (!range) return
+    if (!range) return
 
-  return parseRange(size, range, options)
-}
+    return parseRange(size, range, options)
+  }
 
 export const getFreshOrStale = (
   req: Pick<Request, 'headers' | 'method'>,
   res: Pick<Response, 'getHeader' | 'statusCode'>
-) => {
+): boolean => {
   const method = req.method
   const status = res.statusCode
 
@@ -50,7 +52,7 @@ export const getFreshOrStale = (
   return false
 }
 
-export const checkIfXMLHttpRequest = (req: Pick<Request, 'headers'>) =>
+export const checkIfXMLHttpRequest = (req: Pick<Request, 'headers'>): boolean =>
   req.headers['X-Requested-With'] === 'XMLHttpRequest'
 
 export const reqIs =

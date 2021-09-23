@@ -15,7 +15,8 @@
     "moduleResolution": "Node",
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
-    "allowJs": true
+    "allowJs": true,
+    "lib": ["DOM"]
   },
   "exclude": ["examples", "packages/*/dist"]
 }

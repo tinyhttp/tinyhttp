@@ -23,20 +23,20 @@ export class MemoryStore implements Store {
     callback(null, this.hits[key], this.resetTime)
   }
 
-  decrement(key: string) {
+  decrement(key: string): void {
     if (this.hits[key]) this.hits[key]--
   }
 
-  resetAll = () => {
+  resetAll = (): void => {
     this.hits = {}
     this.resetTime = this.calculateNextResetTime(this.windowMs)
   }
 
-  resetKey(key: string) {
+  resetKey(key: string): void {
     delete this.hits[key]
   }
 
-  calculateNextResetTime(windowMs) {
+  calculateNextResetTime(windowMs: number): Date {
     const nextResetDate = new Date()
     nextResetDate.setMilliseconds(nextResetDate.getMilliseconds() + windowMs)
     return nextResetDate

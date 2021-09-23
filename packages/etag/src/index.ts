@@ -3,7 +3,7 @@
 import { createHash } from 'crypto'
 import { Stats } from 'fs'
 
-const entityTag = (entity: string | Buffer) => {
+const entityTag = (entity: string | Buffer): string => {
   if (entity.length === 0) {
     // fast-path empty
     return '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"'
@@ -20,14 +20,12 @@ const entityTag = (entity: string | Buffer) => {
   }
 }
 
-const statTag = ({ mtime, size }: Stats) => {
+const statTag = ({ mtime, size }: Stats): string => {
   return '"' + mtime.getTime().toString(16) + '-' + size.toString(16) + '"'
 }
 
-export const eTag = (entity: string | Buffer | Stats, options?: { weak: boolean }) => {
-  if (entity == null) {
-    throw new TypeError('argument entity is required')
-  }
+export const eTag = (entity: string | Buffer | Stats, options?: { weak: boolean }): string => {
+  if (entity == null) throw new TypeError('argument entity is required')
 
   const weak = options?.weak || entity instanceof Stats
 

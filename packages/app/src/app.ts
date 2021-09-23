@@ -114,7 +114,7 @@ export class App<
    * @param setting setting name
    * @param value setting value
    */
-  set(setting: string, value: any) {
+  set(setting: string, value: any): this {
     this.settings[setting] = value
 
     return this
@@ -124,7 +124,7 @@ export class App<
    * Enable app setting
    * @param setting Setting name
    */
-  enable(setting: string) {
+  enable(setting: string): this {
     this.settings[setting] = true
 
     return this
@@ -134,7 +134,7 @@ export class App<
    * Disable app setting
    * @param setting
    */
-  disable(setting: string) {
+  disable(setting: string): this {
     this.settings[setting] = false
 
     return this
@@ -152,7 +152,7 @@ export class App<
     data: Record<string, any> = {},
     cb: (err: unknown, html: unknown) => void,
     options: TemplateEngineOptions<RenderOptions> = {}
-  ) {
+  ): this {
     options.viewsFolder = options.viewsFolder || `${process.cwd()}/views`
     options.ext = options.ext || file.slice(file.lastIndexOf('.') + 1) || 'ejs'
 
@@ -172,7 +172,7 @@ export class App<
 
     return this
   }
-  use(...args: UseMethodParams<Req, Res, App>) {
+  use(...args: UseMethodParams<Req, Res, App>): this {
     const base = args[0]
 
     const fns = args.slice(1).flat()
@@ -233,12 +233,12 @@ export class App<
       })
     }
 
-    return this // chainable
+    return this
   }
   /**
    * Register a template engine with extension
    */
-  engine(ext: string, fn: TemplateFunc<RenderOptions>) {
+  engine(ext: string, fn: TemplateFunc<RenderOptions>): this {
     this.engines[ext] = fn
 
     return this
@@ -252,7 +252,7 @@ export class App<
     return app
   }
 
-  find(url: string) {
+  find(url: string): Middleware<Req, Res>[] {
     return this.middleware.filter((m) => {
       m.regex = m.regex || rg(m.path, m.type === 'mw')
 
@@ -271,7 +271,7 @@ export class App<
    * @param req Req object
    * @param res Res object
    */
-  handler(req: Req, res: Res, next?: NextFunction) {
+  handler(req: Req, res: Res, next?: NextFunction): void {
     /* Set X-Powered-By header */
     const { xPoweredBy } = this.settings
     if (xPoweredBy) res.setHeader('X-Powered-By', typeof xPoweredBy === 'string' ? xPoweredBy : 'tinyhttp')
@@ -314,7 +314,7 @@ export class App<
     })
 
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
-      const { path, handler, type, regex } = mw
+      const { path, handler, regex } = mw
 
       const params = regex ? getURLParams(regex, pathname) : {}
 

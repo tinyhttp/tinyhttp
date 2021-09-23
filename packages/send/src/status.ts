@@ -1,6 +1,6 @@
-import { IncomingMessage as I, ServerResponse as S } from 'http'
+import { ServerResponse } from 'http'
 
-type Res = Pick<S, 'statusCode'>
+type Res = Pick<ServerResponse, 'statusCode'>
 
 /**
  * Sets the HTTP status for the response. It is a chainable alias of Node’s `response.statusCode`.

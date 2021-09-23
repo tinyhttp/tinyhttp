@@ -1,11 +1,18 @@
 import * as mime from 'es-mime-types'
 
-export const normalizeType = (type: string) =>
+export type NormalizedType = {
+  value: string
+  quality?: number
+  params: Record<string, any>
+  originalIndex?: number
+}
+
+export const normalizeType = (type: string): NormalizedType =>
   ~type.indexOf('/') ? acceptParams(type) : { value: mime.lookup(type), params: {} }
 
-export function acceptParams(str: string, index?: number) {
+export function acceptParams(str: string, index?: number): NormalizedType {
   const parts = str.split(/ *; */)
-  const ret = { value: parts[0], quality: 1, params: {}, originalIndex: index }
+  const ret: NormalizedType = { value: parts[0], quality: 1, params: {}, originalIndex: index }
 
   for (const part of parts) {
     const pms = part.split(/ *= */)
@@ -16,8 +23,8 @@ export function acceptParams(str: string, index?: number) {
   return ret
 }
 
-export function normalizeTypes(types: string[]) {
-  const ret = []
+export function normalizeTypes(types: string[]): NormalizedType[] {
+  const ret: NormalizedType[] = []
 
   for (const type of types) {
     ret.push(normalizeType(type))

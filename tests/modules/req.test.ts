@@ -14,11 +14,6 @@ import {
 import { Ranges } from 'range-parser'
 import { runServer } from '../../test_helpers/runServer'
 
-import { dirname, filename } from 'dirname-filename-esm'
-
-const __dirname = dirname(import.meta)
-const __filename = filename(import.meta)
-
 describe('Request extensions', () => {
   describe('req.get(header)', () => {
     it('should return a specified header', async () => {

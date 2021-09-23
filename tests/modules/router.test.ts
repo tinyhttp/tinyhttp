@@ -2,7 +2,6 @@
 import { describe, expect, it } from '@jest/globals'
 import { Response } from '../../packages/app/src'
 import { Router } from '../../packages/router/src'
-import { METHODS } from 'http'
 
 describe('Testing Router', () => {
   describe('Basic', () => {

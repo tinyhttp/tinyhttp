@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Request, Response } from '@tinyhttp/app'
 
 export type JSONPOptions = Partial<{
