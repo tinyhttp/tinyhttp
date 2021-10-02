@@ -21,11 +21,11 @@ importers:
       eslint-config-prettier: 8.3.0
       eslint-plugin-prettier: 4.0.0
       eta: 1.12.3
+      header-range-parser: ^1.0.0
       husky: 7.0.2
       jest: 27.2.1
       jsonwebtoken: 8.5.1
       prettier: 2.4.1
-      range-parser: 1.2.1
       regexparam: 2.0.0
       rollup: 2.57.0
       supertest-fetch: 1.4.3
@@ -50,11 +50,11 @@ importers:
       eslint-config-prettier: 8.3.0_eslint@7.32.0
       eslint-plugin-prettier: 4.0.0_6e975bd57c7acf028c1a9ddbbf60c898
       eta: 1.12.3
+      header-range-parser: 1.0.0
       husky: 7.0.2
       jest: 27.2.1
       jsonwebtoken: 8.5.1
       prettier: 2.4.1
-      range-parser: 1.2.1
       regexparam: 2.0.0
       rollup: 2.57.0
       supertest-fetch: 1.4.3
@@ -2734,6 +2734,11 @@ packages:
       function-bind: 1.1.1
     dev: true
 
+  /header-range-parser/1.0.0:
+    resolution: {integrity: sha512-QqUyYlYdAVqsd26xqPJwIUBrZe0z/iWeOcQnOxtAik1/so5wpLl72O5qL9CwSucsMIMeptu1x4OUSSU2pJauiA==}
+    engines: {node: '>= 12.20'}
+    dev: true
+
   /hosted-git-info/2.8.9:
     resolution: {integrity: sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==}
     dev: true
@@ -4219,6 +4224,7 @@ packages:
   /range-parser/1.2.1:
     resolution: {integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==}
     engines: {node: '>= 0.6'}
+    dev: false
 
   /react-is/17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
