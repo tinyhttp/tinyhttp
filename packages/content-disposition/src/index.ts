@@ -29,8 +29,8 @@ const getlatin1 = (val: unknown) => {
 
 export class ContentDisposition {
   type: string
-  parameters: Record<string, any>
-  constructor(type: string, parameters: Record<string, any>) {
+  parameters: Record<string, unknown>
+  constructor(type: string, parameters: Record<string, unknown>) {
     this.type = type
     this.parameters = parameters
   }
@@ -55,7 +55,7 @@ function format({
   parameters,
   type
 }: Partial<{
-  parameters: Record<string, any>
+  parameters: Record<string, unknown>
   type: string | boolean | undefined
 }>) {
   if (!type || typeof type !== 'string' || !TOKEN_REGEXP.test(type)) throw new TypeError('invalid type')

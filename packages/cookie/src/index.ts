@@ -11,7 +11,7 @@ const pairSplitRegExp = /; */
 // eslint-disable-next-line no-control-regex
 const fieldContentRegExp = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/
 
-function tryDecode(str: string, decode: (str: string) => any) {
+function tryDecode(str: string, decode: (str: string) => string) {
   try {
     return decode(str)
   } catch (e) {
@@ -29,12 +29,12 @@ function tryDecode(str: string, decode: (str: string) => any) {
 export function parse(
   str: string,
   options: {
-    decode: (str: string) => any
+    decode: (str: string) => string
   } = {
     decode: decodeURIComponent
   }
-) {
-  const obj = {}
+): Record<string, string> {
+  const obj: Record<string, string> = {}
   const pairs = str.split(pairSplitRegExp)
 
   for (const pair of pairs) {

@@ -114,7 +114,7 @@ export class App<
    * @param setting setting name
    * @param value setting value
    */
-  set(setting: string, value: any): this {
+  set<T = unknown>(setting: string, value: T): this {
     this.settings[setting] = value
 
     return this
@@ -149,7 +149,7 @@ export class App<
    */
   render(
     file: string,
-    data: Record<string, any> = {},
+    data: Record<string, unknown> = {},
     cb: (err: unknown, html: unknown) => void,
     options: TemplateEngineOptions<RenderOptions> = {}
   ): this {

@@ -7,7 +7,7 @@ import type { SendFileOptions } from '@tinyhttp/send'
 
 export type DownloadOptions = SendFileOptions &
   Partial<{
-    headers: Record<string, any>
+    headers: Record<string, string>
   }>
 
 type Callback = (err?: any) => void

@@ -18,7 +18,7 @@ export class Accepts {
    *
    * The `type` value may be a single mime type string such as "application/json", the extension name such as "json" or an array `["json", "html", "text/plain"]`. When a list or array is given the _best_ match, if any is returned. When no types are given as arguments, returns all types accepted by the client in the preference order.
    */
-  types(types: string | string[], ...args: string[]) {
+  types(types: string | string[], ...args: string[]): string[] | string | false {
     let mimeTypes: string[] = []
 
     // support flattened arguments
@@ -44,7 +44,7 @@ export class Accepts {
 
     return first ? mimeTypes[mimes.indexOf(first)] : false
   }
-  get type() {
+  get type(): (types: string | string[], ...args: string[]) => string[] | string | false {
     return this.types
   }
   /**
@@ -55,7 +55,7 @@ export class Accepts {
    *
    *     ['gzip', 'deflate']
    */
-  encodings(encodings: string | string[], ...args: string[]) {
+  encodings(encodings: string | string[], ...args: string[]): string | string[] | boolean {
     let _encodings: string[] = encodings as string[]
 
     // support flattened arguments
@@ -70,7 +70,7 @@ export class Accepts {
 
     return this.negotiator.encodings(_encodings)[0] || false
   }
-  get encoding() {
+  get encoding(): (encodings: string | string[], ...args: string[]) => string | string[] | boolean {
     return this.encodings
   }
   /**
@@ -81,7 +81,7 @@ export class Accepts {
    *
    *     ['utf-8', 'utf-7', 'iso-8859-1']
    */
-  charsets(charsets?: string | string[], ...args: string[]) {
+  charsets(charsets?: string | string[], ...args: string[]): string | string[] | boolean {
     let _charsets: string[] = charsets as string[]
 
     // support flattened arguments
@@ -96,7 +96,7 @@ export class Accepts {
 
     return this.negotiator.charsets(_charsets)[0] || false
   }
-  get charset() {
+  get charset(): (charsets: string | string[], ...args: string[]) => string | string[] | boolean {
     return this.charsets
   }
   /**
@@ -108,7 +108,7 @@ export class Accepts {
    *     ['es', 'pt', 'en']
    *
    */
-  languages(languages: string | string[], ...args: string[]) {
+  languages(languages: string | string[], ...args: string[]): string | string[] | boolean {
     let _languages: string[] = languages as string[]
 
     // support flattened arguments
@@ -123,13 +123,13 @@ export class Accepts {
 
     return this.negotiator.languages(_languages)[0] || false
   }
-  get lang() {
+  get lang(): (languages: string | string[], ...args: string[]) => string | string[] | boolean {
     return this.languages
   }
-  get langs() {
+  get langs(): (languages: string | string[], ...args: string[]) => string | string[] | boolean {
     return this.languages
   }
-  get language() {
+  get language(): (languages: string | string[], ...args: string[]) => string | string[] | boolean {
     return this.languages
   }
 }

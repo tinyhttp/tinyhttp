@@ -5,7 +5,7 @@ const UNMATCHED_SURROGATE_PAIR_REGEXP = /(^|[^\uD800-\uDBFF])[\uDC00-\uDFFF]|[\u
 
 const UNMATCHED_SURROGATE_PAIR_REPLACE = '$1\uFFFD$2'
 
-export const encodeUrl = (url: string) => {
+export const encodeUrl = (url: string): string => {
   return String(url)
     .replace(UNMATCHED_SURROGATE_PAIR_REGEXP, UNMATCHED_SURROGATE_PAIR_REPLACE)
     .replace(ENCODE_CHARS_REGEXP, encodeURI)

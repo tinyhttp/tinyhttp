@@ -41,7 +41,7 @@ import { App } from './app'
  */
 export const extendMiddleware =
   <EngineOptions>(app: App) =>
-  (req: Request, res: Response<EngineOptions>, next: NextFunction) => {
+  (req: Request, res: Response<EngineOptions>, next: NextFunction): void => {
     const { settings } = app
 
     res.get = getResponseHeader(res)

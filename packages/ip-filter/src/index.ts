@@ -25,7 +25,8 @@ export type IPFilterOptions = {
 }
 
 export const ipFilter =
-  (opts?: IPFilterOptions) => (req: Request & { ip?: string }, res: Response, next?: (err?: Error) => void) => {
+  (opts?: IPFilterOptions) =>
+  (req: Request & { ip?: string }, res: Response, next?: (err?: Error) => void): void => {
     const ip = opts.ip ?? req.ip
 
     let isBadIP: boolean

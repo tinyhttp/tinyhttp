@@ -42,7 +42,7 @@ function stringify(
  */
 export const jsonp =
   (req: Request, res: Response) =>
-  (obj: unknown, opts: JSONPOptions = {}) => {
+  (obj: unknown, opts: JSONPOptions = {}): Response => {
     const val = obj
 
     const { escape, replacer, spaces, callbackName = 'callback' } = opts

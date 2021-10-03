@@ -3,7 +3,7 @@ import * as mime from 'es-mime-types'
 export type NormalizedType = {
   value: string
   quality?: number
-  params: Record<string, any>
+  params: Record<string, string>
   originalIndex?: number
 }
 

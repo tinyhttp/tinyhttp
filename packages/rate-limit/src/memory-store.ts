@@ -16,7 +16,7 @@ export class MemoryStore implements Store {
     if (interval.unref) interval.unref()
   }
 
-  incr = async (key: string, callback: (error: Error | null, hits: number, resetTime: Date) => void) => {
+  incr = async (key: string, callback: (error: Error | null, hits: number, resetTime: Date) => void): Promise<void> => {
     if (this.hits[key]) this.hits[key]++
     else this.hits[key] = 1
 

@@ -42,7 +42,9 @@ const defaultOptions: RateLimitOptions = {
   onLimitReached: () => {}
 }
 
-export function rateLimit(options?: Partial<RateLimitOptions>) {
+export function rateLimit(
+  options?: Partial<RateLimitOptions>
+): (req: RequestWithRateLimit, res: Response, next: (err?: any) => void) => Promise<void> {
   const {
     shouldSkip,
     keyGenerator,
@@ -62,7 +64,7 @@ export function rateLimit(options?: Partial<RateLimitOptions>) {
   }
   const store = otherOptions.store || new MemoryStore(windowMs)
 
-  const incrementStore = (key): Promise<{ current: number; resetTime: Date }> => {
+  const incrementStore = (key: string): Promise<{ current: number; resetTime: Date }> => {
     return new Promise((resolve, reject) => {
       store.incr(key, (error, hits, resetTime) => {
         if (error) reject(error)

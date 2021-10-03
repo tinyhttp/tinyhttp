@@ -1,7 +1,7 @@
 import { IncomingMessage } from 'http'
 import { ParsedUrlQuery } from 'querystring'
 
-import { Ranges } from 'header-range-parser'
+import { Options, Ranges } from 'header-range-parser'
 import { proxyaddr as proxyAddr, all, compile } from '@tinyhttp/proxy-addr'
 
 import { App } from './app'
@@ -27,7 +27,7 @@ const trustRemoteAddress = ({ connection }: Pick<IncomingMessage, 'headers' | 'c
   return compile(val || [])
 }
 
-export const getRouteFromApp = ({ middleware }: App, h: Handler<Request, Response>) =>
+export const getRouteFromApp = ({ middleware }: App, h: Handler<Request, Response>): Middleware<Request, Response> =>
   middleware.find(({ handler }) => typeof handler === 'function' && handler.name === h.name)
 
 export const getProtocol = (req: Request): Protocol => {
@@ -97,7 +97,7 @@ export interface Request extends IncomingMessage {
   ips?: string[]
   subdomains?: string[]
   get: (header: string) => string | string[] | undefined
-  range: (size: number, options?: any) => -1 | -2 | -3 | Ranges | undefined
+  range: (size: number, options?: Options) => -1 | -2 | -3 | Ranges | undefined
   accepts: (...types: string[]) => AcceptsReturns
   acceptsEncodings: (...encodings: string[]) => AcceptsReturns
   acceptsCharsets: (...charsets: string[]) => AcceptsReturns
