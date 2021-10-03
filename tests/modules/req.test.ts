@@ -11,7 +11,7 @@ import {
   getAcceptsCharsets,
   getAcceptsLanguages
 } from '../../packages/req/src'
-import { Ranges } from 'range-parser'
+import { Ranges } from 'header-range-parser'
 import { runServer } from '../../test_helpers/runServer'
 
 describe('Request extensions', () => {
