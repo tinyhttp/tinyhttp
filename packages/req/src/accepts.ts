@@ -3,7 +3,7 @@ import { Accepts } from '@tinyhttp/accepts'
 
 type Request = Pick<IncomingMessage, 'headers'>
 
-type AcceptReturns = string | false | string[]
+type AcceptReturns = string | boolean | string[]
 
 export const getAccepts =
   (req: Request) =>
