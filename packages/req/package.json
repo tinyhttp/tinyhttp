@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/req",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "type": "module",
   "description": "request extensions for tinyhttp",
   "homepage": "https://tinyhttp.v1rtl.site",
