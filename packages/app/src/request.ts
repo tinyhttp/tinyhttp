@@ -79,7 +79,7 @@ export type Protocol = 'http' | 'https' | string
 
 export type { URLParams }
 
-type AcceptsReturns = string | false | string[]
+type AcceptsReturns = string | boolean | string[]
 
 export interface Request extends IncomingMessage {
   originalUrl: string

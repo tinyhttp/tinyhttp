@@ -3,12 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node --experimental-loader ts-node/esm --experimental-specifier-resolution=node index.ts"
+    "start": "tsm index.ts"
   },
   "dependencies": {
     "@tinyhttp/app": "workspace:*"
   },
   "devDependencies": {
-    "ts-node": "^10.2.1"
+    "tsm": "^2.1.0"
   }
 }

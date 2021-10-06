@@ -1,6 +1,6 @@
 # TypeScript example
 
-Minimal [TypeScript](https://www.typescriptlang.org/) setup for tinyhttp using [ts-node](https://github.com/TypeStrong/ts-node).
+Minimal [TypeScript](https://www.typescriptlang.org/) setup for tinyhttp using [tsm](https://github.com/lukeed/tsm).
 
 ## Setup
 
