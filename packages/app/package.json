@@ -37,6 +37,7 @@
     "@tinyhttp/req": "workspace:*",
     "@tinyhttp/res": "workspace:*",
     "@tinyhttp/router": "workspace:*",
+    "header-range-parser": "^1.0.0",
     "regexparam": "^2.0.0"
   },
   "scripts": {

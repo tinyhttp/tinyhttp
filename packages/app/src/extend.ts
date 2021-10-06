@@ -1,5 +1,5 @@
-import { getRouteFromApp, getSubdomains, Request } from './request'
-import type { Handler, NextFunction } from '@tinyhttp/router'
+import { getSubdomains, Request } from './request'
+import type { NextFunction } from '@tinyhttp/router'
 import type { Response } from './response'
 import {
   getFreshOrStale,

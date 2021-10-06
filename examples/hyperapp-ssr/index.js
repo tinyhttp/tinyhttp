@@ -1,6 +1,5 @@
 import { App } from '@tinyhttp/app'
 import { h, text } from 'hyperapp'
-import { readFile } from 'fs/promises'
 import { renderToString } from 'hyperapp-render'
 
 const state = {
