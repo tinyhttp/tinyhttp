@@ -1,63 +1,63 @@
-import low from 'lowdb'
-import FileSync from 'lowdb/adapters/FileSync.js'
 import { App } from '@tinyhttp/app'
 import { urlencoded } from 'milliparsec'
+import { Low, JSONFile } from 'lowdb'
 
 const app = new App()
-const adapter = new FileSync('db.json')
-const db = low(adapter)
-
-// get all posts
+const adapter = new JSONFile('db.json')
+const db = new Low(adapter)
+await db.read()
+const { posts } = db.data
 
 app.use(urlencoded())
 
+// get all posts
 app.get('/', (_, res) => {
-  res.send(db.getState().posts)
+  res.send(posts)
 })
 
 // get post by id
 app.get('/:id', (req, res) => {
-  res.send(
-    db
-      .get('posts')
-      // @ts-ignore
-      .find({ id: parseInt(req.params.id) })
-      .value()
-  )
+  const currentPost = posts.find(post => post.id === parseInt(req.params.id))
+  if (currentPost) {
+    res.send(currentPost)
+  } else {
+    res.send({ msg: `A post with an id ${req.params.id} is not found` })
+  }
 })
 
 // add a post
 app.post('/', (req, res) => {
   if (req.body.title) {
-    // @ts-ignore
-    db.get('posts').push({ id: Date.now(), title: req.body.title, likes: 0 }).write()
+    posts.push({ id: Date.now(), title: req.body.title, likes: 0 })
+    db.write()
     res.send({ msg: `Post with title of "${req.body.title}" is successfully added` })
   } else {
-    res.send('Post title missing')
+    res.send({ msg: 'Post title missing' })
   }
 })
 
 // like a post
 app.put('/:id', (req, res) => {
-  const currentPost = db
-    .get('posts')
-
-    // @ts-ignore
-    .find({ id: parseInt(req.params.id) })
-    .value()
-  currentPost.likes += 1
-  db.write()
-  res.send({ msg: `You liked a post with a title of ${currentPost.title}` })
+  const currentPost = posts.find(post => post.id === parseInt(req.params.id))
+  if (currentPost) {
+    currentPost.likes += 1
+    db.write()
+    res.send({ msg: `You liked a post with a title of ${currentPost.title}` })
+  } else {
+    res.send({ msg: `A post with an id ${req.params.id} is not found` })
+  }
 })
 
 // delete a post
 app.delete('/:id', (req, res) => {
-  db.get('posts')
-
-    //@ts-ignore
-    .remove({ id: parseInt(req.params.id) })
-    .write()
-  res.send({ msg: `A post with an id of ${req.params.id} has been deleted` })
+  const currentPost = posts.filter(post => post.id !== parseInt(req.params.id))
+  if (posts.length > currentPost.length) {
+    db.data.posts = currentPost
+    db.write()
+    res.send({ msg: `A post with an id of ${req.params.id} has been deleted` })
+  } else {
+    res.send({ msg: `A post with an id ${req.params.id} is not found` })
+  }
 })
 
 app.listen(3000, () => console.log('Server is connected on http://localhost:3000'))
