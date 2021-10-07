@@ -17,7 +17,7 @@ app.get('/', (_, res) => {
 
 // get post by id
 app.get('/:id', (req, res) => {
-  const currentPost = posts.find(post => post.id === parseInt(req.params.id))
+  const currentPost = posts.find((post) => post.id === parseInt(req.params.id))
   if (currentPost) {
     res.send(currentPost)
   } else {
@@ -38,7 +38,7 @@ app.post('/', (req, res) => {
 
 // like a post
 app.put('/:id', (req, res) => {
-  const currentPost = posts.find(post => post.id === parseInt(req.params.id))
+  const currentPost = posts.find((post) => post.id === parseInt(req.params.id))
   if (currentPost) {
     currentPost.likes += 1
     db.write()
@@ -50,7 +50,7 @@ app.put('/:id', (req, res) => {
 
 // delete a post
 app.delete('/:id', (req, res) => {
-  const currentPost = posts.filter(post => post.id !== parseInt(req.params.id))
+  const currentPost = posts.filter((post) => post.id !== parseInt(req.params.id))
   if (posts.length > currentPost.length) {
     db.data.posts = currentPost
     db.write()
