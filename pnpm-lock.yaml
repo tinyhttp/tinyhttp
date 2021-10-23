@@ -8,7 +8,7 @@ importers:
       '@commitlint/cli': 13.2.1
       '@commitlint/config-conventional': 13.2.0
       '@jest/globals': 27.3.1
-      '@rollup/plugin-typescript': ~8.3.0
+      '@rollup/plugin-typescript': '8.2'
       '@types/jest': 27.0.2
       '@types/node': 16.11.4
       '@typescript-eslint/eslint-plugin': 5.1.0
@@ -37,7 +37,7 @@ importers:
       '@commitlint/cli': 13.2.1
       '@commitlint/config-conventional': 13.2.0
       '@jest/globals': 27.3.1
-      '@rollup/plugin-typescript': 8.3.0_11969cb7979bf76fd37eb17f863ea3c2
+      '@rollup/plugin-typescript': 8.2.5_11969cb7979bf76fd37eb17f863ea3c2
       '@types/jest': 27.0.2
       '@types/node': 16.11.4
       '@typescript-eslint/eslint-plugin': 5.1.0_273a00ec265649c49755eee7222c1c12
@@ -1153,8 +1153,8 @@ packages:
       fastq: 1.13.0
     dev: true
 
-  /@rollup/plugin-typescript/8.3.0_11969cb7979bf76fd37eb17f863ea3c2:
-    resolution: {integrity: sha512-I5FpSvLbtAdwJ+naznv+B4sjXZUcIvLLceYpITAn7wAP8W0wqc5noLdGIp9HGVntNhRWXctwPYrSSFQxtl0FPA==}
+  /@rollup/plugin-typescript/8.2.5_11969cb7979bf76fd37eb17f863ea3c2:
+    resolution: {integrity: sha512-QL/LvDol/PAGB2O0S7/+q2HpSUNodpw7z6nGn9BfoVCPOZ0r4EALrojFU29Bkoi2Hr2jgTocTejJ5GGWZfOxbQ==}
     engines: {node: '>=8.0.0'}
     peerDependencies:
       rollup: ^2.14.0
