@@ -3,7 +3,8 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist",
-    "declarationDir": "dist",
-    "module": "ESNext"
-  }
+    "declarationDir": "dist"
+  },
+  "include": ["src"],
+  "exclude": ["rollup.config.js"]
 }
