@@ -50,7 +50,7 @@ export type TemplateFunc<O> = (
   cb: (err: Error, html: unknown) => void
 ) => void
 
-export type TemplateEngineOptions<O extends any> = Partial<{
+export type TemplateEngineOptions<O> = Partial<{
   cache: boolean
   ext: string
   renderOptions: Partial<O>
@@ -330,7 +330,7 @@ export class App<
 
       if (!req.path) req.path = getPathname(req.url)
 
-      if (this.settings?.enableReqRoute) req.route = getRouteFromApp(this as any, handler)
+      if (this.settings?.enableReqRoute) req.route = getRouteFromApp(this, handler)
 
       await applyHandler<Req, Res>(handler as unknown as Handler<Req, Res>)(req, res, next)
     }

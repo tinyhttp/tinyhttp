@@ -42,8 +42,8 @@ describe('typeIs', () => {
 
   it('should return false if types are not strings', () => {
     expect(typeIs('multipart/form-data', false as any)).toBe(false)
-    expect(typeIs('multipart/form-data', null as any)).toBe(false)
-    expect(typeIs('multipart/form-data', undefined as any)).toBe(false)
+    expect(typeIs('multipart/form-data', null)).toBe(false)
+    expect(typeIs('multipart/form-data', undefined)).toBe(false)
   })
 
   it('should return false if expected type has wrong format', () => {
