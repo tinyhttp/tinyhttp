@@ -9,8 +9,9 @@ import type { Middleware, Handler } from '@tinyhttp/router'
 import type { Response } from './response'
 
 import type { URLParams } from '@tinyhttp/req'
-import { isIP, Socket } from 'net'
-import { TLSSocket } from 'tls'
+import { isIP } from 'net'
+import type { Socket } from 'net'
+import type { TLSSocket } from 'tls'
 
 export { getURLParams } from '@tinyhttp/req'
 
