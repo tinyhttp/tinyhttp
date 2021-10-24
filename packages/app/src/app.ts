@@ -177,14 +177,10 @@ export class App<
 
     const fns = args.slice(1).flat()
 
-    if (base instanceof App) {
-      // Set App parent to current App
-      base.parent = this
-
-      // Mount on root
-      base.mountpath = '/'
-
-      this.apps['/'] = base
+    if (typeof base === 'function' || base instanceof App) {
+      fns.unshift(base)
+    } else if (Array.isArray(base)) {
+      fns.unshift(...base)
     }
 
     const path = typeof base === 'string' ? base : '/'
@@ -203,35 +199,29 @@ export class App<
       }
     }
 
-    if (base === '/') {
-      for (const fn of fns) super.use(base, mount(fn as Handler))
-    } else if (typeof base === 'function' || base instanceof App) {
-      super.use('/', [base, ...fns].map(mount))
-    } else if (Array.isArray(base)) {
-      super.use('/', [...base, ...fns].map(mount))
-    } else {
-      const handlerPaths = []
-      const handlerFunctions = []
-      for (const fn of fns) {
-        if (fn instanceof App && fn.middleware?.length) {
-          for (const mw of fn.middleware) {
-            handlerPaths.push(lead(base as string) + lead(mw.path))
-            handlerFunctions.push(fn)
-          }
-        } else {
-          handlerPaths.push('')
+    const handlerPaths = []
+    const handlerFunctions = []
+    const handlerPathBase = path === '/' ? '' : lead(path)
+    for (const fn of fns) {
+      if (fn instanceof App && fn.middleware?.length) {
+        for (const mw of fn.middleware) {
+          handlerPaths.push(handlerPathBase + lead(mw.path))
           handlerFunctions.push(fn)
         }
+      } else {
+        handlerPaths.push('')
+        handlerFunctions.push(fn)
       }
-      pushMiddleware(this.middleware)({
-        path: base as string,
-        regex,
-        type: 'mw',
-        handler: mount(handlerFunctions[0] as Handler),
-        handlers: handlerFunctions.slice(1).map(mount),
-        fullPaths: handlerPaths
-      })
     }
+
+    pushMiddleware(this.middleware)({
+      path,
+      regex,
+      type: 'mw',
+      handler: mount(handlerFunctions[0] as Handler),
+      handlers: handlerFunctions.slice(1).map(mount),
+      fullPaths: handlerPaths
+    })
 
     return this
   }
