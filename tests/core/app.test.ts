@@ -671,6 +671,22 @@ describe('Subapps', () => {
 
     await fetch('/').expect(200, 'Hello World!')
   })
+  it('multiple sub-apps mount on root', async () => {
+    const app = new App()
+
+    const route1 = new App()
+    route1.get('/route1', (_req, res) => res.send('route1'))
+
+    const route2 = new App()
+    route2.get('/route2', (_req, res) => res.send('route2'))
+
+    app.use(route1)
+    app.use(route2)
+
+    await makeFetch(app.listen())('/route1').expect(200, 'route1')
+
+    await makeFetch(app.listen())('/route2').expect(200, 'route2')
+  })
   it('sub-app handles its own path', async () => {
     const app = new App()
 
