@@ -5,11 +5,8 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/dotenv": "workspace:*",
-    "body-parser": "1.19.0",
-    "nano": "9.0.3"
-  },
-  "devDependencies": {
-    "@types/body-parser": "^1.19.1"
+    "milliparsec": "^2.2.0",
+    "nano": "9.0.5"
   },
   "scripts": {
     "start": "node index.js"

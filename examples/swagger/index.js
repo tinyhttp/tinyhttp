@@ -25,7 +25,7 @@ app
       },
       ['docs']
     ),
-    (req, res) => void res.status(200).send('done')
+    (_req, res) => void res.status(200).send('done')
   )
   .get('/users', addToDocs({ query: { userId: { type: 'number', optional: true } } }, ['users']), (req, res) => {
     res.status(200).send('done')

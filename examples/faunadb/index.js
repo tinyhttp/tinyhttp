@@ -38,7 +38,6 @@ app.get('/products', async (_, res) => {
     )
   )
 
-  // @ts-ignore
   res.send(query.data)
 })
 
@@ -50,7 +49,7 @@ app.get('/product/:name', async (req, res, next) => {
   } else {
     try {
       const query = await client.query(q.Get(q.Match(q.Index('products_by_name'), name)))
-      // @ts-ignore
+
       res.send(query.data)
     } catch (e) {
       console.log(e)

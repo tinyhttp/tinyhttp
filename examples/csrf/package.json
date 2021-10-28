@@ -5,7 +5,7 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/cookie-parser": "*",
-    "malibu": "^1.0.3",
+    "malibu": "^1.0.5",
     "milliparsec": "^2.2.0"
   },
   "scripts": {

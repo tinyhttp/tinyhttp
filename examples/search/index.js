@@ -10,7 +10,7 @@ const db = {
 /**
  * GET index.html file
  */
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.sendFile(path.resolve('public/index.html'), {}, (err) => {
     if (err) console.error(err)
   })
@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 /**
  * GET client.js file
  */
-app.get('/client.js', (req, res) => {
+app.get('/client.js', (_req, res) => {
   res.sendFile(path.resolve('public/client.js'), {}, (err) => {
     if (err) console.error(err)
   })
@@ -28,7 +28,7 @@ app.get('/client.js', (req, res) => {
 /**
  * GET logo.jpeg file
  */
-app.get('/logo.jpeg', (req, res) => {
+app.get('/logo.jpeg', (_req, res) => {
   res.sendFile(path.resolve('public/logo.jpeg'), {}, (err) => {
     if (err) console.error(err)
   })

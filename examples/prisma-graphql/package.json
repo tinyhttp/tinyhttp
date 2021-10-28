@@ -6,10 +6,10 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "@prisma/client": "2.29.1",
+    "@prisma/client": "3.3.0",
     "@tinyhttp/app": "workspace:*",
     "express-graphql": "^0.12.0",
-    "graphql": "^15.5.1"
+    "graphql": "^15.7.2"
   },
   "devDependencies": {
     "@prisma/cli": "2.20.1"

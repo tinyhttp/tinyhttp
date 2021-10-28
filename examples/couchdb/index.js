@@ -1,6 +1,6 @@
 import { App } from '@tinyhttp/app'
 import * as dotenv from '@tinyhttp/dotenv'
-import bodyParser from 'body-parser'
+import * as bodyParser from 'milliparsec'
 import Nano from 'nano'
 
 const app = new App()
@@ -20,7 +20,7 @@ const nano = Nano(COUCHDB_URI)
 const todoDB = nano.db.use('todos')
 
 // parse
-app.use('/todos', bodyParser.urlencoded({ extended: false }))
+app.use('/todos', bodyParser.urlencoded())
 app.use('/todos', bodyParser.json())
 
 // get all tasks
@@ -50,4 +50,4 @@ app.delete('/todos', async (req, res) => {
   res.send(`Task "${task} has been removed!"`)
 })
 
-app.listen(PORT, () => console.log(`server is live at ${PORT}`))
+app.listen(PORT, () => console.log(`Started on http://localhost:${PORT}`))

@@ -9,6 +9,6 @@
     "@tinyhttp/app": "workspace:*"
   },
   "devDependencies": {
-    "tsm": "^2.1.0"
+    "tsm": "^2.1.3"
   }
 }

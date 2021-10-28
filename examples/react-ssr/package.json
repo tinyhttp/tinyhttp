@@ -10,5 +10,8 @@
   },
   "scripts": {
     "start": "node index.js"
+  },
+  "devDependencies": {
+    "@types/react-dom": "^17.0.10"
   }
 }
