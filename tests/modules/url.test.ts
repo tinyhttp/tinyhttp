@@ -8,6 +8,11 @@ describe('getQueryParams(url)', () => {
 
     expect(getQueryParams(str)).toEqual({ world: '42' })
   })
+  it('parses the url and return empty object if no query params found', () => {
+    const str = '/hello'
+
+    expect(getQueryParams(str)).toEqual({})
+  })
 })
 
 describe('getURLParams(reqUrl, url)', () => {

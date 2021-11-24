@@ -22,10 +22,11 @@ export type URLParams = {
   [key: string]: string
 }
 
-export const getPathname = (u: string): string => {
-  const end = u.indexOf('?')
-
-  return u.slice(0, end === -1 ? u.length : end)
+const getQueryIndex = (url: string): number => {
+  const index = url.indexOf('?')
+  return index === -1 ? url.length : index
 }
 
-export const getQueryParams = (url = '/'): ParsedUrlQuery => parse(url.slice(url.indexOf('?') + 1))
+export const getPathname = (url: string): string => url.slice(0, getQueryIndex(url))
+
+export const getQueryParams = (url = '/'): ParsedUrlQuery => parse(url.slice(getQueryIndex(url) + 1))
