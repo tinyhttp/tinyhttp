@@ -122,6 +122,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://r37r0m0d3l.icu/"><img src="https://avatars.githubusercontent.com/u/1107459?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Anton Trofimenko</b></sub></a><br /><a href="https://github.com/tinyhttp/tinyhttp/commits?author=r37r0m0d3l" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/tomhooijenga"><img src="https://avatars.githubusercontent.com/u/1853235?v=4?s=100" width="100px;" alt=""/><br /><sub><b>tomhooijenga</b></sub></a><br /><a href="https://github.com/tinyhttp/tinyhttp/commits?author=tomhooijenga" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/SaiKiranMukka"><img src="https://avatars.githubusercontent.com/u/25776859?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Sai Kiran Mukka</b></sub></a><br /><a href="https://github.com/tinyhttp/tinyhttp/commits?author=SaiKiranMukka" title="Code">💻</a></td>
+    <td align="center"><a href="http://www.groenroos.fi"><img src="https://avatars.githubusercontent.com/u/951547?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Oskari Groenroos</b></sub></a><br /><a href="https://github.com/tinyhttp/tinyhttp/commits?author=groenroos" title="Code">💻</a></td>
   </tr>
 </table>
 
