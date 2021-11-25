@@ -452,6 +452,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "groenroos",
+      "name": "Oskari Groenroos",
+      "avatar_url": "https://avatars.githubusercontent.com/u/951547?v=4",
+      "profile": "http://www.groenroos.fi",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
