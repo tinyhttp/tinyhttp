@@ -9,6 +9,6 @@
     "start": "esmo index.ts"
   },
   "devDependencies": {
-    "esmo": "^0.10.1"
+    "esmo": "^0.12.1"
   }
 }

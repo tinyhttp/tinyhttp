@@ -6,11 +6,11 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "@prisma/client": "3.3.0",
+    "@prisma/client": "3.5.0",
     "@tinyhttp/app": "workspace:*",
     "milliparsec": "^2.2.0"
   },
   "devDependencies": {
-    "prisma": "^3.3.0"
+    "prisma": "^3.5.0"
   }
 }

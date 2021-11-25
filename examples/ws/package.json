@@ -5,6 +5,6 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "tinyws": "^0.1.0",
-    "ws": "^8.2.3"
+    "ws": "^8.3.0"
   }
 }

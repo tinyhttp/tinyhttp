@@ -6,7 +6,7 @@
   },
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "neo4j-driver": "^4.3.4"
+    "neo4j-driver": "^4.4.1"
   },
   "type": "module"
 }

@@ -9,6 +9,6 @@
     "express-decorators": "^1.2.1"
   },
   "devDependencies": {
-    "tsm": "^2.1.3"
+    "tsm": "^2.1.4"
   }
 }

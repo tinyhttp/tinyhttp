@@ -1,5 +1,5 @@
 import { App } from '@tinyhttp/app'
-import formidable from 'formidable'
+import { formidable } from 'formidable'
 
 const app = new App()
 
