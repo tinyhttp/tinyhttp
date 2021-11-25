@@ -23,6 +23,13 @@ describe('getURLParams(reqUrl, url)', () => {
 
     expect(getURLParams(regex, reqUrl)).toStrictEqual({})
   })
+  it('omits optional param when not supplied', () => {
+    const reqUrl = '/foo/qaz'
+
+    const regex = rg('/foo/:bar/:baz?')
+
+    expect(getURLParams(regex, reqUrl)).toStrictEqual({ bar: 'qaz' })
+  })
   it('parses URL params and returns an object with matches', () => {
     const reqUrl = '/hello/world'
 
