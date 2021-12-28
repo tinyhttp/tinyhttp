@@ -78,7 +78,7 @@ importers:
       '@tinyhttp/req': workspace:*
       '@tinyhttp/res': workspace:*
       '@tinyhttp/router': workspace:*
-      header-range-parser: ^1.1.1
+      header-range-parser: 1.1.1
       regexparam: ^2.0.0
     dependencies:
       '@tinyhttp/cookie': link:../cookie
