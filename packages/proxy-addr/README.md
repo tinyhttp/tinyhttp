@@ -1,6 +1,6 @@
 # @tinyhttp/proxyaddr
 
-> [`proxy-addr`](https://github.com/jshttp/proxy-addr) rewrite in TypeScript with ESM and CommonJS targets
+> [`proxy-addr`](https://github.com/jshttp/proxy-addr) rewrite in TypeScript
 
 Determine address of a proxied request
 
