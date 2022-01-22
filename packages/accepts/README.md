@@ -1,6 +1,6 @@
 # @tinyhttp/accepts
 
-> [`accepts`](https://github.com/jshttp/accepts) rewrite in TypeScript with ESM and CommonJS targets.
+> [`accepts`](https://github.com/jshttp/accepts) rewrite in TypeScript.
 
 Higher level content negotiation based on [negotiator](https://www.npmjs.com/package/negotiator).
 Extracted from [koa](https://www.npmjs.com/package/koa) for general use.

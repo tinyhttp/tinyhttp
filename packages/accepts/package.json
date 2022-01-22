@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/accepts",
-  "description": "accepts rewrite in TypeScript with ESM and CommonJS targets",
+  "description": "accepts rewrite in TypeScript",
   "version": "2.0.4",
   "homepage": "https://tinyhttp.v1rtl.site",
   "funding": {
