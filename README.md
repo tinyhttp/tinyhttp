@@ -35,11 +35,7 @@ pnpm i @tinyhttp/app
 
 ## Donate
 
-[![DEV](https://badge.devprotocol.xyz/0x14308514785B216904a41aB817282d25425Cce39)](https://stakes.social/0x14308514785B216904a41aB817282d25425Cce39)
-
-The best way to support the project is to stake it on [**stakes.social**](https://stakes.social/0x14308514785B216904a41aB817282d25425Cce39). Note that you also get rewarded by staking, as well as the project author.
-
-**Each address that stakes more than 1K DEV gets bonus 10DEV!** Rewarded addresses will be listed here.
+You can donate with fiat or crypto [here](https://github.com/tinyhttp/tinyhttp?sponsor=1).
 
 ## Sponsors
 
