@@ -10,7 +10,7 @@ export const sign = (val: string, secret: string): string =>
  * Unsign and decode the given `val` with `secret`,
  * returning `false` if the signature is invalid.
  */
-export const unsign = (val: string, secret: string): string | boolean => {
+export const unsign = (val: string, secret: string): string | false => {
   const str = val.slice(0, val.lastIndexOf('.')),
     mac = sign(str, secret),
     macBuffer = Buffer.from(mac),
