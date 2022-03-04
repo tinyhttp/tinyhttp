@@ -9,6 +9,9 @@
     "url": "https://github.com/tinyhttp/tinyhttp.git",
     "directory": "packages/etag"
   },
+  "bugs": {
+    "url": "https://github.com/tinyhttp/tinyhttp/issues"
+  },
   "types": "./dist/index.d.ts",
   "exports": "./dist/index.js",
   "keywords": [
