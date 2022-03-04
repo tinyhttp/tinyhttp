@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/etag",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "type": "module",
   "description": "entity tag module",
   "homepage": "https://tinyhttp.v1rtl.site",
