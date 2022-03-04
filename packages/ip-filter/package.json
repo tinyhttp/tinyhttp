@@ -27,7 +27,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
-    "ip-regex": "^4.3.0"
+    "ip-regex": "^5.0.0"
   },
   "engines": {
     "node": ">=12.4.0"

@@ -33,6 +33,6 @@
     "@tinyhttp/type-is": "workspace:*",
     "@tinyhttp/url": "workspace:*",
     "es-fresh": "^0.0.10",
-    "header-range-parser": "^1.1.1"
+    "header-range-parser": "^1.1.3"
   }
 }
