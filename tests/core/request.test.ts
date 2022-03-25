@@ -2,6 +2,7 @@ import { describe, it } from '@jest/globals'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import { App } from '../../packages/app/src/app'
 import { makeFetch } from 'supertest-fetch'
+import { Agent } from 'http'
 
 describe('Request properties', () => {
   it('should have default HTTP Request properties', async () => {
@@ -46,7 +47,7 @@ describe('Request properties', () => {
   })
 
   describe('Network extensions', () => {
-    it('req.ip & req.ips is being parsed properly', async () => {
+    it('IPv4 req.ip & req.ips is being parsed properly', async () => {
       const { fetch } = InitAppAndTest(
         (req, res) => {
           res.json({
@@ -63,7 +64,8 @@ describe('Request properties', () => {
         }
       )
 
-      await fetch('/').expect(200, {
+      const agent = new Agent({ family: 4 }) // ensure IPv4 only
+      await fetch('/', { agent }).expect(200, {
         ip: '127.0.0.1',
         ips: ['::ffff:127.0.0.1']
       })
