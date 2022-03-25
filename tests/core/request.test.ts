@@ -47,27 +47,33 @@ describe('Request properties', () => {
   })
 
   describe('Network extensions', () => {
+    const ipHandler = (req, res) => {
+      res.json({
+        ip: req.ip,
+        ips: req.ips
+      })
+    }
+    const options = {
+      settings: {
+        networkExtensions: true
+      }
+    }
     it('IPv4 req.ip & req.ips is being parsed properly', async () => {
-      const { fetch } = InitAppAndTest(
-        (req, res) => {
-          res.json({
-            ip: req.ip,
-            ips: req.ips
-          })
-        },
-        '/',
-        'GET',
-        {
-          settings: {
-            networkExtensions: true
-          }
-        }
-      )
+      const { fetch } = InitAppAndTest(ipHandler, '/', 'GET', options)
 
       const agent = new Agent({ family: 4 }) // ensure IPv4 only
       await fetch('/', { agent }).expect(200, {
         ip: '127.0.0.1',
         ips: ['::ffff:127.0.0.1']
+      })
+    })
+    it('IPv6 req.ip & req.ips is being parsed properly', async () => {
+      const { fetch } = InitAppAndTest(ipHandler, '/', 'GET', options)
+
+      const agent = new Agent({ family: 6 }) // ensure IPv6 only
+      await fetch('/', { agent }).expect(200, {
+        ip: '1',
+        ips: ['::1']
       })
     })
     it('req.protocol is http by default', async () => {
@@ -77,11 +83,7 @@ describe('Request properties', () => {
         },
         '/',
         'GET',
-        {
-          settings: {
-            networkExtensions: true
-          }
-        }
+        options
       )
 
       await fetch('/').expect(200, `protocol: http`)
@@ -93,11 +95,7 @@ describe('Request properties', () => {
         },
         '/',
         'GET',
-        {
-          settings: {
-            networkExtensions: true
-          }
-        }
+        options
       )
 
       await fetch('/').expect(200, `secure: false`)
@@ -109,11 +107,7 @@ describe('Request properties', () => {
         },
         '/',
         'GET',
-        {
-          settings: {
-            networkExtensions: true
-          }
-        }
+        options
       )
 
       await fetch('/').expect(200, `subdomains: `)

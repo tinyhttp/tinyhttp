@@ -340,7 +340,7 @@ export class App<
    * @param Server callback after server starts listening
    * @param host server listening host
    */
-  listen(port?: number, cb?: () => void, host = '0.0.0.0'): Server {
+  listen(port?: number, cb?: () => void, host?: string): Server {
     return createServer().on('request', this.attach).listen(port, host, cb)
   }
 }
