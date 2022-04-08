@@ -10,11 +10,13 @@ import type { Response } from './response'
 
 import type { URLParams } from '@tinyhttp/req'
 import { isIP } from 'net'
+import type { Socket } from 'net'
+import type { TLSSocket } from 'tls'
 
 export { getURLParams } from '@tinyhttp/req'
 
-const trustRemoteAddress = ({ connection }: Pick<IncomingMessage, 'headers' | 'connection'>) => {
-  const val = connection.remoteAddress
+const trustRemoteAddress = ({ socket }: Pick<Request, 'headers' | 'connection' | 'socket'>) => {
+  const val = socket.remoteAddress
 
   if (typeof val === 'function') return val
 
@@ -55,10 +57,10 @@ export const getHostname = (req: Request): string | undefined => {
   return index !== -1 ? host.substring(0, index) : host
 }
 
-export const getIP = (req: Pick<IncomingMessage, 'headers' | 'connection'>): string | undefined =>
+export const getIP = (req: Pick<Request, 'headers' | 'connection' | 'socket'>): string | undefined =>
   proxyAddr(req, trustRemoteAddress(req)).replace(/^.*:/, '') // striping the redundant prefix addeded by OS to IPv4 address
 
-export const getIPs = (req: Pick<IncomingMessage, 'headers' | 'connection'>): string[] | undefined =>
+export const getIPs = (req: Pick<Request, 'headers' | 'connection' | 'socket'>): string[] | undefined =>
   all(req, trustRemoteAddress(req))
 
 export const getSubdomains = (req: Request, subdomainOffset = 2): string[] => {
@@ -88,6 +90,7 @@ export interface Request extends IncomingMessage {
   query: ParsedUrlQuery
   params: URLParams
   connection: Connection
+  socket: TLSSocket | Socket
   route?: Middleware
   protocol: Protocol
   secure: boolean
