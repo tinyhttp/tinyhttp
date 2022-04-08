@@ -9,6 +9,6 @@ export default (cfg) => ({
       format: 'esm'
     }
   ],
-  plugins: [ts({ include: ['./src/**/*.ts'] }), ...(cfg.plugins || [])],
+  plugins: [ts(), ...(cfg.plugins || [])],
   external: [...deps(cfg.external)]
 })

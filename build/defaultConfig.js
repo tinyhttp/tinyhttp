@@ -9,6 +9,6 @@ export default {
       format: 'esm'
     }
   ],
-  plugins: [ts({ include: ['./src/**/*.ts'] })],
+  plugins: [ts()],
   external: deps()
 }
