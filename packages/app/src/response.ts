@@ -9,7 +9,7 @@ export const renderTemplate =
   (file: string, data?: Record<string, any>, options?: TemplateEngineOptions<O>): Response => {
     app.render(
       file,
-      data ? { ...data, ...res.locals } : data,
+      data ? { ...data, ...res.locals } : res.locals,
       (err: unknown, html: unknown) => {
         if (err) throw err
         res.send(html)
