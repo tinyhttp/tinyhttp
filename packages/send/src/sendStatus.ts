@@ -1,6 +1,6 @@
 import { IncomingMessage as I, ServerResponse as S } from 'http'
 import { STATUS_CODES } from 'http'
-import { send } from './send'
+import { send } from './send.js'
 
 type Req = Pick<I, 'method'>
 

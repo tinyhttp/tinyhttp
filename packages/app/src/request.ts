@@ -4,9 +4,9 @@ import { ParsedUrlQuery } from 'querystring'
 import { Options, Ranges } from 'header-range-parser'
 import { proxyaddr as proxyAddr, all, compile } from '@tinyhttp/proxy-addr'
 
-import { App } from './app'
+import { App } from './app.js'
 import type { Middleware, Handler } from '@tinyhttp/router'
-import type { Response } from './response'
+import type { Response } from './response.js'
 
 import type { URLParams } from '@tinyhttp/req'
 import { isIP } from 'net'

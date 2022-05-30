@@ -2,7 +2,7 @@ import { contentDisposition } from '@tinyhttp/content-disposition'
 import { sendFile } from '@tinyhttp/send'
 import { extname, resolve } from 'path'
 import { IncomingMessage as I, ServerResponse as S } from 'http'
-import { setContentType, setHeader } from './headers'
+import { setContentType, setHeader } from './headers.js'
 import type { SendFileOptions } from '@tinyhttp/send'
 
 export type DownloadOptions = SendFileOptions &

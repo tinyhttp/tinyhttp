@@ -1,7 +1,7 @@
 import { ServerResponse } from 'http'
 import type { SerializeOptions } from '@tinyhttp/cookie'
-import { Request } from './request'
-import { App, TemplateEngineOptions } from './app'
+import { Request } from './request.js'
+import { App, TemplateEngineOptions } from './app.js'
 import type { ReadStreamOptions, FormatProps, DownloadOptions } from '@tinyhttp/res'
 
 export const renderTemplate =

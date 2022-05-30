@@ -1,9 +1,9 @@
 import { IncomingMessage as I } from 'http'
 import { getAccepts } from '@tinyhttp/req'
-import { setVaryHeader } from './headers'
-import { normalizeType, normalizeTypes } from './util'
+import { setVaryHeader } from './headers.js'
+import { normalizeType, normalizeTypes } from './util.js'
 
-import type { Res } from './redirect'
+import type { Res } from './redirect.js'
 
 export type FormatProps = {
   default?: () => void

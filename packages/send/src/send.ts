@@ -1,6 +1,6 @@
 import { IncomingMessage as I, ServerResponse as S } from 'http'
-import { json } from './json'
-import { setCharset, createETag } from './utils'
+import { json } from './json.js'
+import { setCharset, createETag } from './utils.js'
 
 type Req = Pick<I, 'method'> & { fresh?: boolean }
 

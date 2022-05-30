@@ -2,7 +2,7 @@ import { IncomingMessage as I, ServerResponse as S } from 'http'
 import { createReadStream, statSync } from 'fs'
 import { isAbsolute, extname } from 'path'
 import { contentType } from 'es-mime-types'
-import { createETag } from './utils'
+import { createETag } from './utils.js'
 import { join } from 'path'
 
 export type ReadStreamOptions = Partial<{
