@@ -1,7 +1,7 @@
 import { contentDisposition } from '@tinyhttp/content-disposition'
 import { sendFile } from '@tinyhttp/send'
 import { extname, resolve } from 'path'
-import { IncomingMessage as I, ServerResponse as S } from 'http'
+import { IncomingMessage as Req, ServerResponse as Res } from 'http'
 import { setContentType, setHeader } from './headers.js'
 import type { SendFileOptions } from '@tinyhttp/send'
 
@@ -11,10 +11,6 @@ export type DownloadOptions = SendFileOptions &
   }>
 
 type Callback = (err?: any) => void
-
-type Req = Pick<I, 'headers'>
-
-type Res = Pick<S, 'setHeader' | 'statusCode' | 'writeHead'> & NodeJS.WritableStream
 
 export const download =
   <Request extends Req = Req, Response extends Res = Res>(req: Request, res: Response) =>
@@ -53,7 +49,7 @@ export const download =
   }
 
 export const attachment =
-  <Response extends Pick<S, 'getHeader' | 'setHeader'> = Pick<S, 'getHeader' | 'setHeader'>>(res: Response) =>
+  <Response extends Res>(res: Response) =>
   (filename?: string): Response => {
     if (filename) setContentType(res)(extname(filename))
 

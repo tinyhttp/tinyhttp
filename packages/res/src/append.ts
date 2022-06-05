@@ -1,7 +1,5 @@
-import { ServerResponse as S } from 'http'
+import { ServerResponse as Res } from 'http'
 import { getResponseHeader, setHeader } from './headers.js'
-
-type Res = Pick<S, 'getHeader' | 'setHeader'>
 
 export const append =
   <Response extends Res = Res>(res: Response) =>

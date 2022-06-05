@@ -1,9 +1,7 @@
-import { IncomingMessage as I } from 'http'
+import { IncomingMessage as Req, ServerResponse as Res } from 'http'
 import { getAccepts } from '@tinyhttp/req'
 import { setVaryHeader } from './headers.js'
 import { normalizeType, normalizeTypes } from './util.js'
-
-import type { Res } from './redirect.js'
 
 export type FormatProps = {
   default?: () => void
@@ -16,8 +14,6 @@ export type FormatError = Error & {
 }
 
 type next = (err?: FormatError) => void
-
-type Req = Pick<I, 'headers'>
 
 export const formatResponse =
   <Request extends Req = Req, Response extends Res = Res, Next extends next = next>(

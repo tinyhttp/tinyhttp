@@ -1,14 +1,10 @@
-import { IncomingMessage as I, ServerResponse as S } from 'http'
+import { IncomingMessage as Req, ServerResponse as Res } from 'http'
 import * as mime from 'es-mime-types'
 import { getRequestHeader } from '@tinyhttp/req'
 import { vary } from 'es-vary'
 import { encodeUrl } from '@tinyhttp/encode-url'
 
 const charsetRegExp = /;\s*charset\s*=/
-
-type Res = Pick<S, 'setHeader' | 'getHeader'>
-
-type Req = Pick<I, 'headers'>
 
 export const setHeader =
   <Response extends Res = Res>(res: Response) =>

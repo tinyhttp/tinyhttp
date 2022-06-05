@@ -1,11 +1,7 @@
-import { IncomingMessage as I, ServerResponse as S, STATUS_CODES } from 'http'
+import { IncomingMessage as Req, ServerResponse as Res, STATUS_CODES } from 'http'
 import { escapeHTML } from 'es-escape-html'
 import { formatResponse } from './format.js'
 import { setLocationHeader } from './headers.js'
-
-type Req = Pick<I, 'headers' | 'method'>
-
-export type Res = Pick<S, 'setHeader' | 'statusCode' | 'getHeader' | 'end'>
 
 type next = (err?: any) => void
 
