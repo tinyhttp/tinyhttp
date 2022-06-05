@@ -1,5 +1,5 @@
 export * from '@tinyhttp/send'
-export * from './cookie'
+export * from './cookie.js'
 export {
   setContentType,
   setHeader,
@@ -8,8 +8,8 @@ export {
   setVaryHeader,
   getResponseHeader
 } from './headers'
-export type { FormatProps, FormatError } from './format'
-export { formatResponse } from './format'
-export { redirect } from './redirect'
-export * from './download'
-export { append } from './append'
+export type { FormatProps, FormatError } from './format.js'
+export { formatResponse } from './format.js'
+export { redirect } from './redirect.js'
+export * from './download.js'
+export { append } from './append.js'

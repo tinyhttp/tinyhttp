@@ -1,6 +1,6 @@
-import { getSubdomains, Request } from './request'
+import { getSubdomains, Request } from './request.js'
 import type { NextFunction } from '@tinyhttp/router'
-import type { Response } from './response'
+import type { Response } from './response.js'
 import {
   getFreshOrStale,
   getRangeFromHeader,
@@ -12,7 +12,7 @@ import {
   getAcceptsEncodings,
   getAcceptsLanguages
 } from '@tinyhttp/req'
-import { getProtocol, getHostname, getIP, getIPs } from './request'
+import { getProtocol, getHostname, getIP, getIPs } from './request.js'
 import {
   send,
   json,
@@ -33,8 +33,8 @@ import {
   download,
   append
 } from '@tinyhttp/res'
-import { renderTemplate } from './response'
-import { App } from './app'
+import { renderTemplate } from './response.js'
+import { App } from './app.js'
 
 /**
  * Extends Request and Response objects with custom properties and methods

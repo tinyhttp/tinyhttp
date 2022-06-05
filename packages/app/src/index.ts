@@ -1,12 +1,12 @@
-export { App } from './app'
-export type { AppSettings, TemplateEngineOptions, TemplateFunc } from './app'
-export * from './request'
-import type { Request } from './request'
-export * from './response'
-import type { Response } from './response'
-export { extendMiddleware } from './extend'
-export { onErrorHandler } from './onError'
-export type { ErrorHandler } from './onError'
+export { App } from './app.js'
+export type { AppSettings, TemplateEngineOptions, TemplateFunc } from './app.js'
+export * from './request.js'
+import type { Request } from './request.js'
+export * from './response.js'
+import type { Response } from './response.js'
+export { extendMiddleware } from './extend.js'
+export { onErrorHandler } from './onError.js'
+export type { ErrorHandler } from './onError.js'
 import type {
   NextFunction,
   Handler as RHandler,

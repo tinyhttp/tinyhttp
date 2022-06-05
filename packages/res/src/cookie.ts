@@ -1,7 +1,7 @@
 import { IncomingMessage as I, ServerResponse as S } from 'http'
 import * as cookie from '@tinyhttp/cookie'
 import { sign } from '@tinyhttp/cookie-signature'
-import { append } from './append'
+import { append } from './append.js'
 
 type Res = Pick<S, 'setHeader' | 'getHeader'>
 

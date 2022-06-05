@@ -13,6 +13,9 @@ export default {
     '^.+\\.(t|j)sx?$': 'ts-jest'
   },
   testRegex: '(/tests/.*|\\.(test))\\.(ts|tsx|js)$',
+  moduleNameMapper: {
+    '^(\\.{1,2}/.*)\\.js$': '$1'
+  },
   moduleFileExtensions: ['ts', 'js', 'json'],
   resolver: './resolver.cjs',
   modulePathIgnorePatterns: ['tests/wares/rate-limit/rate-limit.test.ts', 'examples']

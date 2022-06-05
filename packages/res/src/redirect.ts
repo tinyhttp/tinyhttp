@@ -1,7 +1,7 @@
 import { IncomingMessage as I, ServerResponse as S, STATUS_CODES } from 'http'
 import { escapeHTML } from 'es-escape-html'
-import { formatResponse } from './format'
-import { setLocationHeader } from './headers'
+import { formatResponse } from './format.js'
+import { setLocationHeader } from './headers.js'
 
 type Req = Pick<I, 'headers' | 'method'>
 
