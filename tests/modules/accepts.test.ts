@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { describe, expect, it } from '@jest/globals'
+import { describe, expect, it } from 'vitest'
 import { Accepts } from '../../packages/accepts/src'
 
 function createRequest(value?: unknown): any {

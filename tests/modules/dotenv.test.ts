@@ -1,4 +1,4 @@
-import { describe, expect, it, afterEach } from '@jest/globals'
+import { describe, expect, it, afterEach } from 'vitest'
 import fs from 'fs'
 import path from 'path'
 import * as dotenv from '../../packages/dotenv/src'

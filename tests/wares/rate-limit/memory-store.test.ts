@@ -1,4 +1,4 @@
-import { describe, expect, it, jest } from '@jest/globals'
+import { describe, expect, it, vi } from 'vitest'
 import { MemoryStore } from '../../../packages/rate-limit/src'
 
 const key = '127.0.0.1'
@@ -42,10 +42,10 @@ describe('MemoryStore store', () => {
   })
 
   it('resets all keys for the store when the timeout is reached', async () => {
-    jest.useFakeTimers()
+    vi.useFakeTimers()
     const store = new MemoryStore(50)
     assertCurrentAfterIncrement(await testHelper(store.incr, key), 1)
-    jest.advanceTimersByTime(100)
+    vi.advanceTimersByTime(100)
     assertCurrentAfterIncrement(await testHelper(store.incr, key), 1)
   })
 

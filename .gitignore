@@ -9,3 +9,4 @@ examples/*/.env
 examples/aws/.build
 .pnpm-debug.log*
 *.log
+coverage.lcov

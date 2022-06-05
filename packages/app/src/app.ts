@@ -38,6 +38,7 @@ export type AppSettings = Partial<{
   bindAppToReqRes: boolean
   xPoweredBy: string | boolean
   enableReqRoute: boolean
+  views: string
 }>
 
 /**
@@ -105,7 +106,7 @@ export class App<
     super()
     this.onError = options?.onError || onErrorHandler
     this.noMatchHandler = options?.noMatchHandler || this.onError.bind(null, { code: 404 })
-    this.settings = options.settings || { xPoweredBy: true }
+    this.settings = options.settings || { xPoweredBy: true, views: process.cwd() }
     this.applyExtensions = options?.applyExtensions
     this.attach = (req, res) => setImmediate(this.handler.bind(this, req, res, undefined), req, res)
   }
@@ -153,7 +154,7 @@ export class App<
     cb: (err: unknown, html: unknown) => void,
     options: TemplateEngineOptions<RenderOptions> = {}
   ): this {
-    options.viewsFolder = options.viewsFolder || `${process.cwd()}/views`
+    options.viewsFolder = options.viewsFolder || this.settings.views || `${process.cwd()}/views`
     options.ext = options.ext || file.slice(file.lastIndexOf('.') + 1) || 'ejs'
 
     options._locals = options._locals || {}

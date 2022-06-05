@@ -1,4 +1,4 @@
-import { describe, expect, it } from '@jest/globals'
+import { describe, expect, it } from 'vitest'
 import { encodeUrl } from '../../packages/encode-url/src'
 
 describe('encodeUrl(url)', () => {

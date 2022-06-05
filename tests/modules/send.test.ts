@@ -1,4 +1,4 @@
-import { describe, expect, it, beforeAll, afterAll } from '@jest/globals'
+import { describe, expect, it, beforeAll, afterAll } from 'vitest'
 import fs from 'fs'
 import path from 'path'
 import { makeFetch } from 'supertest-fetch'

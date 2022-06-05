@@ -1,7 +1,7 @@
-import { describe, expect, it } from '@jest/globals'
+import { describe, expect, it } from 'vitest'
 import { makeFetch } from 'supertest-fetch'
 import path from 'path'
-import type { Request, Response } from '../../packages/app/src'
+import type { Request, Response } from '../../packages/app/src/index.js'
 import {
   formatResponse,
   getResponseHeader,
@@ -16,7 +16,7 @@ import {
   append,
   setLinksHeader,
   setLocationHeader
-} from '../../packages/res/src'
+} from '../../packages/res/src/index.js'
 import { runServer } from '../../test_helpers/runServer'
 import { dirname } from 'dirname-filename-esm'
 

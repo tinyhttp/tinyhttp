@@ -1,4 +1,4 @@
-import { describe, it } from '@jest/globals'
+import { describe, it } from 'vitest'
 import { jsonp } from '../../packages/jsonp/src/index'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 

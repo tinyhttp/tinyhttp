@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { describe, expect, it } from '@jest/globals'
+import { describe, expect, it } from 'vitest'
 import http from 'http'
 import path from 'path'
 import { readFile } from 'fs/promises'
-import { App } from '../../packages/app/src'
+import { App } from '../../packages/app/src/index'
 
 import { renderFile } from 'eta'
 import type { EtaConfig } from 'eta/dist/types/config'
@@ -885,16 +885,13 @@ describe('Template engines', () => {
     await fetch('/').expectBody('Hello from Eta')
   })
   it('can render without data passed', async () => {
-    const pwd = process.cwd()
-    process.chdir(path.resolve(pwd, 'tests/fixtures'))
-
     const app = new App<EtaConfig>()
+    app.set('views', path.resolve(process.cwd(), 'tests/fixtures/views'))
 
     app.engine('eta', renderFile)
 
     app.use((_, res) => {
       res.render('empty.eta')
-      process.chdir(pwd)
     })
 
     const server = app.listen()

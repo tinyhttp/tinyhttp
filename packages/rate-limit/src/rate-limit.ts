@@ -42,9 +42,13 @@ const defaultOptions: RateLimitOptions = {
   onLimitReached: () => {}
 }
 
-export function rateLimit(
-  options?: Partial<RateLimitOptions>
-): (req: RequestWithRateLimit, res: Response, next: (err?: any) => void) => Promise<void> {
+export function rateLimit(options?: Partial<RateLimitOptions>): ((
+  req: RequestWithRateLimit,
+  res: Response,
+  next: (err?: any) => void
+) => Promise<void>) & {
+  resetKey: (key: string) => void
+} {
   const {
     shouldSkip,
     keyGenerator,

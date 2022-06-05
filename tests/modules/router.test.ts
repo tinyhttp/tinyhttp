@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { describe, expect, it } from '@jest/globals'
+import { describe, expect, it } from 'vitest'
 import { Response } from '../../packages/app/src'
 import { Router } from '../../packages/router/src'
 

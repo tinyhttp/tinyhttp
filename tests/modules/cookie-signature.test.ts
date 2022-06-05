@@ -1,4 +1,4 @@
-import { describe, expect, it } from '@jest/globals'
+import { describe, expect, it } from 'vitest'
 import * as cookie from '../../packages/cookie-signature/src'
 
 describe('.sign(val, secret)', () => {

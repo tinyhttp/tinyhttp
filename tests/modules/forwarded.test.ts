@@ -1,4 +1,4 @@
-import { describe, expect, it } from '@jest/globals'
+import { describe, expect, it } from 'vitest'
 import { forwarded } from '../../packages/forwarded/src'
 import { createReq } from '../../test_helpers/createReq'
 import { IncomingMessage } from 'http'

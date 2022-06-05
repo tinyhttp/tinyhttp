@@ -1,4 +1,4 @@
-import { describe, expect, it } from '@jest/globals'
+import { describe, expect, it } from 'vitest'
 import { getQueryParams, getURLParams, getPathname } from '../../packages/url/src'
 import { parse as rg } from 'regexparam'
 
