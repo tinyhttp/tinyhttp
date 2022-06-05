@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/encode-url",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "encode-url rewrite in TypeScript",
   "type": "module",
   "types": "./dist/index.d.ts",
