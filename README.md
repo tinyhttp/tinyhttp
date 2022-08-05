@@ -9,7 +9,7 @@
 </div>
 <br /><br />
 
-> 🦕 tinyhttp now has a [Deno port](https://github.com/deno-libs/tinyhttp) (work in progress)
+> I am currently looking for a part-time job. contact v1rtl@proton.me / [v_1rtl](https://t.me/v_1rtl)
 
 _**tinyhttp**_ is a modern [Express](https://expressjs.com/)-like web framework written in TypeScript and compiled to native ESM, that uses a bare minimum amount of dependencies trying to avoid legacy hell.
 
