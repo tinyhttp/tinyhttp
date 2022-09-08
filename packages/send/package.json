@@ -27,7 +27,9 @@
   "author": "v1rtl",
   "license": "MIT",
   "scripts": {
-    "build": "rollup -c"
+    "dev": "vite",
+    "build": "vite build",
+    "postbuild": "tsc --emitDeclarationOnly"
   },
   "dependencies": {
     "@tinyhttp/etag": "workspace:*",

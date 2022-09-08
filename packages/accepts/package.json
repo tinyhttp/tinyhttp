@@ -26,9 +26,11 @@
   },
   "dependencies": {
     "es-mime-types": "^0.1.4",
-    "negotiator": "^0.6.2"
+    "negotiator": "^0.6.3"
   },
   "scripts": {
-    "build": "rollup -c"
+    "dev": "vite",
+    "build": "vite build",
+    "postbuild": "tsc --emitDeclarationOnly"
   }
 }

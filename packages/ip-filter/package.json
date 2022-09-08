@@ -33,6 +33,8 @@
     "node": ">=12.4.0"
   },
   "scripts": {
-    "build": "rollup -c ./rollup.config.js"
+    "dev": "vite",
+    "build": "vite build",
+    "postbuild": "tsc --emitDeclarationOnly"
   }
 }

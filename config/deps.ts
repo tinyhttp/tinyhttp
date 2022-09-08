@@ -1,4 +1,4 @@
-export default (deps) => [
+export default (deps: Record<string, string>) => [
   ...Object.keys(deps || {}),
   'http',
   'url',

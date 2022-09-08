@@ -22,6 +22,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "rollup -c ../../build/defaultConfig.js"
-  }
+    "dev": "vite",
+    "build": "vite build",
+    "postbuild": "tsc --emitDeclarationOnly"
+  },
+  "dependencies": {}
 }

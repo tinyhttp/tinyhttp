@@ -29,6 +29,9 @@
   "author": "v1rtl",
   "license": "MIT",
   "scripts": {
-    "build": "rollup -c ./rollup.config.js"
-  }
+    "dev": "vite",
+    "build": "vite build",
+    "postbuild": "tsc --emitDeclarationOnly"
+  },
+  "dependencies": {}
 }

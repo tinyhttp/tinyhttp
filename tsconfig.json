@@ -10,12 +10,12 @@
     "downlevelIteration": true,
     "noImplicitAny": false,
     "noUnusedParameters": true,
-    "preserveConstEnums": true,
     "skipLibCheck": true,
     "moduleResolution": "Node",
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
+    "resolveJsonModule": true,
     "lib": ["DOM"]
   },
   "exclude": ["examples", "packages/*/dist"]

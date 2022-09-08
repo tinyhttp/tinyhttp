@@ -25,7 +25,9 @@
   "author": "v1rtl",
   "license": "MIT",
   "scripts": {
-    "build": "rollup -c"
+    "dev": "vite",
+    "build": "vite build",
+    "postbuild": "tsc --emitDeclarationOnly"
   },
   "dependencies": {
     "@tinyhttp/content-disposition": "workspace:*",
@@ -36,6 +38,6 @@
     "@tinyhttp/send": "workspace:*",
     "es-escape-html": "^0.1.1",
     "es-mime-types": "^0.1.4",
-    "es-vary": "^0.1.1"
+    "es-vary": "^0.1.2"
   }
 }
