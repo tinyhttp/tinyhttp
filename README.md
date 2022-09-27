@@ -4,7 +4,7 @@
 <img width="500px" src="https://tinyhttp.v1rtl.site/images/logo.svg" alt="tinyhttp" />
 <p><sub>⚡ Tiny web framework as a replacement of Express</sub></p><br />
 
-[![][site-badge]][site-url] [![npm][npm-img]][npm-url] [![GitHub Workflow Status][gh-actions-img]][github-actions] [![Coverage][cov-img]][cov-url] [![][donate-badge]][stakes-social] [![][code-quality-img]][code-quality]
+[![][site-badge]][site-url] [![npm][npm-img]][npm-url] [![GitHub Workflow Status][gh-actions-img]][github-actions] [![Coverage][cov-img]][cov-url] [![][donate-badge]][stakes-social] [![][code-quality-img]][code-quality] [![kandi X-Ray](https://kandi.openweaver.com/badges/xray.svg)](https://kandi.openweaver.com/typescript/tinyhttp/tinyhttp)
 
 </div>
 <br /><br />
