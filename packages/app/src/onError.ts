@@ -2,10 +2,13 @@ import type { NextFunction } from '@tinyhttp/router'
 import { STATUS_CODES } from 'http'
 import type { Request } from './request.js'
 import type { Response } from './response.js'
+import {App} from "./app";
 
-export type ErrorHandler = (err: any, req: Request, res: Response, next?: NextFunction) => void
+export type ErrorHandler = (this: App, err: any, req: Request, res: Response, next?: NextFunction) => void
 
-export const onErrorHandler: ErrorHandler = (err: any, _req: Request, res: Response) => {
+export const onErrorHandler: ErrorHandler = function (this: App, err: any, _req: Request, res: Response) {
+  if (this.onError === onErrorHandler && this.parent) return this.parent.onError(err, _req, res)
+
   if (!process.env.TESTING && err instanceof Error) console.error(err)
 
   const code = err.code in STATUS_CODES ? err.code : err.status

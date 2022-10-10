@@ -105,7 +105,7 @@ export class App<
   ) {
     super()
     this.onError = options?.onError || onErrorHandler
-    this.noMatchHandler = options?.noMatchHandler || this.onError.bind(null, { code: 404 })
+    this.noMatchHandler = options?.noMatchHandler || this.onError.bind(this, { code: 404 })
     this.settings = options.settings || { xPoweredBy: true, views: process.cwd() }
     this.applyExtensions = options?.applyExtensions
     this.attach = (req, res) => setImmediate(this.handler.bind(this, req, res, undefined), req, res)
