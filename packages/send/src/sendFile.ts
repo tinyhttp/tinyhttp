@@ -34,7 +34,7 @@ export type Caching = Partial<{
 
 type Req = Pick<I, 'headers'>
 
-type Res = Pick<S, 'setHeader' | 'statusCode' | 'writeHead'> & NodeJS.WritableStream
+type Res = Pick<S, 'setHeader' | 'statusCode' | 'writeHead' | 'getHeader'> & NodeJS.WritableStream
 
 export const enableCaching = (res: Res, caching: Caching): void => {
   let cc = caching.maxAge != null && `public,max-age=${caching.maxAge}`
@@ -70,9 +70,9 @@ export const sendFile =
 
     headers['Last-Modified'] = stats.mtime.toUTCString()
 
-    headers['Content-Type'] = contentType(extname(path))
-
     headers['ETag'] = createETag(stats, encoding)
+
+    if (!res.getHeader('Content-Type')) headers['Content-Type'] = contentType(extname(path))
 
     let status = res.statusCode || 200
 

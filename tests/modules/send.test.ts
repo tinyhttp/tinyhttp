@@ -183,6 +183,15 @@ describe('sendFile(path)', () => {
 
     await makeFetch(app)('/').expectHeader('Content-Type', 'text/plain; charset=utf-8')
   })
+  it('should inherit the previously set Content-Type header', async () => {
+    const app = runServer((req, res) => {
+      res.setHeader('Content-Type', 'text/markdown')
+
+      sendFile(req, res)(testFilePath, {})
+    })
+
+    await makeFetch(app)('/').expectHeader('Content-Type', 'text/markdown')
+  })
   it('should allow custom headers through the options param', async () => {
     const HEADER_NAME = 'Test-Header'
     const HEADER_VALUE = 'Hello World'
