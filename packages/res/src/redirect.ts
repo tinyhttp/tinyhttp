@@ -15,7 +15,7 @@ export const redirect =
     let address = url
     status = status || 302
 
-    let body: string
+    let body = ''
 
     address = setLocationHeader(req, res)(address).getHeader('Location') as string
 
