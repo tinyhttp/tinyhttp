@@ -15,7 +15,7 @@ export const redirect =
     let address = url
     status = status || 302
 
-    let body = ''
+    let body: string
 
     address = setLocationHeader(req, res)(address).getHeader('Location') as string
 
@@ -31,6 +31,9 @@ export const redirect =
         const u = escapeHTML(address)
 
         body = `<p>${STATUS_CODES[status]}. Redirecting to <a href="${u}">${u}</a></p>`
+      },
+      default: () => {
+        body = ''
       }
     })
 

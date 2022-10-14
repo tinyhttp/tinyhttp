@@ -129,6 +129,18 @@ describe('Response extensions', () => {
         }
       }).expect(302, '<p>Found. Redirecting to <a href="/abc">/abc</a></p>')
     })
+    it('should send an empty response for unsupported MIME types', async () => {
+      const app = runServer((req, res) => {
+        redirect(req, res, (err) => res.writeHead(err.status).end(err.message))('/abc').end()
+      })
+
+      await makeFetch(app)('/', {
+        redirect: 'manual',
+        headers: {
+          Accept: 'image/jpeg,image/webp'
+        }
+      }).expect(302, '')
+    })
   })
   describe('res.format(obj)', () => {
     it('should send text by default', async () => {
