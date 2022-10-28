@@ -31,6 +31,9 @@ export const redirect =
         const u = escapeHTML(address)
 
         body = `<p>${STATUS_CODES[status]}. Redirecting to <a href="${u}">${u}</a></p>`
+      },
+      default: () => {
+        body = ''
       }
     })
 
