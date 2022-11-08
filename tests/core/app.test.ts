@@ -858,6 +858,40 @@ describe('Subapps', () => {
 
     await fetch('/users/123/route').expect(200, '123')
   })
+  it('handles errors by parent when no onError specified', async () => {
+    const app = new App({
+      onError: (err, req, res) => res.status(500).end(`Ouch, ${err} hurt me on ${req.path} page.`)
+    })
+
+    const subApp = new App()
+
+    subApp.get('/route', (req, res, next) => next('you'))
+
+    app.use('/subapp', subApp).listen()
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    await fetch('/subapp/route').expect(500, 'Ouch, you hurt me on /subapp/route page.')
+  })
+  it('handles errors in sub when onError is defined', async () => {
+    const app = new App({
+      onError: (err, req, res) => res.status(500).end(`Ouch, ${err} hurt me on ${req.path} page.`)
+    })
+
+    const subApp = new App({
+      onError: (err, req, res) => res.status(500).end(`Handling ${err} from child on ${req.path} page.`)
+    })
+
+    subApp.get('/route', (req, res, next) => next('you'))
+
+    app.use('/subapp', subApp).listen()
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    await fetch('/subapp/route').expect(500, 'Handling you from child on /subapp/route page.')
+  })
 })
 
 describe('Template engines', () => {
