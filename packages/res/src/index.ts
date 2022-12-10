@@ -7,7 +7,7 @@ export {
   setLocationHeader,
   setVaryHeader,
   getResponseHeader
-} from './headers'
+} from './headers.js'
 export type { FormatProps, FormatError } from './format.js'
 export { formatResponse } from './format.js'
 export { redirect } from './redirect.js'
