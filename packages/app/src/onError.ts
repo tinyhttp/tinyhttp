@@ -2,7 +2,7 @@ import type { NextFunction } from '@tinyhttp/router'
 import { STATUS_CODES } from 'http'
 import type { Request } from './request.js'
 import type { Response } from './response.js'
-import type { App } from './app'
+import type { App } from './app.js'
 
 export type ErrorHandler = (this: App, err: any, req: Request, res: Response, next?: NextFunction) => void
 
