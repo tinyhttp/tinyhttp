@@ -64,8 +64,8 @@ describe('Request properties', () => {
       )
 
       await fetch('/').expect(200, {
-        ip: '127.0.0.1',
-        ips: ['::ffff:127.0.0.1']
+        ip: '1',
+        ips: ['::1']
       })
     })
     it('req.protocol is http by default', async () => {
