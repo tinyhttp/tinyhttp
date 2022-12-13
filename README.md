@@ -4,7 +4,7 @@
 <img width="500px" src="https://tinyhttp.v1rtl.site/images/logo.svg" alt="tinyhttp" />
 <p><sub>⚡ Tiny web framework as a replacement of Express</sub></p><br />
 
-[![][site-badge]][site-url] [![npm][npm-img]][npm-url] [![GitHub Workflow Status][gh-actions-img]][github-actions] [![Coverage][cov-img]][cov-url] [![][donate-badge]][stakes-social] [![][code-quality-img]][code-quality]
+[![][site-badge]][site-url] [![npm][npm-img]][npm-url] [![GitHub Workflow Status][gh-actions-img]][github-actions] [![Coverage][cov-img]][cov-url]  [![][code-quality-img]][code-quality]
 
 </div>
 <br /><br />
@@ -137,5 +137,3 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 [code-quality]: https://www.codefactor.io/repository/github/tinyhttp/tinyhttp
 [npm-img]: https://img.shields.io/npm/dt/@tinyhttp/app?style=for-the-badge&color=hotpink&logo=npm&label=
 [site-badge]: https://img.shields.io/badge/website-open-hotpink?style=for-the-badge
-[donate-badge]: https://img.shields.io/badge/donate-DEV-hotpink?style=for-the-badge
-[stakes-social]: https://stakes.social/0x14308514785B216904a41aB817282d25425Cce39
