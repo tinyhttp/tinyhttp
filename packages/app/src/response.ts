@@ -19,30 +19,30 @@ export const renderTemplate =
     return res
   }
 
-export interface Response<O = any> extends ServerResponse {
-  header(field: string | Record<string, unknown>, val?: string | any[]): Response
-  set(field: string | Record<string, unknown>, val?: string | any[]): Response
+export interface Response<O = any, B = any> extends ServerResponse {
+  header(field: string | Record<string, unknown>, val?: string | any[]): Response<O, B>
+  set(field: string | Record<string, unknown>, val?: string | any[]): Response<O, B>
   get(field: string): string | number | string[]
-  send(body: unknown): Response
-  sendFile(path: string, options?: ReadStreamOptions, cb?: (err?: any) => void): Response
-  json(body: unknown): Response
-  status(status: number): Response
-  sendStatus(statusCode: number): Response
+  send(body: unknown): Response<O, B>
+  sendFile(path: string, options?: ReadStreamOptions, cb?: (err?: any) => void): Response<O, B>
+  json(body: unknown): Response<O, B>
+  status(status: number): Response<O, B>
+  sendStatus(statusCode: number): Response<O, B>
   cookie(
     name: string,
     value: string | Record<string, unknown>,
     options?: SerializeOptions & Partial<{ signed: boolean }>
-  ): Response
-  clearCookie(name: string, options?: SerializeOptions): Response
-  location(url: string): Response
-  links(links: { [key: string]: string }): Response
-  render(file: string, data?: Record<string, any>, options?: TemplateEngineOptions<O>): Response
-  vary(field: string): Response
-  format(obj: FormatProps): Response
-  redirect(url: string, status?: number): Response
-  type(type: string): Response
-  download(path: string, filename: string, options?: DownloadOptions, cb?: (err?: any) => void): Response
-  attachment(filename?: string): Response
+  ): Response<O, B>
+  clearCookie(name: string, options?: SerializeOptions): Response<O, B>
+  location(url: string): Response<O, B>
+  links(links: { [key: string]: string }): Response<O, B>
+  render(file: string, data?: Record<string, any>, options?: TemplateEngineOptions<O>): Response<O, B>
+  vary(field: string): Response<O, B>
+  format(obj: FormatProps): Response<O, B>
+  redirect(url: string, status?: number): Response<O, B>
+  type(type: string): Response<O, B>
+  download(path: string, filename: string, options?: DownloadOptions, cb?: (err?: any) => void): Response<O, B>
+  attachment(filename?: string): Response<O, B>
   app?: App
   locals?: Record<string, any>
   /**
@@ -52,7 +52,7 @@ export interface Response<O = any> extends ServerResponse {
    *
    * @param obj Response object
    */
-  jsonp(obj: any): Response
+  jsonp(obj: any): Response<O, B>
 
-  append(field: string, value: any): Response
+  append(field: string, value: any): Response<O, B>
 }
