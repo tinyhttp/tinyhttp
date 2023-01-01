@@ -44,7 +44,7 @@
     "chgset": "pnpm chgset:run && pnpm chgset:version && pnpm rm-changelogs",
     "release": "changeset publish",
     "test:dev": "TESTING=true vitest",
-    "test:report": "c8 report -x=packages/*/dist --reporter=text-lcov > coverage.lcov",
+    "test:report": "c8 report -x=packages/*/dist -x=test_helpers --reporter=text-lcov > coverage.lcov",
     "test:coverage": "CI=true TESTING=true vitest --coverage",
     "test": "pnpm test:coverage && pnpm test:report",
     "lint": "eslint . --ext=js,mjs,ts,cjs",
