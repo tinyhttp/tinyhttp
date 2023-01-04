@@ -10,3 +10,4 @@ examples/aws/.build
 .pnpm-debug.log*
 *.log
 coverage.lcov
+.gitsigners
