@@ -135,13 +135,13 @@ importers:
       '@tinyhttp/accepts': workspace:*
       '@tinyhttp/type-is': workspace:*
       '@tinyhttp/url': workspace:*
-      es-fresh: ^0.0.10
+      es-fresh: ^0.0.11
       header-range-parser: ^1.1.3
     dependencies:
       '@tinyhttp/accepts': link:../accepts
       '@tinyhttp/type-is': link:../type-is
       '@tinyhttp/url': link:../url
-      es-fresh: 0.0.10
+      es-fresh: 0.0.11
       header-range-parser: 1.1.3
 
   packages/res:
@@ -1541,8 +1541,8 @@ packages:
     engines: {node: '>=12.x'}
     dev: false
 
-  /es-fresh/0.0.10:
-    resolution: {integrity: sha512-/e5etUqtxj7JktALldpsDNC84DOHavN9PqojnTTGeX1M2/Q4/SF8d55d7AsB3n66WYS43hdBbn0sAllto5kSIg==}
+  /es-fresh/0.0.11:
+    resolution: {integrity: sha512-pMAgUE0jSWkCf4ua/gcweHdubuAS/wi3paHoBAPRwxfCK/R13oXq53yyN9XHewe0eIVqNlSN7FunxXySX2Q46Q==}
     engines: {node: '>=12.x'}
     dev: false
 
