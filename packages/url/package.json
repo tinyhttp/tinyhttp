@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/url",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "type": "module",
   "description": "URL extensions for tinyhttp",
   "homepage": "https://tinyhttp.v1rtl.site",
