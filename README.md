@@ -130,7 +130,7 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 [site-url]: https://tinyhttp.v1rtl.site
 [npm-url]: https://npmjs.com/package/@tinyhttp/app
 [github-actions]: https://github.com/tinyhttp/tinyhttp/actions
-[gh-actions-img]: https://img.shields.io/github/workflow/status/tinyhttp/tinyhttp/CI?style=for-the-badge&logo=github&label=&color=hotpink
+[gh-actions-img]: https://img.shields.io/github/actions/workflow/status/tinyhttp/tinyhttp/main.yml?branch=master&style=for-the-badge&logo=github&label=&color=hotpink
 [cov-img]: https://img.shields.io/coveralls/github/tinyhttp/tinyhttp?style=for-the-badge&color=hotpink
 [cov-url]: https://coveralls.io/github/tinyhttp/tinyhttp
 [code-quality-img]: https://img.shields.io/codefactor/grade/github/tinyhttp/tinyhttp?style=for-the-badge&color=hotpink
