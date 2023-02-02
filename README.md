@@ -16,7 +16,7 @@ _**tinyhttp**_ is a modern [Express](https://expressjs.com/)-like web framework 
 - ⚡ [2x faster](https://web-frameworks-benchmark.netlify.app/result?f=tinyhttp,express,polka,fastify) than Express
 - ⚙ Express middleware compat
 - ↪ Async middleware support
-- ☑ Native ESM and CommonJS support
+- ☑ ESM-only
 - 🚀 No legacy dependencies, just the JavaScript itself
 - 🔨 Types out of the box
 - 🔥 Prebuilt middleware for modern Node.js
