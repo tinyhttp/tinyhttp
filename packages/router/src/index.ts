@@ -51,7 +51,7 @@ const METHODS = [
   'UNSUBSCRIBE'
 ] as const
 
-export type Method = typeof METHODS[number]
+export type Method = (typeof METHODS)[number]
 
 export type MiddlewareType = 'mw' | 'route'
 
