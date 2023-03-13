@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "formidable": "3"
+    "formidable": "^3.2.5"
   },
   "type": "module",
   "scripts": {

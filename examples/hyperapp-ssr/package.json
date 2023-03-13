@@ -4,8 +4,8 @@
   "type": "module",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "hyperapp": "^2.0.19",
-    "hyperapp-render": "^4.0.0"
+    "hyperapp": "^2.0.22",
+    "hyperapp-render": "^4.0.1"
   },
   "scripts": {
     "start": "node index.js"

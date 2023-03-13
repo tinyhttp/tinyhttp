@@ -1,40 +1,34 @@
 import { App } from '@tinyhttp/app'
-import { readFile } from 'fs/promises'
-import Vue from 'vue'
-import VueSSR from 'vue-server-renderer'
+import { renderToString } from 'vue/server-renderer'
+import sirv from 'sirv'
+import { createApp } from './app.js'
 
-const createRenderer = async () =>
-  VueSSR.createRenderer({
-    template: await readFile('./index.template.html', 'utf-8')
-  })
+const app = new App()
 
-const ctx = {
-  title: 'Vue SSR',
-  meta: `
-      <meta name="keyword" content="vue,ssr">
-      <meta name="description" content="vue ssr demo">
-  `
-}
-
-const server = new App()
-
-server
+app
+  .use(sirv())
   .get('*', async (req, res) => {
-    const app = new Vue({
-      data: {
-        url: req.url
-      },
-      template: `<div>The visited URL is: {{ url }}</div>`
-    })
+    const app = createApp()
 
-    const renderer = await createRenderer()
+    const html = await renderToString(app)
 
-    renderer.renderToString(app, ctx, (err, html) => {
-      if (err) {
-        res.status(500).end('Internal Server Error', () => console.log(err))
-        return
-      }
-      res.end(html)
-    })
+    res.send(`<!DOCTYPE html>
+    <html>
+      <head>
+        <title>Vue SSR Example</title>
+      </head>
+      <body>
+        <div id="app">${html}</div>
+        <script async src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"></script>
+        <script type="importmap">
+        {
+          "imports": {
+            "vue": "https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.41/vue.esm-browser.prod.js"
+          }
+        }
+        </script>
+        <script type="module" src="./client.js"></script>
+      </body>
+    </html>`)
   })
   .listen(3000)

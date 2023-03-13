@@ -12,6 +12,5 @@ const options = {
 app.get('/', (req, res) => void res.send(`Hello from HTTP ${req.httpVersion} server!`))
 
 createSecureServer(options, (req, res) => {
-  // @ts-ignore
   app.attach(req, res)
 }).listen(3000)

@@ -3,14 +3,15 @@
   "name": "tinyhttp-prisma",
   "type": "module",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "3.5.0",
+    "@prisma/client": "4.11.0",
     "@tinyhttp/app": "workspace:*",
-    "milliparsec": "^2.2.0"
+    "milliparsec": "^2.2.2"
   },
   "devDependencies": {
-    "prisma": "^3.5.0"
+    "prisma": "^4.11.0"
   }
 }

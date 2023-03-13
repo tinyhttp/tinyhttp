@@ -1,21 +1,17 @@
 import { App } from '@tinyhttp/app'
 import { urlencoded } from 'milliparsec'
-import session from 'next-session/dist/connect.js'
-import MemoryStore from 'next-session/dist/store/memory.js'
-
-const modDefault = (x) => x.default
+import getSession from 'next-session'
 
 const app = new App()
-const store = new (modDefault(MemoryStore))()
 
 app.use(urlencoded())
 
-const sessionWare = modDefault(session)({
-  store,
-  secret: 'super secret text'
+app.use(async (req, res, next) => {
+  req.session = await getSession({
+    secret: 'super secret text'
+  })(req, res)
+  next()
 })
-
-app.use(sessionWare)
 
 app.get('/', (_req, res) => {
   res.send('Go to "/login" page to login')
