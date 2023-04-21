@@ -48,7 +48,7 @@ export type TemplateFunc<O> = (
   path: string,
   locals: Record<string, any>,
   opts: TemplateEngineOptions<O>,
-  cb: (err: Error, html: unknown) => void
+  cb: (err: Error | null, html: unknown) => void
 ) => void
 
 export type TemplateEngineOptions<O> = Partial<{
@@ -87,7 +87,7 @@ export class App<
   Res extends Response<RenderOptions> = Response<RenderOptions>
 > extends Router<App, Req, Res> {
   middleware: Middleware<Req, Res>[] = []
-  locals: Record<string, string> = {}
+  locals: Record<string, any> = {}
   noMatchHandler: Handler
   onError: ErrorHandler
   settings: AppSettings
