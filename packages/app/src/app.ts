@@ -87,7 +87,7 @@ export class App<
   Res extends Response<RenderOptions> = Response<RenderOptions>
 > extends Router<App, Req, Res> {
   middleware: Middleware<Req, Res>[] = []
-  locals: Record<string, any> = {}
+  locals: Record<string, unknown> = {}
   noMatchHandler: Handler
   onError: ErrorHandler
   settings: AppSettings
