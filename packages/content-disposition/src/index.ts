@@ -58,7 +58,9 @@ function format({
   parameters: Record<string, unknown>
   type: string | boolean | undefined
 }>) {
-  if (!type || typeof type !== 'string' || !TOKEN_REGEXP.test(type)) throw new TypeError('invalid type')
+  if (!type || typeof type !== 'string' || !TOKEN_REGEXP.test(type)) {
+    throw new TypeError('invalid type')
+  }
 
   // start with normalized type
   let string = String(type).toLowerCase()
@@ -89,8 +91,9 @@ function createParams(filename?: string, fallback?: string | boolean) {
   // fallback defaults to true
   if (fallback === undefined) fallback = true
 
-  if (typeof fallback === 'string' && NON_LATIN1_REGEXP.test(fallback))
+  if (typeof fallback === 'string' && NON_LATIN1_REGEXP.test(fallback)) {
     throw new TypeError('fallback must be ISO-8859-1 string')
+  }
 
   // restrict to file base name
   const name = basename(filename)
@@ -103,10 +106,14 @@ function createParams(filename?: string, fallback?: string | boolean) {
   const hasFallback = typeof fallbackName === 'string' && fallbackName !== name
 
   // set extended filename parameter
-  if (hasFallback || !isQuotedString || HEX_ESCAPE_REGEXP.test(name)) params['filename*'] = name
+  if (hasFallback || !isQuotedString || HEX_ESCAPE_REGEXP.test(name)) {
+    params['filename*'] = name
+  }
 
   // set filename parameter
-  if (isQuotedString || hasFallback) params.filename = hasFallback ? fallbackName : name
+  if (isQuotedString || hasFallback) {
+    params.filename = hasFallback ? fallbackName : name
+  }
 
   return params
 }
@@ -140,15 +147,16 @@ function decodefield(str: string) {
   const encoded = match[2]
   let value: string
 
-  // to binary string
-  const binary = encoded.replace(HEX_ESCAPE_REPLACE_REGEXP, pdecode)
-
   switch (charset) {
     case 'iso-8859-1':
-      value = getlatin1(binary)
+      value = getlatin1(encoded.replace(HEX_ESCAPE_REPLACE_REGEXP, pdecode))
       break
     case 'utf-8':
-      value = Buffer.from(binary, 'binary').toString('utf8')
+      try {
+        value = decodeURIComponent(encoded)
+      } catch {
+        throw new TypeError('invalid encoded utf-8')
+      }
       break
     default:
       throw new TypeError('unsupported charset in extended field')
@@ -186,7 +194,9 @@ export function parse(string: string): ContentDisposition {
     key = match[1].toLowerCase()
     value = match[2]
 
-    if (names.indexOf(key) !== -1) throw new TypeError('invalid duplicate parameter')
+    if (names.indexOf(key) !== -1) {
+      throw new TypeError('invalid duplicate parameter')
+    }
 
     names.push(key)
 
@@ -202,12 +212,16 @@ export function parse(string: string): ContentDisposition {
 
     if (typeof params[key] === 'string') continue
 
-    if (value[0] === '"') value = value.substr(1, value.length - 2).replace(QESC_REGEXP, '$1')
+    if (value[0] === '"') {
+      value = value.substr(1, value.length - 2).replace(QESC_REGEXP, '$1')
+    }
 
     params[key] = value
   }
 
-  if (index !== -1 && index !== string.length) throw new TypeError('invalid parameter format')
+  if (index !== -1 && index !== string.length) {
+    throw new TypeError('invalid parameter format')
+  }
 
   return new ContentDisposition(type, params)
 }

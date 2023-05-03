@@ -143,8 +143,10 @@ export function rateLimit(options?: Partial<RateLimitOptions>): ((
         onLimitReached(req, res)
       }
 
-      if (max && current > max) {
-        if (headers && !res.headersSent) res.setHeader('Retry-After', Math.ceil(windowMs / 1000))
+      if (maxResult && current > maxResult) {
+        if (headers && !res.headersSent) {
+          res.setHeader('Retry-After', Math.ceil(windowMs / 1000))
+        }
         status(res)(statusCode)
         send(req, res)(message)
         return

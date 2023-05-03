@@ -1,5 +1,9 @@
 {
   "eslint.packageManager": "pnpm",
-  "prettier.packageManager": "pnpm",
-  "npm.packageManager": "pnpm"
+  "npm.packageManager": "pnpm",
+  "editor.formatOnSave": true,
+  "prettier.enable": true,
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

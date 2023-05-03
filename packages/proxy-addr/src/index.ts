@@ -109,7 +109,7 @@ export function parseIPNotation(note: string): [IPv4 | IPv6, string | number] {
   else if (ip.kind() === 'ipv4' && isip(range)) range = parseNetmask(range)
   else range = null
 
-  if (range <= 0 || range > max) throw new TypeError('invalid range on address: ' + note)
+  if (typeof range === 'number' && (range <= 0 || range > max)) throw new TypeError('invalid range on address: ' + note)
 
   return [ip, range]
 }
