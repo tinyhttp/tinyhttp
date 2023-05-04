@@ -1,4 +1,4 @@
-# EJS example
+# Eta example
 
 Basic example of using tinyhttp and [Eta](https://github.com/eta-dev/eta).
 
