@@ -375,6 +375,13 @@ describe('Testing HTTP methods', () => {
 
     expect(router.middleware[0].type).toBe('route')
   })
+  it('app.get with array of paths should set GET as HTTP method', () => {
+    const router = new Router()
+
+    router.get(['/', '/test'], () => void 0)
+
+    expect(router.middleware[0].type).toBe('route')
+  })
 })
 
 /* describe('Testing Router methods', () => {
