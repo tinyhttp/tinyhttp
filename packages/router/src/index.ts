@@ -203,19 +203,20 @@ export class Router<App extends Router = any, Req = any, Res = any> {
     }
   }
 
-
   add(method: Method) {
     return (...args: RouterMethodParams<Req, Res>): this => {
       const handlers = args.slice(1).flat() as Handler<Req, Res>[]
       if (typeof args[0] == 'object') {
-        args[0].forEach((arg) => {
-          pushMiddleware<Req, Res>(this.middleware)({
-            path: arg,
-            handler: handlers[0],
-            handlers: handlers.slice(1),
-            method,
-            type: 'route'
-          })
+        Object.values(args[0]).forEach((arg) => {
+          if (typeof arg == 'string') {
+            pushMiddleware<Req, Res>(this.middleware)({
+              path: arg,
+              handler: handlers[0],
+              handlers: handlers.slice(1),
+              method,
+              type: 'route'
+            })
+          }
         })
       } else {
         pushMiddleware<Req, Res>(this.middleware)({
