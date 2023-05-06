@@ -206,7 +206,7 @@ export class Router<App extends Router = any, Req = any, Res = any> {
   add(method: Method) {
     return (...args: RouterMethodParams<Req, Res>): this => {
       const handlers = args.slice(1).flat() as Handler<Req, Res>[]
-      if (typeof args[0] == 'object') {
+      if (Array.isArray(args[0])) {
         Object.values(args[0]).forEach((arg) => {
           if (typeof arg == 'string') {
             pushMiddleware<Req, Res>(this.middleware)({

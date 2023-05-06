@@ -380,7 +380,7 @@ describe('Testing HTTP methods', () => {
 
     router.get(['/', '/test'], () => void 0)
 
-    expect(router.middleware[0].type).toBe('route')
+    expect(router.middleware).toHaveLength(2)
   })
 })
 
