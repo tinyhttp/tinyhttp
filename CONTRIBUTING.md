@@ -6,14 +6,15 @@ Contributions are always welcome, here's an instruction of how to contribute.
 
 ### Install
 
-- Clone the repo first:
+- Fork the repo first
+- Next, clone the repo:
 
 ```sh
 # git
-git clone https://github.com/tinyhttp/tinyhttp.git
+git clone https://github.com/{your_github_username}/tinyhttp.git
 
 # (or) hub
-hub clone tinyhttp/tinyhttp
+hub clone {your_github_username}/tinyhttp
 ```
 
 - Install Node.js (v14 is recommended because tests use `fs/promises`) and `pnpm`:

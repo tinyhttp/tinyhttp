@@ -48,6 +48,15 @@ You can donate with fiat or crypto [here](https://github.com/tinyhttp/tinyhttp?s
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
 
+## Contributing
+
+There are many ways to contribute:
+- [Submit bugs or feature requests](https://github.com/tinyhttp/tinyhttp/issues)
+- Adding a new feature or addressing bugs yourself
+- Review [documentation](https://tinyhttp.v1rtl.site/) and fix typos or add new content
+
+For ways to contribute, please see the [documentation](https://github.com/tinyhttp/tinyhttp/blob/master/CONTRIBUTING.md).
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
