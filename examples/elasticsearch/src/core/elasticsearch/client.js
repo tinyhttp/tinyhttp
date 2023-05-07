@@ -43,7 +43,7 @@ export async function insert(index, document) {
 }
 
 // bulk index multiple documents
-export async function bulkinsert(index, document_array) {
+export async function bulkInsert(index, document_array) {
   const operations = document_array.flatMap((document) => [{ index: { _index: index } }, document])
   await client.bulk({
     index,

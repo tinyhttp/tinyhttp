@@ -28,4 +28,28 @@ node index.js
 
 - `POST /insert/:index` - Insert a single document in index **index**
 
+Request Body
+
+```json
+{
+    "title": string,
+    "link": string,
+    "abstract": string
+}
+```
+
 - `POST /insert/bulk/:index` - Insert multiple documents in index **index**
+
+Request Body
+
+```json
+{
+    "data": [
+        {
+            "title": string,
+            "link": string,
+            "abstract": string
+        }
+    ]
+}
+```

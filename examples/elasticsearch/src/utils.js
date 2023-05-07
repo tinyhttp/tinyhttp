@@ -7,4 +7,4 @@ export const hasPostProps = (obj) => Object.keys(obj).every((x) => ['title', 'ab
 
 export const isEmptyString = (data) => data.length == 0
 
-export const PORT = parseInt(process.env.PORt || '3000')
+export const PORT = parseInt(process.env.PORT || '3000')
