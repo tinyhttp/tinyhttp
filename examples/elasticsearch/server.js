@@ -27,7 +27,7 @@ app.post('/insert/bulk/:index', async (req, res) => {
   }
   if (data_to_be_inserted.length) {
     const result = await bulkinsert(index, data_to_be_inserted)
-    return res.status(200).send(result)
+    return res.status(201).send(result)
   }
 })
 
