@@ -1,0 +1,13 @@
+{
+  "name": "caching",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@tinyhttp/app": "^2.0.31",
+    "axios": "^1.4.0",
+    "cache-manager": "^5.2.1"
+  }
+}
