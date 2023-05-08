@@ -17,7 +17,7 @@ git clone https://github.com/{your_github_username}/tinyhttp.git
 gh repo clone {your_github_username}/tinyhttp
 ```
 
-- Install Node.js (v14 is recommended because tests use `fs/promises`) and `pnpm`:
+- Install Node.js (v16 is recommended because tests use `fs/promises`) and `pnpm`:
 
 ```sh
 # Install fnm
