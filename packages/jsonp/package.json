@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/jsonp",
-  "version": "2.0.30",
+  "version": "2.0.31",
   "type": "module",
   "description": "JSONP response middleware",
   "homepage": "https://tinyhttp.v1rtl.site",
