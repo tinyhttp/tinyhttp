@@ -13,8 +13,8 @@ Contributions are always welcome, here's an instruction of how to contribute.
 # git
 git clone https://github.com/{your_github_username}/tinyhttp.git
 
-# (or) hub
-hub clone {your_github_username}/tinyhttp
+# (or) gh
+gh repo clone {your_github_username}/tinyhttp
 ```
 
 - Install Node.js (v14 is recommended because tests use `fs/promises`) and `pnpm`:
