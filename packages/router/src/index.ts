@@ -72,7 +72,7 @@ export interface Middleware<Req = any, Res = any> {
 }
 
 export type MethodHandler<Req = any, Res = any> = {
-  path?: string | Handler<Req, Res>
+  path?: string | string[] | Handler<Req, Res>
   handler?: Handler<Req, Res>
   type: MiddlewareType
   regex?: RegexParams
@@ -84,7 +84,7 @@ export type RouterHandler<Req = any, Res = any> = Handler<Req, Res> | Handler<Re
 export type RouterPathOrHandler<Req = any, Res = any> = string | RouterHandler<Req, Res>
 
 export type RouterMethod<Req = any, Res = any> = (
-  path: string | Handler<Req, Res>,
+  path: string | string[] | Handler<Req, Res>,
   handler?: RouterHandler<Req, Res>,
   ...handlers: RouterHandler<Req, Res>[]
 ) => any
@@ -206,13 +206,27 @@ export class Router<App extends Router = any, Req = any, Res = any> {
   add(method: Method) {
     return (...args: RouterMethodParams<Req, Res>): this => {
       const handlers = args.slice(1).flat() as Handler<Req, Res>[]
-      pushMiddleware<Req, Res>(this.middleware)({
-        path: args[0],
-        handler: handlers[0],
-        handlers: handlers.slice(1),
-        method,
-        type: 'route'
-      })
+      if (Array.isArray(args[0])) {
+        Object.values(args[0]).forEach((arg) => {
+          if (typeof arg == 'string') {
+            pushMiddleware<Req, Res>(this.middleware)({
+              path: arg,
+              handler: handlers[0],
+              handlers: handlers.slice(1),
+              method,
+              type: 'route'
+            })
+          }
+        })
+      } else {
+        pushMiddleware<Req, Res>(this.middleware)({
+          path: args[0],
+          handler: handlers[0],
+          handlers: handlers.slice(1),
+          method,
+          type: 'route'
+        })
+      }
 
       return this
     }
