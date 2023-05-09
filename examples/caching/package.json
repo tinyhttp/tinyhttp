@@ -6,7 +6,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "@tinyhttp/app": "^2.0.31",
-    "cache-manager": "^5.2.1"
+    "@tinyhttp/app": "workspace:*",
+    "lru-send": "^0.1.3"
   }
 }
