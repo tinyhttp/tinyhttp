@@ -1,4 +1,4 @@
-# Elasticsearch example
+# [Elasticsearch](https://www.elastic.co/elasticsearch/) example
 
 A simple search and index app with an Elasticsearch backend
 
