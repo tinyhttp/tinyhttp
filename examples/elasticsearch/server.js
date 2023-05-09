@@ -17,16 +17,16 @@ app.get('/search/:index', async (req, res) => {
 
 app.post('/insert/bulk/:index', async (req, res) => {
   const index = req.params.index
-  const dataToBeInterted = []
+  const dataToBeInserted = []
   if (req.body && Array.isArray(req.body.data)) {
     for (const data of req.body.data) {
       if (!isEmptyObject(data) && hasPostProps(data)) {
-        dataToBeInterted.push(data)
+        dataToBeInserted.push(data)
       }
     }
   }
-  if (dataToBeInterted.length) {
-    const result = await bulkInsert(index, dataToBeInterted)
+  if (dataToBeInserted.length) {
+    const result = await bulkInsert(index, dataToBeInserted)
     return res.status(201).send(result)
   }
 })

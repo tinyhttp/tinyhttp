@@ -1,6 +1,6 @@
-import * as dotenv from '@tinyhttp/dotenv'
+import { config } from '@tinyhttp/dotenv'
 import { Client } from '@elastic/elasticsearch'
-dotenv.config()
+config()
 
 // Read from environment
 const ELASTICSEARCH_NODE = process.env.ELASTICSEARCH_NODE

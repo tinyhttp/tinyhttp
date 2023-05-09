@@ -1,5 +1,6 @@
-import * as dotenv from '@tinyhttp/dotenv'
-dotenv.config()
+import { config } from '@tinyhttp/dotenv'
+
+config()
 
 export const isEmptyObject = (obj) => Object.keys(obj).length === 0 && obj.constructor === Object
 
