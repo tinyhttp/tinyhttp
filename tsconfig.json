@@ -18,7 +18,9 @@
     "resolveJsonModule": true,
     "lib": ["DOM"],
     "declarationMap": true,
-    "composite": true
+    "composite": true,
+    "sourceMap": true,
+    "alwaysStrict": true
   },
   "exclude": ["examples", "packages/*/dist"]
 }
