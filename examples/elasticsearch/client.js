@@ -2,17 +2,12 @@ import { config } from '@tinyhttp/dotenv'
 import { Client } from '@elastic/elasticsearch'
 config()
 
-// Read from environment
-const ELASTICSEARCH_NODE = process.env.ELASTICSEARCH_NODE
-const ELASTICSEARCH_USER = process.env.ELASTICSEARCH_USER
-const ELASTICSEARCH_PASSWORD = process.env.ELASTICSEARCH_PASSWORD
-
-//define elastic client
+//define elastic client and read keys from the environment
 const client = new Client({
-  node: ELASTICSEARCH_NODE,
+  node: process.env.ELASTICSEARCH_NODE,
   auth: {
-    username: ELASTICSEARCH_USER,
-    password: ELASTICSEARCH_PASSWORD
+    username: process.env.ELASTICSEARCH_USER,
+    password: process.env.ELASTICSEARCH_PASSWORD
   },
   tls: {
     rejectUnauthorized: false //for development only. Use SSL for production!

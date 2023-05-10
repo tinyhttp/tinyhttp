@@ -30,7 +30,7 @@ node index.js
 
 Request Body
 
-```json
+```typescript
 {
     "title": string,
     "link": string,
@@ -42,7 +42,7 @@ Request Body
 
 Request Body
 
-```json
+```typescript
 {
     "data": [
         {
