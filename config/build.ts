@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import deps from './deps'
+import dts from 'vite-plugin-dts'
 
 export const build = (dependencies: Record<string, string>) =>
   defineConfig({
@@ -14,5 +15,6 @@ export const build = (dependencies: Record<string, string>) =>
       rollupOptions: {
         external: deps(dependencies)
       }
-    }
+    },
+    plugins: [dts({ insertTypesEntry: true })]
   })

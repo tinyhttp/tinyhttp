@@ -26,8 +26,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "postbuild": "tsc --emitDeclarationOnly"
+    "build": "vite build"
   },
   "dependencies": {}
 }
