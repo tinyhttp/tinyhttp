@@ -23,10 +23,10 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: setup caching
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ env.PNPM_CACHE_FOLDER }}
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -41,7 +41,7 @@ jobs:
       - name: install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 7.x
+          version: 8.x
 
       - name: setup pnpm config
         run: pnpm config set store-dir $PNPM_CACHE_FOLDER
