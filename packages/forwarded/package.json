@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/forwarded",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "type": "module",
   "description": "forwarded rewrite with TypeScript and ESM support",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -31,8 +31,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "postbuild": "tsc --emitDeclarationOnly"
+    "build": "vite build"
   },
   "dependencies": {}
 }

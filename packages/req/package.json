@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/req",
-  "version": "2.0.16",
+  "version": "2.0.17",
   "type": "module",
   "description": "request extensions for tinyhttp",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -27,8 +27,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "postbuild": "tsc --emitDeclarationOnly"
+    "build": "vite build"
   },
   "dependencies": {
     "@tinyhttp/accepts": "workspace:*",

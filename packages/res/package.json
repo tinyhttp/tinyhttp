@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/res",
-  "version": "2.0.23",
+  "version": "2.0.24",
   "type": "module",
   "description": "response extensions for tinyhttp",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -26,8 +26,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "postbuild": "tsc --emitDeclarationOnly"
+    "build": "vite build"
   },
   "dependencies": {
     "@tinyhttp/content-disposition": "workspace:*",
