@@ -1,7 +1,7 @@
 {
   "name": "@tinyhttp/accepts",
   "description": "accepts rewrite in TypeScript",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "license": "MIT",
   "homepage": "https://tinyhttp.v1rtl.site",
   "funding": {
