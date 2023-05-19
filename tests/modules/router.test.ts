@@ -405,7 +405,6 @@ describe('Testing HTTP methods', () => {
       fullPaths: fullPaths,
       handlers: [dummyHandler]
     })
-    console.warn(middleware[0])
     expect(middleware[0]).toMatchObject({
       path: '/',
       method: 'GET',
