@@ -48,13 +48,12 @@ You can donate with fiat or crypto [here](https://github.com/tinyhttp/tinyhttp?s
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
 
-[site-url]: https://tinyhttp.v1rtl.site
-[npm-url]: https://npmjs.com/package/@tinyhttp/app
-[github-actions]: https://github.com/tinyhttp/tinyhttp/actions
-[gh-actions-img]: https://img.shields.io/github/actions/workflow/status/tinyhttp/tinyhttp/main.yml?branch=master&style=for-the-badge&logo=github&label=&color=hotpink
-[cov-img]: https://img.shields.io/coveralls/github/tinyhttp/tinyhttp?style=for-the-badge&color=hotpink
-[cov-url]: https://coveralls.io/github/tinyhttp/tinyhttp
-[code-quality-img]: https://img.shields.io/codefactor/grade/github/tinyhttp/tinyhttp?style=for-the-badge&color=hotpink
-[code-quality]: https://www.codefactor.io/repository/github/tinyhttp/tinyhttp
-[npm-img]: https://img.shields.io/npm/dt/@tinyhttp/app?style=for-the-badge&color=hotpink&logo=npm&label=
-[site-badge]: https://img.shields.io/badge/website-open-hotpink?style=for-the-badge
+## Contributing
+
+There are many ways to contribute:
+
+- [Submit bugs or feature requests](https://github.com/tinyhttp/tinyhttp/issues)
+- Adding a new feature or addressing bugs yourself
+- Review [documentation](https://tinyhttp.v1rtl.site/) and fix typos or add new content
+
+For ways to contribute, please see the [documentation](https://github.com/tinyhttp/tinyhttp/blob/master/CONTRIBUTING.md).

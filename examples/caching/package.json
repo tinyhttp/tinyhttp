@@ -1,0 +1,12 @@
+{
+  "name": "caching",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*",
+    "lru-send": "^0.1.3"
+  }
+}
