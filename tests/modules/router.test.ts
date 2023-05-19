@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { describe, expect, it } from 'vitest'
 import { Response } from '../../packages/app/src'
-import { Router } from '../../packages/router/src'
+import { Router, pushMiddleware, Middleware } from '../../packages/router/src'
 
 describe('Testing Router', () => {
   describe('Basic', () => {
@@ -62,6 +62,12 @@ describe('Testing Router', () => {
 
       expect(app.middleware.every((x) => x.path === '/path')).toBe(true)
     })
+  })
+  describe('.path method', () => {
+    it('app.path should return mount point')
+
+    const app = new Router<Router>()
+    expect(app.path()).toEqual('')
   })
 })
 
@@ -374,6 +380,25 @@ describe('Testing HTTP methods', () => {
     router.all('/', () => void 0)
 
     expect(router.middleware[0].type).toBe('route')
+  })
+  it('should push a dummy GET HTTP method and its handlers', () => {
+    function dummyHandler(req, res) {
+      res.send('Hello World!')
+    }
+    const middleware: Middleware[] = []
+    pushMiddleware(middleware)({
+      path: '/',
+      method: 'GET',
+      handler: dummyHandler,
+      type: 'route'
+    })
+
+    expect(middleware[0]).toMatchObject({
+      path: '/',
+      method: 'GET',
+      handler: dummyHandler,
+      type: 'route'
+    })
   })
   it('app.get with array of paths should set GET as HTTP method', () => {
     const router = new Router()
