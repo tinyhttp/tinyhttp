@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/app",
-  "version": "2.0.31",
+  "version": "2.0.33",
   "description": "0-legacy, tiny & fast web framework as a replacement of Express",
   "type": "module",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -42,7 +42,6 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "postbuild": "tsc --emitDeclarationOnly"
+    "build": "vite build"
   }
 }

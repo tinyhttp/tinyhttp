@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/dotenv",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "0-dependency module to load envinronmental variables from .env to process.env",
   "type": "module",
   "types": "./dist/index.d.ts",
@@ -26,8 +26,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "postbuild": "tsc --emitDeclarationOnly"
+    "build": "vite build"
   },
   "dependencies": {}
 }

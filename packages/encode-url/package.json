@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/encode-url",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "encode-url rewrite in TypeScript",
   "type": "module",
   "types": "./dist/index.d.ts",
@@ -26,8 +26,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "postbuild": "tsc --emitDeclarationOnly"
+    "build": "vite build"
   },
   "dependencies": {}
 }

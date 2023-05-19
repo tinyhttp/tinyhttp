@@ -11,3 +11,4 @@ examples/aws/.build
 *.log
 coverage.lcov
 .gitsigners
+*.tsbuildinfo
