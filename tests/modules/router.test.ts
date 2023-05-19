@@ -63,12 +63,6 @@ describe('Testing Router', () => {
       expect(app.middleware.every((x) => x.path === '/path')).toBe(true)
     })
   })
-  describe('.path method', () => {
-    it('app.path should return mount point')
-
-    const app = new Router<Router>()
-    expect(app.path()).toEqual('')
-  })
 })
 
 describe('Testing HTTP methods', () => {
@@ -381,22 +375,40 @@ describe('Testing HTTP methods', () => {
 
     expect(router.middleware[0].type).toBe('route')
   })
-  it('should push a dummy GET HTTP method and its handlers', () => {
+  it('should push a dummy GET HTTP method and its handlers and expect the middleware object to match', () => {
     function dummyHandler(req, res) {
       res.send('Hello World!')
     }
     const middleware: Middleware[] = []
     pushMiddleware(middleware)({
-      path: '/',
+      path: dummyHandler,
       method: 'GET',
-      handler: dummyHandler,
       type: 'route'
     })
-
     expect(middleware[0]).toMatchObject({
       path: '/',
       method: 'GET',
+      type: 'route',
       handler: dummyHandler,
+      fullPath: dummyHandler
+    })
+  })
+  it('should push a dummy GET HTTP method containing the fullPaths array and expect the middleware object to match', () => {
+    function dummyHandler(req, res) {
+      res.send('Hello World!')
+    }
+    const fullPaths = ['']
+    const middleware: Middleware[] = []
+    pushMiddleware(middleware)({
+      method: 'GET',
+      type: 'route',
+      fullPaths: fullPaths,
+      handlers: [dummyHandler]
+    })
+    console.warn(middleware[0])
+    expect(middleware[0]).toMatchObject({
+      path: '/',
+      method: 'GET',
       type: 'route'
     })
   })

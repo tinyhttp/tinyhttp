@@ -260,21 +260,6 @@ export class Router<App extends Router = any, Req = any, Res = any> {
   }
 
   /**
-   * Return the app's absolute pathname
-   * based on the parent(s) that have
-   * mounted it.
-   *
-   * For example if the application was
-   * mounted as `"/admin"`, which itself
-   * was mounted as `"/blog"` then the
-   * return value would be `"/blog/admin"`.
-   *
-   */
-  path(): string {
-    return this.parent ? this.parent.path() + this.mountpath : ''
-  }
-
-  /**
    * Push middleware to the stack
    */
   use(...args: UseMethodParams<Req, Res, App>): this {
