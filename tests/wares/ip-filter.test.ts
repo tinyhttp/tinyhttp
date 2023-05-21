@@ -24,8 +24,8 @@ describe('ip-filter middleware tests', () => {
     await fetch('/').expectStatus(500)
   })
   it('should not allow invalid ips given no input ip', async () => {
-      const { fetch } = InitAppAndTest(ipFilter({ filter: ['1.2.3.4'] }))
+    const { fetch } = InitAppAndTest(ipFilter({ filter: ['1.2.3.4'] }))
 
-      await fetch('/').expectStatus(500)
-   })
+    await fetch('/').expectStatus(500)
+  })
 })
