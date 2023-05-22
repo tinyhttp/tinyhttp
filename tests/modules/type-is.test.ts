@@ -54,6 +54,6 @@ describe('typeIs', () => {
     expect(typeIs(value)).toBe(false)
   })
   it('should return the same type as input if the type is not normalized', () => {
-    expect(typeIs("text/html", "file.html")).toBe('file.html')
+    expect(typeIs('text/html', 'file.html')).toBe('file.html')
   })
 })
