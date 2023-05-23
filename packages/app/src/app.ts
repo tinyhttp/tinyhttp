@@ -243,7 +243,7 @@ export class App<
     return app
   }
 
-  find(url: string): Middleware<Req, Res>[] {
+  #find(url: string): Middleware<Req, Res>[] {
     return this.middleware.filter((m) => {
       m.regex = m.regex || rg(m.path, m.type === 'mw')
 
@@ -273,7 +273,7 @@ export class App<
 
     const pathname = getPathname(req.originalUrl)
 
-    const matched = this.find(pathname)
+    const matched = this.#find(pathname)
 
     const mw: Middleware[] = [
       {
