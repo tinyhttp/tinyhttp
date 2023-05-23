@@ -15,14 +15,8 @@ import type { TLSSocket } from 'node:tls'
 
 export { getURLParams } from '@tinyhttp/req'
 
-const trustRemoteAddress = ({ socket }: Pick<Request, 'headers' | 'connection' | 'socket'>) => {
+const trustRemoteAddress = ({ socket }: Pick<Request, 'headers' | 'socket'>) => {
   const val = socket.remoteAddress
-
-  if (typeof val === 'function') return val
-
-  if (typeof val === 'boolean' && val === true) return () => true
-
-  if (typeof val === 'number') return (_: unknown, i: number) => (val ? i < val : undefined)
 
   if (typeof val === 'string') return compile(val.split(',').map((x) => x.trim()))
 
@@ -33,7 +27,7 @@ export const getRouteFromApp = ({ middleware }: App, h: Handler<Request, Respons
   middleware.find(({ handler }) => typeof handler === 'function' && handler.name === h.name)
 
 export const getProtocol = (req: Request): Protocol => {
-  const proto = `http${req.connection.encrypted ? 's' : ''}`
+  const proto = `http${req.secure ? 's' : ''}`
 
   if (!trustRemoteAddress(req)) return proto
 
