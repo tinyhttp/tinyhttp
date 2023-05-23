@@ -1,5 +1,5 @@
-import { IncomingMessage } from 'http'
-import { ParsedUrlQuery } from 'querystring'
+import { IncomingMessage } from 'node:http'
+import type { ParsedUrlQuery } from 'node:querystring'
 
 import { Options, Ranges } from 'header-range-parser'
 import { proxyaddr as proxyAddr, all, compile } from '@tinyhttp/proxy-addr'
@@ -9,9 +9,9 @@ import type { Middleware, Handler } from '@tinyhttp/router'
 import type { Response } from './response.js'
 
 import type { URLParams } from '@tinyhttp/req'
-import { isIP } from 'net'
-import type { Socket } from 'net'
-import type { TLSSocket } from 'tls'
+import { isIP } from 'node:net'
+import type { Socket } from 'node:net'
+import type { TLSSocket } from 'node:tls'
 
 export { getURLParams } from '@tinyhttp/req'
 
@@ -33,7 +33,7 @@ export const getRouteFromApp = ({ middleware }: App, h: Handler<Request, Respons
   middleware.find(({ handler }) => typeof handler === 'function' && handler.name === h.name)
 
 export const getProtocol = (req: Request): Protocol => {
-  const proto = req.connection.encrypted ? 'https' : 'http'
+  const proto = `http${req.connection.encrypted ? 's' : ''}`
 
   if (!trustRemoteAddress(req)) return proto
 
@@ -77,7 +77,7 @@ export type Connection = IncomingMessage['socket'] & {
   encrypted: boolean
 }
 
-export type Protocol = 'http' | 'https' | string
+export type Protocol = 'node:http' | 'https' | string
 
 export type { URLParams }
 

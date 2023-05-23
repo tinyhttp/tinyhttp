@@ -1,5 +1,5 @@
 import Negotiator from 'negotiator'
-import { IncomingMessage as I, IncomingHttpHeaders } from 'http'
+import { IncomingMessage as I, IncomingHttpHeaders } from 'node:http'
 import { lookup } from 'es-mime-types'
 
 const extToMime = (type: string) => (type.indexOf('/') == -1 ? lookup(type) : type)

@@ -1,5 +1,5 @@
-import { createServer, Server } from 'http'
-import path from 'path'
+import { createServer, Server } from 'node:http'
+import path from 'node:path'
 import { getRouteFromApp, getURLParams } from './request.js'
 import type { Request } from './request.js'
 import type { Response } from './response.js'

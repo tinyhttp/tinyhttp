@@ -1,5 +1,5 @@
 import ipRegex from 'ip-regex'
-import { IncomingMessage as Request, ServerResponse as Response } from 'http'
+import { IncomingMessage as Request, ServerResponse as Response } from 'node:http'
 
 type Filter = string | RegExp
 

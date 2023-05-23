@@ -1,4 +1,4 @@
-import { IncomingMessage } from 'http'
+import { IncomingMessage } from 'node:http'
 
 /**
  * Get all addresses in the request, using the `X-Forwarded-For` header.

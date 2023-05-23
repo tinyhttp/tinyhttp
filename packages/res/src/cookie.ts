@@ -1,4 +1,4 @@
-import { IncomingMessage as Req, ServerResponse as Res } from 'http'
+import { IncomingMessage as Req, ServerResponse as Res } from 'node:http'
 import * as cookie from '@tinyhttp/cookie'
 import { sign } from '@tinyhttp/cookie-signature'
 import { append } from './append.js'

@@ -1,5 +1,5 @@
 import { forwarded } from '@tinyhttp/forwarded'
-import { IncomingMessage } from 'http'
+import { IncomingMessage } from 'node:http'
 import ipaddr, { IPv6, IPv4 } from 'ipaddr.js'
 
 const DIGIT_REGEXP = /^[0-9]+$/

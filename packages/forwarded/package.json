@@ -25,7 +25,7 @@
     "header"
   ],
   "engines": {
-    "node": ">=12.4.0"
+    "node": ">=12.20.0"
   },
   "author": "v1rtl",
   "license": "MIT",

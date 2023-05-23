@@ -1,6 +1,6 @@
 import { describe, expect, it, afterEach } from 'vitest'
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 import * as dotenv from '../../packages/dotenv/src'
 
 import { dirname } from 'dirname-filename-esm'

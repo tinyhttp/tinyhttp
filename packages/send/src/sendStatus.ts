@@ -1,5 +1,5 @@
-import { IncomingMessage as I, ServerResponse as S } from 'http'
-import { STATUS_CODES } from 'http'
+import { IncomingMessage as I, ServerResponse as S } from 'node:http'
+import { STATUS_CODES } from 'node:http'
 import { send } from './send.js'
 
 type Req = Pick<I, 'method'>

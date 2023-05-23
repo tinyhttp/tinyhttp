@@ -30,7 +30,7 @@
     "ip-regex": "^5.0.0"
   },
   "engines": {
-    "node": ">=12.4.0"
+    "node": ">=12.20.0"
   },
   "scripts": {
     "dev": "vite",

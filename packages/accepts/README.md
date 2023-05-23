@@ -2,13 +2,15 @@
 
 > [`accepts`](https://github.com/jshttp/accepts) rewrite in TypeScript.
 
-Higher level content negotiation based on [negotiator](https://www.npmjs.com/package/negotiator).
-Extracted from [koa](https://www.npmjs.com/package/koa) for general use.
+Higher level content negotiation based on
+[negotiator](https://www.npmjs.com/package/negotiator). Extracted from
+[koa](https://www.npmjs.com/package/koa) for general use.
 
 In addition to negotiator, it allows:
 
-- Allows types as an array or arguments list, ie `(['text/html', 'application/json'])`
-  as well as `('text/html', 'application/json')`.
+- Allows types as an array or arguments list, ie
+  `(['text/html', 'application/json'])` as well as
+  `('text/html', 'application/json')`.
 - Allows type shorthands such as `json`.
 - Returns `false` when no types match
 - Treats non-existent headers as `*`
@@ -31,8 +33,8 @@ Create a new `Accepts` object for the given `req`.
 
 #### `.charset(charsets)`
 
-Return the first accepted charset. If nothing in `charsets` is accepted,
-then `false` is returned.
+Return the first accepted charset. If nothing in `charsets` is accepted, then
+`false` is returned.
 
 #### `.charsets()`
 
@@ -41,8 +43,8 @@ preference (most preferred first).
 
 #### `.encoding(encodings)`
 
-Return the first accepted encoding. If nothing in `encodings` is accepted,
-then `false` is returned.
+Return the first accepted encoding. If nothing in `encodings` is accepted, then
+`false` is returned.
 
 #### `.encodings()`
 
@@ -51,8 +53,8 @@ preference (most preferred first).
 
 #### `.language(languages)`
 
-Return the first accepted language. If nothing in `languages` is accepted,
-then `false` is returned.
+Return the first accepted language. If nothing in `languages` is accepted, then
+`false` is returned.
 
 #### `.languages()`
 
@@ -65,8 +67,8 @@ Return the first accepted type (and it is returned as the same text as what
 appears in the `types` array). If nothing in `types` is accepted, then `false`
 is returned.
 
-The `types` array can contain full MIME types or file extensions. Any value
-that is not a full MIME types is passed to `require('mime-types').lookup`.
+The `types` array can contain full MIME types or file extensions. Any value that
+is not a full MIME types is passed to `require('mime-types').lookup`.
 
 #### `.types()`
 
@@ -82,7 +84,7 @@ server.
 
 ```ts
 import Accepts from '@tinyhttp/accepts'
-import { createServer } from 'http'
+import { createServer } from 'node:http'
 
 createServer((req, res) => {
   const accept = new Accepts(req)

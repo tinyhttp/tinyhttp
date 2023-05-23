@@ -5,7 +5,7 @@
   "description": "HTTP cookie parser and serializer for Node.js",
   "homepage": "https://github.com/tinyhttp/tinyhttp/tree/master/packages/cookie#readme",
   "engines": {
-    "node": ">=12.4.0"
+    "node": ">=12.20.0"
   },
   "funding": {
     "type": "individual",

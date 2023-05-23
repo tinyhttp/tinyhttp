@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { describe, expect, it } from 'vitest'
-import http from 'http'
-import path from 'path'
-import { readFile } from 'fs/promises'
+import http from 'node:http'
+import path from 'node:path'
+import { readFile } from 'node:fs/promises'
 import { App } from '../../packages/app/src/index'
 
 import { renderFile } from 'eta'
