@@ -19,7 +19,7 @@ amount of dependencies trying to avoid legacy hell.
 ## Features
 
 - ⚡
-  [2x faster](https://web-frameworks-benchmark.netlify.app/result?f=tinyhttp,express,polka,fastify)
+  [69% faster](https://web-frameworks-benchmark.netlify.app/result?f=tinyhttp,express)
   than Express
 - ⚙ Express middleware compat
 - ↪ Async middleware support
