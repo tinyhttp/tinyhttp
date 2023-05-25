@@ -1,6 +1,6 @@
 import { parse, format } from 'es-content-type'
 import { eTag } from '@tinyhttp/etag'
-import { Stats } from 'fs'
+import { Stats } from 'node:fs'
 
 export const createETag = (body: Buffer | string | Stats, encoding: BufferEncoding): string => {
   if (body instanceof Stats) {

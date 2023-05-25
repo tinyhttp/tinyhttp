@@ -1,5 +1,5 @@
 import type { NextFunction } from '@tinyhttp/router'
-import { STATUS_CODES } from 'http'
+import { STATUS_CODES } from 'node:http'
 import type { Request } from './request.js'
 import type { Response } from './response.js'
 import type { App } from './app.js'

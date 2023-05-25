@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/send",
-  "version": "2.0.9",
+  "version": "2.1.0",
   "type": "module",
   "description": "json, send, sendFile, status and sendStatus methods for tinyhttp",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -22,7 +22,7 @@
     "send-file"
   ],
   "engines": {
-    "node": ">=12.4.0"
+    "node": ">=12.20.0"
   },
   "author": "v1rtl",
   "license": "MIT",

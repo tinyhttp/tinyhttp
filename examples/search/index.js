@@ -1,5 +1,5 @@
 import { App } from '@tinyhttp/app'
-import path from 'path'
+import path from 'node:path'
 
 const app = new App()
 const db = {

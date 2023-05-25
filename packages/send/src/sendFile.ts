@@ -1,9 +1,9 @@
-import { IncomingMessage as I, ServerResponse as S } from 'http'
-import { createReadStream, statSync } from 'fs'
-import { isAbsolute, extname } from 'path'
+import type { IncomingMessage as I, ServerResponse as S } from 'node:http'
+import { createReadStream, statSync } from 'node:fs'
+import { isAbsolute, extname } from 'node:path'
 import { contentType } from 'es-mime-types'
 import { createETag } from './utils.js'
-import { join } from 'path'
+import { join } from 'node:path'
 
 export type ReadStreamOptions = Partial<{
   flags: string

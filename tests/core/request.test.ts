@@ -2,7 +2,7 @@ import { describe, it } from 'vitest'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import { App } from '../../packages/app/src/app'
 import { makeFetch } from 'supertest-fetch'
-import { Agent } from 'http'
+import { Agent } from 'node:http'
 
 describe('Request properties', () => {
   it('should have default HTTP Request properties', async () => {

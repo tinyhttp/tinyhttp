@@ -1,4 +1,4 @@
-import { IncomingMessage as Req, ServerResponse as Res } from 'http'
+import { IncomingMessage as Req, ServerResponse as Res } from 'node:http'
 import * as mime from 'es-mime-types'
 import { getRequestHeader } from '@tinyhttp/req'
 import { vary } from 'es-vary'

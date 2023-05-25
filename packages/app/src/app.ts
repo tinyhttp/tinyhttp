@@ -1,5 +1,5 @@
-import { createServer, Server } from 'http'
-import path from 'path'
+import { createServer, Server } from 'node:http'
+import path from 'node:path'
 import { getRouteFromApp, getURLParams } from './request.js'
 import type { Request } from './request.js'
 import type { Response } from './response.js'
@@ -243,7 +243,7 @@ export class App<
     return app
   }
 
-  find(url: string): Middleware<Req, Res>[] {
+  #find(url: string): Middleware<Req, Res>[] {
     return this.middleware.filter((m) => {
       m.regex = m.regex || rg(m.path, m.type === 'mw')
 
@@ -273,7 +273,7 @@ export class App<
 
     const pathname = getPathname(req.originalUrl)
 
-    const matched = this.find(pathname)
+    const matched = this.#find(pathname)
 
     const mw: Middleware[] = [
       {

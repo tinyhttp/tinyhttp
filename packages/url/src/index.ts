@@ -1,4 +1,4 @@
-import { parse, ParsedUrlQuery } from 'querystring'
+import { parse, ParsedUrlQuery } from 'node:querystring'
 
 type Regex = {
   keys: string[] | false

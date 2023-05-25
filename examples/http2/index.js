@@ -1,5 +1,5 @@
 import { App } from '@tinyhttp/app'
-import fs from 'fs'
+import fs from 'node:fs'
 import { createSecureServer } from 'http2'
 
 const app = new App()

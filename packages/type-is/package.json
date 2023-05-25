@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/type-is",
-  "version": "2.0.8",
+  "version": "2.1.0",
   "type": "module",
   "description": "TypeScript rewrite of type-is with CJS and ESM targets",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -23,7 +23,7 @@
     "javascript"
   ],
   "engines": {
-    "node": ">=12.4.0"
+    "node": ">=12.20.0"
   },
   "author": "v1rtl",
   "license": "MIT",

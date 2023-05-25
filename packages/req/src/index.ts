@@ -1,4 +1,4 @@
-import { IncomingMessage as Request, ServerResponse as Response } from 'http'
+import { IncomingMessage as Request, ServerResponse as Response } from 'node:http'
 import { Options, Ranges, Result, parseRange } from 'header-range-parser'
 import { fresh } from 'es-fresh'
 import { typeIs } from '@tinyhttp/type-is'

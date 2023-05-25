@@ -1,4 +1,4 @@
-import { IncomingMessage as Req, ServerResponse as Res, STATUS_CODES } from 'http'
+import { IncomingMessage as Req, ServerResponse as Res, STATUS_CODES } from 'node:http'
 import { escapeHTML } from 'es-escape-html'
 import { formatResponse } from './format.js'
 import { setLocationHeader } from './headers.js'

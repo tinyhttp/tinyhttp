@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/etag",
-  "version": "2.0.7",
+  "version": "2.1.0",
   "type": "module",
   "description": "entity tag module",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -23,7 +23,7 @@
     "etag"
   ],
   "engines": {
-    "node": ">=12.4.0"
+    "node": ">=12.20.0"
   },
   "author": "v1rtl",
   "license": "MIT",

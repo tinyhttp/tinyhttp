@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/res",
-  "version": "2.0.24",
+  "version": "2.1.0",
   "type": "module",
   "description": "response extensions for tinyhttp",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -20,7 +20,7 @@
     "res"
   ],
   "engines": {
-    "node": ">=12.4.0"
+    "node": ">=12.20.0"
   },
   "author": "v1rtl",
   "license": "MIT",
