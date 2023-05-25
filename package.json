@@ -45,7 +45,7 @@
     "chgset": "pnpm chgset:run && pnpm chgset:version && pnpm rm-changelogs",
     "release": "changeset publish",
     "test:dev": "vitest",
-    "test:coverage": "vitest --coverage",
+    "test:coverage": "vitest run --coverage",
     "test": "pnpm test:coverage",
     "lint": "eslint . --ext=js,mjs,ts,cjs",
     "format": "prettier --check \"./**/*.{ts,js,mjs,cjs,md}\"",
