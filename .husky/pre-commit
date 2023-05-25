@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-pnpm format && pnpm lint && pnpm test
+pnpm format:fix && pnpm lint && pnpm test
