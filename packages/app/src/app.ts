@@ -132,6 +132,21 @@ export class App<
   }
 
   /**
+   * Return the app's absolute pathname
+   * based on the parent(s) that have
+   * mounted it.
+   *
+   * For example if the application was
+   * mounted as `"/admin"`, which itself
+   * was mounted as `"/blog"` then the
+   * return value would be `"/blog/admin"`.
+   *
+   */
+  path(): string {
+    return this.parent ? this.parent.path() + this.mountpath : ''
+  }
+
+  /**
    * Disable app setting
    * @param setting
    */

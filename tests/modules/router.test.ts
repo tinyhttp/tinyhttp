@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { describe, expect, it } from 'vitest'
 import { Response } from '../../packages/app/src'
-import { Router } from '../../packages/router/src'
+import { Router, pushMiddleware, Middleware } from '../../packages/router/src'
 
 describe('Testing Router', () => {
   describe('Basic', () => {
@@ -374,6 +374,42 @@ describe('Testing HTTP methods', () => {
     router.all('/', () => void 0)
 
     expect(router.middleware[0].type).toBe('route')
+  })
+  it('should push a dummy GET HTTP method and its handlers and expect the middleware object to match', () => {
+    function dummyHandler(req, res) {
+      res.send('Hello World!')
+    }
+    const middleware: Middleware[] = []
+    pushMiddleware(middleware)({
+      path: dummyHandler,
+      method: 'GET',
+      type: 'route'
+    })
+    expect(middleware[0]).toMatchObject({
+      path: '/',
+      method: 'GET',
+      type: 'route',
+      handler: dummyHandler,
+      fullPath: dummyHandler
+    })
+  })
+  it('should push a dummy GET HTTP method containing the fullPaths array and expect the middleware object to match', () => {
+    function dummyHandler(req, res) {
+      res.send('Hello World!')
+    }
+    const fullPaths = ['']
+    const middleware: Middleware[] = []
+    pushMiddleware(middleware)({
+      method: 'GET',
+      type: 'route',
+      fullPaths: fullPaths,
+      handlers: [dummyHandler]
+    })
+    expect(middleware[0]).toMatchObject({
+      path: '/',
+      method: 'GET',
+      type: 'route'
+    })
   })
   it('app.get with array of paths should set GET as HTTP method', () => {
     const router = new Router()

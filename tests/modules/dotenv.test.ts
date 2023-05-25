@@ -123,7 +123,7 @@ describe('Dotenv config', () => {
   it('does not write over keys already in process.env if the key has a falsy value', () => {
     const existing = ''
     process.env.test = existing
-    const env = dotenv.config({ path: envPath })
+    const env = dotenv.config({ path: envPath, debug: true })
 
     expect(env.parsed?.test).toBe(mockParseResponse.test)
   })
