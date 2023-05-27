@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { makeFetch } from 'supertest-fetch'
 import path from 'node:path'
-import type { Request, Response } from '../../packages/app/src/index.js'
+import { App, Request, Response } from '../../packages/app/src/index.js'
 import {
   formatResponse,
   getResponseHeader,
@@ -16,7 +16,7 @@ import {
   append,
   setLinksHeader,
   setLocationHeader
-} from '../../packages/res/src/index.js'
+} from '../../packages/res/src/index'
 import { runServer } from '../../test_helpers/runServer'
 import { dirname } from 'dirname-filename-esm'
 
@@ -141,6 +141,18 @@ describe('Response extensions', () => {
         }
       }).expect(302, '')
     })
+    // it('should set req.originalUrl correctly', async () => {
+    //   const app = new App()
+    //   app.get('/', (req, res) => {
+    //     // eslint-disable-next-line @typescript-eslint/no-empty-function
+    //     //redirect(req, res, next)('/abc').end()
+    //     res.redirect('/abc', 200).end()
+    //   })
+    //   app.get('/abc', (req, res) => res.send(req.originalUrl))
+    //   const server = app.listen()
+
+    //   await makeFetch(server)('/').expect(200, '/')
+    // })
   })
   describe('res.format(obj)', () => {
     it('should send text by default', async () => {
@@ -280,6 +292,15 @@ describe('Response extensions', () => {
       await makeFetch(app)('/')
         .expect('Content-Disposition', 'attachment; filename="favicon.ico"')
         .expect('X-Custom-Header', 'Value')
+    })
+    it('set X-Powered-By header', async () => {
+      const app = new App({
+        settings: { xPoweredBy: 'test' }
+      })
+      app.get('/', (_, res) => res.send('hello!'))
+      const server = app.listen()
+      const fetch = makeFetch(server)
+      await fetch('/').expectHeader('X-Powered-By', 'test').expect(200, 'hello!')
     })
   })
   describe('res.cookie(name, value, options)', () => {

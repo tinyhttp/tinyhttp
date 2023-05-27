@@ -170,8 +170,7 @@ export class App<
     options: TemplateEngineOptions<RenderOptions> = {}
   ): this {
     options.viewsFolder = options.viewsFolder || this.settings.views || `${process.cwd()}/views`
-    options.ext = options.ext || file.slice(file.lastIndexOf('.') + 1) || 'ejs'
-
+    options.ext = options.ext || (file.lastIndexOf('.') != -1 && file.slice(file.lastIndexOf('.') + 1)) || 'ejs'
     options._locals = options._locals || {}
 
     options.cache = options.cache || process.env.NODE_ENV === 'production'
@@ -182,7 +181,7 @@ export class App<
 
     if (!file.endsWith(`.${options.ext}`)) file = `${file}.${options.ext}`
 
-    const dest = options.viewsFolder ? path.join(options.viewsFolder, file) : file
+    const dest = path.join(options.viewsFolder, file)
 
     this.engines[options.ext](dest, locals, options.renderOptions, cb)
 
