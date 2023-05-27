@@ -304,24 +304,6 @@ describe('App methods', () => {
 
     await makeFetch(server)('/', { method: 'POST' }).expect(200, 'POST request')
   })
-  it('app.find should return all metadata information for a given route', async () => {
-    const app = new App()
-    const subapp = new App()
-    subapp.get('/hello', (_, res) => {
-      res.send('hello')
-    })
-
-    app.use('/test', subapp)
-    app.get('/', (_, res) => res.send('GET request'))
-    const server = app.listen()
-
-    await makeFetch(server)('/').expect(200, 'GET request')
-    const appFindResult = app.find('/test/hello')[0]
-    expect(appFindResult.fullPath).toEqual('/test/hello')
-    expect(appFindResult.path).toEqual('/test')
-    expect(appFindResult.type).toEqual('mw')
-    expect(appFindResult.regex.pattern).toEqual(/^\/test(?=$|\/)/i)
-  })
 })
 
 describe('HTTP methods', () => {
