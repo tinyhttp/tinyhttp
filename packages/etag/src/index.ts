@@ -1,7 +1,7 @@
 // Original module: https://github.com/jshttp/etag/blob/master/index.js
 
-import { createHash } from 'crypto'
-import { Stats } from 'fs'
+import { createHash } from 'node:crypto'
+import { Stats } from 'node:fs'
 
 const entityTag = (entity: string | Buffer): string => {
   if (entity.length === 0) {

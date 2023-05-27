@@ -1,6 +1,10 @@
 import { forwarded } from '@tinyhttp/forwarded'
-import { IncomingMessage } from 'http'
+import type { IncomingMessage } from 'node:http'
 import ipaddr, { IPv6, IPv4 } from 'ipaddr.js'
+
+type Req = Pick<IncomingMessage, 'headers' | 'socket'>
+
+type Trust = ((addr: string, i: number) => boolean) | number[] | string[] | string
 
 const DIGIT_REGEXP = /^[0-9]+$/
 const isip = ipaddr.isValid
@@ -13,6 +17,12 @@ const IP_RANGES = {
   loopback: ['127.0.0.1/8', '::1/128'],
   uniquelocal: ['10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16', 'fc00::/7']
 }
+
+/**
+ * Static trust function to trust nothing.
+ */
+const trustNone = () => false
+
 /**
  * Get all addresses in the request, optionally stopping
  * at the first untrusted.
@@ -20,10 +30,7 @@ const IP_RANGES = {
  * @param request
  * @param trust
  */
-function alladdrs(
-  req: Pick<IncomingMessage, 'headers' | 'connection'>,
-  trust: ((...args: any[]) => any) | any[] | string[] | string
-): string[] {
+function alladdrs(req: Req, trust: Trust): string[] {
   // get addresses
 
   const addrs = forwarded(req)
@@ -130,27 +137,20 @@ function parseNetmask(netmask: string) {
  * @param trust
  * @public
  */
-export function proxyaddr(
-  req: Pick<IncomingMessage, 'headers' | 'connection'>,
-  trust: ((...args: any[]) => any) | any[] | string[] | string
-): string {
+export function proxyaddr(req: Req, trust: Trust): string {
   const addrs = alladdrs(req, trust)
 
   return addrs[addrs.length - 1]
 }
-/**
- * Static trust function to trust nothing.
- *
- */
-const trustNone = () => false
+
 /**
  * Compile trust function for multiple subnets.
  */
-function trustMulti(subnets: any[]) {
+function trustMulti(subnets: (IPv4 | IPv6)[]) {
   return function trust(addr: string) {
     if (!isip(addr)) return false
     const ip = parseip(addr)
-    let ipconv
+    let ipconv: IPv4 | IPv6
     const kind = ip.kind()
     for (let i = 0; i < subnets.length; i++) {
       const subnet = subnets[i]

@@ -1,4 +1,4 @@
-import { ServerResponse } from 'http'
+import type { ServerResponse } from 'node:http'
 
 type Res = Pick<ServerResponse, 'statusCode'>
 

@@ -1,6 +1,6 @@
 import pgq from 'pg-promise'
-import { fileURLToPath } from 'url'
-import { join, dirname } from 'path'
+import { fileURLToPath } from 'node:url'
+import { dirname, join } from 'node:path'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -29,7 +29,6 @@ const sql = (file) => {
     // minifying the SQL is always advised;
     // see also option 'compress' in the API;
     minify: true
-
     // See also property 'params' for two-step template formatting
   }
 

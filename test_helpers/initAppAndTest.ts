@@ -1,7 +1,7 @@
 import { App } from '../packages/app/src/index'
 import type { Handler } from '../packages/app/src/index'
 import { FetchFunction, makeFetch } from 'supertest-fetch'
-import { Server } from 'http'
+import { Server } from 'node:http'
 
 export const InitAppAndTest = (
   handler: Handler,

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { makeFetch } from 'supertest-fetch'
-import path from 'path'
+import path from 'node:path'
 import type { Request, Response } from '../../packages/app/src/index.js'
 import {
   formatResponse,

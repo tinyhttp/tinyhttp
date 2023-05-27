@@ -1,4 +1,4 @@
-import { IncomingMessage as Request, ServerResponse as Response } from 'http'
+import { IncomingMessage as Request, ServerResponse as Response } from 'node:http'
 import { MemoryStore, Store } from './memory-store.js'
 import { send, status } from '@tinyhttp/send'
 

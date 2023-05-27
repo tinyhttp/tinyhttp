@@ -26,7 +26,7 @@ export const app = onRequest((request, response) => {
 
 /** Hack for firebase functions request object, it was read only */
 function makeReadonlySettable(req: Request) {
-  return ['xhr', 'path'].forEach((key) => {
+  return ['xhr', 'node:path'].forEach((key) => {
     Object.defineProperty(req, key, {
       get: function () {
         return this[`_${key}`]

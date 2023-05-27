@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/req",
-  "version": "2.0.17",
+  "version": "2.1.0",
   "type": "module",
   "description": "request extensions for tinyhttp",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -21,7 +21,7 @@
     "request"
   ],
   "engines": {
-    "node": ">=12.4.0"
+    "node": ">=12.20.0"
   },
   "author": "v1rtl",
   "license": "MIT",

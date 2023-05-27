@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { eTag } from '../../packages/etag/src'
-import { Stats } from 'fs'
+import { Stats } from 'node:fs'
 
 describe('etag(entity)', () => {
   it('should require an entity', () => {

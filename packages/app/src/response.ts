@@ -1,4 +1,4 @@
-import { ServerResponse } from 'http'
+import { ServerResponse } from 'node:http'
 import type { SerializeOptions } from '@tinyhttp/cookie'
 import { Request } from './request.js'
 import { App, TemplateEngineOptions } from './app.js'

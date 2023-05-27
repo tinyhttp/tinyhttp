@@ -1,6 +1,6 @@
 import { describe, expect, it, beforeAll, afterAll } from 'vitest'
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 import { makeFetch } from 'supertest-fetch'
 import { App } from '../../packages/app/src'
 import { json, send, sendFile, sendStatus, status } from '../../packages/send/src'

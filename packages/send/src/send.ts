@@ -1,4 +1,4 @@
-import { IncomingMessage as I, ServerResponse as S } from 'http'
+import type { IncomingMessage as I, ServerResponse as S } from 'node:http'
 import { json } from './json.js'
 import { setCharset, createETag } from './utils.js'
 

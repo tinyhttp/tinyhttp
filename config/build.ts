@@ -1,20 +1,21 @@
 import { defineConfig } from 'vite'
-import deps from './deps'
 import dts from 'vite-plugin-dts'
+import { builtinModules } from 'node:module'
 
-export const build = (dependencies: Record<string, string>) =>
+export const build = (dependencies: Record<string, string> = {}) =>
   defineConfig({
     build: {
-      target: 'node16',
+      target: 'node12',
       minify: false,
       lib: {
         entry: 'src/index.ts',
         fileName: () => `index.js`,
         formats: ['es']
       },
-      rollupOptions: {
-        external: deps(dependencies)
-      }
+      ssr: true
     },
-    plugins: [dts({ insertTypesEntry: true })]
+    plugins: [dts({ insertTypesEntry: true })],
+    ssr: {
+      external: [...Object.keys(dependencies), ...builtinModules]
+    }
   })

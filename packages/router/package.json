@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/router",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "type": "module",
   "description": "Router for tinyhttp",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -20,7 +20,7 @@
     "router"
   ],
   "engines": {
-    "node": ">=12.4.0"
+    "node": ">=12.20.0"
   },
   "author": "v1rtl",
   "license": "MIT",
