@@ -25,8 +25,6 @@ function stringify(
           return '\\u003e'
         case 0x26:
           return '\\u0026'
-        default:
-          return c
       }
     })
   }

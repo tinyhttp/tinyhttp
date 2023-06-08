@@ -53,6 +53,11 @@ describe('send(body)', () => {
 
     await makeFetch(app)('/').expect('Hello World')
   })
+  it('should send a number array', async () => {
+    const app = runServer((req, res) => send(req, res)([3.145]))
+
+    await makeFetch(app)('/').expect([3.145])
+  })
   it('should send nothing on a HEAD request', async () => {
     const app = runServer((req, res) => send(req, res)('Hello World'))
 

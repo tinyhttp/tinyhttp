@@ -4,12 +4,12 @@ import http from 'node:http'
 import path from 'node:path'
 import { readFile } from 'node:fs/promises'
 import { App } from '../../packages/app/src/index'
-
+import { symlinkSync } from 'node:fs'
 import { renderFile } from 'eta'
 import type { EtaConfig } from 'eta/dist/types/config'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import { makeFetch } from 'supertest-fetch'
-import exp from 'node:constants'
+import { renderFile as ejsRenderFile } from 'ejs'
 
 describe('Testing App', () => {
   it('should launch a basic server', async () => {
@@ -975,6 +975,27 @@ describe('Template engines', () => {
     const fetch = makeFetch(server)
 
     await fetch('/').expectBody('Hello World')
+  })
+  it('can render without options passed', async () => {
+    const app = new App({ settings: { xPoweredBy: true } })
+    try {
+      symlinkSync(path.resolve('tests/fixtures/views'), path.resolve('views'))
+    } catch (error) {
+      // symlink error
+      console.error(error)
+    }
+
+    app.engine('ejs', ejsRenderFile)
+
+    app.use((_, res) => {
+      res.render('index', { name: 'ejs' })
+    })
+
+    const server = app.listen()
+
+    const fetch = makeFetch(server)
+
+    await fetch('/').expectBody('Hello from ejs')
   })
 })
 
