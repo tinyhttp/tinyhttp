@@ -982,7 +982,6 @@ describe('Template engines', () => {
       symlinkSync(path.resolve('tests/fixtures/views'), path.resolve('views'))
     } catch (error) {
       // symlink error
-      console.error(error)
     }
 
     app.engine('ejs', ejsRenderFile)
