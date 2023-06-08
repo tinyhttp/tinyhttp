@@ -11,7 +11,10 @@ export type AsyncHandler<Request = any, Response = any> = (
   next: NextFunction
 ) => Promise<void>
 
-export type Handler<Request = any, Response = any> = AsyncHandler<Request, Response> | SyncHandler<Request, Response>
+export type Handler<Request = any, Response = any> =
+  | AsyncHandler<Request, Response>
+  | SyncHandler<Request, Response>
+  | string
 
 const METHODS = [
   'ACL',
@@ -79,7 +82,7 @@ export type MethodHandler<Req = any, Res = any> = {
   fullPath?: string
 }
 
-export type RouterHandler<Req = any, Res = any> = Handler<Req, Res> | Handler<Req, Res>[]
+export type RouterHandler<Req = any, Res = any> = Handler<Req, Res> | Handler<Req, Res>[] | string[]
 
 export type RouterPathOrHandler<Req = any, Res = any> = string | RouterHandler<Req, Res>
 
