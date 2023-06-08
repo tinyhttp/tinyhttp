@@ -976,7 +976,8 @@ describe('Template engines', () => {
 
     await fetch('/').expectBody('Hello World')
   })
-  it('can render without options passed', async () => {
+  it.skip('can render without options passed', async () => {
+    // github actions does not support symlink
     const app = new App({ settings: { xPoweredBy: true } })
     try {
       symlinkSync(path.resolve('tests/fixtures/views'), path.resolve('views'))
