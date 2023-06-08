@@ -9,7 +9,6 @@ import { renderFile } from 'eta'
 import type { EtaConfig } from 'eta/dist/types/config'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import { makeFetch } from 'supertest-fetch'
-import exp from 'node:constants'
 
 describe('Testing App', () => {
   it('should launch a basic server', async () => {
