@@ -189,28 +189,27 @@ export class App<
     return this
   }
   use(...args: UseMethodParams<Req, Res, App>): this {
-    let base = args[0]
-   
-    
+    const base = args[0]
+
     const fns = args.slice(1).flat()
 
     let pathArray = []
     if (typeof base === 'function' || base instanceof App) {
       fns.unshift(base)
     } else {
-       // if base is not an array of paths, then convert it to an array.
-      base = [];
-      if (Array.isArray(args[0])) base = [...args[0]]
-      else if (typeof args[0] === 'string') base = [args[0] as any]
-      
-      base = base.filter((element) => {
+      // if base is not an array of paths, then convert it to an array.
+      let basePaths = []
+      if (Array.isArray(base)) basePaths = [...base]
+      else if (typeof base === 'string') basePaths = [base]
+
+      basePaths = basePaths.filter((element) => {
         if (typeof element === 'string') {
           pathArray.push(element)
           return false
         }
         return true
       })
-      fns.unshift(...base)
+      fns.unshift(...basePaths)
     }
     pathArray = pathArray.length ? pathArray : ['/']
 
