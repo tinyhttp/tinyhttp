@@ -147,6 +147,11 @@ describe('sendStatus(status)', () => {
 
     await makeFetch(app)('/').expect("I'm a Teapot")
   })
+  it(`should send custom status`, async () => {
+    const app = runServer((req, res) => sendStatus(req, res)(550).end())
+
+    await makeFetch(app)('/').expectStatus(550)
+  })
 })
 
 describe('sendFile(path)', () => {

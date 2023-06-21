@@ -294,9 +294,9 @@ export class App<
 
     const exts = this.applyExtensions || extendMiddleware<RenderOptions>(this)
 
-    req.originalUrl = req.url || req.originalUrl
+    req.originalUrl = req.originalUrl || req.url
 
-    const pathname = getPathname(req.originalUrl)
+    const pathname = getPathname(req.url)
 
     const matched = this.#find(pathname)
 
@@ -320,15 +320,13 @@ export class App<
           next()
         },
         path: '/'
-      })
+      })    
     }
-
     mw.push({
       handler: this.noMatchHandler,
       type: 'mw',
       path: '/'
     })
-
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
       const { path, handler, regex } = mw
 

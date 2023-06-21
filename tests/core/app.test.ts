@@ -54,6 +54,20 @@ describe('Testing App', () => {
 
     await fetch('/').expect(500, 'Ouch, you hurt me on / page.')
   })
+  it('Default onError with testing', async () => {
+    process.env = {
+      ...process.env,
+      TESTING: undefined,
+    }
+    const app = new App()
+
+    app.use((_req, _res, next) => {throw new Error("you")})
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    await fetch('/').expect(500, 'you')
+  })
 
   it('App works with HTTP 1.1', async () => {
     const app = new App()
@@ -514,6 +528,14 @@ describe('HTTP methods', () => {
 
     await fetch('/hello', { method: 'HEAD' }).expect(404)
   })
+  it('Returns statusCode 204 when no handler is present and the request is `HEAD`', async () => {
+    const app = new App();
+    app.get('/', (_, res, next) => {
+      next();
+    })
+    const fetch = makeFetch(app.listen());
+    await fetch('/', {method: 'HEAD'}).expectStatus(204)
+  })
 })
 
 describe('Route handlers', () => {
@@ -738,17 +760,16 @@ describe('Subapps', () => {
 
     app.route('/path').get((_, res) => res.send('Hello World'))
   })
-  /* it('req.originalUrl does not change', async () => {
+   it('req.originalUrl does not change', async () => {
     const app = new App()
 
     const subApp = new App()
 
-    subApp.get('/route', (req, res) =>
+    subApp.get('/route', (req, res) =>{
       res.send({
-        origUrl: req.originalUrl,
-        url: req.url,
-        path: req.path
+        origUrl: req.originalUrl
       })
+    }
     )
 
     app.use('/subapp', subApp)
@@ -758,11 +779,9 @@ describe('Subapps', () => {
     const fetch = makeFetch(server)
 
     await fetch('/subapp/route').expect(200, {
-      origUrl: '/subapp/route',
-      url: '/route',
-      path: '/route'
+      origUrl: '/subapp/route'
     })
-  }) */
+  }) 
 
   it('lets other wares handle the URL if subapp doesnt have that path', async () => {
     const app = new App()

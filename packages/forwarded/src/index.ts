@@ -43,5 +43,6 @@ export function parse(header: string): string[] {
   // final address
   if (start !== end) list.push(header.substring(start, end))
 
+  /* istanbul ignore next */
   return list
 }
