@@ -645,6 +645,21 @@ describe('Route handlers', () => {
 
     await fetch('/route').expect(200, 'found')
   })
+  it('should accept array of paths', async () => {
+    const app = new App()
+
+    app.get(['/route1', '/route2'], (_, res) => res.send('found'))
+
+    const server = app.listen()
+
+    const fetch = makeFetch(server)
+
+    await fetch('/route1').expect(200, 'found')
+
+    await fetch('/route2').expect(200, 'found')
+
+    expect(app.middleware).toHaveLength(2)
+  })
 })
 
 describe('Subapps', () => {
@@ -817,6 +832,32 @@ describe('Subapps', () => {
     app.use('/blog', subapp)
 
     expect(subsubapp.path()).toBe('/blog/admin')
+  })
+  it('app.path() should nest multiple mountpaths for a single subapp', () => {
+    const app = new App()
+
+    const subapp = new App()
+
+    const subsubapp = new App()
+
+    app.use(['/t1', '/t2'], subapp)
+
+    subapp.use('/t3', subsubapp)
+
+    expect(subsubapp.path()).toBe('/t1, /t2/t3')
+  })
+  it('app.path() should nest multiple mountpaths for multiple subapp', () => {
+    const app = new App()
+
+    const subapp = new App()
+
+    const subsubapp = new App()
+
+    app.use(['/t1', '/t2'], subapp)
+
+    subapp.use(['/t3', '/t4'], subsubapp)
+
+    expect(subsubapp.path()).toBe('/t1, /t2/t3, /t4')
   })
   it('middlewares of a subapp should preserve the path', () => {
     const app = new App()

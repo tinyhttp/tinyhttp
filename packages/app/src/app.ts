@@ -192,52 +192,63 @@ export class App<
 
     const fns = args.slice(1).flat()
 
+    let pathArray = []
     if (typeof base === 'function' || base instanceof App) {
       fns.unshift(base)
-    } else if (Array.isArray(base)) {
-      fns.unshift(...base)
+    } else {
+      // if base is not an array of paths, then convert it to an array.
+      let basePaths = []
+      if (Array.isArray(base)) basePaths = [...base]
+      else if (typeof base === 'string') basePaths = [base]
+
+      basePaths = basePaths.filter((element) => {
+        if (typeof element === 'string') {
+          pathArray.push(element)
+          return false
+        }
+        return true
+      })
+      fns.unshift(...basePaths)
     }
+    pathArray = pathArray.length ? pathArray : ['/']
 
-    const path = typeof base === 'string' ? base : '/'
-
+    const mountpath = pathArray.join(', ')
     let regex: { keys: string[]; pattern: RegExp }
 
     for (const fn of fns) {
       if (fn instanceof App) {
-        regex = rg(path, true)
-
-        fn.mountpath = path
-
-        this.apps[path] = fn
-
-        fn.parent = this
+        pathArray.forEach((path) => {
+          regex = rg(path, true)
+          fn.mountpath = mountpath
+          this.apps[path] = fn
+          fn.parent = this
+        })
       }
     }
-
-    const handlerPaths = []
-    const handlerFunctions = []
-    const handlerPathBase = path === '/' ? '' : lead(path)
-    for (const fn of fns) {
-      if (fn instanceof App && fn.middleware?.length) {
-        for (const mw of fn.middleware) {
-          handlerPaths.push(handlerPathBase + lead(mw.path))
+    pathArray.forEach((path) => {
+      const handlerPaths = []
+      const handlerFunctions = []
+      const handlerPathBase = path === '/' ? '' : lead(path)
+      for (const fn of fns) {
+        if (fn instanceof App && fn.middleware?.length) {
+          for (const mw of fn.middleware) {
+            handlerPaths.push(handlerPathBase + lead(mw.path))
+            handlerFunctions.push(fn)
+          }
+        } else {
+          handlerPaths.push('')
           handlerFunctions.push(fn)
         }
-      } else {
-        handlerPaths.push('')
-        handlerFunctions.push(fn)
       }
-    }
-
-    pushMiddleware(this.middleware)({
-      path,
-      regex,
-      type: 'mw',
-      handler: mount(handlerFunctions[0] as Handler),
-      handlers: handlerFunctions.slice(1).map(mount),
-      fullPaths: handlerPaths
+      pushMiddleware(this.middleware)({
+        path,
+        regex,
+        type: 'mw',
+        handler: mount(handlerFunctions[0] as Handler),
+        handlers: handlerFunctions.slice(1).map(mount),
+        fullPaths: handlerPaths
+      })
     })
-
     return this
   }
   /**
