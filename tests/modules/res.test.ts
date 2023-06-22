@@ -19,6 +19,7 @@ import {
 } from '../../packages/res/src/index'
 import { runServer } from '../../test_helpers/runServer'
 import { dirname } from 'dirname-filename-esm'
+import { normalizeType } from '../../packages/res/src/util'
 
 const __dirname = dirname(import.meta)
 
@@ -271,7 +272,7 @@ describe('Response extensions', () => {
 
       await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename="favicon.ico"')
     })
-    it(`'should pass options to sendFile's ReadStream'`, async () => {
+    it(`should pass options to sendFile's ReadStream`, async () => {
       const app = runServer((req, res) => {
         download(req, res)(path.join(__dirname, '../fixtures', 'favicon.ico'), () => void 0, {
           encoding: 'ascii'
@@ -515,5 +516,10 @@ describe('Response extensions', () => {
         await makeFetch(app)('/').expect('Location', '/').expectStatus(200)
       })
     })
+  })
+})
+describe('util tests', () => {
+  it('should call accept', () => {
+    expect(normalizeType('app/k=8;q=9').value).toEqual('app/k=8')
   })
 })

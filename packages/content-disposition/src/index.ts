@@ -44,7 +44,6 @@ function ustring(val: unknown): string {
   const str = String(val)
 
   // percent encode as UTF-8
-  console.log(str, ENCODE_URL_ATTR_CHAR_REGEXP.test(str))
   const encoded = encodeURIComponent(str).replace(ENCODE_URL_ATTR_CHAR_REGEXP, pencode)
 
   return "UTF-8''" + encoded
@@ -104,14 +103,14 @@ function createParams(filename?: string, fallback?: string | boolean) {
   // generate fallback name
   const fallbackName = typeof fallback !== 'string' ? fallback && getlatin1(name) : basename(fallback)
   const hasFallback = typeof fallbackName === 'string' && fallbackName !== name
-  
+
   // set extended filename parameter
   if (hasFallback || !isQuotedString || HEX_ESCAPE_REGEXP.test(name)) {
     params['filename*'] = name
   }
 
   // set filename parameter
-  if ( hasFallback || isQuotedString) {
+  if (hasFallback || isQuotedString) {
     params.filename = hasFallback ? fallbackName : name
   }
 
@@ -139,7 +138,6 @@ export function contentDisposition(
 }
 
 function decodefield(str: string) {
-  
   const match = EXT_VALUE_REGEXP.exec(str)
   if (!match) throw new TypeError('invalid extended field value')
 

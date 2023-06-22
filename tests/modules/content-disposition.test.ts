@@ -198,13 +198,13 @@ describe('parse(string)', () => {
         throw encodedURIComponent
       }
       vi.stubGlobal('decodeURIComponent', cutomdecodeURIComponent)
-      expect.assertions(1);
+      expect.assertions(1)
       try {
         parse("attachment; filename*=UTF-8'en'%E2%82%AC%20rates.pdf")
       } catch (error) {
         expect(error).toBeDefined()
       }
-      vi.unstubAllGlobals();
+      vi.unstubAllGlobals()
     })
   })
   describe('with extended parameters', function () {
