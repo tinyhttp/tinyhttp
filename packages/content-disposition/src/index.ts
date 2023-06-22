@@ -44,6 +44,7 @@ function ustring(val: unknown): string {
   const str = String(val)
 
   // percent encode as UTF-8
+  console.log(str, ENCODE_URL_ATTR_CHAR_REGEXP.test(str))
   const encoded = encodeURIComponent(str).replace(ENCODE_URL_ATTR_CHAR_REGEXP, pencode)
 
   return "UTF-8''" + encoded
@@ -64,7 +65,6 @@ function format({
 
   // start with normalized type
   let string = String(type).toLowerCase()
-
   // append parameters
   if (parameters && typeof parameters === 'object') {
     const params = Object.keys(parameters).sort()
@@ -89,9 +89,9 @@ function createParams(filename?: string, fallback?: string | boolean) {
   > = {}
 
   // fallback defaults to true
-  if (fallback === undefined) fallback = true
-
-  if (typeof fallback === 'string' && NON_LATIN1_REGEXP.test(fallback)) {
+  if (!fallback) fallback = true
+  const res = typeof fallback === 'string' && NON_LATIN1_REGEXP.test(fallback)
+  if (res) {
     throw new TypeError('fallback must be ISO-8859-1 string')
   }
 
@@ -104,14 +104,14 @@ function createParams(filename?: string, fallback?: string | boolean) {
   // generate fallback name
   const fallbackName = typeof fallback !== 'string' ? fallback && getlatin1(name) : basename(fallback)
   const hasFallback = typeof fallbackName === 'string' && fallbackName !== name
-
+  
   // set extended filename parameter
   if (hasFallback || !isQuotedString || HEX_ESCAPE_REGEXP.test(name)) {
     params['filename*'] = name
   }
 
   // set filename parameter
-  if (isQuotedString || hasFallback) {
+  if ( hasFallback || isQuotedString) {
     params.filename = hasFallback ? fallbackName : name
   }
 
@@ -139,14 +139,13 @@ export function contentDisposition(
 }
 
 function decodefield(str: string) {
+  
   const match = EXT_VALUE_REGEXP.exec(str)
-
   if (!match) throw new TypeError('invalid extended field value')
 
   const charset = match[1].toLowerCase()
   const encoded = match[2]
   let value: string
-
   switch (charset) {
     case 'iso-8859-1':
       value = getlatin1(encoded.replace(HEX_ESCAPE_REPLACE_REGEXP, pdecode))
@@ -169,8 +168,8 @@ function decodefield(str: string) {
  * Parse Content-Disposition header string.
  * @param string string
  */
-export function parse(string: string): ContentDisposition {
-  let match = DISPOSITION_TYPE_REGEXP.exec(string)
+export function parse(header: string): ContentDisposition {
+  let match = DISPOSITION_TYPE_REGEXP.exec(header)
 
   if (!match) throw new TypeError('invalid type format')
 
@@ -187,7 +186,7 @@ export function parse(string: string): ContentDisposition {
   index = PARAM_REGEXP.lastIndex = match[0].substr(-1) === ';' ? index - 1 : index
 
   // match parameters
-  while ((match = PARAM_REGEXP.exec(string))) {
+  while ((match = PARAM_REGEXP.exec(header))) {
     if (match.index !== index) throw new TypeError('invalid parameter format')
 
     index += match[0].length
@@ -219,7 +218,7 @@ export function parse(string: string): ContentDisposition {
     params[key] = value
   }
 
-  if (index !== -1 && index !== string.length) {
+  if (index !== -1 && index !== header.length) {
     throw new TypeError('invalid parameter format')
   }
 
