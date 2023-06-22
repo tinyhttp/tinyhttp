@@ -12,3 +12,4 @@ examples/aws/.build
 coverage.lcov
 .gitsigners
 *.tsbuildinfo
+/views

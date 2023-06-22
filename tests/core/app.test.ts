@@ -1018,16 +1018,15 @@ describe('Template engines', () => {
   })
   it('can render without options and throws error if template renderer throws error', async () => {
     const app = new App()
-    app.engine('ejs', ejsRenderFile)  
+    app.engine('ejs', ejsRenderFile)
 
     const server = app.listen()
 
     const fetch = makeFetch(server)
     try {
-      app.get('/',(_, res) => res.render('error.ejs').end())
+      app.get('/', (_, res) => res.render('error.ejs').end())
       await fetch('/')
     } catch (err) {
-      console.error(err)
       expect((err as Error).message).toBe('Could not find matching close tag for "<%=".')
     }
   })
