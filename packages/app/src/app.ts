@@ -180,7 +180,6 @@ export class App<
     if (options._locals) locals = { ...locals, ...options._locals }
 
     if (!file.endsWith(`.${options.ext}`)) file = `${file}.${options.ext}`
-
     const dest = path.join(options.viewsFolder, file)
 
     this.engines[options.ext](dest, locals, options.renderOptions, cb)
@@ -320,7 +319,7 @@ export class App<
           next()
         },
         path: '/'
-      })    
+      })
     }
     mw.push({
       handler: this.noMatchHandler,

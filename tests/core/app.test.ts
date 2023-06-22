@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { describe, expect, it } from 'vitest'
-import http from 'node:http'
+import http, { IncomingMessage } from 'node:http'
 import path from 'node:path'
 import { readFile } from 'node:fs/promises'
-import { App } from '../../packages/app/src/index'
+import { App, renderTemplate } from '../../packages/app/src/index'
 import { symlinkSync } from 'node:fs'
 import { renderFile } from 'eta'
 import type { EtaConfig } from 'eta/dist/types/config'
@@ -57,11 +57,13 @@ describe('Testing App', () => {
   it('Default onError with testing', async () => {
     process.env = {
       ...process.env,
-      TESTING: undefined,
+      TESTING: undefined
     }
     const app = new App()
 
-    app.use((_req, _res, next) => {throw new Error("you")})
+    app.use((_req, _res, _next) => {
+      throw new Error('you')
+    })
 
     const server = app.listen()
     const fetch = makeFetch(server)
@@ -529,12 +531,12 @@ describe('HTTP methods', () => {
     await fetch('/hello', { method: 'HEAD' }).expect(404)
   })
   it('Returns statusCode 204 when no handler is present and the request is `HEAD`', async () => {
-    const app = new App();
+    const app = new App()
     app.get('/', (_, res, next) => {
-      next();
+      next()
     })
-    const fetch = makeFetch(app.listen());
-    await fetch('/', {method: 'HEAD'}).expectStatus(204)
+    const fetch = makeFetch(app.listen())
+    await fetch('/', { method: 'HEAD' }).expectStatus(204)
   })
 })
 
@@ -760,17 +762,16 @@ describe('Subapps', () => {
 
     app.route('/path').get((_, res) => res.send('Hello World'))
   })
-   it('req.originalUrl does not change', async () => {
+  it('req.originalUrl does not change', async () => {
     const app = new App()
 
     const subApp = new App()
 
-    subApp.get('/route', (req, res) =>{
+    subApp.get('/route', (req, res) => {
       res.send({
         origUrl: req.originalUrl
       })
-    }
-    )
+    })
 
     app.use('/subapp', subApp)
 
@@ -781,7 +782,7 @@ describe('Subapps', () => {
     await fetch('/subapp/route').expect(200, {
       origUrl: '/subapp/route'
     })
-  }) 
+  })
 
   it('lets other wares handle the URL if subapp doesnt have that path', async () => {
     const app = new App()
@@ -1014,6 +1015,21 @@ describe('Template engines', () => {
     const fetch = makeFetch(server)
 
     await fetch('/').expectBody('Hello from ejs')
+  })
+  it('can render without options and throws error if template renderer throws error', async () => {
+    const app = new App()
+    app.engine('ejs', ejsRenderFile)  
+
+    const server = app.listen()
+
+    const fetch = makeFetch(server)
+    try {
+      app.get('/',(_, res) => res.render('error.ejs').end())
+      await fetch('/')
+    } catch (err) {
+      console.error(err)
+      expect((err as Error).message).toBe('Could not find matching close tag for "<%=".')
+    }
   })
 })
 

@@ -25,7 +25,7 @@ describe('Request extensions', () => {
     })
     it('should handle "referer"', async () => {
       const app = runServer((req, res) => {
-        res.end(getRequestHeader(req)('referrer'))
+        res.end(getRequestHeader(req)('referer'))
       })
 
       await makeFetch(app)('/', {
