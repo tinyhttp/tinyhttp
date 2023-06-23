@@ -93,7 +93,7 @@ function compileTrust(rangeSubnets: (IPv4 | IPv6)[]) {
  * @param {String} note
  * @private
  */
-export function parseIPNotation(note: string): [IPv4 | IPv6, string | number] {
+function parseIPNotation(note: string): [IPv4 | IPv6, string | number] {
   const pos = note.lastIndexOf('/')
   const str = pos !== -1 ? note.substring(0, pos) : note
 
@@ -119,6 +119,7 @@ export function parseIPNotation(note: string): [IPv4 | IPv6, string | number] {
   if (typeof range === 'number' && (range <= 0 || range > max)) throw new TypeError('invalid range on address: ' + note)
 
   return [ip, range]
+  /* c8 ignore next */
 }
 /**
  * Parse netmask string into CIDR range.
@@ -137,7 +138,7 @@ function parseNetmask(netmask: string) {
  * @param trust
  * @public
  */
-export function proxyaddr(req: Req, trust: Trust): string {
+function proxyaddr(req: Req, trust: Trust): string {
   const addrs = alladdrs(req, trust)
 
   return addrs[addrs.length - 1]
@@ -160,7 +161,6 @@ function trustMulti(subnets: (IPv4 | IPv6)[]) {
       let trusted = ip
       if (kind !== subnetkind) {
         if (subnetkind === 'ipv4' && !(ip as IPv6).isIPv4MappedAddress()) continue
-
         if (!ipconv) ipconv = subnetkind === 'ipv4' ? (ip as IPv6).toIPv4Address() : (ip as IPv4).toIPv4MappedAddress()
 
         trusted = ipconv
@@ -193,5 +193,4 @@ function trustSingle(subnet: IPv4 | IPv6) {
   }
 }
 
-export { alladdrs as all }
-export { compile }
+export { compile, parseIPNotation, alladdrs as all, proxyaddr }

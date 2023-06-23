@@ -25,6 +25,11 @@ describe('proxyaddr(req, trust)', () => {
 
       expect(proxyaddr(req, [])).toBe('127.0.0.1')
     })
+    it('should return addr when trust is null', () => {
+      const req = createReq('127.0.0.1') as IncomingMessage
+
+      expect(proxyaddr(req, undefined)).toBe('127.0.0.1')
+    })
     it('should reject a number', () => {
       const req = createReq('127.0.0.1') as IncomingMessage
 
@@ -164,6 +169,13 @@ describe('proxyaddr(req, trust)', () => {
         ['127.0.0.1', 0],
         ['10.0.0.1', 1]
       ])
+    })
+    it('should not trust non-IP addresses', () => {
+      const req = createReq('10.0.0.1', {
+        'x-forwarded-for': '192.168.0.1, 10.0.0.2, localhost'
+      }) as IncomingMessage
+
+      expect(proxyaddr(req, '10.0.0.1')).toBe('localhost')
     })
   })
   describe('with all trusted', () => {
@@ -354,7 +366,8 @@ describe('proxyaddr(req, trust)', () => {
         'x-forwarded-for': '192.168.0.1, 10.0.0.2'
       }) as IncomingMessage
 
-      expect(proxyaddr(req, ['::ffff:a00:1', '::ffff:a00:2'])).toBe('192.168.0.1')
+      expect(proxyaddr(req, ['::1', '::2'])).toBe('10.0.0.1')
+      expect(proxyaddr(req, '::1')).toBe('10.0.0.1')
     })
   })
 })

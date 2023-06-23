@@ -19,7 +19,6 @@ const trustRemoteAddress = ({ socket }: Pick<Request, 'headers' | 'socket'>) => 
   const val = socket.remoteAddress
 
   if (typeof val === 'string') return compile(val.split(',').map((x) => x.trim()))
-
   return compile(val || [])
 }
 

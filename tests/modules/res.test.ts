@@ -113,6 +113,21 @@ describe('Response extensions', () => {
         redirect: 'follow'
       }).expect(200, 'Hello World')
     })
+    it('should follow the redirect of HEAD', async () => {
+      const app = runServer((req, res) => {
+        if (req.url === '/abc') {
+          res.writeHead(200).end('Hello World')
+        } else {
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          redirect(req, res, () => {})('/abc').end()
+        }
+      })
+
+      await makeFetch(app)('/', {
+        redirect: 'follow',
+        method: 'HEAD'
+      }).expect(200, undefined)
+    })
     it('should send an HTML link to redirect to', async () => {
       const app = runServer((req, res) => {
         if (req.url === '/abc') {
@@ -218,6 +233,13 @@ describe('Response extensions', () => {
     it('should detect MIME type by extension', async () => {
       const app = runServer((_, res) => {
         setContentType(res)('.html').end()
+      })
+
+      await makeFetch(app)('/').expect('Content-Type', 'text/html; charset=utf-8')
+    })
+    it('should default to given mime type if valid', async () => {
+      const app = runServer((_, res) => {
+        setContentType(res)('text/html').end()
       })
 
       await makeFetch(app)('/').expect('Content-Type', 'text/html; charset=utf-8')
@@ -356,6 +378,19 @@ describe('Response extensions', () => {
       })
 
       await makeFetch(app)('/').expect(200).expectHeader('Set-Cookie', 'hello=world; Path=/, foo=bar; Path=/')
+    })
+    it('should allow object as value and sign it', async () => {
+      const app = runServer((req, res) => {
+        req['secret'] = 'mysecretstring'
+        setCookie(req, res)('foo', { hello: 'world' }, { signed: true }).end()
+      })
+
+      await makeFetch(app)('/')
+        .expect(200)
+        .expectHeader(
+          'Set-Cookie',
+          `foo=s%3Aj%3A%7B%22hello%22%3A%22world%22%7D.0NWH1hQBif%2BZIDCK5YTI5uMUtVv3LJdthtZ0UXmvavw; Path=/`
+        )
     })
   })
   describe('res.clearCookie(name, options)', () => {

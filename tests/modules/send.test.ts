@@ -125,6 +125,14 @@ describe('send(body)', () => {
       }
     }).expectStatus(304)
   })
+  it('should set status as 304 is req.fresh is false', async () => {
+    const app = runServer((req, res) => {
+      req['fresh'] = true
+      send(req, res)('Hello World')
+    })
+
+    await makeFetch(app)('/').expectStatus(304)
+  })
 })
 
 describe('status(status)', () => {
@@ -172,6 +180,12 @@ describe('sendFile(path)', () => {
 
   it('should send the file', async () => {
     const app = runServer((req, res) => sendFile(req, res)(testFilePath, {}))
+
+    await makeFetch(app)('/').expect('Hello World')
+  })
+  it('should pass a callback', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath, {}, (_err) => {}))
 
     await makeFetch(app)('/').expect('Hello World')
   })
@@ -234,6 +248,18 @@ describe('sendFile(path)', () => {
       .expect('Content-Length', '5')
       .expect('Accept-Ranges', 'bytes')
       .expect('Hello')
+  })
+  it('should set default end if range syntax is incorrect', async () => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath))
+    await makeFetch(app)('/', {
+      headers: {
+        Range: 'bytes=j-k'
+      }
+    })
+      .expectStatus(206)
+      .expect('Content-Length', '11')
+      .expect('Accept-Ranges', 'bytes')
+      .expect('Hello World')
   })
   it('should send 419 if out of range', async () => {
     const app = runServer((req, res) => sendFile(req, res)(testFilePath))
