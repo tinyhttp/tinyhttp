@@ -58,6 +58,11 @@ describe('send(body)', () => {
 
     await makeFetch(app)('/').expect([3.145])
   })
+  it('should send a number', async () => {
+    const app = runServer((req, res) => send(req, res)(undefined))
+
+    await makeFetch(app)('/').expect(200)
+  })
   it('should send nothing on a HEAD request', async () => {
     const app = runServer((req, res) => send(req, res)('Hello World'))
 
@@ -170,7 +175,14 @@ describe('sendFile(path)', () => {
 
     await makeFetch(app)('/').expect('Hello World')
   })
+  it('should send the file, use the root option and set the status to 200', async () => {
+    const app = runServer((req, res) => {
+      res.statusCode = 0
+      sendFile(req, res)('test.txt', { root: __dirname })
+    })
 
+    await makeFetch(app)('/').expect('Hello World').expectStatus(200)
+  })
   it('should throw if path is not absolute', async () => {
     const app = runServer(async (req, res) => {
       try {
@@ -244,5 +256,19 @@ describe('sendFile(path)', () => {
     })
 
     await makeFetch(app)('/').expectStatus(418)
+  })
+  it('should set caching header', async () => {
+    const app = runServer((req, res) =>
+      sendFile(req, res)(testFilePath, { caching: { immutable: true, maxAge: 100000 } })
+    )
+
+    const fetch = makeFetch(app)
+    await fetch('/').expectHeader('cache-control', ['public,max-age=100000,immutable'])
+  })
+  it('should set caching header and revalidate option', async () => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath, { caching: { immutable: false, maxAge: 0 } }))
+
+    const fetch = makeFetch(app)
+    await fetch('/').expectHeader('cache-control', ['public,max-age=0,must-revalidate'])
   })
 })
