@@ -3,8 +3,7 @@ import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import { App } from '../../packages/app/src/app'
 import { makeFetch } from 'supertest-fetch'
 import { Agent } from 'node:http'
-import { getHostname, getProtocol, getSubdomains } from '../../packages/app/src'
-import https from 'https'
+import { getProtocol, getSubdomains } from '../../packages/app/src'
 
 describe('Request properties', () => {
   it('should have default HTTP Request properties', async () => {

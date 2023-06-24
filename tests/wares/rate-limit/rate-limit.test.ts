@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { App } from '../../../packages/app/src'
 import { rateLimit } from '../../../packages/rate-limit/src'
 import { makeFetch } from 'supertest-fetch'
+import { Store } from '../../../packages/rate-limit/src/memory-store'
 
 function createAppWith(middleware) {
   const app = new App()
@@ -252,8 +253,12 @@ describe('rate-limit', () => {
               throw Error
             },
             // eslint-disable-next-line @typescript-eslint/no-empty-function
-            resetKey: () => {}
-          } as any
+            resetKey: () => {},
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            decrement: () => {},
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            resetAll: () => {},
+          } as Store
         })
       )
 
