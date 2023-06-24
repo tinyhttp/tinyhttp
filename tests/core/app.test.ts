@@ -54,10 +54,7 @@ describe('Testing App', () => {
     await fetch('/').expect(500, 'Ouch, you hurt me on / page.')
   })
   it('Default onError with testing', async () => {
-    process.env = {
-      ...process.env,
-      TESTING: undefined
-    }
+    vi.stubEnv('TESTING', '')
     const app = new App()
 
     app.use((_req, _res, _next) => {
@@ -68,6 +65,7 @@ describe('Testing App', () => {
     const fetch = makeFetch(server)
 
     await fetch('/').expect(500, 'you')
+    vi.unstubAllEnvs()
   })
 
   it('App works with HTTP 1.1', async () => {

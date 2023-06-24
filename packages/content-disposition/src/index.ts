@@ -110,7 +110,7 @@ function createParams(filename?: string, fallback?: string | boolean) {
   }
 
   // set filename parameter
-  if (hasFallback || isQuotedString) {
+  if (isQuotedString || hasFallback) {
     params.filename = hasFallback ? fallbackName : name
   }
 

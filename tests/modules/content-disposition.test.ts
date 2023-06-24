@@ -34,6 +34,12 @@ describe('contentDisposition(filename)', () => {
       `html; filename="html"; filename*=UTF-8\'\'inde%28x.ht`
     )
   })
+  it('should use fallback when file ext is non ascii', function () {
+    expect(contentDisposition('index.ĄÇḐȨĢ', { type: 'html', fallback: 'html' })).toEqual(
+      // eslint-disable-next-line no-useless-escape
+      `html; filename="html"; filename*=UTF-8\'\'index.%C4%84%C3%87%E1%B8%90%C8%A8%C4%A2`
+    )
+  })
   it('should throw an error when non string options.type is used', function () {
     expect.assertions(1)
     try {
