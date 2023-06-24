@@ -13,9 +13,6 @@ importers:
       '@commitlint/config-conventional':
         specifier: 17.6.1
         version: 17.6.1
-      '@types/ejs':
-        specifier: ^3.1.2
-        version: 3.1.2
       '@types/node':
         specifier: 18.16.3
         version: 18.16.3
@@ -1126,10 +1123,6 @@ packages:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
       '@types/node': 18.16.3
-    dev: true
-
-  /@types/ejs@3.1.2:
-    resolution: {integrity: sha512-ZmiaE3wglXVWBM9fyVC17aGPkLo/UgaOjEiI2FXQfyczrCefORPxIe+2dVmnmk3zkVIbizjrlQzmPGhSYGXG5g==}
     dev: true
 
   /@types/estree@1.0.1:

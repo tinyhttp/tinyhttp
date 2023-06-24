@@ -1,6 +1,6 @@
 {
   "hooks": {
-    "pre-commit": "pnpm format:fix && pnpm lint && pnpm build && pnpm test",
+    "pre-commit": "pnpm format && pnpm lint && pnpm build && pnpm test",
     "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
   }
 }

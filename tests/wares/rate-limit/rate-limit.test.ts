@@ -257,7 +257,7 @@ describe('rate-limit', () => {
             // eslint-disable-next-line @typescript-eslint/no-empty-function
             decrement: () => {},
             // eslint-disable-next-line @typescript-eslint/no-empty-function
-            resetAll: () => {},
+            resetAll: () => {}
           } as Store
         })
       )
