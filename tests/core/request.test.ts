@@ -3,6 +3,8 @@ import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import { App } from '../../packages/app/src/app'
 import { makeFetch } from 'supertest-fetch'
 import { Agent } from 'node:http'
+import { getHostname, getProtocol, getSubdomains } from '../../packages/app/src'
+import https from 'https'
 
 describe('Request properties', () => {
   it('should have default HTTP Request properties', async () => {
@@ -114,6 +116,40 @@ describe('Request properties', () => {
       )
 
       await fetch('/').expect(200, `subdomains: `)
+    })
+    describe('custom imports', () => {
+      it('should test getSubdomains when host is null', async () => {
+        const app = new App()
+        app.get('/', (req, res) => {
+          req.headers.host = undefined
+          res.send(getSubdomains(req))
+        })
+        await makeFetch(app.listen())('/').expectStatus(200)
+      })
+      it('should test getSubdomains when host is an IP', async () => {
+        const app = new App()
+        app.get('/', (req, res) => {
+          req.headers.host = '127.0.0.1'
+          res.send(getSubdomains(req))
+        })
+        await makeFetch(app.listen())('/').expectStatus(200)
+      })
+      it('should test getSubdomains when host is an array', async () => {
+        const app = new App()
+        app.get('/', (req, res) => {
+          req.headers.host = '[127.0.0.1]'
+          res.send(getSubdomains(req))
+        })
+        await makeFetch(app.listen())('/').expectStatus(200)
+      })
+      it('should test getProtocol', async () => {
+        const app = new App()
+        app.get('/', (req, res) => {
+          req.secure = true
+          return res.send(getProtocol(req))
+        })
+        await makeFetch(app.listen())('/', { headers: { 'X-Forwarded-Proto': 'https, http' } }).expectStatus(200)
+      })
     })
   })
 

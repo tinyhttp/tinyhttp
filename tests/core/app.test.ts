@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { describe, expect, it } from 'vitest'
-import http, { IncomingMessage } from 'node:http'
+import { describe, expect, it, vi } from 'vitest'
+import http from 'node:http'
 import path from 'node:path'
 import { readFile } from 'node:fs/promises'
-import { App, renderTemplate } from '../../packages/app/src/index'
-import { symlinkSync } from 'node:fs'
+import { App } from '../../packages/app/src/index'
 import { renderFile } from 'eta'
 import type { EtaConfig } from 'eta/dist/types/config'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
@@ -997,13 +996,11 @@ describe('Template engines', () => {
     await fetch('/').expectBody('Hello World')
   })
   it('can render without options passed', async () => {
+    const original = process.cwd()
     const app = new App({ settings: { xPoweredBy: true } })
-    try {
-      symlinkSync(path.resolve(process.cwd(), 'tests/fixtures/views'), path.resolve(process.cwd(), 'views'))
-    } catch (error) {
-      // symlink error
-    }
-
+    process.cwd = vi.fn(() => {
+      return path.resolve(original + '/tests/fixtures')
+    })
     app.engine('ejs', ejsRenderFile)
 
     app.use((_, res) => {
@@ -1015,6 +1012,7 @@ describe('Template engines', () => {
     const fetch = makeFetch(server)
 
     await fetch('/').expectBody('Hello from ejs')
+    vi.unstubAllGlobals()
   })
   it('can render without options and throws error if template renderer throws error', async () => {
     const app = new App()
