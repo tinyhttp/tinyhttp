@@ -43,7 +43,6 @@ export const getProtocol = (req: Request): Protocol => {
 
 export const getHostname = (req: Request): string | undefined => {
   let host: string = req.get('X-Forwarded-Host') as string
-  /* c8 ignore next */
   if (!host) host = req.get('Host') as string
   if (!host) return
 
