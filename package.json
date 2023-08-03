@@ -33,7 +33,7 @@
     "supertest-fetch": "1.5.0",
     "tslib": "2.5.0",
     "typescript": "~5.0.4",
-    "vite": "^4.3.4",
+    "vite": "^4.3.9",
     "vite-plugin-dts": "^2.3.0",
     "vitest": "0.30.1"
   },
