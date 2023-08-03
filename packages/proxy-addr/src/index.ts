@@ -93,7 +93,7 @@ function compileTrust(rangeSubnets: (IPv4 | IPv6)[]) {
  * @param {String} note
  * @private
  */
-function parseIPNotation(note: string): [IPv4 | IPv6, string | number] {
+export function parseIPNotation(note: string): [IPv4 | IPv6, string | number] {
   const pos = note.lastIndexOf('/')
   const str = pos !== -1 ? note.substring(0, pos) : note
 
@@ -193,4 +193,4 @@ function trustSingle(subnet: IPv4 | IPv6) {
   }
 }
 
-export { compile, parseIPNotation, alladdrs as all, proxyaddr }
+export { compile, alladdrs as all, proxyaddr }
