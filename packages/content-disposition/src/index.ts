@@ -89,8 +89,7 @@ function createParams(filename?: string, fallback?: string | boolean) {
 
   // fallback defaults to true
   if (!fallback) fallback = true
-  const res = typeof fallback === 'string' && NON_LATIN1_REGEXP.test(fallback)
-  if (res) {
+  if (typeof fallback === 'string' && NON_LATIN1_REGEXP.test(fallback)) {
     throw new TypeError('fallback must be ISO-8859-1 string')
   }
 

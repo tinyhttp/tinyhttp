@@ -5,8 +5,8 @@ import { IncomingMessage } from 'node:http'
  */
 export const parse = (header: string) => {
   let end = header.length
-  let start = header.length
   const list: string[] = []
+  let start = header.length
   // gather addresses, backwards
   for (let i = header.length - 1; i >= 0; i--) {
     switch (header.charCodeAt(i)) {

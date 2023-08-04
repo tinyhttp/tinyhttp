@@ -554,7 +554,7 @@ describe('Response extensions', () => {
   })
 })
 describe('util tests', () => {
-  it('should call accept', () => {
+  it('should normalize a given mime', () => {
     expect(normalizeType('app/k=8;q=9').value).toEqual('app/k=8')
   })
 })
