@@ -3,10 +3,13 @@
   "private": true,
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "formidable": "^3.2.5"
+    "formidable": "^3.5.0"
   },
   "type": "module",
   "scripts": {
     "start": "node index.js"
+  },
+  "devDependencies": {
+    "@types/formidable": "^3.4.0"
   }
 }

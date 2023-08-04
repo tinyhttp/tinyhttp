@@ -4,8 +4,8 @@
   "type": "module",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "sirv": "^2.0.2",
-    "vue": "^3.2.47",
+    "sirv": "^2.0.3",
+    "vue": "^3.3.4",
     "vue-server-renderer": "^2.7.14"
   },
   "scripts": {

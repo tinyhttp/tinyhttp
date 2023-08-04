@@ -7,11 +7,11 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "4.11.0",
+    "@prisma/client": "5.1.1",
     "@tinyhttp/app": "workspace:*",
-    "milliparsec": "^2.2.2"
+    "milliparsec": "^2.3.0"
   },
   "devDependencies": {
-    "prisma": "^4.11.0"
+    "prisma": "^5.1.1"
   }
 }

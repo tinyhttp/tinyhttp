@@ -3,12 +3,16 @@
   "name": "tinyhttp-prisma-graphql",
   "type": "module",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "3.5.0",
+    "@prisma/client": "5.1.1",
     "@tinyhttp/app": "workspace:*",
     "express-graphql": "^0.12.0",
-    "graphql": "^16.0.1"
+    "graphql": "^16.7.1"
+  },
+  "devDependencies": {
+    "prisma": "^5.1.1"
   }
 }

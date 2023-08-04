@@ -1,6 +1,6 @@
 import { App } from '@tinyhttp/app'
 import graphql from 'graphql'
-import expressGraphQL from 'express-graphql'
+import {createHandler} from 'graphql-http/lib/use/http'
 
 const app = new App()
 const port = parseInt(process.env.PORT) || 3000
@@ -15,13 +15,8 @@ const rootValue = {
   hello: () => 'Hello world!'
 }
 
-app.use(
-  '/graphql',
-  expressGraphQL.graphqlHTTP({
-    schema,
-    graphiql: { headerEditorEnabled: true },
-    rootValue
-  })
-)
+const handler = createHandler({ schema, rootValue })
+
+app.use('/graphql', handler)
 
 app.listen(port, () => console.log(`Listening on http://localhost:${port}`))

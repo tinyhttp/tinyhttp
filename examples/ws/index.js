@@ -1,17 +1,26 @@
-import { App } from '@tinyhttp/app'
-import { tinyws } from 'tinyws'
+import { App,  } from '@tinyhttp/app'
+import { tinyws,  } from 'tinyws'
 
 const app = new App()
 
 app.use(tinyws())
 
-app.use('/hmr', async (req, res) => {
+let connections = []
+
+app.use('/chat', async (req) => {
   if (req.ws) {
     const ws = await req.ws()
 
-    return ws.send('hello there')
-  } else {
-    res.send('Hello from HTTP!')
+    connections.push(ws)
+
+    ws.on('message', (message) => {
+      console.log('Received message:', message.toString())
+
+      // broadcast
+      connections.forEach((socket) => socket.send(message))
+    })
+
+    ws.on('close', () => (connections = connections.filter((conn) => (conn === ws ? false : true))))
   }
 })
 
