@@ -1,5 +1,5 @@
-import { App,  } from '@tinyhttp/app'
-import { tinyws,  } from 'tinyws'
+import { App } from '@tinyhttp/app'
+import { tinyws } from 'tinyws'
 
 const app = new App()
 

@@ -1,6 +1,6 @@
 import { App } from '@tinyhttp/app'
 import graphql from 'graphql'
-import {createHandler} from 'graphql-http/lib/use/http'
+import { createHandler } from 'graphql-http/lib/use/http'
 
 const app = new App()
 const port = parseInt(process.env.PORT) || 3000
