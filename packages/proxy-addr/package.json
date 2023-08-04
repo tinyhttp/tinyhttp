@@ -33,6 +33,6 @@
   },
   "dependencies": {
     "@tinyhttp/forwarded": "workspace:*",
-    "ipaddr.js": "^2.0.1"
+    "ipaddr.js": "^2.1.0"
   }
 }

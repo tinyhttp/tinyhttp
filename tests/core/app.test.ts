@@ -4,7 +4,6 @@ import http from 'node:http'
 import path from 'node:path'
 import { readFile } from 'node:fs/promises'
 import { App } from '../../packages/app/src/index'
-
 import { renderFile } from 'eta'
 import type { EtaConfig } from 'eta/dist/types/config'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
@@ -965,6 +964,8 @@ describe('Template engines', () => {
 
     app.engine('eta', renderFile)
 
+    console.log(app.engines)
+
     app.use((_, res) => {
       res.render('empty.eta')
     })
@@ -1014,8 +1015,8 @@ describe('App settings', () => {
       app.use((req, res) => {
         expect(req.app).toBeInstanceOf(App)
         expect(res.app).toBeInstanceOf(App)
-        expect(req.app.locals['hello']).toBe('world')
-        expect(res.app.locals['hello']).toBe('world')
+        expect(req.app!.locals['hello']).toBe('world')
+        expect(res.app!.locals['hello']).toBe('world')
         res.end()
       })
 

@@ -11,10 +11,7 @@ export type AsyncHandler<Request = any, Response = any> = (
   next: NextFunction
 ) => Promise<void>
 
-export type Handler<Request = any, Response = any> =
-  | AsyncHandler<Request, Response>
-  | SyncHandler<Request, Response>
-  | string
+export type Handler<Request = any, Response = any> = AsyncHandler<Request, Response> | SyncHandler<Request, Response>
 
 const METHODS = [
   'ACL',
@@ -97,7 +94,7 @@ type RouterMethodParams<Req = any, Res = any> = Parameters<RouterMethod<Req, Res
 export type UseMethod<Req = any, Res = any, App extends Router = any> = (
   path: RouterPathOrHandler<Req, Res> | App,
   handler?: RouterHandler<Req, Res> | App,
-  ...handlers: RouterHandler<Req, Res>[]
+  ...handlers: (RouterHandler<Req, Res> | App)[]
 ) => any
 
 export type UseMethodParams<Req = any, Res = any, App extends Router = any> = Parameters<UseMethod<Req, Res, App>>
@@ -145,7 +142,7 @@ export const pushMiddleware =
       waresFromHandlers = handlers.flat().map((handler) =>
         createMiddlewareFromRoute<Req, Res>({
           path,
-          handler,
+          handler: handler as Handler,
           method,
           type,
           fullPath: fullPaths == null ? null : fullPaths[idx++]
@@ -280,7 +277,7 @@ export class Router<App extends Router = any, Req = any, Res = any> {
     } else {
       pushMiddleware(this.middleware)({
         path: '/',
-        handler: Array.isArray(base) ? base[0] : (base as Handler),
+        handler: Array.isArray(base) ? (base[0] as Handler) : (base as Handler),
         handlers: Array.isArray(base)
           ? [...(base.slice(1) as Handler[]), ...(handlers as Handler[])]
           : (handlers as Handler[]),

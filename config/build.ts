@@ -12,7 +12,8 @@ export const build = (dependencies: Record<string, string> = {}) =>
         fileName: () => `index.js`,
         formats: ['es']
       },
-      ssr: true
+      ssr: true,
+      sourcemap: true
     },
     plugins: [dts({ insertTypesEntry: true })],
     ssr: {

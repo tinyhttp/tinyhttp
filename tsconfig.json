@@ -6,8 +6,6 @@
     "preserveSymlinks": true,
     "outDir": "dist",
     "isolatedModules": true,
-    "esModuleInterop": true,
-    "downlevelIteration": true,
     "noImplicitAny": false,
     "noUnusedParameters": true,
     "skipLibCheck": true,
@@ -16,13 +14,10 @@
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "resolveJsonModule": true,
-    "lib": [
-      "DOM"
-    ],
     "declarationMap": true,
     "composite": true,
     "sourceMap": true,
-    "alwaysStrict": true
+    "alwaysStrict": true,
   },
   "include": [
     "*.json"
