@@ -62,7 +62,7 @@ Here's a small list of requirements for your PR:
 - it should build without errors and warnings (except edge cases)
 - it should have been tested
 - PR must have a clear description of what it does, which part of the repo it affects
-- if PR is adding a new middleware, please contact [talentlessguy](https://t.me/talentless_guy) instead. We'll create a new repo in this org for you.
+- if PR is adding a new middleware, please contact [v_1rtl](https://t.me/v_1rtl) instead. We'll create a new repo in this org for you.
 
 ### Adding new middleware
 
