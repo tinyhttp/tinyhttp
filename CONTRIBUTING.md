@@ -67,7 +67,7 @@ Here's a small list of requirements for your PR:
 ### Adding new middleware
 
 - Create a new repository from official template
-- Open an issue with "new middleware" label or contact [talentlessguy](https://t.me/talentless_guy)
+- Open an issue with "new middleware" label or contact [v_1rtl](https://t.me/v_1rtl)
 
 ### Adding new non-middleware module
 
