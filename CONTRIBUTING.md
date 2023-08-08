@@ -100,4 +100,4 @@ In most other cases, additional steps aren't required. Install, write, test, lin
 
 If everything from the list is done right, feel free to submit a PR! I will look into it asap.
 
-If some further assistance before making a PR is needed, ping me on [telegram](https://t.me/talentless_guy) or [twitter](https://twitter.com/v1rtl).
+If some further assistance before making a PR is needed, ping me on [telegram](https://t.me/v_1rtl) or [twitter](https://twitter.com/v_1rtl).
