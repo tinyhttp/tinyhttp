@@ -9,7 +9,7 @@ export type ErrorHandler = (this: App, err: any, req: Request, res: Response, ne
 export const onErrorHandler: ErrorHandler = function (this: App, err: any, _req: Request, res: Response) {
   if (this.onError === onErrorHandler && this.parent) return this.parent.onError(err, _req, res)
 
-  if (!process.env.TESTING && err instanceof Error) console.error(err)
+  if (err instanceof Error) console.error(err)
 
   const code = err.code in STATUS_CODES ? err.code : err.status
 
