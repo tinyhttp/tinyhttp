@@ -1,7 +1,7 @@
 import { createServer, Server } from 'node:http'
 import path from 'node:path'
 import { getRouteFromApp, getURLParams } from './request.js'
-import type { Request } from './request.js'
+import type { Request, URLParams } from './request.js'
 import type { Response } from './response.js'
 import type { ErrorHandler } from './onError.js'
 import { onErrorHandler } from './onError.js'
@@ -333,7 +333,15 @@ export class App<
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
       const { path, handler, regex } = mw
 
-      const params = regex ? getURLParams(regex, pathname) : {}
+      let params: URLParams
+
+      try {
+        params = regex ? getURLParams(regex, pathname) : {}
+      } catch (e) {
+        console.error(e)
+        if (e instanceof URIError) return res.sendStatus(400) // Handle malformed URI
+        else throw e
+      }
 
       req.params = { ...req.params, ...params }
 

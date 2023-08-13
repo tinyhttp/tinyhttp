@@ -898,6 +898,16 @@ describe('Subapps', () => {
 
     await fetch('/users/123/route').expect(200, '123')
   })
+  it('sends bad request on malformed params', async () => {
+    const app = new App()
+
+    app.get('/:id', (req, res) => res.send(req.params))
+
+    const server = app.listen()
+
+    const fetch = makeFetch(server)
+    await fetch('/%').expect(400, 'Bad Request')
+  })
   it('handles errors by parent when no onError specified', async () => {
     const app = new App({
       onError: (err, req, res) => res.status(500).end(`Ouch, ${err} hurt me on ${req.path} page.`)
