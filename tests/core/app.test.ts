@@ -1031,6 +1031,19 @@ describe('Template engines', () => {
         expect((err as Error).message, 'err!')
       })
     })
+    it('when the file does not exist should provide a helpful error', () => {
+      const app = new App({
+        settings: {
+          views: `${process.cwd()}/tests/fixtures`
+        }
+      })
+      app.engine('eta', renderFile)
+      app.render('ate.eta', {}, {}, (err) => {
+        expect((err as Error).message).toEqual(
+          'Failed to lookup view "ate.eta" in views directory "' + `${process.cwd()}/tests/fixtures` + '"'
+        )
+      })
+    })
   })
 })
 
