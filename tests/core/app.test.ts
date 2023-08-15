@@ -5,9 +5,11 @@ import path from 'node:path'
 import { readFile } from 'node:fs/promises'
 import { App } from '../../packages/app/src/index'
 import { renderFile } from 'eta'
-import type { EtaConfig } from 'eta/dist/types/config'
+import type { PartialConfig } from 'eta/dist/types/config'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import { makeFetch } from 'supertest-fetch'
+import { vi } from 'vitest'
+import { View } from '../../packages/app/src/view'
 
 describe('Testing App', () => {
   it('should launch a basic server', async () => {
@@ -945,46 +947,90 @@ describe('Subapps', () => {
 })
 
 describe('Template engines', () => {
-  it('works with eta out of the box', async () => {
-    const app = new App<EtaConfig>()
+  describe('app.engine', () => {
+    it('registers a new engine', () => {
+      const app = new App()
 
-    app.engine('eta', renderFile)
+      app.engine('.eta', renderFile)
 
-    app.use((_, res) => {
-      res.render(
-        'index.eta',
-        {
-          name: 'Eta'
-        },
-        {
-          viewsFolder: `${process.cwd()}/tests/fixtures/views`
-        }
-      )
+      expect(app.engines).toEqual({ '.eta': renderFile })
     })
+    it('appends a dot if not passed', () => {
+      const app = new App()
 
-    const server = app.listen()
+      app.engine('eta', renderFile)
 
-    const fetch = makeFetch(server)
+      expect(app.engines).toEqual({ '.eta': renderFile })
+    })
+    it('if there are no engines, sets as default engine', () => {
+      const app = new App()
 
-    await fetch('/').expectBody('Hello from Eta')
+      app.engine('eta', renderFile)
+
+      expect(app.settings['view engine']).toEqual('eta')
+    })
   })
-  it('can render without data passed', async () => {
-    const app = new App<EtaConfig>()
-    app.set('views', path.resolve(process.cwd(), 'tests/fixtures/views'))
 
-    app.engine('eta', renderFile)
+  // Ported from https://github.com/expressjs/express/blob/3531987844e533742f1159b0c3f1e07fad2e4597/test/app.render.js
+  describe('app.render', async () => {
+    it('should support absolute paths', () => {
+      const app = new App()
 
-    console.log(app.engines)
+      app.engine('eta', renderFile)
+      app.locals.name = 'v1rtl'
 
-    app.use((_, res) => {
-      res.render('empty.eta')
+      app.render(`${process.cwd()}/tests/fixtures/views/index.eta`, {}, {}, (err, str) => {
+        if (err) throw err
+        expect(str).toEqual('Hello from v1rtl')
+      })
     })
+    it('should expose app.locals', () => {
+      const app = new App({
+        settings: {
+          views: `${process.cwd()}/tests/fixtures/views`
+        }
+      })
+      app.engine('eta', renderFile)
+      app.locals.name = 'v1rtl'
 
-    const server = app.listen()
+      app.render('index.eta', {}, {}, (err, str) => {
+        if (err) throw err
+        expect(str).toEqual('Hello from v1rtl')
+      })
+    })
+    it('should support index files', () => {
+      const app = new App({
+        settings: {
+          views: `${process.cwd()}/tests/fixtures`
+        }
+      })
+      app.engine('eta', renderFile)
+      app.locals.name = 'v1rtl'
 
-    const fetch = makeFetch(server)
+      app.render('views', {}, {}, (err, str) => {
+        if (err) throw err
+        expect(str).toEqual('Hello from v1rtl')
+      })
+    })
+    it('should catch errors', () => {
+      const app = new App({
+        settings: {
+          views: `${process.cwd()}/tests/fixtures`
+        }
+      })
 
-    await fetch('/').expectBody('Hello World')
+      class TestView {
+        render() {
+          throw new Error('oops')
+        }
+      }
+
+      app.set('view', TestView as unknown as typeof View)
+
+      app.render('nothing', {}, {}, (err) => {
+        expect((err as Error).message, 'err!')
+      })
+    })
   })
 })
 

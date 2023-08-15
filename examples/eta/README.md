@@ -1,6 +1,6 @@
 # Eta example
 
-Basic example of using tinyhttp and [Eta](https://github.com/eta-dev/eta).
+Basic example of using tinyhttp and [Eta v2](https://github.com/eta-dev/eta).
 
 ## Install
 

@@ -35,12 +35,13 @@ import {
 } from '@tinyhttp/res'
 import { renderTemplate } from './response.js'
 import { App } from './app.js'
+import { TemplateEngineOptions } from './types.js'
 
 /**
  * Extends Request and Response objects with custom properties and methods
  */
 export const extendMiddleware =
-  <EngineOptions>(app: App) =>
+  <EngineOptions extends TemplateEngineOptions = TemplateEngineOptions>(app: App) =>
   (req: Request, res: Response<EngineOptions>, next: NextFunction): void => {
     const { settings } = app
 
@@ -83,7 +84,7 @@ export const extendMiddleware =
     res.vary = setVaryHeader<Response>(res)
     res.cookie = setCookie<Request, Response>(req, res)
     res.clearCookie = clearCookie<Request, Response>(req, res)
-    res.render = renderTemplate<EngineOptions>(req, res, app)
+    res.render = renderTemplate(req, res, app)
     res.format = formatResponse(req, res, next)
     res.redirect = redirect(req, res, next)
     res.attachment = attachment<Response>(res)

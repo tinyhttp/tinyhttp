@@ -1,5 +1,5 @@
 export { App } from './app.js'
-export type { AppSettings, TemplateEngineOptions, TemplateFunc } from './app.js'
+export type { AppSettings, TemplateEngineOptions, TemplateEngine, AppConstructor } from './types.js'
 export * from './request.js'
 import type { Request } from './request.js'
 export * from './response.js'
