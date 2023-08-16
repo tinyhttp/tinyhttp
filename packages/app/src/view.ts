@@ -94,8 +94,6 @@ export class View<RenderOptions extends TemplateEngineOptions = TemplateEngineOp
     let path = join(dir, file)
     let stat = tryStat(path)
 
-    console.log(path, stat)
-
     if (stat && stat.isFile()) {
       return path
     }

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { describe, expect, it } from 'vitest'
 import http from 'node:http'
-import path from 'node:path'
 import { readFile } from 'node:fs/promises'
 import { App } from '../../packages/app/src/index'
 import { renderFile } from 'eta'
@@ -1012,36 +1011,70 @@ describe('Template engines', () => {
         expect(str).toEqual('Hello from v1rtl')
       })
     })
-    it('should catch errors', () => {
-      const app = new App({
-        settings: {
-          views: `${process.cwd()}/tests/fixtures`
+    describe('errors', () => {
+      it('should catch errors', () => {
+        const app = new App({
+          settings: {
+            views: `${process.cwd()}/tests/fixtures`
+          }
+        })
+
+        class TestView {
+          render() {
+            throw new Error('oops')
+          }
         }
+
+        app.set('view', TestView as unknown as typeof View)
+
+        app.render('nothing', {}, {}, (err) => {
+          expect((err as Error).message, 'err!')
+        })
       })
+      it('when the file does not exist should provide a helpful error', () => {
+        const app = new App({
+          settings: {
+            views: `${process.cwd()}/tests/fixtures`
+          }
+        })
+        app.engine('eta', renderFile)
+        app.render('ate.eta', {}, {}, (err) => {
+          expect((err as Error).message).toEqual(
+            'Failed to lookup view "ate.eta" in views directory "' + `${process.cwd()}/tests/fixtures` + '"'
+          )
+        })
+      })
+      it('when error occurs should trigger a callback', () => {
+        const app = new App({
+          settings: {
+            views: `${process.cwd()}/tests/fixtures/views`
+          }
+        })
+        app.engine('eta', renderFile)
+        app.render('error.eta', {}, {}, (err, str) => {
+          expect(err).toBeInstanceOf(ReferenceError)
+          expect(str).toBeUndefined()
+        })
+      })
+    })
+    it('supports custom View', () => {
+      const app = new App()
 
       class TestView {
-        render() {
-          throw new Error('oops')
+        name: string
+        path = 'path is required by application.js as a signal of success even though it is not used there.'
+        constructor(name: string) {
+          this.name = name
+        }
+        render(_options: never, _data: never, fn: (err: null, msg: string) => void) {
+          fn(null, 'testing')
         }
       }
 
       app.set('view', TestView as unknown as typeof View)
 
-      app.render('nothing', {}, {}, (err) => {
-        expect((err as Error).message, 'err!')
-      })
-    })
-    it('when the file does not exist should provide a helpful error', () => {
-      const app = new App({
-        settings: {
-          views: `${process.cwd()}/tests/fixtures`
-        }
-      })
-      app.engine('eta', renderFile)
-      app.render('ate.eta', {}, {}, (err) => {
-        expect((err as Error).message).toEqual(
-          'Failed to lookup view "ate.eta" in views directory "' + `${process.cwd()}/tests/fixtures` + '"'
-        )
+      app.render('something', {}, {}, (err, str) => {
+        expect(str).toEqual('testing')
       })
     })
   })
