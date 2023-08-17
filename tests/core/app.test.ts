@@ -1057,6 +1057,49 @@ describe('Template engines', () => {
         })
       })
     })
+
+    describe('multiple roots', () => {
+      it('should lookup the file in paths', () => {
+        const app = new App({
+          settings: {
+            views: [`${process.cwd()}/tests/fixtures/views/root1`, `${process.cwd()}/tests/fixtures/views/root2`]
+          }
+        })
+        app.engine('eta', renderFile)
+        app.locals.user = { name: 'v1rtl' }
+
+        app.render('user', {}, {}, (_, str) => {
+          expect(str).toEqual('<p>v1rtl</p>')
+        })
+      })
+      it('should look until the file is found', () => {
+        const app = new App({
+          settings: {
+            views: [`${process.cwd()}/tests/fixtures/views/root1`, `${process.cwd()}/tests/fixtures/views/root2`]
+          }
+        })
+        app.engine('eta', renderFile)
+
+        app.render('home', {}, {}, (_, str) => {
+          expect(str).toEqual('this is a home page')
+        })
+      })
+      it('should error if could not find the file', () => {
+        const app = new App({
+          settings: {
+            views: [`${process.cwd()}/tests/fixtures/views/root1`, `${process.cwd()}/tests/fixtures/views/root2`]
+          }
+        })
+        app.engine('eta', renderFile)
+
+        app.render('uknown', {}, {}, (err, str) => {
+          expect((err as Error).message).toEqual(
+            `Failed to lookup view "uknown" in views directories "/home/v1rtl/Coding/tinyhttp/tinyhttp-node/tests/fixtures/views/root1" or "/home/v1rtl/Coding/tinyhttp/tinyhttp-node/tests/fixtures/views/root2"`
+          )
+        })
+      })
+    })
+
     it('supports custom View', () => {
       const app = new App()
 
@@ -1073,7 +1116,7 @@ describe('Template engines', () => {
 
       app.set('view', TestView as unknown as typeof View)
 
-      app.render('something', {}, {}, (err, str) => {
+      app.render('something', {}, {}, (_err, str) => {
         expect(str).toEqual('testing')
       })
     })

@@ -1,0 +1,1 @@
+<span><%= it.user.name %></span>
