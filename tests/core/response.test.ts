@@ -1,5 +1,6 @@
 import { describe, it } from 'vitest'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
+import { renderFile } from 'eta'
 
 describe('Response properties', () => {
   it('should have default HTTP Response properties', async () => {
@@ -110,6 +111,77 @@ describe('Response methods', () => {
       })
 
       await fetch('/').expect('Content-Type', 'text/html; charset=utf-8')
+    })
+  })
+  describe('res.render', async () => {
+    // https://github.com/expressjs/express/blob/3531987844e533742f1159b0c3f1e07fad2e4597/test/res.render.js
+    it('should support absolute paths', async () => {
+      const { fetch, app } = InitAppAndTest(
+        (_req, res) => {
+          app.engine('eta', renderFile)
+          app.locals.name = 'v1rtl'
+          res.render(`${process.cwd()}/tests/fixtures/views/index.eta`)
+        },
+        '/',
+        'GET'
+      )
+
+      await fetch('/').expect('Hello from v1rtl')
+    })
+    it('should support absolute paths with "view engine"', async () => {
+      const { fetch, app } = InitAppAndTest(
+        (_req, res) => {
+          app.engine('eta', renderFile)
+          app.set('view engine', 'eta')
+          app.locals.name = 'v1rtl'
+          res.render(`${process.cwd()}/tests/fixtures/views/index`)
+        },
+        '/',
+        'GET'
+      )
+
+      await fetch('/').expect('Hello from v1rtl')
+    })
+    it('should error without "view engine" set and file extension to a non-engine module', async () => {
+      const { fetch, app } = InitAppAndTest(
+        (_req, res) => {
+          app.engine('eta', renderFile)
+          app.locals.name = 'v1rtl'
+          res.render(`${process.cwd()}/tests/fixtures/views/not.found`)
+        },
+        '/',
+        'GET'
+      )
+
+      await fetch('/').expect(500, 'No engine was found for .found')
+    })
+    it('should error without "view engine" set and no file extension', async () => {
+      const { fetch, app } = InitAppAndTest(
+        (_req, res) => {
+          app.engine('eta', renderFile)
+          app.locals.name = 'v1rtl'
+          res.render(`${process.cwd()}/tests/fixtures/views/index`)
+        },
+        '/',
+        'GET'
+      )
+
+      await fetch('/').expect(500, 'No default engine was specified and no extension was provided.')
+    })
+    it('should support index files', async () => {
+      const { fetch, app } = InitAppAndTest(
+        (_req, res) => {
+          app.engine('eta', renderFile)
+          app.set('views', `${process.cwd()}/tests/fixtures`)
+          app.set('view engine', 'eta')
+          app.locals.name = 'v1rtl'
+          res.render(`views`)
+        },
+        '/',
+        'GET'
+      )
+
+      await fetch('/').expect(200, 'Hello from v1rtl')
     })
   })
 })

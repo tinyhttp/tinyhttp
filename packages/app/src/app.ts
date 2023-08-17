@@ -144,7 +144,6 @@ export class App<Req extends Request = Request, Res extends Response = Response>
     ext: string,
     fn: TemplateEngine<RenderOptions>
   ): this {
-    if (Object.keys(this.engines).length === 0) this.settings['view engine'] = ext
     this.engines[ext[0] === '.' ? ext : `.${ext}`] = fn
 
     return this
@@ -173,7 +172,9 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     if (options.cache == null) options.cache = this.enabled('view cache')
 
-    if (options.cache) view = this.cache[name] as View
+    if (options.cache) {
+      view = this.cache[name] as View
+    }
 
     if (!view) {
       const View = this.settings['view']
@@ -191,6 +192,10 @@ export class App<Req extends Request = Request, Res extends Response = Response>
         const err = new Error('Failed to lookup view "' + name + '" in views ' + dirs)
 
         return cb(err)
+      }
+
+      if (options.cache) {
+        this.cache[name] = view
       }
     }
 

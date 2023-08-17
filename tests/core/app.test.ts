@@ -961,13 +961,6 @@ describe('Template engines', () => {
 
       expect(app.engines).toEqual({ '.eta': renderFile })
     })
-    it('if there are no engines, sets as default engine', () => {
-      const app = new App()
-
-      app.engine('eta', renderFile)
-
-      expect(app.settings['view engine']).toEqual('eta')
-    })
   })
 
   // Ported from https://github.com/expressjs/express/blob/3531987844e533742f1159b0c3f1e07fad2e4597/test/app.render.js
@@ -1004,6 +997,7 @@ describe('Template engines', () => {
         }
       })
       app.engine('eta', renderFile)
+      app.set('view engine', 'eta')
       app.locals.name = 'v1rtl'
 
       app.render('views', {}, {}, (err, str) => {
@@ -1068,7 +1062,7 @@ describe('Template engines', () => {
         app.engine('eta', renderFile)
         app.locals.user = { name: 'v1rtl' }
 
-        app.render('user', {}, {}, (_, str) => {
+        app.render('user.eta', {}, {}, (_, str) => {
           expect(str).toEqual('<p>v1rtl</p>')
         })
       })
@@ -1080,7 +1074,7 @@ describe('Template engines', () => {
         })
         app.engine('eta', renderFile)
 
-        app.render('home', {}, {}, (_, str) => {
+        app.render('home.eta', {}, {}, (_, str) => {
           expect(str).toEqual('this is a home page')
         })
       })
@@ -1092,9 +1086,9 @@ describe('Template engines', () => {
         })
         app.engine('eta', renderFile)
 
-        app.render('uknown', {}, {}, (err, str) => {
+        app.render('uknown.eta', {}, {}, (err, str) => {
           expect((err as Error).message).toEqual(
-            `Failed to lookup view "uknown" in views directories "/home/v1rtl/Coding/tinyhttp/tinyhttp-node/tests/fixtures/views/root1" or "/home/v1rtl/Coding/tinyhttp/tinyhttp-node/tests/fixtures/views/root2"`
+            `Failed to lookup view "uknown.eta" in views directories "/home/v1rtl/Coding/tinyhttp/tinyhttp-node/tests/fixtures/views/root1" or "/home/v1rtl/Coding/tinyhttp/tinyhttp-node/tests/fixtures/views/root2"`
           )
         })
       })
@@ -1105,7 +1099,7 @@ describe('Template engines', () => {
 
       class TestView {
         name: string
-        path = 'path is required by application.js as a signal of success even though it is not used there.'
+        path = 'test'
         constructor(name: string) {
           this.name = name
         }
@@ -1118,6 +1112,69 @@ describe('Template engines', () => {
 
       app.render('something', {}, {}, (_err, str) => {
         expect(str).toEqual('testing')
+      })
+    })
+
+    describe('caching', () => {
+      it('should always lookup view without cache', () => {
+        const app = new App()
+
+        let count = 0
+
+        class TestView {
+          name: string
+          path = 'test'
+          constructor(name: string) {
+            this.name = name
+            count++
+          }
+          render(_options: never, _data: never, fn: (err: null, msg: string) => void) {
+            fn(null, 'testing')
+          }
+        }
+
+        app.set('view cache', false)
+        app.set('view', TestView as unknown as typeof View)
+
+        app.render('something', {}, {}, (_, str) => {
+          expect(count).toEqual(1)
+          expect(str).toEqual('testing')
+
+          app.render('something', {}, {}, (_, str) => {
+            expect(count).toEqual(2)
+            expect(str).toEqual('testing')
+          })
+        })
+      })
+      it('should cache with "view cache" setting', () => {
+        const app = new App()
+
+        let count = 0
+
+        class TestView {
+          name: string
+          path = 'test'
+          constructor(name: string) {
+            this.name = name
+            count++
+          }
+          render(_options: never, _data: never, fn: (err: null, msg: string) => void) {
+            fn(null, 'testing')
+          }
+        }
+
+        app.set('view cache', true)
+        app.set('view', TestView as unknown as typeof View)
+
+        app.render('something', {}, {}, (_, str) => {
+          expect(count).toEqual(1)
+          expect(str).toEqual('testing')
+
+          app.render('something', {}, {}, (_, str) => {
+            expect(count).toEqual(1)
+            expect(str).toEqual('testing')
+          })
+        })
       })
     })
   })
