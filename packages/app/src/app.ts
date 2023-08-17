@@ -166,9 +166,11 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     options._locals = options._locals || {}
 
-    let locals = { ...data, ...this.locals }
+    let locals = this.locals
 
     if (options._locals) locals = { ...locals, ...options._locals }
+
+    locals = { ...locals, ...data }
 
     if (options.cache == null) options.cache = this.enabled('view cache')
 

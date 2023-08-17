@@ -8,7 +8,7 @@ import type { AppRenderOptions, TemplateEngineOptions } from './types.js'
 export const renderTemplate =
   <O extends TemplateEngineOptions = TemplateEngineOptions>(_req: Request, res: Response, app: App) =>
   (file: string, data?: Record<string, unknown>, options?: AppRenderOptions<O>): Response => {
-    app.render(file, data ? { ...data, ...res.locals } : res.locals, options, (err: unknown, html: unknown) => {
+    app.render(file, data ? { ...res.locals, ...data } : res.locals, options, (err: unknown, html: unknown) => {
       if (err) throw err
       res.send(html)
     })
@@ -44,7 +44,7 @@ export interface Response<B = unknown> extends ServerResponse {
   download(path: string, filename: string, options?: DownloadOptions, cb?: (err?: unknown) => void): Response<B>
   attachment(filename?: string): Response<B>
   app?: App
-  locals?: Record<string, any>
+  locals: Record<string, any>
   /**
    * Send JSON response with JSONP callback support.
    *

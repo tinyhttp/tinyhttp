@@ -1086,7 +1086,7 @@ describe('Template engines', () => {
         })
         app.engine('eta', renderFile)
 
-        app.render('uknown.eta', {}, {}, (err, str) => {
+        app.render('uknown.eta', {}, {}, (err) => {
           expect((err as Error).message).toMatch(/Failed to lookup view "uknown.eta" in views directories/)
         })
       })
