@@ -1,0 +1,11 @@
+{
+  "name": "custom-view",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@tinyhttp/app": "workspace:*"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}

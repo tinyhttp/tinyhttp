@@ -84,6 +84,12 @@ importers:
         specifier: 0.34.1
         version: 0.34.1
 
+  examples/custom-view:
+    dependencies:
+      '@tinyhttp/app':
+        specifier: workspace:*
+        version: link:../../packages/app
+
   examples/ejs:
     dependencies:
       '@tinyhttp/app':
