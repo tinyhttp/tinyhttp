@@ -1087,9 +1087,7 @@ describe('Template engines', () => {
         app.engine('eta', renderFile)
 
         app.render('uknown.eta', {}, {}, (err, str) => {
-          expect((err as Error).message).toEqual(
-            `Failed to lookup view "uknown.eta" in views directories "/home/v1rtl/Coding/tinyhttp/tinyhttp-node/tests/fixtures/views/root1" or "/home/v1rtl/Coding/tinyhttp/tinyhttp-node/tests/fixtures/views/root2"`
-          )
+          expect((err as Error).message).toMatch(/Failed to lookup view "uknown.eta" in views directories/)
         })
       })
     })
