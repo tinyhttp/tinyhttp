@@ -1,8 +1,9 @@
-import { describe, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import { renderFile } from 'eta'
 import { App } from '../../packages/app/src/app'
 import { makeFetch } from 'supertest-fetch'
+import type { PartialConfig } from 'eta/dist/types/config'
 
 describe('Response properties', () => {
   it('should have default HTTP Response properties', async () => {
@@ -211,6 +212,23 @@ describe('Response methods', () => {
       const fetch = makeFetch(app.listen())
 
       await fetch('/').expect(200, 'Hello from v2rtl')
+    })
+    it('should allow passing custom engine options via res.render()', async () => {
+      const app = new App()
+
+      app.engine<PartialConfig>('eta', (name, locals, opts, cb) => {
+        expect(opts.autoEscape).toEqual(false)
+        return renderFile(name, locals, opts, cb)
+      })
+      app.set('views', `${process.cwd()}/tests/fixtures/views`)
+
+      app.use((_req, res) => {
+        res.render<PartialConfig>('index.eta', { name: 'v1rtl' }, { autoEscape: false })
+      })
+
+      const fetch = makeFetch(app.listen())
+
+      await fetch('/').expect(200, 'Hello from v1rtl')
     })
   })
 })

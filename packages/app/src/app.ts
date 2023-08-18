@@ -164,17 +164,17 @@ export class App<Req extends Request = Request, Res extends Response = Response>
   ): void {
     let view: View | undefined
 
-    options._locals = options._locals || {}
+    const { _locals, ...opts } = options
 
     let locals = this.locals
 
-    if (options._locals) locals = { ...locals, ...options._locals }
+    if (_locals) locals = { ...locals, ..._locals }
 
     locals = { ...locals, ...data }
 
-    if (options.cache == null) options.cache = this.enabled('view cache')
+    if (opts.cache == null) (opts.cache as boolean) = this.enabled('view cache')
 
-    if (options.cache) {
+    if (opts.cache) {
       view = this.cache[name] as View
     }
 
@@ -196,13 +196,13 @@ export class App<Req extends Request = Request, Res extends Response = Response>
         return cb(err)
       }
 
-      if (options.cache) {
+      if (opts.cache) {
         this.cache[name] = view
       }
     }
 
     try {
-      view.render(options, locals, cb)
+      view.render(opts, locals, cb)
     } catch (err) {
       cb(err)
     }
