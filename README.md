@@ -33,7 +33,7 @@ middleware search.
 
 ## Install
 
-[Node.js 12.20+](https://node.green/#ES2019) is required.
+[Node.js 14.21.3+](https://node.green/#ES2022) is required.
 
 ```sh
 pnpm i @tinyhttp/app
