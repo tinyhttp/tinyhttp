@@ -31,8 +31,8 @@
     "build": "vite build"
   },
   "dependencies": {
+    "@tinyhttp/content-type": "^0.1.3",
     "@tinyhttp/etag": "workspace:*",
-    "es-content-type": "^0.1.0",
     "es-mime-types": "^0.1.4"
   }
 }

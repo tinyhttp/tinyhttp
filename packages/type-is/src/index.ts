@@ -1,5 +1,5 @@
 import { lookup } from 'es-mime-types'
-import * as typer from 'es-content-type'
+import * as typer from '@tinyhttp/content-type'
 
 function normalizeType(value: string) {
   // parse the type

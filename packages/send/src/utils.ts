@@ -1,4 +1,4 @@
-import { parse, format } from 'es-content-type'
+import { parse, format } from '@tinyhttp/content-type'
 import { eTag } from '@tinyhttp/etag'
 import { Stats } from 'node:fs'
 
@@ -10,7 +10,7 @@ export const createETag = (body: Buffer | string | Stats, encoding: BufferEncodi
   }
 }
 
-export function setCharset(type: string, charset: string): any {
+export function setCharset(type: string, charset: string): string {
   const parsed = parse(type)
   parsed.parameters.charset = charset
   return format(parsed)
