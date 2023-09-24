@@ -1,6 +1,6 @@
 # Custom view example
 
-Example of tinyhttp's 2.2 new view engine.
+Example of a custom View engine to alter rendering logic of a template.
 
 ## Setup
 
