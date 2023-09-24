@@ -71,7 +71,7 @@ export type Connection = IncomingMessage['socket'] & {
   encrypted: boolean
 }
 
-export type Protocol = 'node:http' | 'https' | string
+export type Protocol = 'http' | 'https' | string
 
 export type { URLParams }
 
