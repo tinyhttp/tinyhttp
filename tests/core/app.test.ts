@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { describe, expect, it } from 'vitest'
 import http from 'node:http'
-import path from 'node:path'
 import { readFile } from 'node:fs/promises'
 import { App } from '../../packages/app/src/index'
 import { renderFile } from 'eta'
-import type { EtaConfig } from 'eta/dist/types/config'
+import type { PartialConfig } from 'eta/dist/types/config'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import { makeFetch } from 'supertest-fetch'
+import { vi } from 'vitest'
+import { View } from '../../packages/app/src/view'
 
 describe('Testing App', () => {
   it('should launch a basic server', async () => {
@@ -945,46 +946,235 @@ describe('Subapps', () => {
 })
 
 describe('Template engines', () => {
-  it('works with eta out of the box', async () => {
-    const app = new App<EtaConfig>()
+  describe('app.engine', () => {
+    it('registers a new engine', () => {
+      const app = new App()
 
-    app.engine('eta', renderFile)
+      app.engine('.eta', renderFile)
 
-    app.use((_, res) => {
-      res.render(
-        'index.eta',
-        {
-          name: 'Eta'
-        },
-        {
-          viewsFolder: `${process.cwd()}/tests/fixtures/views`
-        }
-      )
+      expect(app.engines).toEqual({ '.eta': renderFile })
     })
+    it('appends a dot if not passed', () => {
+      const app = new App()
 
-    const server = app.listen()
+      app.engine('eta', renderFile)
 
-    const fetch = makeFetch(server)
-
-    await fetch('/').expectBody('Hello from Eta')
+      expect(app.engines).toEqual({ '.eta': renderFile })
+    })
   })
-  it('can render without data passed', async () => {
-    const app = new App<EtaConfig>()
-    app.set('views', path.resolve(process.cwd(), 'tests/fixtures/views'))
 
-    app.engine('eta', renderFile)
+  // Ported from https://github.com/expressjs/express/blob/3531987844e533742f1159b0c3f1e07fad2e4597/test/app.render.js
+  describe('app.render', async () => {
+    it('should support absolute paths', () => {
+      const app = new App()
 
-    console.log(app.engines)
+      app.engine('eta', renderFile)
+      app.locals.name = 'v1rtl'
 
-    app.use((_, res) => {
-      res.render('empty.eta')
+      app.render(`${process.cwd()}/tests/fixtures/views/index.eta`, {}, {}, (err, str) => {
+        if (err) throw err
+        expect(str).toEqual('Hello from v1rtl')
+      })
+    })
+    it('should expose app.locals', () => {
+      const app = new App({
+        settings: {
+          views: `${process.cwd()}/tests/fixtures/views`
+        }
+      })
+      app.engine('eta', renderFile)
+      app.locals.name = 'v1rtl'
+
+      app.render('index.eta', {}, {}, (err, str) => {
+        if (err) throw err
+        expect(str).toEqual('Hello from v1rtl')
+      })
+    })
+    it('should support index files', () => {
+      const app = new App({
+        settings: {
+          views: `${process.cwd()}/tests/fixtures`
+        }
+      })
+      app.engine('eta', renderFile)
+      app.set('view engine', 'eta')
+      app.locals.name = 'v1rtl'
+
+      app.render('views', {}, {}, (err, str) => {
+        if (err) throw err
+        expect(str).toEqual('Hello from v1rtl')
+      })
+    })
+    describe('errors', () => {
+      it('should catch errors', () => {
+        const app = new App({
+          settings: {
+            views: `${process.cwd()}/tests/fixtures`
+          }
+        })
+
+        class TestView {
+          render() {
+            throw new Error('oops')
+          }
+        }
+
+        app.set('view', TestView as unknown as typeof View)
+
+        app.render('nothing', {}, {}, (err) => {
+          expect((err as Error).message, 'err!')
+        })
+      })
+      it('when the file does not exist should provide a helpful error', () => {
+        const app = new App({
+          settings: {
+            views: `${process.cwd()}/tests/fixtures`
+          }
+        })
+        app.engine('eta', renderFile)
+        app.render('ate.eta', {}, {}, (err) => {
+          expect((err as Error).message).toEqual(
+            'Failed to lookup view "ate.eta" in views directory "' + `${process.cwd()}/tests/fixtures` + '"'
+          )
+        })
+      })
+      it('when error occurs should trigger a callback', () => {
+        const app = new App({
+          settings: {
+            views: `${process.cwd()}/tests/fixtures/views`
+          }
+        })
+        app.engine('eta', renderFile)
+        app.render('error.eta', {}, {}, (err, str) => {
+          expect(err).toBeInstanceOf(ReferenceError)
+          expect(str).toBeUndefined()
+        })
+      })
     })
 
-    const server = app.listen()
+    describe('multiple roots', () => {
+      it('should lookup the file in paths', () => {
+        const app = new App({
+          settings: {
+            views: [`${process.cwd()}/tests/fixtures/views/root1`, `${process.cwd()}/tests/fixtures/views/root2`]
+          }
+        })
+        app.engine('eta', renderFile)
+        app.locals.user = { name: 'v1rtl' }
 
-    const fetch = makeFetch(server)
+        app.render('user.eta', {}, {}, (_, str) => {
+          expect(str).toEqual('<p>v1rtl</p>')
+        })
+      })
+      it('should look until the file is found', () => {
+        const app = new App({
+          settings: {
+            views: [`${process.cwd()}/tests/fixtures/views/root1`, `${process.cwd()}/tests/fixtures/views/root2`]
+          }
+        })
+        app.engine('eta', renderFile)
 
-    await fetch('/').expectBody('Hello World')
+        app.render('home.eta', {}, {}, (_, str) => {
+          expect(str).toEqual('this is a home page')
+        })
+      })
+      it('should error if could not find the file', () => {
+        const app = new App({
+          settings: {
+            views: [`${process.cwd()}/tests/fixtures/views/root1`, `${process.cwd()}/tests/fixtures/views/root2`]
+          }
+        })
+        app.engine('eta', renderFile)
+
+        app.render('uknown.eta', {}, {}, (err) => {
+          expect((err as Error).message).toMatch(/Failed to lookup view "uknown.eta" in views directories/)
+        })
+      })
+    })
+
+    it('supports custom View', () => {
+      const app = new App()
+
+      class TestView {
+        name: string
+        path = 'test'
+        constructor(name: string) {
+          this.name = name
+        }
+        render(_options: never, _data: never, fn: (err: null, msg: string) => void) {
+          fn(null, 'testing')
+        }
+      }
+
+      app.set('view', TestView as unknown as typeof View)
+
+      app.render('something', {}, {}, (_err, str) => {
+        expect(str).toEqual('testing')
+      })
+    })
+
+    describe('caching', () => {
+      it('should always lookup view without cache', () => {
+        const app = new App()
+
+        let count = 0
+
+        class TestView {
+          name: string
+          path = 'test'
+          constructor(name: string) {
+            this.name = name
+            count++
+          }
+          render(_options: never, _data: never, fn: (err: null, msg: string) => void) {
+            fn(null, 'testing')
+          }
+        }
+
+        app.set('view cache', false)
+        app.set('view', TestView as unknown as typeof View)
+
+        app.render('something', {}, {}, (_, str) => {
+          expect(count).toEqual(1)
+          expect(str).toEqual('testing')
+
+          app.render('something', {}, {}, (_, str) => {
+            expect(count).toEqual(2)
+            expect(str).toEqual('testing')
+          })
+        })
+      })
+      it('should cache with "view cache" setting', () => {
+        const app = new App()
+
+        let count = 0
+
+        class TestView {
+          name: string
+          path = 'test'
+          constructor(name: string) {
+            this.name = name
+            count++
+          }
+          render(_options: never, _data: never, fn: (err: null, msg: string) => void) {
+            fn(null, 'testing')
+          }
+        }
+
+        app.set('view cache', true)
+        app.set('view', TestView as unknown as typeof View)
+
+        app.render('something', {}, {}, (_, str) => {
+          expect(count).toEqual(1)
+          expect(str).toEqual('testing')
+
+          app.render('something', {}, {}, (_, str) => {
+            expect(count).toEqual(1)
+            expect(str).toEqual('testing')
+          })
+        })
+      })
+    })
   })
 })
 

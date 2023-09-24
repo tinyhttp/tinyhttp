@@ -1,10 +1,10 @@
 import { App } from '@tinyhttp/app'
 import { renderFile as eta } from 'eta'
-import { EtaConfig } from 'eta/dist/types/config'
+import { EtaConfig, PartialConfig } from 'eta/dist/types/config'
 
-const app = new App<EtaConfig>()
+const app = new App()
 
-app.engine('eta', eta)
+app.engine<EtaConfig>('eta', eta)
 
 function func() {
   return new Promise((resolve) => {
@@ -16,14 +16,12 @@ function func() {
 
 app.use(
   (_, res) =>
-    void res.render(
+    void res.render<PartialConfig>(
       'index.eta',
       { name: 'Eta', func },
       {
-        renderOptions: {
-          async: true,
-          cache: true
-        }
+        async: true,
+        cache: true
       }
     )
 )
