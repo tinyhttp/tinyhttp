@@ -1,14 +1,17 @@
 import { createServer, Server } from 'node:http'
-import path from 'node:path'
 import { getRouteFromApp, getURLParams } from './request.js'
 import type { Request, URLParams } from './request.js'
 import type { Response } from './response.js'
 import type { ErrorHandler } from './onError.js'
 import { onErrorHandler } from './onError.js'
-import { Middleware, Handler, NextFunction, Router, UseMethodParams, pushMiddleware } from '@tinyhttp/router'
+import type { Middleware, Handler, NextFunction, UseMethodParams } from '@tinyhttp/router'
+import { Router, pushMiddleware } from '@tinyhttp/router'
 import { extendMiddleware } from './extend.js'
 import { parse as rg } from 'regexparam'
 import { getPathname } from '@tinyhttp/req'
+import { AppConstructor, AppRenderOptions, AppSettings, TemplateEngine } from './types.js'
+import { TemplateEngineOptions } from './index.js'
+import { View } from './view.js'
 
 /**
  * Add leading slash if not present (e.g. path -> /path, /path -> /path)
@@ -29,35 +32,6 @@ const applyHandler =
       next(e)
     }
   }
-/**
- * tinyhttp App has a few settings for toggling features
- */
-export type AppSettings = Partial<{
-  networkExtensions: boolean
-  subdomainOffset: number
-  bindAppToReqRes: boolean
-  xPoweredBy: string | boolean
-  enableReqRoute: boolean
-  views: string
-}>
-
-/**
- * Function that processes the template
- */
-export type TemplateFunc<O> = (
-  path: string,
-  locals: Record<string, any>,
-  opts: TemplateEngineOptions<O>,
-  cb: (err: Error | null, html: unknown) => void
-) => void
-
-export type TemplateEngineOptions<O> = Partial<{
-  cache: boolean
-  ext: string
-  renderOptions: Partial<O>
-  viewsFolder: string
-  _locals: Record<string, any>
-}>
 
 /**
  * `App` class - the starting point of tinyhttp app.
@@ -81,41 +55,39 @@ export type TemplateEngineOptions<O> = Partial<{
  * const app = App<any, CoolReq, Response>()
  * ```
  */
-export class App<
-  RenderOptions = any,
-  Req extends Request = Request,
-  Res extends Response<RenderOptions> = Response<RenderOptions>
-> extends Router<App, Req, Res> {
+export class App<Req extends Request = Request, Res extends Response = Response> extends Router<App, Req, Res> {
   middleware: Middleware<Req, Res>[] = []
   locals: Record<string, unknown> = {}
   noMatchHandler: Handler
   onError: ErrorHandler
   settings: AppSettings
-  engines: Record<string, TemplateFunc<RenderOptions>> = {}
+  engines: Record<string, TemplateEngine> = {}
   applyExtensions: (req: Request, res: Response, next: NextFunction) => void
   attach: (req: Req, res: Res) => void
+  cache: Record<string, unknown>
 
-  constructor(
-    options: Partial<{
-      noMatchHandler: Handler<Req, Res>
-      onError: ErrorHandler
-      settings: AppSettings
-      applyExtensions: (req: Request, res: Response, next: NextFunction) => void
-    }> = {}
-  ) {
+  constructor(options: AppConstructor<Req, Res> = {}) {
     super()
     this.onError = options?.onError || onErrorHandler
     this.noMatchHandler = options?.noMatchHandler || this.onError.bind(this, { code: 404 })
-    this.settings = options.settings || { xPoweredBy: true, views: `${process.cwd()}/views` }
+    this.settings = {
+      view: View,
+      xPoweredBy: true,
+      views: `${process.cwd()}/views`,
+      'view cache': process.env.NODE_ENV === 'production',
+      ...options.settings
+    }
     this.applyExtensions = options?.applyExtensions
     this.attach = (req, res) => setImmediate(this.handler.bind(this, req, res, undefined), req, res)
+    this.cache = {}
   }
+
   /**
    * Set app setting
    * @param setting setting name
    * @param value setting value
    */
-  set<T = unknown>(setting: string, value: T): this {
+  set<K extends keyof AppSettings>(setting: K, value: AppSettings[K]): this {
     this.settings[setting] = value
 
     return this
@@ -125,8 +97,27 @@ export class App<
    * Enable app setting
    * @param setting Setting name
    */
-  enable(setting: string): this {
-    this.settings[setting] = true
+  enable<K extends keyof AppSettings>(setting: K): this {
+    this.settings[setting] = true as AppSettings[K]
+
+    return this
+  }
+
+  /**
+   * Check if setting is enabled
+   * @param setting Setting name
+   * @returns
+   */
+  enabled<K extends keyof AppSettings>(setting: K): boolean {
+    return Boolean(this.settings[setting])
+  }
+
+  /**
+   * Disable app setting
+   * @param setting Setting name
+   */
+  disable<K extends keyof AppSettings>(setting: K): this {
+    this.settings[setting] = false as AppSettings[K]
 
     return this
   }
@@ -147,11 +138,13 @@ export class App<
   }
 
   /**
-   * Disable app setting
-   * @param setting
+   * Register a template engine with extension
    */
-  disable(setting: string): this {
-    this.settings[setting] = false
+  engine<RenderOptions extends TemplateEngineOptions = TemplateEngineOptions>(
+    ext: string,
+    fn: TemplateEngine<RenderOptions>
+  ): this {
+    this.engines[ext[0] === '.' ? ext : `.${ext}`] = fn
 
     return this
   }
@@ -163,30 +156,56 @@ export class App<
    * @param options Template engine options
    * @param cb Callback that consumes error and html
    */
-  render(
-    file: string,
+  render<RenderOptions extends TemplateEngineOptions = TemplateEngineOptions>(
+    name: string,
     data: Record<string, unknown> = {},
-    cb: (err: unknown, html: unknown) => void,
-    options: TemplateEngineOptions<RenderOptions> = {}
-  ): this {
-    options.viewsFolder = options.viewsFolder || this.settings.views || `${process.cwd()}/views`
-    options.ext = options.ext || file.slice(file.lastIndexOf('.') + 1) || 'ejs'
+    options: AppRenderOptions<RenderOptions> = {} as AppRenderOptions<RenderOptions>,
+    cb: (err: unknown, html?: unknown) => void
+  ): void {
+    let view: View | undefined
 
-    options._locals = options._locals || {}
+    const { _locals, ...opts } = options
 
-    options.cache = options.cache || process.env.NODE_ENV === 'production'
+    let locals = this.locals
 
-    let locals = { ...data, ...this.locals }
+    if (_locals) locals = { ...locals, ..._locals }
 
-    if (options._locals) locals = { ...locals, ...options._locals }
+    locals = { ...locals, ...data }
 
-    if (!file.endsWith(`.${options.ext}`)) file = `${file}.${options.ext}`
+    if (opts.cache == null) (opts.cache as boolean) = this.enabled('view cache')
 
-    const dest = options.viewsFolder ? path.join(options.viewsFolder, file) : file
+    if (opts.cache) {
+      view = this.cache[name] as View
+    }
 
-    this.engines[options.ext](dest, locals, options.renderOptions, cb)
+    if (!view) {
+      const View = this.settings['view']
+      view = new View(name, {
+        defaultEngine: this.settings['view engine'],
+        root: this.settings.views,
+        engines: this.engines
+      })
 
-    return this
+      if (!view.path) {
+        const dirs =
+          Array.isArray(view.root) && view.root.length > 1
+            ? 'directories "' + view.root.slice(0, -1).join('", "') + '" or "' + view.root[view.root.length - 1] + '"'
+            : 'directory "' + view.root + '"'
+        const err = new Error('Failed to lookup view "' + name + '" in views ' + dirs)
+
+        return cb(err)
+      }
+
+      if (opts.cache) {
+        this.cache[name] = view
+      }
+    }
+
+    try {
+      view.render(opts, locals, cb)
+    } catch (err) {
+      cb(err)
+    }
   }
   use(...args: UseMethodParams<Req, Res, App>): this {
     const base = args[0]
@@ -252,17 +271,9 @@ export class App<
     })
     return this
   }
-  /**
-   * Register a template engine with extension
-   */
-  engine(ext: string, fn: TemplateFunc<RenderOptions>): this {
-    this.engines[ext] = fn
-
-    return this
-  }
 
   route(path: string): App {
-    const app = new App()
+    const app = new App({ settings: this.settings })
 
     this.use(path, app)
 
@@ -288,7 +299,11 @@ export class App<
    * @param req Req object
    * @param res Res object
    */
-  handler(req: Req, res: Res, next?: NextFunction): void {
+  handler<RenderOptions extends TemplateEngineOptions = TemplateEngineOptions>(
+    req: Req,
+    res: Res,
+    next?: NextFunction
+  ): void {
     /* Set X-Powered-By header */
     const { xPoweredBy } = this.settings
     if (xPoweredBy) res.setHeader('X-Powered-By', typeof xPoweredBy === 'string' ? xPoweredBy : 'tinyhttp')
