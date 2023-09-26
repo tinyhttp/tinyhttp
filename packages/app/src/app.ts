@@ -1,5 +1,5 @@
 import { createServer, Server } from 'node:http'
-import { getRouteFromApp, getURLParams } from './request.js'
+import { getURLParams } from './request.js'
 import type { Request, URLParams } from './request.js'
 import type { Response } from './response.js'
 import type { ErrorHandler } from './onError.js'
@@ -370,7 +370,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
       if (!req.path) req.path = getPathname(req.url)
 
-      if (this.settings?.enableReqRoute) req.route = getRouteFromApp(this, handler)
+      if (this.settings?.enableReqRoute) req.route = mw
 
       await applyHandler<Req, Res>(handler as unknown as Handler<Req, Res>)(req, res, next)
     }
