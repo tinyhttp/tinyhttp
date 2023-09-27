@@ -53,7 +53,7 @@ export const getFreshOrStale = (
 }
 
 export const checkIfXMLHttpRequest = (req: Pick<Request, 'headers'>): boolean =>
-  req.headers['X-Requested-With'] === 'XMLHttpRequest'
+  req.headers['x-requested-with'] === 'XMLHttpRequest'
 
 export const reqIs =
   (req: Pick<Request, 'headers'>) =>

@@ -13,6 +13,7 @@ import {
 } from '../../packages/req/src'
 import { Ranges } from 'header-range-parser'
 import { runServer } from '../../test_helpers/runServer'
+import { App } from '../../packages/app/src'
 
 describe('Request extensions', () => {
   describe('req.get(header)', () => {
@@ -55,6 +56,22 @@ describe('Request extensions', () => {
       })
 
       await makeFetch(app)('/').expect('Browser request: no')
+    })
+    it('should match for any case', async () => {
+      const app = new App()
+      app.get('/xhr', (req, res) => {
+        return res.json({
+          xhrHeader: req.headers['x-requested-with'],
+          xhr: req.xhr
+        })
+      })
+
+      await makeFetch(app.listen())('/xhr', { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        .expectStatus(200)
+        .expectBody({
+          xhrHeader: 'XMLHttpRequest',
+          xhr: true
+        })
     })
   })
   describe('req.accepts()', () => {
