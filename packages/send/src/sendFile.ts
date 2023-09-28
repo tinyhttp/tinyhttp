@@ -1,9 +1,9 @@
 import type { IncomingMessage as I, ServerResponse as S } from 'node:http'
 import { createReadStream, statSync } from 'node:fs'
 import { isAbsolute, extname } from 'node:path'
-import { contentType } from 'es-mime-types'
 import { createETag } from './utils.js'
 import { join } from 'node:path'
+import mime from 'mime'
 
 export type ReadStreamOptions = Partial<{
   flags: string
@@ -72,7 +72,7 @@ export const sendFile =
 
     headers['ETag'] = createETag(stats, encoding)
 
-    if (!res.getHeader('Content-Type')) headers['Content-Type'] = contentType(extname(path))
+    if (!res.getHeader('Content-Type')) headers['Content-Type'] = mime.getType(extname(path)) + '; charset=utf-8'
 
     let status = res.statusCode || 200
 

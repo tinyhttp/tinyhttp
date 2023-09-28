@@ -1,5 +1,5 @@
 import { IncomingMessage as Req, ServerResponse as Res } from 'node:http'
-import * as mime from 'es-mime-types'
+import mime from 'mime'
 import { getRequestHeader } from '@tinyhttp/req'
 import { vary } from '@tinyhttp/vary'
 import { encodeUrl } from '@tinyhttp/encode-url'
@@ -19,7 +19,7 @@ export const setHeader =
         }
 
         if (!charsetRegExp.test(value)) {
-          const charset = mime.charset(value.split(';')[0])
+          const charset = 'UTF-8' // UTF-8 is the default charset for all types
 
           if (typeof charset === 'string') value += '; charset=' + charset.toLowerCase()
         }
@@ -80,7 +80,7 @@ export const setVaryHeader =
 export const setContentType =
   <Response extends Res = Res>(res: Response) =>
   (type: string): Response => {
-    const ct = type.indexOf('/') === -1 ? mime.lookup(type) : type
+    const ct = type.indexOf('/') === -1 ? mime.getType(type) : type
 
     setHeader(res)('Content-Type', ct)
 

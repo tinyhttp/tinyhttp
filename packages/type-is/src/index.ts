@@ -1,5 +1,5 @@
-import { lookup } from 'es-mime-types'
 import * as typer from '@tinyhttp/content-type'
+import mime from 'mime'
 
 function normalizeType(value: string) {
   // parse the type
@@ -34,10 +34,10 @@ function mimeMatch(expected: string | boolean, actual: string | boolean): boolea
   if (expectedParts[0] !== '*' && expectedParts[0] !== actualParts[0]) return false
 
   // validate suffix wildcard
-  if (expectedParts[1].substr(0, 2) === '*+')
+  if (expectedParts[1].slice(0, 2) === '*+')
     return (
       expectedParts[1].length <= actualParts[1].length + 1 &&
-      expectedParts[1].substr(1) === actualParts[1].substr(1 - expectedParts[1].length)
+      expectedParts[1].slice(1) === actualParts[1].slice(1 - expectedParts[1].length)
     )
 
   // validate subtype
@@ -59,7 +59,7 @@ function normalize(type: string | unknown) {
   // "+json" -> "*/*+json" expando
   if (type[0] === '+') return '*/*' + type
 
-  return type.indexOf('/') === -1 ? lookup(type) : type
+  return type.indexOf('/') === -1 ? mime.getType(type) : type
 }
 
 /**

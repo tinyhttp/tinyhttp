@@ -1,8 +1,8 @@
 import Negotiator from 'negotiator'
 import { IncomingMessage as I, IncomingHttpHeaders } from 'node:http'
-import { lookup } from 'es-mime-types'
+import mime from 'mime'
 
-const extToMime = (type: string) => (type.indexOf('/') == -1 ? lookup(type) : type)
+const extToMime = (type: string) => (type.indexOf('/') == -1 ? mime.getType(type) : type)
 
 const validMime = (type: unknown): boolean => typeof type == 'string'
 

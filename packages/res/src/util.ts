@@ -1,4 +1,4 @@
-import * as mime from 'es-mime-types'
+import mime from 'mime'
 
 export type NormalizedType = {
   value: string
@@ -8,7 +8,7 @@ export type NormalizedType = {
 }
 
 export const normalizeType = (type: string): NormalizedType =>
-  ~type.indexOf('/') ? acceptParams(type) : { value: mime.lookup(type), params: {} }
+  ~type.indexOf('/') ? acceptParams(type) : { value: mime.getType(type), params: {} }
 
 export function acceptParams(str: string, index?: number): NormalizedType {
   const parts = str.split(/ *; */)
