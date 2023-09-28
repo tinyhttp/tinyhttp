@@ -1,7 +1,8 @@
 import { IncomingMessage as Request, ServerResponse as Response } from 'node:http'
 import { Options, Ranges, Result, parseRange } from 'header-range-parser'
-import { fresh } from 'es-fresh'
+
 import { typeIs } from '@tinyhttp/type-is'
+import { fresh } from './fresh.js'
 
 export * from './accepts.js'
 
@@ -57,5 +58,5 @@ export const checkIfXMLHttpRequest = (req: Pick<Request, 'headers'>): boolean =>
 
 export const reqIs =
   (req: Pick<Request, 'headers'>) =>
-  (...types: string[]): boolean =>
+  (...types: string[]) =>
     typeIs(req.headers['content-type'], ...types)

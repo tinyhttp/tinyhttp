@@ -1,7 +1,7 @@
 import { contentDisposition } from '@tinyhttp/content-disposition'
 import { sendFile } from '@tinyhttp/send'
-import { extname, resolve, basename } from 'path'
-import { IncomingMessage as Req, ServerResponse as Res } from 'http'
+import { extname, resolve, basename } from 'node:path'
+import { IncomingMessage as Req, ServerResponse as Res } from 'node:http'
 import { setContentType, setHeader } from './headers.js'
 import type { SendFileOptions } from '@tinyhttp/send'
 
