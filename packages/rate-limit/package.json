@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/rate-limit",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "type": "module",
   "description": "Basic IP rate-limiting middleware for tinyhttp. Use to limit repeated requests to public APIs and/or endpoints such as password reset.",
   "homepage": "https://tinyhttp.v1rtl.site",

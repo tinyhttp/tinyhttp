@@ -1,7 +1,7 @@
 {
   "name": "@tinyhttp/content-disposition",
   "description": "content-disposition rewrite in TypeScript",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "license": "MIT",
   "homepage": "https://tinyhttp.v1rtl.site",
   "funding": {
