@@ -16,6 +16,40 @@ describe('contentDisposition(filename)', () => {
     expect(contentDisposition('/path/to/plans.pdf')).toBe('attachment; filename="plans.pdf"')
   })
 
+  it('should throw an error when non latin fallback is used', function () {
+    expect.assertions(1)
+    try {
+      contentDisposition('index.ht', { type: 'html', fallback: 'ÇŞ' })
+    } catch (e) {
+      expect((e as Error).message).toBe('fallback must be ISO-8859-1 string')
+    }
+  })
+  it('should use hasfallback', function () {
+    expect(contentDisposition('index.ht', { type: 'html', fallback: 'html' })).toEqual(
+      `html; filename="html"; filename*=UTF-8''index.ht`
+    )
+  })
+  it('should use pencode fn', function () {
+    expect(contentDisposition('inde(x.ht', { type: 'html', fallback: 'html' })).toEqual(
+      // eslint-disable-next-line no-useless-escape
+      `html; filename="html"; filename*=UTF-8\'\'inde%28x.ht`
+    )
+  })
+  it('should use fallback when file ext is non ascii', function () {
+    expect(contentDisposition('index.ĄÇḐȨĢ', { type: 'html', fallback: 'html' })).toEqual(
+      // eslint-disable-next-line no-useless-escape
+      `html; filename="html"; filename*=UTF-8\'\'index.%C4%84%C3%87%E1%B8%90%C8%A8%C4%A2`
+    )
+  })
+  it('should throw an error when non string options.type is used', function () {
+    expect.assertions(1)
+    try {
+      contentDisposition('index.ht', { type: { test: 'test' } as unknown as string })
+    } catch (e) {
+      expect((e as Error).message).toBe('invalid type')
+    }
+  })
+
   describe('when "filename" is US-ASCII', () => {
     it('should only include filename parameter', () => {
       expect(contentDisposition('plans.pdf')).toBe('attachment; filename="plans.pdf"')

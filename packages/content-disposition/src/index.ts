@@ -70,7 +70,7 @@ function format({
     const params = Object.keys(parameters).sort()
 
     for (const param of params) {
-      const val = param.substr(-1) === '*' ? ustring(parameters[param]) : qstring(parameters[param])
+      const val = param.slice(-1) === '*' ? ustring(parameters[param]) : qstring(parameters[param])
 
       string += '; ' + param + '=' + val
     }
@@ -167,10 +167,10 @@ function decodefield(str: string) {
 
 /**
  * Parse Content-Disposition header string.
- * @param string string
+ * @param header string
  */
-export function parse(string: string): ContentDisposition {
-  let match = DISPOSITION_TYPE_REGEXP.exec(string)
+export function parse(header: string): ContentDisposition {
+  let match = DISPOSITION_TYPE_REGEXP.exec(header)
 
   if (!match) throw new TypeError('invalid type format')
 
@@ -181,13 +181,13 @@ export function parse(string: string): ContentDisposition {
   let key: string
   const names = []
   const params = {}
-  let value
+  let value: string | string[]
 
   // calculate index to start at
-  index = PARAM_REGEXP.lastIndex = match[0].substr(-1) === ';' ? index - 1 : index
+  index = PARAM_REGEXP.lastIndex = match[0].slice(-1) === ';' ? index - 1 : index
 
   // match parameters
-  while ((match = PARAM_REGEXP.exec(string))) {
+  while ((match = PARAM_REGEXP.exec(header))) {
     if (match.index !== index) throw new TypeError('invalid parameter format')
 
     index += match[0].length
@@ -213,13 +213,13 @@ export function parse(string: string): ContentDisposition {
     if (typeof params[key] === 'string') continue
 
     if (value[0] === '"') {
-      value = value.substr(1, value.length - 2).replace(QESC_REGEXP, '$1')
+      value = value.slice(1, value.length - 1).replace(QESC_REGEXP, '$1')
     }
 
     params[key] = value
   }
 
-  if (index !== -1 && index !== string.length) {
+  if (index !== -1 && index !== header.length) {
     throw new TypeError('invalid parameter format')
   }
 
