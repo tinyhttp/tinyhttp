@@ -35,8 +35,8 @@
     "@tinyhttp/encode-url": "workspace:*",
     "@tinyhttp/req": "workspace:*",
     "@tinyhttp/send": "workspace:*",
+    "@tinyhttp/vary": "^0.1.3",
     "es-escape-html": "^0.1.1",
-    "es-mime-types": "^0.1.4",
-    "es-vary": "^0.1.2"
+    "es-mime-types": "^0.1.4"
   }
 }
