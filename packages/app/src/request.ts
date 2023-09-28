@@ -5,8 +5,7 @@ import { Options, Ranges } from 'header-range-parser'
 import { proxyaddr as proxyAddr, all, compile } from '@tinyhttp/proxy-addr'
 
 import { App } from './app.js'
-import type { Middleware, Handler } from '@tinyhttp/router'
-import type { Response } from './response.js'
+import type { Middleware } from '@tinyhttp/router'
 
 import type { URLParams } from '@tinyhttp/req'
 import { isIP } from 'node:net'
@@ -17,14 +16,9 @@ export { getURLParams } from '@tinyhttp/req'
 
 const trustRemoteAddress = ({ socket }: Pick<Request, 'headers' | 'socket'>) => {
   const val = socket.remoteAddress
-
   if (typeof val === 'string') return compile(val.split(',').map((x) => x.trim()))
-
   return compile(val || [])
 }
-
-export const getRouteFromApp = ({ middleware }: App, h: Handler<Request, Response>): Middleware<Request, Response> =>
-  middleware.find(({ handler }) => typeof handler === 'function' && handler.name === h.name)
 
 export const getProtocol = (req: Request): Protocol => {
   const proto = `http${req.secure ? 's' : ''}`

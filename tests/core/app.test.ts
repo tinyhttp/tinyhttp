@@ -1241,4 +1241,24 @@ describe('App settings', () => {
       await fetch('/').expect(200)
     })
   })
+  it('returns the correct middleware if there are more than one', async () => {
+    const app = new App({ settings: { enableReqRoute: true } })
+
+    app.use('/home', (req, res) => {
+      expect(req.route).toEqual(app.middleware[0])
+      res.end()
+    })
+
+    app.use('/main', (req, res) => {
+      expect(req.route).toEqual(app.middleware[1])
+      res.end()
+    })
+
+    const server = app.listen()
+
+    const fetch = makeFetch(server)
+
+    await fetch('/home').expect(200)
+    await fetch('/main').expect(200)
+  })
 })
