@@ -49,4 +49,11 @@ describe('typeIs', () => {
   it('should return false if expected type has wrong format', () => {
     expect(typeIs('multipart/form-data', 'application/javascript/wrong')).toBe(false)
   })
+  it('should return false if the input is not a string', () => {
+    const value: Record<number, string> = { 1: 'test' }
+    expect(typeIs(value as unknown as string)).toBe(false)
+  })
+  it('should return the same type as input if the type is not normalized', () => {
+    expect(typeIs('text/html', 'file.html')).toBe('file.html')
+  })
 })

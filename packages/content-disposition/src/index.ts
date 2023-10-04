@@ -64,7 +64,6 @@ function format({
 
   // start with normalized type
   let string = String(type).toLowerCase()
-
   // append parameters
   if (parameters && typeof parameters === 'object') {
     const params = Object.keys(parameters).sort()
@@ -89,8 +88,7 @@ function createParams(filename?: string, fallback?: string | boolean) {
   > = {}
 
   // fallback defaults to true
-  if (fallback === undefined) fallback = true
-
+  if (!fallback) fallback = true
   if (typeof fallback === 'string' && NON_LATIN1_REGEXP.test(fallback)) {
     throw new TypeError('fallback must be ISO-8859-1 string')
   }
@@ -140,13 +138,11 @@ export function contentDisposition(
 
 function decodefield(str: string) {
   const match = EXT_VALUE_REGEXP.exec(str)
-
   if (!match) throw new TypeError('invalid extended field value')
 
   const charset = match[1].toLowerCase()
   const encoded = match[2]
   let value: string
-
   switch (charset) {
     case 'iso-8859-1':
       value = getlatin1(encoded.replace(HEX_ESCAPE_REPLACE_REGEXP, pdecode))

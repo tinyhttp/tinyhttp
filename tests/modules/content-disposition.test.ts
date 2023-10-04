@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { contentDisposition, parse, ContentDisposition } from '../../packages/content-disposition/src'
 
 describe('contentDisposition()', () => {
@@ -15,7 +15,6 @@ describe('contentDisposition(filename)', () => {
   it('should use the basename of the string', () => {
     expect(contentDisposition('/path/to/plans.pdf')).toBe('attachment; filename="plans.pdf"')
   })
-
   it('should throw an error when non latin fallback is used', function () {
     expect.assertions(1)
     try {
@@ -49,7 +48,6 @@ describe('contentDisposition(filename)', () => {
       expect((e as Error).message).toBe('invalid type')
     }
   })
-
   describe('when "filename" is US-ASCII', () => {
     it('should only include filename parameter', () => {
       expect(contentDisposition('plans.pdf')).toBe('attachment; filename="plans.pdf"')
@@ -200,6 +198,19 @@ describe('parse(string)', () => {
         type: 'attachment',
         parameters: { filename: '£ rates.pdf' }
       })
+    })
+    it('should throw error if decodedURI throws an error', () => {
+      const cutomdecodeURIComponent = (encodedURIComponent: string) => {
+        throw encodedURIComponent
+      }
+      vi.stubGlobal('decodeURIComponent', cutomdecodeURIComponent)
+      expect.assertions(1)
+      try {
+        parse("attachment; filename*=UTF-8'en'%E2%82%AC%20rates.pdf")
+      } catch (error) {
+        expect(error).toBeDefined()
+      }
+      vi.unstubAllGlobals()
     })
   })
   describe('with extended parameters', function () {
