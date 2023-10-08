@@ -310,9 +310,9 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     const exts = this.applyExtensions || extendMiddleware<RenderOptions>(this)
 
-    req.originalUrl = req.url || req.originalUrl
+    req.originalUrl = req.originalUrl || req.url
 
-    const pathname = getPathname(req.originalUrl)
+    const pathname = getPathname(req.url)
 
     const matched = this.#find(pathname)
 
@@ -338,13 +338,11 @@ export class App<Req extends Request = Request, Res extends Response = Response>
         path: '/'
       })
     }
-
     mw.push({
       handler: this.noMatchHandler,
       type: 'mw',
       path: '/'
     })
-
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
       const { path, handler, regex } = mw
 
@@ -353,9 +351,8 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       try {
         params = regex ? getURLParams(regex, pathname) : {}
       } catch (e) {
-        console.error(e)
         if (e instanceof URIError) return res.sendStatus(400) // Handle malformed URI
-        else throw e
+        return res.sendStatus(500)
       }
 
       req.params = { ...req.params, ...params }

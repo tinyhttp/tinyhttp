@@ -34,7 +34,7 @@ function isStale(etag: string, noneMatch: string) {
 export function fresh(reqHeaders: IncomingHttpHeaders, resHeaders: OutgoingHttpHeaders) {
   const modifiedSince = reqHeaders['if-modified-since']
   const noneMatch = reqHeaders['if-none-match']
-
+  console.log(reqHeaders)
   if (!modifiedSince && !noneMatch) return false
 
   const cacheControl = reqHeaders['cache-control']

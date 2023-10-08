@@ -26,7 +26,7 @@ describe('Request extensions', () => {
     })
     it('should handle "referer"', async () => {
       const app = runServer((req, res) => {
-        res.end(getRequestHeader(req)('referrer'))
+        res.end(getRequestHeader(req)('referer'))
       })
 
       await makeFetch(app)('/', {
@@ -239,6 +239,47 @@ describe('Request extensions', () => {
       })
 
       await makeFetch(app)('/').expect('stale')
+    })
+    it('returns false if headers are not found', async () => {
+      const app = runServer((req, res) => {
+        const fresh = getFreshOrStale(req, res)
+
+        res.end(fresh ? 'fresh' : 'stale')
+      })
+
+      await makeFetch(app)('/', {
+        method: 'GET'
+      }).expect('stale')
+    })
+    it('returns false if cache control header is set to no-cache', async () => {
+      const app = runServer((req, res) => {
+        const fresh = getFreshOrStale(req, res)
+
+        res.end(fresh ? 'fresh' : 'stale')
+      })
+
+      await makeFetch(app)('/', {
+        method: 'GET',
+        headers: {
+          'cache-control': 'no-cache',
+          'If-None-Match': '12345'
+        }
+      }).expect('stale')
+    })
+    it('returns false if last modified is set', async () => {
+      const app = runServer((req, res) => {
+        const fresh = getFreshOrStale(req, res)
+
+        res.end(fresh ? 'fresh' : 'stale')
+      })
+
+      await makeFetch(app)('/', {
+        method: 'GET',
+        headers: {
+          'If-None-Match': '*',
+          'if-modified-since': new Date().toDateString()
+        }
+      }).expect('stale')
     })
   })
 
