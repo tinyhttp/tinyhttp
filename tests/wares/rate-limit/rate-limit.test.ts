@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { App } from '../../../packages/app/src'
 import { rateLimit } from '../../../packages/rate-limit/src'
 import { makeFetch } from 'supertest-fetch'
+import { Store } from '../../../packages/rate-limit/src/memory-store'
 
 function createAppWith(middleware) {
   const app = new App()
@@ -142,6 +143,39 @@ describe('rate-limit', () => {
       await makeFetch(app)('/').expect(200)
       expect(store.decrement_was_called).toBeTruthy()
     })
+    it('should pass a function to the max option instead of a number', async () => {
+      function maxFunction(req, res): Promise<number> {
+        return new Promise((resolve, reject) => {
+          resolve(5)
+          reject(3)
+        })
+      }
+      const store = new MockStore()
+      const app = createAppWith(
+        rateLimit({
+          max: maxFunction,
+          store: store
+        })
+      )
+
+      await makeFetch(app)('/').expect(200)
+      expect(store.incr_was_called).toBeTruthy()
+    })
+    it('should detect the response close event and call decrementKey()', async () => {
+      const store = new MockStore()
+      const app = new App()
+      app.all('*', rateLimit({ store: store, skipFailedRequests: true }))
+      const server = app.listen()
+
+      app.get('/', (_, res) => {
+        res.write('hello')
+        res.emit('close')
+        res.end()
+      })
+
+      await makeFetch(server)('/').expect(200)
+      expect(store.decrement_was_called).toBeTruthy()
+    })
   })
 
   describe('headers', () => {
@@ -194,7 +228,22 @@ describe('rate-limit', () => {
 
       await makeFetch(app)('/').expect(429).expect('retry-after', windowSeconds.toString())
     })
+    it('catches an error in memory store', async () => {
+      const app = createAppWith(
+        rateLimit({
+          max: 2,
+          store: {
+            incr: (key, cb) => {
+              cb('error', null, null)
+            },
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            resetKey: () => {}
+          } as any
+        })
+      )
 
+      await makeFetch(app)('/').expect(500)
+    })
     it('catches errors and calls nextFunction', async () => {
       const app = createAppWith(
         rateLimit({
@@ -204,8 +253,12 @@ describe('rate-limit', () => {
               throw Error
             },
             // eslint-disable-next-line @typescript-eslint/no-empty-function
-            resetKey: () => {}
-          } as any
+            resetKey: () => {},
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            decrement: () => {},
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            resetAll: () => {}
+          } as Store
         })
       )
 

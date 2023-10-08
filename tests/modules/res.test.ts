@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { makeFetch } from 'supertest-fetch'
 import path from 'node:path'
-import type { Request, Response } from '../../packages/app/src/index.js'
+import { App, Request, Response } from '../../packages/app/src/index.js'
 import {
   formatResponse,
   getResponseHeader,
@@ -16,9 +16,10 @@ import {
   append,
   setLinksHeader,
   setLocationHeader
-} from '../../packages/res/src/index.js'
+} from '../../packages/res/src/index'
 import { runServer } from '../../test_helpers/runServer'
 import { dirname } from 'dirname-filename-esm'
+import { normalizeType } from '../../packages/res/src/util'
 
 const __dirname = dirname(import.meta)
 
@@ -112,6 +113,21 @@ describe('Response extensions', () => {
         redirect: 'follow'
       }).expect(200, 'Hello World')
     })
+    it('should follow the redirect of HEAD', async () => {
+      const app = runServer((req, res) => {
+        if (req.url === '/abc') {
+          res.writeHead(200).end('Hello World')
+        } else {
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          redirect(req, res, () => {})('/abc').end()
+        }
+      })
+
+      await makeFetch(app)('/', {
+        redirect: 'follow',
+        method: 'HEAD'
+      }).expect(200, undefined)
+    })
     it('should send an HTML link to redirect to', async () => {
       const app = runServer((req, res) => {
         if (req.url === '/abc') {
@@ -141,6 +157,18 @@ describe('Response extensions', () => {
         }
       }).expect(302, '')
     })
+    // it('should set req.originalUrl correctly', async () => {
+    //   const app = new App()
+    //   app.get('/', (req, res) => {
+    //     // eslint-disable-next-line @typescript-eslint/no-empty-function
+    //     //redirect(req, res, next)('/abc').end()
+    //     res.redirect('/abc', 200).end()
+    //   })
+    //   app.get('/abc', (req, res) => res.send(req.originalUrl))
+    //   const server = app.listen()
+
+    //   await makeFetch(server)('/').expect(200, '/')
+    // })
   })
   describe('res.format(obj)', () => {
     it('should send text by default', async () => {
@@ -209,6 +237,13 @@ describe('Response extensions', () => {
 
       await makeFetch(app)('/').expect('Content-Type', 'text/html; charset=utf-8')
     })
+    it('should default to given mime type if valid', async () => {
+      const app = runServer((_, res) => {
+        setContentType(res)('text/html').end()
+      })
+
+      await makeFetch(app)('/').expect('Content-Type', 'text/html; charset=utf-8')
+    })
   })
   describe('res.attachment(filename)', () => {
     it('should set Content-Disposition without a filename specified', async () => {
@@ -259,7 +294,7 @@ describe('Response extensions', () => {
 
       await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename="favicon.ico"')
     })
-    it(`'should pass options to sendFile's ReadStream'`, async () => {
+    it(`should pass options to sendFile's ReadStream`, async () => {
       const app = runServer((req, res) => {
         download(req, res)(path.join(__dirname, '../fixtures', 'favicon.ico'), () => void 0, {
           encoding: 'ascii'
@@ -280,6 +315,15 @@ describe('Response extensions', () => {
       await makeFetch(app)('/')
         .expect('Content-Disposition', 'attachment; filename="favicon.ico"')
         .expect('X-Custom-Header', 'Value')
+    })
+    it('set X-Powered-By header', async () => {
+      const app = new App({
+        settings: { xPoweredBy: 'test' }
+      })
+      app.get('/', (_, res) => res.send('hello!'))
+      const server = app.listen()
+      const fetch = makeFetch(server)
+      await fetch('/').expectHeader('X-Powered-By', 'test').expect(200, 'hello!')
     })
   })
   describe('res.cookie(name, value, options)', () => {
@@ -334,6 +378,19 @@ describe('Response extensions', () => {
       })
 
       await makeFetch(app)('/').expect(200).expectHeader('Set-Cookie', 'hello=world; Path=/, foo=bar; Path=/')
+    })
+    it('should allow object as value and sign it', async () => {
+      const app = runServer((req, res) => {
+        req['secret'] = 'mysecretstring'
+        setCookie(req, res)('foo', { hello: 'world' }, { signed: true }).end()
+      })
+
+      await makeFetch(app)('/')
+        .expect(200)
+        .expectHeader(
+          'Set-Cookie',
+          `foo=s%3Aj%3A%7B%22hello%22%3A%22world%22%7D.0NWH1hQBif%2BZIDCK5YTI5uMUtVv3LJdthtZ0UXmvavw; Path=/`
+        )
     })
   })
   describe('res.clearCookie(name, options)', () => {
@@ -494,5 +551,10 @@ describe('Response extensions', () => {
         await makeFetch(app)('/').expect('Location', '/').expectStatus(200)
       })
     })
+  })
+})
+describe('util tests', () => {
+  it('should normalize a given mime', () => {
+    expect(normalizeType('app/k=8;q=9').value).toEqual('app/k=8')
   })
 })
