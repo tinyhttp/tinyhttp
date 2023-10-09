@@ -42,10 +42,8 @@ export function fresh(reqHeaders: IncomingHttpHeaders, resHeaders: OutgoingHttpH
   // if-none-match
   if (noneMatch !== '*') {
     const etag = resHeaders.etag as string | undefined
-
     if (!etag || isStale(etag, noneMatch)) return false
   }
-
   // if-modified-since
   if (modifiedSince) {
     const lastModified = resHeaders['last-modified'] as string | undefined

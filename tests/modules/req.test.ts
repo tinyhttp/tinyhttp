@@ -269,7 +269,7 @@ describe('Request extensions', () => {
     it('returns false if last modified is set', async () => {
       const app = runServer((req, res) => {
         const fresh = getFreshOrStale(req, res)
-
+        res.setHeader('last-modified', '123')
         res.end(fresh ? 'fresh' : 'stale')
       })
 
@@ -280,6 +280,49 @@ describe('Request extensions', () => {
           'if-modified-since': new Date().toDateString()
         }
       }).expect('stale')
+    })
+    it('returns false if last modified is later than `if-modified-since`', async () => {
+      const app = runServer((req, res) => {
+        res.setHeader('last-modified', new Date(new Date().setMonth(new Date().getMonth() + 5)).toDateString())
+        const fresh = getFreshOrStale(req, res)
+
+        res.end(fresh ? 'fresh' : 'stale')
+      })
+
+      await makeFetch(app)('/', {
+        headers: {
+          'If-None-Match': '*',
+          'if-modified-since': new Date().toDateString()
+        }
+      }).expect('stale')
+    })
+    describe('isStale tests', () => {
+      it('returns false when req is stale, etag is set and if-none-match header is set and does not include the etag', async () => {
+        const app = runServer((req, res) => {
+          res.setHeader('Etag', 'abcd')
+          const fresh = getFreshOrStale(req, res)
+          res.end(fresh ? 'fresh' : 'stale')
+        })
+
+        await makeFetch(app)('/', {
+          headers: {
+            'If-None-Match': 'W/67ab43, 54ed21, 7892dd'
+          }
+        }).expect('stale')
+      })
+      it('returns false when req is stale, etag is set and if-none-match header is set and includes the etag', async () => {
+        const app = runServer((req, res) => {
+          res.setHeader('Etag', '54ed21')
+          const fresh = getFreshOrStale(req, res)
+          res.end(fresh ? 'fresh' : 'stale')
+        })
+
+        await makeFetch(app)('/', {
+          headers: {
+            'If-None-Match': 'W/67ab43, 54ed21, 7892dd'
+          }
+        }).expect('fresh')
+      })
     })
   })
 
