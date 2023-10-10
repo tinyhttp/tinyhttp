@@ -116,7 +116,7 @@ describe('Request properties', () => {
 
       await fetch('/').expect(200, `subdomains: `)
     })
-    describe('custom imports', () => {
+    describe('internal function tests', () => {
       it('should test getSubdomains when host is null', async () => {
         const app = new App()
         app.get('/', (req, res) => {

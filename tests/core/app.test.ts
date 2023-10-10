@@ -6,7 +6,6 @@ import { App } from '../../packages/app/src/index'
 import { renderFile } from 'eta'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import { makeFetch } from 'supertest-fetch'
-import { renderFile as ejsRenderFile } from 'ejs'
 import { View } from '../../packages/app/src/view'
 
 describe('Testing App', () => {
@@ -926,13 +925,15 @@ describe('Subapps', () => {
     const fetch = makeFetch(server)
     await fetch('/%').expect(400, 'Bad Request')
   })
-  it('Should throw an error when url regex throws an error', async () => {
+  it('should return status of 500 if `getURLParams` has an error', async () => {
     global.decodeURIComponent = (...args) => {
       throw new Error('an error was throw here')
     }
-    const app = new App()
+    const app = new App({
+      onError: (err, req, res) => res.status(500).end(err.message)
+    })
     app.get('/:id', (_, res) => res.send('hello'))
-    await makeFetch(app.listen())('/123').expect(500)
+    await makeFetch(app.listen())('/123').expect(500, 'an error was throw here')
   })
   it('handles errors by parent when no onError specified', async () => {
     const app = new App({
@@ -1052,7 +1053,7 @@ describe('Template engines', () => {
           }
         })
 
-        class ErrorTestView {
+        class TestView {
           path = 'something'
           constructor(...args) {}
           render() {
@@ -1060,7 +1061,7 @@ describe('Template engines', () => {
           }
         }
 
-        app.set('view', ErrorTestView as unknown as typeof View)
+        app.set('view', TestView as unknown as typeof View)
 
         app.render('nothing', {}, {}, (err) => {
           expect((err as Error).message, 'err!')
@@ -1218,20 +1219,6 @@ describe('Template engines', () => {
     })
   })
 
-  it('can render without options and throws error if template renderer throws error', async () => {
-    const app = new App()
-    app.engine('ejs', ejsRenderFile)
-
-    const server = app.listen()
-
-    const fetch = makeFetch(server)
-    try {
-      app.get('/', (_, res) => res.render('error.ejs').end())
-      await fetch('/')
-    } catch (err) {
-      expect((err as Error).message).toBe('Could not find matching close tag for "<%=".')
-    }
-  })
   it('uses the default engine to render', () => {
     const app = new App()
     app.set('view engine', '.eta')

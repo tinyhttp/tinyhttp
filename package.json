@@ -21,7 +21,6 @@
     "c8": "^8.0.1",
     "colorette": "2.0.20",
     "dirname-filename-esm": "1.1.1",
-    "ejs": "^3.1.9",
     "eslint": "8.46.0",
     "eslint-config-prettier": "8.10.0",
     "eslint-plugin-prettier": "5.0.0",

@@ -352,7 +352,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
         params = regex ? getURLParams(regex, pathname) : {}
       } catch (e) {
         if (e instanceof URIError) return res.sendStatus(400) // Handle malformed URI
-        return res.sendStatus(500)
+        return this.onError(e, req, res)
       }
 
       req.params = { ...req.params, ...params }
