@@ -16,17 +16,13 @@ export { getURLParams } from '@tinyhttp/req'
 
 const trustRemoteAddress = ({ socket }: Pick<Request, 'headers' | 'socket'>) => {
   const val = socket.remoteAddress
-  if (typeof val === 'string') {
-    return compile(val.split(',').map((x) => x.trim()))
-    /* c8 ignore next */
-  }
-  return compile(val || [])
+  if (typeof val !== 'string') return compile(val || [])
+  return compile(val.split(',').map((x) => x.trim()))
 }
 
 export const getProtocol = (req: Request): Protocol => {
   const proto = `http${req.secure ? 's' : ''}`
 
-  /* c8 ignore next */
   if (!trustRemoteAddress(req)) return proto
 
   const header = (req.get('X-Forwarded-Proto') as string) || proto

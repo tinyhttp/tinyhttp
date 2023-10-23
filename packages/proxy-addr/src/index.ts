@@ -119,7 +119,6 @@ export function parseIPNotation(note: string): [IPv4 | IPv6, string | number] {
   if (typeof range === 'number' && (range <= 0 || range > max)) throw new TypeError('invalid range on address: ' + note)
 
   return [ip, range]
-  /* c8 ignore next */
 }
 /**
  * Parse netmask string into CIDR range.

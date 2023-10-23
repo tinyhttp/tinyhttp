@@ -51,7 +51,7 @@ describe('Testing App', () => {
 
     await fetch('/').expect(500, 'Ouch, you hurt me on / page.')
   })
-  it('Default onError with testing', async () => {
+  it('Defaults to onError when `TESTING` env is enabled', async () => {
     vi.stubEnv('TESTING', '')
     const app = new App()
 

@@ -1,4 +1,4 @@
-import { describe, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import { App } from '../../packages/app/src/app'
 import { makeFetch } from 'supertest-fetch'
@@ -107,7 +107,7 @@ describe('Request properties', () => {
     it('req.subdomains is empty by default', async () => {
       const { fetch } = InitAppAndTest(
         (req, res) => {
-          res.send(`subdomains: ${req.subdomains.join(', ')}`)
+          res.send(`subdomains: ${req.subdomains?.join(', ')}`)
         },
         '/',
         'GET',
@@ -148,6 +148,18 @@ describe('Request properties', () => {
           return res.send(getProtocol(req))
         })
         await makeFetch(app.listen())('/', { headers: { 'X-Forwarded-Proto': 'https, http' } }).expectStatus(200)
+      })
+      it('should use a default value if socket is destroyed', async () => {
+        const app = new App()
+        app.get('/', (req, res) => {
+          req.socket.destroy()
+          return res.send(getProtocol(req))
+        })
+        try {
+          await makeFetch(app.listen())('/')
+        } catch (error) {
+          expect(error).toBeDefined()
+        }
       })
     })
   })
