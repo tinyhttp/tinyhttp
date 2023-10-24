@@ -17,7 +17,7 @@ git clone https://github.com/{your_github_username}/tinyhttp.git
 gh repo clone {your_github_username}/tinyhttp
 ```
 
-- Install Node.js (v16 is recommended because tests use `fs/promises`) and `pnpm`:
+- Install latest Node.js and `pnpm`:
 
 ```sh
 # Install fnm
@@ -28,10 +28,8 @@ fnm install latest
 fnm use latest
 
 # Install pnpm
-curl -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | node
-
-# Or, via npm
-npm i -g pnpm
+corepack enable
+corepack prepare pnpm@latest --activate
 ```
 
 - Install the dependencies at root and in the packages:
