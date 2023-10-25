@@ -230,7 +230,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       })
       fns.unshift(...basePaths)
     }
-    pathArray = pathArray.length ? pathArray : ['/']
+    pathArray = pathArray.length ? pathArray.map((path) => lead(path)) : ['/']
 
     const mountpath = pathArray.join(', ')
     let regex: { keys: string[]; pattern: RegExp }

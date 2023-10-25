@@ -943,6 +943,18 @@ describe('Subapps', () => {
 
     await fetch('/subapp/route').expect(500, 'Handling you from child on /subapp/route page.')
   })
+  it('subapps mount on path regardless if path has leading slash', async () => {
+    const app = new App()
+    const subApp = new App()
+    subApp.get('/foo', (req, res) => {
+      res.send('foo')
+    })
+    app.use('/bar1', subApp)
+    app.use('bar2', subApp)
+    const fetch = makeFetch(app.listen())
+    await fetch('/bar1/foo').expect(200, 'foo')
+    await fetch('/bar2/foo').expect(200, 'foo')
+  })
 })
 
 describe('Template engines', () => {
@@ -1243,7 +1255,7 @@ describe('App settings', () => {
   })
   it('returns the correct middleware if there are more than one', async () => {
     const app = new App({ settings: { enableReqRoute: true } })
-
+    expect.assertions(2)
     app.use('/home', (req, res) => {
       expect(req.route).toEqual(app.middleware[0])
       res.end()
