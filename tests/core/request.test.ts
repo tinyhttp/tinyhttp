@@ -45,18 +45,35 @@ describe('Request properties', () => {
       await fetch('/abc/def').expect(200, '/def')
     })
     it('should set the correct req.url on routes even in a subapp', async () => {
-      const makeApp = () =>
-        new App().get('/a1/b/*', (req, res) => res.send(req.url)).get('/a2/b/:pat', (req, res) => res.send(req.url))
+      const echo = (req, res) => res.send({ url: req.url, params: req.params })
+      const makeApp = () => new App().get('/a1/b/*', echo).get('/a2/b/:pat', echo)
 
       const app = makeApp()
       app.use('/s/:pat1/:pat2', makeApp())
       const fetch = makeFetch(app.listen())
-      await fetch('/a1/b/c').expect(200, '/a1/b/c')
-      await fetch('/a2/b/c').expect(200, '/a2/b/c')
-      await fetch('/s/t/u/a1/b/c').expect(200, '/a1/b/c')
-      await fetch('/s/t/u/a2/b/c').expect(200, '/a2/b/c')
+
+      await fetch('/a1/b/c').expect(200, {
+        url: '/a1/b/c',
+        params: { wild: 'c' }
+      })
+
+      await fetch('/a2/b/c').expect(200, {
+        url: '/a2/b/c',
+        params: { pat: 'c' }
+      })
+
+      await fetch('/s/t/u/a1/b/c').expect(200, {
+        url: '/a1/b/c',
+        params: { pat1: 't', pat2: 'u', wild: 'c' }
+      })
+
+      await fetch('/s/t/u/a2/b/c').expect(200, {
+        url: '/a2/b/c',
+        params: { pat1: 't', pat2: 'u', pat: 'c' }
+      })
     })
     it('should set the correct req.url on middlewares even in a subapp', async () => {
+      const echo = (req, res) => res.send({ url: req.url, params: req.params })
       const mw = (req, res, next) => {
         req.urls ||= []
         req.urls.push(req.url)
@@ -64,22 +81,71 @@ describe('Request properties', () => {
       }
       const makeApp = () =>
         new App()
-          .use('/a1/b', (req, res) => res.send(req.url))
-          .use('/a2/b', mw, mw, mw, (req, res) => res.send(`${req.urls.join(' ')}`))
-          .use('/a3/:pat1/:pat2', (req, res) => res.send(req.url))
-          .use('/a4/:pat1/*', (req, res) => res.send(req.url))
+          .get('/', echo)
+          .use('/a1/b', echo)
+          .use('/a2/b', mw, mw, mw, (req, res) => res.send({ urls: req.urls, params: req.params }))
+          .use('/a3/:pat1/:pat2', echo)
+          .use('/a4/:pat1/*', echo)
 
       const app = makeApp()
-      app.use('/s', makeApp())
+      app.use('/s/:pat', makeApp())
       const fetch = makeFetch(app.listen())
-      await fetch('/a1/b/c').expect(200, '/c')
-      await fetch('/a2/b/c').expect(200, '/c /c /c')
-      await fetch('/a3/b/c/d').expect(200, '/d')
-      await fetch('/a4/b/c/d').expect(200, '/')
-      await fetch('/s/a1/b/c').expect(200, '/c')
-      await fetch('/s/a2/b/c').expect(200, '/c /c /c')
-      await fetch('/s/a3/b/c/d').expect(200, '/d')
-      await fetch('/s/a4/b/c/d').expect(200, '/')
+
+      await fetch('/a1/b/c').expect(200, {
+        url: '/c',
+        params: {}
+      })
+
+      await fetch('/a2/b/c').expect(200, {
+        urls: ['/c', '/c', '/c'],
+        params: {}
+      })
+
+      await fetch('/a3/b/c/d').expect(200, {
+        url: '/d',
+        params: { pat1: 'b', pat2: 'c' }
+      })
+
+      await fetch('/a4/b/c/d').expect(200, {
+        url: '/',
+        params: { pat1: 'b', wild: 'c/d' }
+      })
+
+      await fetch('/s/t/a1/b/c').expect(200, {
+        url: '/c',
+        params: { pat: 't' }
+      })
+
+      await fetch('/s/t/a2/b/c').expect(200, {
+        urls: ['/c', '/c', '/c'],
+        params: { pat: 't' }
+      })
+
+      await fetch('/s/t/a3/b/c/d').expect(200, {
+        url: '/d',
+        params: { pat: 't', pat1: 'b', pat2: 'c' }
+      })
+
+      await fetch('/s/t/a4/b/c/d').expect(200, {
+        url: '/',
+        params: { pat: 't', pat1: 'b', wild: 'c/d' }
+      })
+    })
+    it('should set the correct req.url on a subapp mounted on a wildcard route, for both route and mw', async () => {
+      const echo = (req, res) => res.send({ url: req.url, params: req.params })
+      // Only possible route on subapps below * is / since * is greedy
+      const subAppRoute = new App().get('/', echo)
+      const subAppMw = new App().use('/', echo)
+      const app = new App().use('/s1/*', subAppRoute).use('/s2/*', subAppMw)
+      const fetch = makeFetch(app.listen())
+      await fetch('/s1/a/b/c/d').expect(200, {
+        url: '/',
+        params: { wild: 'a/b/c/d' }
+      })
+      await fetch('/s2/a/b/c/d').expect(200, {
+        url: '/',
+        params: { wild: 'a/b/c/d' }
+      })
     })
   })
 
