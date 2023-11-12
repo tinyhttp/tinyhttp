@@ -117,7 +117,7 @@ describe('Request properties', () => {
       await fetch('/').expect(200, `subdomains: `)
     })
     describe('internal function tests', () => {
-      it('should test getSubdomains when host is null', async () => {
+      it('should test `getSubdomains` function when host is null', async () => {
         const app = new App()
         app.get('/', (req, res) => {
           req.headers.host = undefined
@@ -125,7 +125,7 @@ describe('Request properties', () => {
         })
         await makeFetch(app.listen())('/').expectStatus(200)
       })
-      it('should test getSubdomains when host is an IP', async () => {
+      it('should test `getSubdomains` function when host is an IP', async () => {
         const app = new App()
         app.get('/', (req, res) => {
           req.headers.host = '127.0.0.1'
@@ -133,7 +133,7 @@ describe('Request properties', () => {
         })
         await makeFetch(app.listen())('/').expectStatus(200)
       })
-      it('should test getSubdomains when host is an array', async () => {
+      it('should test `getSubdomains` function when host is an array', async () => {
         const app = new App()
         app.get('/', (req, res) => {
           req.headers.host = '[127.0.0.1]'
@@ -141,7 +141,7 @@ describe('Request properties', () => {
         })
         await makeFetch(app.listen())('/').expectStatus(200)
       })
-      it('should test getProtocol', async () => {
+      it('should test `getProtocol` function', async () => {
         const app = new App()
         app.get('/', (req, res) => {
           req.secure = true
@@ -149,7 +149,7 @@ describe('Request properties', () => {
         })
         await makeFetch(app.listen())('/', { headers: { 'X-Forwarded-Proto': 'https, http' } }).expectStatus(200)
       })
-      it('should use a default value if socket is destroyed', async () => {
+      it('should test `getProtocol` function by using a default value if socket is destroyed', async () => {
         const app = new App()
         app.get('/', (req, res) => {
           req.socket.destroy()
