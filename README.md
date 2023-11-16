@@ -1,7 +1,7 @@
 <br /><br /><br />
 
 <div align="center">
-<img width="500px" src="https://tinyhttp.v1rtl.site/images/logo.svg" alt="tinyhttp" />
+<img width="500px" src="https://tinyhttp.v1rtl.site/logo.svg" alt="tinyhttp" />
 <p><sub>⚡ Tiny web framework as a replacement of Express</sub></p><br />
 
 [![][site-badge]][site-url] [![npm][npm-img]][npm-url]
@@ -19,7 +19,7 @@ amount of dependencies trying to avoid legacy hell.
 ## Features
 
 - ⚡
-  [69% faster](https://web-frameworks-benchmark.netlify.app/result?f=tinyhttp,express)
+  [66% faster](https://web-frameworks-benchmark.netlify.app/result?f=tinyhttp,express)
   than Express
 - ⚙ Express middleware compat
 - ↪ Async middleware support

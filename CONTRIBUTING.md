@@ -6,18 +6,13 @@ Contributions are always welcome, here's an instruction of how to contribute.
 
 ### Install
 
-- Fork the repo first
-- Next, clone the repo:
+- Fork and then clone the repo
 
 ```sh
-# git
-git clone https://github.com/{your_github_username}/tinyhttp.git
-
-# (or) gh
-gh repo clone {your_github_username}/tinyhttp
+gh repo fork tinyhttp/tinyhttp --clone
 ```
 
-- Install Node.js (v16 is recommended because tests use `fs/promises`) and `pnpm`:
+- Install latest Node.js and `pnpm`:
 
 ```sh
 # Install fnm
@@ -28,10 +23,8 @@ fnm install latest
 fnm use latest
 
 # Install pnpm
-curl -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | node
-
-# Or, via npm
-npm i -g pnpm
+corepack enable
+corepack prepare pnpm@latest --activate
 ```
 
 - Install the dependencies at root and in the packages:
@@ -50,7 +43,7 @@ pnpm build
 
 If you use VS Code, please install Prettier and ESLint plugins for proper linting and code formatting.
 
-If you use a text editor that doesn't have Prettier integration, you can run `pnpx prettier --write \"./**/*.{ts,js,mjs,cjs}\"`
+If you use a text editor that doesn't have Prettier integration, you can run `pnpm format`
 
 ## Submitting PRs
 
@@ -92,7 +85,7 @@ Here's a small list of requirements for your PR:
 ```
 
 - create `index.js` file
-- create some cool example
+- create some cool example, the simpler the better
 - create `README.md` with example title and setup instructions (copy from any near folder and replace needed fields)
 - Pull request!
 

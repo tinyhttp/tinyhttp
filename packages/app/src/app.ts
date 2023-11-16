@@ -230,7 +230,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       })
       fns.unshift(...basePaths)
     }
-    pathArray = pathArray.length ? pathArray : ['/']
+    pathArray = pathArray.length ? pathArray.map((path) => lead(path)) : ['/']
 
     const mountpath = pathArray.join(', ')
     let regex: { keys: string[]; pattern: RegExp }
@@ -355,14 +355,22 @@ export class App<Req extends Request = Request, Res extends Response = Response>
         return this.onError(e, req, res)
       }
 
+      // Warning: users should not use :wild as a pattern
+      let prefix = path
+      if (regex) {
+        for (const key of regex.keys) {
+          if (key === 'wild') {
+            prefix = prefix.replace('*', params.wild)
+          } else {
+            prefix = prefix.replace(`:${key}`, params[key])
+          }
+        }
+      }
+
       req.params = { ...req.params, ...params }
 
-      if (path.includes(':')) {
-        const first = Object.values(params)[0]
-        const url = req.url.slice(req.url.indexOf(first) + first?.length)
-        req.url = lead(url)
-      } else {
-        req.url = lead(req.url.substring(path.length))
+      if (mw.type === 'mw') {
+        req.url = lead(req.originalUrl.substring(prefix.length))
       }
 
       if (!req.path) req.path = getPathname(req.url)
