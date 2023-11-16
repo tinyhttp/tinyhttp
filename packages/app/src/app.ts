@@ -358,7 +358,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       // Warning: users should not use :wild as a pattern
       let prefix = path
       if (regex) {
-        for (const key of regex.keys) {
+        for (const key of regex.keys as string[]) {
           if (key === 'wild') {
             prefix = prefix.replace('*', params.wild)
           } else {

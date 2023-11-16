@@ -64,12 +64,12 @@ describe('Request properties', () => {
       })
 
       await fetch('/s/t/u/a1/b/c').expect(200, {
-        url: '/a1/b/c',
+        url: '/s/t/u/a1/b/c',
         params: { pat1: 't', pat2: 'u', wild: 'c' }
       })
 
       await fetch('/s/t/u/a2/b/c').expect(200, {
-        url: '/a2/b/c',
+        url: '/s/t/u/a2/b/c',
         params: { pat1: 't', pat2: 'u', pat: 'c' }
       })
     })
@@ -84,7 +84,7 @@ describe('Request properties', () => {
         new App()
           .get('/', echo)
           .use('/a1/b', echo)
-          .use('/a2/b', mw, mw, mw, (req, res) => res.send({ urls: req.urls, params: req.params }))
+          .use('/a2/b', mw, mw, mw, (req, res) => res.send({ urls: req['urls'], params: req.params }))
           .use('/a3/:pat1/:pat2', echo)
           .use('/a4/:pat1/*', echo)
 
@@ -113,22 +113,22 @@ describe('Request properties', () => {
       })
 
       await fetch('/s/t/a1/b/c').expect(200, {
-        url: '/c',
+        url: '/a1/b/c',
         params: { pat: 't' }
       })
 
       await fetch('/s/t/a2/b/c').expect(200, {
-        urls: ['/c', '/c', '/c'],
+        urls: ['/a2/b/c', '/a2/b/c', '/a2/b/c'],
         params: { pat: 't' }
       })
 
       await fetch('/s/t/a3/b/c/d').expect(200, {
-        url: '/d',
+        url: '/b/c/d',
         params: { pat: 't', pat1: 'b', pat2: 'c' }
       })
 
       await fetch('/s/t/a4/b/c/d').expect(200, {
-        url: '/',
+        url: '/c/d',
         params: { pat: 't', pat1: 'b', wild: 'c/d' }
       })
     })
@@ -140,11 +140,11 @@ describe('Request properties', () => {
       const app = new App().use('/s1/*', subAppRoute).use('/s2/*', subAppMw)
       const fetch = makeFetch(app.listen())
       await fetch('/s1/a/b/c/d').expect(200, {
-        url: '/',
+        url: '/s1/a/b/c/d',
         params: { wild: 'a/b/c/d' }
       })
       await fetch('/s2/a/b/c/d').expect(200, {
-        url: '/',
+        url: '/s2/a/b/c/d',
         params: { wild: 'a/b/c/d' }
       })
     })
