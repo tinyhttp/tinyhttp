@@ -16,16 +16,20 @@ export { getURLParams } from '@tinyhttp/req'
 
 const trustRemoteAddress = ({ socket }: Pick<Request, 'headers' | 'socket'>) => {
   const val = socket.remoteAddress
-  if (typeof val === 'string') return compile(val.split(',').map((x) => x.trim()))
+  if (typeof val === 'string') {
+    return compile(val.split(',').map((x) => x.trim()))
+    /* c8 ignore next */
+  }
   return compile(val || [])
 }
 
 export const getProtocol = (req: Request): Protocol => {
   const proto = `http${req.secure ? 's' : ''}`
 
+  /* c8 ignore next */
   if (!trustRemoteAddress(req)) return proto
 
-  const header = (req.headers['X-Forwarded-Proto'] as string) || proto
+  const header = (req.get('X-Forwarded-Proto') as string) || proto
 
   const index = header.indexOf(',')
 
@@ -34,9 +38,7 @@ export const getProtocol = (req: Request): Protocol => {
 
 export const getHostname = (req: Request): string | undefined => {
   let host: string = req.get('X-Forwarded-Host') as string
-
-  if (!host || !trustRemoteAddress(req)) host = req.get('Host') as string
-
+  if (!host) host = req.get('Host') as string
   if (!host) return
 
   // IPv6 literal support

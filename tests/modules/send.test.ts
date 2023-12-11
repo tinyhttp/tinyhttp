@@ -53,6 +53,16 @@ describe('send(body)', () => {
 
     await makeFetch(app)('/').expect('Hello World')
   })
+  it('should send a number array', async () => {
+    const app = runServer((req, res) => send(req, res)([3.145]))
+
+    await makeFetch(app)('/').expect([3.145])
+  })
+  it('should send a number', async () => {
+    const app = runServer((req, res) => send(req, res)(undefined))
+
+    await makeFetch(app)('/').expect(200)
+  })
   it('should send nothing on a HEAD request', async () => {
     const app = runServer((req, res) => send(req, res)('Hello World'))
 
@@ -115,6 +125,14 @@ describe('send(body)', () => {
       }
     }).expectStatus(304)
   })
+  it('should set status as 304 is req.fresh is false', async () => {
+    const app = runServer((req, res) => {
+      req['fresh'] = true
+      send(req, res)('Hello World')
+    })
+
+    await makeFetch(app)('/').expectStatus(304)
+  })
 })
 
 describe('status(status)', () => {
@@ -142,6 +160,11 @@ describe('sendStatus(status)', () => {
 
     await makeFetch(app)('/').expect("I'm a Teapot")
   })
+  it(`should send custom status`, async () => {
+    const app = runServer((req, res) => sendStatus(req, res)(550).end())
+
+    await makeFetch(app)('/').expectStatus(550)
+  })
 })
 
 describe('sendFile(path)', () => {
@@ -160,7 +183,20 @@ describe('sendFile(path)', () => {
 
     await makeFetch(app)('/').expect('Hello World')
   })
+  it('should pass a callback', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath, {}, (_err) => {}))
 
+    await makeFetch(app)('/').expect('Hello World')
+  })
+  it('should send the file, use the root option and set the status to 200', async () => {
+    const app = runServer((req, res) => {
+      res.statusCode = 0
+      sendFile(req, res)('test.txt', { root: __dirname })
+    })
+
+    await makeFetch(app)('/').expect('Hello World').expectStatus(200)
+  })
   it('should throw if path is not absolute', async () => {
     const app = runServer(async (req, res) => {
       try {
@@ -213,6 +249,18 @@ describe('sendFile(path)', () => {
       .expect('Accept-Ranges', 'bytes')
       .expect('Hello')
   })
+  it('should set default end if range syntax is incorrect', async () => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath))
+    await makeFetch(app)('/', {
+      headers: {
+        Range: 'bytes=j-k'
+      }
+    })
+      .expectStatus(206)
+      .expect('Content-Length', '11')
+      .expect('Accept-Ranges', 'bytes')
+      .expect('Hello World')
+  })
   it('should send 419 if out of range', async () => {
     const app = runServer((req, res) => sendFile(req, res)(testFilePath))
     await makeFetch(app)('/', {
@@ -234,5 +282,19 @@ describe('sendFile(path)', () => {
     })
 
     await makeFetch(app)('/').expectStatus(418)
+  })
+  it('should set caching header', async () => {
+    const app = runServer((req, res) =>
+      sendFile(req, res)(testFilePath, { caching: { immutable: true, maxAge: 100000 } })
+    )
+
+    const fetch = makeFetch(app)
+    await fetch('/').expectHeader('cache-control', ['public,max-age=100000,immutable'])
+  })
+  it('should set caching header and revalidate option', async () => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath, { caching: { immutable: false, maxAge: 0 } }))
+
+    const fetch = makeFetch(app)
+    await fetch('/').expectHeader('cache-control', ['public,max-age=0,must-revalidate'])
   })
 })

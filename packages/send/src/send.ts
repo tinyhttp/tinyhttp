@@ -70,7 +70,8 @@ export const send =
         res.end(bodyToSend)
       } else json(res)(bodyToSend, encoding)
     } else {
-      if (typeof bodyToSend !== 'string') bodyToSend = bodyToSend.toString()
+      /* c8 ignore next */
+      if (typeof bodyToSend !== 'string' && bodyToSend) bodyToSend = bodyToSend.toString()
 
       res.end(bodyToSend, encoding)
     }

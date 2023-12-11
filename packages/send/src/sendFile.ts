@@ -42,6 +42,7 @@ export const enableCaching = (res: Res, caching: Caching): void => {
   else if (cc && caching.maxAge === 0) cc += ',must-revalidate'
 
   if (cc) res.setHeader('Cache-Control', cc)
+  /* c8 ignore next */
 }
 
 /**

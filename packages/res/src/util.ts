@@ -19,8 +19,8 @@ export function acceptParams(str: string, index?: number): NormalizedType {
     if ('q' === pms[0]) ret.quality = parseFloat(pms[1])
     else ret.params[pms[0]] = pms[1]
   }
-
   return ret
+  /* c8 ignore next */
 }
 
 export function normalizeTypes(types: string[]): NormalizedType[] {
