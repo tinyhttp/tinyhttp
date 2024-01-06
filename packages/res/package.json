@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/res",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "type": "module",
   "description": "response extensions for tinyhttp",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -39,5 +39,7 @@
     "es-escape-html": "^0.1.1",
     "mime": "4.0.1"
   },
-  "files": ["dist"]
+  "files": [
+    "dist"
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/req",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "type": "module",
   "description": "request extensions for tinyhttp",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -35,5 +35,7 @@
     "@tinyhttp/url": "workspace:*",
     "header-range-parser": "^1.1.3"
   },
-  "files": ["dist"]
+  "files": [
+    "dist"
+  ]
 }

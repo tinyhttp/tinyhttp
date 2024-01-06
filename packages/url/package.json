@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/url",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "type": "module",
   "description": "URL extensions for tinyhttp",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -32,5 +32,7 @@
     "dev": "vite",
     "build": "vite build"
   },
-  "files": ["dist"]
+  "files": [
+    "dist"
+  ]
 }
