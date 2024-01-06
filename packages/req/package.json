@@ -34,5 +34,6 @@
     "@tinyhttp/type-is": "workspace:*",
     "@tinyhttp/url": "workspace:*",
     "header-range-parser": "^1.1.3"
-  }
+  },
+  "files": ["dist"]
 }

@@ -1,4 +1,4 @@
 import { build } from '../../config/build'
-import { dependencies } from './package.json'
+import pkgJson from './package.json'
 
-export default build(dependencies)
+export default build(pkgJson['dependencies'])

@@ -31,5 +31,5 @@
     "dev": "vite",
     "build": "vite build"
   },
-  "dependencies": {}
+  "files": ["dist"]
 }

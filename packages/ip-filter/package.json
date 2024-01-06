@@ -35,5 +35,6 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build"
-  }
+  },
+  "files": ["dist"]
 }
