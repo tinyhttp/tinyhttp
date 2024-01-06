@@ -11,8 +11,8 @@ export const append =
       newVal = Array.isArray(prevVal)
         ? prevVal.concat(newVal)
         : Array.isArray(newVal)
-        ? [prevVal].concat(newVal)
-        : [prevVal, newVal]
+          ? [prevVal].concat(newVal)
+          : [prevVal, newVal]
     }
     setHeader(res)(field, newVal)
     return res

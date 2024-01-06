@@ -23,10 +23,10 @@
     "dist"
   ],
   "devDependencies": {
-    "@types/negotiator": "^0.6.1"
+    "@types/negotiator": "^0.6.3"
   },
   "dependencies": {
-    "mime": "4.0.0-beta.1",
+    "mime": "4.0.1",
     "negotiator": "^0.6.3"
   },
   "scripts": {
