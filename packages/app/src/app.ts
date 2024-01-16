@@ -314,6 +314,8 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     const pathname = getPathname(req.url)
 
+    const reqUrlCopy = req.url
+
     const matched = this.#find(pathname)
 
     const mw: Middleware[] = [
@@ -346,6 +348,8 @@ export class App<Req extends Request = Request, Res extends Response = Response>
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
       const { path, handler, regex } = mw
 
+      req.url = reqUrlCopy // reset req.url since it is changed in the handle fn
+
       let params: URLParams
 
       try {
@@ -357,8 +361,8 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
       // Warning: users should not use :wild as a pattern
       let prefix = path
-      if (regex) {
-        for (const key of regex.keys as string[]) {
+      if (regex?.keys) {
+        for (const key of regex.keys) {
           if (key === 'wild') {
             prefix = prefix.replace('*', params.wild)
           } else {
@@ -370,7 +374,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       req.params = { ...req.params, ...params }
 
       if (mw.type === 'mw') {
-        req.url = lead(req.originalUrl.substring(prefix.length))
+        req.url = lead(req.url.substring(prefix.length))
       }
 
       if (!req.path) req.path = getPathname(req.url)

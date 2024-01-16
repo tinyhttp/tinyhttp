@@ -64,18 +64,19 @@ describe('Request properties', () => {
       })
 
       await fetch('/s/t/u/a1/b/c').expect(200, {
-        url: '/s/t/u/a1/b/c',
+        url: '/a1/b/c',
         params: { pat1: 't', pat2: 'u', wild: 'c' }
       })
 
       await fetch('/s/t/u/a2/b/c').expect(200, {
-        url: '/s/t/u/a2/b/c',
+        url: '/a2/b/c',
         params: { pat1: 't', pat2: 'u', pat: 'c' }
       })
     })
     it('should set the correct req.url on middlewares even in a subapp', async () => {
       const echo = (req, res) => res.send({ url: req.url, params: req.params })
       const mw = (req, res, next) => {
+        console.log(req.url, req.originalUrl)
         req.urls ||= []
         req.urls.push(req.url)
         next()
@@ -113,22 +114,22 @@ describe('Request properties', () => {
       })
 
       await fetch('/s/t/a1/b/c').expect(200, {
-        url: '/a1/b/c',
+        url: '/c',
         params: { pat: 't' }
       })
 
       await fetch('/s/t/a2/b/c').expect(200, {
-        urls: ['/a2/b/c', '/a2/b/c', '/a2/b/c'],
+        urls: ['/c', '/c', '/c'],
         params: { pat: 't' }
       })
 
       await fetch('/s/t/a3/b/c/d').expect(200, {
-        url: '/b/c/d',
+        url: '/d',
         params: { pat: 't', pat1: 'b', pat2: 'c' }
       })
 
       await fetch('/s/t/a4/b/c/d').expect(200, {
-        url: '/c/d',
+        url: '/',
         params: { pat: 't', pat1: 'b', wild: 'c/d' }
       })
     })
@@ -140,11 +141,11 @@ describe('Request properties', () => {
       const app = new App().use('/s1/*', subAppRoute).use('/s2/*', subAppMw)
       const fetch = makeFetch(app.listen())
       await fetch('/s1/a/b/c/d').expect(200, {
-        url: '/s1/a/b/c/d',
+        url: '/',
         params: { wild: 'a/b/c/d' }
       })
       await fetch('/s2/a/b/c/d').expect(200, {
-        url: '/s2/a/b/c/d',
+        url: '/',
         params: { wild: 'a/b/c/d' }
       })
     })
