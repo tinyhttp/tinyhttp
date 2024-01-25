@@ -14,11 +14,8 @@ import type { TLSSocket } from 'node:tls'
 
 export { getURLParams } from '@tinyhttp/req'
 
-const trustRemoteAddress = ({ socket }: Pick<Request, 'headers' | 'socket'>) => {
-  const val = socket.remoteAddress
-  if (typeof val !== 'string') return compile(val || [])
-  return compile(val.split(',').map((x) => x.trim()))
-}
+const trustRemoteAddress = ({ socket }: Pick<Request, 'headers' | 'socket'>) =>
+  compile(socket.remoteAddress ? socket.remoteAddress.split(',').map((x) => x.trim()) : [])
 
 export const getProtocol = (req: Request): Protocol => {
   const proto = `http${req.secure ? 's' : ''}`

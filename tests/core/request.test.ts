@@ -220,7 +220,7 @@ describe('Request properties', () => {
 
       await fetch('/').expect(200, `subdomains: `)
     })
-    describe('internal function tests', () => {
+    describe('`getSubdomains` function test', () => {
       it('should test `getSubdomains` function when host is null', async () => {
         const app = new App()
         app.get('/', (req, res) => {
@@ -245,6 +245,8 @@ describe('Request properties', () => {
         })
         await makeFetch(app.listen())('/').expectStatus(200)
       })
+    })
+    describe('`getProtocol` function tests', () => {
       it('should test `getProtocol` function', async () => {
         const app = new App()
         app.get('/', (req, res) => {
