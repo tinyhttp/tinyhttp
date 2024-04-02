@@ -8,14 +8,14 @@ type Res = Pick<S, 'setHeader' | 'end' | 'removeHeader'>
  */
 export const json =
   <Response extends Res = Res>(res: Response) =>
-  (body: any, ...args: any[]): Response => {
+  (body: unknown, cb?: () => void): Response => {
     res.setHeader('Content-Type', 'application/json')
     if (body == null) {
       res.removeHeader('Content-Length')
       res.removeHeader('Transfer-Encoding')
-      res.end(null, ...args)
-    } else if (typeof body === 'string') res.end(body, ...args)
-    else res.end(JSON.stringify(body, null, 2), ...args) 
+      res.end(null, cb)
+    } else if (typeof body === 'string') res.end(body, cb)
+    else res.end(JSON.stringify(body, null, 2), cb)
 
     return res
   }
