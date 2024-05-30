@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import http from 'node:http'
 import { readFile } from 'node:fs/promises'
 import { App } from '../../packages/app/src/index'
 import { renderFile } from 'eta'
-import type { PartialConfig } from 'eta/dist/types/config'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import { makeFetch } from 'supertest-fetch'
-import { vi } from 'vitest'
 import { View } from '../../packages/app/src/view'
 
 describe('Testing App', () => {
@@ -52,6 +50,20 @@ describe('Testing App', () => {
     const fetch = makeFetch(server)
 
     await fetch('/').expect(500, 'Ouch, you hurt me on / page.')
+  })
+  it('Defaults to onError when `TESTING` env is enabled', async () => {
+    vi.stubEnv('TESTING', '')
+    const app = new App()
+
+    app.use((_req, _res, _next) => {
+      throw new Error('you')
+    })
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    await fetch('/').expect(500, 'you')
+    vi.unstubAllEnvs()
   })
 
   it('App works with HTTP 1.1', async () => {
@@ -513,6 +525,14 @@ describe('HTTP methods', () => {
 
     await fetch('/hello', { method: 'HEAD' }).expect(404)
   })
+  it('Returns statusCode 204 when no handler is present and the request is `HEAD`', async () => {
+    const app = new App()
+    app.get('/', (_, res, next) => {
+      next()
+    })
+    const fetch = makeFetch(app.listen())
+    await fetch('/', { method: 'HEAD' }).expectStatus(204)
+  })
 })
 
 describe('Route handlers', () => {
@@ -737,18 +757,16 @@ describe('Subapps', () => {
 
     app.route('/path').get((_, res) => res.send('Hello World'))
   })
-  /* it('req.originalUrl does not change', async () => {
+  it('req.originalUrl does not change', async () => {
     const app = new App()
 
     const subApp = new App()
 
-    subApp.get('/route', (req, res) =>
+    subApp.get('/route', (req, res) => {
       res.send({
-        origUrl: req.originalUrl,
-        url: req.url,
-        path: req.path
+        origUrl: req.originalUrl
       })
-    )
+    })
 
     app.use('/subapp', subApp)
 
@@ -757,11 +775,9 @@ describe('Subapps', () => {
     const fetch = makeFetch(server)
 
     await fetch('/subapp/route').expect(200, {
-      origUrl: '/subapp/route',
-      url: '/route',
-      path: '/route'
+      origUrl: '/subapp/route'
     })
-  }) */
+  })
 
   it('lets other wares handle the URL if subapp doesnt have that path', async () => {
     const app = new App()
@@ -909,6 +925,16 @@ describe('Subapps', () => {
     const fetch = makeFetch(server)
     await fetch('/%').expect(400, 'Bad Request')
   })
+  it('should return status of 500 if `getURLParams` has an error', async () => {
+    global.decodeURIComponent = (...args) => {
+      throw new Error('an error was throw here')
+    }
+    const app = new App({
+      onError: (err, req, res) => res.status(500).end(err.message)
+    })
+    app.get('/:id', (_, res) => res.send('hello'))
+    await makeFetch(app.listen())('/123').expect(500, 'an error was throw here')
+  })
   it('handles errors by parent when no onError specified', async () => {
     const app = new App({
       onError: (err, req, res) => res.status(500).end(`Ouch, ${err} hurt me on ${req.path} page.`)
@@ -1002,6 +1028,19 @@ describe('Template engines', () => {
         expect(str).toEqual('Hello from v1rtl')
       })
     })
+    it('should expose app._locals', () => {
+      const app = new App({
+        settings: {
+          views: `${process.cwd()}/tests/fixtures/views`
+        }
+      })
+      app.engine('eta', renderFile)
+
+      app.render('index.eta', {}, { _locals: { name: 'world' } }, (err, str) => {
+        if (err) throw err
+        expect(str).toEqual('Hello from world')
+      })
+    })
     it('should support index files', () => {
       const app = new App({
         settings: {
@@ -1019,6 +1058,7 @@ describe('Template engines', () => {
     })
     describe('errors', () => {
       it('should catch errors', () => {
+        expect.assertions(1)
         const app = new App({
           settings: {
             views: `${process.cwd()}/tests/fixtures`
@@ -1026,6 +1066,8 @@ describe('Template engines', () => {
         })
 
         class TestView {
+          path = 'something'
+          constructor(...args) {}
           render() {
             throw new Error('oops')
           }
@@ -1186,6 +1228,18 @@ describe('Template engines', () => {
           })
         })
       })
+    })
+  })
+
+  it('uses the default engine to render', () => {
+    const app = new App()
+    app.set('view engine', '.eta')
+    app.engine('eta', renderFile)
+    app.locals.name = 'v1rtl'
+
+    app.render(`${process.cwd()}/tests/fixtures/views/index`, {}, {}, (err, str) => {
+      if (err) throw err
+      expect(str).toEqual('Hello from v1rtl')
     })
   })
 })

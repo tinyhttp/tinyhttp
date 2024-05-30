@@ -1,8 +1,9 @@
-import { describe, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import { App } from '../../packages/app/src/app'
 import { makeFetch } from 'supertest-fetch'
 import { Agent } from 'node:http'
+import { getProtocol, getSubdomains } from '../../packages/app/src'
 
 describe('Request properties', () => {
   it('should have default HTTP Request properties', async () => {
@@ -75,6 +76,7 @@ describe('Request properties', () => {
     it('should set the correct req.url on middlewares even in a subapp', async () => {
       const echo = (req, res) => res.send({ url: req.url, params: req.params })
       const mw = (req, res, next) => {
+        console.log(req.url, req.originalUrl)
         req.urls ||= []
         req.urls.push(req.url)
         next()
@@ -83,7 +85,7 @@ describe('Request properties', () => {
         new App()
           .get('/', echo)
           .use('/a1/b', echo)
-          .use('/a2/b', mw, mw, mw, (req, res) => res.send({ urls: req.urls, params: req.params }))
+          .use('/a2/b', mw, mw, mw, (req, res) => res.send({ urls: req['urls'], params: req.params }))
           .use('/a3/:pat1/:pat2', echo)
           .use('/a4/:pat1/*', echo)
 
@@ -209,7 +211,7 @@ describe('Request properties', () => {
     it('req.subdomains is empty by default', async () => {
       const { fetch } = InitAppAndTest(
         (req, res) => {
-          res.send(`subdomains: ${req.subdomains.join(', ')}`)
+          res.send(`subdomains: ${req.subdomains?.join(', ')}`)
         },
         '/',
         'GET',
@@ -217,6 +219,54 @@ describe('Request properties', () => {
       )
 
       await fetch('/').expect(200, `subdomains: `)
+    })
+    describe('`getSubdomains` function test', () => {
+      it('should test `getSubdomains` function when host is null', async () => {
+        const app = new App()
+        app.get('/', (req, res) => {
+          req.headers.host = undefined
+          res.send(getSubdomains(req))
+        })
+        await makeFetch(app.listen())('/').expectStatus(200)
+      })
+      it('should test `getSubdomains` function when host is an IP', async () => {
+        const app = new App()
+        app.get('/', (req, res) => {
+          req.headers.host = '127.0.0.1'
+          res.send(getSubdomains(req))
+        })
+        await makeFetch(app.listen())('/').expectStatus(200)
+      })
+      it('should test `getSubdomains` function when host is an array', async () => {
+        const app = new App()
+        app.get('/', (req, res) => {
+          req.headers.host = '[127.0.0.1]'
+          res.send(getSubdomains(req))
+        })
+        await makeFetch(app.listen())('/').expectStatus(200)
+      })
+    })
+    describe('`getProtocol` function tests', () => {
+      it('should test `getProtocol` function', async () => {
+        const app = new App()
+        app.get('/', (req, res) => {
+          req.secure = true
+          return res.send(getProtocol(req))
+        })
+        await makeFetch(app.listen())('/', { headers: { 'X-Forwarded-Proto': 'https, http' } }).expectStatus(200)
+      })
+      it('should test `getProtocol` function by using a default value if socket is destroyed', async () => {
+        const app = new App()
+        app.get('/', (req, res) => {
+          req.socket.destroy()
+          return res.send(getProtocol(req))
+        })
+        try {
+          await makeFetch(app.listen())('/')
+        } catch (error) {
+          expect(error).toBeDefined()
+        }
+      })
     })
   })
 
