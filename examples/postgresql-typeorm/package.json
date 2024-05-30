@@ -10,7 +10,7 @@
     "milliparsec": "^2.2.0",
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "0.2.41"
+    "typeorm": "0.3.0"
   },
   "scripts": {
     "start": "ts-node src/index.ts"
