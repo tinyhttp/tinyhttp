@@ -1,7 +1,14 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.8.2/schema.json",
   "files": {
-    "ignore": ["node_modules", "packages/*/dist", "examples/aws/.build", "examples/firebase-functions/lib", "coverage"]
+    "ignore": [
+      "node_modules",
+      "packages/*/dist",
+      "examples/aws/.build",
+      "examples/firebase-functions/lib",
+      "coverage",
+      ".pnpm-store"
+    ]
   },
   "formatter": {
     "enabled": true,
