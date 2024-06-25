@@ -1,6 +1,6 @@
 import { forwarded } from '@tinyhttp/forwarded'
 import type { IncomingMessage } from 'node:http'
-import ipaddr, { IPv6, IPv4 } from 'ipaddr.js'
+import ipaddr, { type IPv6, type IPv4 } from 'ipaddr.js'
 
 type Req = Pick<IncomingMessage, 'headers' | 'socket'>
 
@@ -97,7 +97,7 @@ export function parseIPNotation(note: string): [IPv4 | IPv6, string | number] {
   const pos = note.lastIndexOf('/')
   const str = pos !== -1 ? note.substring(0, pos) : note
 
-  if (!isip(str)) throw new TypeError('invalid IP address: ' + str)
+  if (!isip(str)) throw new TypeError(`invalid IP address: ${str}`)
 
   let ip = parseip(str)
 
@@ -112,11 +112,11 @@ export function parseIPNotation(note: string): [IPv4 | IPv6, string | number] {
   let range: string | number = pos !== -1 ? note.substring(pos + 1, note.length) : null
 
   if (range === null) range = max
-  else if (DIGIT_REGEXP.test(range)) range = parseInt(range, 10)
+  else if (DIGIT_REGEXP.test(range)) range = Number.parseInt(range, 10)
   else if (ip.kind() === 'ipv4' && isip(range)) range = parseNetmask(range)
   else range = null
 
-  if (typeof range === 'number' && (range <= 0 || range > max)) throw new TypeError('invalid range on address: ' + note)
+  if (typeof range === 'number' && (range <= 0 || range > max)) throw new TypeError(`invalid range on address: ${note}`)
 
   return [ip, range]
 }

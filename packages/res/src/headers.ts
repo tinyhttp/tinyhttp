@@ -1,4 +1,4 @@
-import { IncomingMessage as Req, ServerResponse as Res } from 'node:http'
+import type { IncomingMessage as Req, ServerResponse as Res } from 'node:http'
 import mime from 'mime'
 import { getRequestHeader } from '@tinyhttp/req'
 import { vary } from '@tinyhttp/vary'
@@ -21,7 +21,7 @@ export const setHeader =
         if (!charsetRegExp.test(value)) {
           const charset = 'UTF-8' // UTF-8 is the default charset for all types
 
-          if (typeof charset === 'string') value += '; charset=' + charset.toLowerCase()
+          if (typeof charset === 'string') value += `; charset=${charset.toLowerCase()}`
         }
       }
 
@@ -62,7 +62,7 @@ export const setLinksHeader =
       'Link',
       link +
         Object.keys(links)
-          .map((rel) => '<' + links[rel] + '>; rel="' + rel + '"')
+          .map((rel) => `<${links[rel]}>; rel="${rel}"`)
           .join(', ')
     )
 

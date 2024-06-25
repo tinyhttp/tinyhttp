@@ -11,15 +11,7 @@
   },
   "types": "./dist/index.d.ts",
   "exports": "./dist/index.js",
-  "keywords": [
-    "tinyhttp",
-    "node.js",
-    "web framework",
-    "web",
-    "backend",
-    "req",
-    "request"
-  ],
+  "keywords": ["tinyhttp", "node.js", "web framework", "web", "backend", "req", "request"],
   "engines": {
     "node": ">=12.20.0"
   },

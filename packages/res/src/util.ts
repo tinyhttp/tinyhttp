@@ -16,7 +16,7 @@ export function acceptParams(str: string, index?: number): NormalizedType {
 
   for (const part of parts) {
     const pms = part.split(/ *= */)
-    if ('q' === pms[0]) ret.quality = parseFloat(pms[1])
+    if ('q' === pms[0]) ret.quality = Number.parseFloat(pms[1])
     else ret.params[pms[0]] = pms[1]
   }
 

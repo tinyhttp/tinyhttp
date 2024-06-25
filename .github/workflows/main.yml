@@ -54,14 +54,15 @@ jobs:
       - name: install dependencies
         run: pnpm install
 
-      - name: lint code
-        run: pnpm lint
-
-      - name: check formatting
-        run: pnpm format
-
       - name: build packages
         run: pnpm build
+
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: latest
+      - name: Run Biome
+        run: biome ci .
 
       - name: run tests
         run: pnpm test

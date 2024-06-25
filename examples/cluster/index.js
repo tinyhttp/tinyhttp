@@ -1,6 +1,6 @@
 import { App } from '@tinyhttp/app'
-import cluster from 'cluster'
-import os from 'os'
+import cluster from 'node:cluster'
+import os from 'node:os'
 
 if (cluster.isPrimary) {
   for (let i = 0; i < os.cpus().length; i++) {

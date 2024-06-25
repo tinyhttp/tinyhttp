@@ -41,4 +41,4 @@ app.get('/search/:query?', (req, res) => {
   res.send(db[req.params.query])
 })
 
-app.listen(3000, () => console.log(`Started on http://localhost:3000`))
+app.listen(3000, () => console.log('Started on http://localhost:3000'))

@@ -75,7 +75,7 @@ describe('Cookie serializing', () => {
   it('should throw on infinite "maxAge" parameter', () => {
     try {
       cookie.serialize('foo', 'bar', {
-        maxAge: Infinity
+        maxAge: Number.POSITIVE_INFINITY
       })
     } catch (e) {
       expect((e as TypeError).message).toBe('option maxAge is invalid')

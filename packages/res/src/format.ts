@@ -1,4 +1,4 @@
-import { IncomingMessage as Req, ServerResponse as Res } from 'node:http'
+import type { IncomingMessage as Req, ServerResponse as Res } from 'node:http'
 import { getAccepts } from '@tinyhttp/req'
 import { setVaryHeader } from './headers.js'
 import { normalizeType, normalizeTypes } from './util.js'
@@ -24,7 +24,7 @@ export const formatResponse =
   (obj: FormatProps): Response => {
     const fn = obj.default
 
-    if (fn) delete obj.default
+    if (fn) obj.default = undefined
 
     const keys = Object.keys(obj)
 

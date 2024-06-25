@@ -1,6 +1,6 @@
 import { App } from '@tinyhttp/app'
 import fs from 'node:fs'
-import https from 'https'
+import https from 'node:https'
 
 const app = new App({
   settings: {

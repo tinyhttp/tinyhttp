@@ -1,4 +1,4 @@
-import { IncomingMessage } from 'node:http'
+import type { IncomingMessage } from 'node:http'
 import { Accepts } from '@tinyhttp/accepts'
 
 type Request = Pick<IncomingMessage, 'headers'>

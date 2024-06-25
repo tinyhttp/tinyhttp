@@ -1,4 +1,4 @@
-import { getSubdomains, Request } from './request.js'
+import { getSubdomains, type Request } from './request.js'
 import type { NextFunction } from '@tinyhttp/router'
 import type { Response } from './response.js'
 import {
@@ -34,8 +34,8 @@ import {
   append
 } from '@tinyhttp/res'
 import { renderTemplate } from './response.js'
-import { App } from './app.js'
-import { TemplateEngineOptions } from './types.js'
+import type { App } from './app.js'
+import type { TemplateEngineOptions } from './types.js'
 
 /**
  * Extends Request and Response objects with custom properties and methods

@@ -8,7 +8,7 @@ import type { PartialConfig } from 'eta/dist/types/config'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import { makeFetch } from 'supertest-fetch'
 import { vi } from 'vitest'
-import { View } from '../../packages/app/src/view'
+import type { View } from '../../packages/app/src/view'
 
 describe('Testing App', () => {
   it('should launch a basic server', async () => {
@@ -185,11 +185,11 @@ describe('Testing App routing', () => {
     it('next function skips current middleware', async () => {
       const app = new App()
 
-      app.locals['log'] = 'test'
+      app.locals.log = 'test'
 
       app
         .use((req, _res, next) => {
-          app.locals['log'] = req.url
+          app.locals.log = req.url
           next()
         })
         .use((_req, res) => void res.json({ ...app.locals }))
@@ -226,7 +226,7 @@ describe('Testing App routing', () => {
       const app = new App()
 
       app.use(async (_req, _res) => {
-        throw `bruh`
+        throw 'bruh'
       })
 
       const server = app.listen()
@@ -238,7 +238,7 @@ describe('Testing App routing', () => {
       const app = new App()
 
       app.use((_req, _res) => {
-        throw `bruh`
+        throw 'bruh'
       })
 
       const server = app.listen()
@@ -254,7 +254,7 @@ describe('App methods', () => {
 
     expect(app.settings.subdomainOffset).toBe(1)
   })
-  it(`app.enable enables a setting`, () => {
+  it('app.enable enables a setting', () => {
     const app = new App({
       settings: {
         xPoweredBy: false
@@ -263,7 +263,7 @@ describe('App methods', () => {
 
     expect(app.settings.xPoweredBy).toBe(true)
   })
-  it(`app.disable disables a setting`, async () => {
+  it('app.disable disables a setting', async () => {
     const app = new App({
       settings: {
         xPoweredBy: true
@@ -1046,7 +1046,7 @@ describe('Template engines', () => {
         app.engine('eta', renderFile)
         app.render('ate.eta', {}, {}, (err) => {
           expect((err as Error).message).toEqual(
-            'Failed to lookup view "ate.eta" in views directory "' + `${process.cwd()}/tests/fixtures` + '"'
+            `Failed to lookup view "ate.eta" in views directory "${process.cwd()}/tests/fixtures"`
           )
         })
       })
@@ -1222,13 +1222,13 @@ describe('App settings', () => {
         }
       })
 
-      app.locals['hello'] = 'world'
+      app.locals.hello = 'world'
 
       app.use((req, res) => {
         expect(req.app).toBeInstanceOf(App)
         expect(res.app).toBeInstanceOf(App)
-        expect(req.app!.locals['hello']).toBe('world')
-        expect(res.app!.locals['hello']).toBe('world')
+        expect(req.app?.locals.hello).toBe('world')
+        expect(res.app?.locals.hello).toBe('world')
         res.end()
       })
 

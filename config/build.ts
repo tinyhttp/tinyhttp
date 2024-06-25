@@ -9,7 +9,7 @@ export const build = (dependencies: Record<string, string> = {}) =>
       minify: false,
       lib: {
         entry: 'src/index.ts',
-        fileName: () => `index.js`,
+        fileName: () => 'index.js',
         formats: ['es']
       },
       ssr: true,

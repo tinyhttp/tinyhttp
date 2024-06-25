@@ -90,27 +90,27 @@ describe('encodeUrl(url)', () => {
       expect(encodeUrl('http://localhost/%F0snow.html')).toBe('http://localhost/%F0snow.html')
     })
 
-    it('should encode the "%" if not a valid sequence', function () {
+    it('should encode the "%" if not a valid sequence', () => {
       expect(encodeUrl('http://localhost/%foo%bar%zap%')).toBe('http://localhost/%25foo%bar%25zap%25')
     })
   })
-  describe('when url contains raw surrogate pairs', function () {
-    it('should encode pair as UTF-8 byte sequences', function () {
+  describe('when url contains raw surrogate pairs', () => {
+    it('should encode pair as UTF-8 byte sequences', () => {
       expect(encodeUrl('http://localhost/\uD83D\uDC7B snow.html')).toBe('http://localhost/%F0%9F%91%BB%20snow.html')
     })
 
-    describe('when unpaired', function () {
-      it('should encode as replacement character', function () {
+    describe('when unpaired', () => {
+      it('should encode as replacement character', () => {
         expect(encodeUrl('http://localhost/\uD83Dfoo\uDC7B <\uDC7B\uD83D>.html')).toBe(
           'http://localhost/%EF%BF%BDfoo%EF%BF%BD%20%3C%EF%BF%BD%EF%BF%BD%3E.html'
         )
       })
 
-      it('should encode at end of string', function () {
+      it('should encode at end of string', () => {
         expect(encodeUrl('http://localhost/\uD83D')).toBe('http://localhost/%EF%BF%BD')
       })
 
-      it('should encode at start of string', function () {
+      it('should encode at start of string', () => {
         expect(encodeUrl('\uDC7Bfoo')).toBe('%EF%BF%BDfoo')
       })
     })

@@ -12,6 +12,7 @@ function stringify(
   value: unknown,
   replacer: (this: any, key: string, value: any) => any,
   spaces: string | number,
+  // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
   escape: boolean
 ) {
   let json = replacer || spaces ? JSON.stringify(value, replacer, spaces) : JSON.stringify(value)
@@ -43,6 +44,7 @@ export const jsonp =
   (obj: unknown, opts: JSONPOptions = {}): Response => {
     const val = obj
 
+    // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
     const { escape, replacer, spaces, callbackName = 'callback' } = opts
 
     let body = stringify(val, replacer, spaces, escape)

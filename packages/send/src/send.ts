@@ -65,7 +65,8 @@ export const send =
       if (body == null) {
         res.end('')
         return res
-      } else if (Buffer.isBuffer(body)) {
+      }
+      if (Buffer.isBuffer(body)) {
         if (!res.getHeader('Content-Type')) res.setHeader('content-type', 'application/octet-stream')
         res.end(bodyToSend)
       } else json(res)(bodyToSend, encoding)

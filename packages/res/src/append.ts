@@ -1,4 +1,4 @@
-import { ServerResponse as Res } from 'node:http'
+import type { ServerResponse as Res } from 'node:http'
 import { getResponseHeader, setHeader } from './headers.js'
 
 export const append =

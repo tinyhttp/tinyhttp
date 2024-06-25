@@ -1,4 +1,4 @@
-import { ServerResponse as S } from 'node:http'
+import type { ServerResponse as S } from 'node:http'
 
 type Res = Pick<S, 'setHeader' | 'end' | 'removeHeader'>
 

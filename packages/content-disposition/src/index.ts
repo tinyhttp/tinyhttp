@@ -1,4 +1,4 @@
-// eslint-disable-next-line no-control-regex
+// biome-ignore lint/suspicious/noControlCharactersInRegex: <explanation>
 const ENCODE_URL_ATTR_CHAR_REGEXP = /[\x00-\x20"'()*,/:;<=>?@[\\\]{}\x7f]/g
 
 const HEX_ESCAPE_REGEXP = /%[0-9A-Fa-f]{2}/
@@ -6,20 +6,21 @@ const HEX_ESCAPE_REPLACE_REGEXP = /%([0-9A-Fa-f]{2})/g
 
 const NON_LATIN1_REGEXP = /[^\x20-\x7e\xa0-\xff]/g
 
-// eslint-disable-next-line no-control-regex
+// biome-ignore lint/suspicious/noControlCharactersInRegex: <explanation>
 const QESC_REGEXP = /\\([\u0000-\u007f])/g
 
 const QUOTE_REGEXP = /([\\"])/g
 
 const PARAM_REGEXP =
-  /;[\x09\x20]*([!#$%&'*+.0-9A-Z^_`a-z|~-]+)[\x09\x20]*=[\x09\x20]*("(?:[\x20!\x23-\x5b\x5d-\x7e\x80-\xff]|\\[\x20-\x7e])*"|[!#$%&'*+.0-9A-Z^_`a-z|~-]+)[\x09\x20]*/g // eslint-disable-line no-control-regex
+  // biome-ignore lint/suspicious/noControlCharactersInRegex: <explanation>
+  /;[\x09\x20]*([!#$%&'*+.0-9A-Z^_`a-z|~-]+)[\x09\x20]*=[\x09\x20]*("(?:[\x20!\x23-\x5b\x5d-\x7e\x80-\xff]|\\[\x20-\x7e])*"|[!#$%&'*+.0-9A-Z^_`a-z|~-]+)[\x09\x20]*/g // eslint-disable-line no-control-regex // eslint-disable-line no-control-regex
 const TEXT_REGEXP = /^[\x20-\x7e\x80-\xff]+$/
 const TOKEN_REGEXP = /^[!#$%&'*+.0-9A-Z^_`a-z|~-]+$/
 
 const EXT_VALUE_REGEXP =
   /^([A-Za-z0-9!#$%&+\-^_`{}~]+)'(?:[A-Za-z]{2,3}(?:-[A-Za-z]{3}){0,3}|[A-Za-z]{4,8}|)'((?:%[0-9A-Fa-f]{2}|[A-Za-z0-9!#$&+.^_`|~-])+)$/
 
-// eslint-disable-next-line no-control-regex
+// biome-ignore lint/suspicious/noControlCharactersInRegex: <explanation>
 const DISPOSITION_TYPE_REGEXP = /^([!#$%&'*+.0-9A-Z^_`a-z|~-]+)[\x09\x20]*(?:$|;)/
 
 const getlatin1 = (val: unknown) => {
@@ -36,9 +37,9 @@ export class ContentDisposition {
   }
 }
 
-const qstring = (val: unknown) => '"' + String(val).replace(QUOTE_REGEXP, '\\$1') + '"'
+const qstring = (val: unknown) => `"${String(val).replace(QUOTE_REGEXP, '\\$1')}"`
 
-const pencode = (char: string) => '%' + String(char).charCodeAt(0).toString(16).toUpperCase()
+const pencode = (char: string) => `%${String(char).charCodeAt(0).toString(16).toUpperCase()}`
 
 function ustring(val: unknown): string {
   const str = String(val)
@@ -46,7 +47,7 @@ function ustring(val: unknown): string {
   // percent encode as UTF-8
   const encoded = encodeURIComponent(str).replace(ENCODE_URL_ATTR_CHAR_REGEXP, pencode)
 
-  return "UTF-8''" + encoded
+  return `UTF-8''${encoded}`
 }
 
 const basename = (str: string) => str.slice(str.lastIndexOf('/') + 1)
@@ -71,7 +72,7 @@ function format({
     for (const param of params) {
       const val = param.slice(-1) === '*' ? ustring(parameters[param]) : qstring(parameters[param])
 
-      string += '; ' + param + '=' + val
+      string += `; ${param}=${val}`
     }
   }
 
@@ -116,7 +117,7 @@ function createParams(filename?: string, fallback?: string | boolean) {
   return params
 }
 
-const pdecode = (_str: string, hex: string) => String.fromCharCode(parseInt(hex, 16))
+const pdecode = (_str: string, hex: string) => String.fromCharCode(Number.parseInt(hex, 16))
 
 /**
  * Create an attachment Content-Disposition header.

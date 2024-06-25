@@ -1,10 +1,10 @@
-import { IncomingMessage } from 'node:http'
+import type { IncomingMessage } from 'node:http'
 import type { ParsedUrlQuery } from 'node:querystring'
 
-import { Options, Ranges } from 'header-range-parser'
+import type { Options, Ranges } from 'header-range-parser'
 import { proxyaddr as proxyAddr, all, compile } from '@tinyhttp/proxy-addr'
 
-import { App } from './app.js'
+import type { App } from './app.js'
 import type { Middleware } from '@tinyhttp/router'
 
 import type { URLParams } from '@tinyhttp/req'

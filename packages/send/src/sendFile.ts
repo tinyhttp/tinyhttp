@@ -70,17 +70,17 @@ export const sendFile =
 
     headers['Last-Modified'] = stats.mtime.toUTCString()
 
-    headers['ETag'] = createETag(stats, encoding)
+    headers.ETag = createETag(stats, encoding)
 
-    if (!res.getHeader('Content-Type')) headers['Content-Type'] = mime.getType(extname(path)) + '; charset=utf-8'
+    if (!res.getHeader('Content-Type')) headers['Content-Type'] = `${mime.getType(extname(path))}; charset=utf-8`
 
     let status = res.statusCode || 200
 
-    if (req.headers['range']) {
+    if (req.headers.range) {
       status = 206
       const [x, y] = req.headers.range.replace('bytes=', '').split('-')
-      const end = (options.end = parseInt(y, 10) || stats.size - 1)
-      const start = (options.start = parseInt(x, 10) || 0)
+      const end = (options.end = Number.parseInt(y, 10) || stats.size - 1)
+      const start = (options.start = Number.parseInt(x, 10) || 0)
 
       if (start >= stats.size || end >= stats.size) {
         res

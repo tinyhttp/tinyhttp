@@ -3,7 +3,7 @@ import graphql from 'graphql'
 import { createHandler } from 'graphql-http/lib/use/http'
 
 const app = new App()
-const port = parseInt(process.env.PORT) || 3000
+const port = Number.parseInt(process.env.PORT) || 3000
 
 const schema = graphql.buildSchema(`
   type Query {

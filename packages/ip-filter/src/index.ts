@@ -1,5 +1,5 @@
 import ipRegex from 'ip-regex'
-import { IncomingMessage as Request, ServerResponse as Response } from 'node:http'
+import type { IncomingMessage as Request, ServerResponse as Response } from 'node:http'
 
 type Filter = string | RegExp
 
@@ -11,7 +11,8 @@ const processIpFilters = (ip: string, filter: Filter[], strict: boolean): boolea
   const results = filter.map((f) => {
     if (typeof f === 'string') {
       return new RegExp(f).test(ip)
-    } else if (f instanceof RegExp) return f.test(ip)
+    }
+    if (f instanceof RegExp) return f.test(ip)
   })
 
   return results.includes(true)

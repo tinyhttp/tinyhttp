@@ -19,7 +19,7 @@ app
   .post('/', (req, res) => {
     const result = check(req.body)
 
-    if (result === true) res.send(`Body is valid`)
+    if (result === true) res.send('Body is valid')
     else {
       // Send 422 Unprocessable Entity
       res.status(422).json(result)

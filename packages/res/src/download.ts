@@ -1,7 +1,7 @@
 import { contentDisposition } from '@tinyhttp/content-disposition'
 import { sendFile } from '@tinyhttp/send'
 import { extname, resolve, basename } from 'node:path'
-import { IncomingMessage as Req, ServerResponse as Res } from 'node:http'
+import type { IncomingMessage as Req, ServerResponse as Res } from 'node:http'
 import { setContentType, setHeader } from './headers.js'
 import type { SendFileOptions } from '@tinyhttp/send'
 
@@ -34,7 +34,7 @@ export const download =
     }
 
     // merge user-provided headers
-    if (opts && opts.headers) {
+    if (opts?.headers) {
       for (const key of Object.keys(opts.headers)) {
         if (key.toLowerCase() !== 'content-disposition') headers[key] = opts.headers[key]
       }

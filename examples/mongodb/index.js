@@ -2,12 +2,12 @@ import { App } from '@tinyhttp/app'
 import * as dotenv from '@tinyhttp/dotenv'
 import { urlencoded as parser } from 'milliparsec'
 import mongodb from 'mongodb'
-import assert from 'assert'
+import assert from 'node:assert'
 
 dotenv.config()
 
 const app = new App()
-const port = parseInt(process.env.PORT) || 3000
+const port = Number.parseInt(process.env.PORT) || 3000
 let db
 let coll
 

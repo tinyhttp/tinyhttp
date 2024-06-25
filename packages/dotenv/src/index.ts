@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { DotenvParseOptions, DotenvParseOutput, DotenvConfigOptions, DotenvConfigOutput } from './structs.js'
+import type { DotenvParseOptions, DotenvParseOutput, DotenvConfigOptions, DotenvConfigOutput } from './structs.js'
 
 const log = (message: string) => console.log(`[dotenv][DEBUG] ${message}`)
 
@@ -17,7 +17,7 @@ const NEWLINES_MATCH = /\n|\r|\r\n/
  * @returns an object with keys and values based on `src`
  */
 export function parse(src: string | Buffer, options?: DotenvParseOptions): DotenvParseOutput {
-  const debug = Boolean(options && options.debug)
+  const debug = Boolean(options?.debug)
   const obj = {}
 
   // convert Buffers before splitting into lines and processing

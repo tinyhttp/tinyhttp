@@ -192,7 +192,7 @@ describe('Request properties', () => {
         options
       )
 
-      await fetch('/').expect(200, `protocol: http`)
+      await fetch('/').expect(200, 'protocol: http')
     })
     it('req.secure is false by default', async () => {
       const { fetch } = InitAppAndTest(
@@ -204,19 +204,19 @@ describe('Request properties', () => {
         options
       )
 
-      await fetch('/').expect(200, `secure: false`)
+      await fetch('/').expect(200, 'secure: false')
     })
     it('req.subdomains is empty by default', async () => {
       const { fetch } = InitAppAndTest(
         (req, res) => {
-          res.send(`subdomains: ${req.subdomains.join(', ')}`)
+          res.send(`subdomains: ${req.subdomains?.join(', ')}`)
         },
         '/',
         'GET',
         options
       )
 
-      await fetch('/').expect(200, `subdomains: `)
+      await fetch('/').expect(200, 'subdomains: ')
     })
   })
 
@@ -225,7 +225,7 @@ describe('Request properties', () => {
       res.send(`XMLHttpRequest: ${req.xhr ? 'yes' : 'no'}`)
     })
 
-    await fetch('/').expect(200, `XMLHttpRequest: no`)
+    await fetch('/').expect(200, 'XMLHttpRequest: no')
   })
 
   it('req.path is the URL but without query parameters', async () => {
@@ -233,14 +233,14 @@ describe('Request properties', () => {
       res.send(`Path to page: ${req.path}`)
     })
 
-    await fetch('/page?a=b').expect(200, `Path to page: /page`)
+    await fetch('/page?a=b').expect(200, 'Path to page: /page')
   })
   it('req.path works properly for optional parameters', async () => {
     const { fetch } = InitAppAndTest((req, res) => {
       res.send(`Path to page: ${req.path}`)
     }, '/:format?/:uml?')
 
-    await fetch('/page/page-1').expect(200, `Path to page: /page/page-1`)
+    await fetch('/page/page-1').expect(200, 'Path to page: /page/page-1')
   })
   it('req.fresh and req.stale get set', async () => {
     const etag = '123'

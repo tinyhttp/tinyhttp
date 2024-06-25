@@ -147,7 +147,7 @@ describe('Response extensions', () => {
       const app = runServer((req, res) => {
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         formatResponse(req, res, () => {})({
-          text: (_: Request, res: Response) => res.end(`Hello World`)
+          text: (_: Request, res: Response) => res.end('Hello World')
         }).end()
       })
 
@@ -157,7 +157,7 @@ describe('Response extensions', () => {
       const app = runServer((req, res) => {
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         formatResponse(req, res, () => {})({
-          text: (_: Request, res: Response) => res.end(`Hello World`),
+          text: (_: Request, res: Response) => res.end('Hello World'),
           html: (_: Request, res: Response) => res.end('<h1>Hello World</h1>')
         }).end()
       })
@@ -173,7 +173,7 @@ describe('Response extensions', () => {
     it('should throw 406 status when invalid MIME is specified', async () => {
       const app = runServer((req, res) => {
         formatResponse(req, res, (err) => res.writeHead(err.status).end(err.message))({
-          text: (_: Request, res: Response) => res.end(`Hello World`)
+          text: (_: Request, res: Response) => res.end('Hello World')
         }).end()
       })
 

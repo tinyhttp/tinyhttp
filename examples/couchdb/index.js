@@ -9,7 +9,7 @@ const app = new App()
 dotenv.config()
 const USER = process.env.USER
 const PASS = process.env.PASS
-const PORT = parseInt(process.env.PORT) || 3000
+const PORT = Number.parseInt(process.env.PORT) || 3000
 
 // if node_env is not in production then use local databse
 const COUCHDB_URI =

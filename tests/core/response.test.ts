@@ -161,7 +161,7 @@ describe('Response methods', () => {
         app.set('views', `${process.cwd()}/tests/fixtures`)
         app.set('view engine', 'eta')
         app.locals.name = 'v1rtl'
-        res.render(`views`)
+        res.render('views')
       })
 
       await fetch('/').expect(200, 'Hello from v1rtl')

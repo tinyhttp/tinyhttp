@@ -153,7 +153,7 @@ describe('rate-limit', () => {
 
       const expectedRemaining = 4
       const expectedResetTimestamp = Math.ceil((Date.now() + windowMs) / 1000).toString()
-      const resetRegexp = new RegExp(expectedResetTimestamp.substr(0, expectedResetTimestamp.length - 2) + '\\d\\d')
+      const resetRegexp = new RegExp(`${expectedResetTimestamp.slice(0, expectedResetTimestamp.length - 2)}\\d\\d`)
 
       await makeFetch(server)('/')
         .expect('x-ratelimit-limit', limit)

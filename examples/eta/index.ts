@@ -1,6 +1,6 @@
 import { App } from '@tinyhttp/app'
 import { renderFile as eta } from 'eta'
-import { EtaConfig, PartialConfig } from 'eta/dist/types/config'
+import type { EtaConfig, PartialConfig } from 'eta/dist/types/config'
 
 const app = new App()
 
@@ -26,4 +26,4 @@ app.use(
     )
 )
 
-app.listen(3000, () => console.log(`Listening on http://localhost:3000`))
+app.listen(3000, () => console.log('Listening on http://localhost:3000'))

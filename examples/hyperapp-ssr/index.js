@@ -52,4 +52,4 @@ app
 </html>
     `)
   })
-  .listen(3000, () => console.log(`Listening on http://localhost:3000`))
+  .listen(3000, () => console.log('Listening on http://localhost:3000'))

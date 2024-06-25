@@ -1,9 +1,10 @@
 {
-  "eslint.packageManager": "pnpm",
   "npm.packageManager": "pnpm",
   "editor.formatOnSave": true,
-  "prettier.enable": true,
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  "biome.enabled": true,
+  "eslint.enable": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "always"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

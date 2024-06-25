@@ -1,4 +1,4 @@
-import { createServer, Server } from 'node:http'
+import { createServer, type Server } from 'node:http'
 import { getURLParams } from './request.js'
 import type { Request, URLParams } from './request.js'
 import type { Response } from './response.js'
@@ -9,15 +9,15 @@ import { Router, pushMiddleware } from '@tinyhttp/router'
 import { extendMiddleware } from './extend.js'
 import { parse as rg } from 'regexparam'
 import { getPathname } from '@tinyhttp/req'
-import { AppConstructor, AppRenderOptions, AppSettings, TemplateEngine } from './types.js'
-import { TemplateEngineOptions } from './index.js'
+import type { AppConstructor, AppRenderOptions, AppSettings, TemplateEngine } from './types.js'
+import type { TemplateEngineOptions } from './index.js'
 import { View } from './view.js'
 
 /**
  * Add leading slash if not present (e.g. path -> /path, /path -> /path)
  * @param x
  */
-const lead = (x: string) => (x.charCodeAt(0) === 47 ? x : '/' + x)
+const lead = (x: string) => (x.charCodeAt(0) === 47 ? x : `/${x}`)
 
 const mount = (fn: App | Handler) => (fn instanceof App ? fn.attach : fn)
 
@@ -160,7 +160,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
     name: string,
     data: Record<string, unknown> = {},
     options: AppRenderOptions<RenderOptions> = {} as AppRenderOptions<RenderOptions>,
-    cb: (err: unknown, html?: unknown) => void
+    cb: (err: unknown, html?: unknown) => void = () => {}
   ): void {
     let view: View | undefined
 
@@ -179,7 +179,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
     }
 
     if (!view) {
-      const View = this.settings['view']
+      const View = this.settings.view
       view = new View(name, {
         defaultEngine: this.settings['view engine'],
         root: this.settings.views,
@@ -189,9 +189,9 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       if (!view.path) {
         const dirs =
           Array.isArray(view.root) && view.root.length > 1
-            ? 'directories "' + view.root.slice(0, -1).join('", "') + '" or "' + view.root[view.root.length - 1] + '"'
-            : 'directory "' + view.root + '"'
-        const err = new Error('Failed to lookup view "' + name + '" in views ' + dirs)
+            ? `directories "${view.root.slice(0, -1).join('", "')}" or "${view.root[view.root.length - 1]}"`
+            : `directory "${view.root}"`
+        const err = new Error(`Failed to lookup view "${name}" in views ${dirs}`)
 
         return cb(err)
       }
@@ -237,15 +237,15 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     for (const fn of fns) {
       if (fn instanceof App) {
-        pathArray.forEach((path) => {
+        for (const path of pathArray) {
           regex = rg(path, true)
           fn.mountpath = mountpath
           this.apps[path] = fn
           fn.parent = this
-        })
+        }
       }
     }
-    pathArray.forEach((path) => {
+    for (const path of pathArray) {
       const handlerPaths = []
       const handlerFunctions = []
       const handlerPathBase = path === '/' ? '' : lead(path)
@@ -268,7 +268,8 @@ export class App<Req extends Request = Request, Res extends Response = Response>
         handlers: handlerFunctions.slice(1).map(mount),
         fullPaths: handlerPaths
       })
-    })
+    }
+
     return this
   }
 
@@ -354,14 +355,14 @@ export class App<Req extends Request = Request, Res extends Response = Response>
         params = regex ? getURLParams(regex, pathname) : {}
       } catch (e) {
         console.error(e)
-        if (e instanceof URIError) return res.sendStatus(400) // Handle malformed URI
-        else throw e
+        if (e instanceof URIError) return res.sendStatus(400)
+        throw e
       }
 
       // Warning: users should not use :wild as a pattern
       let prefix = path
       if (regex) {
-        for (const key of regex.keys) {
+        for (const key of regex.keys as string[]) {
           if (key === 'wild') {
             prefix = prefix.replace('*', params.wild)
           } else {

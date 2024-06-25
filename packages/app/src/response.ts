@@ -1,7 +1,7 @@
-import { ServerResponse } from 'node:http'
+import type { ServerResponse } from 'node:http'
 import type { SerializeOptions } from '@tinyhttp/cookie'
-import { Request } from './request.js'
-import { App } from './app.js'
+import type { Request } from './request.js'
+import type { App } from './app.js'
 import type { ReadStreamOptions, FormatProps, DownloadOptions } from '@tinyhttp/res'
 import type { AppRenderOptions, TemplateEngineOptions } from './types.js'
 

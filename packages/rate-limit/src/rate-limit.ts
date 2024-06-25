@@ -1,5 +1,5 @@
-import { IncomingMessage as Request, ServerResponse as Response } from 'node:http'
-import { MemoryStore, Store } from './memory-store.js'
+import type { IncomingMessage as Request, ServerResponse as Response } from 'node:http'
+import { MemoryStore, type Store } from './memory-store.js'
 import { send, status } from '@tinyhttp/send'
 
 export interface RequestWithRateLimit extends Request {
