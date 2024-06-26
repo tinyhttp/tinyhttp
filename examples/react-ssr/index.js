@@ -21,8 +21,6 @@ app
   <html lang="en">
     <body>
       <div id="app">${renderered}</div>
-      <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-      <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
       <script src="app.js" type="module"></script>
     </body>
   </html>

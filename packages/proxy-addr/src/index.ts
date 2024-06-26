@@ -62,7 +62,6 @@ function compile(val: string | string[] | number[]): (addr: string) => boolean {
 
     // Splice in pre-defined range
     val = IP_RANGES[val as string]
-    // eslint-disable-next-line prefer-spread
     trust.splice.apply(trust, [i, 1].concat(val as number[]))
     i += val.length - 1
   }

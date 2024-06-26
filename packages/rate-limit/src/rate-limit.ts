@@ -38,7 +38,6 @@ const defaultOptions: RateLimitOptions = {
   draftPolliRatelimitHeaders: false,
   keyGenerator: (req) => req.ip,
   shouldSkip: () => false,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onLimitReached: () => {}
 }
 

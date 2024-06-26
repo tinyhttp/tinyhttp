@@ -1,11 +1,8 @@
 import { readFile } from 'node:fs/promises'
 import http from 'node:http'
 import { renderFile } from 'eta'
-import type { PartialConfig } from 'eta/dist/types/config'
 import { makeFetch } from 'supertest-fetch'
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { describe, expect, it } from 'vitest'
-import { vi } from 'vitest'
 import { App } from '../../packages/app/src/index'
 import type { View } from '../../packages/app/src/view'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'

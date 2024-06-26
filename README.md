@@ -46,16 +46,12 @@ You can donate with fiat or crypto
 
 ## Sponsors
 
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
 <table>
   <tr>
     <td align="center"><a href="http://deta.sh?ref=tinyhttp"><img src="https://i.snipboard.io/VFbSna.jpg" width="100px;" alt=""/><br /><sub><b>Deta</b></sub></td> <td align="center"><a href="https://molefrog.com/"><img src="https://avatars3.githubusercontent.com/u/671276?v=4" width="100px;" alt=""/><br /><sub><b>molefrog</b></sub></td>
   </tr>
 
 </table>
-<!-- markdownlint-enable -->
-<!-- prettier-ignore-end -->
 
 ## Contributing
 

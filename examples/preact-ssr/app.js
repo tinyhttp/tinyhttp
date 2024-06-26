@@ -1,5 +1,3 @@
-/* eslint-disable  */
-
 // @ts-ignore
 import { html, render } from '/htm.js'
 

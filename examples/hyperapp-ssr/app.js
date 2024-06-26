@@ -1,5 +1,3 @@
-/* eslint-disable  */
-
 // @ts-ignore
 
 import { app, h, text } from '/hyperapp.js'

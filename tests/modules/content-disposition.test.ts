@@ -30,13 +30,11 @@ describe('contentDisposition(filename)', () => {
   })
   it('should use pencode fn', () => {
     expect(contentDisposition('inde(x.ht', { type: 'html', fallback: 'html' })).toEqual(
-      // eslint-disable-next-line no-useless-escape
       `html; filename="html"; filename*=UTF-8\'\'inde%28x.ht`
     )
   })
   it('should use fallback when file ext is non ascii', () => {
     expect(contentDisposition('index.ĄÇḐȨĢ', { type: 'html', fallback: 'html' })).toEqual(
-      // eslint-disable-next-line no-useless-escape
       `html; filename="html"; filename*=UTF-8\'\'index.%C4%84%C3%87%E1%B8%90%C8%A8%C4%A2`
     )
   })

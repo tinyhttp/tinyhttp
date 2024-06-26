@@ -203,7 +203,7 @@ describe('rate-limit', () => {
             incr: () => {
               throw Error
             },
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
+
             resetKey: () => {}
           } as any
         })
@@ -258,6 +258,5 @@ class MockStore {
     this.counter = 0
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   resetAll = () => {}
 }
