@@ -1,7 +1,7 @@
 import { App } from '@tinyhttp/app'
-import { urlencoded } from 'milliparsec'
 import { Low } from 'lowdb'
 import { JSONFile } from 'lowdb/node'
+import { urlencoded } from 'milliparsec'
 
 const app = new App()
 const adapter = new JSONFile('db.json')

@@ -1,7 +1,7 @@
+import { makeFetch } from 'supertest-fetch'
 import { describe, expect, it, vi } from 'vitest'
 import { App } from '../../../packages/app/src'
 import { rateLimit } from '../../../packages/rate-limit/src'
-import { makeFetch } from 'supertest-fetch'
 
 function createAppWith(middleware) {
   const app = new App()

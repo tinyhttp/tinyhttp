@@ -1,8 +1,8 @@
 import type { IncomingMessage as Req, ServerResponse as Res } from 'node:http'
-import mime from 'mime'
+import { encodeUrl } from '@tinyhttp/encode-url'
 import { getRequestHeader } from '@tinyhttp/req'
 import { vary } from '@tinyhttp/vary'
-import { encodeUrl } from '@tinyhttp/encode-url'
+import mime from 'mime'
 
 const charsetRegExp = /;\s*charset\s*=/
 

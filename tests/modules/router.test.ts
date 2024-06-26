@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { describe, expect, it } from 'vitest'
 import type { Response } from '../../packages/app/src'
-import { Router, pushMiddleware, type Middleware } from '../../packages/router/src'
+import { type Middleware, Router, pushMiddleware } from '../../packages/router/src'
 
 describe('Testing Router', () => {
   describe('Basic', () => {

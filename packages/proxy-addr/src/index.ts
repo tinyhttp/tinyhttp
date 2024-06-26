@@ -1,5 +1,5 @@
-import { forwarded } from '@tinyhttp/forwarded'
 import type { IncomingMessage } from 'node:http'
+import { forwarded } from '@tinyhttp/forwarded'
 import ipaddr, { type IPv6, type IPv4 } from 'ipaddr.js'
 
 type Req = Pick<IncomingMessage, 'headers' | 'socket'>

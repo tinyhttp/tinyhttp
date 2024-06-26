@@ -7,9 +7,9 @@
  * MIT Licensed
  */
 
-import { extname, resolve, dirname, basename, join } from 'node:path'
-import type { TemplateEngineOptions, TemplateEngine } from './types.js'
 import { statSync } from 'node:fs'
+import { basename, dirname, extname, join, resolve } from 'node:path'
+import type { TemplateEngine, TemplateEngineOptions } from './types.js'
 
 function tryStat(path: string) {
   try {

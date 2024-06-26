@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { contentDisposition, parse, ContentDisposition } from '../../packages/content-disposition/src'
+import { ContentDisposition, contentDisposition, parse } from '../../packages/content-disposition/src'
 
 describe('contentDisposition()', () => {
   it('should create an attachment header', () => {

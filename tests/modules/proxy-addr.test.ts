@@ -1,7 +1,7 @@
 // Original test cases are taken from https://github.com/jshttp/proxy-addr/blob/master/test/test.js
 
-import { describe, expect, it } from 'vitest'
 import type { IncomingMessage } from 'node:http'
+import { describe, expect, it } from 'vitest'
 import { proxyaddr } from '../../packages/proxy-addr/src'
 import { createReq } from '../../test_helpers/createReq'
 

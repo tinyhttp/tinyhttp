@@ -44,6 +44,7 @@
     "test": "pnpm test:coverage",
     "lint": "biome lint .",
     "format": "biome format .",
+    "check": "biome check .",
     "echo:ancestor": "echo ${ANCESTOR_REF:-$(git merge-base origin/master HEAD)}",
     "build": "pnpm -r build",
     "prepare": "husky install"

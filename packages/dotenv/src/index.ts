@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import type { DotenvParseOptions, DotenvParseOutput, DotenvConfigOptions, DotenvConfigOutput } from './structs.js'
+import type { DotenvConfigOptions, DotenvConfigOutput, DotenvParseOptions, DotenvParseOutput } from './structs.js'
 
 const log = (message: string) => console.log(`[dotenv][DEBUG] ${message}`)
 

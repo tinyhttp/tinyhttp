@@ -1,6 +1,6 @@
 import { App } from '@tinyhttp/app'
-import turbo from 'turbo-http'
 import { status } from '@tinyhttp/send'
+import turbo from 'turbo-http'
 
 const app = new App({
   applyExtensions: (_req, res, next) => {

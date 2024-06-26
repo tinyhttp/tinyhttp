@@ -1,7 +1,7 @@
+import type { IncomingMessage } from 'node:http'
 import { describe, expect, it } from 'vitest'
 import { forwarded } from '../../packages/forwarded/src'
 import { createReq } from '../../test_helpers/createReq'
-import type { IncomingMessage } from 'node:http'
 
 describe('forwarded(req)', () => {
   it('should work with `X-Forwarded-For` header', () => {

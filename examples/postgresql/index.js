@@ -1,7 +1,7 @@
 import { App } from '@tinyhttp/app'
 import * as dotenv from '@tinyhttp/dotenv'
-import pg from 'pg-promise'
 import { urlencoded as parser } from 'milliparsec'
+import pg from 'pg-promise'
 
 import sql from './sql/index.js'
 

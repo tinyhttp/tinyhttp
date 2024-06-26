@@ -1,9 +1,9 @@
+import type { IncomingMessage as Req, ServerResponse as Res } from 'node:http'
+import { basename, extname, resolve } from 'node:path'
 import { contentDisposition } from '@tinyhttp/content-disposition'
 import { sendFile } from '@tinyhttp/send'
-import { extname, resolve, basename } from 'node:path'
-import type { IncomingMessage as Req, ServerResponse as Res } from 'node:http'
-import { setContentType, setHeader } from './headers.js'
 import type { SendFileOptions } from '@tinyhttp/send'
+import { setContentType, setHeader } from './headers.js'
 
 export type DownloadOptions = SendFileOptions &
   Partial<{

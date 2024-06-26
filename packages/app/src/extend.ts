@@ -1,40 +1,40 @@
-import { getSubdomains, type Request } from './request.js'
-import type { NextFunction } from '@tinyhttp/router'
-import type { Response } from './response.js'
 import {
-  getFreshOrStale,
-  getRangeFromHeader,
-  getRequestHeader,
   checkIfXMLHttpRequest,
-  getQueryParams,
   getAccepts,
   getAcceptsCharsets,
   getAcceptsEncodings,
-  getAcceptsLanguages
+  getAcceptsLanguages,
+  getFreshOrStale,
+  getQueryParams,
+  getRangeFromHeader,
+  getRequestHeader
 } from '@tinyhttp/req'
-import { getProtocol, getHostname, getIP, getIPs } from './request.js'
 import {
-  send,
-  json,
-  status,
-  setCookie,
-  clearCookie,
-  setHeader,
-  getResponseHeader,
-  setLocationHeader,
-  setLinksHeader,
-  sendStatus,
-  setVaryHeader,
-  sendFile,
-  formatResponse,
-  redirect,
-  setContentType,
+  append,
   attachment,
+  clearCookie,
   download,
-  append
+  formatResponse,
+  getResponseHeader,
+  json,
+  redirect,
+  send,
+  sendFile,
+  sendStatus,
+  setContentType,
+  setCookie,
+  setHeader,
+  setLinksHeader,
+  setLocationHeader,
+  setVaryHeader,
+  status
 } from '@tinyhttp/res'
-import { renderTemplate } from './response.js'
+import type { NextFunction } from '@tinyhttp/router'
 import type { App } from './app.js'
+import { type Request, getSubdomains } from './request.js'
+import { getHostname, getIP, getIPs, getProtocol } from './request.js'
+import type { Response } from './response.js'
+import { renderTemplate } from './response.js'
 import type { TemplateEngineOptions } from './types.js'
 
 /**

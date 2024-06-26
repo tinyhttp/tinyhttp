@@ -1,24 +1,24 @@
-import { describe, expect, it } from 'vitest'
-import { makeFetch } from 'supertest-fetch'
 import path from 'node:path'
+import { dirname } from 'dirname-filename-esm'
+import { makeFetch } from 'supertest-fetch'
+import { describe, expect, it } from 'vitest'
 import type { Request, Response } from '../../packages/app/src/index.js'
 import {
+  append,
+  attachment,
+  clearCookie,
+  download,
   formatResponse,
   getResponseHeader,
   redirect,
-  setHeader,
-  setVaryHeader,
   setContentType,
-  attachment,
-  download,
   setCookie,
-  clearCookie,
-  append,
+  setHeader,
   setLinksHeader,
-  setLocationHeader
+  setLocationHeader,
+  setVaryHeader
 } from '../../packages/res/src/index.js'
 import { runServer } from '../../test_helpers/runServer'
-import { dirname } from 'dirname-filename-esm'
 
 const __dirname = dirname(import.meta)
 

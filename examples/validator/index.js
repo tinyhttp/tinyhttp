@@ -1,6 +1,6 @@
 import { App } from '@tinyhttp/app'
-import { json } from 'milliparsec'
 import Validator from 'fastest-validator'
+import { json } from 'milliparsec'
 
 const v = new Validator()
 

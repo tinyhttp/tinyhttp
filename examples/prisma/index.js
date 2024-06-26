@@ -1,5 +1,5 @@
-import { App } from '@tinyhttp/app'
 import Prisma from '@prisma/client'
+import { App } from '@tinyhttp/app'
 import * as bodyParser from 'milliparsec'
 
 const prisma = new Prisma.PrismaClient()

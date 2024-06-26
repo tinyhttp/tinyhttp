@@ -1,14 +1,14 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { describe, expect, it } from 'vitest'
-import http from 'node:http'
 import { readFile } from 'node:fs/promises'
-import { App } from '../../packages/app/src/index'
+import http from 'node:http'
 import { renderFile } from 'eta'
 import type { PartialConfig } from 'eta/dist/types/config'
-import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import { makeFetch } from 'supertest-fetch'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { describe, expect, it } from 'vitest'
 import { vi } from 'vitest'
+import { App } from '../../packages/app/src/index'
 import type { View } from '../../packages/app/src/view'
+import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 
 describe('Testing App', () => {
   it('should launch a basic server', async () => {

@@ -1,19 +1,19 @@
-import { describe, expect, it } from 'vitest'
+import type { Ranges } from 'header-range-parser'
 import { makeFetch } from 'supertest-fetch'
+import { describe, expect, it } from 'vitest'
+import { App } from '../../packages/app/src'
 import {
   checkIfXMLHttpRequest,
   getAccepts,
-  getAcceptsEncodings,
-  getFreshOrStale,
-  getRequestHeader,
-  getRangeFromHeader,
-  reqIs,
   getAcceptsCharsets,
-  getAcceptsLanguages
+  getAcceptsEncodings,
+  getAcceptsLanguages,
+  getFreshOrStale,
+  getRangeFromHeader,
+  getRequestHeader,
+  reqIs
 } from '../../packages/req/src'
-import type { Ranges } from 'header-range-parser'
 import { runServer } from '../../test_helpers/runServer'
-import { App } from '../../packages/app/src'
 
 describe('Request extensions', () => {
   describe('req.get(header)', () => {

@@ -1,6 +1,6 @@
-import { describe, expect, it } from 'vitest'
-import { getQueryParams, getURLParams, getPathname } from '../../packages/url/src'
 import { parse as rg } from 'regexparam'
+import { describe, expect, it } from 'vitest'
+import { getPathname, getQueryParams, getURLParams } from '../../packages/url/src'
 
 describe('getQueryParams(url)', () => {
   it('parses query params the same way as url.parse(str, true)', () => {

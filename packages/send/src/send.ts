@@ -1,6 +1,6 @@
 import type { IncomingMessage as I, ServerResponse as S } from 'node:http'
 import { json } from './json.js'
-import { setCharset, createETag } from './utils.js'
+import { createETag, setCharset } from './utils.js'
 
 type Req = Pick<I, 'method'> & { fresh?: boolean }
 

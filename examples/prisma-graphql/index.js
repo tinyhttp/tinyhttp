@@ -1,7 +1,7 @@
-import { App } from '@tinyhttp/app'
 import Prisma from '@prisma/client'
-import graphql from 'graphql'
+import { App } from '@tinyhttp/app'
 import expressGraphQL from 'express-graphql'
+import graphql from 'graphql'
 
 const prisma = new Prisma.PrismaClient()
 const app = new App()

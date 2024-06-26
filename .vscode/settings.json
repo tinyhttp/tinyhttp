@@ -4,7 +4,8 @@
   "biome.enabled": true,
   "eslint.enable": false,
   "editor.codeActionsOnSave": {
-    "source.fixAll": "always"
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
   },
   "typescript.tsdk": "node_modules/typescript/lib"
 }

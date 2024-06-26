@@ -1,8 +1,8 @@
-import { describe, it } from 'vitest'
-import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
-import { App } from '../../packages/app/src/app'
-import { makeFetch } from 'supertest-fetch'
 import { Agent } from 'node:http'
+import { makeFetch } from 'supertest-fetch'
+import { describe, it } from 'vitest'
+import { App } from '../../packages/app/src/app'
+import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 
 describe('Request properties', () => {
   it('should have default HTTP Request properties', async () => {
