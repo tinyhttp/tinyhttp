@@ -1,6 +1,6 @@
-import fs from 'node:fs'
+import { readFileSync } from 'node:fs'
 import path from 'node:path'
-import type { DotenvConfigOptions, DotenvConfigOutput, DotenvParseOptions, DotenvParseOutput } from './structs.js'
+import type { DotenvConfigOptions, DotenvConfigOutput, DotenvParseOptions, DotenvParseOutput } from './types.js'
 
 const log = (message: string) => console.log(`[dotenv][DEBUG] ${message}`)
 
@@ -73,7 +73,7 @@ export function config(options?: Partial<DotenvConfigOptions>): DotenvConfigOutp
 
   try {
     // specifying an encoding returns a string instead of a buffer
-    const parsed = parse(fs.readFileSync(dotenvPath, { encoding }), { debug })
+    const parsed = parse(readFileSync(dotenvPath, { encoding }), { debug })
 
     for (const key of Object.keys(parsed)) {
       if (!Object.prototype.hasOwnProperty.call(process.env, key)) {
