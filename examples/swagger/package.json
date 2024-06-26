@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "@tinyhttp/swagger": "^0.1.3"
+    "@tinyhttp/swagger": "^0.1.4"
   },
   "type": "module",
   "scripts": {

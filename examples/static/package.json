@@ -4,7 +4,7 @@
   "type": "module",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "sirv": "^1.0.18"
+    "sirv": "^2.0.4"
   },
   "scripts": {
     "start": "node index.js"

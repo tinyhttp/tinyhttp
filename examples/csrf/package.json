@@ -4,9 +4,9 @@
   "private": true,
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "@tinyhttp/cookie-parser": "*",
-    "malibu": "^1.0.5",
-    "milliparsec": "^2.2.0"
+    "@tinyhttp/cookie-parser": "^2.0.6",
+    "malibu": "^1.0.6",
+    "milliparsec": "^2.3.0"
   },
   "scripts": {
     "start": "node index.js"
