@@ -25,6 +25,21 @@ describe('json(body)', () => {
 
     await makeFetch(app)('/').expect(null)
   })
+  it('should be able to respond with booleans', async () => {
+    const app = runServer((_, res) => json(res)(true))
+
+    await makeFetch(app)('/').expectBody('true')
+  })
+  it('should be able to respond with numbers', async () => {
+    const app = runServer((_, res) => json(res)(123))
+
+    await makeFetch(app)('/').expectBody('123')
+  })
+  it('should be able to respond with strings', async () => {
+    const app = runServer((_, res) => json(res)('hello'))
+
+    await makeFetch(app)('/').expectBody('hello')
+  })
 })
 
 describe('send(body)', () => {
@@ -92,10 +107,7 @@ describe('send(body)', () => {
   it("should set Content-Type to application/octet-stream for buffers if the header hasn't been set before", async () => {
     const app = runServer((req, res) => send(req, res)(Buffer.from('Hello World', 'utf-8')).end())
 
-    await makeFetch(app)('/', { headers: { 'Content-Type': null } }).expectHeader(
-      'Content-Type',
-      'application/octet-stream'
-    )
+    await makeFetch(app)('/').expectHeader('Content-Type', 'application/octet-stream')
   })
   it('should set 304 status for fresh requests', async () => {
     const etag = 'abc'
