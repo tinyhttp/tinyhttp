@@ -29,7 +29,7 @@
     "@tinyhttp/res": "workspace:*",
     "@tinyhttp/router": "workspace:*",
     "header-range-parser": "1.1.3",
-    "regexparam": "^2.0.1"
+    "regexparam": "^2.0.2"
   },
   "scripts": {
     "dev": "vite",

@@ -22,7 +22,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@tinyhttp/content-type": "^0.1.3",
+    "@tinyhttp/content-type": "^0.1.4",
     "@tinyhttp/etag": "workspace:*",
     "mime": "4.0.0-beta.1"
   }
