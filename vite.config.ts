@@ -7,7 +7,7 @@ export default defineConfig({
     environment: 'node',
     coverage: {
       provider: 'v8',
-      reporter: ['lcov', 'html'],
+      reporter: ['lcov'],
       include: ['packages/*/src']
     }
   }
