@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/cookie",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "type": "module",
   "description": "HTTP cookie parser and serializer for Node.js",
   "homepage": "https://github.com/tinyhttp/tinyhttp/tree/master/packages/cookie#readme",
