@@ -34,6 +34,16 @@ function isIPRangeName(val: string): val is keyof typeof IP_RANGES {
   return Object.prototype.hasOwnProperty.call(IP_RANGES, val)
 }
 /**
+ * Type-guard to determine whether an IP address is a v4 address.
+ * @param val
+ */
+const isIPv4 = (val: IPv4 | IPv6): val is IPv4 => val.kind() === 'ipv4'
+/**
+ * Type-guard to determine whether an IP address is a v6 address.
+ * @param val
+ */
+const isIPv6 = (val: IPv4 | IPv6): val is IPv6 => val.kind() === 'ipv6'
+/**
  * Static trust function to trust nothing.
  */
 const trustNone = () => false
@@ -122,9 +132,7 @@ export function parseIPNotation(note: string): Subnet {
 
   let ip = parseip(str)
 
-  if (pos === -1 && ip.kind() === 'ipv6') {
-    ip = ip as IPv6
-
+  if (pos === -1 && isIPv6(ip)) {
     if (ip.isIPv4MappedAddress()) ip = ip.toIPv4Address()
   }
 
@@ -179,13 +187,13 @@ function trustMulti(subnets: Subnet[]) {
       const subnetKind = subnet.ip.kind()
       let trusted = ip
       if (kind !== subnetKind) {
-        if (subnetKind === 'ipv4' && !(ip as IPv6).isIPv4MappedAddress()) continue
+        if (isIPv6(ip) && !ip.isIPv4MappedAddress()) continue
 
-        if (!ipconv) ipconv = kind === 'ipv4' ? (ip as IPv4).toIPv4MappedAddress() : (ip as IPv6).toIPv4Address()
+        if (!ipconv) ipconv = isIPv4(ip) ? ip.toIPv4MappedAddress() : ip.toIPv4Address()
 
         trusted = ipconv
       }
-      if ((trusted as IPv4).match(subnet.ip, subnet.range)) return true
+      if (trusted.match(subnet.ip, subnet.range)) return true
     }
     return false
   }
