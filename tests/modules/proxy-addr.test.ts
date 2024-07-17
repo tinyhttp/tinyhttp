@@ -25,14 +25,10 @@ describe('proxyaddr(req, trust)', () => {
 
       expect(proxyaddr(req, [])).toBe('127.0.0.1')
     })
-    it('should reject a number', () => {
+    it('should accept a number', () => {
       const req = createReq('127.0.0.1') as IncomingMessage
 
-      try {
-        proxyaddr(req, 1 as any)
-      } catch (e) {
-        expect(e.message).toBe('unsupported trust argument')
-      }
+      expect(proxyaddr(req, 1)).toBe('127.0.0.1')
     })
     it('should accept IPv4', () => {
       const req = createReq('127.0.0.1') as IncomingMessage
@@ -355,6 +351,22 @@ describe('proxyaddr(req, trust)', () => {
       }) as IncomingMessage
 
       expect(proxyaddr(req, ['::ffff:a00:1', '::ffff:a00:2'])).toBe('192.168.0.1')
+    })
+  })
+
+  describe('when given number', () => {
+    describe.each<{ trust: number; address: string }>([
+      { trust: 0, address: '10.0.0.1' },
+      { trust: 1, address: '10.0.0.2' },
+      { trust: 2, address: '192.168.0.1' }
+    ])('with addresses 10.0.0.1, 10.0.0.2, 192.168.0.1', ({ trust, address }) => {
+      const req = createReq('10.0.0.1', {
+        'x-forwarded-for': '192.168.0.1, 10.0.0.2'
+      }) as IncomingMessage
+
+      it(`should use the address that is at most ${trust} hops away`, () => {
+        expect(proxyaddr(req, trust)).toBe(address)
+      })
     })
   })
 })

@@ -4,7 +4,9 @@ import ipaddr, { type IPv6, type IPv4 } from 'ipaddr.js'
 
 type Req = Pick<IncomingMessage, 'headers' | 'socket'>
 
-type Trust = ((addr: string, i: number) => boolean) | number[] | string[] | string
+export type TrustParameter = string | number | string[]
+export type TrustFunction = (addr: string, i: number) => boolean
+export type Trust = TrustFunction | TrustParameter
 
 type Subnet = {
   ip: IPv4 | IPv6
@@ -63,11 +65,11 @@ function alladdrs(req: Req, trust: Trust): string[] {
  *
  * @param  val
  */
-function compile(val: string | number | (string | number)[]): (addr: string) => boolean {
+function compile(val: string | number | string[]): (addr: string, i: number) => boolean {
   let trust: string[]
   if (typeof val === 'string') trust = [val]
-  else if (typeof val === 'number') trust = [String(val)]
-  else if (Array.isArray(val)) trust = val.map(String)
+  else if (typeof val === 'number') return compileHopsTrust(val)
+  else if (Array.isArray(val)) trust = val
   else throw new TypeError('unsupported trust argument')
 
   for (let i = 0; i < trust.length; i++) {
@@ -81,6 +83,15 @@ function compile(val: string | number | (string | number)[]): (addr: string) => 
   }
   return compileTrust(compileRangeSubnets(trust))
 }
+/**
+ * Compile 'hops' number into trust function.
+ *
+ * @param hops
+ */
+function compileHopsTrust(hops: number): (_: string, i: number) => boolean {
+  return (_, i) => i < hops
+}
+
 /**
  * Compile `arr` elements into range subnets.
  */
