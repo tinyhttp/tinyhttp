@@ -55,12 +55,12 @@ const trustNone = () => false
  * @param req
  * @param trust
  */
-function alladdrs(req: Req, trust: Trust): string[] {
+function alladdrs(req: Req, trust?: Trust): string[] {
   // get addresses
 
   const addrs = forwarded(req)
 
-  if (!trust) return addrs
+  if (trust == null) return addrs
 
   if (typeof trust !== 'function') trust = compile(trust)
 
