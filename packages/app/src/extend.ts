@@ -54,6 +54,12 @@ export const extendMiddleware =
       res.app = app
     }
 
+    let trust = settings?.['trust proxy']
+    if (typeof trust !== 'function') {
+      trust = compile(trust)
+      settings['trust proxy'] = trust
+    }
+
     if (settings?.networkExtensions) {
       req.protocol = getProtocol(req, trust)
       req.secure = req.protocol === 'https'
