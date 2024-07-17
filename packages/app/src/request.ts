@@ -1,7 +1,7 @@
 import type { IncomingMessage } from 'node:http'
 import type { ParsedUrlQuery } from 'node:querystring'
 
-import { all, compile, proxyaddr as proxyAddr } from '@tinyhttp/proxy-addr'
+import { type Trust, all, compile, proxyaddr as proxyAddr } from '@tinyhttp/proxy-addr'
 import type { Options, Ranges } from 'header-range-parser'
 
 import type { Middleware } from '@tinyhttp/router'
@@ -14,16 +14,16 @@ import type { URLParams } from '@tinyhttp/req'
 
 export { getURLParams } from '@tinyhttp/req'
 
-const trustRemoteAddress = ({ socket }: Pick<Request, 'headers' | 'socket'>) => {
+const trustRemoteAddress = ({ socket }: Pick<Request, 'headers' | 'socket'>, trust: Trust): boolean => {
   const val = socket.remoteAddress
-  if (typeof val === 'string') return compile(val.split(',').map((x) => x.trim()))
-  return compile(val || [])
+  if (typeof trust !== 'function') trust = compile(trust)
+  return trust(val, 0)
 }
 
-export const getProtocol = (req: Request): Protocol => {
+export const getProtocol = (req: Request, trust: Trust): Protocol => {
   const proto = `http${req.secure ? 's' : ''}`
 
-  if (!trustRemoteAddress(req)) return proto
+  if (!trustRemoteAddress(req, trust)) return proto
 
   const header = (req.headers['X-Forwarded-Proto'] as string) || proto
 
@@ -32,10 +32,10 @@ export const getProtocol = (req: Request): Protocol => {
   return index !== -1 ? header.substring(0, index).trim() : header.trim()
 }
 
-export const getHostname = (req: Request): string | undefined => {
+export const getHostname = (req: Request, trust: Trust): string | undefined => {
   let host: string = req.get('X-Forwarded-Host') as string
 
-  if (!host || !trustRemoteAddress(req)) host = req.get('Host') as string
+  if (!host || !trustRemoteAddress(req, trust)) host = req.get('Host') as string
 
   if (!host) return
 
@@ -45,14 +45,14 @@ export const getHostname = (req: Request): string | undefined => {
   return index !== -1 ? host.substring(0, index) : host
 }
 
-export const getIP = (req: Pick<Request, 'headers' | 'connection' | 'socket'>): string | undefined =>
-  proxyAddr(req, trustRemoteAddress(req)).replace(/^.*:/, '') // striping the redundant prefix addeded by OS to IPv4 address
+export const getIP = (req: Pick<Request, 'headers' | 'connection' | 'socket'>, trust: Trust): string | undefined =>
+  proxyAddr(req, trust).replace(/^.*:/, '') // striping the redundant prefix addeded by OS to IPv4 address
 
-export const getIPs = (req: Pick<Request, 'headers' | 'connection' | 'socket'>): string[] | undefined =>
-  all(req, trustRemoteAddress(req))
+export const getIPs = (req: Pick<Request, 'headers' | 'connection' | 'socket'>, trust: Trust): string[] | undefined =>
+  all(req, trust)
 
-export const getSubdomains = (req: Request, subdomainOffset = 2): string[] => {
-  const hostname = getHostname(req)
+export const getSubdomains = (req: Request, trust: Trust, subdomainOffset = 2): string[] => {
+  const hostname = getHostname(req, trust)
 
   if (!hostname) return []
 
