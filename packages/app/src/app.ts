@@ -75,6 +75,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       xPoweredBy: true,
       views: `${process.cwd()}/views`,
       'view cache': process.env.NODE_ENV === 'production',
+      'trust proxy': 0,
       ...options.settings
     }
     this.applyExtensions = options?.applyExtensions
