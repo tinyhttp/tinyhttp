@@ -80,10 +80,7 @@ function compile(val: string | number | (string | number)[]): (addr: string) => 
  * Compile `arr` elements into range subnets.
  */
 function compileRangeSubnets(arr: string[]) {
-  const rangeSubnets = new Array(arr.length)
-  for (let i = 0; i < arr.length; i++) rangeSubnets[i] = parseIPNotation(arr[i])
-
-  return rangeSubnets
+  return arr.map(parseIPNotation)
 }
 /**
  * Compile range subnet array into trust function.
