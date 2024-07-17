@@ -6,6 +6,11 @@ type Req = Pick<IncomingMessage, 'headers' | 'socket'>
 
 type Trust = ((addr: string, i: number) => boolean) | number[] | string[] | string
 
+type Subnet = {
+  ip: IPv4 | IPv6
+  range: number | null
+}
+
 const DIGIT_REGEXP = /^[0-9]+$/
 const isip = ipaddr.isValid
 const parseip = ipaddr.parse
@@ -87,7 +92,7 @@ function compileRangeSubnets(arr: string[]) {
  *
  * @param rangeSubnets
  */
-function compileTrust(rangeSubnets: (IPv4 | IPv6)[]) {
+function compileTrust(rangeSubnets: Subnet[]) {
   // Return optimized function based on length
   const len = rangeSubnets.length
   return len === 0 ? trustNone : len === 1 ? trustSingle(rangeSubnets[0]) : trustMulti(rangeSubnets)
@@ -98,7 +103,7 @@ function compileTrust(rangeSubnets: (IPv4 | IPv6)[]) {
  * @param {String} note
  * @private
  */
-export function parseIPNotation(note: string): [IPv4 | IPv6, string | number] {
+export function parseIPNotation(note: string): Subnet {
   const pos = note.lastIndexOf('/')
   const str = pos !== -1 ? note.substring(0, pos) : note
 
@@ -114,16 +119,17 @@ export function parseIPNotation(note: string): [IPv4 | IPv6, string | number] {
 
   const max = ip.kind() === 'ipv6' ? 128 : 32
 
-  let range: string | number = pos !== -1 ? note.substring(pos + 1, note.length) : null
+  const rangeString: string = pos !== -1 ? note.substring(pos + 1, note.length) : null
+  let range: number
 
-  if (range === null) range = max
-  else if (DIGIT_REGEXP.test(range)) range = Number.parseInt(range, 10)
-  else if (ip.kind() === 'ipv4' && isip(range)) range = parseNetmask(range)
+  if (rangeString === null) range = max
+  else if (DIGIT_REGEXP.test(rangeString)) range = Number.parseInt(rangeString, 10)
+  else if (ip.kind() === 'ipv4' && isip(rangeString)) range = parseNetmask(rangeString)
   else range = null
 
   if (typeof range === 'number' && (range <= 0 || range > max)) throw new TypeError(`invalid range on address: ${note}`)
 
-  return [ip, range]
+  return { ip, range }
 }
 /**
  * Parse netmask string into CIDR range.
@@ -151,7 +157,7 @@ export function proxyaddr(req: Req, trust: Trust): string {
 /**
  * Compile trust function for multiple subnets.
  */
-function trustMulti(subnets: (IPv4 | IPv6)[]) {
+function trustMulti(subnets: Subnet[]) {
   return function trust(addr: string) {
     if (!isip(addr)) return false
     const ip = parseip(addr)
@@ -159,18 +165,16 @@ function trustMulti(subnets: (IPv4 | IPv6)[]) {
     const kind = ip.kind()
     for (let i = 0; i < subnets.length; i++) {
       const subnet = subnets[i]
-      const subnetip = subnet[0]
-      const subnetkind = subnetip.kind()
-      const subnetrange = subnet[1]
+      const subnetKind = subnet.ip.kind()
       let trusted = ip
-      if (kind !== subnetkind) {
-        if (subnetkind === 'ipv4' && !(ip as IPv6).isIPv4MappedAddress()) continue
+      if (kind !== subnetKind) {
+        if (subnetKind === 'ipv4' && !(ip as IPv6).isIPv4MappedAddress()) continue
 
-        if (!ipconv) ipconv = subnetkind === 'ipv4' ? (ip as IPv6).toIPv4Address() : (ip as IPv4).toIPv4MappedAddress()
+        if (!ipconv) ipconv = kind === 'ipv4' ? (ip as IPv4).toIPv4MappedAddress() : (ip as IPv6).toIPv4Address()
 
         trusted = ipconv
       }
-      if ((trusted as IPv4).match(subnetip, subnetrange)) return true
+      if ((trusted as IPv4).match(subnet.ip, subnet.range)) return true
     }
     return false
   }
@@ -180,21 +184,19 @@ function trustMulti(subnets: (IPv4 | IPv6)[]) {
  *
  * @param subnet
  */
-function trustSingle(subnet: IPv4 | IPv6) {
-  const subnetip = subnet[0]
-  const subnetkind = subnetip.kind()
-  const subnetisipv4 = subnetkind === 'ipv4'
-  const subnetrange = subnet[1]
+function trustSingle(subnet: Subnet) {
+  const subnetKind = subnet.ip.kind()
+  const subnetIsIPv4 = subnetKind === 'ipv4'
   return function trust(addr: string) {
     if (!isip(addr)) return false
     let ip = parseip(addr)
     const kind = ip.kind()
-    if (kind !== subnetkind) {
-      if (subnetisipv4 && !(ip as IPv6).isIPv4MappedAddress()) return false
+    if (kind !== subnetKind) {
+      if (subnetIsIPv4 && !(ip as IPv6).isIPv4MappedAddress()) return false
 
-      ip = subnetisipv4 ? (ip as IPv6).toIPv4Address() : (ip as IPv4).toIPv4MappedAddress()
+      ip = subnetIsIPv4 ? (ip as IPv6).toIPv4Address() : (ip as IPv4).toIPv4MappedAddress()
     }
-    return (ip as IPv6).match(subnetip, subnetrange)
+    return (ip as IPv6).match(subnet.ip, subnet.range)
   }
 }
 
