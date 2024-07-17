@@ -8,7 +8,7 @@ type Trust = ((addr: string, i: number) => boolean) | number[] | string[] | stri
 
 type Subnet = {
   ip: IPv4 | IPv6
-  range: number | null
+  range?: number
 }
 
 const DIGIT_REGEXP = /^[0-9]+$/
@@ -119,8 +119,8 @@ export function parseIPNotation(note: string): Subnet {
 
   const max = ip.kind() === 'ipv6' ? 128 : 32
 
-  const rangeString: string = pos !== -1 ? note.substring(pos + 1, note.length) : null
-  let range: number
+  const rangeString: string | null = pos !== -1 ? note.substring(pos + 1, note.length) : null
+  let range: number | null
 
   if (rangeString === null) range = max
   else if (DIGIT_REGEXP.test(rangeString)) range = Number.parseInt(rangeString, 10)
@@ -129,7 +129,7 @@ export function parseIPNotation(note: string): Subnet {
 
   if (typeof range === 'number' && (range <= 0 || range > max)) throw new TypeError(`invalid range on address: ${note}`)
 
-  return { ip, range }
+  return { ip, range: range ?? undefined }
 }
 /**
  * Parse netmask string into CIDR range.
@@ -161,7 +161,7 @@ function trustMulti(subnets: Subnet[]) {
   return function trust(addr: string) {
     if (!isip(addr)) return false
     const ip = parseip(addr)
-    let ipconv: IPv4 | IPv6
+    let ipconv: IPv4 | IPv6 | null = null
     const kind = ip.kind()
     for (let i = 0; i < subnets.length; i++) {
       const subnet = subnets[i]
