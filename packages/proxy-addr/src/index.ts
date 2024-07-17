@@ -40,7 +40,7 @@ const trustNone = () => false
  * Get all addresses in the request, optionally stopping
  * at the first untrusted.
  *
- * @param request
+ * @param req
  * @param trust
  */
 function alladdrs(req: Req, trust: Trust): string[] {
@@ -144,7 +144,7 @@ function parseNetmask(netmask: string) {
 /**
  * Determine address of proxied request.
  *
- * @param request
+ * @param req
  * @param trust
  * @public
  */
