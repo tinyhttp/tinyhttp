@@ -19,6 +19,14 @@ const IP_RANGES = {
 }
 
 /**
+ * Type-guard to determine whether a string value represents a pre-defined IP range.
+ *
+ * @param val
+ */
+function isIPRangeName(val: string): val is keyof typeof IP_RANGES {
+  return Object.prototype.hasOwnProperty.call(IP_RANGES, val)
+}
+/**
  * Static trust function to trust nothing.
  */
 const trustNone = () => false
@@ -50,20 +58,21 @@ function alladdrs(req: Req, trust: Trust): string[] {
  *
  * @param  val
  */
-function compile(val: string | string[] | number[]): (addr: string) => boolean {
+function compile(val: string | number | (string | number)[]): (addr: string) => boolean {
   let trust: string[]
   if (typeof val === 'string') trust = [val]
-  else if (Array.isArray(val)) trust = val.slice() as string[]
+  else if (typeof val === 'number') trust = [String(val)]
+  else if (Array.isArray(val)) trust = val.map(String)
   else throw new TypeError('unsupported trust argument')
 
   for (let i = 0; i < trust.length; i++) {
-    val = trust[i]
-    if (!Object.prototype.hasOwnProperty.call(IP_RANGES, val)) continue
+    const element = trust[i]
+    if (!isIPRangeName(element)) continue
 
     // Splice in pre-defined range
-    val = IP_RANGES[val as string]
-    trust.splice.apply(trust, [i, 1].concat(val as number[]))
-    i += val.length - 1
+    const namedRange = IP_RANGES[element]
+    trust.splice(i, 1, ...namedRange)
+    i += namedRange.length - 1
   }
   return compileTrust(compileRangeSubnets(trust))
 }
