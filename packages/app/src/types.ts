@@ -1,3 +1,4 @@
+import type { Trust } from '@tinyhttp/proxy-addr'
 import type { Handler, NextFunction } from '@tinyhttp/router'
 import type { ErrorHandler } from './onError.js'
 import type { Request } from './request.js'
@@ -17,6 +18,7 @@ export type AppSettings = Partial<{
   view: typeof View
   'view cache': boolean
   'view engine': string
+  'trust proxy': Trust
 }>
 
 export type TemplateEngineOptions = {
