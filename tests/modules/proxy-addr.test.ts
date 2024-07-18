@@ -15,6 +15,16 @@ function trust10x(addr: string) {
 
 describe('proxyaddr(req, trust)', () => {
   describe('arguments', () => {
+    describe('req', () => {
+      it('should be required', () => {
+        try {
+          proxyaddr(null, null)
+        } catch (error) {
+          expect(error).toBeDefined()
+        }
+      })
+    })
+
     describe('trust', () => {
       it('should accept a function', () => {
         const req = createReq('127.0.0.1') as IncomingMessage
