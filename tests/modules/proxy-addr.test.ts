@@ -102,71 +102,36 @@ describe('proxyaddr(req, trust)', () => {
           expect(e.message).toContain('invalid IP address')
         }
       })
-      it('should reject bad CIDR', () => {
+      it.each(['10.0.0.1/internet', '10.0.0.1/6000', '::1/6000', '::ffff:a00:2/136', '::ffff:a00:2/-1'])(
+        "should reject bad CIDR '%s'",
+        (trust: string) => {
+          const req = createReq('127.0.0.1')
+
+          try {
+            proxyaddr(req, trust)
+          } catch (e) {
+            expect(e.message).toContain('invalid range on address')
+            return
+          }
+          assert.fail()
+        }
+      )
+      it.each([
+        '10.0.0.1/255.0.255.0',
+        '10.0.0.1/ffc0::',
+        'fe80::/ffc0::',
+        'fe80::/255.255.255.0',
+        '::ffff:a00:2/255.255.255.0'
+      ])("should reject bad netmask '%s'", (netmask: string) => {
         const req = createReq('127.0.0.1')
 
         try {
-          proxyaddr(req, '10.0.0.1/internet')
+          proxyaddr(req, netmask)
         } catch (e) {
           expect(e.message).toContain('invalid range on address')
+          return
         }
-
-        try {
-          proxyaddr(req, '10.0.0.1/6000')
-        } catch (e) {
-          expect(e.message).toContain('invalid range on address')
-        }
-
-        try {
-          proxyaddr(req, '::1/6000')
-        } catch (e) {
-          expect(e.message).toContain('invalid range on address')
-        }
-
-        try {
-          proxyaddr(req, '::ffff:a00:2/136')
-        } catch (e) {
-          expect(e.message).toContain('invalid range on address')
-        }
-
-        try {
-          proxyaddr(req, '::ffff:a00:2/-1')
-        } catch (e) {
-          expect(e.message).toContain('invalid range on address')
-        }
-      })
-      it('should reject bad netmask', () => {
-        const req = createReq('127.0.0.1')
-
-        try {
-          proxyaddr(req, '10.0.0.1/255.0.255.0')
-        } catch (e) {
-          expect(e.message).toContain('invalid range on address')
-        }
-
-        try {
-          proxyaddr(req, '10.0.0.1/ffc0::')
-        } catch (e) {
-          expect(e.message).toContain('invalid range on address')
-        }
-
-        try {
-          proxyaddr(req, 'fe80::/ffc0::')
-        } catch (e) {
-          expect(e.message).toContain('invalid range on address')
-        }
-
-        try {
-          proxyaddr(req, 'fe80::/255.255.255.0')
-        } catch (e) {
-          expect(e.message).toContain('invalid range on address')
-        }
-
-        try {
-          proxyaddr(req, '::ffff:a00:2/255.255.255.0')
-        } catch (e) {
-          expect(e.message).toContain('invalid range on address')
-        }
+        assert.fail()
       })
       it('should be invoked as trust(addr, i)', () => {
         const log = []
@@ -582,7 +547,7 @@ describe('proxyaddr.compile(trust)', () => {
       it('should accept pre-defined names in an array', () => {
         expect(compile(['loopback', '10.0.0.1'])).toBeTypeOf('function')
       })
-      it.each(['blargh', '-1'])('should reject non-IP', (value: string) => {
+      it.each(['blargh', '-1'])("should reject non-IP '%s'", (value: string) => {
         try {
           compile(value)
         } catch (error) {
@@ -594,7 +559,7 @@ describe('proxyaddr.compile(trust)', () => {
       })
 
       it.each(['10.0.0.1/6000', '::1/6000', '::ffff:a00:2/136', '::ffff:a00:2/-1'])(
-        'should reject bad CIDR',
+        "should reject bad CIDR '%s'",
         (value: string) => {
           try {
             compile(value)
