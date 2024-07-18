@@ -293,7 +293,7 @@ describe('proxyaddr(req, trust)', () => {
 
         expect(proxyaddr(req, [])).toBe('127.0.0.1')
       })
-      it('should return socket address', () => {
+      it('should return socket address with headers', () => {
         const req = createReq('127.0.0.1', {
           'x-forwarded-for': '10.0.0.1, 10.0.0.2'
         }) as IncomingMessage
