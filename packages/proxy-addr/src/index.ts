@@ -79,7 +79,7 @@ function compile(val: string | number | string[]): (addr: string, i: number) => 
   let trust: string[]
   if (typeof val === 'string') trust = [val]
   else if (typeof val === 'number') return compileHopsTrust(val)
-  else if (Array.isArray(val)) trust = val
+  else if (Array.isArray(val)) trust = val.slice()
   else throw new TypeError('unsupported trust argument')
 
   for (let i = 0; i < trust.length; i++) {
