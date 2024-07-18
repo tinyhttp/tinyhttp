@@ -381,6 +381,25 @@ describe('proxyaddr(req, trust)', () => {
 
       expect(proxyaddr(req, ['::ffff:a00:1', '::ffff:a00:2'])).toBe('192.168.0.1')
     })
+    it('should match CIDR notation for IPv4-mapped address', () => {})
+    it('should match CIDR notation for IPv4-mapped address mixed with IPv6 CIDR', () => {})
+    it('should match CIDR notation for IPv4-mapped address mixed with IPv4 addresses', () => {})
+  })
+
+  describe('when given pre-defined names', () => {
+    it('should accept single pre-defined name', () => {})
+    it('should accept multiple pre-defined names', () => {})
+  })
+
+  describe('when header contains non-ip addresses', () => {
+    it('should stop at first non-trusted non-ip', () => {})
+    it('should stop at first non-trusted malformed ip', () => {})
+    it('should provide all values to function', () => {})
+  })
+
+  describe('when socket address undefined', () => {
+    it('should return undefined as address', () => {})
+    it('should return undefined even with trusted headers', () => {})
   })
 
   describe('when given number', () => {
@@ -396,6 +415,49 @@ describe('proxyaddr(req, trust)', () => {
       it(`should use the address that is at most ${trust} hops away`, () => {
         expect(proxyaddr(req, trust)).toBe(address)
       })
+    })
+  })
+})
+
+describe('proxyaddr.all(req, trust?)', () => {
+  describe('arguments', () => {
+    describe('req', () => {
+      it('should be required', () => {})
+    })
+    describe('trust', () => {
+      it('should be optional', () => {})
+    })
+  })
+
+  describe('with no headers', () => {
+    it('should return socket address', () => {})
+  })
+
+  describe('with x-forwarded-for header', () => {
+    it('should include x-forwarded-for', () => {})
+    it('should include x-forwarded-for in the correct order', () => {})
+  })
+
+  describe('with trust argument', () => {
+    it('should stop at first untrusted', () => {})
+    it('should return only socket address when nothing is trusted', () => {})
+  })
+})
+
+describe('proxyaddr.compile(trust)', () => {
+  describe('arguments', () => {
+    describe('trust', () => {
+      it('should be required', () => {})
+      it('should accept a string array', () => {})
+      it('should accept a number', () => {})
+      it('should accept IPv4', () => {})
+      it('should accept IPv6', () => {})
+      it('should accept IPv4-style IPv6', () => {})
+      it('should accept pre-defined names', () => {})
+      it('should accept pre-defined names in an array', () => {})
+      it('should reject non-IP', () => {})
+      it('should reject bad CIDR', () => {})
+      it('should not alter input array', () => {})
     })
   })
 })
