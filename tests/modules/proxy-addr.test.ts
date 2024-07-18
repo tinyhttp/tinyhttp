@@ -27,7 +27,7 @@ describe('proxyaddr(req, trust)', () => {
 
     describe('trust', () => {
       it('should be required', () => {
-        const req = createReq('127.0.0.1') as IncomingMessage
+        const req = createReq('127.0.0.1')
         try {
           proxyaddr(req, null)
         } catch (error) {
@@ -35,54 +35,54 @@ describe('proxyaddr(req, trust)', () => {
         }
       })
       it('should accept a function', () => {
-        const req = createReq('127.0.0.1') as IncomingMessage
+        const req = createReq('127.0.0.1')
 
         expect(proxyaddr(req, all)).toBe('127.0.0.1')
       })
       it('should accept an array', () => {
-        const req = createReq('127.0.0.1') as IncomingMessage
+        const req = createReq('127.0.0.1')
 
         expect(proxyaddr(req, [])).toBe('127.0.0.1')
       })
       it('should accept a number', () => {
-        const req = createReq('127.0.0.1') as IncomingMessage
+        const req = createReq('127.0.0.1')
 
         expect(proxyaddr(req, 1)).toBe('127.0.0.1')
       })
       it('should accept IPv4', () => {
-        const req = createReq('127.0.0.1') as IncomingMessage
+        const req = createReq('127.0.0.1')
 
         expect(proxyaddr(req, '127.0.0.1')).toBe('127.0.0.1')
       })
       it('should accept IPv6', () => {
-        const req = createReq('127.0.0.1') as IncomingMessage
+        const req = createReq('127.0.0.1')
 
         expect(proxyaddr(req, '::1')).toBe('127.0.0.1')
       })
       it('should accept IPv4-style IPv6', () => {
-        const req = createReq('127.0.0.1') as IncomingMessage
+        const req = createReq('127.0.0.1')
 
         expect(proxyaddr(req, '::ffff:127.0.0.1')).toBe('127.0.0.1')
       })
       it('should accept pre-defined names', () => {
-        const req = createReq('127.0.0.1') as IncomingMessage
+        const req = createReq('127.0.0.1')
 
         expect(proxyaddr(req, 'loopback')).toBe('127.0.0.1')
       })
       it('should accept pre-defined names in an array', () => {
-        const req = createReq('127.0.0.1') as IncomingMessage
+        const req = createReq('127.0.0.1')
 
         expect(proxyaddr(req, ['loopback', '10.0.0.1'])).toBe('127.0.0.1')
       })
       it('should not alter input array', () => {
         const arr = ['loopback', '10.0.0.1']
-        const req = createReq('127.0.0.1') as IncomingMessage
+        const req = createReq('127.0.0.1')
 
         expect(proxyaddr(req, arr)).toBe('127.0.0.1')
         expect(arr).toEqual(['loopback', '10.0.0.1'])
       })
       it('should reject non-IP', () => {
-        const req = createReq('127.0.0.1') as IncomingMessage
+        const req = createReq('127.0.0.1')
 
         try {
           proxyaddr(req, 'blegh')
@@ -106,7 +106,7 @@ describe('proxyaddr(req, trust)', () => {
         }
       })
       it('should reject bad CIDR', () => {
-        const req = createReq('127.0.0.1') as IncomingMessage
+        const req = createReq('127.0.0.1')
 
         try {
           proxyaddr(req, '10.0.0.1/internet')
@@ -139,7 +139,7 @@ describe('proxyaddr(req, trust)', () => {
         }
       })
       it('should reject bad netmask', () => {
-        const req = createReq('127.0.0.1') as IncomingMessage
+        const req = createReq('127.0.0.1')
 
         try {
           proxyaddr(req, '10.0.0.1/255.0.255.0')
@@ -176,7 +176,7 @@ describe('proxyaddr(req, trust)', () => {
 
         const req = createReq('127.0.0.1', {
           'x-forwarded-for': '192.168.0.1, 10.0.0.1'
-        }) as IncomingMessage
+        })
 
         proxyaddr(req, (addr, i) => {
           log.push([addr, i])
@@ -193,21 +193,21 @@ describe('proxyaddr(req, trust)', () => {
 
   describe('with all trusted', () => {
     it('should return socket address with no headers', () => {
-      const req = createReq('127.0.0.1') as IncomingMessage
+      const req = createReq('127.0.0.1')
 
       expect(proxyaddr(req, all)).toBe('127.0.0.1')
     })
     it('should return header value', () => {
       const req = createReq('127.0.0.1', {
         'x-forwarded-for': '10.0.0.1'
-      }) as IncomingMessage
+      })
 
       expect(proxyaddr(req, all)).toBe('10.0.0.1')
     })
     it('should return furthest header value', () => {
       const req = createReq('127.0.0.1', {
         'x-forwarded-for': '10.0.0.1, 10.0.0.2'
-      }) as IncomingMessage
+      })
 
       expect(proxyaddr(req, all)).toBe('10.0.0.1')
     })
@@ -215,14 +215,14 @@ describe('proxyaddr(req, trust)', () => {
 
   describe('with none trusted', () => {
     it('should return socket address with no headers', () => {
-      const req = createReq('127.0.0.1') as IncomingMessage
+      const req = createReq('127.0.0.1')
 
       expect(proxyaddr(req, none)).toBe('127.0.0.1')
     })
     it('should return socket address with headers', () => {
       const req = createReq('127.0.0.1', {
         'x-forwarded-for': '10.0.0.1'
-      }) as IncomingMessage
+      })
 
       expect(proxyaddr(req, none)).toBe('127.0.0.1')
     })
@@ -230,35 +230,35 @@ describe('proxyaddr(req, trust)', () => {
 
   describe('with some trusted', () => {
     it('should return socket address with no headers', () => {
-      const req = createReq('127.0.0.1') as IncomingMessage
+      const req = createReq('127.0.0.1')
 
       expect(proxyaddr(req, trust10x)).toBe('127.0.0.1')
     })
     it('should return socket address when not trusted', () => {
       const req = createReq('127.0.0.1', {
         'x-forwarded-for': '10.0.0.1, 10.0.0.2'
-      }) as IncomingMessage
+      })
 
       expect(proxyaddr(req, trust10x)).toBe('127.0.0.1')
     })
     it('should return header when socket trusted', () => {
       const req = createReq('10.0.0.1', {
         'x-forwarded-for': '192.168.0.1'
-      }) as IncomingMessage
+      })
 
       expect(proxyaddr(req, trust10x)).toBe('192.168.0.1')
     })
     it('should return first untrusted after trusted', () => {
       const req = createReq('10.0.0.1', {
         'x-forwarded-for': '192.168.0.1, 10.0.0.2'
-      }) as IncomingMessage
+      })
 
       expect(proxyaddr(req, trust10x)).toBe('192.168.0.1')
     })
     it('should not skip untrusted', () => {
       const req = createReq('10.0.0.1', {
         'x-forwarded-for': '10.0.0.3, 192.168.0.1, 10.0.0.2'
-      }) as IncomingMessage
+      })
 
       expect(proxyaddr(req, trust10x)).toBe('192.168.0.1')
     })
@@ -268,35 +268,35 @@ describe('proxyaddr(req, trust)', () => {
     it('should accept literal IP addresses', () => {
       const req = createReq('10.0.0.1', {
         'x-forwarded-for': '192.168.0.1, 10.0.0.2'
-      }) as IncomingMessage
+      })
 
       expect(proxyaddr(req, ['10.0.0.1', '10.0.0.2'])).toBe('192.168.0.1')
     })
     it('should not trust non-IP addresses', () => {
       const req = createReq('10.0.0.1', {
         'x-forwarded-for': '192.168.0.1, 10.0.0.2, localhost'
-      }) as IncomingMessage
+      })
 
       expect(proxyaddr(req, ['10.0.0.1', '10.0.0.2'])).toBe('localhost')
     })
     it('should return socket address if none match', () => {
       const req = createReq('10.0.0.1', {
         'x-forwarded-for': '192.168.0.1, 10.0.0.2'
-      }) as IncomingMessage
+      })
 
       expect(proxyaddr(req, ['127.0.0.1', '192.168.0.100'])).toBe('10.0.0.1')
     })
 
     describe('when array is empty', () => {
       it('should return socket address', () => {
-        const req = createReq('127.0.0.1') as IncomingMessage
+        const req = createReq('127.0.0.1')
 
         expect(proxyaddr(req, [])).toBe('127.0.0.1')
       })
       it('should return socket address with headers', () => {
         const req = createReq('127.0.0.1', {
           'x-forwarded-for': '10.0.0.1, 10.0.0.2'
-        }) as IncomingMessage
+        })
 
         expect(proxyaddr(req, [])).toBe('127.0.0.1')
       })
@@ -307,21 +307,21 @@ describe('proxyaddr(req, trust)', () => {
     it('should accept literal IP addresses', () => {
       const req = createReq('10.0.0.1', {
         'x-forwarded-for': '192.168.0.1, 10.0.0.2'
-      }) as IncomingMessage
+      })
 
       expect(proxyaddr(req, ['10.0.0.1', '10.0.0.2'])).toBe('192.168.0.1')
     })
     it('should accept CIDR notation', () => {
       const req = createReq('10.0.0.1', {
         'x-forwarded-for': '192.168.0.1, 10.0.0.200'
-      }) as IncomingMessage
+      })
 
       expect(proxyaddr(req, '10.0.0.2/26')).toBe('10.0.0.200')
     })
     it('should accept netmask notation', () => {
       const req = createReq('10.0.0.1', {
         'x-forwarded-for': '192.168.0.1, 10.0.0.200'
-      }) as IncomingMessage
+      })
 
       expect(proxyaddr(req, '10.0.0.2/255.255.255.192')).toBe('10.0.0.200')
     })
@@ -330,14 +330,14 @@ describe('proxyaddr(req, trust)', () => {
     it('should accept literal IP addresses', () => {
       const req = createReq('fe80::1', {
         'x-forwarded-for': '2002:c000:203::1, fe80::2'
-      }) as IncomingMessage
+      })
 
       expect(proxyaddr(req, ['fe80::1', 'fe80::2'])).toBe('2002:c000:203::1')
     })
     it('should accept CIDR notation', () => {
       const req = createReq('fe80::1', {
         'x-forwarded-for': '2002:c000:203::1, fe80::ff00'
-      }) as IncomingMessage
+      })
 
       expect(proxyaddr(req, 'fe80::/125')).toBe('fe80::ff00')
     })
@@ -346,14 +346,14 @@ describe('proxyaddr(req, trust)', () => {
     it('should match respective versions', () => {
       const req = createReq('::1', {
         'x-forwarded-for': '2002:c000:203::1'
-      }) as IncomingMessage
+      })
 
       expect(proxyaddr(req, ['127.0.0.1', '::1'])).toBe('2002:c000:203::1')
     })
     it('should not match IPv4 to IPv6', () => {
       const req = createReq('::1', {
         'x-forwarded-for': '2002:c000:203::1'
-      }) as IncomingMessage
+      })
 
       expect(proxyaddr(req, '127.0.0.1')).toBe('::1')
     })
@@ -363,21 +363,21 @@ describe('proxyaddr(req, trust)', () => {
     it('should match IPv4 trust to IPv6 request', () => {
       const req = createReq('::ffff:a00:1', {
         'x-forwarded-for': '192.168.0.1, 10.0.0.2'
-      }) as IncomingMessage
+      })
 
       expect(proxyaddr(req, ['10.0.0.1', '10.0.0.2'])).toBe('192.168.0.1')
     })
     it('should match IPv4 netmask trust to IPv6 request', () => {
       const req = createReq('::ffff:a00:1', {
         'x-forwarded-for': '192.168.0.1, 10.0.0.2'
-      }) as IncomingMessage
+      })
 
       expect(proxyaddr(req, ['10.0.0.1/16'])).toBe('192.168.0.1')
     })
     it('should match IPv6 trust to IPv4 request', () => {
       const req = createReq('10.0.0.1', {
         'x-forwarded-for': '192.168.0.1, 10.0.0.2'
-      }) as IncomingMessage
+      })
 
       expect(proxyaddr(req, ['::ffff:a00:1', '::ffff:a00:2'])).toBe('192.168.0.1')
     })
@@ -410,7 +410,7 @@ describe('proxyaddr(req, trust)', () => {
     ])('with addresses 10.0.0.1, 10.0.0.2, 192.168.0.1', ({ trust, address }) => {
       const req = createReq('10.0.0.1', {
         'x-forwarded-for': '192.168.0.1, 10.0.0.2'
-      }) as IncomingMessage
+      })
 
       it(`should use the address that is at most ${trust} hops away`, () => {
         expect(proxyaddr(req, trust)).toBe(address)
