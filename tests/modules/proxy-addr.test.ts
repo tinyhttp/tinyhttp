@@ -74,6 +74,13 @@ describe('proxyaddr(req, trust)', () => {
 
         expect(proxyaddr(req, ['loopback', '10.0.0.1'])).toBe('127.0.0.1')
       })
+      it('should not alter input array', () => {
+        const arr = ['loopback', '10.0.0.1']
+        const req = createReq('127.0.0.1') as IncomingMessage
+
+        expect(proxyaddr(req, arr)).toBe('127.0.0.1')
+        expect(arr).toEqual(['loopback', '10.0.0.1'])
+      })
       it('should reject non-IP', () => {
         const req = createReq('127.0.0.1') as IncomingMessage
 
