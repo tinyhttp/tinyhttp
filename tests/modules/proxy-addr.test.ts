@@ -1,6 +1,6 @@
 // Original test cases are taken from https://github.com/jshttp/proxy-addr/blob/master/test/test.js
 
-import { describe, expect, it } from 'vitest'
+import { assert, describe, expect, it } from 'vitest'
 import { all, compile, proxyaddr } from '../../packages/proxy-addr/src'
 import { createReq } from '../../test_helpers/createReq'
 
@@ -378,25 +378,91 @@ describe('proxyaddr(req, trust)', () => {
 
       expect(proxyaddr(req, ['::ffff:a00:1', '::ffff:a00:2'])).toBe('192.168.0.1')
     })
-    it('should match CIDR notation for IPv4-mapped address', () => {})
-    it('should match CIDR notation for IPv4-mapped address mixed with IPv6 CIDR', () => {})
-    it('should match CIDR notation for IPv4-mapped address mixed with IPv4 addresses', () => {})
+    it('should match CIDR notation for IPv4-mapped address', () => {
+      const req = createReq('10.0.0.1', {
+        'x-forwarded-for': '192.168.0.1, 10.0.0.200'
+      })
+
+      expect(proxyaddr(req, '::ffff:a00:2/122')).toBe('10.0.0.200')
+    })
+    it('should match CIDR notation for IPv4-mapped address mixed with IPv6 CIDR', () => {
+      const req = createReq('10.0.0.1', {
+        'x-forwarded-for': '192.168.0.1, 10.0.0.200'
+      })
+
+      expect(proxyaddr(req, ['::ffff:a00:2/122', 'fe80::/125'])).toBe('10.0.0.200')
+    })
+    it('should match CIDR notation for IPv4-mapped address mixed with IPv4 addresses', () => {
+      const req = createReq('10.0.0.1', {
+        'x-forwarded-for': '192.168.0.1, 10.0.0.200'
+      })
+
+      expect(proxyaddr(req, ['::ffff:a00:2/122', '127.0.0.1'])).toBe('10.0.0.200')
+    })
   })
 
   describe('when given pre-defined names', () => {
-    it('should accept single pre-defined name', () => {})
-    it('should accept multiple pre-defined names', () => {})
+    it('should accept single pre-defined name', () => {
+      const req = createReq('fe80::1', {
+        'x-forwarded-for': '2002:c000:203::1, fe80::2'
+      })
+
+      expect(proxyaddr(req, 'linklocal')).toBe('2002:c000:203::1')
+    })
+    it('should accept multiple pre-defined names', () => {
+      const req = createReq('::1', {
+        'x-forwarded-for': '2002:c000:203::1, fe80::2'
+      })
+
+      expect(proxyaddr(req, ['loopback', 'linklocal'])).toBe('2002:c000:203::1')
+    })
   })
 
   describe('when header contains non-ip addresses', () => {
-    it('should stop at first non-trusted non-ip', () => {})
-    it('should stop at first non-trusted malformed ip', () => {})
-    it('should provide all values to function', () => {})
+    it('should stop at first non-trusted non-ip', () => {
+      const req = createReq('127.0.0.1', {
+        'x-forwarded-for': 'myrouter, 127.0.0.1, proxy'
+      })
+
+      expect(proxyaddr(req, '127.0.0.1')).toBe('proxy')
+    })
+    it('should stop at first non-trusted malformed ip', () => {
+      const req = createReq('127.0.0.1', {
+        'x-forwarded-for': 'myrouter, 127.0.0.1, ::8:8:8:8:8:8:8:8:8'
+      })
+
+      expect(proxyaddr(req, '127.0.0.1')).toBe('::8:8:8:8:8:8:8:8:8')
+    })
+    it('should provide all values to function', () => {
+      const log = []
+      const req = createReq('127.0.0.1', {
+        'x-forwarded-for': 'myrouter, 127.0.0.1, proxy'
+      })
+
+      proxyaddr(req, (...args) => {
+        log.push(args.slice())
+        return true
+      })
+
+      expect(log).toStrictEqual([
+        ['127.0.0.1', 0],
+        ['proxy', 1],
+        ['127.0.0.1', 2]
+      ])
+    })
   })
 
   describe('when socket address undefined', () => {
-    it('should return undefined as address', () => {})
-    it('should return undefined even with trusted headers', () => {})
+    it('should return undefined as address', () => {
+      const req = createReq(undefined)
+      expect(proxyaddr(req, '127.0.0.1')).toBeUndefined()
+    })
+    it('should return undefined even with trusted headers', () => {
+      const req = createReq(undefined, {
+        'x-forwarded-for': '127.0.0.1, 10.0.0.1'
+      })
+      expect(proxyaddr(req, '127.0.0.1')).toBeUndefined()
+    })
   })
 
   describe('when given number', () => {
@@ -419,42 +485,132 @@ describe('proxyaddr(req, trust)', () => {
 describe('proxyaddr.all(req, trust?)', () => {
   describe('arguments', () => {
     describe('req', () => {
-      it('should be required', () => {})
+      it('should be required', () => {
+        try {
+          all(null)
+        } catch (error) {
+          expect(error).toBeDefined()
+          return
+        }
+        assert.fail()
+      })
     })
     describe('trust', () => {
-      it('should be optional', () => {})
+      it('should be optional', () => {
+        const req = createReq('127.0.0.1')
+        try {
+          all(req)
+        } catch (error) {
+          assert.fail()
+        }
+      })
     })
   })
 
   describe('with no headers', () => {
-    it('should return socket address', () => {})
+    it('should return socket address', () => {
+      const req = createReq('127.0.0.1')
+      expect(all(req)).toStrictEqual(['127.0.0.1'])
+    })
   })
 
   describe('with x-forwarded-for header', () => {
-    it('should include x-forwarded-for', () => {})
-    it('should include x-forwarded-for in the correct order', () => {})
+    it('should include x-forwarded-for', () => {
+      const req = createReq('127.0.0.1', {
+        'x-forwarded-for': '10.0.0.1'
+      })
+
+      expect(all(req)).toStrictEqual(['127.0.0.1', '10.0.0.1'])
+    })
+    it('should include x-forwarded-for in the correct order', () => {
+      const req = createReq('127.0.0.1', {
+        'x-forwarded-for': '10.0.0.1, 10.0.0.2'
+      })
+
+      expect(all(req)).toStrictEqual(['127.0.0.1', '10.0.0.2', '10.0.0.1'])
+    })
   })
 
   describe('with trust argument', () => {
-    it('should stop at first untrusted', () => {})
-    it('should return only socket address when nothing is trusted', () => {})
+    it('should stop at first untrusted', () => {
+      const req = createReq('127.0.0.1', {
+        'x-forwarded-for': '10.0.0.1, 10.0.0.2'
+      })
+
+      expect(all(req, '127.0.0.1')).toStrictEqual(['127.0.0.1', '10.0.0.2'])
+    })
+    it('should return only socket address when nothing is trusted', () => {
+      const req = createReq('127.0.0.1', {
+        'x-forwarded-for': '10.0.0.1, 10.0.0.2'
+      })
+
+      expect(all(req, [])).toStrictEqual(['127.0.0.1'])
+    })
   })
 })
 
 describe('proxyaddr.compile(trust)', () => {
   describe('arguments', () => {
     describe('trust', () => {
-      it('should be required', () => {})
-      it('should accept a string array', () => {})
-      it('should accept a number', () => {})
-      it('should accept IPv4', () => {})
-      it('should accept IPv6', () => {})
-      it('should accept IPv4-style IPv6', () => {})
-      it('should accept pre-defined names', () => {})
-      it('should accept pre-defined names in an array', () => {})
-      it('should reject non-IP', () => {})
-      it('should reject bad CIDR', () => {})
-      it('should not alter input array', () => {})
+      it('should be required', () => {
+        try {
+          compile(null)
+        } catch (error) {
+          expect(error).toBeDefined()
+          return
+        }
+        assert.fail()
+      })
+      it('should accept a string array', () => {
+        expect(compile(['127.0.0.1'])).toBeTypeOf('function')
+      })
+      it('should accept a number', () => {
+        expect(compile(1)).toBeTypeOf('function')
+      })
+      it('should accept IPv4', () => {
+        expect(compile('127.0.0.1')).toBeTypeOf('function')
+      })
+      it('should accept IPv6', () => {
+        expect(compile('::1')).toBeTypeOf('function')
+      })
+      it('should accept IPv4-style IPv6', () => {
+        expect(compile('::ffff:127.0.0.1')).toBeTypeOf('function')
+      })
+      it('should accept pre-defined names', () => {
+        expect(compile('loopback')).toBeTypeOf('function')
+      })
+      it('should accept pre-defined names in an array', () => {
+        expect(compile(['loopback', '10.0.0.1'])).toBeTypeOf('function')
+      })
+      it.each(['blargh', '-1'])('should reject non-IP', (value: string) => {
+        try {
+          compile(value)
+        } catch (error) {
+          expect(error).toBeDefined()
+          expect(error.message).toMatch(/invalid IP address/)
+          return
+        }
+        assert.fail()
+      })
+
+      it.each(['10.0.0.1/6000', '::1/6000', '::ffff:a00:2/136', '::ffff:a00:2/-1'])(
+        'should reject bad CIDR',
+        (value: string) => {
+          try {
+            compile(value)
+          } catch (error) {
+            expect(error).toBeDefined()
+            expect(error.message).toMatch(/invalid range on address/)
+            return
+          }
+          assert.fail()
+        }
+      )
+      it('should not alter input array', () => {
+        const arr = ['loopback', '10.0.0.1']
+        expect(compile(arr)).toBeTypeOf('function')
+        expect(arr).toStrictEqual(['loopback', '10.0.0.1'])
+      })
     })
   })
 })
