@@ -1,14 +1,10 @@
-export const createReq = (
-  socketAddr: string,
-  headers?: Record<string, string>
-): {
-  socket: {
-    remoteAddress: string
-  }
-  headers: Record<string, string>
-} => ({
-  socket: {
-    remoteAddress: socketAddr
-  },
-  headers: headers || {}
-})
+import type { IncomingMessage } from 'node:http'
+
+export function createReq(socketAddr: string, headers?: Record<string, string>): IncomingMessage {
+  return {
+    socket: {
+      remoteAddress: socketAddr
+    },
+    headers: headers || {}
+  } as IncomingMessage
+}
