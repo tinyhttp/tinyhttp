@@ -1,17 +1,14 @@
 // Original test cases are taken from https://github.com/jshttp/proxy-addr/blob/master/test/test.js
 
-import type { IncomingMessage } from 'node:http'
 import { describe, expect, it } from 'vitest'
-import { proxyaddr } from '../../packages/proxy-addr/src'
+import { all, compile, proxyaddr } from '../../packages/proxy-addr/src'
 import { createReq } from '../../test_helpers/createReq'
 
-const all = () => true
+const trustAll = () => true
 
-const none = () => false
+const trustNone = () => false
 
-function trust10x(addr: string) {
-  return /^10\./.test(addr)
-}
+const trust10x = (addr: string) => /^10\./.test(addr)
 
 describe('proxyaddr(req, trust)', () => {
   describe('arguments', () => {
@@ -37,7 +34,7 @@ describe('proxyaddr(req, trust)', () => {
       it('should accept a function', () => {
         const req = createReq('127.0.0.1')
 
-        expect(proxyaddr(req, all)).toBe('127.0.0.1')
+        expect(proxyaddr(req, trustAll)).toBe('127.0.0.1')
       })
       it('should accept an array', () => {
         const req = createReq('127.0.0.1')
@@ -195,21 +192,21 @@ describe('proxyaddr(req, trust)', () => {
     it('should return socket address with no headers', () => {
       const req = createReq('127.0.0.1')
 
-      expect(proxyaddr(req, all)).toBe('127.0.0.1')
+      expect(proxyaddr(req, trustAll)).toBe('127.0.0.1')
     })
     it('should return header value', () => {
       const req = createReq('127.0.0.1', {
         'x-forwarded-for': '10.0.0.1'
       })
 
-      expect(proxyaddr(req, all)).toBe('10.0.0.1')
+      expect(proxyaddr(req, trustAll)).toBe('10.0.0.1')
     })
     it('should return furthest header value', () => {
       const req = createReq('127.0.0.1', {
         'x-forwarded-for': '10.0.0.1, 10.0.0.2'
       })
 
-      expect(proxyaddr(req, all)).toBe('10.0.0.1')
+      expect(proxyaddr(req, trustAll)).toBe('10.0.0.1')
     })
   })
 
@@ -217,14 +214,14 @@ describe('proxyaddr(req, trust)', () => {
     it('should return socket address with no headers', () => {
       const req = createReq('127.0.0.1')
 
-      expect(proxyaddr(req, none)).toBe('127.0.0.1')
+      expect(proxyaddr(req, trustNone)).toBe('127.0.0.1')
     })
     it('should return socket address with headers', () => {
       const req = createReq('127.0.0.1', {
         'x-forwarded-for': '10.0.0.1'
       })
 
-      expect(proxyaddr(req, none)).toBe('127.0.0.1')
+      expect(proxyaddr(req, trustNone)).toBe('127.0.0.1')
     })
   })
 
