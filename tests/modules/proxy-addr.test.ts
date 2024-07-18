@@ -69,7 +69,7 @@ describe('proxyaddr(req, trust)', () => {
 
         expect(proxyaddr(req, 'loopback')).toBe('127.0.0.1')
       })
-      it('should accept pre-defined names', () => {
+      it('should accept pre-defined names in an array', () => {
         const req = createReq('127.0.0.1') as IncomingMessage
 
         expect(proxyaddr(req, ['loopback', '10.0.0.1'])).toBe('127.0.0.1')
