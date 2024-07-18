@@ -26,6 +26,14 @@ describe('proxyaddr(req, trust)', () => {
     })
 
     describe('trust', () => {
+      it('should be required', () => {
+        const req = createReq('127.0.0.1') as IncomingMessage
+        try {
+          proxyaddr(req, null)
+        } catch (error) {
+          expect(error).toBeDefined()
+        }
+      })
       it('should accept a function', () => {
         const req = createReq('127.0.0.1') as IncomingMessage
 
