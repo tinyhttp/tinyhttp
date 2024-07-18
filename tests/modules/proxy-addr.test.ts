@@ -164,7 +164,8 @@ describe('proxyaddr(req, trust)', () => {
         }) as IncomingMessage
 
         proxyaddr(req, (addr, i) => {
-          return log.push([addr, i])
+          log.push([addr, i])
+          return true
         })
 
         expect(log).toStrictEqual([
