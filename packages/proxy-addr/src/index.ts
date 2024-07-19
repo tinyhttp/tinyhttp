@@ -10,7 +10,7 @@ export type Trust = TrustFunction | TrustParameter
 
 type Subnet = {
   ip: IPv4 | IPv6
-  range?: number
+  range: number
 }
 
 const DIGIT_REGEXP = /^[0-9]+$/
@@ -131,24 +131,21 @@ export function parseIPNotation(note: string): Subnet {
   if (!isip(str)) throw new TypeError(`invalid IP address: ${str}`)
 
   let ip = parseip(str)
-
-  if (pos === -1 && isIPv6(ip)) {
-    if (ip.isIPv4MappedAddress()) ip = ip.toIPv4Address()
-  }
-
   const max = ip.kind() === 'ipv6' ? 128 : 32
 
-  const rangeString: string | null = pos !== -1 ? note.substring(pos + 1, note.length) : null
-  let range: number | null
+  if (pos === -1) {
+    if (isIPv6(ip) && ip.isIPv4MappedAddress()) ip = ip.toIPv4Address()
+    return { ip, range: max }
+  }
 
-  if (rangeString === null) range = max
-  else if (DIGIT_REGEXP.test(rangeString)) range = Number.parseInt(rangeString, 10)
+  const rangeString = note.substring(pos + 1, note.length)
+  let range: number | null = null
+
+  if (DIGIT_REGEXP.test(rangeString)) range = Number.parseInt(rangeString, 10)
   else if (ip.kind() === 'ipv4' && isip(rangeString)) range = parseNetmask(rangeString)
-  else range = null
 
-  if (typeof range === 'number' && (range <= 0 || range > max)) throw new TypeError(`invalid range on address: ${note}`)
-
-  return { ip, range: range ?? undefined }
+  if (range == null || range <= 0 || range > max) throw new TypeError(`invalid range on address: ${note}`)
+  return { ip, range }
 }
 /**
  * Parse netmask string into CIDR range.
