@@ -19,7 +19,7 @@ amount of dependencies trying to avoid legacy hell.
 ## Features
 
 - ⚡
-  [66% faster](https://web-frameworks-benchmark.netlify.app/result?f=tinyhttp,express)
+  [58% faster](https://web-frameworks-benchmark.netlify.app/result?f=tinyhttp,express)
   than Express
 - ⚙ Express middleware compat
 - ↪ Async middleware support
