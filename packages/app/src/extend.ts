@@ -1,3 +1,4 @@
+import { compile } from '@tinyhttp/proxy-addr'
 import {
   checkIfXMLHttpRequest,
   getAccepts,
@@ -53,13 +54,19 @@ export const extendMiddleware =
       res.app = app
     }
 
+    let trust = settings?.['trust proxy']
+    if (typeof trust !== 'function') {
+      trust = compile(trust)
+      settings['trust proxy'] = trust
+    }
+
     if (settings?.networkExtensions) {
-      req.protocol = getProtocol(req)
+      req.protocol = getProtocol(req, trust)
       req.secure = req.protocol === 'https'
-      req.hostname = getHostname(req)
-      req.subdomains = getSubdomains(req, settings.subdomainOffset)
-      req.ip = getIP(req)
-      req.ips = getIPs(req)
+      req.hostname = getHostname(req, trust)
+      req.subdomains = getSubdomains(req, trust, settings.subdomainOffset)
+      req.ip = getIP(req, trust)
+      req.ips = getIPs(req, trust)
     }
 
     req.query = getQueryParams(req.url)

@@ -3,7 +3,8 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist",
-    "declarationDir": "dist"
+    "declarationDir": "dist",
+    "strict": true
   },
   "include": ["src"],
   "exclude": ["rollup.config.js"]

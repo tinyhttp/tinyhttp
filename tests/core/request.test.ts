@@ -182,6 +182,25 @@ describe('Request properties', () => {
         })
       })
     }
+    it('IPv4 req.ip & req.ips do not trust proxies by default', async () => {
+      const { fetch } = InitAppAndTest(ipHandler, '/', 'GET', options)
+
+      const agent = new Agent({ family: 4 }) // ensure IPv4 only
+      await fetch('/', { agent, headers: { 'x-forwarded-for': '10.0.0.1, 10.0.0.2, 127.0.0.2' } }).expect(200, {
+        ip: '127.0.0.1',
+        ips: ['::ffff:127.0.0.1']
+      })
+    })
+    it('IPv4 req.ip & req.ips support trusted proxies with "trust proxy"', async () => {
+      const { fetch, app } = InitAppAndTest(ipHandler, '/', 'GET', options)
+      app.set('trust proxy', ['127.0.0.1'])
+
+      const agent = new Agent({ family: 4 }) // ensure IPv4 only
+      await fetch('/', { agent, headers: { 'x-forwarded-for': '10.0.0.1, 10.0.0.2, 127.0.0.2' } }).expect(200, {
+        ip: '127.0.0.2',
+        ips: ['::ffff:127.0.0.1', '127.0.0.2']
+      })
+    })
     it('req.protocol is http by default', async () => {
       const { fetch } = InitAppAndTest(
         (req, res) => {
