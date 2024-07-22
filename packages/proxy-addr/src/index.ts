@@ -106,7 +106,7 @@ function compileHopsTrust(hops: number): (_: string, i: number) => boolean {
  * Compile `arr` elements into range subnets.
  */
 function compileRangeSubnets(arr: string[]) {
-  return arr.map(ip => parseIPNotation(ip))
+  return arr.map((ip) => parseIPNotation(ip))
 }
 /**
  * Compile range subnet array into trust function.
