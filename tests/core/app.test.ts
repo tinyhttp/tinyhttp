@@ -109,10 +109,10 @@ describe('Testing App routing', () => {
     app.use('/router', router)
 
     const server = app.listen(3000)
+    const fetch = makeFetch(server)
 
-    await makeFetch(server)('/router/list').expect(200, 'router/list')
-
-    await makeFetch(server)('/router/find').expect(200, 'router/find')
+    await fetch('/router/list').expect(200, 'router/list')
+    await fetch('/router/find').expect(200, 'router/find')
   })
   it('should respond on matched route', async () => {
     const { fetch } = InitAppAndTest((_req, res) => void res.send('Hello world'), '/route')
@@ -126,9 +126,10 @@ describe('Testing App routing', () => {
 
     app.use('/abc', (_req, res) => void res.send('Hello world'))
 
-    await makeFetch(server)('/abc/def').expect(200, 'Hello world')
+    const fetch = makeFetch(server)
 
-    await makeFetch(server)('/abcdef').expect(404)
+    await fetch('/abc/def').expect(200, 'Hello world')
+    await fetch('/abcdef').expect(404)
   })
   it('"*" should catch all undefined routes', async () => {
     const app = new App()
@@ -139,9 +140,10 @@ describe('Testing App routing', () => {
       .get('/route', (_req, res) => void res.send('A different route'))
       .all('*', (_req, res) => void res.send('Hello world'))
 
-    await makeFetch(server)('/route').expect(200, 'A different route')
+    const fetch = makeFetch(server)
 
-    await makeFetch(server)('/test').expect(200, 'Hello world')
+    await fetch('/route').expect(200, 'A different route')
+    await fetch('/test').expect(200, 'Hello world')
   })
   it('should throw 404 on no routes', async () => {
     await makeFetch(new App().listen())('/').expect(404)
@@ -172,11 +174,11 @@ describe('Testing App routing', () => {
 
     app.use('/abc', ...[route1, route2, route3])
 
-    await makeFetch(app.listen())('/abc/route1').expect(200, 'route1')
+    const fetch = makeFetch(app.listen())
 
-    await makeFetch(app.listen())('/abc/route2').expect(200, 'route2')
-
-    await makeFetch(app.listen())('/abc/route3').expect(200, 'route3')
+    await fetch('/abc/route1').expect(200, 'route1')
+    await fetch('/abc/route2').expect(200, 'route2')
+    await fetch('/abc/route3').expect(200, 'route3')
   })
   describe('next(err)', () => {
     it('next function skips current middleware', async () => {
@@ -296,10 +298,10 @@ describe('App methods', () => {
       .post((_, res) => res.send('POST request'))
 
     const server = app.listen()
+    const fetch = makeFetch(server)
 
-    await makeFetch(server)('/').expect(200, 'GET request')
-
-    await makeFetch(server)('/', { method: 'POST' }).expect(200, 'POST request')
+    await fetch('/').expect(200, 'GET request')
+    await fetch('/', { method: 'POST' }).expect(200, 'POST request')
   })
 })
 
@@ -712,9 +714,10 @@ describe('Subapps', () => {
     app.use(route1)
     app.use(route2)
 
-    await makeFetch(app.listen())('/route1').expect(200, 'route1')
+    const fetch = makeFetch(app.listen())
 
-    await makeFetch(app.listen())('/route2').expect(200, 'route2')
+    await fetch('/route1').expect(200, 'route1')
+    await fetch('/route2').expect(200, 'route2')
   })
   it('sub-app handles its own path', async () => {
     const app = new App()
