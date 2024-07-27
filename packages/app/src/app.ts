@@ -63,7 +63,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
   settings: AppSettings
   engines: Record<string, TemplateEngine> = {}
   applyExtensions: (req: Request, res: Response, next: NextFunction) => void
-  attach: (req: Req, res: Res) => void
+  attach: (req: Req, res: Res, next?: NextFunction) => void
   cache: Record<string, unknown>
 
   constructor(options: AppConstructor<Req, Res> = {}) {
@@ -79,7 +79,8 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       ...options.settings
     }
     this.applyExtensions = options?.applyExtensions
-    this.attach = (req, res) => setImmediate(this.handler.bind(this, req, res, undefined), req, res)
+    const boundHandler = this.handler.bind(this)
+    this.attach = (req, res, next?: NextFunction) => setImmediate(boundHandler, req, res, next)
     this.cache = {}
   }
 
@@ -152,7 +153,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
   /**
    * Render a template
-   * @param file What to render
+   * @param name What to render
    * @param data data that is passed to a template
    * @param options Template engine options
    * @param cb Callback that consumes error and html
@@ -300,6 +301,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
    * Extends Req / Res objects, pushes 404 and 500 handlers, dispatches middleware
    * @param req Req object
    * @param res Res object
+   * @param next 'Next' function
    */
   handler<RenderOptions extends TemplateEngineOptions = TemplateEngineOptions>(
     req: Req,
@@ -387,17 +389,30 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     let idx = 0
 
-    const loop = () => res.writableEnded || (idx < mw.length && handle(mw[idx++])(req, res, next))
+    const handleNext = (): void => void handle(mw[idx++])(req, res, next)
 
-    next = next || ((err) => (err ? this.onError(err, req, res) : loop()))
+    const parentNext = next
+    next = (err) => {
+      if (err != null) {
+        return this.onError(err, req, res)
+      }
 
-    loop()
+      if (res.writableEnded) return
+      if (idx >= mw.length) {
+        if (parentNext != null) parentNext()
+        return
+      }
+
+      handleNext()
+    }
+
+    handleNext()
   }
 
   /**
    * Creates HTTP server and dispatches middleware
    * @param port server listening port
-   * @param Server callback after server starts listening
+   * @param cb callback to be invoked after server starts listening
    * @param host server listening host
    */
   listen(port?: number, cb?: () => void, host?: string): Server {
