@@ -683,6 +683,23 @@ describe('Subapps', () => {
 
     await fetch('/').expect(200, 'Hello World!')
   })
+  it('sub-app mounted on root and subpath', async () => {
+    const app = new App()
+
+    const fooApp = new App()
+    fooApp.get('/foo', (_req, res) => res.send('foo'))
+
+    const barBazApp = new App()
+    barBazApp.get('/baz', (_req, res) => res.send('bar baz'))
+
+    app.use('/', fooApp)
+    app.use('/bar', barBazApp)
+
+    const fetch = makeFetch(app.listen())
+
+    await fetch('/foo').expect(200, 'foo')
+    await fetch('/bar/baz').expect(200, 'bar baz')
+  })
   it('multiple sub-apps mount on root', async () => {
     const app = new App()
 
