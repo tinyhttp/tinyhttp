@@ -933,7 +933,7 @@ describe('Subapps', () => {
 
     const subApp = new App()
 
-    subApp.get('/route', (req, res, next) => next('you'))
+    subApp.get('/route', (_req, _res, next) => next('you'))
 
     app.use('/subapp', subApp).listen()
 
@@ -951,7 +951,7 @@ describe('Subapps', () => {
       onError: (err, req, res) => res.status(500).end(`Handling ${err} from child on ${req.path} page.`)
     })
 
-    subApp.get('/route', (req, res, next) => next('you'))
+    subApp.get('/route', (_req, _res, next) => next('you'))
 
     app.use('/subapp', subApp).listen()
 
@@ -963,7 +963,7 @@ describe('Subapps', () => {
   it('subapps mount on path regardless if path has leading slash', async () => {
     const app = new App()
     const subApp = new App()
-    subApp.get('/foo', (req, res) => {
+    subApp.get('/foo', (_req, res) => {
       res.send('foo')
     })
     app.use('/bar1', subApp)
