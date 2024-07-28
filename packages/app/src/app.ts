@@ -343,11 +343,13 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       })
     }
 
-    mw.push({
-      handler: this.noMatchHandler,
-      type: 'mw',
-      path: '/'
-    })
+    if (this.parent == null) {
+      mw.push({
+        handler: this.noMatchHandler,
+        type: 'mw',
+        path: '/'
+      })
+    }
 
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
       const { path, handler, regex } = mw
