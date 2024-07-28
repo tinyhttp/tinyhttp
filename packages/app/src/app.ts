@@ -391,7 +391,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     let idx = 0
 
-    const handleNext = (): void => void handle(mw[idx++])(req, res, next)
+    const loop = (): void => void handle(mw[idx++])(req, res, next)
 
     const parentNext = next
     next = (err) => {
@@ -405,10 +405,10 @@ export class App<Req extends Request = Request, Res extends Response = Response>
         return
       }
 
-      handleNext()
+      loop()
     }
 
-    handleNext()
+    loop()
   }
 
   /**
