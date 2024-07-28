@@ -3,8 +3,9 @@ import http from 'node:http'
 import { renderFile } from 'eta'
 import { makeFetch } from 'supertest-fetch'
 import { describe, expect, it } from 'vitest'
-import { App } from '../../packages/app/src/index'
+import { App, type Request, type Response } from '../../packages/app/src/index'
 import type { View } from '../../packages/app/src/view'
+import type { RouterMethod } from '../../packages/router/src'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 
 describe('Testing App', () => {
@@ -670,37 +671,61 @@ describe('Subapps', () => {
 
     expect(subApp.mountpath).toBe('/subapp')
   })
-  it('sub-app mounts on root', async () => {
-    const app = new App()
+  describe('when a sub-app is mounted on root', () => {
+    it('should execute sub-app middleware when matched', async () => {
+      const app = new App()
 
-    const subApp = new App()
+      const subApp = new App()
 
-    subApp.use((_, res) => void res.send('Hello World!'))
+      subApp.use((_, res) => void res.send('Hello World!'))
 
-    app.use(subApp)
+      app.use(subApp)
 
-    const server = app.listen()
+      const server = app.listen()
+      const fetch = makeFetch(server)
+      await fetch('/').expect(200, 'Hello World!')
+    })
+    describe.each([
+      { verb: (app: App) => app.get.bind(app), name: '.get', fetchWithVerb: 'get' },
+      { verb: (app: App) => app.all.bind(app), name: '.all', fetchWithVerb: 'get' }
+    ])(
+      'when sub-app registers middleware with $name',
+      ({
+        verb,
+        fetchWithVerb
+      }: {
+        verb: (app: App) => (...args: Parameters<RouterMethod<Request, Response>>) => App
+        fetchWithVerb: string
+      }) => {
+        it("should continue middleware execution when '.use'd sub-app middleware is exhausted", async () => {
+          const app = new App()
 
-    const fetch = makeFetch(server)
+          const subApp = new App()
+          verb(subApp)((_req, res) => res.send('foo'))
 
-    await fetch('/').expect(200, 'Hello World!')
-  })
-  it('sub-app mounted on root and subpath', async () => {
-    const app = new App()
+          app.use('/', subApp)
+          verb(app)('/bar', (_req, res) => res.send('bar'))
 
-    const fooApp = new App()
-    fooApp.get((_req, res) => res.send('foo'))
+          const fetch = makeFetch(app.listen())
 
-    const barApp = new App()
-    barApp.get((_req, res) => res.send('bar'))
+          await fetch('/', { method: fetchWithVerb }).expect(200, 'foo')
+          await fetch('/bar', { method: fetchWithVerb }).expect(200, 'bar')
+        })
+        it("should continue middleware execution when '.route' sub-app middleware is exhausted", async () => {
+          const app = new App()
 
-    app.use('/', fooApp)
-    app.use('/bar', barApp)
+          const subApp = app.route('/')
+          verb(subApp)((_req, res) => res.send('foo'))
 
-    const fetch = makeFetch(app.listen())
+          verb(app)('/bar', (_req, res) => res.send('bar'))
 
-    await fetch('/').expect(200, 'foo')
-    await fetch('/bar').expect(200, 'bar')
+          const fetch = makeFetch(app.listen())
+
+          await fetch('/', { method: fetchWithVerb }).expect(200, 'foo')
+          await fetch('/bar', { method: fetchWithVerb }).expect(200, 'bar')
+        })
+      }
+    )
   })
   it('multiple sub-apps mount on root', async () => {
     const app = new App()
