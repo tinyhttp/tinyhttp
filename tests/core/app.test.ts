@@ -689,18 +689,18 @@ describe('Subapps', () => {
     const app = new App()
 
     const fooApp = new App()
-    fooApp.get('/foo', (_req, res) => res.send('foo'))
+    fooApp.get((_req, res) => res.send('foo'))
 
-    const barBazApp = new App()
-    barBazApp.get('/baz', (_req, res) => res.send('bar baz'))
+    const barApp = new App()
+    barApp.get((_req, res) => res.send('bar'))
 
     app.use('/', fooApp)
-    app.use('/bar', barBazApp)
+    app.use('/bar', barApp)
 
     const fetch = makeFetch(app.listen())
 
-    await fetch('/foo').expect(200, 'foo')
-    await fetch('/bar/baz').expect(200, 'bar baz')
+    await fetch('/').expect(200, 'foo')
+    await fetch('/bar').expect(200, 'bar')
   })
   it('multiple sub-apps mount on root', async () => {
     const app = new App()
