@@ -3,8 +3,9 @@ import http from 'node:http'
 import { renderFile } from 'eta'
 import { makeFetch } from 'supertest-fetch'
 import { describe, expect, it } from 'vitest'
-import { App } from '../../packages/app/src/index'
+import { App, type Request, type Response } from '../../packages/app/src/index'
 import type { View } from '../../packages/app/src/view'
+import type { RouterMethod } from '../../packages/router/src'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 
 describe('Testing App', () => {
@@ -109,10 +110,10 @@ describe('Testing App routing', () => {
     app.use('/router', router)
 
     const server = app.listen(3000)
+    const fetch = makeFetch(server)
 
-    await makeFetch(server)('/router/list').expect(200, 'router/list')
-
-    await makeFetch(server)('/router/find').expect(200, 'router/find')
+    await fetch('/router/list').expect(200, 'router/list')
+    await fetch('/router/find').expect(200, 'router/find')
   })
   it('should respond on matched route', async () => {
     const { fetch } = InitAppAndTest((_req, res) => void res.send('Hello world'), '/route')
@@ -126,9 +127,10 @@ describe('Testing App routing', () => {
 
     app.use('/abc', (_req, res) => void res.send('Hello world'))
 
-    await makeFetch(server)('/abc/def').expect(200, 'Hello world')
+    const fetch = makeFetch(server)
 
-    await makeFetch(server)('/abcdef').expect(404)
+    await fetch('/abc/def').expect(200, 'Hello world')
+    await fetch('/abcdef').expect(404)
   })
   it('"*" should catch all undefined routes', async () => {
     const app = new App()
@@ -139,9 +141,10 @@ describe('Testing App routing', () => {
       .get('/route', (_req, res) => void res.send('A different route'))
       .all('*', (_req, res) => void res.send('Hello world'))
 
-    await makeFetch(server)('/route').expect(200, 'A different route')
+    const fetch = makeFetch(server)
 
-    await makeFetch(server)('/test').expect(200, 'Hello world')
+    await fetch('/route').expect(200, 'A different route')
+    await fetch('/test').expect(200, 'Hello world')
   })
   it('should throw 404 on no routes', async () => {
     await makeFetch(new App().listen())('/').expect(404)
@@ -172,11 +175,11 @@ describe('Testing App routing', () => {
 
     app.use('/abc', ...[route1, route2, route3])
 
-    await makeFetch(app.listen())('/abc/route1').expect(200, 'route1')
+    const fetch = makeFetch(app.listen())
 
-    await makeFetch(app.listen())('/abc/route2').expect(200, 'route2')
-
-    await makeFetch(app.listen())('/abc/route3').expect(200, 'route3')
+    await fetch('/abc/route1').expect(200, 'route1')
+    await fetch('/abc/route2').expect(200, 'route2')
+    await fetch('/abc/route3').expect(200, 'route3')
   })
   describe('next(err)', () => {
     it('next function skips current middleware', async () => {
@@ -296,10 +299,10 @@ describe('App methods', () => {
       .post((_, res) => res.send('POST request'))
 
     const server = app.listen()
+    const fetch = makeFetch(server)
 
-    await makeFetch(server)('/').expect(200, 'GET request')
-
-    await makeFetch(server)('/', { method: 'POST' }).expect(200, 'POST request')
+    await fetch('/').expect(200, 'GET request')
+    await fetch('/', { method: 'POST' }).expect(200, 'POST request')
   })
 })
 
@@ -668,20 +671,61 @@ describe('Subapps', () => {
 
     expect(subApp.mountpath).toBe('/subapp')
   })
-  it('sub-app mounts on root', async () => {
-    const app = new App()
+  describe('when a sub-app is mounted on root', () => {
+    it('should execute sub-app middleware when matched', async () => {
+      const app = new App()
 
-    const subApp = new App()
+      const subApp = new App()
 
-    subApp.use((_, res) => void res.send('Hello World!'))
+      subApp.use((_, res) => void res.send('Hello World!'))
 
-    app.use(subApp)
+      app.use(subApp)
 
-    const server = app.listen()
+      const server = app.listen()
+      const fetch = makeFetch(server)
+      await fetch('/').expect(200, 'Hello World!')
+    })
+    describe.each([
+      { verb: (app: App) => app.get.bind(app), name: '.get', fetchWithVerb: 'get' },
+      { verb: (app: App) => app.all.bind(app), name: '.all', fetchWithVerb: 'get' }
+    ])(
+      'when sub-app registers middleware with $name',
+      ({
+        verb,
+        fetchWithVerb
+      }: {
+        verb: (app: App) => (...args: Parameters<RouterMethod<Request, Response>>) => App
+        fetchWithVerb: string
+      }) => {
+        it("should continue middleware execution when '.use'd sub-app middleware is exhausted", async () => {
+          const app = new App()
 
-    const fetch = makeFetch(server)
+          const subApp = new App()
+          verb(subApp)((_req, res) => res.send('foo'))
 
-    await fetch('/').expect(200, 'Hello World!')
+          app.use('/', subApp)
+          verb(app)('/bar', (_req, res) => res.send('bar'))
+
+          const fetch = makeFetch(app.listen())
+
+          await fetch('/', { method: fetchWithVerb }).expect(200, 'foo')
+          await fetch('/bar', { method: fetchWithVerb }).expect(200, 'bar')
+        })
+        it("should continue middleware execution when '.route' sub-app middleware is exhausted", async () => {
+          const app = new App()
+
+          const subApp = app.route('/')
+          verb(subApp)((_req, res) => res.send('foo'))
+
+          verb(app)('/bar', (_req, res) => res.send('bar'))
+
+          const fetch = makeFetch(app.listen())
+
+          await fetch('/', { method: fetchWithVerb }).expect(200, 'foo')
+          await fetch('/bar', { method: fetchWithVerb }).expect(200, 'bar')
+        })
+      }
+    )
   })
   it('multiple sub-apps mount on root', async () => {
     const app = new App()
@@ -695,9 +739,10 @@ describe('Subapps', () => {
     app.use(route1)
     app.use(route2)
 
-    await makeFetch(app.listen())('/route1').expect(200, 'route1')
+    const fetch = makeFetch(app.listen())
 
-    await makeFetch(app.listen())('/route2').expect(200, 'route2')
+    await fetch('/route1').expect(200, 'route1')
+    await fetch('/route2').expect(200, 'route2')
   })
   it('sub-app handles its own path', async () => {
     const app = new App()
@@ -913,7 +958,7 @@ describe('Subapps', () => {
 
     const subApp = new App()
 
-    subApp.get('/route', (req, res, next) => next('you'))
+    subApp.get('/route', (_req, _res, next) => next('you'))
 
     app.use('/subapp', subApp).listen()
 
@@ -931,7 +976,7 @@ describe('Subapps', () => {
       onError: (err, req, res) => res.status(500).end(`Handling ${err} from child on ${req.path} page.`)
     })
 
-    subApp.get('/route', (req, res, next) => next('you'))
+    subApp.get('/route', (_req, _res, next) => next('you'))
 
     app.use('/subapp', subApp).listen()
 
@@ -943,7 +988,7 @@ describe('Subapps', () => {
   it('subapps mount on path regardless if path has leading slash', async () => {
     const app = new App()
     const subApp = new App()
-    subApp.get('/foo', (req, res) => {
+    subApp.get('/foo', (_req, res) => {
       res.send('foo')
     })
     app.use('/bar1', subApp)
