@@ -1,16 +1,16 @@
 {
   "name": "postgre-typeorm",
   "devDependencies": {
-    "@types/node": "^16.11.10",
-    "ts-node": "^10.4.0",
-    "typescript": "^4.5.2"
+    "@types/node": "^20.14.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.2"
   },
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "milliparsec": "^2.2.0",
-    "pg": "^8.7.1",
-    "reflect-metadata": "^0.1.13",
-    "typeorm": "0.2.41"
+    "milliparsec": "^2.3.0",
+    "pg": "^8.12.0",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "0.3.20"
   },
   "scripts": {
     "start": "ts-node src/index.ts"

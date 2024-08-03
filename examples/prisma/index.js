@@ -1,5 +1,5 @@
-import { App } from '@tinyhttp/app'
 import Prisma from '@prisma/client'
+import { App } from '@tinyhttp/app'
 import * as bodyParser from 'milliparsec'
 
 const prisma = new Prisma.PrismaClient()
@@ -7,7 +7,7 @@ const app = new App()
 
 app.use(bodyParser.json())
 
-app.post(`/user`, async (req, res) => {
+app.post('/user', async (req, res) => {
   res.json(
     await prisma.user.create({
       data: {
@@ -17,7 +17,7 @@ app.post(`/user`, async (req, res) => {
     })
   )
 })
-app.post(`/post`, async (req, res) => {
+app.post('/post', async (req, res) => {
   const { title, content, authorEmail } = req.body
   const result = await prisma.post.create({
     data: {
@@ -37,7 +37,7 @@ app.put('/publish/:id', async (req, res) => {
     })
   )
 })
-app.delete(`/post/:id`, async (req, res) => {
+app.delete('/post/:id', async (req, res) => {
   res.json(
     await prisma.post.delete({
       where: {
@@ -46,7 +46,7 @@ app.delete(`/post/:id`, async (req, res) => {
     })
   )
 })
-app.get(`/post/:id`, async (req, res) => {
+app.get('/post/:id', async (req, res) => {
   res.json(
     await prisma.post.findOne({
       where: {

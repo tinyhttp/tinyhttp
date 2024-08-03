@@ -1,6 +1,6 @@
+import fs from 'node:fs/promises'
 import { App } from '@tinyhttp/app'
 import { CustomView } from './view.js'
-import fs from 'node:fs/promises'
 
 const app = new App()
 

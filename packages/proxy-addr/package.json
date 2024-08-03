@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/proxy-addr",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "type": "module",
   "description": "proxy-addr rewrite with TypeScript and ESM support",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -11,17 +11,7 @@
   },
   "types": "./dist/index.d.ts",
   "exports": "./dist/index.js",
-  "keywords": [
-    "tinyhttp",
-    "node.js",
-    "web framework",
-    "web",
-    "backend",
-    "proxy-addr",
-    "ip",
-    "net",
-    "network"
-  ],
+  "keywords": ["tinyhttp", "node.js", "web framework", "web", "backend", "proxy-addr", "ip", "net", "network"],
   "engines": {
     "node": ">=12.20.0"
   },
@@ -33,6 +23,6 @@
   },
   "dependencies": {
     "@tinyhttp/forwarded": "workspace:*",
-    "ipaddr.js": "^2.1.0"
+    "ipaddr.js": "^2.2.0"
   }
 }

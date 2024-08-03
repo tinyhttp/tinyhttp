@@ -7,9 +7,9 @@
  * MIT Licensed
  */
 
-import { extname, resolve, dirname, basename, join } from 'node:path'
-import { TemplateEngineOptions, TemplateEngine } from './types.js'
 import { statSync } from 'node:fs'
+import { basename, dirname, extname, join, resolve } from 'node:path'
+import type { TemplateEngine, TemplateEngineOptions } from './types.js'
 
 function tryStat(path: string) {
   try {
@@ -60,7 +60,7 @@ export class View<RenderOptions extends TemplateEngineOptions = TemplateEngineOp
 
     if (!this.ext) {
       // get extension from default engine name
-      this.ext = this.defaultEngine[0] !== '.' ? '.' + this.defaultEngine : this.defaultEngine
+      this.ext = this.defaultEngine[0] !== '.' ? `.${this.defaultEngine}` : this.defaultEngine
 
       fileName += this.ext
     }
@@ -94,15 +94,15 @@ export class View<RenderOptions extends TemplateEngineOptions = TemplateEngineOp
     let path = join(dir, file)
     let stat = tryStat(path)
 
-    if (stat && stat.isFile()) {
+    if (stat?.isFile()) {
       return path
     }
 
     // <path>/index.<ext>
-    path = join(dir, basename(file, ext), 'index' + ext)
+    path = join(dir, basename(file, ext), `index${ext}`)
     stat = tryStat(path)
 
-    if (stat && stat.isFile()) {
+    if (stat?.isFile()) {
       return path
     }
   }

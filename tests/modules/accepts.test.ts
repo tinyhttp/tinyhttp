@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { describe, expect, it } from 'vitest'
 import { Accepts } from '../../packages/accepts/src'
 

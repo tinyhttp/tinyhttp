@@ -1,7 +1,7 @@
 import { App } from '@tinyhttp/app'
 import { jwt } from '@tinyhttp/jwt'
-import { urlencoded } from 'milliparsec'
 import jsonwebtoken from 'jsonwebtoken'
+import { urlencoded } from 'milliparsec'
 
 const app = new App()
 const secretToken = 'very secret key'

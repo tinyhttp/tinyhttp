@@ -1,7 +1,7 @@
-import { App } from '@tinyhttp/app'
 import { readFile } from 'node:fs/promises'
-import render from 'preact-render-to-string'
+import { App } from '@tinyhttp/app'
 import preact from 'htm/preact/index.js'
+import render from 'preact-render-to-string'
 
 const { html } = preact
 

@@ -1,7 +1,7 @@
-import { App } from '@tinyhttp/app'
 import { readFile } from 'node:fs/promises'
-import ReactDOMServer from 'react-dom/server.js'
+import { App } from '@tinyhttp/app'
 import react from 'htm/react/index.js'
+import ReactDOMServer from 'react-dom/server.js'
 
 const { html } = react
 
@@ -21,8 +21,6 @@ app
   <html lang="en">
     <body>
       <div id="app">${renderered}</div>
-      <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-      <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
       <script src="app.js" type="module"></script>
     </body>
   </html>

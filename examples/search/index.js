@@ -1,5 +1,5 @@
-import { App } from '@tinyhttp/app'
 import path from 'node:path'
+import { App } from '@tinyhttp/app'
 
 const app = new App()
 const db = {
@@ -41,4 +41,4 @@ app.get('/search/:query?', (req, res) => {
   res.send(db[req.params.query])
 })
 
-app.listen(3000, () => console.log(`Started on http://localhost:3000`))
+app.listen(3000, () => console.log('Started on http://localhost:3000'))

@@ -15,7 +15,7 @@ pnpm i @tinyhttp/dotenv
 ## API
 
 ```ts
-import * as dotenv from 'dotenv'
+import * as dotenv from '@tinyhttp/dotenv'
 ```
 
 ### `dotenv.config`
@@ -41,7 +41,8 @@ console.log(result.parsed)
 You may specify a custom path if your file containing environment variables is located elsewhere.
 
 ```ts
-require('dotenv').config({ path: '/custom/path/to/.env' })
+import * as dotenv from '@tinyhttp/dotenv'
+dotenv.config({ path: '/custom/path/to/.env' })
 ```
 
 ##### Encoding
@@ -51,7 +52,8 @@ require('dotenv').config({ path: '/custom/path/to/.env' })
 You may specify the encoding of your file containing environment variables.
 
 ```ts
-require('dotenv').config({ encoding: 'latin1' })
+import * as dotenv from '@tinyhttp/dotenv'
+dotenv.config({ encoding: 'latin1' })
 ```
 
 ##### Debug
@@ -61,7 +63,8 @@ require('dotenv').config({ encoding: 'latin1' })
 You may turn on logging to help debug why certain keys or values are not being set as you expect.
 
 ```ts
-require('dotenv').config({ debug: process.env.DEBUG })
+import * as dotenv from '@tinyhttp/dotenv'
+dotenv.config({ debug: process.env.DEBUG })
 ```
 
 ### `dotenv.parse`
@@ -69,7 +72,7 @@ require('dotenv').config({ debug: process.env.DEBUG })
 The engine which parses the contents of your file containing environment variables is available to use. It accepts a String or Buffer and will return an Object with the parsed keys and values.
 
 ```ts
-const dotenv = require('dotenv')
+import * as dotenv from '@tinyhttp/dotenv'
 const buf = Buffer.from('BASIC=basic')
 const config = dotenv.parse(buf) // will return an object
 console.log(typeof config, config) // object { BASIC : 'basic' }
@@ -101,7 +104,7 @@ line'}
 You may turn on logging to help debug why certain keys or values are not being set as you expect.
 
 ```ts
-const dotenv = require('dotenv')
+import * as dotenv from '@tinyhttp/dotenv'
 const buf = Buffer.from('hello world')
 const opt = { debug: true }
 const config = dotenv.parse(buf, opt)

@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/dotenv",
-  "version": "2.1.0",
+  "version": "2.1.2",
   "description": "0-dependency module to load envinronmental variables from .env to process.env",
   "type": "module",
   "types": "./dist/index.d.ts",
@@ -13,14 +13,7 @@
   },
   "author": "v1rtl",
   "license": "MIT",
-  "keywords": [
-    "tinyhttp",
-    "node.js",
-    "web framework",
-    "web",
-    "backend",
-    "dotenv"
-  ],
+  "keywords": ["tinyhttp", "node.js", "web framework", "web", "backend", "dotenv"],
   "engines": {
     "node": ">=12.20.0"
   },

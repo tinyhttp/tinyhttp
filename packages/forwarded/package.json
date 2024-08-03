@@ -11,19 +11,8 @@
   },
   "types": "./dist/index.d.ts",
   "exports": "./dist/index.js",
-  "files": [
-    "dist"
-  ],
-  "keywords": [
-    "tinyhttp",
-    "node.js",
-    "web framework",
-    "web",
-    "backend",
-    "forwarded",
-    "headers",
-    "header"
-  ],
+  "files": ["dist"],
+  "keywords": ["tinyhttp", "node.js", "web framework", "web", "backend", "forwarded", "headers", "header"],
   "engines": {
     "node": ">=12.20.0"
   },

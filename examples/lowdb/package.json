@@ -3,8 +3,8 @@
   "type": "module",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "lowdb": "^5.1.0",
-    "milliparsec": "^2.2.2"
+    "lowdb": "^7.0.1",
+    "milliparsec": "^2.3.0"
   },
   "scripts": {
     "start": "node index.js"

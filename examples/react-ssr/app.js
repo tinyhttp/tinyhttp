@@ -1,5 +1,8 @@
-/* eslint-disable no-undef */
+/* biome-ignore: */
+
 import htm from 'https://unpkg.com/htm?module'
+import { hydrateRoot } from 'https://unpkg.com/react-dom/client'
+
 const html = htm.bind(React.createElement)
 
 const App = () => {
@@ -9,4 +12,4 @@ const App = () => {
     : html`<h1>You visited ${location.pathname}</h1>`
 }
 
-ReactDOM.hydrate(html`<${App} />`, document.getElementById('app'))
+hydrateRoot(html`<${App} />`, document.getElementById('app'))

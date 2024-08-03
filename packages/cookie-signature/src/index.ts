@@ -11,10 +11,10 @@ export const sign = (val: string, secret: string): string =>
  * returning `false` if the signature is invalid.
  */
 export const unsign = (val: string, secret: string): string | false => {
-  const str = val.slice(0, val.lastIndexOf('.')),
-    mac = sign(str, secret),
-    macBuffer = Buffer.from(mac),
-    valBuffer = Buffer.alloc(macBuffer.length)
+  const str = val.slice(0, val.lastIndexOf('.'))
+  const mac = sign(str, secret)
+  const macBuffer = Buffer.from(mac)
+  const valBuffer = Buffer.alloc(macBuffer.length)
 
   valBuffer.write(val)
   return timingSafeEqual(macBuffer, valBuffer) ? str : false

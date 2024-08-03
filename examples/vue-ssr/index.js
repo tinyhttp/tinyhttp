@@ -1,6 +1,6 @@
 import { App } from '@tinyhttp/app'
-import { renderToString } from 'vue/server-renderer'
 import sirv from 'sirv'
+import { renderToString } from 'vue/server-renderer'
 import { createApp } from './app.js'
 
 const app = new App()

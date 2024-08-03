@@ -1,5 +1,5 @@
-import { IncomingMessage as Request, ServerResponse as Response } from 'node:http'
-import { Options, Ranges, Result, parseRange } from 'header-range-parser'
+import type { IncomingMessage as Request, ServerResponse as Response } from 'node:http'
+import { type Options, type Ranges, type Result, parseRange } from 'header-range-parser'
 
 import { typeIs } from '@tinyhttp/type-is'
 import { fresh } from './fresh.js'
@@ -45,8 +45,8 @@ export const getFreshOrStale = (
   // 2xx or 304 as per rfc2616 14.26
   if ((status >= 200 && status < 300) || status === 304) {
     return fresh(req.headers, {
-      etag: res.getHeader('ETag'),
-      'last-modified': res.getHeader('Last-Modified')
+      etag: res.getHeader('ETag') as string,
+      'last-modified': res.getHeader('Last-Modified') as string
     })
   }
 

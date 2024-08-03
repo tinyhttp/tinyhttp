@@ -4,9 +4,9 @@
   "type": "module",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "sirv": "^2.0.3",
-    "vue": "^3.3.4",
-    "vue-server-renderer": "^2.7.14"
+    "sirv": "^2.0.4",
+    "vue": "^3.4.30",
+    "vue-server-renderer": "^2.7.16"
   },
   "scripts": {
     "start": "node index.js"

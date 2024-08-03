@@ -1,7 +1,7 @@
+import { makeFetch } from 'supertest-fetch'
 import { describe, expect, it, vi } from 'vitest'
 import { App } from '../../../packages/app/src'
 import { rateLimit } from '../../../packages/rate-limit/src'
-import { makeFetch } from 'supertest-fetch'
 
 function createAppWith(middleware) {
   const app = new App()
@@ -153,7 +153,7 @@ describe('rate-limit', () => {
 
       const expectedRemaining = 4
       const expectedResetTimestamp = Math.ceil((Date.now() + windowMs) / 1000).toString()
-      const resetRegexp = new RegExp(expectedResetTimestamp.substr(0, expectedResetTimestamp.length - 2) + '\\d\\d')
+      const resetRegexp = new RegExp(`${expectedResetTimestamp.slice(0, expectedResetTimestamp.length - 2)}\\d\\d`)
 
       await makeFetch(server)('/')
         .expect('x-ratelimit-limit', limit)
@@ -203,7 +203,7 @@ describe('rate-limit', () => {
             incr: () => {
               throw Error
             },
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
+
             resetKey: () => {}
           } as any
         })
@@ -258,6 +258,5 @@ class MockStore {
     this.counter = 0
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   resetAll = () => {}
 }

@@ -1,24 +1,24 @@
-import { describe, expect, it } from 'vitest'
-import { makeFetch } from 'supertest-fetch'
 import path from 'node:path'
+import { dirname } from 'dirname-filename-esm'
+import { makeFetch } from 'supertest-fetch'
+import { describe, expect, it } from 'vitest'
 import type { Request, Response } from '../../packages/app/src/index.js'
 import {
+  append,
+  attachment,
+  clearCookie,
+  download,
   formatResponse,
   getResponseHeader,
   redirect,
-  setHeader,
-  setVaryHeader,
   setContentType,
-  attachment,
-  download,
   setCookie,
-  clearCookie,
-  append,
+  setHeader,
   setLinksHeader,
-  setLocationHeader
+  setLocationHeader,
+  setVaryHeader
 } from '../../packages/res/src/index.js'
 import { runServer } from '../../test_helpers/runServer'
-import { dirname } from 'dirname-filename-esm'
 
 const __dirname = dirname(import.meta)
 
@@ -90,7 +90,6 @@ describe('Response extensions', () => {
   describe('res.redirect(url, status)', () => {
     it('should set 302 status and message about redirecting', async () => {
       const app = runServer((req, res) => {
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
         redirect(req, res, () => {})('/abc').end()
       })
 
@@ -103,7 +102,6 @@ describe('Response extensions', () => {
         if (req.url === '/abc') {
           res.writeHead(200).end('Hello World')
         } else {
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
           redirect(req, res, () => {})('/abc').end()
         }
       })
@@ -117,7 +115,6 @@ describe('Response extensions', () => {
         if (req.url === '/abc') {
           res.writeHead(200).end('Hello World')
         } else {
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
           redirect(req, res, () => {})('/abc').end()
         }
       })
@@ -145,9 +142,8 @@ describe('Response extensions', () => {
   describe('res.format(obj)', () => {
     it('should send text by default', async () => {
       const app = runServer((req, res) => {
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
         formatResponse(req, res, () => {})({
-          text: (_: Request, res: Response) => res.end(`Hello World`)
+          text: (_: Request, res: Response) => res.end('Hello World')
         }).end()
       })
 
@@ -155,9 +151,8 @@ describe('Response extensions', () => {
     })
     it('should send HTML if specified in "Accepts" header', async () => {
       const app = runServer((req, res) => {
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
         formatResponse(req, res, () => {})({
-          text: (_: Request, res: Response) => res.end(`Hello World`),
+          text: (_: Request, res: Response) => res.end('Hello World'),
           html: (_: Request, res: Response) => res.end('<h1>Hello World</h1>')
         }).end()
       })
@@ -172,8 +167,9 @@ describe('Response extensions', () => {
     })
     it('should throw 406 status when invalid MIME is specified', async () => {
       const app = runServer((req, res) => {
-        formatResponse(req, res, (err) => res.writeHead(err.status).end(err.message))({
-          text: (_: Request, res: Response) => res.end(`Hello World`)
+        // biome-ignore lint/style/noNonNullAssertion: it's just a test
+        formatResponse(req, res, (err) => res.writeHead(err!.status!).end(err!.message))({
+          text: (_: Request, res: Response) => res.end('Hello World')
         }).end()
       })
 
@@ -185,7 +181,6 @@ describe('Response extensions', () => {
     })
     it('should call `default` as a function if specified', async () => {
       const app = runServer((req, res) => {
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
         formatResponse(req, res, () => {})({
           default: () => res.end('Hello World')
         }).end()

@@ -1,4 +1,4 @@
-import { IncomingMessage as Req, ServerResponse as Res } from 'node:http'
+import type { IncomingMessage as Req, ServerResponse as Res } from 'node:http'
 import * as cookie from '@tinyhttp/cookie'
 import { sign } from '@tinyhttp/cookie-signature'
 import { append } from './append.js'
@@ -24,9 +24,9 @@ export const setCookie =
 
     if (signed && !secret) throw new Error('cookieParser("secret") required for signed cookies')
 
-    let val = typeof value === 'object' ? 'j:' + JSON.stringify(value) : String(value)
+    let val = typeof value === 'object' ? `j:${JSON.stringify(value)}` : String(value)
 
-    if (signed) val = 's:' + sign(val, secret)
+    if (signed) val = `s:${sign(val, secret)}`
 
     if (options.maxAge) {
       options.expires = new Date(Date.now() + options.maxAge)

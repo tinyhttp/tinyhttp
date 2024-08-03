@@ -4,12 +4,12 @@
   "type": "module",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "pug": "^3.0.2"
+    "pug": "^3.0.3"
   },
   "scripts": {
     "start": "node index.js"
   },
   "devDependencies": {
-    "@types/pug": "^2.0.6"
+    "@types/pug": "^2.0.10"
   }
 }

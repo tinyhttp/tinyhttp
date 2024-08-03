@@ -2,7 +2,7 @@ import { describe, it } from 'vitest'
 import { jsonp } from '../../packages/jsonp/src/index'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 
-describe('jsonp', function () {
+describe('jsonp', () => {
   it('when no callback is defined', async () => {
     const { fetch } = InitAppAndTest((req, res) => jsonp(req, res)({ jsonp: 'value' }))
     await fetch('/').expect('Content-Type', 'application/json; charset=utf-8').expect(200, '{"jsonp":"value"}')

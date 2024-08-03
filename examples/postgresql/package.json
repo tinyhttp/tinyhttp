@@ -6,8 +6,8 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/dotenv": "workspace:*",
-    "milliparsec": "^2.2.0",
-    "pg-promise": "^10.11.1"
+    "milliparsec": "^2.3.0",
+    "pg-promise": "^11.8.0"
   },
   "scripts": {
     "start": "node index.js"
