@@ -1,3 +1,4 @@
+/* c8 ignore start*/
 import type { Trust } from '@tinyhttp/proxy-addr'
 import type { Handler, NextFunction } from '@tinyhttp/router'
 import type { ErrorHandler } from './onError.js'
@@ -49,3 +50,4 @@ export type AppConstructor<Req extends Request = Request, Res extends Response =
   settings: AppSettings
   applyExtensions: (req: Request, res: Response, next: NextFunction) => void
 }>
+/* c8 ignore stop */
