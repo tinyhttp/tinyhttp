@@ -237,7 +237,7 @@ describe('Request properties', () => {
 
       await fetch('/').expect(200, 'subdomains: ')
     })
-    it('assigns req.hostname', async () => {
+    it('should derive hostname from the host header and assign it to req.hostname', async () => {
       const { fetch } = InitAppAndTest(
         (req, res) => {
           res.send(`hostname: ${req.hostname}`)
@@ -249,7 +249,7 @@ describe('Request properties', () => {
 
       await fetch('/', { headers: { Host: 'foo.bar:8080' } }).expect(200, 'hostname: foo.bar')
     })
-    it('assigns req.port', async () => {
+    it('should derive port from the host header and assign it to req.port', async () => {
       const { fetch } = InitAppAndTest(
         (req, res) => {
           res.json({ port: req.port })
