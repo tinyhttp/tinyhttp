@@ -261,6 +261,19 @@ describe('Request properties', () => {
 
       await fetch('/', { headers: { Host: 'foo.bar:8080' } }).expect(200, { port: 8080 })
     })
+    it('should not crash app when host header is malformed', async () => {
+      const { fetch } = InitAppAndTest(
+        (req, res) => {
+          res.json({ port: req.port })
+        },
+        '/',
+        'GET',
+        options
+      )
+
+      await fetch('/', { headers: { host: 'foo.bar:baz' } }).expect(500)
+      await fetch('/', { headers: { Host: 'foo.bar:8080' } }).expect(200, { port: 8080 })
+    })
   })
 
   it('req.xhr is false because of node-superagent', async () => {
