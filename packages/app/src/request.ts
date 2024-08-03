@@ -37,17 +37,6 @@ export const getProtocol = (req: Request, trust: Trust): Protocol => {
   return index !== -1 ? header.substring(0, index).trim() : header.trim()
 }
 
-/**
- * @deprecated
- *
- * @param req
- * @param trust
- */
-export const getHostname = (req: Request, trust: Trust): string | undefined => {
-  const { hostname } = getHost(req, trust)
-  return hostname
-}
-
 export const getHost = (req: Request, trust: Trust): Host | undefined => {
   let host: string = req.get('X-Forwarded-Host') as string
 
