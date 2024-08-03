@@ -46,7 +46,7 @@ createConnection()
 
     // register routes
 
-    app.get('/users', async (req: Request, res: Response, next) => {
+    app.get('/users', async (_req: Request, res: Response, next) => {
       try {
         const users = await userRepository.find()
         res.json(users)

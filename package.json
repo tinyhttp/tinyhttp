@@ -43,6 +43,7 @@
     "test:coverage": "vitest run --dir tests --coverage",
     "test": "pnpm test:coverage",
     "lint": "biome lint .",
+    "lint:fix": "biome lint --fix .",
     "format": "biome format .",
     "format:fix": "biome format --fix .",
     "check": "biome check .",

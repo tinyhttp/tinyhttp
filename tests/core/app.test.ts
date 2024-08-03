@@ -529,7 +529,7 @@ describe('HTTP methods', () => {
   })
   it('Returns statusCode 204 when no handler is present and the request is `HEAD`', async () => {
     const app = new App()
-    app.get('/', (_, res, next) => {
+    app.get('/', (_, _res, next) => {
       next()
     })
     const fetch = makeFetch(app.listen())
@@ -970,11 +970,11 @@ describe('Subapps', () => {
     await fetch('/%').expect(400, 'Bad Request')
   })
   it('should return status of 500 if `getURLParams` has an error', async () => {
-    global.decodeURIComponent = (...args) => {
+    global.decodeURIComponent = () => {
       throw new Error('an error was throw here')
     }
     const app = new App({
-      onError: (err, req, res) => res.status(500).end(err.message)
+      onError: (err, _req, res) => res.status(500).end(err.message)
     })
     app.get('/:id', (_, res) => res.send('hello'))
     await makeFetch(app.listen())('/123').expect(500, 'an error was throw here')

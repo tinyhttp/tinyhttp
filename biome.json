@@ -25,7 +25,9 @@
     "rules": {
       "recommended": true,
       "correctness": {
-        "noVoidTypeReturn": "off"
+        "noVoidTypeReturn": "off",
+        "noUnusedImports": "error",
+        "noUnusedVariables": "error"
       },
       "style": {
         "noParameterAssign": "off"

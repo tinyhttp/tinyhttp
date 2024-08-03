@@ -375,7 +375,7 @@ describe('Testing HTTP methods', () => {
     expect(router.middleware[0].type).toBe('route')
   })
   it('should push a dummy GET HTTP method and its handlers and expect the middleware object to match', () => {
-    function dummyHandler(req, res) {
+    function dummyHandler(_req, res) {
       res.send('Hello World!')
     }
     const middleware: Middleware[] = []
@@ -393,7 +393,7 @@ describe('Testing HTTP methods', () => {
     })
   })
   it('should push a dummy GET HTTP method containing the fullPaths array and expect the middleware object to match', () => {
-    function dummyHandler(req, res) {
+    function dummyHandler(_req, res) {
       res.send('Hello World!')
     }
     const fullPaths = ['']
