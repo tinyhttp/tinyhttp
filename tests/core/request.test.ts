@@ -310,7 +310,7 @@ describe('Request properties', () => {
 
       const { server } = InitSecureAppAndTest(
         (req, res) => {
-          //expect(req.get('host')).toBeUndefined()
+          expect(req.get('host')).toBeUndefined()
           res.json({ port: req.port })
         },
         '/',
