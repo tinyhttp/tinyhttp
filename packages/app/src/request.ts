@@ -37,11 +37,54 @@ export const getProtocol = (req: Request, trust: Trust): Protocol => {
   return index !== -1 ? header.substring(0, index).trim() : header.trim()
 }
 
+const normalizeHostString = (host: string): string => decodeURIComponent(host).toLowerCase().normalize()
+
+const getAuthorityHeaderHostString = (req: Request): string | undefined => {
+  const authority = req.get(':authority')
+  if (Array.isArray(authority)) return undefined
+  if (!authority) return undefined
+
+  const index = authority.indexOf('@')
+  if (index === -1) return authority
+  return normalizeHostString(authority.substring(index + 1))
+}
+
+const getForwardedHeaderHostString = (req: Request): string | undefined => {
+  const forwardedHost = req.get('x-forwarded-host')
+  if (Array.isArray(forwardedHost)) return undefined
+  if (!forwardedHost) return undefined
+
+  return normalizeHostString(forwardedHost)
+}
+
+const getDefaultHeaderHostString = (req: Request): string | undefined => {
+  const host = req.get('host')
+  if (Array.isArray(host)) return undefined
+  if (!host) return undefined
+
+  return normalizeHostString(host)
+}
+
+const getHostString = (req: Request, trust: Trust): string | undefined => {
+  if (trustRemoteAddress(req, trust)) {
+    const forwardedHost = getForwardedHeaderHostString(req)
+    if (forwardedHost) return forwardedHost
+  }
+
+  const authorityHost = getAuthorityHeaderHostString(req)
+  const defaultHost = getDefaultHeaderHostString(req)
+
+  if (authorityHost && defaultHost) {
+    if (authorityHost !== defaultHost)
+      throw new Error('Request `:authority` pseudo-header does not agree with `Host` header')
+    return authorityHost
+  }
+
+  return authorityHost ?? defaultHost ?? undefined
+}
+
 export const getHost = (req: Request, trust: Trust): Host | undefined => {
-  let host: string = req.get('X-Forwarded-Host') as string
-
-  if (!host || !trustRemoteAddress(req, trust)) host = req.get('Host') as string
-
+  const host = getHostString(req, trust)
   if (!host) return undefined
 
   // IPv6 literal support

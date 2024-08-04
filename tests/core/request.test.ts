@@ -249,6 +249,18 @@ describe('Request properties', () => {
 
       await fetch('/', { headers: { Host: 'foo.bar:8080' } }).expect(200, 'hostname: foo.bar')
     })
+    it.skip('should derive hostname from the :authority header and assign it to req.hostname', async () => {
+      const { fetch } = InitAppAndTest(
+        (req, res) => {
+          res.send(`hostname: ${req.hostname}`)
+        },
+        '/',
+        'GET',
+        options
+      )
+
+      await fetch('/', { headers: { ':authority': 'userinfo@foo.bar:8080' } }).expect(200, 'hostname: foo.bar')
+    })
     it('should derive port from the host header and assign it to req.port', async () => {
       const { fetch } = InitAppAndTest(
         (req, res) => {
@@ -260,6 +272,18 @@ describe('Request properties', () => {
       )
 
       await fetch('/', { headers: { Host: 'foo.bar:8080' } }).expect(200, { port: 8080 })
+    })
+    it.skip('should derive port from the :authority header and assign it to req.port', async () => {
+      const { fetch } = InitAppAndTest(
+        (req, res) => {
+          res.json({ port: req.port })
+        },
+        '/',
+        'GET',
+        options
+      )
+
+      await fetch('/', { headers: { ':authority': 'userinfo@foo.bar:8080' } }).expect(200, { port: 8080 })
     })
     it('should not crash app when host header is malformed', async () => {
       const { fetch } = InitAppAndTest(
