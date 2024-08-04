@@ -1,8 +1,9 @@
 import { Agent } from 'node:http'
 import { makeFetch } from 'supertest-fetch'
-import { describe, it } from 'vitest'
+import { Agent as UndiciAgent, getGlobalDispatcher, setGlobalDispatcher } from 'undici'
+import { describe, expect, it, onTestFinished } from 'vitest'
 import { App } from '../../packages/app/src/app'
-import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
+import { InitAppAndTest, InitSecureAppAndTest } from '../../test_helpers/initAppAndTest'
 
 describe('Request properties', () => {
   it('should have default HTTP Request properties', async () => {
@@ -249,17 +250,36 @@ describe('Request properties', () => {
 
       await fetch('/', { headers: { Host: 'foo.bar:8080' } }).expect(200, 'hostname: foo.bar')
     })
-    it.skip('should derive hostname from the :authority header and assign it to req.hostname', async () => {
-      const { fetch } = InitAppAndTest(
+    it('should derive hostname from the :authority header and assign it to req.hostname', async () => {
+      const globalDispatcher = getGlobalDispatcher()
+      onTestFinished(() => {
+        setGlobalDispatcher(globalDispatcher)
+      })
+
+      setGlobalDispatcher(
+        new UndiciAgent({
+          connect: {
+            rejectUnauthorized: false
+          },
+          allowH2: true
+        })
+      )
+
+      const { server } = InitSecureAppAndTest(
         (req, res) => {
+          expect(req.get('host')).toBeUndefined()
           res.send(`hostname: ${req.hostname}`)
         },
         '/',
         'GET',
         options
       )
+      const serverAddress = server.address()
+      if (typeof serverAddress === 'string') throw new Error('Cannot listen on unix socket')
 
-      await fetch('/', { headers: { ':authority': 'userinfo@foo.bar:8080' } }).expect(200, 'hostname: foo.bar')
+      const response = await fetch(`https://localhost:${serverAddress.port}/`)
+      expect(response.status).toBe(200)
+      await expect(response.text()).resolves.toEqual('hostname: localhost')
     })
     it('should derive port from the host header and assign it to req.port', async () => {
       const { fetch } = InitAppAndTest(
@@ -273,17 +293,36 @@ describe('Request properties', () => {
 
       await fetch('/', { headers: { Host: 'foo.bar:8080' } }).expect(200, { port: 8080 })
     })
-    it.skip('should derive port from the :authority header and assign it to req.port', async () => {
-      const { fetch } = InitAppAndTest(
+    it('should derive port from the :authority header and assign it to req.port', async () => {
+      const globalDispatcher = getGlobalDispatcher()
+      onTestFinished(() => {
+        setGlobalDispatcher(globalDispatcher)
+      })
+
+      setGlobalDispatcher(
+        new UndiciAgent({
+          connect: {
+            rejectUnauthorized: false
+          },
+          allowH2: true
+        })
+      )
+
+      const { server } = InitSecureAppAndTest(
         (req, res) => {
+          //expect(req.get('host')).toBeUndefined()
           res.json({ port: req.port })
         },
         '/',
         'GET',
         options
       )
+      const serverAddress = server.address()
+      if (typeof serverAddress === 'string') throw new Error('Cannot listen on unix socket')
 
-      await fetch('/', { headers: { ':authority': 'userinfo@foo.bar:8080' } }).expect(200, { port: 8080 })
+      const response = await fetch(`https://localhost:${serverAddress.port}/`)
+      expect(response.status).toBe(200)
+      await expect(response.json()).resolves.toEqual({ port: serverAddress.port })
     })
     it('should not crash app when host header is malformed', async () => {
       const { fetch } = InitAppAndTest(

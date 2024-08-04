@@ -28,6 +28,7 @@
     "supertest-fetch": "1.5.0",
     "tslib": "2.6.3",
     "typescript": "~5.5.2",
+    "undici": "^6.19.5",
     "vite": "^5.3.1",
     "vite-plugin-dts": "^3.9.1",
     "vitest": "1.6.0"
