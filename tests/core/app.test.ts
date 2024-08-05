@@ -251,7 +251,7 @@ describe('Testing App routing', () => {
     it('errors in sync wares do not destroy the app', async () => {
       const app = new App()
 
-      app.use((_req, _res) => {
+      app.use(() => {
         throw 'bruh'
       })
 
