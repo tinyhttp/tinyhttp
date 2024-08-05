@@ -55,7 +55,7 @@ describe('Testing App', () => {
     vi.stubEnv('TESTING', '')
     const app = new App()
 
-    app.use((_req, _res, _next) => {
+    app.use(() => {
       throw new Error('you')
     })
 
@@ -239,7 +239,7 @@ describe('Testing App routing', () => {
     it('errors in async wares do not destroy the app', async () => {
       const app = new App()
 
-      app.use(async (_req, _res) => {
+      app.use(async () => {
         throw 'bruh'
       })
 
@@ -708,8 +708,16 @@ describe('Subapps', () => {
       await fetch('/').expect(200, 'Hello World!')
     })
     describe.each([
-      { verb: (app: App) => app.get.bind(app), name: '.get', fetchWithVerb: 'get' },
-      { verb: (app: App) => app.all.bind(app), name: '.all', fetchWithVerb: 'get' }
+      {
+        verb: (app: App) => app.get.bind(app),
+        name: '.get',
+        fetchWithVerb: 'get'
+      },
+      {
+        verb: (app: App) => app.all.bind(app),
+        name: '.all',
+        fetchWithVerb: 'get'
+      }
     ])(
       'when sub-app registers middleware with $name',
       ({
@@ -923,7 +931,7 @@ describe('Subapps', () => {
 
     const subapp = new App()
 
-    subapp.use('/path', (_req, _res) => void 0)
+    subapp.use('/path', () => void 0)
 
     app.use('/subapp', subapp)
 
