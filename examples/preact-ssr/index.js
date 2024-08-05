@@ -10,7 +10,7 @@ const app = new App()
 const PreactApp = ({ page }) => (page ? html`<h1>You visited ${page}</h1>` : html`<h1>Hello World</h1>`)
 
 app
-  .get('/htm.js', async (req, res) => {
+  .get('/htm.js', async (_req, res) => {
     const preactFile = await readFile(`${process.cwd()}/node_modules/htm/preact/standalone.module.js`)
 
     res.set('Content-Type', 'text/javascript').send(preactFile.toString())

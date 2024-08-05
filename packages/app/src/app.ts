@@ -314,9 +314,9 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     const exts = this.applyExtensions || extendMiddleware<RenderOptions>(this)
 
-    req.originalUrl = req.url || req.originalUrl
+    req.originalUrl = req.originalUrl || req.url
 
-    const pathname = getPathname(req.originalUrl)
+    const pathname = getPathname(req.url)
 
     const matched = this.#find(pathname)
 
@@ -359,9 +359,8 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       try {
         params = regex ? getURLParams(regex, pathname) : {}
       } catch (e) {
-        console.error(e)
-        if (e instanceof URIError) return res.sendStatus(400)
-        throw e
+        if (e instanceof URIError) return res.sendStatus(400) // Handle malformed URI
+        return this.onError(e, req, res)
       }
 
       // Warning: users should not use :wild as a pattern
@@ -379,7 +378,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       req.params = { ...req.params, ...params }
 
       if (mw.type === 'mw') {
-        req.url = lead(req.originalUrl.substring(prefix.length))
+        req.url = lead(req.url.substring(prefix.length))
       }
 
       if (!req.path) req.path = getPathname(req.url)

@@ -12,7 +12,7 @@ const schema = {
 const app = new App()
 
 app
-  .get('/docs/:docId', addToDocs({ params: { docId: 'number' } }), (req, res) => {
+  .get('/docs/:docId', addToDocs({ params: { docId: 'number' } }), (_req, res) => {
     res.status(200).send('done')
   })
   .post(
@@ -27,10 +27,10 @@ app
     ),
     (_req, res) => void res.status(200).send('done')
   )
-  .get('/users', addToDocs({ query: { userId: { type: 'number', optional: true } } }, ['users']), (req, res) => {
+  .get('/users', addToDocs({ query: { userId: { type: 'number', optional: true } } }, ['users']), (_req, res) => {
     res.status(200).send('done')
   })
-  .get('/:userId/:docId', addToDocs({ params: { userId: 'number', docId: 'number' } }), (req, res) => {
+  .get('/:userId/:docId', addToDocs({ params: { userId: 'number', docId: 'number' } }), (_req, res) => {
     res.status(200).send('done')
   })
 

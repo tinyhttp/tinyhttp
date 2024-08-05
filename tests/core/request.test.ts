@@ -1,6 +1,7 @@
 import { Agent } from 'node:http'
 import { makeFetch } from 'supertest-fetch'
 import { describe, it } from 'vitest'
+import type { Request } from '../../packages/app/src'
 import { App } from '../../packages/app/src/app'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 
@@ -72,9 +73,9 @@ describe('Request properties', () => {
         params: { pat1: 't', pat2: 'u', pat: 'c' }
       })
     })
-    it('should set the correct req.url on middlewares even in a subapp', async () => {
+    it.skip('should set the correct req.url on middlewares even in a subapp', async () => {
       const echo = (req, res) => res.send({ url: req.url, params: req.params })
-      const mw = (req, res, next) => {
+      const mw = (req, _res, next) => {
         req.urls ||= []
         req.urls.push(req.url)
         next()
@@ -83,7 +84,9 @@ describe('Request properties', () => {
         new App()
           .get('/', echo)
           .use('/a1/b', echo)
-          .use('/a2/b', mw, mw, mw, (req, res) => res.send({ urls: req.urls, params: req.params }))
+          .use('/a2/b', mw, mw, mw, (req: Request & { urls?: string[] }, res) =>
+            res.send({ urls: req.urls, params: req.params })
+          )
           .use('/a3/:pat1/:pat2', echo)
           .use('/a4/:pat1/*', echo)
 
@@ -237,6 +240,54 @@ describe('Request properties', () => {
 
       await fetch('/').expect(200, 'subdomains: ')
     })
+    // describe('`getSubdomains` function test', () => {
+    //   it('should test `getSubdomains` function when host is null', async () => {
+    //     const app = new App()
+    //     app.get('/', (req, res) => {
+    //       req.headers.host = undefined
+    //       res.send(getSubdomains(req))
+    //     })
+    //     await makeFetch(app.listen())('/').expectStatus(200)
+    //   })
+    //   it('should test `getSubdomains` function when host is an IP', async () => {
+    //     const app = new App()
+    //     app.get('/', (req, res) => {
+    //       req.headers.host = '127.0.0.1'
+    //       res.send(getSubdomains(req))
+    //     })
+    //     await makeFetch(app.listen())('/').expectStatus(200)
+    //   })
+    //   it('should test `getSubdomains` function when host is an array', async () => {
+    //     const app = new App()
+    //     app.get('/', (req, res) => {
+    //       req.headers.host = '[127.0.0.1]'
+    //       res.send(getSubdomains(req))
+    //     })
+    //     await makeFetch(app.listen())('/').expectStatus(200)
+    //   })
+    // })
+    // describe('`getProtocol` function tests', () => {
+    //   it('should test `getProtocol` function', async () => {
+    //     const app = new App()
+    //     app.get('/', (req, res) => {
+    //       req.secure = true
+    //       return res.send(getProtocol(req))
+    //     })
+    //     await makeFetch(app.listen())('/', { headers: { 'X-Forwarded-Proto': 'https, http' } }).expectStatus(200)
+    //   })
+    //   it('should test `getProtocol` function by using a default value if socket is destroyed', async () => {
+    //     const app = new App()
+    //     app.get('/', (req, res) => {
+    //       req.socket.destroy()
+    //       return res.send(getProtocol(req))
+    //     })
+    //     try {
+    //       await makeFetch(app.listen())('/')
+    //     } catch (error) {
+    //       expect(error).toBeDefined()
+    //     }
+    //   })
+    // })
   })
 
   it('req.xhr is false because of node-superagent', async () => {

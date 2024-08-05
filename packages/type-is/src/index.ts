@@ -14,7 +14,7 @@ function tryNormalizeType(value: string) {
 
   try {
     return normalizeType(value)
-  } catch (err) {
+  } catch (_err) {
     return null
   }
 }
