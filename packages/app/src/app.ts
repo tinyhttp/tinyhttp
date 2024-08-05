@@ -318,8 +318,6 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     const pathname = getPathname(req.url)
 
-    const reqUrlCopy = req.url
-
     const matched = this.#find(pathname)
 
     const mw: Middleware[] = [
@@ -355,8 +353,6 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
       const { path, handler, regex } = mw
-
-      req.url = reqUrlCopy // reset req.url since it is changed in the handle fn
 
       let params: URLParams
 
