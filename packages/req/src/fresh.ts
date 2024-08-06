@@ -34,7 +34,6 @@ function isStale(etag: string, noneMatch: string) {
 export function fresh(reqHeaders: IncomingHttpHeaders, resHeaders: OutgoingHttpHeaders) {
   const modifiedSince = reqHeaders['if-modified-since']
   const noneMatch = reqHeaders['if-none-match']
-
   if (!modifiedSince && !noneMatch) return false
 
   const cacheControl = reqHeaders['cache-control']
@@ -43,10 +42,8 @@ export function fresh(reqHeaders: IncomingHttpHeaders, resHeaders: OutgoingHttpH
   // if-none-match
   if (noneMatch !== '*') {
     const etag = resHeaders.etag as string | undefined
-
     if (!etag || isStale(etag, noneMatch)) return false
   }
-
   // if-modified-since
   if (modifiedSince) {
     const lastModified = resHeaders['last-modified'] as string | undefined

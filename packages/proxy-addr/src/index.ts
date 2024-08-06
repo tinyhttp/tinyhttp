@@ -164,7 +164,7 @@ function parseNetmask(netmask: string) {
  * @param trust
  * @public
  */
-export function proxyaddr(req: Req, trust: Trust): string {
+function proxyaddr(req: Req, trust: Trust): string {
   const addrs = alladdrs(req, trust)
 
   return addrs[addrs.length - 1]
@@ -216,5 +216,4 @@ function trustSingle(subnet: Subnet) {
   }
 }
 
-export { alladdrs as all }
-export { compile }
+export { compile, alladdrs as all, proxyaddr }

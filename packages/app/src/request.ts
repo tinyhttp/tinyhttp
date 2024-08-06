@@ -25,7 +25,7 @@ export const getProtocol = (req: Request, trust: Trust): Protocol => {
 
   if (!trustRemoteAddress(req, trust)) return proto
 
-  const header = (req.headers['X-Forwarded-Proto'] as string) || proto
+  const header = (req.get('X-Forwarded-Proto') as string) || proto
 
   const index = header.indexOf(',')
 

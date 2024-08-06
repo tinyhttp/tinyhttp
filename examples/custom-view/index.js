@@ -17,7 +17,7 @@ app.engine('html', async (path, locals, _opts, cb) => {
   cb(null, renderedTemplate)
 })
 
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.render('hello.html', { name: 'v1rtl' })
 })
 
