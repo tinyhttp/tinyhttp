@@ -1,4 +1,4 @@
-import { IncomingMessage } from 'node:http'
+import type { IncomingMessage } from 'node:http'
 
 /**
  * Parse the X-Forwarded-For header.

@@ -1,4 +1,4 @@
-import { IncomingMessage as Req, ServerResponse as Res, STATUS_CODES } from 'node:http'
+import { type IncomingMessage as Req, type ServerResponse as Res, STATUS_CODES } from 'node:http'
 import { escapeHTML } from 'es-escape-html'
 import { formatResponse } from './format.js'
 import { setLocationHeader } from './headers.js'
@@ -25,7 +25,7 @@ export const redirect =
       next
     )({
       text: () => {
-        body = STATUS_CODES[status] + '. Redirecting to ' + address
+        body = `${STATUS_CODES[status]}. Redirecting to ${address}`
       },
       html: () => {
         const u = escapeHTML(address)

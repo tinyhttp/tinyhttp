@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* HELPER TYPES */
 
 export type NextFunction = (err?: any) => void
@@ -207,8 +206,8 @@ export class Router<App extends Router = any, Req = any, Res = any> {
     return (...args: RouterMethodParams<Req, Res>): this => {
       const handlers = args.slice(1).flat() as Handler<Req, Res>[]
       if (Array.isArray(args[0])) {
-        Object.values(args[0]).forEach((arg) => {
-          if (typeof arg == 'string') {
+        for (const arg of Object.values(args[0])) {
+          if (typeof arg === 'string') {
             pushMiddleware<Req, Res>(this.middleware)({
               path: arg,
               handler: handlers[0],
@@ -217,7 +216,7 @@ export class Router<App extends Router = any, Req = any, Res = any> {
               type: 'route'
             })
           }
-        })
+        }
       } else {
         pushMiddleware<Req, Res>(this.middleware)({
           path: args[0],

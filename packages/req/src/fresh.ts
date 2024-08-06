@@ -1,4 +1,4 @@
-import { IncomingHttpHeaders, OutgoingHttpHeaders } from 'node:http'
+import type { IncomingHttpHeaders, OutgoingHttpHeaders } from 'node:http'
 
 const CACHE_CONTROL_NO_CACHE_REGEXP = /(?:^|,)\s*?no-cache\s*?(?:,|$)/
 

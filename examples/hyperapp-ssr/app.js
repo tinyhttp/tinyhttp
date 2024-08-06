@@ -1,8 +1,6 @@
-/* eslint-disable  */
-
 // @ts-ignore
 
-import { h, app, text } from '/hyperapp.js'
+import { app, h, text } from '/hyperapp.js'
 
 const state = {
   text: 'Hello'

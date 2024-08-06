@@ -1,7 +1,7 @@
-import { App } from '@tinyhttp/app'
 import Prisma from '@prisma/client'
+import { App } from '@tinyhttp/app'
 import graphql from 'graphql'
-import expressGraphQL from 'express-graphql'
+import { createHandler } from 'graphql-http/lib/use/http'
 
 const prisma = new Prisma.PrismaClient()
 const app = new App()
@@ -50,7 +50,7 @@ const rootValue = {
 
 app.use(
   '/graphql',
-  expressGraphQL.graphqlHTTP({
+  createHandler({
     schema,
     graphiql: { headerEditorEnabled: true },
     rootValue

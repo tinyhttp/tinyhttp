@@ -1,13 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { describe, expect, it, vi } from 'vitest'
-import http from 'node:http'
 import { readFile } from 'node:fs/promises'
-import { App } from '../../packages/app/src/index'
+import http from 'node:http'
 import { renderFile } from 'eta'
-import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import { makeFetch } from 'supertest-fetch'
-import { renderFile as ejsRenderFile } from 'ejs'
-import { View } from '../../packages/app/src/view'
+import { describe, expect, it, vi } from 'vitest'
+import { App, type Request, type Response } from '../../packages/app/src/index'
+import type { View } from '../../packages/app/src/view'
+import type { RouterMethod } from '../../packages/router/src'
+import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 
 describe('Testing App', () => {
   it('should launch a basic server', async () => {
@@ -52,11 +51,11 @@ describe('Testing App', () => {
 
     await fetch('/').expect(500, 'Ouch, you hurt me on / page.')
   })
-  it('Default onError with testing', async () => {
+  it('Defaults to onError when `TESTING` env is enabled', async () => {
     vi.stubEnv('TESTING', '')
     const app = new App()
 
-    app.use((_req, _res, _next) => {
+    app.use(() => {
       throw new Error('you')
     })
 
@@ -125,10 +124,10 @@ describe('Testing App routing', () => {
     app.use('/router', router)
 
     const server = app.listen(3000)
+    const fetch = makeFetch(server)
 
-    await makeFetch(server)('/router/list').expect(200, 'router/list')
-
-    await makeFetch(server)('/router/find').expect(200, 'router/find')
+    await fetch('/router/list').expect(200, 'router/list')
+    await fetch('/router/find').expect(200, 'router/find')
   })
   it('should respond on matched route', async () => {
     const { fetch } = InitAppAndTest((_req, res) => void res.send('Hello world'), '/route')
@@ -142,9 +141,10 @@ describe('Testing App routing', () => {
 
     app.use('/abc', (_req, res) => void res.send('Hello world'))
 
-    await makeFetch(server)('/abc/def').expect(200, 'Hello world')
+    const fetch = makeFetch(server)
 
-    await makeFetch(server)('/abcdef').expect(404)
+    await fetch('/abc/def').expect(200, 'Hello world')
+    await fetch('/abcdef').expect(404)
   })
   it('"*" should catch all undefined routes', async () => {
     const app = new App()
@@ -155,9 +155,10 @@ describe('Testing App routing', () => {
       .get('/route', (_req, res) => void res.send('A different route'))
       .all('*', (_req, res) => void res.send('Hello world'))
 
-    await makeFetch(server)('/route').expect(200, 'A different route')
+    const fetch = makeFetch(server)
 
-    await makeFetch(server)('/test').expect(200, 'Hello world')
+    await fetch('/route').expect(200, 'A different route')
+    await fetch('/test').expect(200, 'Hello world')
   })
   it('should throw 404 on no routes', async () => {
     await makeFetch(new App().listen())('/').expect(404)
@@ -188,21 +189,21 @@ describe('Testing App routing', () => {
 
     app.use('/abc', ...[route1, route2, route3])
 
-    await makeFetch(app.listen())('/abc/route1').expect(200, 'route1')
+    const fetch = makeFetch(app.listen())
 
-    await makeFetch(app.listen())('/abc/route2').expect(200, 'route2')
-
-    await makeFetch(app.listen())('/abc/route3').expect(200, 'route3')
+    await fetch('/abc/route1').expect(200, 'route1')
+    await fetch('/abc/route2').expect(200, 'route2')
+    await fetch('/abc/route3').expect(200, 'route3')
   })
   describe('next(err)', () => {
     it('next function skips current middleware', async () => {
       const app = new App()
 
-      app.locals['log'] = 'test'
+      app.locals.log = 'test'
 
       app
         .use((req, _res, next) => {
-          app.locals['log'] = req.url
+          app.locals.log = req.url
           next()
         })
         .use((_req, res) => void res.json({ ...app.locals }))
@@ -238,8 +239,8 @@ describe('Testing App routing', () => {
     it('errors in async wares do not destroy the app', async () => {
       const app = new App()
 
-      app.use(async (_req, _res) => {
-        throw `bruh`
+      app.use(async () => {
+        throw 'bruh'
       })
 
       const server = app.listen()
@@ -250,8 +251,8 @@ describe('Testing App routing', () => {
     it('errors in sync wares do not destroy the app', async () => {
       const app = new App()
 
-      app.use((_req, _res) => {
-        throw `bruh`
+      app.use(() => {
+        throw 'bruh'
       })
 
       const server = app.listen()
@@ -267,7 +268,7 @@ describe('App methods', () => {
 
     expect(app.settings.subdomainOffset).toBe(1)
   })
-  it(`app.enable enables a setting`, () => {
+  it('app.enable enables a setting', () => {
     const app = new App({
       settings: {
         xPoweredBy: false
@@ -276,7 +277,7 @@ describe('App methods', () => {
 
     expect(app.settings.xPoweredBy).toBe(true)
   })
-  it(`app.disable disables a setting`, async () => {
+  it('app.disable disables a setting', async () => {
     const app = new App({
       settings: {
         xPoweredBy: true
@@ -312,10 +313,10 @@ describe('App methods', () => {
       .post((_, res) => res.send('POST request'))
 
     const server = app.listen()
+    const fetch = makeFetch(server)
 
-    await makeFetch(server)('/').expect(200, 'GET request')
-
-    await makeFetch(server)('/', { method: 'POST' }).expect(200, 'POST request')
+    await fetch('/').expect(200, 'GET request')
+    await fetch('/', { method: 'POST' }).expect(200, 'POST request')
   })
 })
 
@@ -528,7 +529,7 @@ describe('HTTP methods', () => {
   })
   it('Returns statusCode 204 when no handler is present and the request is `HEAD`', async () => {
     const app = new App()
-    app.get('/', (_, res, next) => {
+    app.get('/', (_, _res, next) => {
       next()
     })
     const fetch = makeFetch(app.listen())
@@ -692,20 +693,69 @@ describe('Subapps', () => {
 
     expect(subApp.mountpath).toBe('/subapp')
   })
-  it('sub-app mounts on root', async () => {
-    const app = new App()
+  describe('when a sub-app is mounted on root', () => {
+    it('should execute sub-app middleware when matched', async () => {
+      const app = new App()
 
-    const subApp = new App()
+      const subApp = new App()
 
-    subApp.use((_, res) => void res.send('Hello World!'))
+      subApp.use((_, res) => void res.send('Hello World!'))
 
-    app.use(subApp)
+      app.use(subApp)
 
-    const server = app.listen()
+      const server = app.listen()
+      const fetch = makeFetch(server)
+      await fetch('/').expect(200, 'Hello World!')
+    })
+    describe.each([
+      {
+        verb: (app: App) => app.get.bind(app),
+        name: '.get',
+        fetchWithVerb: 'get'
+      },
+      {
+        verb: (app: App) => app.all.bind(app),
+        name: '.all',
+        fetchWithVerb: 'get'
+      }
+    ])(
+      'when sub-app registers middleware with $name',
+      ({
+        verb,
+        fetchWithVerb
+      }: {
+        verb: (app: App) => (...args: Parameters<RouterMethod<Request, Response>>) => App
+        fetchWithVerb: string
+      }) => {
+        it("should continue middleware execution when '.use'd sub-app middleware is exhausted", async () => {
+          const app = new App()
 
-    const fetch = makeFetch(server)
+          const subApp = new App()
+          verb(subApp)((_req, res) => res.send('foo'))
 
-    await fetch('/').expect(200, 'Hello World!')
+          app.use('/', subApp)
+          verb(app)('/bar', (_req, res) => res.send('bar'))
+
+          const fetch = makeFetch(app.listen())
+
+          await fetch('/', { method: fetchWithVerb }).expect(200, 'foo')
+          await fetch('/bar', { method: fetchWithVerb }).expect(200, 'bar')
+        })
+        it("should continue middleware execution when '.route' sub-app middleware is exhausted", async () => {
+          const app = new App()
+
+          const subApp = app.route('/')
+          verb(subApp)((_req, res) => res.send('foo'))
+
+          verb(app)('/bar', (_req, res) => res.send('bar'))
+
+          const fetch = makeFetch(app.listen())
+
+          await fetch('/', { method: fetchWithVerb }).expect(200, 'foo')
+          await fetch('/bar', { method: fetchWithVerb }).expect(200, 'bar')
+        })
+      }
+    )
   })
   it('multiple sub-apps mount on root', async () => {
     const app = new App()
@@ -719,9 +769,10 @@ describe('Subapps', () => {
     app.use(route1)
     app.use(route2)
 
-    await makeFetch(app.listen())('/route1').expect(200, 'route1')
+    const fetch = makeFetch(app.listen())
 
-    await makeFetch(app.listen())('/route2').expect(200, 'route2')
+    await fetch('/route1').expect(200, 'route1')
+    await fetch('/route2').expect(200, 'route2')
   })
   it('sub-app handles its own path', async () => {
     const app = new App()
@@ -880,7 +931,7 @@ describe('Subapps', () => {
 
     const subapp = new App()
 
-    subapp.use('/path', (_req, _res) => void 0)
+    subapp.use('/path', () => void 0)
 
     app.use('/subapp', subapp)
 
@@ -926,13 +977,15 @@ describe('Subapps', () => {
     const fetch = makeFetch(server)
     await fetch('/%').expect(400, 'Bad Request')
   })
-  it('Should throw an error when url regex throws an error', async () => {
-    global.decodeURIComponent = (...args) => {
+  it('should return status of 500 if `getURLParams` has an error', async () => {
+    global.decodeURIComponent = () => {
       throw new Error('an error was throw here')
     }
-    const app = new App()
+    const app = new App({
+      onError: (err, _req, res) => res.status(500).end(err.message)
+    })
     app.get('/:id', (_, res) => res.send('hello'))
-    await makeFetch(app.listen())('/123').expect(500)
+    await makeFetch(app.listen())('/123').expect(500, 'an error was throw here')
   })
   it('handles errors by parent when no onError specified', async () => {
     const app = new App({
@@ -941,7 +994,7 @@ describe('Subapps', () => {
 
     const subApp = new App()
 
-    subApp.get('/route', (req, res, next) => next('you'))
+    subApp.get('/route', (_req, _res, next) => next('you'))
 
     app.use('/subapp', subApp).listen()
 
@@ -959,7 +1012,7 @@ describe('Subapps', () => {
       onError: (err, req, res) => res.status(500).end(`Handling ${err} from child on ${req.path} page.`)
     })
 
-    subApp.get('/route', (req, res, next) => next('you'))
+    subApp.get('/route', (_req, _res, next) => next('you'))
 
     app.use('/subapp', subApp).listen()
 
@@ -967,6 +1020,18 @@ describe('Subapps', () => {
     const fetch = makeFetch(server)
 
     await fetch('/subapp/route').expect(500, 'Handling you from child on /subapp/route page.')
+  })
+  it('subapps mount on path regardless if path has leading slash', async () => {
+    const app = new App()
+    const subApp = new App()
+    subApp.get('/foo', (_req, res) => {
+      res.send('foo')
+    })
+    app.use('/bar1', subApp)
+    app.use('bar2', subApp)
+    const fetch = makeFetch(app.listen())
+    await fetch('/bar1/foo').expect(200, 'foo')
+    await fetch('/bar2/foo').expect(200, 'foo')
   })
 })
 
@@ -1052,15 +1117,14 @@ describe('Template engines', () => {
           }
         })
 
-        class ErrorTestView {
+        class TestView {
           path = 'something'
-          constructor(...args) {}
           render() {
             throw new Error('oops')
           }
         }
 
-        app.set('view', ErrorTestView as unknown as typeof View)
+        app.set('view', TestView as unknown as typeof View)
 
         app.render('nothing', {}, {}, (err) => {
           expect((err as Error).message, 'err!')
@@ -1075,7 +1139,7 @@ describe('Template engines', () => {
         app.engine('eta', renderFile)
         app.render('ate.eta', {}, {}, (err) => {
           expect((err as Error).message).toEqual(
-            'Failed to lookup view "ate.eta" in views directory "' + `${process.cwd()}/tests/fixtures` + '"'
+            `Failed to lookup view "ate.eta" in views directory "${process.cwd()}/tests/fixtures"`
           )
         })
       })
@@ -1218,20 +1282,6 @@ describe('Template engines', () => {
     })
   })
 
-  it('can render without options and throws error if template renderer throws error', async () => {
-    const app = new App()
-    app.engine('ejs', ejsRenderFile)
-
-    const server = app.listen()
-
-    const fetch = makeFetch(server)
-    try {
-      app.get('/', (_, res) => res.render('error.ejs').end())
-      await fetch('/')
-    } catch (err) {
-      expect((err as Error).message).toBe('Could not find matching close tag for "<%=".')
-    }
-  })
   it('uses the default engine to render', () => {
     const app = new App()
     app.set('view engine', '.eta')
@@ -1277,13 +1327,13 @@ describe('App settings', () => {
         }
       })
 
-      app.locals['hello'] = 'world'
+      app.locals.hello = 'world'
 
       app.use((req, res) => {
         expect(req.app).toBeInstanceOf(App)
         expect(res.app).toBeInstanceOf(App)
-        expect(req.app!.locals['hello']).toBe('world')
-        expect(res.app!.locals['hello']).toBe('world')
+        expect(req.app?.locals.hello).toBe('world')
+        expect(res.app?.locals.hello).toBe('world')
         res.end()
       })
 
@@ -1310,7 +1360,7 @@ describe('App settings', () => {
   })
   it('returns the correct middleware if there are more than one', async () => {
     const app = new App({ settings: { enableReqRoute: true } })
-
+    expect.assertions(2)
     app.use('/home', (req, res) => {
       expect(req.route).toEqual(app.middleware[0])
       res.end()

@@ -1,8 +1,8 @@
 import 'reflect-metadata'
+import { App, type Request, type Response } from '@tinyhttp/app'
+import { json } from 'milliparsec'
 import { createConnection } from 'typeorm'
 import { User } from './entity/User'
-import { App, Request, Response } from '@tinyhttp/app'
-import { json } from 'milliparsec'
 
 const users = [
   {
@@ -31,7 +31,7 @@ createConnection()
       dbUser.lastName = user.lastName
       dbUser.age = user.age
       await connection.manager.save(dbUser)
-      console.log('Saved a new user with id: ' + dbUser.id)
+      console.log(`Saved a new user with id: ${dbUser.id}`)
     }
 
     console.log('Loading users from the database...')
@@ -46,7 +46,7 @@ createConnection()
 
     // register routes
 
-    app.get('/users', async (req: Request, res: Response, next) => {
+    app.get('/users', async (_req: Request, res: Response, next) => {
       try {
         const users = await userRepository.find()
         res.json(users)
@@ -108,6 +108,6 @@ createConnection()
     })
 
     // start tinyhttp server
-    app.listen(3000, () => console.log(`Started on http://localhost:3000`))
+    app.listen(3000, () => console.log('Started on http://localhost:3000'))
   })
   .catch((error) => console.log(error))

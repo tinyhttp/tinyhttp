@@ -1,6 +1,6 @@
-import pgq from 'pg-promise'
-import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import pgq from 'pg-promise'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)

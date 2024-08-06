@@ -1,6 +1,6 @@
-import fs from 'node:fs'
+import { readFileSync } from 'node:fs'
 import path from 'node:path'
-import { DotenvParseOptions, DotenvParseOutput, DotenvConfigOptions, DotenvConfigOutput } from './structs.js'
+import type { DotenvConfigOptions, DotenvConfigOutput, DotenvParseOptions, DotenvParseOutput } from './types.js'
 
 const log = (message: string) => console.log(`[dotenv][DEBUG] ${message}`)
 
@@ -17,7 +17,7 @@ const NEWLINES_MATCH = /\n|\r|\r\n/
  * @returns an object with keys and values based on `src`
  */
 export function parse(src: string | Buffer, options?: DotenvParseOptions): DotenvParseOutput {
-  const debug = Boolean(options && options.debug)
+  const debug = Boolean(options?.debug)
   const obj = {}
 
   // convert Buffers before splitting into lines and processing
@@ -73,7 +73,7 @@ export function config(options?: Partial<DotenvConfigOptions>): DotenvConfigOutp
 
   try {
     // specifying an encoding returns a string instead of a buffer
-    const parsed = parse(fs.readFileSync(dotenvPath, { encoding }), { debug })
+    const parsed = parse(readFileSync(dotenvPath, { encoding }), { debug })
 
     for (const key of Object.keys(parsed)) {
       if (!Object.prototype.hasOwnProperty.call(process.env, key)) {

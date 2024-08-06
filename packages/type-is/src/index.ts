@@ -14,7 +14,7 @@ function tryNormalizeType(value: string) {
 
   try {
     return normalizeType(value)
-  } catch (err) {
+  } catch (_err) {
     return null
   }
 }
@@ -57,7 +57,7 @@ function normalize(type: string | unknown) {
       return 'multipart/*'
   }
   // "+json" -> "*/*+json" expando
-  if (type[0] === '+') return '*/*' + type
+  if (type[0] === '+') return `*/*${type}`
 
   return type.indexOf('/') === -1 ? mime.getType(type) : type
 }

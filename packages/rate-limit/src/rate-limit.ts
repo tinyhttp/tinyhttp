@@ -1,6 +1,6 @@
-import { IncomingMessage as Request, ServerResponse as Response } from 'node:http'
-import { MemoryStore, Store } from './memory-store.js'
+import type { IncomingMessage as Request, ServerResponse as Response } from 'node:http'
 import { send, status } from '@tinyhttp/send'
+import { MemoryStore, type Store } from './memory-store.js'
 
 export interface RequestWithRateLimit extends Request {
   rateLimit?: {
@@ -38,7 +38,6 @@ const defaultOptions: RateLimitOptions = {
   draftPolliRatelimitHeaders: false,
   keyGenerator: (req) => req.ip,
   shouldSkip: () => false,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onLimitReached: () => {}
 }
 

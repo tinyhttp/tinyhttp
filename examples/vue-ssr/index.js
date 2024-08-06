@@ -1,13 +1,13 @@
 import { App } from '@tinyhttp/app'
-import { renderToString } from 'vue/server-renderer'
 import sirv from 'sirv'
+import { renderToString } from 'vue/server-renderer'
 import { createApp } from './app.js'
 
 const app = new App()
 
 app
   .use(sirv())
-  .get('*', async (req, res) => {
+  .get('*', async (_req, res) => {
     const app = createApp()
 
     const html = await renderToString(app)

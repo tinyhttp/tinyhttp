@@ -12,7 +12,7 @@ const q = fauna.query
 dotenv.config()
 
 if (!process.env.DB_KEY) {
-  throw new Error(`Missing DB_KEY field in .env file`)
+  throw new Error('Missing DB_KEY field in .env file')
 }
 
 const client = new fauna.Client({
@@ -75,4 +75,4 @@ app.post('/product', async (req, res, next) => {
   }
 })
 
-app.listen(3000, () => console.log(`Started on http://localhost:3000`))
+app.listen(3000, () => console.log('Started on http://localhost:3000'))

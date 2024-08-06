@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/url",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "type": "module",
   "description": "URL extensions for tinyhttp",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -11,18 +11,7 @@
   },
   "types": "./dist/index.d.ts",
   "exports": "./dist/index.js",
-  "keywords": [
-    "tinyhttp",
-    "node.js",
-    "web framework",
-    "web",
-    "backend",
-    "req",
-    "request",
-    "url",
-    "params",
-    "query"
-  ],
+  "keywords": ["tinyhttp", "node.js", "web framework", "web", "backend", "req", "request", "url", "params", "query"],
   "engines": {
     "node": ">=12.20.0"
   },

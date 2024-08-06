@@ -1,8 +1,8 @@
+import { makeFetch } from 'supertest-fetch'
 import { describe, expect, it, vi } from 'vitest'
 import { App } from '../../../packages/app/src'
 import { rateLimit } from '../../../packages/rate-limit/src'
-import { makeFetch } from 'supertest-fetch'
-import { Store } from '../../../packages/rate-limit/src/memory-store'
+import type { Store } from '../../../packages/rate-limit/src/memory-store'
 
 function createAppWith(middleware) {
   const app = new App()
@@ -144,12 +144,12 @@ describe('rate-limit', () => {
       expect(store.decrement_was_called).toBeTruthy()
     })
     it('should pass a function to the max option instead of a number', async () => {
-      function maxFunction(req, res): Promise<number> {
-        return new Promise((resolve, reject) => {
+      const maxFunction = (): Promise<number> =>
+        new Promise((resolve, reject) => {
           resolve(5)
           reject(3)
         })
-      }
+
       const store = new MockStore()
       const app = createAppWith(
         rateLimit({
@@ -187,7 +187,7 @@ describe('rate-limit', () => {
 
       const expectedRemaining = 4
       const expectedResetTimestamp = Math.ceil((Date.now() + windowMs) / 1000).toString()
-      const resetRegexp = new RegExp(expectedResetTimestamp.substr(0, expectedResetTimestamp.length - 2) + '\\d\\d')
+      const resetRegexp = new RegExp(`${expectedResetTimestamp.slice(0, expectedResetTimestamp.length - 2)}\\d\\d`)
 
       await makeFetch(server)('/')
         .expect('x-ratelimit-limit', limit)
@@ -233,7 +233,7 @@ describe('rate-limit', () => {
         rateLimit({
           max: 2,
           store: {
-            incr: (key, cb) => {
+            incr: (_key, cb) => {
               cb('error', null, null)
             },
             // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -311,6 +311,5 @@ class MockStore {
     this.counter = 0
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   resetAll = () => {}
 }

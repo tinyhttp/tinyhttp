@@ -1,3 +1,4 @@
+/* c8 ignore start */
 export interface DotenvParseOptions {
   /**
    * You may turn on logging to help debug why certain keys or values are not being set as you expect.
@@ -32,3 +33,4 @@ export interface DotenvConfigOutput {
 }
 
 export type config = (options?: DotenvConfigOptions) => DotenvConfigOutput
+/* c8 ignore stop */

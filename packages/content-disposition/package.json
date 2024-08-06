@@ -1,7 +1,7 @@
 {
   "name": "@tinyhttp/content-disposition",
   "description": "content-disposition rewrite in TypeScript",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "license": "MIT",
   "homepage": "https://tinyhttp.v1rtl.site",
   "funding": {
@@ -19,9 +19,7 @@
   "type": "module",
   "types": "./dist/index.d.ts",
   "exports": "./dist/index.js",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "dev": "vite",
     "build": "vite build"

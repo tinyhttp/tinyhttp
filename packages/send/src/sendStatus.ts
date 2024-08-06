@@ -1,4 +1,4 @@
-import { IncomingMessage as I, ServerResponse as S } from 'node:http'
+import type { IncomingMessage as I, ServerResponse as S } from 'node:http'
 import { STATUS_CODES } from 'node:http'
 import { send } from './send.js'
 

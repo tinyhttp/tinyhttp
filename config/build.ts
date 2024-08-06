@@ -1,6 +1,6 @@
+import { builtinModules } from 'node:module'
 import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
-import { builtinModules } from 'node:module'
 
 export const build = (dependencies: Record<string, string> = {}) =>
   defineConfig({
@@ -9,7 +9,7 @@ export const build = (dependencies: Record<string, string> = {}) =>
       minify: false,
       lib: {
         entry: 'src/index.ts',
-        fileName: () => `index.js`,
+        fileName: () => 'index.js',
         formats: ['es']
       },
       ssr: true,

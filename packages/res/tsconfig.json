@@ -6,7 +6,5 @@
     "declarationDir": "dist",
     "declaration": true
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }

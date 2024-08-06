@@ -1,41 +1,42 @@
-import { getSubdomains, Request } from './request.js'
-import type { NextFunction } from '@tinyhttp/router'
-import type { Response } from './response.js'
+import { compile } from '@tinyhttp/proxy-addr'
 import {
-  getFreshOrStale,
-  getRangeFromHeader,
-  getRequestHeader,
   checkIfXMLHttpRequest,
-  getQueryParams,
   getAccepts,
   getAcceptsCharsets,
   getAcceptsEncodings,
-  getAcceptsLanguages
+  getAcceptsLanguages,
+  getFreshOrStale,
+  getQueryParams,
+  getRangeFromHeader,
+  getRequestHeader
 } from '@tinyhttp/req'
-import { getProtocol, getHostname, getIP, getIPs } from './request.js'
 import {
-  send,
-  json,
-  status,
-  setCookie,
-  clearCookie,
-  setHeader,
-  getResponseHeader,
-  setLocationHeader,
-  setLinksHeader,
-  sendStatus,
-  setVaryHeader,
-  sendFile,
-  formatResponse,
-  redirect,
-  setContentType,
+  append,
   attachment,
+  clearCookie,
   download,
-  append
+  formatResponse,
+  getResponseHeader,
+  json,
+  redirect,
+  send,
+  sendFile,
+  sendStatus,
+  setContentType,
+  setCookie,
+  setHeader,
+  setLinksHeader,
+  setLocationHeader,
+  setVaryHeader,
+  status
 } from '@tinyhttp/res'
+import type { NextFunction } from '@tinyhttp/router'
+import type { App } from './app.js'
+import { type Request, getSubdomains } from './request.js'
+import { getHostname, getIP, getIPs, getProtocol } from './request.js'
+import type { Response } from './response.js'
 import { renderTemplate } from './response.js'
-import { App } from './app.js'
-import { TemplateEngineOptions } from './types.js'
+import type { TemplateEngineOptions } from './types.js'
 
 /**
  * Extends Request and Response objects with custom properties and methods
@@ -53,13 +54,19 @@ export const extendMiddleware =
       res.app = app
     }
 
+    let trust = settings?.['trust proxy']
+    if (typeof trust !== 'function') {
+      trust = compile(trust)
+      settings['trust proxy'] = trust
+    }
+
     if (settings?.networkExtensions) {
-      req.protocol = getProtocol(req)
+      req.protocol = getProtocol(req, trust)
       req.secure = req.protocol === 'https'
-      req.hostname = getHostname(req)
-      req.subdomains = getSubdomains(req, settings.subdomainOffset)
-      req.ip = getIP(req)
-      req.ips = getIPs(req)
+      req.hostname = getHostname(req, trust)
+      req.subdomains = getSubdomains(req, trust, settings.subdomainOffset)
+      req.ip = getIP(req, trust)
+      req.ips = getIPs(req, trust)
     }
 
     req.query = getQueryParams(req.url)

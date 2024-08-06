@@ -1,4 +1,4 @@
-import { App, Request, Response } from '@tinyhttp/app'
+import { App, type Request, type Response } from '@tinyhttp/app'
 import { basePath, get, register } from 'express-decorators'
 
 @basePath('/hello')

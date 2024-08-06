@@ -1,10 +1,10 @@
-import Negotiator from 'negotiator'
-import { IncomingMessage as I, IncomingHttpHeaders } from 'node:http'
+import type { IncomingMessage as I, IncomingHttpHeaders } from 'node:http'
 import mime from 'mime'
+import Negotiator from 'negotiator'
 
-const extToMime = (type: string) => (type.indexOf('/') == -1 ? mime.getType(type) : type)
+const extToMime = (type: string) => (type.indexOf('/') === -1 ? mime.getType(type) : type)
 
-const validMime = (type: unknown): boolean => typeof type == 'string'
+const validMime = (type: unknown): boolean => typeof type === 'string'
 
 export class Accepts {
   headers: IncomingHttpHeaders
@@ -18,7 +18,7 @@ export class Accepts {
    *
    * The `type` value may be a single mime type string such as "application/json", the extension name such as "json" or an array `["json", "html", "text/plain"]`. When a list or array is given the _best_ match, if any is returned. When no types are given as arguments, returns all types accepted by the client in the preference order.
    */
-  types(types: string | string[], ...args: string[]): string[] | string | false {
+  types(types?: string | string[], ...args: string[]): string[] | string | false {
     let mimeTypes: string[] = []
 
     // support flattened arguments
@@ -29,12 +29,12 @@ export class Accepts {
     }
 
     // no types, return all requested types
-    if (!mimeTypes || mimeTypes.length == 0) {
+    if (!mimeTypes || mimeTypes.length === 0) {
       return this.negotiator.mediaTypes()
     }
 
     // no accept header, return first given type
-    if (!this.headers['accept']) {
+    if (!this.headers.accept) {
       return mimeTypes[0]
     }
 
@@ -64,7 +64,7 @@ export class Accepts {
     }
 
     // no encodings, return all requested encodings
-    if (!_encodings || _encodings.length == 0) {
+    if (!_encodings || _encodings.length === 0) {
       return this.negotiator.encodings()
     }
 
@@ -90,7 +90,7 @@ export class Accepts {
     }
 
     // no charsets, return all requested charsets
-    if (!_charsets || _charsets.length == 0) {
+    if (!_charsets || _charsets.length === 0) {
       return this.negotiator.charsets()
     }
 
@@ -108,7 +108,7 @@ export class Accepts {
    *     ['es', 'pt', 'en']
    *
    */
-  languages(languages: string | string[], ...args: string[]): string | string[] | boolean {
+  languages(languages?: string | string[], ...args: string[]): string | string[] | boolean {
     let _languages: string[] = languages as string[]
 
     // support flattened arguments
@@ -117,7 +117,7 @@ export class Accepts {
     }
 
     // no languages, return all requested languages
-    if (!_languages || _languages.length == 0) {
+    if (!_languages || _languages.length === 0) {
       return this.negotiator.languages()
     }
 

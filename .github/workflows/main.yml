@@ -28,10 +28,10 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: setup caching
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.PNPM_CACHE_FOLDER }}
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -54,14 +54,15 @@ jobs:
       - name: install dependencies
         run: pnpm install
 
-      - name: lint code
-        run: pnpm lint
-
-      - name: check formatting
-        run: pnpm format
-
       - name: build packages
         run: pnpm build
+
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: latest
+      - name: Run Biome
+        run: biome ci .
 
       - name: run tests
         run: pnpm test

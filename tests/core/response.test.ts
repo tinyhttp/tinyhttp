@@ -1,9 +1,9 @@
-import { describe, expect, it } from 'vitest'
-import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 import { renderFile } from 'eta'
-import { App } from '../../packages/app/src/app'
-import { makeFetch } from 'supertest-fetch'
 import type { PartialConfig } from 'eta/dist/types/config'
+import { makeFetch } from 'supertest-fetch'
+import { describe, expect, it } from 'vitest'
+import { App } from '../../packages/app/src/app'
+import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 
 describe('Response properties', () => {
   it('should have default HTTP Response properties', async () => {
@@ -161,7 +161,7 @@ describe('Response methods', () => {
         app.set('views', `${process.cwd()}/tests/fixtures`)
         app.set('view engine', 'eta')
         app.locals.name = 'v1rtl'
-        res.render(`views`)
+        res.render('views')
       })
 
       await fetch('/').expect(200, 'Hello from v1rtl')

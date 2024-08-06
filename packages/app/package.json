@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/app",
-  "version": "2.2.0",
+  "version": "2.3.1",
   "description": "0-legacy, tiny & fast web framework as a replacement of Express",
   "type": "module",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -15,20 +15,11 @@
   },
   "types": "./dist/index.d.ts",
   "exports": "./dist/index.js",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "engines": {
     "node": ">=14.21.3"
   },
-  "keywords": [
-    "tinyhttp",
-    "router",
-    "backend",
-    "http",
-    "framework",
-    "api"
-  ],
+  "keywords": ["tinyhttp", "router", "backend", "http", "framework", "api"],
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
@@ -38,7 +29,7 @@
     "@tinyhttp/res": "workspace:*",
     "@tinyhttp/router": "workspace:*",
     "header-range-parser": "1.1.3",
-    "regexparam": "^2.0.1"
+    "regexparam": "^2.0.2"
   },
   "scripts": {
     "dev": "vite",

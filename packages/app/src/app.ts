@@ -1,23 +1,23 @@
-import { createServer, Server } from 'node:http'
+import { type Server, createServer } from 'node:http'
+import { getPathname } from '@tinyhttp/req'
+import type { Handler, Middleware, NextFunction, UseMethodParams } from '@tinyhttp/router'
+import { Router, pushMiddleware } from '@tinyhttp/router'
+import { parse as rg } from 'regexparam'
+import { extendMiddleware } from './extend.js'
+import type { TemplateEngineOptions } from './index.js'
+import type { ErrorHandler } from './onError.js'
+import { onErrorHandler } from './onError.js'
 import { getURLParams } from './request.js'
 import type { Request, URLParams } from './request.js'
 import type { Response } from './response.js'
-import type { ErrorHandler } from './onError.js'
-import { onErrorHandler } from './onError.js'
-import type { Middleware, Handler, NextFunction, UseMethodParams } from '@tinyhttp/router'
-import { Router, pushMiddleware } from '@tinyhttp/router'
-import { extendMiddleware } from './extend.js'
-import { parse as rg } from 'regexparam'
-import { getPathname } from '@tinyhttp/req'
-import { AppConstructor, AppRenderOptions, AppSettings, TemplateEngine } from './types.js'
-import { TemplateEngineOptions } from './index.js'
+import type { AppConstructor, AppRenderOptions, AppSettings, TemplateEngine } from './types.js'
 import { View } from './view.js'
 
 /**
  * Add leading slash if not present (e.g. path -> /path, /path -> /path)
  * @param x
  */
-const lead = (x: string) => (x.charCodeAt(0) === 47 ? x : '/' + x)
+const lead = (x: string) => (x.charCodeAt(0) === 47 ? x : `/${x}`)
 
 const mount = (fn: App | Handler) => (fn instanceof App ? fn.attach : fn)
 
@@ -63,7 +63,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
   settings: AppSettings
   engines: Record<string, TemplateEngine> = {}
   applyExtensions: (req: Request, res: Response, next: NextFunction) => void
-  attach: (req: Req, res: Res) => void
+  attach: (req: Req, res: Res, next?: NextFunction) => void
   cache: Record<string, unknown>
 
   constructor(options: AppConstructor<Req, Res> = {}) {
@@ -75,10 +75,12 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       xPoweredBy: true,
       views: `${process.cwd()}/views`,
       'view cache': process.env.NODE_ENV === 'production',
+      'trust proxy': 0,
       ...options.settings
     }
     this.applyExtensions = options?.applyExtensions
-    this.attach = (req, res) => setImmediate(this.handler.bind(this, req, res, undefined), req, res)
+    const boundHandler = this.handler.bind(this)
+    this.attach = (req, res, next?: NextFunction) => setImmediate(boundHandler, req, res, next)
     this.cache = {}
   }
 
@@ -151,7 +153,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
   /**
    * Render a template
-   * @param file What to render
+   * @param name What to render
    * @param data data that is passed to a template
    * @param options Template engine options
    * @param cb Callback that consumes error and html
@@ -160,7 +162,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
     name: string,
     data: Record<string, unknown> = {},
     options: AppRenderOptions<RenderOptions> = {} as AppRenderOptions<RenderOptions>,
-    cb: (err: unknown, html?: unknown) => void
+    cb: (err: unknown, html?: unknown) => void = () => {}
   ): void {
     let view: View | undefined
 
@@ -179,7 +181,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
     }
 
     if (!view) {
-      const View = this.settings['view']
+      const View = this.settings.view
       view = new View(name, {
         defaultEngine: this.settings['view engine'],
         root: this.settings.views,
@@ -189,9 +191,9 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       if (!view.path) {
         const dirs =
           Array.isArray(view.root) && view.root.length > 1
-            ? 'directories "' + view.root.slice(0, -1).join('", "') + '" or "' + view.root[view.root.length - 1] + '"'
-            : 'directory "' + view.root + '"'
-        const err = new Error('Failed to lookup view "' + name + '" in views ' + dirs)
+            ? `directories "${view.root.slice(0, -1).join('", "')}" or "${view.root[view.root.length - 1]}"`
+            : `directory "${view.root}"`
+        const err = new Error(`Failed to lookup view "${name}" in views ${dirs}`)
 
         return cb(err)
       }
@@ -230,22 +232,22 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       })
       fns.unshift(...basePaths)
     }
-    pathArray = pathArray.length ? pathArray : ['/']
+    pathArray = pathArray.length ? pathArray.map((path) => lead(path)) : ['/']
 
     const mountpath = pathArray.join(', ')
     let regex: { keys: string[]; pattern: RegExp }
 
     for (const fn of fns) {
       if (fn instanceof App) {
-        pathArray.forEach((path) => {
+        for (const path of pathArray) {
           regex = rg(path, true)
           fn.mountpath = mountpath
           this.apps[path] = fn
           fn.parent = this
-        })
+        }
       }
     }
-    pathArray.forEach((path) => {
+    for (const path of pathArray) {
       const handlerPaths = []
       const handlerFunctions = []
       const handlerPathBase = path === '/' ? '' : lead(path)
@@ -268,7 +270,8 @@ export class App<Req extends Request = Request, Res extends Response = Response>
         handlers: handlerFunctions.slice(1).map(mount),
         fullPaths: handlerPaths
       })
-    })
+    }
+
     return this
   }
 
@@ -298,6 +301,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
    * Extends Req / Res objects, pushes 404 and 500 handlers, dispatches middleware
    * @param req Req object
    * @param res Res object
+   * @param next 'Next' function
    */
   handler<RenderOptions extends TemplateEngineOptions = TemplateEngineOptions>(
     req: Req,
@@ -338,11 +342,15 @@ export class App<Req extends Request = Request, Res extends Response = Response>
         path: '/'
       })
     }
-    mw.push({
-      handler: this.noMatchHandler,
-      type: 'mw',
-      path: '/'
-    })
+
+    if (this.parent == null) {
+      mw.push({
+        handler: this.noMatchHandler,
+        type: 'mw',
+        path: '/'
+      })
+    }
+
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
       const { path, handler, regex } = mw
 
@@ -352,17 +360,25 @@ export class App<Req extends Request = Request, Res extends Response = Response>
         params = regex ? getURLParams(regex, pathname) : {}
       } catch (e) {
         if (e instanceof URIError) return res.sendStatus(400) // Handle malformed URI
-        return res.sendStatus(500)
+        return this.onError(e, req, res)
+      }
+
+      // Warning: users should not use :wild as a pattern
+      let prefix = path
+      if (regex) {
+        for (const key of regex.keys as string[]) {
+          if (key === 'wild') {
+            prefix = prefix.replace('*', params.wild)
+          } else {
+            prefix = prefix.replace(`:${key}`, params[key])
+          }
+        }
       }
 
       req.params = { ...req.params, ...params }
 
-      if (path.includes(':')) {
-        const first = Object.values(params)[0]
-        const url = req.url.slice(req.url.indexOf(first) + first?.length)
-        req.url = lead(url)
-      } else {
-        req.url = lead(req.url.substring(path.length))
+      if (mw.type === 'mw') {
+        req.url = lead(req.url.substring(prefix.length))
       }
 
       if (!req.path) req.path = getPathname(req.url)
@@ -374,9 +390,22 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     let idx = 0
 
-    const loop = () => res.writableEnded || (idx < mw.length && handle(mw[idx++])(req, res, next))
+    const loop = (): void => void handle(mw[idx++])(req, res, next)
 
-    next = next || ((err) => (err ? this.onError(err, req, res) : loop()))
+    const parentNext = next
+    next = (err) => {
+      if (err != null) {
+        return this.onError(err, req, res)
+      }
+
+      if (res.writableEnded) return
+      if (idx >= mw.length) {
+        if (parentNext != null) parentNext()
+        return
+      }
+
+      loop()
+    }
 
     loop()
   }
@@ -384,7 +413,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
   /**
    * Creates HTTP server and dispatches middleware
    * @param port server listening port
-   * @param Server callback after server starts listening
+   * @param cb callback to be invoked after server starts listening
    * @param host server listening host
    */
   listen(port?: number, cb?: () => void, host?: string): Server {

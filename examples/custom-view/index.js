@@ -1,6 +1,6 @@
+import fs from 'node:fs/promises'
 import { App } from '@tinyhttp/app'
 import { CustomView } from './view.js'
-import fs from 'node:fs/promises'
 
 const app = new App()
 
@@ -17,7 +17,7 @@ app.engine('html', async (path, locals, _opts, cb) => {
   cb(null, renderedTemplate)
 })
 
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.render('hello.html', { name: 'v1rtl' })
 })
 
