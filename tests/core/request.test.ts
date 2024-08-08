@@ -250,6 +250,18 @@ describe('Request properties', () => {
 
       await fetch('/', { headers: { Host: 'foo.bar:8080' } }).expect(200, 'hostname: foo.bar')
     })
+    it('should not derive hostname from the host header when multiple values are provided', async () => {
+      const { fetch } = InitAppAndTest(
+        (req, res) => {
+          res.send(`hostname: ${req.hostname}`)
+        },
+        '/',
+        'GET',
+        options
+      )
+
+      await fetch('/', { headers: { Host: ['foo.bar:8080', 'bar.baz:8080'] } }).expect(200, 'hostname: undefined')
+    })
     it('should derive hostname from the :authority header and assign it to req.hostname', async () => {
       const globalDispatcher = getGlobalDispatcher()
       onTestFinished(() => {
