@@ -23,30 +23,3 @@ export const InitAppAndTest = (
 
   return { fetch, app, server }
 }
-
-const secureServerCredentials = {
-  key: await fs.readFile(path.join(import.meta.dirname, '..', 'tests', 'fixtures', 'server.key')),
-  cert: await fs.readFile(path.join(import.meta.dirname, '..', 'tests', 'fixtures', 'server.crt'))
-}
-
-export const InitSecureAppAndTest = (
-  handler: Handler,
-  route?: string,
-  method = 'get',
-  settings: ConstructorParameters<typeof App>[0] = {}
-): { fetch: FetchFunction; app: App; server: Http2SecureServer } => {
-  const app = new App(settings)
-
-  if (route) app[method.toLowerCase()](route, handler)
-  else app.use(handler)
-
-  const server = createSecureServer({
-    ...secureServerCredentials
-  })
-  server.on('request', app.attach)
-  server.listen()
-
-  const fetch = makeFetch(server)
-
-  return { fetch, app, server }
-}
