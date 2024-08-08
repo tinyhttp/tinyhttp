@@ -27,6 +27,7 @@ export default defineConfig({
       '@tinyhttp/forwarded': relative('packages/forwarded/src'),
       '@tinyhttp/ip-filter': relative('packages/ip-filter/src'),
       '@tinyhttp/jsonp': relative('packages/jsonp/src'),
+      '@tinyhttp/proxy-addr': relative('packages/proxy-addr/src'),
       '@tinyhttp/rate-limit': relative('packages/rate-limit/src'),
       '@tinyhttp/req': relative('packages/req/src'),
       '@tinyhttp/res': relative('packages/res/src'),
