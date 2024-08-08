@@ -59,7 +59,7 @@ const getForwardedHeaderHostString = (req: Request): string | undefined => {
 
 const getDefaultHeaderHostString = (req: Request): string | undefined => {
   const host = req.get('host')
-  if (Array.isArray(host)) return undefined
+  if (host.indexOf(',') !== -1) return undefined
   if (!host) return undefined
 
   return normalizeHostString(host)
@@ -104,11 +104,10 @@ export const getIPs = (req: Pick<Request, 'headers' | 'connection' | 'socket'>, 
   all(req, trust)
 
 export const getSubdomains = (req: Request, trust: Trust, subdomainOffset = 2): string[] => {
-  const { hostname } = getHost(req, trust)
+  const host = getHost(req, trust)
+  if (!host?.hostname) return []
 
-  if (!hostname) return []
-
-  const subdomains = isIP(hostname) ? [hostname] : hostname.split('.').reverse()
+  const subdomains = isIP(host.hostname) ? [host.hostname] : host.hostname.split('.').reverse()
 
   return subdomains.slice(subdomainOffset)
 }
