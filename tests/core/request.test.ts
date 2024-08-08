@@ -336,6 +336,36 @@ describe('Request properties', () => {
       expect(response.status).toBe(200)
       await expect(response.json()).resolves.toEqual({ port: serverAddress.port })
     })
+    it('should reject request when the :authority header disagrees with the host header', async () => {
+      const globalDispatcher = getGlobalDispatcher()
+      onTestFinished(() => {
+        setGlobalDispatcher(globalDispatcher)
+      })
+
+      setGlobalDispatcher(
+        new UndiciAgent({
+          connect: {
+            rejectUnauthorized: false
+          },
+          allowH2: true
+        })
+      )
+
+      const { server } = InitSecureAppAndTest(
+        (req, res) => {
+          expect(req.get('host')).toBeUndefined()
+          res.json({ port: req.port })
+        },
+        '/',
+        'GET',
+        options
+      )
+      const serverAddress = server.address()
+      if (typeof serverAddress === 'string') throw new Error('Cannot listen on unix socket')
+
+      const response = await fetch(`https://localhost:${serverAddress.port}/`, { headers: { host: 'foo.bar' } })
+      expect(response.status).toBe(500)
+    })
     it('should not crash app when host header is malformed', async () => {
       const { fetch } = InitAppAndTest(
         (req, res) => {
