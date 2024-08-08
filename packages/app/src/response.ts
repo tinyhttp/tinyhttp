@@ -1,6 +1,6 @@
-import type { ServerResponse } from 'node:http'
+import type { OutgoingHttpHeaders, ServerResponse } from 'node:http'
 import type { SerializeOptions } from '@tinyhttp/cookie'
-import type { DownloadOptions, FormatProps, ReadStreamOptions } from '@tinyhttp/res'
+import type { DownloadOptions, FormatProps, ReadStreamOptions, getResponseHeader } from '@tinyhttp/res'
 import type { App } from './app.js'
 import type { Request } from './request.js'
 import type { AppRenderOptions, TemplateEngineOptions } from './types.js'
@@ -17,8 +17,9 @@ export const renderTemplate =
 
 export interface Response<B = unknown> extends ServerResponse {
   header(field: string | Record<string, unknown>, val?: string | any[]): Response<B>
-  set(field: string | Record<string, unknown>, val?: string | any[]): Response<B>
-  get(field: string): string | number | string[]
+  set<HeaderName extends string>(field: HeaderName, val: OutgoingHttpHeaders[HeaderName]): Response<B>
+  set(fields: OutgoingHttpHeaders): Response<B>
+  get<HeaderName extends string>(field: HeaderName): OutgoingHttpHeaders[HeaderName]
   send(body: B): Response<B>
   sendFile(path: string, options?: ReadStreamOptions, cb?: (err?: unknown) => void): Response<B>
   json(body: B): Response<B>

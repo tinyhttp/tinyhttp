@@ -1,4 +1,4 @@
-import type { IncomingMessage } from 'node:http'
+import type { IncomingHttpHeaders, IncomingMessage } from 'node:http'
 import type { ParsedUrlQuery } from 'node:querystring'
 
 import { type Trust, all, compile, proxyaddr as proxyAddr } from '@tinyhttp/proxy-addr'
@@ -10,7 +10,7 @@ import type { App } from './app.js'
 import { isIP } from 'node:net'
 import type { Socket } from 'node:net'
 import type { TLSSocket } from 'node:tls'
-import type { URLParams } from '@tinyhttp/req'
+import type { URLParams, getRequestHeader } from '@tinyhttp/req'
 
 export { getURLParams } from '@tinyhttp/req'
 
@@ -140,7 +140,7 @@ export interface Request extends IncomingMessage {
   ip?: string
   ips?: string[]
   subdomains?: string[]
-  get: (header: string) => string | string[] | undefined
+  get: <HeaderName extends string>(header: HeaderName) => IncomingHttpHeaders[HeaderName]
   range: (size: number, options?: Options) => -1 | -2 | -3 | Ranges | undefined
   accepts: (...types: string[]) => AcceptsReturns
   acceptsEncodings: (...encodings: string[]) => AcceptsReturns
