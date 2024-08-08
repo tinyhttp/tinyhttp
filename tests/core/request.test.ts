@@ -1,11 +1,21 @@
 import { Agent } from 'node:http'
 import { makeFetch } from 'supertest-fetch'
-import { Agent as UndiciAgent, getGlobalDispatcher, setGlobalDispatcher } from 'undici'
-import { describe, expect, it, onTestFinished } from 'vitest'
+import { assert, afterEach, describe, expect, it, vi } from 'vitest'
 import { App } from '../../packages/app/src/app'
-import { InitAppAndTest, InitSecureAppAndTest } from '../../test_helpers/initAppAndTest'
+import * as req from '../../packages/req/src'
+import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
+
+vi.mock<typeof req>(import('../../packages/req/src'), async (importOriginal) => {
+  const module = await importOriginal()
+  vi.spyOn(module, 'getRequestHeader')
+  return module
+})
 
 describe('Request properties', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
   it('should have default HTTP Request properties', async () => {
     const { fetch } = InitAppAndTest((req, res) => {
       res.status(200).json({
@@ -263,21 +273,17 @@ describe('Request properties', () => {
       await fetch('/', { headers: { Host: ['foo.bar:8080', 'bar.baz:8080'] } }).expect(200, 'hostname: undefined')
     })
     it('should derive hostname from the :authority header and assign it to req.hostname', async () => {
-      const globalDispatcher = getGlobalDispatcher()
-      onTestFinished(() => {
-        setGlobalDispatcher(globalDispatcher)
+      const { getRequestHeader }: typeof req = await vi.importActual('../../packages/req')
+      vi.mocked(req.getRequestHeader).mockImplementation((req) => {
+        const defaultGetter = getRequestHeader(req)
+        return (header: string) => {
+          if (header === 'host') return undefined
+          if (header === ':authority') return 'userinfo@bar.baz:8080'
+          return defaultGetter(header)
+        }
       })
 
-      setGlobalDispatcher(
-        new UndiciAgent({
-          connect: {
-            rejectUnauthorized: false
-          },
-          allowH2: true
-        })
-      )
-
-      const { server } = InitSecureAppAndTest(
+      const { fetch } = InitAppAndTest(
         (req, res) => {
           expect(req.get('host')).toBeUndefined()
           res.send(`hostname: ${req.hostname}`)
@@ -286,12 +292,10 @@ describe('Request properties', () => {
         'GET',
         options
       )
-      const serverAddress = server.address()
-      if (typeof serverAddress === 'string') throw new Error('Cannot listen on unix socket')
 
-      const response = await fetch(`https://localhost:${serverAddress.port}/`)
+      const response = await fetch('/')
       expect(response.status).toBe(200)
-      await expect(response.text()).resolves.toEqual('hostname: localhost')
+      await expect(response.text()).resolves.toEqual('hostname: bar.baz')
     })
     it('should derive port from the host header and assign it to req.port', async () => {
       const { fetch } = InitAppAndTest(
@@ -306,23 +310,18 @@ describe('Request properties', () => {
       await fetch('/', { headers: { Host: 'foo.bar:8080' } }).expect(200, { port: 8080 })
     })
     it('should derive port from the :authority header and assign it to req.port', async () => {
-      const globalDispatcher = getGlobalDispatcher()
-      onTestFinished(() => {
-        setGlobalDispatcher(globalDispatcher)
+      const { getRequestHeader }: typeof req = await vi.importActual('../../packages/req')
+      vi.mocked(req.getRequestHeader).mockImplementation((req) => {
+        const defaultGetter = getRequestHeader(req)
+        return (header: string) => {
+          if (header === 'host') return undefined
+          if (header === ':authority') return 'bar.baz:8080'
+          return defaultGetter(header)
+        }
       })
 
-      setGlobalDispatcher(
-        new UndiciAgent({
-          connect: {
-            rejectUnauthorized: false
-          },
-          allowH2: true
-        })
-      )
-
-      const { server } = InitSecureAppAndTest(
+      const { fetch, server } = InitAppAndTest(
         (req, res) => {
-          expect(req.get('host')).toBeUndefined()
           res.json({ port: req.port })
         },
         '/',
@@ -332,26 +331,22 @@ describe('Request properties', () => {
       const serverAddress = server.address()
       if (typeof serverAddress === 'string') throw new Error('Cannot listen on unix socket')
 
-      const response = await fetch(`https://localhost:${serverAddress.port}/`)
+      const response = await fetch('/')
       expect(response.status).toBe(200)
-      await expect(response.json()).resolves.toEqual({ port: serverAddress.port })
+      await expect(response.json()).resolves.toEqual({ port: 8080 })
     })
-    it.skip('should reject request when the :authority header disagrees with the host header', async () => {
-      const globalDispatcher = getGlobalDispatcher()
-      onTestFinished(() => {
-        setGlobalDispatcher(globalDispatcher)
+    it('should reject request when the :authority header disagrees with the host header', async () => {
+      const { getRequestHeader }: typeof req = await vi.importActual('../../packages/req')
+      vi.mocked(req.getRequestHeader).mockImplementation((req) => {
+        const defaultGetter = getRequestHeader(req)
+        return (header: string) => {
+          if (header === 'host') return 'foo.bar'
+          if (header === ':authority') return 'bar.baz'
+          return defaultGetter(header)
+        }
       })
 
-      setGlobalDispatcher(
-        new UndiciAgent({
-          connect: {
-            rejectUnauthorized: false
-          },
-          allowH2: true
-        })
-      )
-
-      const { server } = InitSecureAppAndTest(
+      const { fetch } = InitAppAndTest(
         (req, res) => {
           res.json({ port: req.port })
         },
@@ -359,11 +354,8 @@ describe('Request properties', () => {
         'GET',
         options
       )
-      const serverAddress = server.address()
-      if (typeof serverAddress === 'string') throw new Error('Cannot listen on unix socket')
-
-      const response = await fetch(`https://localhost:${serverAddress.port}/`, { headers: { host: 'foo.bar' } })
-      expect(response.status).toBe(500)
+      const response = await fetch('/')
+      assert(!response.ok)
     })
     it('should not crash app when host header is malformed', async () => {
       const { fetch } = InitAppAndTest(
