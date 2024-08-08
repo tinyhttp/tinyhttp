@@ -45,7 +45,7 @@ const getAuthorityHeaderHostString = (req: Request): string | undefined => {
   if (!authority) return undefined
 
   const index = authority.indexOf('@')
-  if (index === -1) return authority
+  if (index === -1) return normalizeHostString(authority)
   return normalizeHostString(authority.substring(index + 1))
 }
 
