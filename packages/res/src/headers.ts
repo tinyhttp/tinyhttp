@@ -1,3 +1,4 @@
+import type { OutgoingHttpHeaders } from 'node:http'
 import type { IncomingMessage as Req, ServerResponse as Res } from 'node:http'
 import { encodeUrl } from '@tinyhttp/encode-url'
 import { getRequestHeader } from '@tinyhttp/req'
@@ -47,11 +48,11 @@ export const setLocationHeader =
     return res
   }
 
-export const getResponseHeader =
-  <Response extends Res = Res>(res: Response) =>
-  (field: string): string | number | string[] => {
+export const getResponseHeader = <Response extends Res = Res>(res: Response) => {
+  return <HeaderName extends string>(field: HeaderName): OutgoingHttpHeaders[HeaderName] => {
     return res.getHeader(field)
   }
+}
 
 export const setLinksHeader =
   <Response extends Res = Res>(res: Response) =>
