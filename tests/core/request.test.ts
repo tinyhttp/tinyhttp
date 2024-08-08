@@ -7,8 +7,11 @@ import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 
 vi.mock<typeof req>(import('../../packages/req/src'), async (importOriginal) => {
   const module = await importOriginal()
-  vi.spyOn(module, 'getRequestHeader')
-  return module
+
+  return {
+    ...module,
+    getRequestHeader: vi.fn(module.getRequestHeader)
+  } satisfies typeof req
 })
 
 describe('Request properties', () => {
