@@ -1,4 +1,4 @@
-import type { IncomingMessage as Request, ServerResponse as Response } from 'node:http'
+import type { IncomingHttpHeaders, IncomingMessage as Request, ServerResponse as Response } from 'node:http'
 import { type Options, type Ranges, type Result, parseRange } from 'header-range-parser'
 
 import { typeIs } from '@tinyhttp/type-is'
@@ -8,9 +8,8 @@ export * from './accepts.js'
 
 export * from '@tinyhttp/url'
 
-export const getRequestHeader =
-  (req: Pick<Request, 'headers'>) =>
-  (header: string): string | string[] => {
+export const getRequestHeader = (req: Pick<Request, 'headers'>) => {
+  return <HeaderName extends string>(header: HeaderName): IncomingHttpHeaders[HeaderName] => {
     const lc = header.toLowerCase()
 
     switch (lc) {
@@ -21,11 +20,12 @@ export const getRequestHeader =
         return req.headers[lc]
     }
   }
+}
 
 export const getRangeFromHeader =
   (req: Pick<Request, 'headers'>) =>
   (size: number, options?: Options): Result | Ranges => {
-    const range = getRequestHeader(req)('Range') as string
+    const range = getRequestHeader(req)('range')
 
     if (!range) return
 
