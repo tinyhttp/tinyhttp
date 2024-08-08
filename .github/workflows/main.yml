@@ -54,9 +54,6 @@ jobs:
       - name: install dependencies
         run: pnpm install
 
-      - name: build packages
-        run: pnpm build
-
       - name: Setup Biome
         uses: biomejs/setup-biome@v2
         with:
