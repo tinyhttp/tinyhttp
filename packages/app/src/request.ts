@@ -59,7 +59,7 @@ const getForwardedHeaderHostString = (req: Request): string | undefined => {
 
 const getDefaultHeaderHostString = (req: Request): string | undefined => {
   const host = req.get('host')
-  if (!host) return undefined
+  if (!host || host.indexOf(',') !== -1) return undefined
   if (host.indexOf(',') !== -1) return undefined
 
   return normalizeHostString(host)
