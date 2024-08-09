@@ -1,6 +1,5 @@
 import fs from 'node:fs/promises'
 import type { Server } from 'node:http'
-import { type Http2SecureServer, createSecureServer } from 'node:http2'
 import path from 'node:path'
 import { type FetchFunction, makeFetch } from 'supertest-fetch'
 import { App } from '../packages/app/src/index'
