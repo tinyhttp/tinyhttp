@@ -1,6 +1,4 @@
-import fs from 'node:fs/promises'
 import type { Server } from 'node:http'
-import path from 'node:path'
 import { type FetchFunction, makeFetch } from 'supertest-fetch'
 import { App } from '../packages/app/src/index'
 import type { Handler } from '../packages/app/src/index'
