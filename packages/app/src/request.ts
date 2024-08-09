@@ -42,7 +42,7 @@ const normalizeHostString = (host: string): string => decodeURIComponent(host).t
 const getAuthorityHeaderHostString = (req: Request): string | undefined => {
   const authority = req.get(':authority')
   if (Array.isArray(authority)) return undefined
-  if (!authority) return undefined
+  if (Array.isArray(authority) || !authority) return undefined
 
   const index = authority.indexOf('@')
   if (index === -1) return normalizeHostString(authority)
