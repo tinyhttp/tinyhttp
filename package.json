@@ -16,8 +16,7 @@
     "@commitlint/cli": "19.3.0",
     "@commitlint/config-conventional": "19.2.2",
     "@types/node": "20.14.8",
-    "@vitest/coverage-v8": "^1.6.0",
-    "c8": "^10.1.2",
+    "@vitest/coverage-v8": "^2.0.5",
     "colorette": "2.0.20",
     "dirname-filename-esm": "1.1.1",
     "eta": "2.2.0",
@@ -30,7 +29,7 @@
     "typescript": "~5.5.2",
     "vite": "^5.3.1",
     "vite-plugin-dts": "^3.9.1",
-    "vitest": "1.6.0"
+    "vitest": "2.0.5"
   },
   "scripts": {
     "prerelease": "pnpm lint && pnpm build && pnpm test",

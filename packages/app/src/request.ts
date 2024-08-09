@@ -1,4 +1,4 @@
-import type { IncomingMessage } from 'node:http'
+import type { IncomingHttpHeaders, IncomingMessage } from 'node:http'
 import type { ParsedUrlQuery } from 'node:querystring'
 
 import { type Trust, all, compile, proxyaddr as proxyAddr } from '@tinyhttp/proxy-addr'
@@ -10,9 +10,14 @@ import type { App } from './app.js'
 import { isIP } from 'node:net'
 import type { Socket } from 'node:net'
 import type { TLSSocket } from 'node:tls'
-import type { URLParams } from '@tinyhttp/req'
+import type { URLParams, getRequestHeader } from '@tinyhttp/req'
 
 export { getURLParams } from '@tinyhttp/req'
+
+export type Host = {
+  hostname: string
+  port?: number
+}
 
 const trustRemoteAddress = ({ socket }: Pick<Request, 'headers' | 'socket'>, trust: Trust): boolean => {
   const val = socket.remoteAddress
@@ -32,17 +37,64 @@ export const getProtocol = (req: Request, trust: Trust): Protocol => {
   return index !== -1 ? header.substring(0, index).trim() : header.trim()
 }
 
-export const getHostname = (req: Request, trust: Trust): string | undefined => {
-  let host: string = req.get('X-Forwarded-Host') as string
+const normalizeHostString = (host: string): string => decodeURIComponent(host).toLowerCase().normalize()
 
-  if (!host || !trustRemoteAddress(req, trust)) host = req.get('Host') as string
+const getAuthorityHeaderHostString = (req: Request): string | undefined => {
+  const authority = req.get(':authority')
+  if (Array.isArray(authority)) return undefined
+  if (!authority) return undefined
 
-  if (!host) return
+  const index = authority.indexOf('@')
+  if (index === -1) return normalizeHostString(authority)
+  return normalizeHostString(authority.substring(index + 1))
+}
+
+const getForwardedHeaderHostString = (req: Request): string | undefined => {
+  const forwardedHost = req.get('x-forwarded-host')
+  if (Array.isArray(forwardedHost)) return undefined
+  if (!forwardedHost) return undefined
+
+  return normalizeHostString(forwardedHost)
+}
+
+const getDefaultHeaderHostString = (req: Request): string | undefined => {
+  const host = req.get('host')
+  if (!host) return undefined
+  if (host.indexOf(',') !== -1) return undefined
+
+  return normalizeHostString(host)
+}
+
+const getHostString = (req: Request, trust: Trust): string | undefined => {
+  if (trustRemoteAddress(req, trust)) {
+    const forwardedHost = getForwardedHeaderHostString(req)
+    if (forwardedHost) return forwardedHost
+  }
+
+  const authorityHost = getAuthorityHeaderHostString(req)
+  const defaultHost = getDefaultHeaderHostString(req)
+
+  if (authorityHost && defaultHost) {
+    if (authorityHost !== defaultHost)
+      throw new Error('Request `:authority` pseudo-header does not agree with `Host` header')
+    return authorityHost
+  }
+
+  return authorityHost ?? defaultHost ?? undefined
+}
+
+export const getHost = (req: Request, trust: Trust): Host | undefined => {
+  const host = getHostString(req, trust)
+  if (!host) return undefined
 
   // IPv6 literal support
   const index = host.indexOf(':', host[0] === '[' ? host.indexOf(']') + 1 : 0)
+  if (index === -1) return { hostname: host }
 
-  return index !== -1 ? host.substring(0, index) : host
+  const hostname = host.substring(0, index)
+  const port = Number(host.substring(index + 1))
+  if (Number.isNaN(port)) throw new TypeError('Port number is NaN, therefore Host is malformed')
+  return { hostname, port }
 }
 
 export const getIP = (req: Pick<Request, 'headers' | 'connection' | 'socket'>, trust: Trust): string | undefined =>
@@ -52,11 +104,10 @@ export const getIPs = (req: Pick<Request, 'headers' | 'connection' | 'socket'>, 
   all(req, trust)
 
 export const getSubdomains = (req: Request, trust: Trust, subdomainOffset = 2): string[] => {
-  const hostname = getHostname(req, trust)
+  const host = getHost(req, trust)
+  if (!host?.hostname) return []
 
-  if (!hostname) return []
-
-  const subdomains = isIP(hostname) ? [hostname] : hostname.split('.').reverse()
+  const subdomains = isIP(host.hostname) ? [host.hostname] : host.hostname.split('.').reverse()
 
   return subdomains.slice(subdomainOffset)
 }
@@ -84,10 +135,11 @@ export interface Request extends IncomingMessage {
   secure: boolean
   xhr: boolean
   hostname?: string
+  port?: number
   ip?: string
   ips?: string[]
   subdomains?: string[]
-  get: (header: string) => string | string[] | undefined
+  get: <HeaderName extends string>(header: HeaderName) => IncomingHttpHeaders[HeaderName]
   range: (size: number, options?: Options) => -1 | -2 | -3 | Ranges | undefined
   accepts: (...types: string[]) => AcceptsReturns
   acceptsEncodings: (...encodings: string[]) => AcceptsReturns

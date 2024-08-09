@@ -33,7 +33,7 @@ import {
 import type { NextFunction } from '@tinyhttp/router'
 import type { App } from './app.js'
 import { type Request, getSubdomains } from './request.js'
-import { getHostname, getIP, getIPs, getProtocol } from './request.js'
+import { getHost, getIP, getIPs, getProtocol } from './request.js'
 import type { Response } from './response.js'
 import { renderTemplate } from './response.js'
 import type { TemplateEngineOptions } from './types.js'
@@ -63,7 +63,9 @@ export const extendMiddleware =
     if (settings?.networkExtensions) {
       req.protocol = getProtocol(req, trust)
       req.secure = req.protocol === 'https'
-      req.hostname = getHostname(req, trust)
+      const host = getHost(req, trust)
+      req.hostname = host?.hostname
+      req.port = host?.port
       req.subdomains = getSubdomains(req, trust, settings.subdomainOffset)
       req.ip = getIP(req, trust)
       req.ips = getIPs(req, trust)

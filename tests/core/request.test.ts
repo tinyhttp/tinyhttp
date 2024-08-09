@@ -1,10 +1,24 @@
 import { Agent } from 'node:http'
 import { makeFetch } from 'supertest-fetch'
-import { describe, it } from 'vitest'
+import { assert, afterEach, describe, expect, it, vi } from 'vitest'
 import { App } from '../../packages/app/src/app'
+import * as req from '../../packages/req/src'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 
+vi.mock<typeof req>(import('../../packages/req/src'), async (importOriginal) => {
+  const module = await importOriginal()
+
+  return {
+    ...module,
+    getRequestHeader: vi.fn(module.getRequestHeader)
+  } satisfies typeof req
+})
+
 describe('Request properties', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
   it('should have default HTTP Request properties', async () => {
     const { fetch } = InitAppAndTest((req, res) => {
       res.status(200).json({
@@ -236,6 +250,128 @@ describe('Request properties', () => {
       )
 
       await fetch('/').expect(200, 'subdomains: ')
+    })
+    it('should derive hostname from the host header and assign it to req.hostname', async () => {
+      const { fetch } = InitAppAndTest(
+        (req, res) => {
+          res.send(`hostname: ${req.hostname}`)
+        },
+        '/',
+        'GET',
+        options
+      )
+
+      await fetch('/', { headers: { Host: 'foo.bar:8080' } }).expect(200, 'hostname: foo.bar')
+    })
+    it('should not derive hostname from the host header when multiple values are provided', async () => {
+      const { fetch } = InitAppAndTest(
+        (req, res) => {
+          res.send(`hostname: ${req.hostname}`)
+        },
+        '/',
+        'GET',
+        options
+      )
+
+      await fetch('/', { headers: { Host: ['foo.bar:8080', 'bar.baz:8080'] } }).expect(200, 'hostname: undefined')
+    })
+    it('should derive hostname from the :authority header and assign it to req.hostname', async () => {
+      const { getRequestHeader }: typeof req = await vi.importActual('../../packages/req/src')
+      vi.mocked(req.getRequestHeader).mockImplementation((req) => {
+        const defaultGetter = getRequestHeader(req)
+        return (header: string) => {
+          if (header === 'host') return undefined
+          if (header === ':authority') return 'userinfo@bar.baz:8080'
+          return defaultGetter(header)
+        }
+      })
+
+      const { fetch } = InitAppAndTest(
+        (req, res) => {
+          expect(req.get('host')).toBeUndefined()
+          res.send(`hostname: ${req.hostname}`)
+        },
+        '/',
+        'GET',
+        options
+      )
+
+      const response = await fetch('/')
+      expect(response.status).toBe(200)
+      await expect(response.text()).resolves.toEqual('hostname: bar.baz')
+    })
+    it('should derive port from the host header and assign it to req.port', async () => {
+      const { fetch } = InitAppAndTest(
+        (req, res) => {
+          res.json({ port: req.port })
+        },
+        '/',
+        'GET',
+        options
+      )
+
+      await fetch('/', { headers: { Host: 'foo.bar:8080' } }).expect(200, { port: 8080 })
+    })
+    it('should derive port from the :authority header and assign it to req.port', async () => {
+      const { getRequestHeader }: typeof req = await vi.importActual('../../packages/req/src')
+      vi.mocked(req.getRequestHeader).mockImplementation((req) => {
+        const defaultGetter = getRequestHeader(req)
+        return (header: string) => {
+          if (header === 'host') return undefined
+          if (header === ':authority') return 'bar.baz:8080'
+          return defaultGetter(header)
+        }
+      })
+
+      const { fetch, server } = InitAppAndTest(
+        (req, res) => {
+          res.json({ port: req.port })
+        },
+        '/',
+        'GET',
+        options
+      )
+      const serverAddress = server.address()
+      if (typeof serverAddress === 'string') throw new Error('Cannot listen on unix socket')
+
+      const response = await fetch('/')
+      expect(response.status).toBe(200)
+      await expect(response.json()).resolves.toEqual({ port: 8080 })
+    })
+    it('should reject request when the :authority header disagrees with the host header', async () => {
+      const { getRequestHeader }: typeof req = await vi.importActual('../../packages/req/src')
+      vi.mocked(req.getRequestHeader).mockImplementation((req) => {
+        const defaultGetter = getRequestHeader(req)
+        return (header: string) => {
+          if (header === 'host') return 'foo.bar'
+          if (header === ':authority') return 'bar.baz'
+          return defaultGetter(header)
+        }
+      })
+
+      const { fetch } = InitAppAndTest(
+        (req, res) => {
+          res.json({ port: req.port })
+        },
+        '/',
+        'GET',
+        options
+      )
+      const response = await fetch('/')
+      assert(!response.ok)
+    })
+    it('should not crash app when host header is malformed', async () => {
+      const { fetch } = InitAppAndTest(
+        (req, res) => {
+          res.json({ port: req.port })
+        },
+        '/',
+        'GET',
+        options
+      )
+
+      await fetch('/', { headers: { host: 'foo.bar:baz' } }).expect(500)
+      await fetch('/', { headers: { Host: 'foo.bar:8080' } }).expect(200, { port: 8080 })
     })
   })
 
