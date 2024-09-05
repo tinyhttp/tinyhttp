@@ -19,6 +19,8 @@ import { View } from './view.js'
  */
 const lead = (x: string) => (x.charCodeAt(0) === 47 ? x : `/${x}`)
 
+const trail = (x: string) => (x.charCodeAt(x.length - 1) === 47 ? x.substring(0, x.length - 1) : x)
+
 const mount = (fn: App | Handler) => (fn instanceof App ? fn.attach : fn)
 
 const applyHandler =
@@ -314,45 +316,20 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     const exts = this.applyExtensions || extendMiddleware<RenderOptions>(this)
 
-    req.originalUrl = req.url || req.originalUrl
-
-    const pathname = getPathname(req.originalUrl)
-
-    const matched = this.#find(pathname)
-
     const mw: Middleware[] = [
       {
         handler: exts,
         type: 'mw',
         path: '/'
-      },
-      ...matched.filter((x) => req.method === 'HEAD' || (x.method ? x.method === req.method : true))
+      }
     ]
 
-    if (matched[0] != null) {
-      mw.push({
-        type: 'mw',
-        handler: (req, res, next) => {
-          if (req.method === 'HEAD') {
-            res.statusCode = 204
-            return res.end('')
-          }
-          next()
-        },
-        path: '/'
-      })
-    }
-
-    if (this.parent == null) {
-      mw.push({
-        handler: this.noMatchHandler,
-        type: 'mw',
-        path: '/'
-      })
-    }
+    req.baseUrl = ''
 
     const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
       const { path, handler, regex } = mw
+
+      const pathname = getPathname(req.originalUrl)
 
       let params: URLParams
 
@@ -380,18 +357,53 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
       if (mw.type === 'mw') {
         req.url = lead(req.originalUrl.substring(prefix.length))
+        req.baseUrl = trail(req.originalUrl.substring(0, prefix.length))
       }
 
-      if (!req.path) req.path = getPathname(req.url)
+      if (!req.path) req.path = pathname
 
       if (this.settings?.enableReqRoute) req.route = mw
 
       await applyHandler<Req, Res>(handler as unknown as Handler<Req, Res>)(req, res, next)
     }
 
+    const matchFilter = function (this: Middleware[], x: Middleware) {
+      return (req.method === 'HEAD' || (x.method ? x.method === req.method : true)) && !this.includes(x)
+    }
+
     let idx = 0
 
-    const loop = (): void => void handle(mw[idx++])(req, res, next)
+    const loop = () => {
+      req.originalUrl = req.baseUrl + req.url
+      const pathname = getPathname(req.url)
+      const matched = this.#find(pathname).filter(matchFilter.bind(mw))
+
+      if (matched.length && matched[0] !== null) {
+        if (idx !== 0) {
+          idx = mw.length
+        }
+        mw.push(...matched)
+        mw.push({
+          type: 'mw',
+          handler: (req, res, next) => {
+            if (req.method === 'HEAD') {
+              res.statusCode = 204
+              return res.end('')
+            }
+            next()
+          },
+          path: '/'
+        })
+      } else if (this.parent == null) {
+        mw.push({
+          handler: this.noMatchHandler,
+          type: 'route',
+          path: '/'
+        })
+      }
+
+      void handle(mw[idx++])(req, res, next)
+    }
 
     const parentNext = next
     next = (err) => {

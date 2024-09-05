@@ -1315,4 +1315,17 @@ describe('App settings', () => {
     await fetch('/home').expect(200)
     await fetch('/main').expect(200)
   })
+
+  it('should rewrite url and follow the next route', async () => {
+    const rewrite = (req, _, next) => {
+      req.url = '/a/b'
+      next()
+    }
+    const echo = (req, res) => res.send({ url: req.url })
+    const app = new App().use('/', rewrite).use('/a', echo)
+    const fetch = makeFetch(app.listen())
+    await fetch('/').expect(200, {
+      url: '/b'
+    })
+  })
 })

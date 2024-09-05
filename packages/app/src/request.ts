@@ -75,6 +75,7 @@ export interface Request extends IncomingMessage {
   originalUrl: string
   path: string
   url: string
+  baseUrl: string
   query: ParsedUrlQuery
   params: URLParams
   connection: Connection
