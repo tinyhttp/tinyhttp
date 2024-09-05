@@ -326,10 +326,8 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     req.baseUrl = ''
 
-    const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
+    const handle = (mw: Middleware, pathname: string) => async (req: Req, res: Res, next?: NextFunction) => {
       const { path, handler, regex } = mw
-
-      const pathname = getPathname(req.originalUrl)
 
       let params: URLParams
 
@@ -402,7 +400,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
         })
       }
 
-      void handle(mw[idx++])(req, res, next)
+      void handle(mw[idx++], pathname)(req, res, next)
     }
 
     const parentNext = next
