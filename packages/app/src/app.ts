@@ -379,6 +379,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       if (matched.length && matched[0] !== null) {
         if (idx !== 0) {
           idx = mw.length
+          req.params = {}
         }
         mw.push(...matched)
         mw.push({
