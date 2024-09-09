@@ -12,11 +12,11 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.2",
-    "@changesets/cli": "2.27.6",
-    "@commitlint/cli": "19.3.0",
-    "@commitlint/config-conventional": "19.2.2",
+    "@changesets/cli": "2.27.8",
+    "@commitlint/cli": "19.4.1",
+    "@commitlint/config-conventional": "19.4.1",
     "@types/node": "20.14.8",
-    "@vitest/coverage-v8": "^1.6.0",
+    "@vitest/coverage-v8": "^2.0.5",
     "c8": "^10.1.2",
     "colorette": "2.0.20",
     "dirname-filename-esm": "1.1.1",
@@ -26,11 +26,10 @@
     "jsonwebtoken": "9.0.2",
     "regexparam": "3.0.0",
     "supertest-fetch": "1.5.0",
-    "tslib": "2.6.3",
     "typescript": "~5.5.2",
-    "vite": "^5.3.1",
-    "vite-plugin-dts": "^3.9.1",
-    "vitest": "1.6.0"
+    "vite": "^5.4.3",
+    "vite-plugin-dts": "^4.2.1",
+    "vitest": "2.0.5"
   },
   "scripts": {
     "prerelease": "pnpm lint && pnpm build && pnpm test",
