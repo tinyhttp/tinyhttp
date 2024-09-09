@@ -7,9 +7,6 @@ export type NormalizedType = {
   originalIndex?: number
 }
 
-export const normalizeType = (type: string): NormalizedType =>
-  ~type.indexOf('/') ? acceptParams(type) : { value: mime.getType(type), params: {} }
-
 export function acceptParams(str: string, index?: number): NormalizedType {
   const parts = str.split(/ *; */)
   const ret: NormalizedType = { value: parts[0], quality: 1, params: {}, originalIndex: index }
@@ -22,6 +19,9 @@ export function acceptParams(str: string, index?: number): NormalizedType {
 
   return ret
 }
+
+export const normalizeType = (type: string): NormalizedType =>
+  ~type.indexOf('/') ? acceptParams(type) : { value: mime.getType(type), params: {} }
 
 export function normalizeTypes(types: string[]): NormalizedType[] {
   const ret: NormalizedType[] = []
