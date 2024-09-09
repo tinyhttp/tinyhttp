@@ -5,8 +5,8 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/dotenv": "workspace:*",
-    "milliparsec": "^2.3.0",
-    "mongodb": "^6.7.0"
+    "milliparsec": "^3.0.0",
+    "mongodb": "^6.8.1"
   },
   "scripts": {
     "start": "node index.js"
