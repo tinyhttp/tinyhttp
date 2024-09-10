@@ -316,7 +316,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     const exts = this.applyExtensions || extendMiddleware<RenderOptions>(this)
 
-    const mw: Middleware[] = [
+    let mw: Middleware[] = [
       {
         handler: exts,
         type: 'mw',
@@ -380,17 +380,21 @@ export class App<Req extends Request = Request, Res extends Response = Response>
           idx = mw.length
           req.params = {}
         }
-        mw = [...mw, ...matched, {
-          type: 'mw',
-          handler: (req, res, next) => {
-            if (req.method === 'HEAD') {
-              res.statusCode = 204
-              return res.end('')
-            }
-            next()
-          },
-          path: '/'
-        }]
+        mw = [
+          ...mw,
+          ...matched,
+          {
+            type: 'mw',
+            handler: (req, res, next) => {
+              if (req.method === 'HEAD') {
+                res.statusCode = 204
+                return res.end('')
+              }
+              next()
+            },
+            path: '/'
+          }
+        ]
       } else if (this.parent == null) {
         mw.push({
           handler: this.noMatchHandler,
