@@ -380,8 +380,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
           idx = mw.length
           req.params = {}
         }
-        mw.push(...matched)
-        mw.push({
+        mw = [...mw, ...matched, {
           type: 'mw',
           handler: (req, res, next) => {
             if (req.method === 'HEAD') {
@@ -391,7 +390,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
             next()
           },
           path: '/'
-        })
+        }]
       } else if (this.parent == null) {
         mw.push({
           handler: this.noMatchHandler,
