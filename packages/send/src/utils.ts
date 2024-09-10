@@ -11,6 +11,6 @@ export const createETag = (body: Buffer | string | Stats, encoding: BufferEncodi
 
 export function setCharset(type: string, charset: string): string {
   const parsed = parse(type)
-  parsed.parameters.charset = charset
+  ;(parsed.parameters as Record<string, string>).charset = charset
   return format(parsed)
 }

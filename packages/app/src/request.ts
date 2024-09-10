@@ -15,7 +15,7 @@ import type { URLParams } from '@tinyhttp/req'
 export { getURLParams } from '@tinyhttp/req'
 
 const trustRemoteAddress = ({ socket }: Pick<Request, 'headers' | 'socket'>, trust: Trust): boolean => {
-  const val = socket.remoteAddress
+  const val = socket.remoteAddress!
   if (typeof trust !== 'function') trust = compile(trust)
   return trust(val, 0)
 }

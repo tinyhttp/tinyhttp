@@ -9,14 +9,14 @@ export type JSONPOptions = Partial<{
 
 function stringify(
   value: unknown,
-  replacer: (this: any, key: string, value: any) => any,
-  spaces: string | number,
-  // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
-  escape: boolean
+  replacer: ((this: any, key: string, value: any) => any) | undefined,
+  spaces: string | number | undefined,
+  escapeChars: boolean | undefined
 ) {
   let json = replacer || spaces ? JSON.stringify(value, replacer, spaces) : JSON.stringify(value)
 
-  if (escape) {
+  if (escapeChars) {
+    // @ts-expect-error not sure what should be the default escape char
     json = json.replace(/[<>&]/g, (c) => {
       switch (c.charCodeAt(0)) {
         case 0x3c:

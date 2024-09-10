@@ -83,7 +83,7 @@ describe('Request properties', () => {
         new App()
           .get('/', echo)
           .use('/a1/b', echo)
-          .use('/a2/b', mw, mw, mw, (req, res) => res.send({ urls: req.urls, params: req.params }))
+          .use('/a2/b', mw, mw, mw, (req, res) => res.send({ urls: (req as any).urls, params: req.params }))
           .use('/a3/:pat1/:pat2', echo)
           .use('/a4/:pat1/*', echo)
 

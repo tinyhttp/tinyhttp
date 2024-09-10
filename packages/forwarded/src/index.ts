@@ -9,7 +9,7 @@ export function forwarded(req: Pick<IncomingMessage, 'headers' | 'socket'>): str
   const socketAddr = req.socket.remoteAddress
 
   // return all addresses
-  return [socketAddr].concat(proxyAddrs)
+  return [socketAddr!].concat(proxyAddrs)
 }
 
 /**

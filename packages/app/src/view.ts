@@ -34,12 +34,12 @@ function tryStat(path: string) {
  */
 
 export class View<RenderOptions extends TemplateEngineOptions = TemplateEngineOptions> {
-  ext: string
-  defaultEngine: string
+  ext?: string
+  defaultEngine?: string
   name: string
   engine: TemplateEngine<RenderOptions>
   path: string
-  root: string | string[]
+  root: string | string[] = []
   constructor(
     name: string,
     opts: Partial<{
@@ -50,8 +50,8 @@ export class View<RenderOptions extends TemplateEngineOptions = TemplateEngineOp
   ) {
     this.ext = extname(name)
     this.name = name
-    this.root = opts.root
-    this.defaultEngine = opts.defaultEngine
+    if (opts.root) this.root = opts.root
+    if (opts.defaultEngine) this.defaultEngine = opts.defaultEngine
 
     if (!this.ext && !this.defaultEngine)
       throw new Error('No default engine was specified and no extension was provided.')
@@ -60,19 +60,19 @@ export class View<RenderOptions extends TemplateEngineOptions = TemplateEngineOp
 
     if (!this.ext) {
       // get extension from default engine name
-      this.ext = this.defaultEngine[0] !== '.' ? `.${this.defaultEngine}` : this.defaultEngine
+      this.ext = this.defaultEngine![0] !== '.' ? `.${this.defaultEngine}` : this.defaultEngine
 
       fileName += this.ext
     }
 
-    if (!opts.engines[this.ext]) throw new Error(`No engine was found for ${this.ext}`)
+    if (!opts.engines?.[this.ext!]) throw new Error(`No engine was found for ${this.ext}`)
 
-    this.engine = opts.engines[this.ext]
+    this.engine = opts.engines[this.ext!]
     this.path = this.#lookup(fileName)
   }
   #lookup(name: string) {
-    let path: string
-    const roots = [].concat(this.root)
+    let path: string | undefined
+    const roots = ([] as string[]).concat(this.root)
 
     for (let i = 0; i < roots.length && !path; i++) {
       const root = roots[i]
@@ -85,7 +85,7 @@ export class View<RenderOptions extends TemplateEngineOptions = TemplateEngineOp
       path = this.#resolve(dir, file)
     }
 
-    return path
+    return path!
   }
   #resolve(dir: string, file: string) {
     const ext = this.ext

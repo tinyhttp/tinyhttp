@@ -18,7 +18,7 @@ export const renderTemplate =
 export interface Response<B = unknown> extends ServerResponse {
   header(field: string | Record<string, unknown>, val?: string | any[]): Response<B>
   set(field: string | Record<string, unknown>, val?: string | any[]): Response<B>
-  get(field: string): string | number | string[]
+  get(field: string): string | number | string[] | undefined
   send(body: B): Response<B>
   sendFile(path: string, options?: ReadStreamOptions, cb?: (err?: unknown) => void): Response<B>
   json(body: B): Response<B>

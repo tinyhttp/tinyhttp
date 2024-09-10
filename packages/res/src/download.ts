@@ -16,8 +16,8 @@ export const download =
   <Request extends Req = Req, Response extends Res = Res>(req: Request, res: Response) =>
   (path: string, filename?: string | Callback, options?: DownloadOptions | Callback, cb?: Callback): Response => {
     let done = cb
-    let name = filename as string
-    let opts = (options || null) as DownloadOptions
+    let name = filename as string | null
+    let opts = (options || null) as DownloadOptions | null
 
     // support function as second or third arg
     if (typeof filename === 'function') {

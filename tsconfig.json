@@ -17,7 +17,8 @@
     "declarationMap": true,
     "composite": true,
     "sourceMap": true,
-    "alwaysStrict": true
+    "alwaysStrict": true,
+    "strict": true
   },
   "include": ["*.json"],
   "exclude": ["examples", "packages/*/dist", "node_modules"]
