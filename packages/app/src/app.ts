@@ -365,16 +365,15 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       await applyHandler<Req, Res>(handler as unknown as Handler<Req, Res>)(req, res, next)
     }
 
-    const matchFilter = function (this: Middleware[], x: Middleware) {
-      return (req.method === 'HEAD' || (x.method ? x.method === req.method : true)) && !this.includes(x)
-    }
+    const matchFilter = (mw: Middleware[]) => (x: Middleware) =>
+      (req.method === 'HEAD' || (x.method ? x.method === req.method : true)) && !mw.includes(x)
 
     let idx = 0
 
     const loop = () => {
       req.originalUrl = req.baseUrl + req.url
       const pathname = getPathname(req.url)
-      const matched = this.#find(pathname).filter(matchFilter.bind(mw))
+      const matched = this.#find(pathname).filter(matchFilter(mw))
 
       if (matched.length && matched[0] !== null) {
         if (idx !== 0) {
