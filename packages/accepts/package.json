@@ -28,7 +28,6 @@
     "negotiator": "^0.6.3"
   },
   "scripts": {
-    "dev": "vite",
-    "build": "vite build"
+    "build": "tsc"
   }
 }

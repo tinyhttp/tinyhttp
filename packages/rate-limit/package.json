@@ -33,8 +33,7 @@
   "author": "Luiginator",
   "license": "MIT",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build"
+    "build": "tsc"
   },
   "dependencies": {
     "@tinyhttp/send": "workspace:*"

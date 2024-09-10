@@ -1,5 +1,4 @@
-import { renderFile } from 'eta'
-import type { PartialConfig } from 'eta/dist/types/config'
+import { type EtaConfig, renderFile } from 'eta'
 import { makeFetch } from 'supertest-fetch'
 import { describe, expect, it } from 'vitest'
 import { App } from '../../packages/app/src/app'
@@ -216,14 +215,14 @@ describe('Response methods', () => {
     it('should allow passing custom engine options via res.render()', async () => {
       const app = new App()
 
-      app.engine<PartialConfig>('eta', (name, locals, opts, cb) => {
+      app.engine<Partial<EtaConfig>>('eta', (name, locals, opts, cb) => {
         expect(opts.autoEscape).toEqual(false)
         return renderFile(name, locals, opts, cb)
       })
       app.set('views', `${process.cwd()}/tests/fixtures/views`)
 
       app.use((_req, res) => {
-        res.render<PartialConfig>('index.eta', { name: 'v1rtl' }, { autoEscape: false })
+        res.render<Partial<EtaConfig>>('index.eta', { name: 'v1rtl' }, { autoEscape: false })
       })
 
       const fetch = makeFetch(app.listen())

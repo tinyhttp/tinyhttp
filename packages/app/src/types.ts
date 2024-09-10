@@ -24,6 +24,7 @@ export type AppSettings = Partial<{
 
 export type TemplateEngineOptions = {
   [key: string]: unknown
+  cache: boolean
 }
 
 /**
@@ -48,6 +49,6 @@ export type AppConstructor<Req extends Request = Request, Res extends Response =
   noMatchHandler: Handler<Req, Res>
   onError: ErrorHandler
   settings: AppSettings
-  applyExtensions: (req: Request, res: Response, next: NextFunction) => void
+  applyExtensions: Handler<Req, Res>
 }>
 /* c8 ignore stop */

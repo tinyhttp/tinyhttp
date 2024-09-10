@@ -85,6 +85,6 @@ export function config(options?: Partial<DotenvConfigOptions>): DotenvConfigOutp
 
     return { parsed }
   } catch (error) {
-    return { error }
+    return { error: error as Error }
   }
 }
