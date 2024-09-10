@@ -14,13 +14,13 @@
   "type": "module",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "firebase-admin": "^12.2.0",
-    "firebase-functions": "^5.0.1"
+    "firebase-admin": "^12.4.0",
+    "firebase-functions": "^5.1.1"
   },
   "devDependencies": {
     "firebase-functions-test": "^3.3.0",
-    "firebase-tools": "^13.11.4",
-    "typescript": "^5.5.2"
+    "firebase-tools": "^13.16.0",
+    "typescript": "^5.5.4"
   },
   "private": true
 }

@@ -41,7 +41,7 @@ export function fresh(reqHeaders: IncomingHttpHeaders, resHeaders: OutgoingHttpH
   if (cacheControl && CACHE_CONTROL_NO_CACHE_REGEXP.test(cacheControl)) return false
 
   // if-none-match
-  if (noneMatch !== '*') {
+  if (noneMatch && noneMatch !== '*') {
     const etag = resHeaders.etag as string | undefined
 
     if (!etag || isStale(etag, noneMatch)) return false

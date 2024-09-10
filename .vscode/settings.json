@@ -3,6 +3,7 @@
   "editor.formatOnSave": true,
   "biome.enabled": true,
   "eslint.enable": false,
+  "prettier.enable": false,
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
     "source.organizeImports.biome": "explicit"

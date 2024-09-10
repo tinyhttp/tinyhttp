@@ -2,12 +2,12 @@
 
 export type NextFunction = (err?: any) => void
 
-export type SyncHandler<Request = any, Response = any> = (req: Request, res: Response, next: NextFunction) => void
+export type SyncHandler<Request = any, Response = any> = (req: Request, res: Response, next?: NextFunction) => void
 
 export type AsyncHandler<Request = any, Response = any> = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next?: NextFunction
 ) => Promise<void>
 
 export type Handler<Request = any, Response = any> = AsyncHandler<Request, Response> | SyncHandler<Request, Response>
@@ -144,7 +144,7 @@ export const pushMiddleware =
           handler: handler as Handler,
           method,
           type,
-          fullPath: fullPaths == null ? null : fullPaths[idx++]
+          fullPath: fullPaths == null ? undefined : fullPaths[idx++]
         })
       )
     }
@@ -158,43 +158,43 @@ export const pushMiddleware =
 export class Router<App extends Router = any, Req = any, Res = any> {
   middleware: Middleware[] = []
   mountpath = '/'
-  parent: App
+  parent!: App
   apps: Record<string, App> = {}
 
-  acl: RIM<Req, Res, this>
-  bind: RIM<Req, Res, this>
-  checkout: RIM<Req, Res, this>
-  connect: RIM<Req, Res, this>
-  copy: RIM<Req, Res, this>
-  delete: RIM<Req, Res, this>
-  get: RIM<Req, Res, this>
-  head: RIM<Req, Res, this>
-  link: RIM<Req, Res, this>
-  lock: RIM<Req, Res, this>
-  merge: RIM<Req, Res, this>
-  mkactivity: RIM<Req, Res, this>
-  mkcalendar: RIM<Req, Res, this>
-  mkcol: RIM<Req, Res, this>
-  move: RIM<Req, Res, this>
-  notify: RIM<Req, Res, this>
-  options: RIM<Req, Res, this>
-  patch: RIM<Req, Res, this>
-  post: RIM<Req, Res, this>
-  pri: RIM<Req, Res, this>
-  propfind: RIM<Req, Res, this>
-  proppatch: RIM<Req, Res, this>
-  purge: RIM<Req, Res, this>
-  put: RIM<Req, Res, this>
-  rebind: RIM<Req, Res, this>
-  report: RIM<Req, Res, this>
-  search: RIM<Req, Res, this>
-  source: RIM<Req, Res, this>
-  subscribe: RIM<Req, Res, this>
-  trace: RIM<Req, Res, this>
-  unbind: RIM<Req, Res, this>
-  unlink: RIM<Req, Res, this>
-  unlock: RIM<Req, Res, this>
-  unsubscribe: RIM<Req, Res, this>
+  acl!: RIM<Req, Res, this>
+  bind!: RIM<Req, Res, this>
+  checkout!: RIM<Req, Res, this>
+  connect!: RIM<Req, Res, this>
+  copy!: RIM<Req, Res, this>
+  delete!: RIM<Req, Res, this>
+  get!: RIM<Req, Res, this>
+  head!: RIM<Req, Res, this>
+  link!: RIM<Req, Res, this>
+  lock!: RIM<Req, Res, this>
+  merge!: RIM<Req, Res, this>
+  mkactivity!: RIM<Req, Res, this>
+  mkcalendar!: RIM<Req, Res, this>
+  mkcol!: RIM<Req, Res, this>
+  move!: RIM<Req, Res, this>
+  notify!: RIM<Req, Res, this>
+  options!: RIM<Req, Res, this>
+  patch!: RIM<Req, Res, this>
+  post!: RIM<Req, Res, this>
+  pri!: RIM<Req, Res, this>
+  propfind!: RIM<Req, Res, this>
+  proppatch!: RIM<Req, Res, this>
+  purge!: RIM<Req, Res, this>
+  put!: RIM<Req, Res, this>
+  rebind!: RIM<Req, Res, this>
+  report!: RIM<Req, Res, this>
+  search!: RIM<Req, Res, this>
+  source!: RIM<Req, Res, this>
+  subscribe!: RIM<Req, Res, this>
+  trace!: RIM<Req, Res, this>
+  unbind!: RIM<Req, Res, this>
+  unlink!: RIM<Req, Res, this>
+  unlock!: RIM<Req, Res, this>
+  unsubscribe!: RIM<Req, Res, this>
 
   constructor() {
     for (const m of METHODS) {
