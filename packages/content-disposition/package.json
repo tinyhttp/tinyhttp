@@ -21,8 +21,6 @@
   "exports": "./dist/index.js",
   "files": ["dist"],
   "scripts": {
-    "dev": "vite",
-    "build": "vite build"
-  },
-  "dependencies": {}
+    "build": "tsc"
+  }
 }

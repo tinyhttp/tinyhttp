@@ -6,6 +6,5 @@
     "declarationDir": "dist",
     "strict": true
   },
-  "include": ["src"],
-  "exclude": ["rollup.config.js"]
+  "include": ["src"]
 }
