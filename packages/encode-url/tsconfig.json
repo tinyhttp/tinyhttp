@@ -5,6 +5,5 @@
     "outDir": "dist",
     "declarationDir": "dist"
   },
-  "include": ["src"],
-  "exclude": ["rollup.config.js"]
+  "include": ["src"]
 }

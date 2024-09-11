@@ -31,7 +31,7 @@ const getlatin1 = (val: unknown) => {
 export class ContentDisposition {
   type: string
   parameters: Record<string, unknown>
-  constructor(type: string, parameters: Record<string, unknown>) {
+  constructor(type: string, parameters: Record<string, string | undefined | boolean>) {
     this.type = type
     this.parameters = parameters
   }
@@ -80,7 +80,7 @@ function format({
 }
 
 function createParams(filename?: string, fallback?: string | boolean) {
-  if (filename === undefined) return
+  if (filename === undefined) return {}
 
   const params: Partial<
     Record<string, string> & {
@@ -176,8 +176,8 @@ export function parse(header: string): ContentDisposition {
   const type = match[1].toLowerCase()
 
   let key: string
-  const names = []
-  const params = {}
+  const names: string[] = []
+  const params: Record<string, string | boolean> = {}
   let value: string | string[]
 
   // calculate index to start at

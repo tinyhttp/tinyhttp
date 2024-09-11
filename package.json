@@ -13,8 +13,8 @@
   "devDependencies": {
     "@biomejs/biome": "1.8.2",
     "@changesets/cli": "2.27.8",
-    "@commitlint/cli": "19.4.1",
-    "@commitlint/config-conventional": "19.4.1",
+    "@commitlint/cli": "19.5.0",
+    "@commitlint/config-conventional": "19.5.0",
     "@types/node": "20.14.8",
     "@vitest/coverage-v8": "^2.0.5",
     "c8": "^10.1.2",
@@ -25,8 +25,7 @@
     "regexparam": "3.0.0",
     "supertest-fetch": "1.5.0",
     "typescript": "~5.5.2",
-    "vite": "^5.4.3",
-    "vite-plugin-dts": "^4.2.1",
+    "vite": "^5.4.4",
     "vitest": "2.0.5"
   },
   "scripts": {

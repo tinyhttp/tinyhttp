@@ -32,6 +32,7 @@ import {
 } from '@tinyhttp/res'
 import type { NextFunction } from '@tinyhttp/router'
 import type { App } from './app.js'
+import type { Handler } from './index.js'
 import { type Request, getSubdomains } from './request.js'
 import { getHost, getIP, getIPs, getProtocol } from './request.js'
 import type { Response } from './response.js'
@@ -41,9 +42,8 @@ import type { TemplateEngineOptions } from './types.js'
 /**
  * Extends Request and Response objects with custom properties and methods
  */
-export const extendMiddleware =
-  <EngineOptions extends TemplateEngineOptions = TemplateEngineOptions>(app: App) =>
-  (req: Request, res: Response<EngineOptions>, next: NextFunction): void => {
+export const extendMiddleware = <EngineOptions extends TemplateEngineOptions = TemplateEngineOptions>(app: App) =>
+  ((req: Request, res: Response<EngineOptions>, next: NextFunction) => {
     const { settings } = app
 
     res.get = getResponseHeader(res)
@@ -54,13 +54,12 @@ export const extendMiddleware =
       res.app = app
     }
 
-    let trust = settings?.['trust proxy']
-    if (typeof trust !== 'function') {
-      trust = compile(trust)
-      settings['trust proxy'] = trust
-    }
-
     if (settings?.networkExtensions) {
+      let trust = settings?.['trust proxy']!
+      if (typeof trust !== 'function') {
+        trust = compile(trust)
+        settings['trust proxy'] = trust
+      }
       req.protocol = getProtocol(req, trust)
       req.secure = req.protocol === 'https'
       const host = getHost(req, trust)
@@ -105,4 +104,4 @@ export const extendMiddleware =
     req.stale = !req.fresh
 
     next()
-  }
+  }) as Handler

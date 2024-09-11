@@ -21,7 +21,7 @@ export function acceptParams(str: string, index?: number): NormalizedType {
 }
 
 export const normalizeType = (type: string): NormalizedType =>
-  ~type.indexOf('/') ? acceptParams(type) : { value: mime.getType(type), params: {} }
+  ~type.indexOf('/') ? acceptParams(type) : ({ value: mime.getType(type), params: {} } as NormalizedType)
 
 export function normalizeTypes(types: string[]): NormalizedType[] {
   const ret: NormalizedType[] = []

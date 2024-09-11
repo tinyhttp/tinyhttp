@@ -20,7 +20,7 @@ export type Host = {
 }
 
 const trustRemoteAddress = ({ socket }: Pick<Request, 'headers' | 'socket'>, trust: Trust): boolean => {
-  const val = socket.remoteAddress
+  const val = socket.remoteAddress!
   if (typeof trust !== 'function') trust = compile(trust)
   return trust(val, 0)
 }
@@ -126,6 +126,7 @@ export interface Request extends IncomingMessage {
   originalUrl: string
   path: string
   url: string
+  baseUrl: string
   query: ParsedUrlQuery
   params: URLParams
   connection: Connection

@@ -97,7 +97,7 @@ describe('Request properties', () => {
         new App()
           .get('/', echo)
           .use('/a1/b', echo)
-          .use('/a2/b', mw, mw, mw, (req, res) => res.send({ urls: req.urls, params: req.params }))
+          .use('/a2/b', mw, mw, mw, (req, res) => res.send({ urls: (req as any).urls, params: req.params }))
           .use('/a3/:pat1/:pat2', echo)
           .use('/a4/:pat1/*', echo)
 
@@ -159,6 +159,50 @@ describe('Request properties', () => {
       await fetch('/s2/a/b/c/d').expect(200, {
         url: '/',
         params: { wild: 'a/b/c/d' }
+      })
+    })
+    it('should rewrite req.url, follow the next route and set correct req.url in response', async () => {
+      const rewrite = (req, _, next) => {
+        req.url = '/a/b'
+        next()
+      }
+      const echo = (req, res) => res.send({ url: req.url })
+      const app = new App().use('/', rewrite).use('/a', echo)
+      const fetch = makeFetch(app.listen())
+      await fetch('/').expect(200, {
+        url: '/b'
+      })
+    })
+    it('should rewrite req.url and return 404 if route not found', async () => {
+      const rewrite = (req, _, next) => {
+        req.url = '/b'
+        next()
+      }
+      const app = new App().use('/a', rewrite)
+      const fetch = makeFetch(app.listen())
+      await fetch('/a').expect(404, 'Not Found')
+    })
+    it('should set the correct req.url on routes after req.url was rewritten', async () => {
+      const echo = (req, res) => res.send({ url: req.url, params: req.params })
+      const rewrite = (req, _, next) => {
+        const url: string = req.url
+        req.url = url.substring(Array.from(url.matchAll(/\//g))[1]?.index || 0)
+        next()
+      }
+      const makeApp = () =>
+        new App().get('/a/b/*', rewrite).get('/a/c/*', rewrite).get('/b/:pat', echo).get('/c/*', echo)
+
+      const app = makeApp()
+      const fetch = makeFetch(app.listen())
+
+      await fetch('/a/b/c').expect(200, {
+        url: '/b/c',
+        params: { pat: 'c' }
+      })
+
+      await fetch('/a/c/d').expect(200, {
+        url: '/c/d',
+        params: { wild: 'd' }
       })
     })
   })

@@ -18,11 +18,10 @@
   "author": "v1rtl",
   "license": "MIT",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build"
+    "build": "tsc"
   },
   "dependencies": {
     "@tinyhttp/content-type": "^0.1.4",
-    "mime": "4.0.1"
+    "mime": "4.0.4"
   }
 }

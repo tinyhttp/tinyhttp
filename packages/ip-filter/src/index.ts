@@ -3,9 +3,7 @@ import ipRegex from 'ip-regex'
 
 type Filter = string | RegExp
 
-const processIpFilters = (ip: string, filter: Filter[], strict: boolean): boolean => {
-  if (typeof ip !== 'string') throw new TypeError('ip-filter: expect `ip` to be a string')
-
+const processIpFilters = (ip: string, filter: Filter[], strict?: boolean): boolean => {
   if ((strict ?? true) && !ipRegex().test(ip)) throw new Error(`@tinyhttp/ip-filter: Invalid IP: ${ip}`)
 
   const results = filter.map((f) => {
@@ -26,21 +24,23 @@ export type IPFilterOptions = {
 }
 
 export const ipFilter =
-  (opts?: IPFilterOptions) =>
+  (opts: IPFilterOptions = { filter: [] }) =>
   (req: Request & { ip?: string }, res: Response, next?: (err?: Error) => void): void => {
     const ip = opts.ip ?? req.ip
+
+    if (typeof ip !== 'string') throw new TypeError('ip-filter: expect `ip` to be a string')
 
     let isBadIP: boolean
 
     try {
       isBadIP = processIpFilters(ip, opts.filter, opts.strict)
     } catch (e) {
-      next(e)
+      return next!(e as Error)
     }
 
     if (isBadIP) {
       res.writeHead(403, opts.forbidden ?? '403 Forbidden').end()
     } else {
-      next()
+      next!()
     }
   }

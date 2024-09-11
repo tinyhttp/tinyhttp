@@ -32,7 +32,6 @@
     "regexparam": "^2.0.2"
   },
   "scripts": {
-    "dev": "vite",
-    "build": "vite build"
+    "build": "tsc"
   }
 }

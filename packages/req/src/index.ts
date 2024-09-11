@@ -15,16 +15,16 @@ export const getRequestHeader = (req: Pick<Request, 'headers'>) => {
     switch (lc) {
       case 'referer':
       case 'referrer':
-        return req.headers.referrer || req.headers.referer
+        return (req.headers.referrer || req.headers.referer) as string | string[]
       default:
-        return req.headers[lc]
+        return req.headers[lc]!
     }
   }
 }
 
 export const getRangeFromHeader =
   (req: Pick<Request, 'headers'>) =>
-  (size: number, options?: Options): Result | Ranges => {
+  (size: number, options?: Options): Result | Ranges | undefined => {
     const range = getRequestHeader(req)('range')
 
     if (!range) return
@@ -59,4 +59,4 @@ export const checkIfXMLHttpRequest = (req: Pick<Request, 'headers'>): boolean =>
 export const reqIs =
   (req: Pick<Request, 'headers'>) =>
   (...types: string[]) =>
-    typeIs(req.headers['content-type'], ...types)
+    typeIs(req.headers['content-type']!, ...types)
