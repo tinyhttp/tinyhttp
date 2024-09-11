@@ -24,7 +24,7 @@
     "@types/negotiator": "^0.6.3"
   },
   "dependencies": {
-    "mime": "4.0.1",
+    "mime": "4.0.4",
     "negotiator": "^0.6.3"
   },
   "scripts": {

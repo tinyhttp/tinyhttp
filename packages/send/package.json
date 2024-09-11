@@ -23,6 +23,6 @@
   "dependencies": {
     "@tinyhttp/content-type": "^0.1.4",
     "@tinyhttp/etag": "workspace:*",
-    "mime": "4.0.0-beta.1"
+    "mime": "4.0.4"
   }
 }
