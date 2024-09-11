@@ -19,6 +19,8 @@ import { View } from './view.js'
  */
 const lead = (x: string) => (x.charCodeAt(0) === 47 ? x : `/${x}`)
 
+const trail = (x: string) => (x.charCodeAt(x.length - 1) === 47 ? x.substring(0, x.length - 1) : x)
+
 const mount = (fn: App | Handler) => (fn instanceof App ? fn.attach : fn)
 
 const applyHandler =
@@ -60,25 +62,26 @@ export class App<Req extends Request = Request, Res extends Response = Response>
   locals: Record<string, unknown> = {}
   noMatchHandler: Handler
   onError: ErrorHandler
-  settings: AppSettings = {
-    view: View,
-    xPoweredBy: true,
-    views: `${process.cwd()}/views`,
-    'view cache': process.env.NODE_ENV === 'production',
-    'trust proxy': 0
-  }
+  settings: AppSettings
   engines: Record<string, TemplateEngine> = {}
-  applyExtensions?: Handler<Req, Res>
+  applyExtensions?: Handler
   attach: (req: Req, res: Res, next?: NextFunction) => void
   cache: Record<string, unknown>
 
   constructor(options: AppConstructor<Req, Res> = {}) {
     super()
     this.onError = options?.onError || onErrorHandler
-    // @ts-expect-error typescript is not smart enough to understand "this"
+    // @ts-expect-error typescript is not smart enough to understand "this" ts(2345)
     this.noMatchHandler = options?.noMatchHandler || this.onError.bind(this, { code: 404 })
-    this.settings = Object.assign({}, this.settings, options.settings)
-    if (options.applyExtensions) this.applyExtensions = options.applyExtensions
+    this.settings = {
+      view: View,
+      xPoweredBy: true,
+      views: `${process.cwd()}/views`,
+      'view cache': process.env.NODE_ENV === 'production',
+      'trust proxy': 0,
+      ...options.settings
+    }
+    if (options.applyExtensions) this.applyExtensions = options?.applyExtensions
     const boundHandler = this.handler.bind(this)
     this.attach = (req, res, next?: NextFunction) => setImmediate(boundHandler, req, res, next)
     this.cache = {}
@@ -147,7 +150,6 @@ export class App<Req extends Request = Request, Res extends Response = Response>
     fn: TemplateEngine<RenderOptions>
   ): this {
     this.engines[ext[0] === '.' ? ext : `.${ext}`] = fn as TemplateEngine
-
     return this
   }
 
@@ -174,7 +176,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     locals = { ...locals, ...data }
 
-    if (opts.cache == null) opts.cache = this.enabled('view cache')
+    if (opts.cache == null) (opts.cache as boolean) = this.enabled('view cache')
 
     if (opts.cache) {
       view = this.cache[name] as View
@@ -235,7 +237,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
     pathArray = pathArray.length ? pathArray.map((path) => lead(path)) : ['/']
 
     const mountpath = pathArray.join(', ')
-    let regex: { keys: string[]; pattern: RegExp } | undefined
+    let regex!: { keys: string[]; pattern: RegExp }
 
     for (const fn of fns) {
       if (fn instanceof App) {
@@ -243,7 +245,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
           regex = rg(path, true)
           fn.mountpath = mountpath
           this.apps[path] = fn
-          // @ts-expect-error typescript is not smart enough to understand "this"
+          // @ts-expect-error typescript is not smart enough to understand "this" ts(2345)
           fn.parent = this
         }
       }
@@ -256,7 +258,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
         if (fn instanceof App && fn.middleware?.length) {
           for (const mw of fn.middleware) {
             handlerPaths.push(handlerPathBase + lead(mw.path!))
-            handlerFunctions.push(fn as App)
+            handlerFunctions.push(fn)
           }
         } else {
           handlerPaths.push('')
@@ -312,47 +314,20 @@ export class App<Req extends Request = Request, Res extends Response = Response>
     /* Set X-Powered-By header */
     const { xPoweredBy } = this.settings
     if (xPoweredBy) res.setHeader('X-Powered-By', typeof xPoweredBy === 'string' ? xPoweredBy : 'tinyhttp')
+    // @ts-expect-error typescript is not smart enough to understand "this" ts(2345)
+    const exts = this.applyExtensions || extendMiddleware<RenderOptions>(this)
 
-    const exts = this.applyExtensions || extendMiddleware<RenderOptions>(this as unknown as App)
-
-    req.originalUrl = req.url || req.originalUrl
-
-    const pathname = getPathname(req.originalUrl)
-
-    const matched = this.#find(pathname)
-
-    const mw: Middleware<Req, Res>[] = [
+    let mw: Middleware[] = [
       {
         handler: exts,
         type: 'mw',
         path: '/'
-      },
-      ...matched.filter((x) => req.method === 'HEAD' || (x.method ? x.method === req.method : true))
+      }
     ]
 
-    if (matched[0] != null) {
-      mw.push({
-        type: 'mw',
-        handler: (req, res, next) => {
-          if (req.method === 'HEAD') {
-            res.statusCode = 204
-            return res.end('')
-          }
-          next!()
-        },
-        path: '/'
-      })
-    }
+    req.baseUrl = ''
 
-    if (this.parent == null) {
-      mw.push({
-        handler: this.noMatchHandler,
-        type: 'mw',
-        path: '/'
-      })
-    }
-
-    const handle = (mw: Middleware) => async (req: Req, res: Res, next?: NextFunction) => {
+    const handle = (mw: Middleware, pathname: string) => async (req: Req, res: Res, next?: NextFunction) => {
       const { path, handler, regex } = mw
 
       let params: URLParams
@@ -381,9 +356,10 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
       if (mw.type === 'mw') {
         req.url = lead(req.originalUrl.substring(prefix.length))
+        req.baseUrl = trail(req.originalUrl.substring(0, prefix.length))
       }
 
-      if (!req.path) req.path = getPathname(req.url)
+      if (!req.path) req.path = pathname
 
       if (this.settings?.enableReqRoute) req.route = mw
 
@@ -392,12 +368,48 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     let idx = 0
 
-    const loop = (): void => void handle(mw[idx++])(req, res, next)
+    const loop = () => {
+      req.originalUrl = req.baseUrl + req.url
+      const pathname = getPathname(req.url)
+      const matched = this.#find(pathname).filter(
+        (x: Middleware) => (req.method === 'HEAD' || (x.method ? x.method === req.method : true)) && !mw.includes(x)
+      )
+
+      if (matched.length && matched[0] !== null) {
+        if (idx !== 0) {
+          idx = mw.length
+          req.params = {}
+        }
+        mw = [
+          ...mw,
+          ...matched,
+          {
+            type: 'mw',
+            handler: (req, res, next) => {
+              if (req.method === 'HEAD') {
+                res.statusCode = 204
+                return res.end('')
+              }
+              next!()
+            },
+            path: '/'
+          }
+        ]
+      } else if (this.parent == null) {
+        mw.push({
+          handler: this.noMatchHandler,
+          type: 'route',
+          path: '/'
+        })
+      }
+
+      void handle(mw[idx++], pathname)(req, res, next)
+    }
 
     const parentNext = next
     next = (err) => {
       if (err != null) {
-        // @ts-expect-error The 'this' context of type 'this' is not assignable to method's 'this' of type 'App<Request, Response<unknown>>'
+        // @ts-expect-error The 'this' context of type 'this' is not assignable to method's 'this' of type 'App<Request, Response<unknown>>' ts(2345)
         return this.onError(err, req, res)
       }
 
