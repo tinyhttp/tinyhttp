@@ -31,7 +31,7 @@
   "scripts": {
     "prerelease": "pnpm lint && pnpm build && pnpm test",
     "chgset:run": "changeset",
-    "chgset:version": "changeset version",
+    "chgset:version": "changeset version && pnpm install && biome check . --write",
     "chgset": "pnpm chgset:run && pnpm chgset:version",
     "release": "changeset publish",
     "test:dev": "vitest --dir tests",
