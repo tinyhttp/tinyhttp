@@ -32,8 +32,7 @@
     "prerelease": "pnpm lint && pnpm build && pnpm test",
     "chgset:run": "changeset",
     "chgset:version": "changeset version",
-    "rm-changelogs": "rm -rf packages/*/CHANGELOG.md",
-    "chgset": "pnpm chgset:run && pnpm chgset:version && pnpm rm-changelogs",
+    "chgset": "pnpm chgset:run && pnpm chgset:version",
     "release": "changeset publish",
     "test:dev": "vitest --dir tests",
     "test:coverage": "vitest run --dir tests --coverage",
@@ -45,5 +44,5 @@
     "build": "pnpm -r build",
     "prepare": "husky install"
   },
-  "packageManager": "pnpm@9.3.0+sha256.e1f9e8d1a16607a46dd3c158b5f7a7dc7945501d1c6222d454d63d033d1d918f"
+  "packageManager": "pnpm@9.10.0"
 }
