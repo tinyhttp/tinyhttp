@@ -16,7 +16,7 @@
     "@commitlint/cli": "19.5.0",
     "@commitlint/config-conventional": "19.5.0",
     "@types/node": "20.14.8",
-    "@vitest/coverage-v8": "^2.0.5",
+    "@vitest/coverage-v8": "^2.1.1",
     "c8": "^10.1.2",
     "dirname-filename-esm": "1.1.1",
     "eta": "2.2.0",
@@ -26,7 +26,7 @@
     "supertest-fetch": "1.5.0",
     "typescript": "~5.5.2",
     "vite": "^5.4.4",
-    "vitest": "2.0.5"
+    "vitest": "2.1.1"
   },
   "scripts": {
     "prerelease": "pnpm lint && pnpm build && pnpm test",
