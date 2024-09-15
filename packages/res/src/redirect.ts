@@ -1,7 +1,7 @@
 import { type IncomingMessage as Req, type ServerResponse as Res, STATUS_CODES } from 'node:http'
-import { escapeHTML } from 'es-escape-html'
 import { formatResponse } from './format.js'
 import { setLocationHeader } from './headers.js'
+import { escapeHTML } from './util.js'
 
 type next = (err?: any) => void
 
