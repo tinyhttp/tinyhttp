@@ -5,7 +5,7 @@ import { eTag } from '../../packages/etag/src'
 describe('etag(entity)', () => {
   it('should require an entity', () => {
     try {
-      eTag(undefined)
+      eTag(undefined!)
     } catch (e) {
       expect((e as TypeError).message).toBe('argument entity is required')
     }
