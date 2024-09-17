@@ -35,6 +35,7 @@ const applyHandler =
     }
   }
 
+
 /**
  * `App` class - the starting point of tinyhttp app.
  *
@@ -57,7 +58,8 @@ const applyHandler =
  * const app = App<any, CoolReq, Response>()
  * ```
  */
-export class App<Req extends Request = Request, Res extends Response = Response> extends Router<App, Req, Res> {
+interface AppInterface extends Router {}
+export class App<Req extends Request = Request, Res extends Response = Response> extends Router<App, Req, Res> implements AppInterface {
   middleware: Middleware<Req, Res>[] = []
   locals: Record<string, unknown> = {}
   noMatchHandler: Handler
@@ -211,7 +213,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       cb(err)
     }
   }
-  use(...args: UseMethodParams<Req, Res, App>): this {
+  use(...args: UseMethodParams<Req, Res, AppInterface>): this {
     const base = args[0]
 
     const fns = args.slice(1).flat()
