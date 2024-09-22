@@ -56,6 +56,11 @@ export type AppConstructor<Req extends Request = Request, Res extends Response =
 
 export interface AppInterface<Req extends Request, Res extends Response>
   extends RouterInterface<AppInterface<Req, Res>, Req, Res> {
+  /**
+   * Set app setting
+   * @param setting setting name
+   * @param value setting value
+   */
   set<K extends keyof AppSettings>(setting: K, value: AppSettings[K]): AppInterface<Req, Res>
 
   /**
