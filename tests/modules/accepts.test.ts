@@ -49,13 +49,11 @@ describe('new Accepts(req)', () => {
       it('when Accept-Language is populated it should return accepted languages', () => {
         const req = createRequest('en, it, us')
         const accept = new Accepts(req)
-        // @ts-ignore
         expect(accept.languages()).toStrictEqual(['en', 'it', 'us'])
       })
       it('when Accept-Language is not in request it should return *', () => {
         const req = createRequest()
         const accept = new Accepts(req)
-        // @ts-ignore
         expect(accept.languages()).toStrictEqual(['*'])
       })
     })
@@ -107,7 +105,6 @@ describe('new Accepts(req)', () => {
       it('should ignore invalid data', () => {
         const req = createRequest('html, text/plain')
         const accept = new Accepts(req)
-        // @ts-ignore
         expect(accept.types(['html'])).toStrictEqual(false)
       })
     })
@@ -115,7 +112,6 @@ describe('new Accepts(req)', () => {
       it('when no argument is supplied it should return all accepted types', () => {
         const req = createRequest('text/plain, application/json')
         const accept = new Accepts(req)
-        // @ts-ignore
         expect(accept.types()).toStrictEqual(['text/plain', 'application/json'])
       })
     })
