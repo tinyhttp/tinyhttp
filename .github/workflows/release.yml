@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     branches:
-      - master
+      - main
 
 defaults:
   run:
@@ -20,6 +20,7 @@ jobs:
     permissions:
       contents: write
       id-token: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
 
@@ -37,14 +38,19 @@ jobs:
         run: pnpm install
 
       - name: Build Packages
-        run: pnpm run build
+        run: pnpm -r build
+
+      - name: Fix npmrc
+        run: npm config set "//registry.npmjs.org/:_authToken" "$NPM_TOKEN"
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create Release Pull Request or Publish
         id: changesets
         uses: changesets/action@v1
         with:
           # Note: pnpm install after versioning is necessary to refresh lockfile
-          version: chgset:version
+          version: pnpm chgset:version
           publish: pnpm release
           commit: "chore: release"
           title: "[ci] release"
