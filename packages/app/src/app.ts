@@ -10,7 +10,7 @@ import { onErrorHandler } from './onError.js'
 import { getURLParams } from './request.js'
 import type { Request, URLParams } from './request.js'
 import type { Response } from './response.js'
-import type { AppConstructor, AppRenderOptions, AppSettings, TemplateEngine } from './types.js'
+import type { AppConstructor, AppInterface, AppRenderOptions, AppSettings, TemplateEngine } from './types.js'
 import { View } from './view.js'
 
 /**
@@ -57,7 +57,11 @@ const applyHandler =
  * const app = App<any, CoolReq, Response>()
  * ```
  */
-export class App<Req extends Request = Request, Res extends Response = Response> extends Router<App, Req, Res> {
+
+export class App<Req extends Request = Request, Res extends Response = Response>
+  extends Router<App, Req, Res>
+  implements AppInterface<Req, Res>
+{
   middleware: Middleware<Req, Res>[] = []
   locals: Record<string, unknown> = {}
   noMatchHandler: Handler
@@ -87,64 +91,32 @@ export class App<Req extends Request = Request, Res extends Response = Response>
     this.cache = {}
   }
 
-  /**
-   * Set app setting
-   * @param setting setting name
-   * @param value setting value
-   */
   set<K extends keyof AppSettings>(setting: K, value: AppSettings[K]): this {
     this.settings[setting] = value
 
     return this
   }
 
-  /**
-   * Enable app setting
-   * @param setting Setting name
-   */
   enable<K extends keyof AppSettings>(setting: K): this {
     this.settings[setting] = true as AppSettings[K]
 
     return this
   }
 
-  /**
-   * Check if setting is enabled
-   * @param setting Setting name
-   * @returns
-   */
-  enabled<K extends keyof AppSettings>(setting: K): boolean {
+  enabled<K extends keyof AppSettings>(setting: K) {
     return Boolean(this.settings[setting])
   }
 
-  /**
-   * Disable app setting
-   * @param setting Setting name
-   */
   disable<K extends keyof AppSettings>(setting: K): this {
     this.settings[setting] = false as AppSettings[K]
 
     return this
   }
 
-  /**
-   * Return the app's absolute pathname
-   * based on the parent(s) that have
-   * mounted it.
-   *
-   * For example if the application was
-   * mounted as `"/admin"`, which itself
-   * was mounted as `"/blog"` then the
-   * return value would be `"/blog/admin"`.
-   *
-   */
-  path(): string {
+  path() {
     return this.parent ? this.parent.path() + this.mountpath : ''
   }
 
-  /**
-   * Register a template engine with extension
-   */
   engine<RenderOptions extends TemplateEngineOptions = TemplateEngineOptions>(
     ext: string,
     fn: TemplateEngine<RenderOptions>
@@ -153,19 +125,12 @@ export class App<Req extends Request = Request, Res extends Response = Response>
     return this
   }
 
-  /**
-   * Render a template
-   * @param name What to render
-   * @param data data that is passed to a template
-   * @param options Template engine options
-   * @param cb Callback that consumes error and html
-   */
   render<RenderOptions extends TemplateEngineOptions = TemplateEngineOptions>(
     name: string,
     data: Record<string, unknown> = {},
     options: AppRenderOptions<RenderOptions> = {} as AppRenderOptions<RenderOptions>,
     cb: (err: unknown, html?: unknown) => void = () => {}
-  ): void {
+  ) {
     let view: View | undefined
 
     const { _locals, ...opts } = options
@@ -211,7 +176,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       cb(err)
     }
   }
-  use(...args: UseMethodParams<Req, Res, App>): this {
+  use(...args: UseMethodParams<Req, Res, AppInterface<any, any>>): this {
     const base = args[0]
 
     const fns = args.slice(1).flat()
@@ -278,7 +243,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
     return this
   }
 
-  route(path: string): App {
+  route(path: string): AppInterface<any, any> {
     const app = new App({ settings: this.settings })
 
     this.use(path, app)
@@ -300,17 +265,11 @@ export class App<Req extends Request = Request, Res extends Response = Response>
     })
   }
 
-  /**
-   * Extends Req / Res objects, pushes 404 and 500 handlers, dispatches middleware
-   * @param req Req object
-   * @param res Res object
-   * @param next 'Next' function
-   */
   handler<RenderOptions extends TemplateEngineOptions = TemplateEngineOptions>(
     req: Req,
     res: Res,
     next?: NextFunction
-  ): void {
+  ) {
     /* Set X-Powered-By header */
     const { xPoweredBy } = this.settings
     if (xPoweredBy) res.setHeader('X-Powered-By', typeof xPoweredBy === 'string' ? xPoweredBy : 'tinyhttp')
@@ -425,13 +384,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
     loop()
   }
 
-  /**
-   * Creates HTTP server and dispatches middleware
-   * @param port server listening port
-   * @param cb callback to be invoked after server starts listening
-   * @param host server listening host
-   */
-  listen(port?: number, cb?: () => void, host?: string): Server {
+  listen(port?: number, cb?: () => void, host?: string) {
     return createServer().on('request', this.attach).listen(port, host, cb)
   }
 }

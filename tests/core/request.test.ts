@@ -1,6 +1,7 @@
 import { Agent } from 'node:http'
 import { makeFetch } from 'supertest-fetch'
 import { assert, afterEach, describe, expect, it, vi } from 'vitest'
+import type { Request } from '../../packages/app/src'
 import { App } from '../../packages/app/src/app'
 import * as req from '../../packages/req/src'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
@@ -94,10 +95,10 @@ describe('Request properties', () => {
         next()
       }
       const makeApp = () =>
-        new App()
+        new App<Request & { urls: string[] }>()
           .get('/', echo)
           .use('/a1/b', echo)
-          .use('/a2/b', mw, mw, mw, (req, res) => res.send({ urls: (req as any).urls, params: req.params }))
+          .use('/a2/b', mw, mw, mw, (req, res) => res.send({ urls: req.urls, params: req.params }))
           .use('/a3/:pat1/:pat2', echo)
           .use('/a4/:pat1/*', echo)
 
