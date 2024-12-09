@@ -90,13 +90,32 @@ export type RouterMethod<Req = any, Res = any> = (
 
 type RouterMethodParams<Req = any, Res = any> = Parameters<RouterMethod<Req, Res>>
 
-export type UseMethod<Req = any, Res = any, App extends Router = any> = (
+export type UseMethod<Req = any, Res = any, App extends RouterInterface<App, Req, Res> = any> = (
   path: RouterPathOrHandler<Req, Res> | App,
   handler?: RouterHandler<Req, Res> | App,
   ...handlers: (RouterHandler<Req, Res> | App)[]
 ) => any
 
-export type UseMethodParams<Req = any, Res = any, App extends Router = any> = Parameters<UseMethod<Req, Res, App>>
+export type UseMethodParams<Req = any, Res = any, App extends RouterInterface<App, Req, Res> = any> = Parameters<
+  UseMethod<Req, Res, App>
+>
+
+export type RouterConstructor<App extends RouterInterface<any, any, any> = any, Req = any, Res = any> = {
+  new (): RouterInterface<App, Req, Res>
+}
+
+export interface RouterInterface<App extends RouterInterface<App, Req, Res>, Req, Res> {
+  add(
+    method: Method
+  ): (
+    path: string | string[] | Handler<Req, Res>,
+    handler?: RouterHandler<Req, Res> | undefined,
+    ...handlers: RouterHandler<Req, Res>[]
+  ) => RouterInterface<App, Req, Res>
+  msearch(...args: RouterMethodParams<Req, Res>): RouterInterface<App, Req, Res>
+  all(...args: RouterMethodParams<Req, Res>): RouterInterface<App, Req, Res>
+  use(...args: UseMethodParams<Req, Res, App>): RouterInterface<App, Req, Res>
+}
 
 /** HELPER METHODS */
 
@@ -155,7 +174,7 @@ export const pushMiddleware =
 /**
  * tinyhttp Router. Manages middleware and has HTTP methods aliases, e.g. `app.get`, `app.put`
  */
-export class Router<App extends Router = any, Req = any, Res = any> {
+export class Router<App extends Router = any, Req = any, Res = any> implements RouterInterface<App, Req, Res> {
   middleware: Middleware[] = []
   mountpath = '/'
   parent!: App
