@@ -1,7 +1,8 @@
 // Original module: https://github.com/jshttp/etag/blob/master/index.js
 
+import { Buffer } from 'node:buffer'
 import { createHash } from 'node:crypto'
-import { Stats } from 'node:fs'
+import type { Stats } from 'node:fs'
 
 const entityTag = (entity: string | Buffer): string => {
   if (entity.length === 0) {
@@ -23,14 +24,15 @@ const statTag = ({ mtime, size }: Stats): string => {
   return `"${mtime.getTime().toString(16)}-${size.toString(16)}"`
 }
 
-export const eTag = (entity: string | Buffer | Stats, options?: { weak: boolean }): string => {
+export const eTag = (entity: string | Buffer | Pick<Stats, 'mtime' | 'size'>, options?: { weak: boolean }): string => {
   if (entity == null) throw new TypeError('argument entity is required')
 
-  const weak = options?.weak || entity instanceof Stats
+  const isStats = typeof (entity as Stats).mtime !== 'undefined' && typeof (entity as Stats).size !== 'undefined'
+
+  const weak = options?.weak || isStats
 
   // generate entity tag
-
-  const tag = entity instanceof Stats ? statTag(entity) : entityTag(entity)
+  const tag = isStats ? statTag(entity as Stats) : entityTag(entity as string | Buffer)
 
   return weak ? `W/${tag}` : tag
 }

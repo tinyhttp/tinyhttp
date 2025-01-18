@@ -2,12 +2,12 @@
 
 export type NextFunction = (err?: any) => void
 
-export type SyncHandler<Request = any, Response = any> = (req: Request, res: Response, next?: NextFunction) => void
+export type SyncHandler<Request = any, Response = any> = (req: Request, res: Response, next: NextFunction) => void
 
 export type AsyncHandler<Request = any, Response = any> = (
   req: Request,
   res: Response,
-  next?: NextFunction
+  next: NextFunction
 ) => Promise<void>
 
 export type Handler<Request = any, Response = any> = AsyncHandler<Request, Response> | SyncHandler<Request, Response>

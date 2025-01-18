@@ -4,7 +4,9 @@ import { typeIs } from '../../packages/type-is/src'
 describe('typeIs', () => {
   it('should return false when value is falsy', () => {
     expect(typeIs('')).toBe(false)
+    // @ts-expect-error invalid type
     expect(typeIs(null)).toBe(false)
+    // @ts-expect-error invalid type
     expect(typeIs(undefined)).toBe(false)
   })
 
@@ -41,8 +43,11 @@ describe('typeIs', () => {
   })
 
   it('should return false if types are not strings', () => {
-    expect(typeIs('multipart/form-data', false as any)).toBe(false)
+    // @ts-expect-error invalid type
+    expect(typeIs('multipart/form-data', false)).toBe(false)
+    // @ts-expect-error invalid type
     expect(typeIs('multipart/form-data', null)).toBe(false)
+    // @ts-expect-error invalid type
     expect(typeIs('multipart/form-data', undefined)).toBe(false)
   })
 

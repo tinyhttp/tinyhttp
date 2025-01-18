@@ -1,4 +1,4 @@
-import { Stats } from 'node:fs'
+import type { Stats } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { eTag } from '../../packages/etag/src'
 
@@ -33,9 +33,10 @@ describe('etag(entity)', () => {
   })
   describe('fs.Stats', () => {
     it('should generate a weak ETag', () => {
-      const stats = new Stats()
-      stats.mtime = new Date(Date.UTC(2020, 1, 1))
-      stats.size = 1024
+      const stats = {
+        mtime: new Date(Date.UTC(2020, 1, 1)),
+        size: 1024
+      } as Stats
       expect(eTag(stats)).toBe('W/"16ffe0c0c00-400"')
     })
   })

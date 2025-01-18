@@ -15,6 +15,7 @@ describe('proxyaddr(req, trust)', () => {
     describe('req', () => {
       it('should be required', () => {
         try {
+          // @ts-expect-error invalid type
           proxyaddr(null, null)
         } catch (error) {
           expect(error).toBeDefined()
@@ -26,6 +27,7 @@ describe('proxyaddr(req, trust)', () => {
       it('should be required', () => {
         const req = createReq('127.0.0.1')
         try {
+          // @ts-expect-error invalid type
           proxyaddr(req, null)
         } catch (error) {
           expect(error).toBeDefined()
@@ -134,7 +136,7 @@ describe('proxyaddr(req, trust)', () => {
         assert.fail()
       })
       it('should be invoked as trust(addr, i)', () => {
-        const log = []
+        const log: [string, number][] = []
 
         const req = createReq('127.0.0.1', {
           'x-forwarded-for': '192.168.0.1, 10.0.0.1'
@@ -399,7 +401,7 @@ describe('proxyaddr(req, trust)', () => {
       expect(proxyaddr(req, '127.0.0.1')).toBe('::8:8:8:8:8:8:8:8:8')
     })
     it('should provide all values to function', () => {
-      const log = []
+      const log: (string | number)[][] = []
       const req = createReq('127.0.0.1', {
         'x-forwarded-for': 'myrouter, 127.0.0.1, proxy'
       })
@@ -419,10 +421,12 @@ describe('proxyaddr(req, trust)', () => {
 
   describe('when socket address undefined', () => {
     it('should return undefined as address', () => {
+      // @ts-expect-error invalid type
       const req = createReq(undefined)
       expect(proxyaddr(req, '127.0.0.1')).toBeUndefined()
     })
     it('should return undefined even with trusted headers', () => {
+      // @ts-expect-error invalid type
       const req = createReq(undefined, {
         'x-forwarded-for': '127.0.0.1, 10.0.0.1'
       })
@@ -452,6 +456,7 @@ describe('proxyaddr.all(req, trust?)', () => {
     describe('req', () => {
       it('should be required', () => {
         try {
+          // @ts-expect-error invalid type
           all(null)
         } catch (error) {
           expect(error).toBeDefined()
@@ -519,6 +524,7 @@ describe('proxyaddr.compile(trust)', () => {
     describe('trust', () => {
       it('should be required', () => {
         try {
+          // @ts-expect-error invalid type
           compile(null)
         } catch (error) {
           expect(error).toBeDefined()

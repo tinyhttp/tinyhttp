@@ -25,7 +25,7 @@ export type AppSettings = Partial<{
 
 export type TemplateEngineOptions = {
   [key: string]: unknown
-  cache: boolean
+  cache?: boolean
 }
 
 /**

@@ -28,8 +28,8 @@ const applyHandler =
   async (req: Req, res: Res, next?: NextFunction) => {
     try {
       if (h[Symbol.toStringTag] === 'AsyncFunction') {
-        await h(req, res, next)
-      } else h(req, res, next)
+        await h(req, res, next!)
+      } else h(req, res, next!)
     } catch (e) {
       next!(e)
     }
@@ -141,7 +141,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     locals = { ...locals, ...data }
 
-    if (opts.cache == null) (opts.cache as boolean) = this.enabled('view cache')
+    if (opts.cache == null) opts.cache! = this.enabled('view cache')
 
     if (opts.cache) {
       view = this.cache[name] as View
@@ -243,7 +243,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
     return this
   }
 
-  route(path: string): AppInterface<any, any> {
+  route(path: string): App<any, any> {
     const app = new App({ settings: this.settings })
 
     this.use(path, app)
@@ -286,7 +286,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     req.baseUrl = ''
 
-    const handle = (mw: Middleware, pathname: string) => async (req: Req, res: Res, next?: NextFunction) => {
+    const handle = (mw: Middleware, pathname: string) => async (req: Req, res: Res, next: NextFunction) => {
       const { path, handler, regex } = mw
 
       let params: URLParams
@@ -362,7 +362,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
         })
       }
 
-      void handle(mw[idx++], pathname)(req, res, next)
+      void handle(mw[idx++], pathname)(req, res, next!)
     }
 
     const parentNext = next

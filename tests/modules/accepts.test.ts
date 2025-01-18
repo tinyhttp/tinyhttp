@@ -1,7 +1,8 @@
+import type { IncomingMessage } from 'node:http'
 import { describe, expect, it } from 'vitest'
 import { Accepts } from '../../packages/accepts/src'
 
-function createRequest(value?: unknown): any {
+function createRequest(value?: string): Pick<IncomingMessage, 'headers'> {
   return {
     headers: {
       'accept-charset': value,
