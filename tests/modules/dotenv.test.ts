@@ -3,9 +3,7 @@ import path from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
 import * as dotenv from '../../packages/dotenv/src'
 
-import { dirname } from 'dirname-filename-esm'
-
-const __dirname = dirname(import.meta)
+const __dirname = import.meta.dirname
 
 const envPath = path.join(__dirname, '../fixtures/.env')
 
