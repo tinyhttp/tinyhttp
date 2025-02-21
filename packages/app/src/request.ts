@@ -20,7 +20,7 @@ export type Host = {
 }
 
 const trustRemoteAddress = ({ socket }: Pick<Request, 'headers' | 'socket'>, trust: Trust): boolean => {
-  const val = socket.remoteAddress!
+  const val = socket.remoteAddress as string
   if (typeof trust !== 'function') trust = compile(trust)
   return trust(val, 0)
 }

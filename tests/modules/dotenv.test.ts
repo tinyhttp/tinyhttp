@@ -83,7 +83,7 @@ describe('Dotenv config', () => {
     it('takes path as option', () => {
       const { parsed } = dotenv.config({ path: envPath })
 
-      expect(parsed!.BASIC).toBe('basic')
+      expect(parsed?.BASIC).toBe('basic')
     })
     it('takes encoding as option', () => {
       const readFileSync = fs.readFileSync
@@ -94,7 +94,7 @@ describe('Dotenv config', () => {
         _path: Parameters<typeof fs.readFileSync>[0],
         options: Parameters<typeof fs.readFileSync>[1]
       ) => {
-        expect(typeof options !== 'string' && options!.encoding).toBe(encoding)
+        expect(typeof options !== 'string' && options?.encoding).toBe(encoding)
       }
 
       dotenv.config({ encoding })
@@ -106,7 +106,7 @@ describe('Dotenv config', () => {
   it('reads path with encoding, parsing output to process.env', () => {
     const { parsed } = dotenv.config({ path: envPath })
 
-    expect(parsed!.test).toEqual(mockParseResponse.test)
+    expect(parsed?.test).toEqual(mockParseResponse.test)
   })
 
   it('does not write over keys already in process.env', () => {

@@ -41,14 +41,14 @@ describe('Testing Router', () => {
     it('accepts an array of wares', () => {
       const app = new Router<Router>()
 
-      app.use((_req, _res, next) => next!(), [(_req, _res, next) => next!(), (_req, _res, next) => next!()])
+      app.use((_req, _res, next) => next?.(), [(_req, _res, next) => next?.(), (_req, _res, next) => next?.()])
 
       expect(app.middleware).toHaveLength(3)
     })
     it('accepts an array of wares as a first argument', () => {
       const app = new Router<Router>()
 
-      app.use([(_req, _res, next) => next!(), (_req, _res, next) => next()])
+      app.use([(_req, _res, next) => next?.(), (_req, _res, next) => next()])
 
       expect(app.middleware).toHaveLength(2)
     })

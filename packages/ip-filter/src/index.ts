@@ -35,12 +35,12 @@ export const ipFilter =
     try {
       isBadIP = processIpFilters(ip, opts.filter, opts.strict)
     } catch (e) {
-      return next!(e as Error)
+      return next?.(e as Error)
     }
 
     if (isBadIP) {
       res.writeHead(403, opts.forbidden ?? '403 Forbidden').end()
     } else {
-      next!()
+      next?.()
     }
   }
