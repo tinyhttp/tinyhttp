@@ -25,13 +25,13 @@ const mount = (fn: App | Handler) => (fn instanceof App ? fn.attach : fn)
 
 const applyHandler =
   <Req, Res>(h: Handler<Req, Res>) =>
-  async (req: Req, res: Res, next?: NextFunction) => {
+  async (req: Req, res: Res, next: NextFunction) => {
     try {
       if (h[Symbol.toStringTag] === 'AsyncFunction') {
-        await h(req, res, next!)
-      } else h(req, res, next!)
+        await h(req, res, next)
+      } else h(req, res, next)
     } catch (e) {
-      next!(e)
+      next?.(e)
     }
   }
 
@@ -141,27 +141,22 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     locals = { ...locals, ...data }
 
-    if (opts.cache == null) opts.cache! = this.enabled('view cache')
+    if (opts.cache == null) opts.cache = this.enabled('view cache')
 
     if (opts.cache) {
       view = this.cache[name] as View
     }
 
     if (!view) {
-      const View = this.settings.view!
-      view = new View(name, {
-        defaultEngine: this.settings['view engine'],
-        root: this.settings.views,
-        engines: this.engines
-      })
+      const ViewClass = this.settings.view || View
 
-      if (!view.path) {
-        const dirs =
-          Array.isArray(view.root) && view.root.length > 1
-            ? `directories "${view.root.slice(0, -1).join('", "')}" or "${view.root[view.root.length - 1]}"`
-            : `directory "${view.root}"`
-        const err = new Error(`Failed to lookup view "${name}" in views ${dirs}`)
-
+      try {
+        view = new ViewClass(name, {
+          defaultEngine: this.settings['view engine'],
+          root: this.settings.views,
+          engines: this.engines
+        })
+      } catch (err) {
         return cb(err)
       }
 
@@ -222,7 +217,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       for (const fn of fns) {
         if (fn instanceof App && fn.middleware?.length) {
           for (const mw of fn.middleware) {
-            handlerPaths.push(handlerPathBase + lead(mw.path!))
+            handlerPaths.push(handlerPathBase + lead(mw.path as string))
             handlerFunctions.push(fn)
           }
         } else {
@@ -253,7 +248,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
   #find(url: string): Middleware<Req, Res>[] {
     return this.middleware.filter((m) => {
-      m.regex = m.regex || rg(m.path!, m.type === 'mw')
+      m.regex = m.regex || rg(m.path as string, m.type === 'mw')
 
       let fullPathRegex: { keys: string[]; pattern: RegExp } | null
 
@@ -299,8 +294,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
         throw e
       }
 
-      // Warning: users should not use :wild as a pattern
-      let prefix = path!
+      let prefix = path as string
       if (regex) {
         for (const key of regex.keys as string[]) {
           if (key === 'wild') {
@@ -349,7 +343,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
                 res.statusCode = 204
                 return res.end('')
               }
-              next!()
+              next?.()
             },
             path: '/'
           }
@@ -362,7 +356,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
         })
       }
 
-      void handle(mw[idx++], pathname)(req, res, next!)
+      void handle(mw[idx++], pathname)(req, res, next as NextFunction)
     }
 
     const parentNext = next

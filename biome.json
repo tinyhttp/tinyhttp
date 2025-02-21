@@ -30,8 +30,7 @@
         "noVoidTypeReturn": "off"
       },
       "style": {
-        "noParameterAssign": "off",
-        "noNonNullAssertion": "off"
+        "noParameterAssign": "off"
       },
       "suspicious": {
         "noAssignInExpressions": "off",

@@ -56,8 +56,8 @@ export const extendMiddleware = <EngineOptions extends TemplateEngineOptions = T
     }
 
     if (settings?.networkExtensions) {
-      let trust = settings?.['trust proxy']!
-      if (typeof trust !== 'function') {
+      let trust = settings?.['trust proxy'] || 0
+      if (trust && typeof trust !== 'function') {
         trust = compile(trust)
         settings['trust proxy'] = trust
       }

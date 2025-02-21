@@ -1,5 +1,5 @@
-import type { Server } from 'node:http'
 /* c8 ignore start*/
+import type { Server } from 'node:http'
 import type { Trust } from '@tinyhttp/proxy-addr'
 import type { Handler, NextFunction, RouterInterface, UseMethodParams } from '@tinyhttp/router'
 import type { ErrorHandler } from './onError.js'

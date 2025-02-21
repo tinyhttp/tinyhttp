@@ -17,7 +17,7 @@ export const getRequestHeader = (req: Pick<Request, 'headers'>) => {
       case 'referrer':
         return (req.headers.referrer || req.headers.referer) as string | string[]
       default:
-        return req.headers[lc]!
+        return req.headers[lc] as string
     }
   }
 }
@@ -59,4 +59,4 @@ export const checkIfXMLHttpRequest = (req: Pick<Request, 'headers'>): boolean =>
 export const reqIs =
   (req: Pick<Request, 'headers'>) =>
   (...types: string[]) =>
-    typeIs(req.headers['content-type']!, ...types)
+    typeIs(req.headers['content-type'] as string, ...types)

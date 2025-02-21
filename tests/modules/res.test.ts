@@ -167,7 +167,7 @@ describe('Response extensions', () => {
     })
     it('should throw 406 status when invalid MIME is specified', async () => {
       const app = runServer((req, res) => {
-        formatResponse(req, res, (err) => res.writeHead(err!.status!).end(err!.message))({
+        formatResponse(req, res, (err) => res.writeHead(err?.status as number).end(err?.message))({
           text: (_: Request, res: Response) => res.end('Hello World')
         }).end()
       })
@@ -496,11 +496,11 @@ describe('Response extensions', () => {
  */
 describe('util > escapeHTML', () => {
   it('when string is undefined should return "undefined"', () => {
-    expect(escapeHTML(undefined!)).toBe('undefined')
+    expect(escapeHTML(undefined as unknown as string)).toBe('undefined')
   })
 
   it('when string is null should return "null"', () => {
-    expect(escapeHTML(null!)).toBe('null')
+    expect(escapeHTML(null as unknown as string)).toBe('null')
   })
 
   it('when string is a number should return stringified number', () => {

@@ -60,15 +60,20 @@ export class View<RenderOptions extends TemplateEngineOptions = TemplateEngineOp
 
     if (!this.ext) {
       // get extension from default engine name
-      this.ext = this.defaultEngine![0] !== '.' ? `.${this.defaultEngine}` : this.defaultEngine
+      this.ext = this.defaultEngine?.[0] !== '.' ? `.${this.defaultEngine}` : this.defaultEngine
 
       fileName += this.ext
     }
 
-    if (!opts.engines?.[this.ext!]) throw new Error(`No engine was found for ${this.ext}`)
-
-    this.engine = opts.engines[this.ext!]
-    this.path = this.#lookup(fileName)
+    if (!opts.engines?.[this.ext]) throw new Error(`No engine was found for ${this.ext}`)
+    const path = this.#lookup(fileName)
+    const dirs =
+      Array.isArray(this.root) && this.root.length > 1
+        ? `directories "${this.root.slice(0, -1).join('", "')}" or "${this.root[this.root.length - 1]}"`
+        : `directory "${this.root}"`
+    if (!path) throw new Error(`Failed to lookup view "${name}" in views ${dirs}`)
+    this.engine = opts.engines[this.ext]
+    this.path = path as string
   }
   #lookup(name: string) {
     let path: string | undefined
@@ -85,7 +90,7 @@ export class View<RenderOptions extends TemplateEngineOptions = TemplateEngineOp
       path = this.#resolve(dir, file)
     }
 
-    return path!
+    return path
   }
   #resolve(dir: string, file: string) {
     const ext = this.ext
