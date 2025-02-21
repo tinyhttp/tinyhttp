@@ -8,7 +8,8 @@ import {
   getFreshOrStale,
   getQueryParams,
   getRangeFromHeader,
-  getRequestHeader
+  getRequestHeader,
+  reqIs
 } from '@tinyhttp/req'
 import {
   append,
@@ -72,6 +73,7 @@ export const extendMiddleware = <EngineOptions extends TemplateEngineOptions = T
 
     req.query = getQueryParams(req.url)
 
+    req.is = reqIs(req)
     req.range = getRangeFromHeader(req)
     req.accepts = getAccepts(req)
     req.acceptsCharsets = getAcceptsCharsets(req)

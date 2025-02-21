@@ -17,11 +17,9 @@ env:
 jobs:
   build:
     strategy:
-
       matrix:
-
         os: [ubuntu-latest, windows-latest, macos-latest]
-  # This workflow contains a single job called "build"
+    # This workflow contains a single job called "build"
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
 
@@ -30,15 +28,15 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-      - uses: actions/checkout@v4
-      - name: Enable corepack
-        run: corepack enable pnpm
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.10.0
 
       - uses: actions/setup-node@v4
         with:
-          cache: 'pnpm'
+          cache: "pnpm"
           node-version: 18
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: "https://registry.npmjs.org"
 
       - name: install dependencies
         run: pnpm install

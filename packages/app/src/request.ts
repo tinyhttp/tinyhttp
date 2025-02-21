@@ -10,7 +10,7 @@ import type { App } from './app.js'
 import { isIP } from 'node:net'
 import type { Socket } from 'node:net'
 import type { TLSSocket } from 'node:tls'
-import type { URLParams, getRequestHeader } from '@tinyhttp/req'
+import type { URLParams } from '@tinyhttp/req'
 
 export { getURLParams } from '@tinyhttp/req'
 
@@ -146,7 +146,7 @@ export interface Request extends IncomingMessage {
   acceptsEncodings: (...encodings: string[]) => AcceptsReturns
   acceptsCharsets: (...charsets: string[]) => AcceptsReturns
   acceptsLanguages: (...languages: string[]) => AcceptsReturns
-  is: (...types: string[]) => boolean
+  is: (...types: string[]) => string | boolean
   cookies?: any
   signedCookies?: any
   secret?: string | string[]
