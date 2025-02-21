@@ -1,13 +1,12 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { dirname } from 'dirname-filename-esm'
 import { makeFetch } from 'supertest-fetch'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { App } from '../../packages/app/src'
 import { json, send, sendFile, sendStatus, status } from '../../packages/send/src'
 import { runServer } from '../../test_helpers/runServer'
 
-const __dirname = dirname(import.meta)
+const __dirname = import.meta.dirname
 
 describe('json(body)', () => {
   it('should send a json-stringified reply when an object is passed', async () => {

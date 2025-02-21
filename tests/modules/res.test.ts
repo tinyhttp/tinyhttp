@@ -1,5 +1,4 @@
 import path from 'node:path'
-import { dirname } from 'dirname-filename-esm'
 import { makeFetch } from 'supertest-fetch'
 import { describe, expect, it } from 'vitest'
 import type { Request, Response } from '../../packages/app/src/index.js'
@@ -21,7 +20,7 @@ import {
 import { escapeHTML } from '../../packages/res/src/util.js'
 import { runServer } from '../../test_helpers/runServer'
 
-const __dirname = dirname(import.meta)
+const __dirname = import.meta.dirname
 
 describe('Response extensions', () => {
   describe('res.set(field, val)', () => {

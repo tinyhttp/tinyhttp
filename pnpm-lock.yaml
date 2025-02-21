@@ -29,9 +29,6 @@ importers:
       c8:
         specifier: ^10.1.3
         version: 10.1.3
-      dirname-filename-esm:
-        specifier: 1.1.2
-        version: 1.1.2
       eta:
         specifier: 2.2.0
         version: 2.2.0
@@ -988,9 +985,6 @@ packages:
   dir-glob@3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
     engines: {node: '>=8'}
-
-  dirname-filename-esm@1.1.2:
-    resolution: {integrity: sha512-mMhH2imzJN95KnX/iDAhC0QDG0VU833c88U3SXCaQzATu7YlO9YTFD/CF9Nn2xhSwFlV9iWEKb/YyGJ4TwCcPg==}
 
   dot-prop@5.3.0:
     resolution: {integrity: sha512-QM8q3zDe58hqUqjraQOmzZ1LIH9SWQJTlEKCH4kJ2oQvLZk7RbQXvtDM2XEq3fwkV9CCvvH4LA0AV+ogFsBM2Q==}
@@ -2581,8 +2575,6 @@ snapshots:
   dir-glob@3.0.1:
     dependencies:
       path-type: 4.0.0
-
-  dirname-filename-esm@1.1.2: {}
 
   dot-prop@5.3.0:
     dependencies:
