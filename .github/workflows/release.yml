@@ -24,14 +24,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Enable corepack
-        run: corepack enable pnpm
-
       - uses: actions/setup-node@v4
         with:
-          cache: 'pnpm'
+          cache: "pnpm"
           node-version: 18
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: "https://registry.npmjs.org"
 
       - name: Install dependencies
         run: pnpm install
