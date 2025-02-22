@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 2.5.2
+
+### Patch Changes
+
+- d3ae434: fix(app): `res.sendFile` type signature
+
 ## 2.5.1
 
 ### Patch Changes
