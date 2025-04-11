@@ -13,6 +13,7 @@ import {
   getRequestHeader,
   reqIs
 } from '../../packages/req/src'
+import { fresh } from '../../packages/req/src/fresh'
 import { runServer } from '../../test_helpers/runServer'
 
 describe('Request extensions', () => {
@@ -239,6 +240,28 @@ describe('Request extensions', () => {
       })
 
       await makeFetch(app)('/').expect('stale')
+    })
+    it('should return false if if-modified-since is greater than last-modified', async () => {
+      expect(
+        fresh(
+          {
+            'if-modified-since': new Date(new Date().getTime() - 1000).toUTCString()
+          },
+          {
+            'last-modified': new Date().toUTCString()
+          }
+        )
+      ).toBe(false)
+    })
+    it('should return false if if-modified-since is defined but last-modified is not', async () => {
+      expect(
+        fresh(
+          {
+            'if-modified-since': new Date(new Date().getTime() - 1000).toUTCString()
+          },
+          {}
+        )
+      ).toBe(false)
     })
   })
 

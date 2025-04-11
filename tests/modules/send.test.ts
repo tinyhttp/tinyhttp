@@ -1,9 +1,10 @@
 import fs from 'node:fs'
+import { IncomingMessage, ServerResponse } from 'node:http'
 import path from 'node:path'
 import { makeFetch } from 'supertest-fetch'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { App } from '../../packages/app/src'
-import { json, send, sendFile, sendStatus, status } from '../../packages/send/src'
+import { enableCaching, json, send, sendFile, sendStatus, status } from '../../packages/send/src'
 import { runServer } from '../../test_helpers/runServer'
 
 const __dirname = import.meta.dirname
@@ -245,5 +246,15 @@ describe('sendFile(path)', () => {
     })
 
     await makeFetch(app)('/').expectStatus(418)
+  })
+  it('should enable cache headers', async () => {
+    const app = runServer((req, res) =>
+      sendFile(req, res)(testFilePath, { caching: { maxAge: 4000, immutable: true } })
+    )
+    await makeFetch(app)('/').expectHeader('Cache-Control', 'public,max-age=4000,immutable')
+  })
+  it('should mark cache is "must-revalidate" if maxAge is 0', async () => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath, { caching: { maxAge: 0 } }))
+    await makeFetch(app)('/').expectHeader('Cache-Control', 'public,max-age=0,must-revalidate')
   })
 })
