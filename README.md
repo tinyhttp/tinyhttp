@@ -1,7 +1,7 @@
 <br /><br /><br />
 
 <div align="center">
-<img width="500px" src="https://tinyhttp.v1rtl.site/logo.svg" alt="tinyhttp" />
+<img width="500px" src="https://tinyhttp.v1rtl.site/logo.svg?a" alt="tinyhttp" />
 <p><sub>⚡ Tiny web framework as a replacement of Express</sub></p><br />
 
 [![][site-badge]][site-url] [![npm][npm-img]][npm-url]
