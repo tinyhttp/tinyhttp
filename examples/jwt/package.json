@@ -4,9 +4,9 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/jwt": "^2.0.0",
-    "@types/jsonwebtoken": "^9.0.6",
+    "@types/jsonwebtoken": "^9.0.9",
     "jsonwebtoken": "^9.0.2",
-    "milliparsec": "^2.3.0"
+    "milliparsec": "^5.0.2"
   },
   "type": "module",
   "scripts": {

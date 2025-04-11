@@ -6,7 +6,7 @@
   },
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "@tinyhttp/logger": "^2.0.0"
+    "@tinyhttp/logger": "^2.1.0"
   },
   "type": "module"
 }

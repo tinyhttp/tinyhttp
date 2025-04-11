@@ -6,6 +6,6 @@
     "@tinyhttp/app": "workspace:*",
     "@tinyhttp/dotenv": "workspace:*",
     "deta": "^2.0.0",
-    "milliparsec": "^2.3.0"
+    "milliparsec": "^5.0.2"
   }
 }

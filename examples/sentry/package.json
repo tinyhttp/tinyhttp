@@ -4,8 +4,8 @@
   "type": "module",
   "module": "index.js",
   "dependencies": {
-    "@tinyhttp/app": "workspace:*",
-    "@sentry/node": "^8.30.0"
+    "@sentry/node": "^9.12.0",
+    "@tinyhttp/app": "workspace:*"
   },
   "scripts": {
     "start": "node --import ./instrument.js index.js"

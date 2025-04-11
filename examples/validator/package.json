@@ -4,7 +4,7 @@
   "type": "module",
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "fastest-validator": "^1.18.0",
+    "fastest-validator": "^1.19.0",
     "milliparsec": "^5.0.2"
   },
   "scripts": {

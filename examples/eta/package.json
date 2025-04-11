@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
-    "eta": "^2.2.0"
+    "eta": "^3.5.0"
   },
   "scripts": {
     "start": "tsm index.ts"

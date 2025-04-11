@@ -4,7 +4,7 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*",
     "lowdb": "^7.0.1",
-    "milliparsec": "^2.3.0"
+    "milliparsec": "^5.0.2"
   },
   "scripts": {
     "start": "node index.js"

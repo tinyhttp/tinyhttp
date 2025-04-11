@@ -1,29 +1,14 @@
+import path from 'node:path'
 import { App } from '@tinyhttp/app'
-import { renderFile as eta } from 'eta'
-import type { EtaConfig, PartialConfig } from 'eta/dist/types/config'
+import { Eta } from 'eta'
 
+const views = path.join(import.meta.dirname, 'views')
 const app = new App()
 
-app.engine<EtaConfig>('eta', eta)
+const eta = new Eta({ views, cache: true })
 
-function func() {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve('HI FROM ASYNC')
-    }, 20)
-  })
-}
-
-app.use(
-  (_, res) =>
-    void res.render<PartialConfig>(
-      'index.eta',
-      { name: 'Eta', func },
-      {
-        async: true,
-        cache: true
-      }
-    )
-)
+app.use((_, res) => {
+  res.send(eta.render('./index.eta', { name: 'Eta' }))
+})
 
 app.listen(3000, () => console.log('Listening on http://localhost:3000'))

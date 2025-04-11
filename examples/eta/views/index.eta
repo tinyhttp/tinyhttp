@@ -1,3 +1,1 @@
 Hello from <%= it.name %>
-
-Async func: <%= await it.func() %>
