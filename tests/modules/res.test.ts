@@ -90,7 +90,7 @@ describe('Response extensions', () => {
   describe('res.redirect(url, status)', () => {
     it('should set 302 status and message about redirecting', async () => {
       const app = runServer((req, res) => {
-        redirect(req, res, () => { })('/abc').end()
+        redirect(req, res, () => {})('/abc').end()
       })
 
       await makeFetch(app)('/', {
@@ -102,7 +102,7 @@ describe('Response extensions', () => {
         if (req.url === '/abc') {
           res.writeHead(200).end('Hello World')
         } else {
-          redirect(req, res, () => { })('/abc').end()
+          redirect(req, res, () => {})('/abc').end()
         }
       })
 
@@ -115,7 +115,7 @@ describe('Response extensions', () => {
         if (req.url === '/abc') {
           res.writeHead(200).end('Hello World')
         } else {
-          redirect(req, res, () => { })('/abc').end()
+          redirect(req, res, () => {})('/abc').end()
         }
       })
 
@@ -142,7 +142,7 @@ describe('Response extensions', () => {
   describe('res.format(obj)', () => {
     it('should send text by default', async () => {
       const app = runServer((req, res) => {
-        formatResponse(req, res, () => { })({
+        formatResponse(req, res, () => {})({
           text: (_: Request, res: Response) => res.end('Hello World')
         }).end()
       })
@@ -151,7 +151,7 @@ describe('Response extensions', () => {
     })
     it('should send HTML if specified in "Accepts" header', async () => {
       const app = runServer((req, res) => {
-        formatResponse(req, res, () => { })({
+        formatResponse(req, res, () => {})({
           text: (_: Request, res: Response) => res.end('Hello World'),
           html: (_: Request, res: Response) => res.end('<h1>Hello World</h1>')
         }).end()
@@ -180,7 +180,7 @@ describe('Response extensions', () => {
     })
     it('should call `default` as a function if specified', async () => {
       const app = runServer((req, res) => {
-        formatResponse(req, res, () => { })({
+        formatResponse(req, res, () => {})({
           default: () => res.end('Hello World')
         }).end()
       })
@@ -681,7 +681,7 @@ describe('util', () => {
         value: 'text/html',
         quality: 1,
         params: {},
-        originalIndex: undefined,
+        originalIndex: undefined
       })
     })
 
@@ -691,7 +691,7 @@ describe('util', () => {
         value: 'application/json',
         quality: 0.5,
         params: {},
-        originalIndex: undefined,
+        originalIndex: undefined
       })
     })
 
@@ -701,7 +701,7 @@ describe('util', () => {
         value: 'image/png',
         quality: 0.8,
         params: { level: '1' },
-        originalIndex: undefined,
+        originalIndex: undefined
       })
     })
 
@@ -711,7 +711,7 @@ describe('util', () => {
         value: 'text/plain',
         quality: 1,
         params: { charset: 'utf-8' },
-        originalIndex: 3,
+        originalIndex: 3
       })
     })
   })
