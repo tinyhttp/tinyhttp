@@ -150,6 +150,9 @@ importers:
       '@tinyhttp/accepts':
         specifier: workspace:*
         version: link:../accepts
+      '@tinyhttp/req':
+        specifier: workspace:^
+        version: 'link:'
       '@tinyhttp/type-is':
         specifier: workspace:*
         version: link:../type-is
@@ -159,6 +162,9 @@ importers:
       header-range-parser:
         specifier: ^1.1.3
         version: 1.1.3
+      type:
+        specifier: ^2.7.3
+        version: 2.7.3
 
   packages/res:
     dependencies:
@@ -1713,6 +1719,9 @@ packages:
 
   tr46@0.0.3:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
+
+  type@2.7.3:
+    resolution: {integrity: sha512-8j+1QmAbPvLZow5Qpi6NCaN8FB60p/6x8/vfNqOk/hC+HuvFZhL4+WfekuhQLiqFZXOgQdrs3B+XxEmCc6b3FQ==}
 
   typescript@5.7.3:
     resolution: {integrity: sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==}
@@ -3292,6 +3301,8 @@ snapshots:
   totalist@3.0.1: {}
 
   tr46@0.0.3: {}
+
+  type@2.7.3: {}
 
   typescript@5.7.3: {}
 

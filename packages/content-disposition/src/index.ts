@@ -82,6 +82,8 @@ function format({
 function createParams(filename?: string, fallback?: string | boolean) {
   if (filename === undefined) return {}
 
+  if (filename === '') return { filename: '' }
+
   const params: Partial<
     Record<string, string> & {
       filename: string
@@ -138,6 +140,7 @@ export function contentDisposition(
 }
 
 function decodefield(str: string) {
+  if (str === '') return '' // empty string
   const match = EXT_VALUE_REGEXP.exec(str)
   if (!match) throw new TypeError('invalid extended field value')
 
@@ -198,11 +201,15 @@ export function parse(header: string): ContentDisposition {
     names.push(key)
 
     if (key.indexOf('*') + 1 === key.length) {
-      // decode extended value
       key = key.slice(0, -1)
+
+      if (!value) {
+        params[key] = ''
+        continue
+      }
+
       value = decodefield(value)
 
-      // overwrite existing value
       params[key] = value
       continue
     }
