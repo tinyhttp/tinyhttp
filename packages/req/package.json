@@ -25,7 +25,6 @@
     "@tinyhttp/req": "workspace:^",
     "@tinyhttp/type-is": "workspace:*",
     "@tinyhttp/url": "workspace:*",
-    "header-range-parser": "^1.1.3",
-    "type": "^2.7.3"
+    "header-range-parser": "^1.1.3"
   }
 }
