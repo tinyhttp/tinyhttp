@@ -82,7 +82,7 @@ function format({
 function createParams(filename?: string, fallback?: string | boolean) {
   if (filename === undefined) return {}
 
-  if (filename === '') return { filename: '' }
+  if (filename === '') return { filename }
 
   const params: Partial<
     Record<string, string> & {
