@@ -13,11 +13,12 @@
   },
   "keywords": ["tinyhttp", "node.js", "web framework", "web", "backend", "cors"],
   "engines": {
-    "node": ">=12.20.0"
+    "node": ">=12.17.0"
   },
   "author": "v1rtl",
   "license": "MIT",
   "scripts": {
     "build": "tsc"
-  }
+  },
+  "files": ["dist"]
 }

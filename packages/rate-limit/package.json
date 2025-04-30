@@ -28,7 +28,7 @@
     "attack"
   ],
   "engines": {
-    "node": ">=12.20.0"
+    "node": ">=14.13.1"
   },
   "author": "Luiginator",
   "license": "MIT",
@@ -37,5 +37,6 @@
   },
   "dependencies": {
     "@tinyhttp/send": "workspace:*"
-  }
+  },
+  "files": ["dist"]
 }

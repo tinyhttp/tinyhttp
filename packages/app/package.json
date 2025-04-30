@@ -17,7 +17,7 @@
   "exports": "./dist/index.js",
   "files": ["dist"],
   "engines": {
-    "node": ">=14.21.3"
+    "node": ">=14.13.1"
   },
   "keywords": ["tinyhttp", "router", "backend", "http", "framework", "api"],
   "author": "v1rtl",

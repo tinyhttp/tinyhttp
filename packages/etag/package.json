@@ -16,11 +16,12 @@
   "exports": "./dist/index.js",
   "keywords": ["tinyhttp", "node.js", "web framework", "web", "backend", "etag"],
   "engines": {
-    "node": ">=12.20.0"
+    "node": ">=14.13.1"
   },
   "author": "v1rtl",
   "license": "MIT",
   "scripts": {
     "build": "tsc"
-  }
+  },
+  "files": ["dist"]
 }
