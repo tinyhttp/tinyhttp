@@ -611,3 +611,9 @@ describe('parse(string)', () => {
     })
   })
 })
+
+it('should work when file name is empty', () => {
+  const encoded = contentDisposition('', { type: 'inline' })
+  const parsed = parse(encoded)
+  expect(parsed.parameters.filename).toBe('')
+})
