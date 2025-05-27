@@ -15,9 +15,9 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@changesets/cli": "2.28.1",
-    "@commitlint/cli": "19.8.0",
-    "@commitlint/config-conventional": "19.8.0",
+    "@changesets/cli": "2.29.4",
+    "@commitlint/cli": "19.8.1",
+    "@commitlint/config-conventional": "19.8.1",
     "@types/node": "22.10.7",
     "@vitest/coverage-v8": "^3.1.1",
     "@vitest/ui": "3.1.1",
@@ -29,7 +29,13 @@
     "supertest-fetch": "1.5.0",
     "typescript": "~5.7.3",
     "vite": "^6.2.7",
-    "vitest": "3.1.1"
+    "vitest": "3.1.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "es-set-tostringtag": "npm:@socketregistry/es-set-tostringtag@^1",
+      "safer-buffer": "npm:@socketregistry/safer-buffer@^1"
+    }
   },
   "scripts": {
     "prerelease": "pnpm lint && pnpm build && pnpm test",
@@ -47,17 +53,5 @@
     "build": "pnpm -r build",
     "prepare": "husky"
   },
-  "packageManager": "pnpm@9.10.0",
-  "pnpm": {
-    "overrides": {
-      "es-define-property": "npm:@socketregistry/es-define-property@^1",
-      "es-set-tostringtag": "npm:@socketregistry/es-set-tostringtag@^1",
-      "function-bind": "npm:@socketregistry/function-bind@^1",
-      "gopd": "npm:@socketregistry/gopd@^1",
-      "has-symbols": "npm:@socketregistry/has-symbols@^1",
-      "has-tostringtag": "npm:@socketregistry/has-tostringtag@^1",
-      "hasown": "npm:@socketregistry/hasown@^1",
-      "safer-buffer": "npm:@socketregistry/safer-buffer@^1"
-    }
-  }
+  "packageManager": "pnpm@10.10.0"
 }
