@@ -247,17 +247,33 @@ export class App<Req extends Request = Request, Res extends Response = Response>
   }
 
   #find(url: string): Middleware<Req, Res>[] {
-    return this.middleware.filter((m) => {
-      m.regex = m.regex || rg(m.path as string, m.type === 'mw')
+    const result: Middleware<Req, Res>[] = []
 
-      let fullPathRegex: { keys: string[]; pattern: RegExp } | null
+    for (let i = 0; i < this.middleware.length; i++) {
+      const m = this.middleware[i]
 
-      m.fullPath && typeof m.fullPath === 'string'
-        ? (fullPathRegex = rg(m.fullPath, m.type === 'mw'))
-        : (fullPathRegex = null)
+      if (!m.regex) {
+        m.regex = rg(m.path as string, m.type === 'mw')
+      }
 
-      return m.regex.pattern.test(url) && (m.type === 'mw' && fullPathRegex ? fullPathRegex.pattern.test(url) : true)
-    })
+      if (!m.regex.pattern.test(url)) {
+        continue
+      }
+
+      if (m.type === 'mw' && m.fullPath && typeof m.fullPath === 'string') {
+        if (!m.fullPathRegex) {
+          m.fullPathRegex = rg(m.fullPath, true)
+        }
+
+        if (!m.fullPathRegex.pattern.test(url)) {
+          continue
+        }
+      }
+
+      result.push(m)
+    }
+
+    return result
   }
 
   handler<RenderOptions extends TemplateEngineOptions = TemplateEngineOptions>(
@@ -271,7 +287,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
     // @ts-expect-error typescript is not smart enough to understand "this" ts(2345)
     const exts = this.applyExtensions || extendMiddleware<RenderOptions>(this)
 
-    let mw: Middleware[] = [
+    const mw: Middleware[] = [
       {
         handler: exts,
         type: 'mw',
@@ -333,21 +349,18 @@ export class App<Req extends Request = Request, Res extends Response = Response>
           idx = mw.length
           req.params = {}
         }
-        mw = [
-          ...mw,
-          ...matched,
-          {
-            type: 'mw',
-            handler: (req, res, next) => {
-              if (req.method === 'HEAD') {
-                res.statusCode = 204
-                return res.end('')
-              }
-              next?.()
-            },
-            path: '/'
-          }
-        ]
+        mw.push(...matched)
+        mw.push({
+          type: 'mw',
+          handler: (req, res, next) => {
+            if (req.method === 'HEAD') {
+              res.statusCode = 204
+              return res.end('')
+            }
+            next?.()
+          },
+          path: '/'
+        })
       } else if (this.parent == null) {
         mw.push({
           handler: this.noMatchHandler,
