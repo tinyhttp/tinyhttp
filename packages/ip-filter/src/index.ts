@@ -11,6 +11,7 @@ const processIpFilters = (ip: string, filter: Filter[], strict?: boolean): boole
       return new RegExp(f).test(ip)
     }
     if (f instanceof RegExp) return f.test(ip)
+    return undefined
   })
 
   return results.includes(true)
