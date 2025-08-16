@@ -11,7 +11,14 @@
     "url": "https://github.com/tinyhttp/tinyhttp.git",
     "directory": "packages/cors"
   },
-  "keywords": ["tinyhttp", "node.js", "web framework", "web", "backend", "cors"],
+  "keywords": [
+    "tinyhttp",
+    "node.js",
+    "web framework",
+    "web",
+    "backend",
+    "cors"
+  ],
   "engines": {
     "node": ">=12.17.0"
   },
@@ -20,5 +27,7 @@
   "scripts": {
     "build": "tsc"
   },
-  "files": ["dist"]
+  "files": [
+    "dist"
+  ]
 }

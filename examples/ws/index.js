@@ -16,9 +16,9 @@ app.use('/chat', async (req) => {
     ws.on('message', (message) => {
       console.log('Received message:', message.toString())
 
-      // broadcast
-      // biome-ignore lint/complexity/noForEach: <explanation>
-      connections.forEach((socket) => socket.send(message))
+      connections.forEach((socket) => {
+        socket.send(message)
+      })
     })
 
     ws.on('close', () => (connections = connections.filter((conn) => conn !== ws)))

@@ -1,6 +1,6 @@
 import { Agent } from 'node:http'
 import { makeFetch } from 'supertest-fetch'
-import { assert, afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, assert, describe, expect, it, vi } from 'vitest'
 import type { Request } from '../../packages/app/src'
 import { App } from '../../packages/app/src/app'
 import * as req from '../../packages/req/src'
@@ -89,7 +89,7 @@ describe('Request properties', () => {
     })
     it('should set the correct req.url on middlewares even in a subapp', async () => {
       const echo = (req, res) => res.send({ url: req.url, params: req.params })
-      const mw = (req, res, next) => {
+      const mw = (req, _res, next) => {
         req.urls ||= []
         req.urls.push(req.url)
         next()

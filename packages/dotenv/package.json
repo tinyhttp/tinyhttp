@@ -13,12 +13,21 @@
   },
   "author": "v1rtl",
   "license": "MIT",
-  "keywords": ["tinyhttp", "node.js", "web framework", "web", "backend", "dotenv"],
+  "keywords": [
+    "tinyhttp",
+    "node.js",
+    "web framework",
+    "web",
+    "backend",
+    "dotenv"
+  ],
   "engines": {
     "node": ">=14.13.1"
   },
   "scripts": {
     "build": "tsc"
   },
-  "files": ["dist"]
+  "files": [
+    "dist"
+  ]
 }

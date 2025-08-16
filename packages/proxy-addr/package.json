@@ -11,7 +11,17 @@
   },
   "types": "./dist/index.d.ts",
   "exports": "./dist/index.js",
-  "keywords": ["tinyhttp", "node.js", "web framework", "web", "backend", "proxy-addr", "ip", "net", "network"],
+  "keywords": [
+    "tinyhttp",
+    "node.js",
+    "web framework",
+    "web",
+    "backend",
+    "proxy-addr",
+    "ip",
+    "net",
+    "network"
+  ],
   "engines": {
     "node": ">=12.17.0"
   },
@@ -24,5 +34,7 @@
     "@tinyhttp/forwarded": "workspace:*",
     "ipaddr.js": "^2.2.0"
   },
-  "files": ["dist"]
+  "files": [
+    "dist"
+  ]
 }

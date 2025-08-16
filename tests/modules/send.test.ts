@@ -1,10 +1,9 @@
 import fs from 'node:fs'
-import { IncomingMessage, ServerResponse } from 'node:http'
 import path from 'node:path'
 import { makeFetch } from 'supertest-fetch'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { App } from '../../packages/app/src'
-import { enableCaching, json, send, sendFile, sendStatus, status } from '../../packages/send/src'
+import { json, send, sendFile, sendStatus, status } from '../../packages/send/src'
 import { runServer } from '../../test_helpers/runServer'
 
 const __dirname = import.meta.dirname

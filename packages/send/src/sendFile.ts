@@ -1,7 +1,6 @@
 import { createReadStream, statSync } from 'node:fs'
 import type { IncomingMessage as I, ServerResponse as S } from 'node:http'
-import { extname, isAbsolute } from 'node:path'
-import { join } from 'node:path'
+import { extname, isAbsolute, join } from 'node:path'
 import mime from 'mime'
 import { createETag } from './utils.js'
 

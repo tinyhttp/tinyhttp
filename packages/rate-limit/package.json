@@ -38,5 +38,7 @@
   "dependencies": {
     "@tinyhttp/send": "workspace:*"
   },
-  "files": ["dist"]
+  "files": [
+    "dist"
+  ]
 }

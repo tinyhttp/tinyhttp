@@ -11,7 +11,18 @@
   },
   "types": "./dist/index.d.ts",
   "exports": "./dist/index.js",
-  "keywords": ["tinyhttp", "node.js", "web framework", "web", "backend", "req", "request", "url", "params", "query"],
+  "keywords": [
+    "tinyhttp",
+    "node.js",
+    "web framework",
+    "web",
+    "backend",
+    "req",
+    "request",
+    "url",
+    "params",
+    "query"
+  ],
   "engines": {
     "node": ">=14.13.1"
   },
@@ -20,5 +31,7 @@
   "scripts": {
     "build": "tsc"
   },
-  "files": ["dist"]
+  "files": [
+    "dist"
+  ]
 }

@@ -1,16 +1,13 @@
 import type { IncomingHttpHeaders, IncomingMessage } from 'node:http'
-import type { ParsedUrlQuery } from 'node:querystring'
-
-import { type Trust, all, compile, proxyaddr as proxyAddr } from '@tinyhttp/proxy-addr'
-import type { Options, Ranges } from 'header-range-parser'
-
-import type { Middleware } from '@tinyhttp/router'
-import type { App } from './app.js'
-
-import { isIP } from 'node:net'
 import type { Socket } from 'node:net'
+import { isIP } from 'node:net'
+import type { ParsedUrlQuery } from 'node:querystring'
 import type { TLSSocket } from 'node:tls'
+import { all, compile, proxyaddr as proxyAddr, type Trust } from '@tinyhttp/proxy-addr'
 import type { URLParams } from '@tinyhttp/req'
+import type { Middleware } from '@tinyhttp/router'
+import type { Options, Ranges } from 'header-range-parser'
+import type { App } from './app.js'
 
 export { getURLParams } from '@tinyhttp/req'
 
