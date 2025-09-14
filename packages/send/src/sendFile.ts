@@ -1,5 +1,5 @@
 import { createReadStream, statSync } from 'node:fs'
-import type { IncomingMessage as I, ServerResponse as S } from 'node:http'
+import type { IncomingMessage as I, IncomingHttpHeaders, ServerResponse as S } from 'node:http'
 import { extname, isAbsolute, join } from 'node:path'
 import mime from 'mime'
 import { createETag } from './utils.js'
@@ -19,7 +19,7 @@ export type ReadStreamOptions = Partial<{
 export type SendFileOptions = ReadStreamOptions &
   Partial<{
     root: string
-    headers: Record<string, any>
+    headers: IncomingHttpHeaders
     caching: Partial<{
       maxAge: number
       immutable: boolean
@@ -54,7 +54,7 @@ export const enableCaching = (res: Res, caching: Caching): void => {
  */
 export const sendFile =
   <Request extends Req = Req, Response extends Res = Res>(req: Request, res: Response) =>
-  (path: string, opts: SendFileOptions = {}, cb?: (err?: any) => void): Response => {
+  (path: string, opts: SendFileOptions = {}, cb?: (err?: Error) => void): Response => {
     const { root, headers = {}, encoding = 'utf-8', caching, ...options } = opts
 
     if (!isAbsolute(path) && !root) throw new TypeError('path must be absolute')
@@ -93,13 +93,13 @@ export const sendFile =
         return res
       }
       headers['Content-Range'] = `bytes ${start}-${end}/${stats.size}`
-      headers['Content-Length'] = end - start + 1
+      headers['Content-Length'] = (end - start + 1).toString()
       headers['Accept-Ranges'] = 'bytes'
     } else {
-      headers['Content-Length'] = stats.size
+      headers['Content-Length'] = stats.size.toString()
     }
 
-    for (const [k, v] of Object.entries(headers)) res.setHeader(k, v)
+    for (const [k, v] of Object.entries(headers)) res.setHeader(k, v as string)
 
     res.writeHead(status, headers)
 
