@@ -115,12 +115,6 @@ importers:
 
   packages/forwarded: {}
 
-  packages/ip-filter:
-    dependencies:
-      ip-regex:
-        specifier: ^5.0.0
-        version: 5.0.0
-
   packages/jsonp:
     dependencies:
       '@tinyhttp/app':
@@ -1216,10 +1210,6 @@ packages:
   ini@4.1.1:
     resolution: {integrity: sha512-QQnnxNyfvmHFIsj7gkPcYymR8Jdw/o7mp5ZFihxn6h8Ci6fh3Dx4E1gPjpQEpIuPo9XVNY/ZUwh4BPMjGyL01g==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
-
-  ip-regex@5.0.0:
-    resolution: {integrity: sha512-fOCG6lhoKKakwv+C6KdsOnGvgXnmgfmp0myi3bcNwj3qfwPAxRKWEuFhvEFF7ceYIz6+1jRZ+yguLFAmUNPEfw==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
   ipaddr.js@2.2.0:
     resolution: {integrity: sha512-Ag3wB2o37wslZS19hZqorUnrnzSkpOVy+IiiDEiTqNubEYpYuHWIf6K4psgN2ZWKExS4xhVCrRVfb/wfW8fWJA==}
@@ -2868,8 +2858,6 @@ snapshots:
   import-meta-resolve@4.1.0: {}
 
   ini@4.1.1: {}
-
-  ip-regex@5.0.0: {}
 
   ipaddr.js@2.2.0: {}
 
