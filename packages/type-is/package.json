@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@tinyhttp/content-type": "^0.1.4",
-    "mime": "4.0.4"
+    "mime": "4.1.0"
   },
   "files": [
     "dist"

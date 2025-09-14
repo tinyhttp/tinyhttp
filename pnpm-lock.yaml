@@ -67,8 +67,8 @@ importers:
   packages/accepts:
     dependencies:
       mime:
-        specifier: 4.0.4
-        version: 4.0.4
+        specifier: 4.1.0
+        version: 4.1.0
       negotiator:
         specifier: ^1.0.0
         version: 1.0.0
@@ -184,8 +184,8 @@ importers:
         specifier: ^0.1.1
         version: 0.1.1
       mime:
-        specifier: 4.0.4
-        version: 4.0.4
+        specifier: 4.1.0
+        version: 4.1.0
 
   packages/router: {}
 
@@ -198,8 +198,8 @@ importers:
         specifier: workspace:*
         version: link:../etag
       mime:
-        specifier: 4.0.4
-        version: 4.0.4
+        specifier: 4.1.0
+        version: 4.1.0
 
   packages/type-is:
     dependencies:
@@ -207,8 +207,8 @@ importers:
         specifier: ^0.1.4
         version: 0.1.4
       mime:
-        specifier: 4.0.4
-        version: 4.0.4
+        specifier: 4.1.0
+        version: 4.1.0
 
   packages/url: {}
 
@@ -1500,8 +1500,8 @@ packages:
     resolution: {integrity: sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==}
     engines: {node: '>= 0.6'}
 
-  mime@4.0.4:
-    resolution: {integrity: sha512-v8yqInVjhXyqP6+Kw4fV3ZzeMRqEW6FotRsKXjRS5VMTNIuXsdRoAvklpoRgSqXm6o9VNH4/C0mgedko9DdLsQ==}
+  mime@4.1.0:
+    resolution: {integrity: sha512-X5ju04+cAzsojXKes0B/S4tcYtFAJ6tTMuSPBEn9CPGlrWr8Fiw7qYeLT0XyH80HSoAoqWCaz+MWKh22P7G1cw==}
     engines: {node: '>=16'}
     hasBin: true
 
@@ -3247,7 +3247,7 @@ snapshots:
     dependencies:
       mime-db: 1.52.0
 
-  mime@4.0.4: {}
+  mime@4.1.0: {}
 
   minimatch@9.0.5:
     dependencies:
