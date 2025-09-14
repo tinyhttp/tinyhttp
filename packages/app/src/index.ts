@@ -1,11 +1,10 @@
 export { App } from './app.js'
+export { extendMiddleware } from './extend.js'
+export { type ErrorHandler, onErrorHandler } from './onError.js'
 export * from './request.js'
 export * from './response.js'
-export { extendMiddleware } from './extend.js'
-export { onErrorHandler, type ErrorHandler } from './onError.js'
+export type { AppConstructor, AppSettings, TemplateEngine, TemplateEngineOptions } from './types.js'
 export { View } from './view.js'
-
-export type { AppSettings, TemplateEngineOptions, TemplateEngine, AppConstructor } from './types.js'
 
 import type {
   Middleware,

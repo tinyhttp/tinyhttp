@@ -9,7 +9,7 @@ const app = new App()
 
 app.use(parser.json())
 
-const PORT = Number.parseInt(process.env.PORT) || 3000
+const PORT = Number.parseInt(process.env.PORT, 10) || 3000
 
 const deta = Deta(process.env.KEY)
 

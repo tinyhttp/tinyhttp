@@ -1,6 +1,6 @@
 import type { IncomingMessage } from 'node:http'
 import { forwarded } from '@tinyhttp/forwarded'
-import ipaddr, { type IPv6, type IPv4 } from 'ipaddr.js'
+import ipaddr, { type IPv4, type IPv6 } from 'ipaddr.js'
 
 type Req = Pick<IncomingMessage, 'headers' | 'socket'>
 
@@ -31,7 +31,7 @@ const IP_RANGES = {
  * @param val
  */
 function isIPRangeName(val: string): val is keyof typeof IP_RANGES {
-  return Object.prototype.hasOwnProperty.call(IP_RANGES, val)
+  return Object.hasOwn(IP_RANGES, val)
 }
 /**
  * Type-guard to determine whether an IP address is a v4 address.

@@ -184,6 +184,7 @@ export function parse(header: string): ContentDisposition {
   index = PARAM_REGEXP.lastIndex = match[0].slice(-1) === ';' ? index - 1 : index
 
   // match parameters
+  // biome-ignore lint/suspicious/noAssignInExpressions: will fix later
   while ((match = PARAM_REGEXP.exec(header))) {
     if (match.index !== index) throw new TypeError('invalid parameter format')
 

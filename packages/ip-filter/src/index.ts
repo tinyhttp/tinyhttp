@@ -11,6 +11,7 @@ const processIpFilters = (ip: string, filter: Filter[], strict?: boolean): boole
       return new RegExp(f).test(ip)
     }
     if (f instanceof RegExp) return f.test(ip)
+    return false
   })
 
   return results.includes(true)
@@ -25,7 +26,7 @@ export type IPFilterOptions = {
 
 export const ipFilter =
   (opts: IPFilterOptions = { filter: [] }) =>
-  (req: Request & { ip?: string }, res: Response, next?: (err?: Error) => void): void => {
+  (req: Request & { ip?: string }, res: Response, next?: (err?: Error) => void): unknown => {
     const ip = opts.ip ?? req.ip
 
     if (typeof ip !== 'string') throw new TypeError('ip-filter: expect `ip` to be a string')

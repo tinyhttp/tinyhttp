@@ -19,12 +19,14 @@
   "type": "module",
   "types": "./dist/index.d.ts",
   "exports": "./dist/index.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
-    "@types/negotiator": "^0.6.3"
+    "@types/negotiator": "^0.6.4"
   },
   "dependencies": {
-    "mime": "4.0.4",
+    "mime": "4.1.0",
     "negotiator": "^1.0.0"
   },
   "scripts": {

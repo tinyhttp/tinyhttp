@@ -8,7 +8,7 @@ type Res = Pick<S, 'setHeader' | 'end' | 'removeHeader'>
  */
 export const json =
   <Response extends Res = Res>(res: Response) =>
-  (body: any, ...args: any[]): Response => {
+  (body: unknown, ...args: any[]): Response => {
     res.setHeader('Content-Type', 'application/json')
     if ((typeof body === 'number' || typeof body === 'boolean' || typeof body === 'object') && body != null)
       res.end(JSON.stringify(body, null, 2), ...args)

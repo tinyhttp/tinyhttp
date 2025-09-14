@@ -14,7 +14,7 @@ function tryNormalizeType(value: string) {
 
   try {
     return normalizeType(value)
-  } catch (err) {
+  } catch {
     return null
   }
 }
@@ -81,7 +81,8 @@ export const typeIs = (value: string, ...types: string[]) => {
 
   let type: string
   for (i = 0; i < types.length; i++) {
-    if (mimeMatch(normalize((type = types[i])), val)) {
+    type = types[i]
+    if (mimeMatch(normalize(type), val)) {
       return type[0] === '+' || type.indexOf('*') !== -1 ? val : type
     }
   }

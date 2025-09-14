@@ -139,7 +139,7 @@ describe('new Accepts(req)', () => {
       it('when Accept-Encodings is populated and no argument is supplied to encodings() it should return every accepted encoding method', () => {
         const req = createRequest('gzip, deflate')
         const accept = new Accepts(req)
-        // @ts-ignore
+        // @ts-expect-error
         expect(accept.encoding()).toStrictEqual(['gzip', 'deflate', 'identity'])
       })
     })

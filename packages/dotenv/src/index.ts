@@ -76,7 +76,7 @@ export function config(options?: Partial<DotenvConfigOptions>): DotenvConfigOutp
     const parsed = parse(readFileSync(dotenvPath, { encoding }), { debug })
 
     for (const key of Object.keys(parsed)) {
-      if (!Object.prototype.hasOwnProperty.call(process.env, key)) {
+      if (!Object.hasOwn(process.env, key)) {
         process.env[key] = parsed[key]
       } else if (debug) {
         log(`"${key}" is already defined in \`process.env\` and will not be overwritten`)

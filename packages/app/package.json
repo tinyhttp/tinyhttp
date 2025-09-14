@@ -15,11 +15,20 @@
   },
   "types": "./dist/index.d.ts",
   "exports": "./dist/index.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "engines": {
-    "node": ">=14.13.1"
+    "node": ">=16.10.0"
   },
-  "keywords": ["tinyhttp", "router", "backend", "http", "framework", "api"],
+  "keywords": [
+    "tinyhttp",
+    "router",
+    "backend",
+    "http",
+    "framework",
+    "api"
+  ],
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {

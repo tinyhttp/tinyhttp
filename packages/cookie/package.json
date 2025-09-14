@@ -18,8 +18,17 @@
   },
   "types": "./dist/index.d.ts",
   "exports": "./dist/index.js",
-  "keywords": ["tinyhttp", "node.js", "web framework", "web", "backend", "cookie"],
-  "files": ["dist"],
+  "keywords": [
+    "tinyhttp",
+    "node.js",
+    "web framework",
+    "web",
+    "backend",
+    "cookie"
+  ],
+  "files": [
+    "dist"
+  ],
   "author": "v1rtl",
   "license": "MIT",
   "scripts": {

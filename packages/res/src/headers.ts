@@ -1,5 +1,4 @@
-import type { OutgoingHttpHeaders } from 'node:http'
-import type { IncomingMessage as Req, ServerResponse as Res } from 'node:http'
+import type { OutgoingHttpHeaders, IncomingMessage as Req, ServerResponse as Res } from 'node:http'
 import { encodeUrl } from '@tinyhttp/encode-url'
 import { getRequestHeader } from '@tinyhttp/req'
 import { vary } from '@tinyhttp/vary'

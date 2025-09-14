@@ -14,7 +14,7 @@ const fieldContentRegExp = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/
 function tryDecode(str: string, decode: (str: string) => string) {
   try {
     return decode(str)
-  } catch (e) {
+  } catch (_e) {
     return str
   }
 }

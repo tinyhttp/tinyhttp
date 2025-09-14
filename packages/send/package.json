@@ -11,7 +11,16 @@
   },
   "types": "./dist/index.d.ts",
   "exports": "./dist/index.js",
-  "keywords": ["tinyhttp", "node.js", "web framework", "web", "backend", "res", "send", "send-file"],
+  "keywords": [
+    "tinyhttp",
+    "node.js",
+    "web framework",
+    "web",
+    "backend",
+    "res",
+    "send",
+    "send-file"
+  ],
   "engines": {
     "node": ">=14.13.1"
   },
@@ -23,7 +32,9 @@
   "dependencies": {
     "@tinyhttp/content-type": "^0.1.4",
     "@tinyhttp/etag": "workspace:*",
-    "mime": "4.0.4"
+    "mime": "4.1.0"
   },
-  "files": ["dist"]
+  "files": [
+    "dist"
+  ]
 }

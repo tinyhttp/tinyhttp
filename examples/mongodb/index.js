@@ -7,7 +7,7 @@ import mongodb from 'mongodb'
 dotenv.config()
 
 const app = new App()
-const port = Number.parseInt(process.env.PORT) || 3000
+const port = Number.parseInt(process.env.PORT, 10) || 3000
 let db
 let coll
 
