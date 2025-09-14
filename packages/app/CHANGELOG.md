@@ -1,5 +1,11 @@
 # @tinyhttp/app
 
+## 3.0.1
+
+### Patch Changes
+
+- b6090ce: make sure OIDC is actually triggered
+
 ## 3.0.0
 
 ### Major Changes

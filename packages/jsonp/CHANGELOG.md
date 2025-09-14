@@ -1,5 +1,12 @@
 # @tinyhttp/jsonp
 
+## 2.1.17
+
+### Patch Changes
+
+- Updated dependencies [b6090ce]
+  - @tinyhttp/app@3.0.1
+
 ## 2.1.16
 
 ### Patch Changes
