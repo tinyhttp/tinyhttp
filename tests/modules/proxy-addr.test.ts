@@ -470,7 +470,7 @@ describe('proxyaddr.all(req, trust?)', () => {
         const req = createReq('127.0.0.1')
         try {
           all(req)
-        } catch (error) {
+        } catch {
           assert.fail()
         }
       })

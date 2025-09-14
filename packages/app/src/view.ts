@@ -14,7 +14,7 @@ import type { TemplateEngine, TemplateEngineOptions } from './types.js'
 function tryStat(path: string) {
   try {
     return statSync(path)
-  } catch (e) {
+  } catch {
     return undefined
   }
 }

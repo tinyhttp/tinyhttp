@@ -11,7 +11,14 @@
   },
   "types": "./dist/index.d.ts",
   "exports": "./dist/index.js",
-  "keywords": ["tinyhttp", "node.js", "web framework", "web", "backend", "etag"],
+  "keywords": [
+    "tinyhttp",
+    "node.js",
+    "web framework",
+    "web",
+    "backend",
+    "etag"
+  ],
   "engines": {
     "node": ">=14.13.1"
   },
@@ -23,5 +30,7 @@
   "dependencies": {
     "@tinyhttp/app": "workspace:*"
   },
-  "files": ["dist"]
+  "files": [
+    "dist"
+  ]
 }

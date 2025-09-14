@@ -1,7 +1,6 @@
 import { createReadStream, statSync } from 'node:fs'
 import type { IncomingMessage as I, ServerResponse as S } from 'node:http'
-import { extname, isAbsolute } from 'node:path'
-import { join } from 'node:path'
+import { extname, isAbsolute, join } from 'node:path'
 import mime from 'mime'
 import { createETag } from './utils.js'
 
@@ -79,8 +78,11 @@ export const sendFile =
     if (req.headers.range) {
       status = 206
       const [x, y] = req.headers.range.replace('bytes=', '').split('-')
-      const end = (options.end = Number.parseInt(y, 10) || stats.size - 1)
-      const start = (options.start = Number.parseInt(x, 10) || 0)
+      const end = Number.parseInt(y, 10) || stats.size - 1
+      const start = Number.parseInt(x, 10) || 0
+
+      options.start = start
+      options.end = end
 
       if (start >= stats.size || end >= stats.size) {
         res

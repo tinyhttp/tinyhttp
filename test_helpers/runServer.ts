@@ -1,4 +1,4 @@
-import { type IncomingMessage as Request, type ServerResponse as Response, type Server, createServer } from 'node:http'
+import { createServer, type IncomingMessage as Request, type ServerResponse as Response, type Server } from 'node:http'
 
 export const runServer = (func: (req: Request, res: Response) => void): Server => {
   const s = createServer((req, res) => {

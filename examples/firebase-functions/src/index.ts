@@ -1,5 +1,6 @@
 import { App, type Request, type Response } from '@tinyhttp/app'
 import * as functions from 'firebase-functions'
+
 const tinyhttp = new App()
 
 /** Your application code */

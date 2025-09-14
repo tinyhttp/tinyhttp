@@ -17,10 +17,12 @@ app.use('/chat', async (req) => {
       console.log('Received message:', message.toString())
 
       // broadcast
-      // biome-ignore lint/complexity/noForEach: <explanation>
-      connections.forEach((socket) => socket.send(message))
+      connections.forEach((socket) => {
+        socket.send(message)
+      })
     })
 
+    // biome-ignore lint/suspicious/noAssignInExpressions: quick example
     ws.on('close', () => (connections = connections.filter((conn) => conn !== ws)))
   }
 })

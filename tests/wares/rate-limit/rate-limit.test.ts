@@ -204,8 +204,10 @@ describe('rate-limit', () => {
               throw Error
             },
 
-            resetKey: () => {}
-          } as any
+            resetKey: () => {},
+            decrement: () => {},
+            resetAll: () => {}
+          }
         })
       )
 

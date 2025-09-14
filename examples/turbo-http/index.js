@@ -3,7 +3,7 @@ import { status } from '@tinyhttp/send'
 import turbo from 'turbo-http'
 
 const app = new App({
-  applyExtensions: (_req, res, next) => {
+  applyExtensions: (_req, _res, next) => {
     next()
   },
   onError: (err, req, res) => {

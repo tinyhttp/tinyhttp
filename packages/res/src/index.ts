@@ -1,15 +1,15 @@
 export * from '@tinyhttp/send'
+export { append } from './append.js'
 export * from './cookie.js'
+export * from './download.js'
+export type { FormatError, FormatProps } from './format.js'
+export { formatResponse } from './format.js'
 export {
+  getResponseHeader,
   setContentType,
   setHeader,
   setLinksHeader,
   setLocationHeader,
-  setVaryHeader,
-  getResponseHeader
+  setVaryHeader
 } from './headers.js'
-export type { FormatProps, FormatError } from './format.js'
-export { formatResponse } from './format.js'
 export { redirect } from './redirect.js'
-export * from './download.js'
-export { append } from './append.js'

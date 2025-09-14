@@ -11,7 +11,17 @@
   },
   "types": "./dist/index.d.ts",
   "exports": "./dist/index.js",
-  "keywords": ["tinyhttp", "node.js", "web framework", "web", "backend", "req", "request", "type-is", "javascript"],
+  "keywords": [
+    "tinyhttp",
+    "node.js",
+    "web framework",
+    "web",
+    "backend",
+    "req",
+    "request",
+    "type-is",
+    "javascript"
+  ],
   "engines": {
     "node": ">=14.13.1"
   },
@@ -24,5 +34,7 @@
     "@tinyhttp/content-type": "^0.1.4",
     "mime": "4.0.4"
   },
-  "files": ["dist"]
+  "files": [
+    "dist"
+  ]
 }

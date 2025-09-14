@@ -245,7 +245,7 @@ describe('Request extensions', () => {
       expect(
         fresh(
           {
-            'if-modified-since': new Date(new Date().getTime() - 1000).toUTCString()
+            'if-modified-since': new Date(Date.now() - 1000).toUTCString()
           },
           {
             'last-modified': new Date().toUTCString()
@@ -257,7 +257,7 @@ describe('Request extensions', () => {
       expect(
         fresh(
           {
-            'if-modified-since': new Date(new Date().getTime() - 1000).toUTCString()
+            'if-modified-since': new Date(Date.now() - 1000).toUTCString()
           },
           {}
         )

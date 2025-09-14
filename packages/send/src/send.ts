@@ -41,6 +41,7 @@ export const send =
 
     // populate ETag
     let etag: string | undefined
+    // biome-ignore lint/suspicious/noAssignInExpressions: will fix later
     if (body && !res.getHeader('etag') && (etag = createETag(bodyToSend, encoding))) {
       res.setHeader('etag', etag)
     }

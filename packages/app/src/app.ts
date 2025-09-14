@@ -1,14 +1,14 @@
-import { type Server, createServer } from 'node:http'
+import { createServer } from 'node:http'
 import { getPathname } from '@tinyhttp/req'
 import type { Handler, Middleware, NextFunction, UseMethodParams } from '@tinyhttp/router'
-import { Router, pushMiddleware } from '@tinyhttp/router'
+import { pushMiddleware, Router } from '@tinyhttp/router'
 import { parse as rg } from 'regexparam'
 import { extendMiddleware } from './extend.js'
 import type { TemplateEngineOptions } from './index.js'
 import type { ErrorHandler } from './onError.js'
 import { onErrorHandler } from './onError.js'
-import { getURLParams } from './request.js'
 import type { Request, URLParams } from './request.js'
+import { getURLParams } from './request.js'
 import type { Response } from './response.js'
 import type { AppConstructor, AppInterface, AppRenderOptions, AppSettings, TemplateEngine } from './types.js'
 import { View } from './view.js'
@@ -253,8 +253,10 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       let fullPathRegex: { keys: string[]; pattern: RegExp } | null
 
       m.fullPath && typeof m.fullPath === 'string'
-        ? (fullPathRegex = rg(m.fullPath, m.type === 'mw'))
-        : (fullPathRegex = null)
+        ? // biome-ignore lint/suspicious/noAssignInExpressions: will fix later
+          (fullPathRegex = rg(m.fullPath, m.type === 'mw'))
+        : // biome-ignore lint/suspicious/noAssignInExpressions: will fix later
+          (fullPathRegex = null)
 
       return m.regex.pattern.test(url) && (m.type === 'mw' && fullPathRegex ? fullPathRegex.pattern.test(url) : true)
     })
