@@ -19,7 +19,7 @@
     "dist"
   ],
   "engines": {
-    "node": ">=14.13.1"
+    "node": ">=16.10.0"
   },
   "keywords": [
     "tinyhttp",
