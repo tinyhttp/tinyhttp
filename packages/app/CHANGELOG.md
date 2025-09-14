@@ -1,5 +1,18 @@
 # @tinyhttp/app
 
+## 3.0.0
+
+### Major Changes
+
+- c9710e3: 2025
+
+### Patch Changes
+
+- Updated dependencies [c9710e3]
+  - @tinyhttp/proxy-addr@3.0.0
+  - @tinyhttp/res@2.2.6
+  - @tinyhttp/req@2.2.6
+
 ## 2.5.2
 
 ### Patch Changes

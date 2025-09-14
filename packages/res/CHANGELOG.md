@@ -1,5 +1,14 @@
 # @tinyhttp/res
 
+## 2.2.6
+
+### Patch Changes
+
+- c9710e3: 2025
+- Updated dependencies [c9710e3]
+  - @tinyhttp/send@2.2.4
+  - @tinyhttp/req@2.2.6
+
 ## 2.2.5
 
 ### Patch Changes
