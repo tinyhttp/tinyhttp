@@ -23,7 +23,7 @@
     "dist"
   ],
   "devDependencies": {
-    "@types/negotiator": "^0.6.3"
+    "@types/negotiator": "^0.6.4"
   },
   "dependencies": {
     "mime": "4.1.0",
