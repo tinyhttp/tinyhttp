@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/res",
-  "version": "2.2.5",
+  "version": "2.2.6",
   "type": "module",
   "description": "response extensions for tinyhttp",
   "homepage": "https://tinyhttp.v1rtl.site",

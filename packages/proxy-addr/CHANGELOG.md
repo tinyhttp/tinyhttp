@@ -1,5 +1,11 @@
 # @tinyhttp/proxy-addr
 
+## 3.0.0
+
+### Major Changes
+
+- c9710e3: 2025
+
 ## 2.2.1
 
 ### Patch Changes
