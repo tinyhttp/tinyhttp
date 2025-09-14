@@ -99,7 +99,7 @@ export const extendMiddleware = <EngineOptions extends TemplateEngineOptions = T
     res.attachment = attachment<Response>(res)
     res.download = download<Request, Response>(req, res)
     res.append = append<Response>(res)
-    res.locals = res.locals || Object.create(null)
+    res.locals ??= {}
 
     Object.defineProperty(req, 'fresh', { get: getFreshOrStale.bind(null, req, res), configurable: true })
     req.stale = !req.fresh

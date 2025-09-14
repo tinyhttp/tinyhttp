@@ -68,6 +68,7 @@ export interface Middleware<Req = any, Res = any> {
   type: MiddlewareType
   regex?: RegexParams
   fullPath?: string
+  fullPathRegex?: RegexParams
 }
 
 export type MethodHandler<Req = any, Res = any> = {
