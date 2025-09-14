@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
+    "target": "es2022",
     "module": "esnext",
     "declaration": true,
     "preserveSymlinks": true,
