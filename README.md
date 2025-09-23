@@ -20,8 +20,8 @@ written in TypeScript and compiled to native ESM with a minimal install and runt
 - ⚙ Express middleware compat
 - ↪ Async error handling support
 - ☑ ESM-only
-- 🚀 No legacy dependencies or polyfills
-- 🤏 Minimal dependencies (3x less deps than express v5)
+- 🚀 No legacy compat or useless polyfills
+- 🤏 Minimal dependencies (3x less than express v5)
 - 🔨 Types out of the box
 - 🔥 Middlewares for common tasks
 
