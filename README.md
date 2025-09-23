@@ -13,27 +13,24 @@ Status][gh-actions-img]][github-actions]
 <br /><br />
 
 _**tinyhttp**_ is a modern [Express](https://expressjs.com/)-like web framework
-written in TypeScript and compiled to native ESM, that uses a bare minimum
-amount of dependencies trying to avoid legacy hell.
+written in TypeScript and compiled to native ESM with a minimal install and runtime footprint. tinyhttp doesn't depend on any polyfills or any other compatibility layers and targets recent Node.js versions.
 
 ## Features
 
-- ⚡
-  [58% faster](https://web-frameworks-benchmark.netlify.app/result?f=tinyhttp,express)
-  than Express
 - ⚙ Express middleware compat
-- ↪ Async middleware support
+- ↪ Async error handling support
 - ☑ ESM-only
-- 🚀 No legacy dependencies, just the JavaScript itself
+- 🚀 No legacy dependencies or polyfills
+- 🤏 Minimal dependencies (3x less deps than express v5)
 - 🔨 Types out of the box
-- 🔥 Prebuilt middleware for modern Node.js
+- 🔥 Middlewares for common tasks
 
 Visit [tinyhttp website](https://tinyhttp.v1rtl.site) for docs, guides and
 middleware search.
 
 ## Install
 
-[Node.js 14.21.3+](https://node.green/#ES2022) is required.
+[Node.js 16+](https://node.green/#ES2022) is required.
 
 ```sh
 pnpm i @tinyhttp/app
