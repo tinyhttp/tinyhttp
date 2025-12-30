@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node_version: ["20", "22", "24", "25", "26"]
+        node_version: ["20", "22", "24", "25"]
     # This workflow contains a single job called "build"
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
