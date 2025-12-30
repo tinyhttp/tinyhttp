@@ -27,7 +27,7 @@
     "regexparam": "3.0.0",
     "supertest-fetch": "1.5.0",
     "typescript": "~5.9.2",
-    "vite": "^7.1.5",
+    "vite": "^7.1.11",
     "vitest": "3.2.4"
   },
   "scripts": {
