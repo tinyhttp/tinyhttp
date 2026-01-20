@@ -46,6 +46,13 @@ describe('contentDisposition(filename)', () => {
       expect((e as Error).message).toBe('invalid type')
     }
   })
+
+  it('should work when file name is empty', () => {
+    const encoded = contentDisposition('', { type: 'inline' })
+    const parsed = parse(encoded)
+    expect(parsed.parameters.filename).toBe('')
+  })
+
   describe('when "filename" is US-ASCII', () => {
     it('should only include filename parameter', () => {
       expect(contentDisposition('plans.pdf')).toBe('attachment; filename="plans.pdf"')
