@@ -150,9 +150,6 @@ importers:
       '@tinyhttp/accepts':
         specifier: workspace:*
         version: link:../accepts
-      '@tinyhttp/req':
-        specifier: workspace:^
-        version: 'link:'
       '@tinyhttp/type-is':
         specifier: workspace:*
         version: link:../type-is
