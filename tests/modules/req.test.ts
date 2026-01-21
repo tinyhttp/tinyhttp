@@ -211,7 +211,8 @@ describe('Request extensions', () => {
 
       await makeFetch(app)('/', {
         headers: {
-          'If-None-Match': etag
+          'If-None-Match': etag,
+          'Cache-Control': 'max-age=3600'
         }
       }).expect('fresh')
     })
