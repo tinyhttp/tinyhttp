@@ -122,7 +122,8 @@ describe('send(body)', () => {
 
     await makeFetch(server)('/', {
       headers: {
-        'If-None-Match': etag
+        'If-None-Match': etag,
+        'Cache-Control': 'max-age=3600'
       }
     }).expectStatus(304)
   })
