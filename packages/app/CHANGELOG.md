@@ -1,5 +1,15 @@
 # @tinyhttp/app
 
+## 3.0.4
+
+### Patch Changes
+
+- 7576d70: Remove dead code
+- Updated dependencies [f891136]
+- Updated dependencies [7576d70]
+  - @tinyhttp/proxy-addr@3.0.1
+  - @tinyhttp/res@2.2.9
+
 ## 3.0.3
 
 ### Patch Changes
