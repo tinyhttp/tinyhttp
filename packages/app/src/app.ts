@@ -35,6 +35,19 @@ const applyHandler =
     }
   }
 
+// Shared middleware for handling HEAD requests - avoids creating new object per request
+const HEAD_HANDLER_MW: Middleware = {
+  type: 'mw',
+  handler: (req, res, next) => {
+    if (req.method === 'HEAD') {
+      res.statusCode = 204
+      return res.end('')
+    }
+    next?.()
+  },
+  path: '/'
+}
+
 /**
  * `App` class - the starting point of tinyhttp app.
  *
@@ -246,8 +259,9 @@ export class App<Req extends Request = Request, Res extends Response = Response>
     return app
   }
 
-  #find(url: string): Middleware<Req, Res>[] {
+  #find(url: string, method: string, exclude: Middleware[]): Middleware<Req, Res>[] {
     const result: Middleware<Req, Res>[] = []
+    const isHead = method === 'HEAD'
 
     for (let i = 0; i < this.middleware.length; i++) {
       const m = this.middleware[i]
@@ -258,6 +272,16 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       }
 
       if (m.type === 'mw' && m.fullPathRegex && !m.fullPathRegex.pattern.test(url)) {
+        continue
+      }
+
+      // Filter by method (HEAD matches any, otherwise must match or have no method)
+      if (!isHead && m.method && m.method !== method) {
+        continue
+      }
+
+      // Skip already-processed middleware
+      if (exclude.includes(m)) {
         continue
       }
 
@@ -288,8 +312,8 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     req.baseUrl = ''
 
-    const handle = (mw: Middleware, pathname: string) => async (req: Req, res: Res, next: NextFunction) => {
-      const { path, handler, regex } = mw
+    const handle = async (middleware: Middleware, pathname: string) => {
+      const { path, handler, regex } = middleware
 
       let params: URLParams
 
@@ -315,16 +339,16 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       if (!req.params) req.params = {}
       Object.assign(req.params, params)
 
-      if (mw.type === 'mw') {
+      if (middleware.type === 'mw') {
         req.url = lead(req.originalUrl.substring(prefix.length))
         req.baseUrl = trail(req.originalUrl.substring(0, prefix.length))
       }
 
       if (!req.path) req.path = pathname
 
-      if (this.settings?.enableReqRoute) req.route = mw
+      if (this.settings?.enableReqRoute) req.route = middleware
 
-      await applyHandler<Req, Res>(handler as unknown as Handler<Req, Res>)(req, res, next)
+      await applyHandler<Req, Res>(handler as unknown as Handler<Req, Res>)(req, res, next as NextFunction)
     }
 
     let idx = 0
@@ -332,9 +356,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
     const loop = () => {
       req.originalUrl = req.baseUrl + req.url
       const pathname = getPathname(req.url)
-      const matched = this.#find(pathname).filter(
-        (x: Middleware) => (req.method === 'HEAD' || (x.method ? x.method === req.method : true)) && !mw.includes(x)
-      )
+      const matched = this.#find(pathname, req.method as string, mw)
 
       if (matched.length && matched[0] !== null) {
         if (idx !== 0) {
@@ -342,17 +364,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
           req.params = {}
         }
         mw.push(...matched)
-        mw.push({
-          type: 'mw',
-          handler: (req, res, next) => {
-            if (req.method === 'HEAD') {
-              res.statusCode = 204
-              return res.end('')
-            }
-            next?.()
-          },
-          path: '/'
-        })
+        mw.push(HEAD_HANDLER_MW)
       } else if (this.parent == null) {
         mw.push({
           handler: this.noMatchHandler,
@@ -361,7 +373,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
         })
       }
 
-      void handle(mw[idx++], pathname)(req, res, next as NextFunction)
+      void handle(mw[idx++], pathname)
     }
 
     const parentNext = next
