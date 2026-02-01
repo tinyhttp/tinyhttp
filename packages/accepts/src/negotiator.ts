@@ -498,32 +498,32 @@ function isQuality(spec: { q: number }): boolean {
 // ============================================================================
 
 export class Negotiator {
-  private request: Pick<IncomingMessage, 'headers'>
+  #request: Pick<IncomingMessage, 'headers'>
 
   constructor(request: Pick<IncomingMessage, 'headers'>) {
-    this.request = request
+    this.#request = request
   }
 
   charsets(available?: string[]): string[] {
-    const header = this.request.headers['accept-charset']
+    const header = this.#request.headers['accept-charset']
     const accept = Array.isArray(header) ? header.join(', ') : header
     return preferredCharsets(accept, available)
   }
 
   encodings(available?: string[]): string[] {
-    const header = this.request.headers['accept-encoding']
+    const header = this.#request.headers['accept-encoding']
     const accept = Array.isArray(header) ? header.join(', ') : header
     return preferredEncodings(accept, available)
   }
 
   languages(available?: string[]): string[] {
-    const header = this.request.headers['accept-language']
+    const header = this.#request.headers['accept-language']
     const accept = Array.isArray(header) ? header.join(', ') : header
     return preferredLanguages(accept, available)
   }
 
   mediaTypes(available?: string[]): string[] {
-    const header = this.request.headers['accept']
+    const header = this.#request.headers['accept']
     const accept = Array.isArray(header) ? header.join(', ') : header
     return preferredMediaTypes(accept, available)
   }
