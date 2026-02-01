@@ -292,6 +292,12 @@ describe('sendFile(path)', () => {
     expect(callbackError).toBeUndefined()
   })
   it('should call callback with error when stream fails', async () => {
+    // Skip if running as root (root ignores file permissions)
+    if (process.getuid?.() === 0) {
+      console.log('Skipping test: running as root')
+      return
+    }
+
     const unreadableFile = path.resolve(__dirname, 'unreadable.txt')
 
     // Cleanup from any previous failed run
@@ -310,19 +316,16 @@ describe('sendFile(path)', () => {
     const app = runServer((req, res) => {
       sendFile(req, res)(unreadableFile, {}, (err) => {
         callbackError = err
-        // Always end the response - headers may already be sent with 200
         res.end()
       })
     })
 
     try {
-      // The status will be 200 because writeHead is called before the stream errors
       await makeFetch(app)('/')
-      await new Promise((resolve) => setTimeout(resolve, 50))
+      await new Promise((resolve) => setTimeout(resolve, 100))
       expect(callbackError).toBeDefined()
       expect(callbackError?.message).toMatch(/EACCES|permission denied/i)
     } finally {
-      // Cleanup: restore permissions and delete file
       fs.chmodSync(unreadableFile, 0o644)
       fs.unlinkSync(unreadableFile)
     }
