@@ -252,6 +252,14 @@ describe('sendFile(path)', () => {
 
     await makeFetch(app)('/').expectStatus(418)
   })
+  it('should default to status 200 when statusCode is falsy', async () => {
+    const app = runServer((req, res) => {
+      res.statusCode = 0
+      sendFile(req, res)(testFilePath)
+    })
+
+    await makeFetch(app)('/').expectStatus(200)
+  })
   it('should enable cache headers', async () => {
     const app = runServer((req, res) =>
       sendFile(req, res)(testFilePath, { caching: { maxAge: 4000, immutable: true } })

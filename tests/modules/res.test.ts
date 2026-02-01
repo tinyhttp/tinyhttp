@@ -202,6 +202,13 @@ describe('Response extensions', () => {
 
       await makeFetch(app)('/').expect(200, 'Hello World')
     })
+    it('should return 406 when object has no keys', async () => {
+      const app = runServer((req, res) => {
+        formatResponse(req, res, (err) => res.writeHead(err?.status as number).end(err?.message))({})
+      })
+
+      await makeFetch(app)('/').expect(406, 'Not Acceptable')
+    })
   })
   describe('res.type(type)', () => {
     it('should detect MIME type', async () => {

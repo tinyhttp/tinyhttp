@@ -1253,6 +1253,17 @@ describe('App settings', () => {
 
       await fetch('/').expectHeader('X-Powered-By', null)
     })
+    it('should use custom string when xPoweredBy is a string', async () => {
+      const app = new App({ settings: { xPoweredBy: 'My Custom Server' } })
+
+      app.use((_req, res) => void res.send('hi'))
+
+      const server = app.listen()
+
+      const fetch = makeFetch(server)
+
+      await fetch('/').expectHeader('X-Powered-By', 'My Custom Server')
+    })
   })
   describe('bindAppToReqRes', () => {
     it('references the current app instance in req.app and res.app', async () => {
