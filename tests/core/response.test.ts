@@ -229,5 +229,19 @@ describe('Response methods', () => {
 
       await fetch('/').expect(200, 'Hello from v1rtl')
     })
+    it('should merge _locals from options into template locals', async () => {
+      const app = new App()
+
+      app.engine('eta', renderFile)
+      app.set('views', `${process.cwd()}/tests/fixtures/views`)
+
+      app.use((_req, res) => {
+        res.render('index.eta', {}, { _locals: { name: 'from_locals' } })
+      })
+
+      const fetch = makeFetch(app.listen())
+
+      await fetch('/').expect(200, 'Hello from from_locals')
+    })
   })
 })

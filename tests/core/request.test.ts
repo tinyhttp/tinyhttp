@@ -183,6 +183,34 @@ describe('Request properties', () => {
       const fetch = makeFetch(app.listen())
       await fetch('/a').expect(404, 'Not Found')
     })
+    it('should reset params when middleware chain finds new matches after rewrite', async () => {
+      // This tests the branch where idx !== 0 and new matched routes are found
+      // In this case, params should be reset to avoid param pollution
+      const app = new App()
+
+      app.get('/:initial', (req, _, next) => {
+        // Capture initial param, then rewrite URL to match a different route
+        ;(req as Request & { initialParam: string }).initialParam = req.params.initial
+        req.url = '/new/target'
+        next()
+      })
+
+      app.get('/new/:newParam', (req, res) => {
+        res.json({
+          initialParam: (req as Request & { initialParam: string }).initialParam,
+          newParam: req.params.newParam,
+          // After reset, the old :initial param should not be present
+          hasInitialInParams: 'initial' in req.params
+        })
+      })
+
+      const fetch = makeFetch(app.listen())
+      await fetch('/first').expect(200, {
+        initialParam: 'first',
+        newParam: 'target',
+        hasInitialInParams: false
+      })
+    })
     it('should set the correct req.url on routes after req.url was rewritten', async () => {
       const echo = (req, res) => res.send({ url: req.url, params: req.params })
       const rewrite = (req, _, next) => {
@@ -295,6 +323,45 @@ describe('Request properties', () => {
 
       await fetch('/').expect(200, 'protocol: http')
     })
+    it('req.protocol uses X-Forwarded-Proto header when trusted', async () => {
+      const app = new App({
+        settings: {
+          networkExtensions: true,
+          'trust proxy': ['127.0.0.1', '::1', '::ffff:127.0.0.1']
+        }
+      })
+
+      app.use((req, res) => {
+        res.send(`protocol: ${req.protocol}`)
+      })
+
+      const server = app.listen()
+      const fetch = makeFetch(server)
+
+      await fetch('/', {
+        headers: { 'X-Forwarded-Proto': 'https' }
+      }).expect(200, 'protocol: https')
+    })
+    it('req.protocol extracts first value from comma-separated X-Forwarded-Proto', async () => {
+      const app = new App({
+        settings: {
+          networkExtensions: true,
+          'trust proxy': ['127.0.0.1', '::1', '::ffff:127.0.0.1']
+        }
+      })
+
+      app.use((req, res) => {
+        res.send(`protocol: ${req.protocol}`)
+      })
+
+      const server = app.listen()
+      const fetch = makeFetch(server)
+
+      // When behind multiple proxies, X-Forwarded-Proto may have multiple values
+      await fetch('/', {
+        headers: { 'X-Forwarded-Proto': 'https, http' }
+      }).expect(200, 'protocol: https')
+    })
     it('req.secure is false by default', async () => {
       const { fetch } = InitAppAndTest(
         (req, res) => {
@@ -306,6 +373,27 @@ describe('Request properties', () => {
       )
 
       await fetch('/').expect(200, 'secure: false')
+    })
+    it('req.secure is true when connection is encrypted (HTTPS)', async () => {
+      const { getRequestHeader }: typeof req = await vi.importActual('../../packages/req/src')
+      // Mock req.secure by intercepting the request before extensions are applied
+      vi.mocked(req.getRequestHeader).mockImplementation((r) => {
+        // Simulate a TLS connection by setting secure = true on the request
+        // This mimics what happens with HTTPS servers where the initial connection is secure
+        ;(r as Request & { secure: boolean }).secure = true
+        return getRequestHeader(r)
+      })
+
+      const { fetch } = InitAppAndTest(
+        (req, res) => {
+          res.send(`protocol: ${req.protocol}, secure: ${req.secure}`)
+        },
+        '/',
+        'GET',
+        options
+      )
+
+      await fetch('/').expect(200, 'protocol: https, secure: true')
     })
     it('req.subdomains is empty by default', async () => {
       const { fetch } = InitAppAndTest(
@@ -456,6 +544,193 @@ describe('Request properties', () => {
 
       const response2 = await fetch('/', { headers: { Host: 'foo.bar:8080' } })
       expect([200, 500]).toContain(response2.status)
+    })
+    it('should use x-forwarded-host when proxy is trusted', async () => {
+      const { fetch, app } = InitAppAndTest(
+        (req, res) => {
+          res.send(`hostname: ${req.hostname}`)
+        },
+        '/',
+        'GET',
+        options
+      )
+      app.set('trust proxy', ['127.0.0.1', '::1', '::ffff:127.0.0.1'])
+
+      await fetch('/', { headers: { 'x-forwarded-host': 'forwarded.example.com' } }).expect(
+        200,
+        'hostname: forwarded.example.com'
+      )
+    })
+    it('should throw error when x-forwarded-host has malformed port', async () => {
+      const { fetch, app } = InitAppAndTest(
+        (req, res) => {
+          res.send(`hostname: ${req.hostname}, port: ${req.port}`)
+        },
+        '/',
+        'GET',
+        options
+      )
+      app.set('trust proxy', ['127.0.0.1', '::1', '::ffff:127.0.0.1'])
+
+      // Malformed port (non-numeric) should trigger error
+      const response = await fetch('/', { headers: { 'x-forwarded-host': 'example.com:abc' } })
+      expect(response.status).toBe(500)
+    })
+    it('should return undefined hostname when :authority header is an array', async () => {
+      const { getRequestHeader }: typeof req = await vi.importActual('../../packages/req/src')
+      vi.mocked(req.getRequestHeader).mockImplementation((r) => {
+        const defaultGetter = getRequestHeader(r)
+        return (header: string) => {
+          if (header === 'host') return undefined
+          if (header === ':authority') return ['first.com', 'second.com'] as unknown as string
+          return defaultGetter(header)
+        }
+      })
+
+      const { fetch } = InitAppAndTest(
+        (req, res) => {
+          res.send(`hostname: ${req.hostname}`)
+        },
+        '/',
+        'GET',
+        options
+      )
+
+      await fetch('/').expect(200, 'hostname: undefined')
+    })
+    it('should return undefined hostname when x-forwarded-host header is an array', async () => {
+      const { getRequestHeader }: typeof req = await vi.importActual('../../packages/req/src')
+      vi.mocked(req.getRequestHeader).mockImplementation((r) => {
+        const defaultGetter = getRequestHeader(r)
+        return (header: string) => {
+          if (header === 'host') return undefined
+          if (header === 'x-forwarded-host') return ['first.com', 'second.com'] as unknown as string
+          return defaultGetter(header)
+        }
+      })
+
+      const { fetch, app } = InitAppAndTest(
+        (req, res) => {
+          res.send(`hostname: ${req.hostname}`)
+        },
+        '/',
+        'GET',
+        options
+      )
+      app.set('trust proxy', ['127.0.0.1', '::1', '::ffff:127.0.0.1'])
+
+      await fetch('/').expect(200, 'hostname: undefined')
+    })
+    it('should return hostname when :authority and host headers match', async () => {
+      const { getRequestHeader }: typeof req = await vi.importActual('../../packages/req/src')
+      vi.mocked(req.getRequestHeader).mockImplementation((r) => {
+        const defaultGetter = getRequestHeader(r)
+        return (header: string) => {
+          if (header === 'host') return 'example.com:8080'
+          if (header === ':authority') return 'example.com:8080'
+          return defaultGetter(header)
+        }
+      })
+
+      const { fetch } = InitAppAndTest(
+        (req, res) => {
+          res.send(`hostname: ${req.hostname}, port: ${req.port}`)
+        },
+        '/',
+        'GET',
+        options
+      )
+
+      await fetch('/').expect(200, 'hostname: example.com, port: 8080')
+    })
+    it('should parse IPv6 literal in host header', async () => {
+      const { getRequestHeader }: typeof req = await vi.importActual('../../packages/req/src')
+      vi.mocked(req.getRequestHeader).mockImplementation((r) => {
+        const defaultGetter = getRequestHeader(r)
+        return (header: string) => {
+          if (header === 'host') return '[::1]:8080'
+          return defaultGetter(header)
+        }
+      })
+
+      const { fetch } = InitAppAndTest(
+        (req, res) => {
+          res.send(`hostname: ${req.hostname}, port: ${req.port}`)
+        },
+        '/',
+        'GET',
+        options
+      )
+
+      await fetch('/').expect(200, 'hostname: [::1], port: 8080')
+    })
+    it('should handle hostname without port', async () => {
+      const { getRequestHeader }: typeof req = await vi.importActual('../../packages/req/src')
+      vi.mocked(req.getRequestHeader).mockImplementation((r) => {
+        const defaultGetter = getRequestHeader(r)
+        return (header: string) => {
+          if (header === 'host') return 'example.com'
+          return defaultGetter(header)
+        }
+      })
+
+      const { fetch } = InitAppAndTest(
+        (req, res) => {
+          res.send(`hostname: ${req.hostname}, port: ${req.port}`)
+        },
+        '/',
+        'GET',
+        options
+      )
+
+      await fetch('/').expect(200, 'hostname: example.com, port: undefined')
+    })
+    it('should return subdomains as empty array when hostname is undefined', async () => {
+      const { getRequestHeader }: typeof req = await vi.importActual('../../packages/req/src')
+      vi.mocked(req.getRequestHeader).mockImplementation((r) => {
+        const defaultGetter = getRequestHeader(r)
+        return (header: string) => {
+          if (header === 'host') return undefined
+          return defaultGetter(header)
+        }
+      })
+
+      const { fetch } = InitAppAndTest(
+        (req, res) => {
+          res.json({ subdomains: req.subdomains })
+        },
+        '/',
+        'GET',
+        options
+      )
+
+      await fetch('/').expect(200, { subdomains: [] })
+    })
+    it('should return IP address as subdomain when hostname is an IP', async () => {
+      const { getRequestHeader }: typeof req = await vi.importActual('../../packages/req/src')
+      vi.mocked(req.getRequestHeader).mockImplementation((r) => {
+        const defaultGetter = getRequestHeader(r)
+        return (header: string) => {
+          if (header === 'host') return '192.168.1.1:8080'
+          return defaultGetter(header)
+        }
+      })
+
+      const { fetch } = InitAppAndTest(
+        (req, res) => {
+          res.json({ subdomains: req.subdomains })
+        },
+        '/',
+        'GET',
+        {
+          settings: {
+            networkExtensions: true,
+            subdomainOffset: 0
+          }
+        }
+      )
+
+      await fetch('/').expect(200, { subdomains: ['192.168.1.1'] })
     })
   })
 

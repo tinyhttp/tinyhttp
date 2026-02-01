@@ -17,7 +17,7 @@ import {
   setLocationHeader,
   setVaryHeader
 } from '../../packages/res/src/index.js'
-import { acceptParams, escapeHTML } from '../../packages/res/src/util.js'
+import { acceptParams, escapeHTML, normalizeType } from '../../packages/res/src/util.js'
 import { runServer } from '../../test_helpers/runServer'
 
 const __dirname = import.meta.dirname
@@ -138,6 +138,21 @@ describe('Response extensions', () => {
         }
       }).expect(302, '')
     })
+    it('should send empty body for HEAD requests', async () => {
+      const app = runServer((req, res) => {
+        redirect(req, res, () => {})('/abc')
+      })
+
+      const response = await makeFetch(app)('/', {
+        method: 'HEAD',
+        redirect: 'manual'
+      })
+
+      expect(response.status).toBe(302)
+      expect(response.headers.get('location')).toBe('/abc')
+      const body = await response.text()
+      expect(body).toBe('')
+    })
   })
   describe('res.format(obj)', () => {
     it('should send text by default', async () => {
@@ -187,6 +202,13 @@ describe('Response extensions', () => {
 
       await makeFetch(app)('/').expect(200, 'Hello World')
     })
+    it('should return 406 when object has no keys', async () => {
+      const app = runServer((req, res) => {
+        formatResponse(req, res, (err) => res.writeHead(err?.status as number).end(err?.message))({})
+      })
+
+      await makeFetch(app)('/').expect(406, 'Not Acceptable')
+    })
   })
   describe('res.type(type)', () => {
     it('should detect MIME type', async () => {
@@ -202,6 +224,13 @@ describe('Response extensions', () => {
       })
 
       await makeFetch(app)('/').expect('Content-Type', 'text/html; charset=utf-8')
+    })
+    it('should use full MIME type when it contains a slash', async () => {
+      const app = runServer((_, res) => {
+        setContentType(res)('application/json').end()
+      })
+
+      await makeFetch(app)('/').expect('Content-Type', 'application/json; charset=utf-8')
     })
   })
   describe('res.attachment(filename)', () => {
@@ -275,6 +304,27 @@ describe('Response extensions', () => {
         .expect('Content-Disposition', 'attachment; filename="favicon.ico"')
         .expect('X-Custom-Header', 'Value')
     })
+    it('should ignore Content-Disposition header in options (case-insensitive)', async () => {
+      const app = runServer((req, res) => {
+        download(req, res)(path.join(__dirname, '../fixtures', 'favicon.ico'), 'custom.ico', {
+          headers: {
+            'content-disposition': 'should-be-ignored',
+            'X-Custom-Header': 'Value'
+          }
+        }).end()
+      })
+
+      await makeFetch(app)('/')
+        .expect('Content-Disposition', 'attachment; filename="custom.ico"')
+        .expect('X-Custom-Header', 'Value')
+    })
+    it('should work without a callback', async () => {
+      const app = runServer((req, res) => {
+        download(req, res)(path.join(__dirname, '../fixtures', 'favicon.ico'), 'file.ico')
+      })
+
+      await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename="file.ico"').expect(200)
+    })
   })
   describe('res.cookie(name, value, options)', () => {
     it('serializes the cookie and puts it in a Set-Cookie header', async () => {
@@ -328,6 +378,29 @@ describe('Response extensions', () => {
       })
 
       await makeFetch(app)('/').expect(200).expectHeader('Set-Cookie', 'hello=world; Path=/, foo=bar; Path=/')
+    })
+    it('should serialize object values as JSON', async () => {
+      const app = runServer((req, res) => {
+        setCookie(req, res)('data', { foo: 'bar', num: 42 }).end()
+
+        // The value is URL-encoded, so j: becomes j%3A and quotes become %22
+        expect(res.getHeader('Set-Cookie')).toContain('data=j%3A%7B%22foo%22%3A%22bar%22%2C%22num%22%3A42%7D')
+      })
+
+      await makeFetch(app)('/').expect(200)
+    })
+    it('should sign cookie when signed option is true and secret is provided', async () => {
+      const app = runServer((req, res) => {
+        ;(req as typeof req & { secret: string }).secret = 'my-secret'
+        setCookie(req as typeof req & { secret: string }, res)('hello', 'world', {
+          signed: true
+        }).end()
+
+        // Signed cookies start with 's:'
+        expect(res.getHeader('Set-Cookie')).toContain('hello=s%3A')
+      })
+
+      await makeFetch(app)('/').expect(200)
     })
   })
   describe('res.clearCookie(name, options)', () => {
@@ -713,6 +786,26 @@ describe('util', () => {
         params: { charset: 'utf-8' },
         originalIndex: 3
       })
+    })
+  })
+
+  describe('normalizeType', () => {
+    it('should return full MIME type as-is when it contains "/"', () => {
+      const result = normalizeType('application/json')
+      expect(result.value).toBe('application/json')
+      expect(result.params).toEqual({})
+    })
+
+    it('should look up MIME type when given an extension without "/"', () => {
+      const result = normalizeType('json')
+      expect(result.value).toBe('application/json')
+      expect(result.params).toEqual({})
+    })
+
+    it('should look up MIME type for html extension', () => {
+      const result = normalizeType('html')
+      expect(result.value).toBe('text/html')
+      expect(result.params).toEqual({})
     })
   })
 })

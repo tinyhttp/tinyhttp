@@ -260,6 +260,11 @@ describe('parse(string)', () => {
       }
     })
 
+    it('should reject invalid UTF-8 encoding', () => {
+      // %E2%82 is an incomplete UTF-8 sequence (Euro sign is %E2%82%AC)
+      expect(() => parse("attachment; filename*=UTF-8''%E2%82")).toThrow(/invalid encoded utf-8/)
+    })
+
     it('should parse with embedded language', () => {
       expect(parse("attachment; filename*=UTF-8'en'%E2%82%AC%20rates.pdf")).toEqual({
         type: 'attachment',
@@ -616,5 +621,13 @@ describe('parse(string)', () => {
         })
       })
     })
+  })
+})
+
+describe('contentDisposition edge cases', () => {
+  it('should handle filename with only filename* (no fallback, non-quoted)', () => {
+    // Filename with control char that makes it non-quotable and no latin1 fallback
+    const result = contentDisposition('file\x80name.txt')
+    expect(result).toContain('filename*=')
   })
 })

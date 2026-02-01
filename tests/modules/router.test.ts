@@ -417,9 +417,15 @@ describe('Testing HTTP methods', () => {
 
     expect(router.middleware).toHaveLength(2)
   })
-})
+  it('should skip non-string elements in path array', () => {
+    const router = new Router()
 
-/* describe('Testing Router methods', () => {
+    // Pass array with non-string element (type coercion scenario)
+    router.get(['/', 123 as unknown as string, '/test'], () => void 0)
 
+    // Should only register the string paths
+    expect(router.middleware).toHaveLength(2)
+    expect(router.middleware[0].path).toBe('/')
+    expect(router.middleware[1].path).toBe('/test')
+  })
 })
- */

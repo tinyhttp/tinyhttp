@@ -27,7 +27,7 @@ export const getProtocol = (req: Request, trust: Trust): Protocol => {
 
   if (!trustRemoteAddress(req, trust)) return proto
 
-  const header = (req.headers['X-Forwarded-Proto'] as string) || proto
+  const header = (req.headers['x-forwarded-proto'] as string) || proto
 
   const index = header.indexOf(',')
 
@@ -38,7 +38,6 @@ const normalizeHostString = (host: string): string => decodeURIComponent(host).t
 
 const getAuthorityHeaderHostString = (req: Request): string | undefined => {
   const authority = req.get(':authority')
-  if (Array.isArray(authority)) return undefined
   if (Array.isArray(authority) || !authority) return undefined
 
   const index = authority.indexOf('@')
@@ -57,7 +56,6 @@ const getForwardedHeaderHostString = (req: Request): string | undefined => {
 const getDefaultHeaderHostString = (req: Request): string | undefined => {
   const host = req.get('host')
   if (!host || host.indexOf(',') !== -1) return undefined
-  if (host.indexOf(',') !== -1) return undefined
 
   return normalizeHostString(host)
 }

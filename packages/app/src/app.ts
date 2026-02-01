@@ -148,7 +148,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
     }
 
     if (!view) {
-      const ViewClass = this.settings.view || View
+      const ViewClass = this.settings.view!
 
       try {
         view = new ViewClass(name, {

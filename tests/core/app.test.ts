@@ -995,6 +995,104 @@ describe('Subapps', () => {
     await fetch('/bar1/foo').expect(200, 'foo')
     await fetch('/bar2/foo').expect(200, 'foo')
   })
+  it('should handle HEAD requests to sub-app routes', async () => {
+    const app = new App()
+    const subApp = new App()
+
+    subApp.get('/resource', (_req, res) => {
+      res.send('This is the resource')
+    })
+
+    app.use('/api', subApp)
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    // HEAD request should work and return empty body
+    const response = await fetch('/api/resource', { method: 'HEAD' })
+    expect(response.status).toBe(200)
+    const body = await response.text()
+    expect(body).toBe('')
+  })
+  it('should not continue middleware chain if response is already ended', async () => {
+    const app = new App()
+    const subApp = new App()
+
+    let fallbackCalled = false
+
+    subApp.use((_req, res, next) => {
+      res.end('done')
+      // Call next after response is ended
+      next()
+    })
+
+    app.use('/sub', subApp)
+
+    app.use((_req, res) => {
+      fallbackCalled = true
+      res.send('fallback')
+    })
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    await fetch('/sub/test').expect(200, 'done')
+    expect(fallbackCalled).toBe(false)
+  })
+  it('should handle empty sub-app with no middleware', async () => {
+    const app = new App()
+    const emptySubApp = new App()
+
+    // Mount empty sub-app (no routes or middleware added)
+    app.use('/empty', emptySubApp)
+
+    // Add a fallback route on parent
+    app.get('/other', (_req, res) => res.send('other'))
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    // Empty sub-app should result in 404 for unmatched paths
+    await fetch('/empty/anything').expect(404)
+    // Other routes should still work
+    await fetch('/other').expect(200, 'other')
+  })
+  it('should call parent next when sub-app exhausts middleware', async () => {
+    const app = new App()
+    const subApp = new App()
+
+    // Sub-app has middleware that calls next
+    subApp.use((_req, _res, next) => {
+      next?.()
+    })
+
+    // Parent app has a fallback after sub-app
+    app.use('/sub', subApp)
+    app.use('/sub', (_req, res) => {
+      res.send('parent fallback')
+    })
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    // Request should pass through sub-app and reach parent's next middleware
+    await fetch('/sub/test').expect(200, 'parent fallback')
+  })
+  it('should handle HEAD request reaching fallback handler', async () => {
+    const app = new App()
+
+    // Only define GET route, no specific HEAD handler
+    app.get('/resource', (_req, res) => {
+      res.send('GET response')
+    })
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    // HEAD request to existing route
+    const response = await fetch('/resource', { method: 'HEAD' })
+    expect(response.status).toBe(200)
+  })
 })
 
 describe('Template engines', () => {
@@ -1053,6 +1151,62 @@ describe('Template engines', () => {
       app.locals.name = 'v1rtl'
 
       app.render('views', {}, {}, (err, str) => {
+        if (err) throw err
+        expect(str).toEqual('Hello from v1rtl')
+      })
+    })
+    it('should work without a callback', () => {
+      const app = new App({
+        settings: {
+          views: `${process.cwd()}/tests/fixtures/views`
+        }
+      })
+      app.engine('eta', renderFile)
+      app.locals.name = 'v1rtl'
+
+      // Should not throw when no callback is provided
+      app.render('index.eta', {}, {})
+    })
+    it('should use view cache in production mode', () => {
+      const originalEnv = process.env.NODE_ENV
+      process.env.NODE_ENV = 'production'
+
+      const app = new App({
+        settings: {
+          views: `${process.cwd()}/tests/fixtures/views`
+        }
+      })
+      app.engine('eta', renderFile)
+      app.locals.name = 'v1rtl'
+
+      // First render should cache the view
+      app.render('index.eta', {}, {}, (err, str) => {
+        if (err) throw err
+        expect(str).toEqual('Hello from v1rtl')
+      })
+
+      // Second render should use cached view
+      app.render('index.eta', {}, {}, (err, str) => {
+        if (err) throw err
+        expect(str).toEqual('Hello from v1rtl')
+        expect(app.cache['index.eta']).toBeDefined()
+      })
+
+      process.env.NODE_ENV = originalEnv
+    })
+    it('should handle view engine with leading dot', () => {
+      const app = new App({
+        settings: {
+          views: `${process.cwd()}/tests/fixtures/views`
+        }
+      })
+      // Register engine WITH leading dot
+      app.engine('.eta', renderFile)
+      // Set view engine WITH leading dot (covers the branch where defaultEngine starts with '.')
+      app.set('view engine', '.eta')
+      app.locals.name = 'v1rtl'
+
+      app.render('index', {}, {}, (err, str) => {
         if (err) throw err
         expect(str).toEqual('Hello from v1rtl')
       })
@@ -1226,7 +1380,85 @@ describe('Template engines', () => {
           })
         })
       })
+      it('should respect explicit cache option passed to render()', () => {
+        const app = new App()
+
+        let count = 0
+
+        class TestView {
+          name: string
+          path = 'test'
+          constructor(name: string) {
+            this.name = name
+            count++
+          }
+          render(_options: never, _data: never, fn: (err: null, msg: string) => void) {
+            fn(null, 'cached')
+          }
+        }
+
+        app.set('view', TestView as unknown as typeof View)
+
+        // Explicitly pass cache: true (this covers the opts.cache != null branch)
+        app.render('something', {}, { cache: true }, (_, str) => {
+          expect(count).toEqual(1)
+          expect(str).toEqual('cached')
+
+          // Second render with explicit cache: true should use cached view
+          app.render('something', {}, { cache: true }, (_, str) => {
+            expect(count).toEqual(1)
+            expect(str).toEqual('cached')
+          })
+        })
+      })
+      it('should use default View class when no custom view is set', async () => {
+        const app = new App()
+
+        app.engine('eta', renderFile)
+        app.set('views', `${process.cwd()}/tests/fixtures/views`)
+        app.set('view engine', 'eta')
+        app.locals.name = 'default-view-test'
+
+        app.use((_req, res) => {
+          res.render('index')
+        })
+
+        const server = app.listen()
+        const fetch = makeFetch(server)
+
+        await fetch('/').expect(200, 'Hello from default-view-test')
+      })
     })
+  })
+})
+
+describe('App.use with array of paths', () => {
+  it('should handle array of string paths', async () => {
+    const app = new App()
+
+    app.use(['/api', '/v1'], (_req, res) => {
+      res.send('matched array path')
+    })
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    await fetch('/api').expect(200, 'matched array path')
+    await fetch('/v1').expect(200, 'matched array path')
+    await fetch('/other').expect(404)
+  })
+  it('should handle single string path', async () => {
+    const app = new App()
+
+    app.use('/single', (_req, res) => {
+      res.send('matched single path')
+    })
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    await fetch('/single').expect(200, 'matched single path')
+    await fetch('/single/nested').expect(200, 'matched single path')
   })
 })
 
@@ -1252,6 +1484,17 @@ describe('App settings', () => {
       const fetch = makeFetch(server)
 
       await fetch('/').expectHeader('X-Powered-By', null)
+    })
+    it('should use custom string when xPoweredBy is a string', async () => {
+      const app = new App({ settings: { xPoweredBy: 'My Custom Server' } })
+
+      app.use((_req, res) => void res.send('hi'))
+
+      const server = app.listen()
+
+      const fetch = makeFetch(server)
+
+      await fetch('/').expectHeader('X-Powered-By', 'My Custom Server')
     })
   })
   describe('bindAppToReqRes', () => {
@@ -1291,6 +1534,27 @@ describe('App settings', () => {
       const fetch = makeFetch(server)
 
       await fetch('/').expect(200)
+    })
+  })
+  describe('applyExtensions', () => {
+    it('should use custom applyExtensions function when provided', async () => {
+      let extensionsCalled = false
+      const customExtensions = (req: Request, res: Response, next: () => void) => {
+        extensionsCalled = true
+        ;(req as Request & { custom: boolean }).custom = true
+        next()
+      }
+
+      const app = new App({ applyExtensions: customExtensions })
+
+      app.use((req, res) => {
+        expect((req as Request & { custom: boolean }).custom).toBe(true)
+        res.end('ok')
+      })
+
+      const server = app.listen()
+      await makeFetch(server)('/').expect(200)
+      expect(extensionsCalled).toBe(true)
     })
   })
   it('returns the correct middleware if there are more than one', async () => {

@@ -234,6 +234,126 @@ describe('rate-limit', () => {
 
       expect(shouldSkip).toHaveBeenCalled()
     })
+
+    it('should support max as an async function', async () => {
+      const maxFn = vi.fn(async () => 2)
+
+      const app = createAppWith(
+        rateLimit({
+          max: maxFn
+        })
+      )
+
+      await makeFetch(app)('/').expect(200)
+      await makeFetch(app)('/').expect(200)
+      await makeFetch(app)('/').expect(429)
+
+      expect(maxFn).toHaveBeenCalled()
+    })
+
+    it('should not decrement on successful requests when skipFailedRequests is true', async () => {
+      const store = new MockStore()
+      const app = createAppWith(
+        rateLimit({
+          skipFailedRequests: true,
+          store: store
+        })
+      )
+
+      await makeFetch(app)('/').expect(200)
+      // decrement should NOT be called for successful requests with skipFailedRequests
+      expect(store.decrement_was_called).toBeFalsy()
+    })
+
+    it('should not decrement on failed requests when skipSuccessfulRequests is true', async () => {
+      const store = new MockStore()
+      const app = createAppWith(
+        rateLimit({
+          skipSuccessfulRequests: true,
+          store: store
+        })
+      )
+
+      await makeFetch(app)('/errorPage').expect(404)
+      // decrement should NOT be called for failed requests with skipSuccessfulRequests
+      expect(store.decrement_was_called).toBeFalsy()
+    })
+
+    it('should call onLimitReached when limit is first reached', async () => {
+      const onLimitReached = vi.fn()
+
+      const app = createAppWith(
+        rateLimit({
+          max: 1,
+          onLimitReached
+        })
+      )
+
+      await makeFetch(app)('/').expect(200)
+      expect(onLimitReached).not.toHaveBeenCalled()
+
+      await makeFetch(app)('/').expect(429)
+      expect(onLimitReached).toHaveBeenCalledTimes(1)
+
+      // Should not call again on subsequent requests
+      await makeFetch(app)('/').expect(429)
+      expect(onLimitReached).toHaveBeenCalledTimes(1)
+    })
+
+    it('should handle store error in incr callback', async () => {
+      const errorStore = {
+        incr: (_, cb) => {
+          cb(new Error('Store error'), 0, new Date())
+        },
+        resetKey: () => {},
+        decrement: () => {},
+        resetAll: () => {}
+      }
+
+      const app = createAppWith(
+        rateLimit({
+          store: errorStore
+        })
+      )
+
+      await makeFetch(app)('/').expect(500)
+    })
+
+    it('should not send headers when headers option is false and rate limited', async () => {
+      const app = new App()
+      app.use(rateLimit({ max: 1, headers: false }))
+      app.get('/', (_, res) => res.send('response!'))
+      const server = app.listen()
+
+      await makeFetch(server)('/').expect(200)
+      const response = await makeFetch(server)('/').expect(429)
+      expect(response.headers.get('retry-after')).toBeNull()
+    })
+  })
+})
+
+describe('rate-limit edge cases', () => {
+  it('should handle draftPolliRatelimitHeaders without resetTime', async () => {
+    const app = new App()
+    app.use(
+      rateLimit({
+        max: 5,
+        draftPolliRatelimitHeaders: true,
+        store: {
+          incr: (_, cb) => cb(null, 1, undefined), // No resetTime
+          decrement: () => {},
+          resetKey: () => {},
+          resetAll: () => {}
+        }
+      })
+    )
+    app.get('/', (_, res) => res.send('ok'))
+
+    const response = await makeFetch(app.listen())('/')
+    expect(response.status).toBe(200)
+    expect(response.headers.get('ratelimit-limit')).toBe('5')
+    // RateLimit-Reset should not be set when no resetTime
+    expect(response.headers.get('ratelimit-reset')).toBeNull()
   })
 })
 
