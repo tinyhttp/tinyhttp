@@ -22,12 +22,8 @@
   "files": [
     "dist"
   ],
-  "devDependencies": {
-    "@types/negotiator": "^0.6.4"
-  },
   "dependencies": {
-    "mime": "4.1.0",
-    "negotiator": "^1.0.0"
+    "mime": "4.1.0"
   },
   "scripts": {
     "build": "tsc"
