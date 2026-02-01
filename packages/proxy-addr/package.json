@@ -31,8 +31,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@tinyhttp/forwarded": "workspace:*",
-    "ipaddr.js": "^2.2.0"
+    "@tinyhttp/forwarded": "workspace:*"
   },
   "files": [
     "dist"
