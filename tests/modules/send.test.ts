@@ -291,4 +291,40 @@ describe('sendFile(path)', () => {
     expect(callbackCalled).toBe(true)
     expect(callbackError).toBeUndefined()
   })
+  it('should call callback with error when stream fails', async () => {
+    const unreadableFile = path.resolve(__dirname, 'unreadable.txt')
+
+    // Cleanup from any previous failed run
+    try {
+      fs.chmodSync(unreadableFile, 0o644)
+      fs.unlinkSync(unreadableFile)
+    } catch {
+      // File doesn't exist, that's fine
+    }
+
+    fs.writeFileSync(unreadableFile, 'test content')
+    fs.chmodSync(unreadableFile, 0o000) // Remove all permissions
+
+    let callbackError: Error | undefined
+
+    const app = runServer((req, res) => {
+      sendFile(req, res)(unreadableFile, {}, (err) => {
+        callbackError = err
+        // Always end the response - headers may already be sent with 200
+        res.end()
+      })
+    })
+
+    try {
+      // The status will be 200 because writeHead is called before the stream errors
+      await makeFetch(app)('/')
+      await new Promise((resolve) => setTimeout(resolve, 50))
+      expect(callbackError).toBeDefined()
+      expect(callbackError?.message).toMatch(/EACCES|permission denied/i)
+    } finally {
+      // Cleanup: restore permissions and delete file
+      fs.chmodSync(unreadableFile, 0o644)
+      fs.unlinkSync(unreadableFile)
+    }
+  })
 })
