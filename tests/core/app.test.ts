@@ -1304,6 +1304,27 @@ describe('App settings', () => {
       await fetch('/').expect(200)
     })
   })
+  describe('applyExtensions', () => {
+    it('should use custom applyExtensions function when provided', async () => {
+      let extensionsCalled = false
+      const customExtensions = (req: Request, res: Response, next: () => void) => {
+        extensionsCalled = true
+        ;(req as Request & { custom: boolean }).custom = true
+        next()
+      }
+
+      const app = new App({ applyExtensions: customExtensions })
+
+      app.use((req, res) => {
+        expect((req as Request & { custom: boolean }).custom).toBe(true)
+        res.end('ok')
+      })
+
+      const server = app.listen()
+      await makeFetch(server)('/').expect(200)
+      expect(extensionsCalled).toBe(true)
+    })
+  })
   it('returns the correct middleware if there are more than one', async () => {
     const app = new App({ settings: { enableReqRoute: true } })
     expect.assertions(2)

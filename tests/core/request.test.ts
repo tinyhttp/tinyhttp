@@ -295,6 +295,25 @@ describe('Request properties', () => {
 
       await fetch('/').expect(200, 'protocol: http')
     })
+    it('req.protocol uses X-Forwarded-Proto header when trusted', async () => {
+      const app = new App({
+        settings: {
+          networkExtensions: true,
+          'trust proxy': ['127.0.0.1', '::1', '::ffff:127.0.0.1']
+        }
+      })
+
+      app.use((req, res) => {
+        res.send(`protocol: ${req.protocol}`)
+      })
+
+      const server = app.listen()
+      const fetch = makeFetch(server)
+
+      await fetch('/', {
+        headers: { 'X-Forwarded-Proto': 'https' }
+      }).expect(200, 'protocol: https')
+    })
     it('req.secure is false by default', async () => {
       const { fetch } = InitAppAndTest(
         (req, res) => {
