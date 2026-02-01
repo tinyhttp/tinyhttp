@@ -1,4 +1,4 @@
-// biome-ignore lint/suspicious/noControlCharactersInRegex: <explanation>
+// biome-ignore lint/suspicious/noControlCharactersInRegex: RFC 5987 attr-char excludes CTLs
 const ENCODE_URL_ATTR_CHAR_REGEXP = /[\x00-\x20"'()*,/:;<=>?@[\\\]{}\x7f]/g
 
 const HEX_ESCAPE_REGEXP = /%[0-9A-Fa-f]{2}/
@@ -6,13 +6,13 @@ const HEX_ESCAPE_REPLACE_REGEXP = /%([0-9A-Fa-f]{2})/g
 
 const NON_LATIN1_REGEXP = /[^\x20-\x7e\xa0-\xff]/g
 
-// biome-ignore lint/suspicious/noControlCharactersInRegex: <explanation>
+// biome-ignore lint/suspicious/noControlCharactersInRegex: RFC 2616 quoted-pair includes CTLs
 const QESC_REGEXP = /\\([\u0000-\u007f])/g
 
 const QUOTE_REGEXP = /([\\"])/g
 
 const PARAM_REGEXP =
-  // biome-ignore lint/suspicious/noControlCharactersInRegex: <explanation>
+  // biome-ignore lint/suspicious/noControlCharactersInRegex: RFC 6266 parameter parsing includes HTAB
   /;[\x09\x20]*([!#$%&'*+.0-9A-Z^_`a-z|~-]+)[\x09\x20]*=[\x09\x20]*("(?:[\x20!\x23-\x5b\x5d-\x7e\x80-\xff]|\\[\x20-\x7e])*"|[!#$%&'*+.0-9A-Z^_`a-z|~-]+)[\x09\x20]*/g
 const TEXT_REGEXP = /^[\x20-\x7e\x80-\xff]+$/
 const TOKEN_REGEXP = /^[!#$%&'*+.0-9A-Z^_`a-z|~-]+$/
@@ -20,7 +20,7 @@ const TOKEN_REGEXP = /^[!#$%&'*+.0-9A-Z^_`a-z|~-]+$/
 const EXT_VALUE_REGEXP =
   /^([A-Za-z0-9!#$%&+\-^_`{}~]+)'(?:[A-Za-z]{2,3}(?:-[A-Za-z]{3}){0,3}|[A-Za-z]{4,8}|)'((?:%[0-9A-Fa-f]{2}|[A-Za-z0-9!#$&+.^_`|~-])+)$/
 
-// biome-ignore lint/suspicious/noControlCharactersInRegex: <explanation>
+// biome-ignore lint/suspicious/noControlCharactersInRegex: RFC 6266 disposition-type parsing includes HTAB
 const DISPOSITION_TYPE_REGEXP = /^([!#$%&'*+.0-9A-Z^_`a-z|~-]+)[\x09\x20]*(?:$|;)/
 
 const getlatin1 = (val: unknown) => {

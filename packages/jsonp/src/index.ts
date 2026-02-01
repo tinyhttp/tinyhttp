@@ -43,7 +43,7 @@ export const jsonp =
   (obj: unknown, opts: JSONPOptions = {}): Response => {
     const val = obj
 
-    // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
+    // biome-ignore lint/suspicious/noShadowRestrictedNames: escape is a common option name
     const { escape, replacer, spaces, callbackName = 'callback' } = opts
 
     let body = stringify(val, replacer, spaces, escape)

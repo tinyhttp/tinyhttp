@@ -8,7 +8,7 @@ const pairSplitRegExp = /; */
  * obs-text      = %x80-FF
  */
 
-// biome-ignore lint/suspicious/noControlCharactersInRegex: <explanation>
+// biome-ignore lint/suspicious/noControlCharactersInRegex: RFC 7230 field-content includes HTAB
 const fieldContentRegExp = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/
 
 function tryDecode(str: string, decode: (str: string) => string) {
