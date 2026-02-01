@@ -1,3 +1,5 @@
+import { parse as rg } from 'regexparam'
+
 /* HELPER TYPES */
 
 export type NextFunction = (err?: any) => void
@@ -146,6 +148,7 @@ export const pushMiddleware =
     method,
     handlers,
     type,
+    regex: precompiledRegex,
     fullPaths
   }: MethodHandler<Req, Res> & {
     method?: Method
@@ -154,7 +157,7 @@ export const pushMiddleware =
   }): void => {
     const m = createMiddlewareFromRoute<Req, Res>({ path, handler, method, type, fullPath: fullPaths?.[0] })
 
-    let waresFromHandlers: { handler: Handler<Req, Res> }[] = []
+    let waresFromHandlers: ReturnType<typeof createMiddlewareFromRoute<Req, Res>>[] = []
     let idx = 1
 
     if (handlers) {
@@ -169,7 +172,23 @@ export const pushMiddleware =
       )
     }
 
-    for (const mdw of [m, ...waresFromHandlers]) mw.push({ ...mdw, type })
+    const isMw = type === 'mw'
+    // Normalize '*' key to 'wild' for consistency with existing API
+    const normalizeKeys = (regex: RegexParams | undefined): RegexParams | undefined => {
+      if (!regex || !regex.keys) return regex
+      return {
+        ...regex,
+        keys: regex.keys.map((k) => (k === '*' ? 'wild' : k))
+      }
+    }
+    for (const mdw of [m, ...waresFromHandlers]) {
+      // Pre-compile regex at registration time for better request performance
+      const mdwPath = mdw.path as string | undefined
+      const mdwFullPath = mdw.fullPath as string | undefined
+      const regex = normalizeKeys(precompiledRegex ?? (typeof mdwPath === 'string' ? rg(mdwPath, isMw) : undefined))
+      const fullPathRegex = normalizeKeys(isMw && typeof mdwFullPath === 'string' ? rg(mdwFullPath, true) : undefined)
+      mw.push({ ...mdw, type, path: mdwPath, fullPath: mdwFullPath, regex, fullPathRegex })
+    }
   }
 
 /**

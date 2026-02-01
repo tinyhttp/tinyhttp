@@ -1,10 +1,7 @@
+import { Accepts } from '@tinyhttp/accepts'
 import { compile } from '@tinyhttp/proxy-addr'
 import {
   checkIfXMLHttpRequest,
-  getAccepts,
-  getAcceptsCharsets,
-  getAcceptsEncodings,
-  getAcceptsLanguages,
   getFreshOrStale,
   getQueryParams,
   getRangeFromHeader,
@@ -74,10 +71,17 @@ export const extendMiddleware = <EngineOptions extends TemplateEngineOptions = T
 
     req.is = reqIs(req)
     req.range = getRangeFromHeader(req)
-    req.accepts = getAccepts(req)
-    req.acceptsCharsets = getAcceptsCharsets(req)
-    req.acceptsEncodings = getAcceptsEncodings(req)
-    req.acceptsLanguages = getAcceptsLanguages(req)
+
+    // Lazily cache Accepts instance to avoid creating multiple Negotiator instances per request
+    let acceptsInstance: Accepts | undefined
+    const getAcceptsInstance = () => {
+      if (!acceptsInstance) acceptsInstance = new Accepts(req)
+      return acceptsInstance
+    }
+    req.accepts = (...types) => getAcceptsInstance().types(types)
+    req.acceptsCharsets = (...charsets) => getAcceptsInstance().charsets(charsets)
+    req.acceptsEncodings = (...encodings) => getAcceptsInstance().encodings(encodings)
+    req.acceptsLanguages = (...languages) => getAcceptsInstance().languages(languages)
 
     req.xhr = checkIfXMLHttpRequest(req)
 
@@ -101,8 +105,8 @@ export const extendMiddleware = <EngineOptions extends TemplateEngineOptions = T
     res.append = append<Response>(res)
     res.locals ??= {}
 
-    Object.defineProperty(req, 'fresh', { get: getFreshOrStale.bind(null, req, res), configurable: true })
-    req.stale = !req.fresh
+    Object.defineProperty(req, 'fresh', { get: () => getFreshOrStale(req, res), configurable: true })
+    Object.defineProperty(req, 'stale', { get: () => !getFreshOrStale(req, res), configurable: true })
 
     next()
   }) as Handler

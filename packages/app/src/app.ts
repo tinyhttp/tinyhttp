@@ -252,22 +252,13 @@ export class App<Req extends Request = Request, Res extends Response = Response>
     for (let i = 0; i < this.middleware.length; i++) {
       const m = this.middleware[i]
 
-      if (!m.regex) {
-        m.regex = rg(m.path as string, m.type === 'mw')
-      }
-
-      if (!m.regex.pattern.test(url)) {
+      // Regex is pre-compiled at registration time in pushMiddleware
+      if (!m.regex?.pattern.test(url)) {
         continue
       }
 
-      if (m.type === 'mw' && m.fullPath && typeof m.fullPath === 'string') {
-        if (!m.fullPathRegex) {
-          m.fullPathRegex = rg(m.fullPath, true)
-        }
-
-        if (!m.fullPathRegex.pattern.test(url)) {
-          continue
-        }
+      if (m.type === 'mw' && m.fullPathRegex && !m.fullPathRegex.pattern.test(url)) {
+        continue
       }
 
       result.push(m)
@@ -321,7 +312,8 @@ export class App<Req extends Request = Request, Res extends Response = Response>
         }
       }
 
-      req.params = { ...req.params, ...params }
+      if (!req.params) req.params = {}
+      Object.assign(req.params, params)
 
       if (mw.type === 'mw') {
         req.url = lead(req.originalUrl.substring(prefix.length))

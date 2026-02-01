@@ -32,6 +32,7 @@
   "author": "v1rtl",
   "license": "MIT",
   "dependencies": {
+    "@tinyhttp/accepts": "workspace:^",
     "@tinyhttp/cookie": "workspace:*",
     "@tinyhttp/proxy-addr": "workspace:*",
     "@tinyhttp/req": "workspace:*",
