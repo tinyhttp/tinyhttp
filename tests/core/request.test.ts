@@ -742,6 +742,32 @@ describe('Request properties', () => {
     await fetch('/').expect(200, 'XMLHttpRequest: no')
   })
 
+  it('req.accepts methods share cached Accepts instance', async () => {
+    const { fetch } = InitAppAndTest((req, res) => {
+      // Call multiple accepts methods on the same request to exercise caching
+      const types = req.accepts('text/html', 'application/json')
+      const encodings = req.acceptsEncodings('gzip', 'deflate')
+      const charsets = req.acceptsCharsets('utf-8')
+      const languages = req.acceptsLanguages('en', 'es')
+
+      res.json({ types, encodings, charsets, languages })
+    })
+
+    await fetch('/', {
+      headers: {
+        Accept: 'text/html',
+        'Accept-Encoding': 'gzip',
+        'Accept-Charset': 'utf-8',
+        'Accept-Language': 'en'
+      }
+    }).expect(200, {
+      types: 'text/html',
+      encodings: 'gzip',
+      charsets: 'utf-8',
+      languages: 'en'
+    })
+  })
+
   it('req.path is the URL but without query parameters', async () => {
     const { fetch } = InitAppAndTest((req, res) => {
       res.send(`Path to page: ${req.path}`)
