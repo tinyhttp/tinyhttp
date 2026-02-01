@@ -1,6 +1,6 @@
 import type { IncomingMessage as I, IncomingHttpHeaders } from 'node:http'
 import mime from 'mime'
-import Negotiator from 'negotiator'
+import { Negotiator } from './negotiator.js'
 
 const extToMime = (type: string) => (type.indexOf('/') === -1 ? mime.getType(type) : type)
 
