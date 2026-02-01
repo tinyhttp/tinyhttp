@@ -104,20 +104,23 @@ describe('proxyaddr(req, trust)', () => {
           expect(e.message).toContain('invalid IP address')
         }
       })
-      it.each(['10.0.0.1/internet', '10.0.0.1/6000', '::1/6000', '::ffff:a00:2/136', '::ffff:a00:2/-1'])(
-        "should reject bad CIDR '%s'",
-        (trust: string) => {
-          const req = createReq('127.0.0.1')
+      it.each([
+        '10.0.0.1/internet',
+        '10.0.0.1/6000',
+        '::1/6000',
+        '::ffff:a00:2/136',
+        '::ffff:a00:2/-1'
+      ])("should reject bad CIDR '%s'", (trust: string) => {
+        const req = createReq('127.0.0.1')
 
-          try {
-            proxyaddr(req, trust)
-          } catch (e) {
-            expect(e.message).toContain('invalid range on address')
-            return
-          }
-          assert.fail()
+        try {
+          proxyaddr(req, trust)
+        } catch (e) {
+          expect(e.message).toContain('invalid range on address')
+          return
         }
-      )
+        assert.fail()
+      })
       it.each([
         '10.0.0.1/255.0.255.0',
         '10.0.0.1/ffc0::',
@@ -564,19 +567,21 @@ describe('proxyaddr.compile(trust)', () => {
         assert.fail()
       })
 
-      it.each(['10.0.0.1/6000', '::1/6000', '::ffff:a00:2/136', '::ffff:a00:2/-1'])(
-        "should reject bad CIDR '%s'",
-        (value: string) => {
-          try {
-            compile(value)
-          } catch (error) {
-            expect(error).toBeDefined()
-            expect(error.message).toMatch(/invalid range on address/)
-            return
-          }
-          assert.fail()
+      it.each([
+        '10.0.0.1/6000',
+        '::1/6000',
+        '::ffff:a00:2/136',
+        '::ffff:a00:2/-1'
+      ])("should reject bad CIDR '%s'", (value: string) => {
+        try {
+          compile(value)
+        } catch (error) {
+          expect(error).toBeDefined()
+          expect(error.message).toMatch(/invalid range on address/)
+          return
         }
-      )
+        assert.fail()
+      })
       it('should not alter input array', () => {
         const arr = ['loopback', '10.0.0.1']
         expect(compile(arr)).toBeTypeOf('function')

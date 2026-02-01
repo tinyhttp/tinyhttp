@@ -250,7 +250,10 @@ describe('Request properties', () => {
       const { fetch } = InitAppAndTest(ipHandler, '/', 'GET', options)
 
       const agent = new Agent({ family: 4 }) // ensure IPv4 only
-      const response = await fetch('/', { agent, headers: { 'x-forwarded-for': '10.0.0.1, 10.0.0.2, 127.0.0.2' } }).expectStatus(200)
+      const response = await fetch('/', {
+        agent,
+        headers: { 'x-forwarded-for': '10.0.0.1, 10.0.0.2, 127.0.0.2' }
+      }).expectStatus(200)
       const body = await response.json()
 
       // Node.js v24+ may connect via IPv6 even with family: 4, so accept both
@@ -265,7 +268,10 @@ describe('Request properties', () => {
       app.set('trust proxy', ['127.0.0.1', '::1'])
 
       const agent = new Agent({ family: 4 }) // ensure IPv4 only
-      const response = await fetch('/', { agent, headers: { 'x-forwarded-for': '10.0.0.1, 10.0.0.2, 127.0.0.2' } }).expectStatus(200)
+      const response = await fetch('/', {
+        agent,
+        headers: { 'x-forwarded-for': '10.0.0.1, 10.0.0.2, 127.0.0.2' }
+      }).expectStatus(200)
       const body = await response.json()
 
       // Node.js v24+ may connect via IPv6 even with family: 4, so accept both
@@ -327,7 +333,7 @@ describe('Request properties', () => {
       const body = await response.text()
 
       // Node.js v24+ ignores custom Host headers for security, so it uses 'localhost'
-      const nodeVersion = Number.parseInt(process.version.split('.')[0].substring(1))
+      const nodeVersion = Number.parseInt(process.version.split('.')[0].substring(1), 10)
       if (nodeVersion >= 24) {
         expect(body).toBe('hostname: localhost')
       } else {
@@ -348,7 +354,7 @@ describe('Request properties', () => {
       const body = await response.text()
 
       // Node.js v24+ ignores custom Host headers for security, so it uses 'localhost'
-      const nodeVersion = Number.parseInt(process.version.split('.')[0].substring(1))
+      const nodeVersion = Number.parseInt(process.version.split('.')[0].substring(1), 10)
       if (nodeVersion >= 24) {
         expect(body).toBe('hostname: localhost')
       } else {
@@ -451,7 +457,7 @@ describe('Request properties', () => {
       )
 
       // Node.js v24+ has different behavior with custom Host headers
-      const nodeVersion = Number.parseInt(process.version.split('.')[0].substring(1))
+      const nodeVersion = Number.parseInt(process.version.split('.')[0].substring(1), 10)
       if (nodeVersion >= 24) {
         // With Node.js v24+, malformed headers may still cause errors due to :authority header conflicts
         // Just verify the app doesn't crash completely
