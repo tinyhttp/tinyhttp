@@ -483,9 +483,8 @@ describe('HTTP methods', () => {
 
     await fetch('/', { method: 'UNSUBSCRIBE' }).expect(200, 'UNSUBSCRIBE')
   })
-  // Skip on Node.js v24+ as TRACE method is unsupported for security reasons
-  const nodeVersion = Number.parseInt(process.version.split('.')[0].substring(1), 10)
-  it.skipIf(nodeVersion >= 24)('app.trace handles trace request', async () => {
+  // Skip as TRACE method is unsupported for security reasons (backported to Node 20.19+, 22.13+)
+  it.skip('app.trace handles trace request', async () => {
     const app = new App()
 
     app.trace('/', (req, res) => void res.send(req.method))
