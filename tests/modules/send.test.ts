@@ -270,4 +270,25 @@ describe('sendFile(path)', () => {
     const app = runServer((req, res) => sendFile(req, res)(testFilePath, { caching: { maxAge: 0 } }))
     await makeFetch(app)('/').expectHeader('Cache-Control', 'public,max-age=0,must-revalidate')
   })
+  it('should set cache header with just maxAge when not immutable and not 0', async () => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath, { caching: { maxAge: 3600 } }))
+    await makeFetch(app)('/').expectHeader('Cache-Control', 'public,max-age=3600')
+  })
+  it('should call callback on successful stream completion', async () => {
+    let callbackCalled = false
+    let callbackError: Error | undefined
+
+    const app = runServer((req, res) => {
+      sendFile(req, res)(testFilePath, {}, (err) => {
+        callbackCalled = true
+        callbackError = err
+      })
+    })
+
+    await makeFetch(app)('/').expect('Hello World')
+    // Give stream time to complete and callback to fire
+    await new Promise((resolve) => setTimeout(resolve, 50))
+    expect(callbackCalled).toBe(true)
+    expect(callbackError).toBeUndefined()
+  })
 })
