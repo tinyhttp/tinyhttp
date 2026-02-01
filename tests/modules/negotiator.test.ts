@@ -197,8 +197,24 @@ describe('Negotiator', () => {
       expect(negotiator.mediaTypes(['text/html;level=1'])).toEqual(['text/html;level=1'])
     })
 
+    it('should not match when media type parameters differ', () => {
+      const negotiator = new Negotiator(createRequest({ accept: 'text/html;level=1' }))
+      // Parameters must match - level=2 doesn't match level=1
+      expect(negotiator.mediaTypes(['text/html;level=2'])).toEqual([])
+    })
+
     it('should handle quoted parameters', () => {
       const negotiator = new Negotiator(createRequest({ accept: 'text/html;charset="utf-8"' }))
+      expect(negotiator.mediaTypes()).toEqual(['text/html'])
+    })
+
+    it('should handle comma inside quoted parameter', () => {
+      const negotiator = new Negotiator(createRequest({ accept: 'text/html;foo="a,b", application/json' }))
+      expect(negotiator.mediaTypes()).toEqual(['text/html', 'application/json'])
+    })
+
+    it('should handle semicolon inside quoted parameter', () => {
+      const negotiator = new Negotiator(createRequest({ accept: 'text/html;foo="a;b"' }))
       expect(negotiator.mediaTypes()).toEqual(['text/html'])
     })
 

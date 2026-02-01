@@ -367,8 +367,9 @@ function splitKeyValuePair(str: string): [string, string] {
 
 function splitMediaTypes(accept: string): string[] {
   const accepts = accept.split(',')
+  let j = 0
 
-  for (let i = 1, j = 0; i < accepts.length; i++) {
+  for (let i = 1; i < accepts.length; i++) {
     if (quoteCount(accepts[j]) % 2 === 0) {
       accepts[++j] = accepts[i]
     } else {
@@ -376,13 +377,14 @@ function splitMediaTypes(accept: string): string[] {
     }
   }
 
-  return accepts
+  return accepts.slice(0, j + 1)
 }
 
 function splitParameters(str: string): string[] {
   const parameters = str.split(';')
+  let j = 0
 
-  for (let i = 1, j = 0; i < parameters.length; i++) {
+  for (let i = 1; i < parameters.length; i++) {
     if (quoteCount(parameters[j]) % 2 === 0) {
       parameters[++j] = parameters[i]
     } else {
@@ -390,7 +392,7 @@ function splitParameters(str: string): string[] {
     }
   }
 
-  return parameters.map((p) => p.trim())
+  return parameters.slice(0, j + 1).map((p) => p.trim())
 }
 
 // ============================================================================
