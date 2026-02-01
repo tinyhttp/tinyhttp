@@ -16,6 +16,10 @@ interface Spec {
   s: number
 }
 
+function compareByQI(a: { q: number; i: number }, b: { q: number; i: number }): number {
+  return b.q - a.q || a.i - b.i || 0
+}
+
 // ============================================================================
 // Charset
 // ============================================================================
@@ -85,17 +89,13 @@ function specifyCharset(charset: string, spec: CharsetSpec, index: number): Spec
   return { i: index, o: spec.i, q: spec.q, s }
 }
 
-function compareCharsetSpecs(a: CharsetSpec, b: CharsetSpec): number {
-  return b.q - a.q || a.i - b.i || 0
-}
-
 function preferredCharsets(accept: string | undefined, provided?: string[]): string[] {
   const accepts = parseAcceptCharset(accept === undefined ? '*' : accept || '')
 
   if (!provided) {
     return accepts
       .filter(isQuality)
-      .sort(compareCharsetSpecs)
+      .sort(compareByQI)
       .map((spec) => spec.charset)
   }
 
@@ -186,17 +186,13 @@ function specifyEncoding(encoding: string, spec: EncodingSpec, index: number): (
   return { encoding, i: index, o: spec.i, q: spec.q, s }
 }
 
-function compareEncodingSpecs(a: EncodingSpec, b: EncodingSpec): number {
-  return b.q - a.q || a.i - b.i || 0
-}
-
 function preferredEncodings(accept: string | undefined, provided?: string[]): string[] {
   const accepts = parseAcceptEncoding(accept || '')
 
   if (!provided) {
     return accepts
       .filter(isQuality)
-      .sort(compareEncodingSpecs)
+      .sort(compareByQI)
       .map((spec) => spec.encoding)
   }
 
@@ -287,17 +283,13 @@ function specifyLanguage(language: string, spec: LanguageSpec, index: number): S
   return { i: index, o: spec.i, q: spec.q, s }
 }
 
-function compareLanguageSpecs(a: LanguageSpec, b: LanguageSpec): number {
-  return b.q - a.q || a.i - b.i || 0
-}
-
 function preferredLanguages(accept: string | undefined, provided?: string[]): string[] {
   const accepts = parseAcceptLanguage(accept === undefined ? '*' : accept || '')
 
   if (!provided) {
     return accepts
       .filter(isQuality)
-      .sort(compareLanguageSpecs)
+      .sort(compareByQI)
       .map((spec) => spec.full)
   }
 
@@ -410,17 +402,13 @@ function specifyMediaType(type: string, spec: MediaTypeSpec, index: number): Spe
   return { i: index, o: spec.i, q: spec.q, s }
 }
 
-function compareMediaTypeSpecs(a: MediaTypeSpec, b: MediaTypeSpec): number {
-  return b.q - a.q || a.i - b.i || 0
-}
-
 function preferredMediaTypes(accept: string | undefined, provided?: string[]): string[] {
   const accepts = parseAccept(accept === undefined ? '*/*' : accept || '')
 
   if (!provided) {
     return accepts
       .filter(isQuality)
-      .sort(compareMediaTypeSpecs)
+      .sort(compareByQI)
       .map((spec) => spec.type + '/' + spec.subtype)
   }
 
