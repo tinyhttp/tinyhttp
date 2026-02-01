@@ -1,7 +1,6 @@
 import type { IncomingMessage } from 'node:http'
-import { isIP } from 'node:net'
+import { BlockList, isIP } from 'node:net'
 import { forwarded } from '@tinyhttp/forwarded'
-import ipaddr, { type IPv4, type IPv6 } from 'ipaddr.js'
 
 type Req = Pick<IncomingMessage, 'headers' | 'socket'>
 
@@ -10,13 +9,14 @@ export type TrustFunction = (addr: string, i: number) => boolean
 export type Trust = TrustFunction | TrustParameter
 
 type Subnet = {
-  ip: IPv4 | IPv6
+  ip: string
   range: number
+  isIPv6: boolean
 }
 
 const DIGIT_REGEXP = /^[0-9]+$/
 const isip = (ip: string) => isIP(ip) !== 0
-const parseip = ipaddr.parse
+
 /**
  * Pre-defined IP ranges.
  */
@@ -27,23 +27,74 @@ const IP_RANGES = {
 }
 
 /**
+ * Check if an IPv6 address is an IPv4-mapped address (::ffff:x.x.x.x)
+ */
+function isIPv4Mapped(addr: string): boolean {
+  if (isIP(addr) !== 6) return false
+  const lower = addr.toLowerCase()
+  return lower.startsWith('::ffff:') || lower.startsWith('0:0:0:0:0:ffff:')
+}
+
+/**
+ * Convert IPv4-mapped IPv6 address to IPv4.
+ * Handles both ::ffff:x.x.x.x and ::ffff:xxxx:xxxx formats.
+ */
+function mappedToIPv4(addr: string): string | null {
+  if (!isIPv4Mapped(addr)) return null
+  const lower = addr.toLowerCase()
+  const suffix = lower.startsWith('::ffff:') ? addr.substring(7) : addr.substring(14)
+
+  // Dotted decimal format (::ffff:127.0.0.1)
+  if (suffix.includes('.')) return suffix
+
+  // Hex format (::ffff:a00:1 -> 10.0.0.1)
+  const parts = suffix.split(':')
+  if (parts.length === 2) {
+    const high = Number.parseInt(parts[0], 16)
+    const low = Number.parseInt(parts[1], 16)
+    return `${(high >> 8) & 0xff}.${high & 0xff}.${(low >> 8) & 0xff}.${low & 0xff}`
+  }
+  return null
+}
+
+/**
+ * Normalize an IP address - converts IPv4-mapped IPv6 to plain IPv4.
+ */
+function normalizeIP(addr: string): string {
+  const mapped = mappedToIPv4(addr)
+  return mapped ?? addr
+}
+
+/**
+ * Convert netmask string to CIDR prefix length.
+ * Returns null for invalid netmasks.
+ */
+function netmaskToPrefix(netmask: string): number | null {
+  if (isIP(netmask) !== 4) return null
+
+  const parts = netmask.split('.').map(Number)
+  if (parts.length !== 4 || parts.some((p) => Number.isNaN(p) || p < 0 || p > 255)) return null
+
+  // Convert to binary and count leading 1s
+  const binary = parts.map((p) => p.toString(2).padStart(8, '0')).join('')
+  const firstZero = binary.indexOf('0')
+
+  // All 1s = /32
+  if (firstZero === -1) return 32
+
+  // Validate it's a valid netmask (all 1s followed by all 0s)
+  if (binary.substring(firstZero).includes('1')) return null
+
+  return firstZero
+}
+
+/**
  * Type-guard to determine whether a string value represents a pre-defined IP range.
- *
- * @param val
  */
 function isIPRangeName(val: string): val is keyof typeof IP_RANGES {
   return Object.hasOwn(IP_RANGES, val)
 }
-/**
- * Type-guard to determine whether an IP address is a v4 address.
- * @param val
- */
-const isIPv4 = (val: IPv4 | IPv6): val is IPv4 => val.kind() === 'ipv4'
-/**
- * Type-guard to determine whether an IP address is a v6 address.
- * @param val
- */
-const isIPv6 = (val: IPv4 | IPv6): val is IPv6 => val.kind() === 'ipv6'
+
 /**
  * Static trust function to trust nothing.
  */
@@ -52,13 +103,8 @@ const trustNone = () => false
 /**
  * Get all addresses in the request, optionally stopping
  * at the first untrusted.
- *
- * @param req
- * @param trust
  */
 function alladdrs(req: Req, trust?: Trust): string[] {
-  // get addresses
-
   const addrs = forwarded(req)
 
   if (trust == null) return addrs
@@ -71,10 +117,9 @@ function alladdrs(req: Req, trust?: Trust): string[] {
   }
   return addrs
 }
+
 /**
  * Compile argument into trust function.
- *
- * @param  val
  */
 function compile(val: string | number | string[]): (addr: string, i: number) => boolean {
   let trust: string[]
@@ -94,10 +139,9 @@ function compile(val: string | number | string[]): (addr: string, i: number) => 
   }
   return compileTrust(compileRangeSubnets(trust))
 }
+
 /**
  * Compile 'hops' number into trust function.
- *
- * @param hops
  */
 function compileHopsTrust(hops: number): (_: string, i: number) => boolean {
   return (_, i) => i < hops
@@ -109,21 +153,38 @@ function compileHopsTrust(hops: number): (_: string, i: number) => boolean {
 function compileRangeSubnets(arr: string[]) {
   return arr.map((ip) => parseIPNotation(ip))
 }
+
 /**
  * Compile range subnet array into trust function.
- *
- * @param rangeSubnets
  */
 function compileTrust(rangeSubnets: Subnet[]) {
-  // Return optimized function based on length
   const len = rangeSubnets.length
-  return len === 0 ? trustNone : len === 1 ? trustSingle(rangeSubnets[0]) : trustMulti(rangeSubnets)
+  if (len === 0) return trustNone
+
+  // Build a BlockList with all subnets
+  const blockList = new BlockList()
+
+  for (const subnet of rangeSubnets) {
+    if (subnet.isIPv6) {
+      blockList.addSubnet(subnet.ip, subnet.range, 'ipv6')
+    } else {
+      blockList.addSubnet(subnet.ip, subnet.range, 'ipv4')
+    }
+  }
+
+  return function trust(addr: string) {
+    if (!isip(addr)) return false
+
+    // Normalize the address (convert IPv4-mapped to plain IPv4)
+    const normalized = normalizeIP(addr)
+    const type = isIP(normalized) === 6 ? 'ipv6' : 'ipv4'
+
+    return blockList.check(normalized, type)
+  }
 }
+
 /**
  * Parse IP notation string into range subnet.
- *
- * @param {String} note
- * @private
  */
 export function parseIPNotation(note: string): Subnet {
   const pos = note.lastIndexOf('/')
@@ -131,90 +192,45 @@ export function parseIPNotation(note: string): Subnet {
 
   if (!isip(str)) throw new TypeError(`invalid IP address: ${str}`)
 
-  let ip = parseip(str)
-  const max = ip.kind() === 'ipv6' ? 128 : 32
+  // Check if original was IPv6 before normalization
+  const originalIsIPv6 = isIP(str) === 6
+
+  // Normalize IPv4-mapped addresses to plain IPv4
+  let ip = normalizeIP(str)
+  let isIPv6 = isIP(ip) === 6
+  const max = isIPv6 ? 128 : 32
 
   if (pos === -1) {
-    if (isIPv6(ip) && ip.isIPv4MappedAddress()) ip = ip.toIPv4Address()
-    return { ip, range: max }
+    return { ip, range: max, isIPv6 }
   }
 
   const rangeString = note.substring(pos + 1, note.length)
   let range: number | null = null
 
-  if (DIGIT_REGEXP.test(rangeString)) range = Number.parseInt(rangeString, 10)
-  else if (ip.kind() === 'ipv4' && isip(rangeString)) range = parseNetmask(rangeString)
+  if (DIGIT_REGEXP.test(rangeString)) {
+    range = Number.parseInt(rangeString, 10)
+
+    // If original was IPv4-mapped, adjust the range from /128 space to /32 space
+    if (str !== ip && originalIsIPv6) {
+      // Original was IPv4-mapped IPv6 (e.g., ::ffff:a00:2/122)
+      // Convert range: subtract 96 (128 - 32) to get IPv4 equivalent
+      range = range - 96
+    }
+  } else if (!isIPv6 && !originalIsIPv6 && isip(rangeString)) {
+    // Only allow netmask notation for originally-IPv4 addresses
+    range = netmaskToPrefix(rangeString)
+  }
 
   if (range == null || range <= 0 || range > max) throw new TypeError(`invalid range on address: ${note}`)
-  return { ip, range }
+  return { ip, range, isIPv6 }
 }
-/**
- * Parse netmask string into CIDR range.
- *
- * @param netmask
- * @private
- */
-function parseNetmask(netmask: string) {
-  const ip = parseip(netmask)
-  return ip.kind() === 'ipv4' ? ip.prefixLengthFromSubnetMask() : null
-}
+
 /**
  * Determine address of proxied request.
- *
- * @param req
- * @param trust
- * @public
  */
 export function proxyaddr(req: Req, trust: Trust): string {
   const addrs = alladdrs(req, trust)
-
   return addrs[addrs.length - 1]
-}
-
-/**
- * Compile trust function for multiple subnets.
- */
-function trustMulti(subnets: Subnet[]) {
-  return function trust(addr: string) {
-    if (!isip(addr)) return false
-    const ip = parseip(addr)
-    let ipconv: IPv4 | IPv6 | null = null
-    const kind = ip.kind()
-    for (let i = 0; i < subnets.length; i++) {
-      const subnet = subnets[i]
-      const subnetKind = subnet.ip.kind()
-      let trusted = ip
-      if (kind !== subnetKind) {
-        if (isIPv6(ip) && !ip.isIPv4MappedAddress()) continue
-
-        if (!ipconv) ipconv = isIPv4(ip) ? ip.toIPv4MappedAddress() : ip.toIPv4Address()
-
-        trusted = ipconv
-      }
-      if (trusted.match(subnet.ip, subnet.range)) return true
-    }
-    return false
-  }
-}
-/**
- * Compile trust function for single subnet.
- *
- * @param subnet
- */
-function trustSingle(subnet: Subnet) {
-  const subnetKind = subnet.ip.kind()
-  const subnetIsIPv4 = subnetKind === 'ipv4'
-  return function trust(addr: string) {
-    if (!isip(addr)) return false
-    let ip = parseip(addr)
-    const kind = ip.kind()
-    if (kind !== subnetKind) {
-      if (subnetIsIPv4 && !(ip as IPv6).isIPv4MappedAddress()) return false
-
-      ip = subnetIsIPv4 ? (ip as IPv6).toIPv4Address() : (ip as IPv4).toIPv4MappedAddress()
-    }
-    return (ip as IPv6).match(subnet.ip, subnet.range)
-  }
 }
 
 export { alladdrs as all }
