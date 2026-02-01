@@ -995,6 +995,68 @@ describe('Subapps', () => {
     await fetch('/bar1/foo').expect(200, 'foo')
     await fetch('/bar2/foo').expect(200, 'foo')
   })
+  it('should handle HEAD requests to sub-app routes', async () => {
+    const app = new App()
+    const subApp = new App()
+
+    subApp.get('/resource', (_req, res) => {
+      res.send('This is the resource')
+    })
+
+    app.use('/api', subApp)
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    // HEAD request should work and return empty body
+    const response = await fetch('/api/resource', { method: 'HEAD' })
+    expect(response.status).toBe(200)
+    const body = await response.text()
+    expect(body).toBe('')
+  })
+  it('should not continue middleware chain if response is already ended', async () => {
+    const app = new App()
+    const subApp = new App()
+
+    let fallbackCalled = false
+
+    subApp.use((_req, res, next) => {
+      res.end('done')
+      // Call next after response is ended
+      next()
+    })
+
+    app.use('/sub', subApp)
+
+    app.use((_req, res) => {
+      fallbackCalled = true
+      res.send('fallback')
+    })
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    await fetch('/sub/test').expect(200, 'done')
+    expect(fallbackCalled).toBe(false)
+  })
+  it('should handle empty sub-app with no middleware', async () => {
+    const app = new App()
+    const emptySubApp = new App()
+
+    // Mount empty sub-app (no routes or middleware added)
+    app.use('/empty', emptySubApp)
+
+    // Add a fallback route on parent
+    app.get('/other', (_req, res) => res.send('other'))
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    // Empty sub-app should result in 404 for unmatched paths
+    await fetch('/empty/anything').expect(404)
+    // Other routes should still work
+    await fetch('/other').expect(200, 'other')
+  })
 })
 
 describe('Template engines', () => {
@@ -1056,6 +1118,45 @@ describe('Template engines', () => {
         if (err) throw err
         expect(str).toEqual('Hello from v1rtl')
       })
+    })
+    it('should work without a callback', () => {
+      const app = new App({
+        settings: {
+          views: `${process.cwd()}/tests/fixtures/views`
+        }
+      })
+      app.engine('eta', renderFile)
+      app.locals.name = 'v1rtl'
+
+      // Should not throw when no callback is provided
+      app.render('index.eta', {}, {})
+    })
+    it('should use view cache in production mode', () => {
+      const originalEnv = process.env.NODE_ENV
+      process.env.NODE_ENV = 'production'
+
+      const app = new App({
+        settings: {
+          views: `${process.cwd()}/tests/fixtures/views`
+        }
+      })
+      app.engine('eta', renderFile)
+      app.locals.name = 'v1rtl'
+
+      // First render should cache the view
+      app.render('index.eta', {}, {}, (err, str) => {
+        if (err) throw err
+        expect(str).toEqual('Hello from v1rtl')
+      })
+
+      // Second render should use cached view
+      app.render('index.eta', {}, {}, (err, str) => {
+        if (err) throw err
+        expect(str).toEqual('Hello from v1rtl')
+        expect(app.cache['index.eta']).toBeDefined()
+      })
+
+      process.env.NODE_ENV = originalEnv
     })
     describe('errors', () => {
       it('should catch errors', () => {

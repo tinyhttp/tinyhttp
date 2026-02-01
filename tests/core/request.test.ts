@@ -183,6 +183,34 @@ describe('Request properties', () => {
       const fetch = makeFetch(app.listen())
       await fetch('/a').expect(404, 'Not Found')
     })
+    it('should reset params when middleware chain finds new matches after rewrite', async () => {
+      // This tests the branch where idx !== 0 and new matched routes are found
+      // In this case, params should be reset to avoid param pollution
+      const app = new App()
+
+      app.get('/:initial', (req, _, next) => {
+        // Capture initial param, then rewrite URL to match a different route
+        ;(req as Request & { initialParam: string }).initialParam = req.params.initial
+        req.url = '/new/target'
+        next()
+      })
+
+      app.get('/new/:newParam', (req, res) => {
+        res.json({
+          initialParam: (req as Request & { initialParam: string }).initialParam,
+          newParam: req.params.newParam,
+          // After reset, the old :initial param should not be present
+          hasInitialInParams: 'initial' in req.params
+        })
+      })
+
+      const fetch = makeFetch(app.listen())
+      await fetch('/first').expect(200, {
+        initialParam: 'first',
+        newParam: 'target',
+        hasInitialInParams: false
+      })
+    })
     it('should set the correct req.url on routes after req.url was rewritten', async () => {
       const echo = (req, res) => res.send({ url: req.url, params: req.params })
       const rewrite = (req, _, next) => {
@@ -314,6 +342,26 @@ describe('Request properties', () => {
         headers: { 'X-Forwarded-Proto': 'https' }
       }).expect(200, 'protocol: https')
     })
+    it('req.protocol extracts first value from comma-separated X-Forwarded-Proto', async () => {
+      const app = new App({
+        settings: {
+          networkExtensions: true,
+          'trust proxy': ['127.0.0.1', '::1', '::ffff:127.0.0.1']
+        }
+      })
+
+      app.use((req, res) => {
+        res.send(`protocol: ${req.protocol}`)
+      })
+
+      const server = app.listen()
+      const fetch = makeFetch(server)
+
+      // When behind multiple proxies, X-Forwarded-Proto may have multiple values
+      await fetch('/', {
+        headers: { 'X-Forwarded-Proto': 'https, http' }
+      }).expect(200, 'protocol: https')
+    })
     it('req.secure is false by default', async () => {
       const { fetch } = InitAppAndTest(
         (req, res) => {
@@ -325,6 +373,27 @@ describe('Request properties', () => {
       )
 
       await fetch('/').expect(200, 'secure: false')
+    })
+    it('req.secure is true when connection is encrypted (HTTPS)', async () => {
+      const { getRequestHeader }: typeof req = await vi.importActual('../../packages/req/src')
+      // Mock req.secure by intercepting the request before extensions are applied
+      vi.mocked(req.getRequestHeader).mockImplementation((r) => {
+        // Simulate a TLS connection by setting secure = true on the request
+        // This mimics what happens with HTTPS servers where the initial connection is secure
+        ;(r as Request & { secure: boolean }).secure = true
+        return getRequestHeader(r)
+      })
+
+      const { fetch } = InitAppAndTest(
+        (req, res) => {
+          res.send(`protocol: ${req.protocol}, secure: ${req.secure}`)
+        },
+        '/',
+        'GET',
+        options
+      )
+
+      await fetch('/').expect(200, 'protocol: https, secure: true')
     })
     it('req.subdomains is empty by default', async () => {
       const { fetch } = InitAppAndTest(

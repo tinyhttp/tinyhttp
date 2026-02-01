@@ -19,9 +19,7 @@ export const setHeader =
         }
 
         if (!charsetRegExp.test(value)) {
-          const charset = 'UTF-8' // UTF-8 is the default charset for all types
-
-          if (typeof charset === 'string') value += `; charset=${charset.toLowerCase()}`
+          value += '; charset=utf-8'
         }
       }
 

@@ -270,6 +270,22 @@ describe('sendFile(path)', () => {
     const app = runServer((req, res) => sendFile(req, res)(testFilePath, { caching: { maxAge: 0 } }))
     await makeFetch(app)('/').expectHeader('Cache-Control', 'public,max-age=0,must-revalidate')
   })
+  it('should set cache control with maxAge=0 and immutable=false', async () => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath, { caching: { maxAge: 0, immutable: false } }))
+    await makeFetch(app)('/').expectHeader('Cache-Control', 'public,max-age=0,must-revalidate')
+  })
+  it('should handle Range header with only start position', async () => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath))
+    // Range with only start, no end (bytes=5-)
+    await makeFetch(app)('/', {
+      headers: {
+        Range: 'bytes=5-'
+      }
+    })
+      .expectStatus(206)
+      .expect('Content-Range', 'bytes 5-10/11')
+      .expect(' World')
+  })
   it('should set cache header with just maxAge when not immutable and not 0', async () => {
     const app = runServer((req, res) => sendFile(req, res)(testFilePath, { caching: { maxAge: 3600 } }))
     await makeFetch(app)('/').expectHeader('Cache-Control', 'public,max-age=3600')

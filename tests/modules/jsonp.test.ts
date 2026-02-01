@@ -8,6 +8,15 @@ describe('jsonp', () => {
     await fetch('/').expect('Content-Type', 'application/json; charset=utf-8').expect(200, '{"jsonp":"value"}')
   })
 
+  it('should preserve existing Content-Type header when already set', async () => {
+    const { fetch } = InitAppAndTest((req, res) => {
+      res.set('Content-Type', 'application/custom+json')
+      jsonp(req, res)({ jsonp: 'value' })
+    })
+    // Should preserve the pre-set Content-Type and not override with application/json
+    await fetch('/').expect('Content-Type', 'application/custom+json; charset=utf-8').expect(200, '{"jsonp":"value"}')
+  })
+
   it('should use callback with jsonp when defined', async () => {
     const { fetch } = InitAppAndTest((req, res) => jsonp(req, res)({ jsonp: 'value' }))
 

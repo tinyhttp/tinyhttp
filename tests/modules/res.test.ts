@@ -17,7 +17,7 @@ import {
   setLocationHeader,
   setVaryHeader
 } from '../../packages/res/src/index.js'
-import { acceptParams, escapeHTML } from '../../packages/res/src/util.js'
+import { acceptParams, escapeHTML, normalizeType } from '../../packages/res/src/util.js'
 import { runServer } from '../../test_helpers/runServer'
 
 const __dirname = import.meta.dirname
@@ -786,6 +786,26 @@ describe('util', () => {
         params: { charset: 'utf-8' },
         originalIndex: 3
       })
+    })
+  })
+
+  describe('normalizeType', () => {
+    it('should return full MIME type as-is when it contains "/"', () => {
+      const result = normalizeType('application/json')
+      expect(result.value).toBe('application/json')
+      expect(result.params).toEqual({})
+    })
+
+    it('should look up MIME type when given an extension without "/"', () => {
+      const result = normalizeType('json')
+      expect(result.value).toBe('application/json')
+      expect(result.params).toEqual({})
+    })
+
+    it('should look up MIME type for html extension', () => {
+      const result = normalizeType('html')
+      expect(result.value).toBe('text/html')
+      expect(result.params).toEqual({})
     })
   })
 })
