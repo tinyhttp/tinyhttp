@@ -535,6 +535,26 @@ describe('proxyaddr.compile(trust)', () => {
         }
         assert.fail()
       })
+      it('should accept long-form IPv4-mapped IPv6', () => {
+        const req = createReq('0:0:0:0:0:ffff:127.0.0.1', {
+          'x-forwarded-for': '10.0.0.1'
+        })
+        expect(proxyaddr(req, '127.0.0.1')).toBe('10.0.0.1')
+      })
+      it('should accept /32 netmask (255.255.255.255)', () => {
+        const req = createReq('10.0.0.1', {
+          'x-forwarded-for': '192.168.0.1'
+        })
+        expect(proxyaddr(req, '10.0.0.1/255.255.255.255')).toBe('192.168.0.1')
+      })
+      it('should handle malformed IPv4-mapped address (::ffff:1)', () => {
+        // ::ffff:1 looks like IPv4-mapped but isn't a valid mapped address
+        // Should be treated as regular IPv6 and not crash
+        const req = createReq('::ffff:1', {
+          'x-forwarded-for': '10.0.0.1'
+        })
+        expect(proxyaddr(req, '::ffff:1')).toBe('10.0.0.1')
+      })
       it('should accept a string array', () => {
         expect(compile(['127.0.0.1'])).toBeTypeOf('function')
       })

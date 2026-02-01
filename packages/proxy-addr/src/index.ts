@@ -42,7 +42,7 @@ function isIPv4Mapped(addr: string): boolean {
 function mappedToIPv4(addr: string): string | null {
   if (!isIPv4Mapped(addr)) return null
   const lower = addr.toLowerCase()
-  const suffix = lower.startsWith('::ffff:') ? addr.substring(7) : addr.substring(14)
+  const suffix = lower.startsWith('::ffff:') ? addr.substring(7) : addr.substring(15)
 
   // Dotted decimal format (::ffff:127.0.0.1)
   if (suffix.includes('.')) return suffix

@@ -126,9 +126,6 @@ importers:
       '@tinyhttp/forwarded':
         specifier: workspace:*
         version: link:../forwarded
-      ipaddr.js:
-        specifier: ^2.2.0
-        version: 2.2.0
 
   packages/rate-limit:
     dependencies:
@@ -1163,10 +1160,6 @@ packages:
   ini@4.1.1:
     resolution: {integrity: sha512-QQnnxNyfvmHFIsj7gkPcYymR8Jdw/o7mp5ZFihxn6h8Ci6fh3Dx4E1gPjpQEpIuPo9XVNY/ZUwh4BPMjGyL01g==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
-
-  ipaddr.js@2.2.0:
-    resolution: {integrity: sha512-Ag3wB2o37wslZS19hZqorUnrnzSkpOVy+IiiDEiTqNubEYpYuHWIf6K4psgN2ZWKExS4xhVCrRVfb/wfW8fWJA==}
-    engines: {node: '>= 10'}
 
   is-arrayish@0.2.1:
     resolution: {integrity: sha512-zz06S8t0ozoDXMG+ube26zeCTNXcKIPJZJi8hBrF4idCLms4CG9QtK7qBl1boi5ODzFpjswb5JPmHCbMpjaYzg==}
@@ -2684,8 +2677,6 @@ snapshots:
   import-meta-resolve@4.2.0: {}
 
   ini@4.1.1: {}
-
-  ipaddr.js@2.2.0: {}
 
   is-arrayish@0.2.1: {}
 
