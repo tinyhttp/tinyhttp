@@ -218,6 +218,13 @@ describe('Response extensions', () => {
 
       await makeFetch(app)('/').expect('Content-Type', 'text/html; charset=utf-8')
     })
+    it('should use full MIME type when it contains a slash', async () => {
+      const app = runServer((_, res) => {
+        setContentType(res)('application/json').end()
+      })
+
+      await makeFetch(app)('/').expect('Content-Type', 'application/json; charset=utf-8')
+    })
   })
   describe('res.attachment(filename)', () => {
     it('should set Content-Disposition without a filename specified', async () => {
@@ -364,6 +371,29 @@ describe('Response extensions', () => {
       })
 
       await makeFetch(app)('/').expect(200).expectHeader('Set-Cookie', 'hello=world; Path=/, foo=bar; Path=/')
+    })
+    it('should serialize object values as JSON', async () => {
+      const app = runServer((req, res) => {
+        setCookie(req, res)('data', { foo: 'bar', num: 42 }).end()
+
+        // The value is URL-encoded, so j: becomes j%3A and quotes become %22
+        expect(res.getHeader('Set-Cookie')).toContain('data=j%3A%7B%22foo%22%3A%22bar%22%2C%22num%22%3A42%7D')
+      })
+
+      await makeFetch(app)('/').expect(200)
+    })
+    it('should sign cookie when signed option is true and secret is provided', async () => {
+      const app = runServer((req, res) => {
+        ;(req as typeof req & { secret: string }).secret = 'my-secret'
+        setCookie(req as typeof req & { secret: string }, res)('hello', 'world', {
+          signed: true
+        }).end()
+
+        // Signed cookies start with 's:'
+        expect(res.getHeader('Set-Cookie')).toContain('hello=s%3A')
+      })
+
+      await makeFetch(app)('/').expect(200)
     })
   })
   describe('res.clearCookie(name, options)', () => {

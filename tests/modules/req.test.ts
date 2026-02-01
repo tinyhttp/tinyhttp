@@ -49,6 +49,19 @@ describe('Request extensions', () => {
         }
       }).expect('localhost:3000')
     })
+    it('should handle "referer" alternate spelling when called with "referer"', async () => {
+      const app = runServer((req, res) => {
+        // Use 'referer' spelling when calling getRequestHeader
+        res.end(getRequestHeader(req)('referer'))
+      })
+
+      await makeFetch(app)('/', {
+        headers: {
+          'Referrer-Policy': 'unsafe-url',
+          referer: 'localhost:3000'
+        }
+      }).expect('localhost:3000')
+    })
   })
   describe('req.xhr', () => {
     it('should be false in node environment', async () => {
