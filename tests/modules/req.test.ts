@@ -49,6 +49,19 @@ describe('Request extensions', () => {
         }
       }).expect('localhost:3000')
     })
+    it('should handle "referer" alternate spelling when called with "referer"', async () => {
+      const app = runServer((req, res) => {
+        // Use 'referer' spelling when calling getRequestHeader
+        res.end(getRequestHeader(req)('referer'))
+      })
+
+      await makeFetch(app)('/', {
+        headers: {
+          'Referrer-Policy': 'unsafe-url',
+          referer: 'localhost:3000'
+        }
+      }).expect('localhost:3000')
+    })
   })
   describe('req.xhr', () => {
     it('should be false in node environment', async () => {
@@ -263,6 +276,104 @@ describe('Request extensions', () => {
           {}
         )
       ).toBe(false)
+    })
+    it('should return true when last-modified is less than or equal to if-modified-since', () => {
+      const now = new Date()
+      expect(
+        fresh(
+          {
+            'if-modified-since': now.toUTCString()
+          },
+          {
+            'last-modified': new Date(now.getTime() - 1000).toUTCString()
+          }
+        )
+      ).toBe(true)
+    })
+    it('should match weak ETags (W/ prefix on request)', () => {
+      expect(
+        fresh(
+          {
+            'if-none-match': 'W/"123"'
+          },
+          {
+            etag: '"123"'
+          }
+        )
+      ).toBe(true)
+    })
+    it('should match weak ETags (W/ prefix on response)', () => {
+      expect(
+        fresh(
+          {
+            'if-none-match': '"123"'
+          },
+          {
+            etag: 'W/"123"'
+          }
+        )
+      ).toBe(true)
+    })
+    it('should handle comma-separated ETags in if-none-match', () => {
+      expect(
+        fresh(
+          {
+            'if-none-match': '"abc", "123", "xyz"'
+          },
+          {
+            etag: '"123"'
+          }
+        )
+      ).toBe(true)
+    })
+    it('should return false when ETag does not match any in comma-separated list', () => {
+      expect(
+        fresh(
+          {
+            'if-none-match': '"abc", "def", "xyz"'
+          },
+          {
+            etag: '"123"'
+          }
+        )
+      ).toBe(false)
+    })
+    it('should handle spaces before ETags in if-none-match', () => {
+      expect(
+        fresh(
+          {
+            'if-none-match': '   "123"'
+          },
+          {
+            etag: '"123"'
+          }
+        )
+      ).toBe(true)
+    })
+    it('should handle spaces between comma-separated ETags', () => {
+      expect(
+        fresh(
+          {
+            'if-none-match': '"abc",   "123"'
+          },
+          {
+            etag: '"123"'
+          }
+        )
+      ).toBe(true)
+    })
+    it('should handle spaces within ETag values correctly', () => {
+      // Space after characters have been parsed (start !== end)
+      expect(
+        fresh(
+          {
+            'if-none-match': '"123" '
+          },
+          {
+            etag: '"123"'
+          }
+        )
+      ).toBe(true)
     })
   })
 
