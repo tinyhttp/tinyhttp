@@ -1057,6 +1057,42 @@ describe('Subapps', () => {
     // Other routes should still work
     await fetch('/other').expect(200, 'other')
   })
+  it('should call parent next when sub-app exhausts middleware', async () => {
+    const app = new App()
+    const subApp = new App()
+
+    // Sub-app has middleware that calls next
+    subApp.use((_req, _res, next) => {
+      next?.()
+    })
+
+    // Parent app has a fallback after sub-app
+    app.use('/sub', subApp)
+    app.use('/sub', (_req, res) => {
+      res.send('parent fallback')
+    })
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    // Request should pass through sub-app and reach parent's next middleware
+    await fetch('/sub/test').expect(200, 'parent fallback')
+  })
+  it('should handle HEAD request reaching fallback handler', async () => {
+    const app = new App()
+
+    // Only define GET route, no specific HEAD handler
+    app.get('/resource', (_req, res) => {
+      res.send('GET response')
+    })
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    // HEAD request to existing route
+    const response = await fetch('/resource', { method: 'HEAD' })
+    expect(response.status).toBe(200)
+  })
 })
 
 describe('Template engines', () => {
@@ -1157,6 +1193,23 @@ describe('Template engines', () => {
       })
 
       process.env.NODE_ENV = originalEnv
+    })
+    it('should handle view engine with leading dot', () => {
+      const app = new App({
+        settings: {
+          views: `${process.cwd()}/tests/fixtures/views`
+        }
+      })
+      // Register engine WITH leading dot
+      app.engine('.eta', renderFile)
+      // Set view engine WITH leading dot (covers the branch where defaultEngine starts with '.')
+      app.set('view engine', '.eta')
+      app.locals.name = 'v1rtl'
+
+      app.render('index', {}, {}, (err, str) => {
+        if (err) throw err
+        expect(str).toEqual('Hello from v1rtl')
+      })
     })
     describe('errors', () => {
       it('should catch errors', () => {

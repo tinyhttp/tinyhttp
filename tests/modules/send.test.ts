@@ -67,6 +67,24 @@ describe('send(body)', () => {
 
     await makeFetch(app)('/').expect('Hello World')
   })
+  it('should preserve Content-Type when sending buffer with Content-Type already set', async () => {
+    const app = runServer((req, res) => {
+      res.setHeader('Content-Type', 'application/custom-binary')
+      send(req, res)(Buffer.from('binary data'))
+    })
+
+    await makeFetch(app)('/').expectHeader('Content-Type', 'application/custom-binary')
+  })
+  it('should handle non-string body that needs toString conversion', async () => {
+    const app = runServer((req, res) => {
+      // Set ETag first to avoid createETag being called on non-string
+      res.setHeader('etag', 'custom-etag')
+      // Send a number which is not a string and not a buffer/object
+      send(req, res)(12345 as unknown as string)
+    })
+
+    await makeFetch(app)('/').expect('12345')
+  })
   it('should send nothing on a HEAD request', async () => {
     const app = runServer((req, res) => send(req, res)('Hello World'))
 
@@ -289,6 +307,18 @@ describe('sendFile(path)', () => {
   it('should set cache header with just maxAge when not immutable and not 0', async () => {
     const app = runServer((req, res) => sendFile(req, res)(testFilePath, { caching: { maxAge: 3600 } }))
     await makeFetch(app)('/').expectHeader('Cache-Control', 'public,max-age=3600')
+  })
+  it('should not set Cache-Control header when no caching options provided', async () => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath, {}))
+
+    const response = await makeFetch(app)('/')
+    expect(response.headers.get('Cache-Control')).toBeNull()
+  })
+  it('should not set Cache-Control header when caching is empty object', async () => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath, { caching: {} }))
+
+    const response = await makeFetch(app)('/')
+    expect(response.headers.get('Cache-Control')).toBeNull()
   })
   it('should call callback on successful stream completion', async () => {
     let callbackCalled = false

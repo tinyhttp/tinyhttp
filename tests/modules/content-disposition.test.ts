@@ -623,3 +623,11 @@ describe('parse(string)', () => {
     })
   })
 })
+
+describe('contentDisposition edge cases', () => {
+  it('should handle filename with only filename* (no fallback, non-quoted)', () => {
+    // Filename with control char that makes it non-quotable and no latin1 fallback
+    const result = contentDisposition('file\x80name.txt')
+    expect(result).toContain('filename*=')
+  })
+})

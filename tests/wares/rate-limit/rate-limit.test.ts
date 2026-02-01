@@ -332,6 +332,31 @@ describe('rate-limit', () => {
   })
 })
 
+describe('rate-limit edge cases', () => {
+  it('should handle draftPolliRatelimitHeaders without resetTime', async () => {
+    const app = new App()
+    app.use(
+      rateLimit({
+        max: 5,
+        draftPolliRatelimitHeaders: true,
+        store: {
+          incr: (_, cb) => cb(null, 1, undefined), // No resetTime
+          decrement: () => {},
+          resetKey: () => {},
+          resetAll: () => {}
+        }
+      })
+    )
+    app.get('/', (_, res) => res.send('ok'))
+
+    const response = await makeFetch(app.listen())('/')
+    expect(response.status).toBe(200)
+    expect(response.headers.get('ratelimit-limit')).toBe('5')
+    // RateLimit-Reset should not be set when no resetTime
+    expect(response.headers.get('ratelimit-reset')).toBeNull()
+  })
+})
+
 class MockStore {
   incr_was_called = false
   resetKey_was_called = false
