@@ -33,15 +33,10 @@ interface CharsetSpec {
 const simpleCharsetRegExp = /^\s*([^\s;]+)\s*(?:;(.*))?$/
 
 function parseAcceptCharset(accept: string): CharsetSpec[] {
-  const accepts = accept.split(',')
-  const result: CharsetSpec[] = []
-
-  for (let i = 0; i < accepts.length; i++) {
-    const charset = parseCharset(accepts[i].trim(), i)
-    if (charset) result.push(charset)
-  }
-
-  return result
+  return accept.split(',').flatMap((s, i) => {
+    const spec = parseCharset(s.trim(), i)
+    return spec ? [spec] : []
+  })
 }
 
 function parseCharset(str: string, i: number): CharsetSpec | null {
@@ -49,33 +44,17 @@ function parseCharset(str: string, i: number): CharsetSpec | null {
   if (!match) return null
 
   const charset = match[1]
-  let q = 1
-
-  if (match[2]) {
-    const params = match[2].split(';')
-    for (const param of params) {
-      const p = param.trim().split('=')
-      if (p[0] === 'q') {
-        q = parseFloat(p[1])
-        break
-      }
-    }
-  }
+  const qParam = match[2]?.split(';').find((p) => p.trim().startsWith('q='))
+  const q = qParam ? parseFloat(qParam.split('=')[1]) : 1
 
   return { charset, q, i }
 }
 
 function getCharsetPriority(charset: string, accepted: CharsetSpec[], index: number): Spec {
-  let priority: Spec = { o: -1, q: 0, s: 0, i: index }
-
-  for (let i = 0; i < accepted.length; i++) {
-    const spec = specifyCharset(charset, accepted[i], index)
-    if (spec && (priority.s - spec.s || priority.q - spec.q || priority.o - spec.o) < 0) {
-      priority = spec
-    }
-  }
-
-  return priority
+  return accepted.reduce<Spec>((priority, acc) => {
+    const spec = specifyCharset(charset, acc, index)
+    return spec && (priority.s - spec.s || priority.q - spec.q || priority.o - spec.o) < 0 ? spec : priority
+  }, { o: -1, q: 0, s: 0, i: index })
 }
 
 function specifyCharset(charset: string, spec: CharsetSpec, index: number): Spec | null {
@@ -121,23 +100,15 @@ const simpleEncodingRegExp = /^\s*([^\s;]+)\s*(?:;(.*))?$/
 
 function parseAcceptEncoding(accept: string): EncodingSpec[] {
   const accepts = accept.split(',')
-  const result: EncodingSpec[] = []
-  let hasIdentity = false
-  let minQuality = 1
-
-  for (let i = 0; i < accepts.length; i++) {
-    const encoding = parseEncoding(accepts[i].trim(), i)
-    if (encoding) {
-      result.push(encoding)
-      hasIdentity = hasIdentity || specifyEncoding('identity', encoding, 0) !== null
-      minQuality = Math.min(minQuality, encoding.q || 1)
-    }
-  }
-
+  const result = accepts.flatMap((s, i) => {
+    const spec = parseEncoding(s.trim(), i)
+    return spec ? [spec] : []
+  })
+  const hasIdentity = result.some((enc) => specifyEncoding('identity', enc, 0) !== null)
   if (!hasIdentity) {
+    const minQuality = result.reduce((min, enc) => Math.min(min, enc.q || 1), 1)
     result.push({ encoding: 'identity', q: minQuality, i: accepts.length })
   }
-
   return result
 }
 
@@ -146,33 +117,17 @@ function parseEncoding(str: string, i: number): EncodingSpec | null {
   if (!match) return null
 
   const encoding = match[1]
-  let q = 1
-
-  if (match[2]) {
-    const params = match[2].split(';')
-    for (const param of params) {
-      const p = param.trim().split('=')
-      if (p[0] === 'q') {
-        q = parseFloat(p[1])
-        break
-      }
-    }
-  }
+  const qParam = match[2]?.split(';').find((p) => p.trim().startsWith('q='))
+  const q = qParam ? parseFloat(qParam.split('=')[1]) : 1
 
   return { encoding, q, i }
 }
 
 function getEncodingPriority(encoding: string, accepted: EncodingSpec[], index: number): Spec & { encoding: string } {
-  let priority: Spec & { encoding: string } = { encoding, o: -1, q: 0, s: 0, i: index }
-
-  for (let i = 0; i < accepted.length; i++) {
-    const spec = specifyEncoding(encoding, accepted[i], index)
-    if (spec && (priority.s - spec.s || priority.q - spec.q || priority.o - spec.o) < 0) {
-      priority = spec
-    }
-  }
-
-  return priority
+  return accepted.reduce<Spec & { encoding: string }>((priority, acc) => {
+    const spec = specifyEncoding(encoding, acc, index)
+    return spec && (priority.s - spec.s || priority.q - spec.q || priority.o - spec.o) < 0 ? spec : priority
+  }, { encoding, o: -1, q: 0, s: 0, i: index })
 }
 
 function specifyEncoding(encoding: string, spec: EncodingSpec, index: number): (Spec & { encoding: string }) | null {
@@ -219,15 +174,10 @@ interface LanguageSpec {
 const simpleLanguageRegExp = /^\s*([^\s\-;]+)(?:-([^\s;]+))?\s*(?:;(.*))?$/
 
 function parseAcceptLanguage(accept: string): LanguageSpec[] {
-  const accepts = accept.split(',')
-  const result: LanguageSpec[] = []
-
-  for (let i = 0; i < accepts.length; i++) {
-    const language = parseLanguage(accepts[i].trim(), i)
-    if (language) result.push(language)
-  }
-
-  return result
+  return accept.split(',').flatMap((s, i) => {
+    const spec = parseLanguage(s.trim(), i)
+    return spec ? [spec] : []
+  })
 }
 
 function parseLanguage(str: string, i: number): LanguageSpec | null {
@@ -236,33 +186,18 @@ function parseLanguage(str: string, i: number): LanguageSpec | null {
 
   const prefix = match[1]
   const suffix = match[2]
-  let full = prefix
-
-  if (suffix) full += '-' + suffix
-
-  let q = 1
-  if (match[3]) {
-    const params = match[3].split(';')
-    for (const param of params) {
-      const p = param.split('=')
-      if (p[0] === 'q') q = parseFloat(p[1])
-    }
-  }
+  const full = suffix ? `${prefix}-${suffix}` : prefix
+  const qParam = match[3]?.split(';').find((p) => p.startsWith('q='))
+  const q = qParam ? parseFloat(qParam.split('=')[1]) : 1
 
   return { prefix, suffix, q, i, full }
 }
 
 function getLanguagePriority(language: string, accepted: LanguageSpec[], index: number): Spec {
-  let priority: Spec = { o: -1, q: 0, s: 0, i: index }
-
-  for (let i = 0; i < accepted.length; i++) {
-    const spec = specifyLanguage(language, accepted[i], index)
-    if (spec && (priority.s - spec.s || priority.q - spec.q || priority.o - spec.o) < 0) {
-      priority = spec
-    }
-  }
-
-  return priority
+  return accepted.reduce<Spec>((priority, acc) => {
+    const spec = specifyLanguage(language, acc, index)
+    return spec && (priority.s - spec.s || priority.q - spec.q || priority.o - spec.o) < 0 ? spec : priority
+  }, { o: -1, q: 0, s: 0, i: index })
 }
 
 function specifyLanguage(language: string, spec: LanguageSpec, index: number): Spec | null {
@@ -316,15 +251,10 @@ interface MediaTypeSpec {
 const simpleMediaTypeRegExp = /^\s*([^\s/;]+)\/([^;\s]+)\s*(?:;(.*))?$/
 
 function parseAccept(accept: string): MediaTypeSpec[] {
-  const accepts = splitMediaTypes(accept)
-  const result: MediaTypeSpec[] = []
-
-  for (let i = 0; i < accepts.length; i++) {
-    const mediaType = parseMediaType(accepts[i].trim(), i)
-    if (mediaType) result.push(mediaType)
-  }
-
-  return result
+  return splitMediaTypes(accept).flatMap((s, i) => {
+    const spec = parseMediaType(s.trim(), i)
+    return spec ? [spec] : []
+  })
 }
 
 function parseMediaType(str: string, i: number): MediaTypeSpec | null {
@@ -356,16 +286,10 @@ function parseMediaType(str: string, i: number): MediaTypeSpec | null {
 }
 
 function getMediaTypePriority(type: string, accepted: MediaTypeSpec[], index: number): Spec {
-  let priority: Spec = { o: -1, q: 0, s: 0, i: index }
-
-  for (let i = 0; i < accepted.length; i++) {
-    const spec = specifyMediaType(type, accepted[i], index)
-    if (spec && (priority.s - spec.s || priority.q - spec.q || priority.o - spec.o) < 0) {
-      priority = spec
-    }
-  }
-
-  return priority
+  return accepted.reduce<Spec>((priority, acc) => {
+    const spec = specifyMediaType(type, acc, index)
+    return spec && (priority.s - spec.s || priority.q - spec.q || priority.o - spec.o) < 0 ? spec : priority
+  }, { o: -1, q: 0, s: 0, i: index })
 }
 
 function specifyMediaType(type: string, spec: MediaTypeSpec, index: number): Spec | null {
@@ -409,7 +333,7 @@ function preferredMediaTypes(accept: string | undefined, provided?: string[]): s
     return accepts
       .filter(isQuality)
       .sort(compareByQI)
-      .map((spec) => spec.type + '/' + spec.subtype)
+      .map((spec) => `${spec.type}/${spec.subtype}`)
   }
 
   const priorities = provided.map((type, index) => getMediaTypePriority(type, accepts, index))
@@ -421,19 +345,12 @@ function preferredMediaTypes(accept: string | undefined, provided?: string[]): s
 }
 
 function quoteCount(str: string): number {
-  let count = 0
-  let index = str.indexOf('"')
-  while (index !== -1) {
-    count++
-    index = str.indexOf('"', index + 1)
-  }
-  return count
+  return (str.match(/"/g) || []).length
 }
 
 function splitKeyValuePair(str: string): [string, string] {
-  const index = str.indexOf('=')
-  if (index === -1) return [str, '']
-  return [str.slice(0, index), str.slice(index + 1)]
+  const i = str.indexOf('=')
+  return i === -1 ? [str, ''] : [str.slice(0, i), str.slice(i + 1)]
 }
 
 function splitMediaTypes(accept: string): string[] {
