@@ -138,6 +138,21 @@ describe('Response extensions', () => {
         }
       }).expect(302, '')
     })
+    it('should send empty body for HEAD requests', async () => {
+      const app = runServer((req, res) => {
+        redirect(req, res, () => {})('/abc')
+      })
+
+      const response = await makeFetch(app)('/', {
+        method: 'HEAD',
+        redirect: 'manual'
+      })
+
+      expect(response.status).toBe(302)
+      expect(response.headers.get('location')).toBe('/abc')
+      const body = await response.text()
+      expect(body).toBe('')
+    })
   })
   describe('res.format(obj)', () => {
     it('should send text by default', async () => {
