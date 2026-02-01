@@ -561,6 +561,21 @@ describe('Request properties', () => {
         'hostname: forwarded.example.com'
       )
     })
+    it('should throw error when x-forwarded-host has malformed port', async () => {
+      const { fetch, app } = InitAppAndTest(
+        (req, res) => {
+          res.send(`hostname: ${req.hostname}, port: ${req.port}`)
+        },
+        '/',
+        'GET',
+        options
+      )
+      app.set('trust proxy', ['127.0.0.1', '::1', '::ffff:127.0.0.1'])
+
+      // Malformed port (non-numeric) should trigger error
+      const response = await fetch('/', { headers: { 'x-forwarded-host': 'example.com:abc' } })
+      expect(response.status).toBe(500)
+    })
     it('should return undefined hostname when :authority header is an array', async () => {
       const { getRequestHeader }: typeof req = await vi.importActual('../../packages/req/src')
       vi.mocked(req.getRequestHeader).mockImplementation((r) => {
