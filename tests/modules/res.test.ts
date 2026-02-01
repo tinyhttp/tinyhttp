@@ -290,6 +290,27 @@ describe('Response extensions', () => {
         .expect('Content-Disposition', 'attachment; filename="favicon.ico"')
         .expect('X-Custom-Header', 'Value')
     })
+    it('should ignore Content-Disposition header in options (case-insensitive)', async () => {
+      const app = runServer((req, res) => {
+        download(req, res)(path.join(__dirname, '../fixtures', 'favicon.ico'), 'custom.ico', {
+          headers: {
+            'content-disposition': 'should-be-ignored',
+            'X-Custom-Header': 'Value'
+          }
+        }).end()
+      })
+
+      await makeFetch(app)('/')
+        .expect('Content-Disposition', 'attachment; filename="custom.ico"')
+        .expect('X-Custom-Header', 'Value')
+    })
+    it('should work without a callback', async () => {
+      const app = runServer((req, res) => {
+        download(req, res)(path.join(__dirname, '../fixtures', 'favicon.ico'), 'file.ico')
+      })
+
+      await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename="file.ico"').expect(200)
+    })
   })
   describe('res.cookie(name, value, options)', () => {
     it('serializes the cookie and puts it in a Set-Cookie header', async () => {
