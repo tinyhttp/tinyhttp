@@ -1,5 +1,11 @@
 # @tinyhttp/proxy-addr
 
+## 3.0.1
+
+### Patch Changes
+
+- f891136: Remove ipaddr.js dependency
+
 ## 3.0.0
 
 ### Major Changes

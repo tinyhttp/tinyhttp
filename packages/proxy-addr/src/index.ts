@@ -195,8 +195,8 @@ export function parseIPNotation(note: string): Subnet {
   const originalIsIPv6 = isIP(str) === 6
 
   // Normalize IPv4-mapped addresses to plain IPv4
-  let ip = normalizeIP(str)
-  let isIPv6 = isIP(ip) === 6
+  const ip = normalizeIP(str)
+  const isIPv6 = isIP(ip) === 6
   const max = isIPv6 ? 128 : 32
 
   if (pos === -1) {

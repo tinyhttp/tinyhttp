@@ -1,5 +1,13 @@
 # @tinyhttp/res
 
+## 2.2.9
+
+### Patch Changes
+
+- 7576d70: Remove dead code
+- Updated dependencies [7576d70]
+  - @tinyhttp/content-disposition@2.2.4
+
 ## 2.2.8
 
 ### Patch Changes

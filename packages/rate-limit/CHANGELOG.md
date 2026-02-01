@@ -1,5 +1,11 @@
 # @tinyhttp/rate-limit
 
+## 2.1.7
+
+### Patch Changes
+
+- 7576d70: Remove dead code
+
 ## 2.1.6
 
 ### Patch Changes
