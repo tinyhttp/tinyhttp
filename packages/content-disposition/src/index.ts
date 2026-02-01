@@ -140,7 +140,6 @@ export function contentDisposition(
 }
 
 function decodefield(str: string) {
-  if (str === '') return '' // empty string
   const match = EXT_VALUE_REGEXP.exec(str)
   if (!match) throw new TypeError('invalid extended field value')
 
