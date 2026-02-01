@@ -73,7 +73,6 @@ function netmaskToPrefix(netmask: string): number | null {
   if (isIP(netmask) !== 4) return null
 
   const parts = netmask.split('.').map(Number)
-  if (parts.length !== 4 || parts.some((p) => Number.isNaN(p) || p < 0 || p > 255)) return null
 
   // Convert to binary and count leading 1s
   const binary = parts.map((p) => p.toString(2).padStart(8, '0')).join('')
