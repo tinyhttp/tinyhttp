@@ -1,5 +1,12 @@
 # @tinyhttp/req
 
+## 2.2.7
+
+### Patch Changes
+
+- Updated dependencies [8c981e0]
+  - @tinyhttp/accepts@2.3.0
+
 ## 2.2.6
 
 ### Patch Changes
