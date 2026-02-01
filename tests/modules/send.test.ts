@@ -154,6 +154,11 @@ describe('sendStatus(status)', () => {
 
     await makeFetch(app)('/').expect("I'm a Teapot")
   })
+  it('should send stringified status code for unsupported status codes', async () => {
+    const app = runServer((req, res) => sendStatus(req, res)(999).end())
+
+    await makeFetch(app)('/').expect(999, '999')
+  })
 })
 
 describe('sendFile(path)', () => {
