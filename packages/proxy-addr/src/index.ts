@@ -1,4 +1,5 @@
 import type { IncomingMessage } from 'node:http'
+import { isIP } from 'node:net'
 import { forwarded } from '@tinyhttp/forwarded'
 import ipaddr, { type IPv4, type IPv6 } from 'ipaddr.js'
 
@@ -14,7 +15,7 @@ type Subnet = {
 }
 
 const DIGIT_REGEXP = /^[0-9]+$/
-const isip = ipaddr.isValid
+const isip = (ip: string) => isIP(ip) !== 0
 const parseip = ipaddr.parse
 /**
  * Pre-defined IP ranges.
