@@ -1,2 +1,7 @@
 packages:
-  - 'packages/*'
+  - "packages/*"
+
+trustPolicy: no-downgrade
+
+minimumReleaseAge: 86400
+trustPolicyIgnoreAfter: 604800

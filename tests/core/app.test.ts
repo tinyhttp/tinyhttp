@@ -483,7 +483,8 @@ describe('HTTP methods', () => {
 
     await fetch('/', { method: 'UNSUBSCRIBE' }).expect(200, 'UNSUBSCRIBE')
   })
-  it('app.trace handles trace request', async () => {
+  // Skip as TRACE method is unsupported for security reasons (backported to Node 20.19+, 22.13+)
+  it.skip('app.trace handles trace request', async () => {
     const app = new App()
 
     app.trace('/', (req, res) => void res.send(req.method))
@@ -688,44 +689,41 @@ describe('Subapps', () => {
     describe.each([
       { verb: (app: App) => app.get.bind(app), name: '.get', fetchWithVerb: 'get' },
       { verb: (app: App) => app.all.bind(app), name: '.all', fetchWithVerb: 'get' }
-    ])(
-      'when sub-app registers middleware with $name',
-      ({
-        verb,
-        fetchWithVerb
-      }: {
-        verb: (app: App) => (...args: Parameters<RouterMethod<Request, Response>>) => App
-        fetchWithVerb: string
-      }) => {
-        it("should continue middleware execution when '.use'd sub-app middleware is exhausted", async () => {
-          const app = new App()
+    ])('when sub-app registers middleware with $name', ({
+      verb,
+      fetchWithVerb
+    }: {
+      verb: (app: App) => (...args: Parameters<RouterMethod<Request, Response>>) => App
+      fetchWithVerb: string
+    }) => {
+      it("should continue middleware execution when '.use'd sub-app middleware is exhausted", async () => {
+        const app = new App()
 
-          const subApp = new App()
-          verb(subApp)((_req, res) => res.send('foo'))
+        const subApp = new App()
+        verb(subApp)((_req, res) => res.send('foo'))
 
-          app.use('/', subApp)
-          verb(app)('/bar', (_req, res) => res.send('bar'))
+        app.use('/', subApp)
+        verb(app)('/bar', (_req, res) => res.send('bar'))
 
-          const fetch = makeFetch(app.listen())
+        const fetch = makeFetch(app.listen())
 
-          await fetch('/', { method: fetchWithVerb }).expect(200, 'foo')
-          await fetch('/bar', { method: fetchWithVerb }).expect(200, 'bar')
-        })
-        it("should continue middleware execution when '.route' sub-app middleware is exhausted", async () => {
-          const app = new App()
+        await fetch('/', { method: fetchWithVerb }).expect(200, 'foo')
+        await fetch('/bar', { method: fetchWithVerb }).expect(200, 'bar')
+      })
+      it("should continue middleware execution when '.route' sub-app middleware is exhausted", async () => {
+        const app = new App()
 
-          const subApp = app.route('/')
-          verb(subApp)((_req, res) => res.send('foo'))
+        const subApp = app.route('/')
+        verb(subApp)((_req, res) => res.send('foo'))
 
-          verb(app)('/bar', (_req, res) => res.send('bar'))
+        verb(app)('/bar', (_req, res) => res.send('bar'))
 
-          const fetch = makeFetch(app.listen())
+        const fetch = makeFetch(app.listen())
 
-          await fetch('/', { method: fetchWithVerb }).expect(200, 'foo')
-          await fetch('/bar', { method: fetchWithVerb }).expect(200, 'bar')
-        })
-      }
-    )
+        await fetch('/', { method: fetchWithVerb }).expect(200, 'foo')
+        await fetch('/bar', { method: fetchWithVerb }).expect(200, 'bar')
+      })
+    })
   })
   it('multiple sub-apps mount on root', async () => {
     const app = new App()
