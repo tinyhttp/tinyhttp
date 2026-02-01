@@ -1327,7 +1327,85 @@ describe('Template engines', () => {
           })
         })
       })
+      it('should respect explicit cache option passed to render()', () => {
+        const app = new App()
+
+        let count = 0
+
+        class TestView {
+          name: string
+          path = 'test'
+          constructor(name: string) {
+            this.name = name
+            count++
+          }
+          render(_options: never, _data: never, fn: (err: null, msg: string) => void) {
+            fn(null, 'cached')
+          }
+        }
+
+        app.set('view', TestView as unknown as typeof View)
+
+        // Explicitly pass cache: true (this covers the opts.cache != null branch)
+        app.render('something', {}, { cache: true }, (_, str) => {
+          expect(count).toEqual(1)
+          expect(str).toEqual('cached')
+
+          // Second render with explicit cache: true should use cached view
+          app.render('something', {}, { cache: true }, (_, str) => {
+            expect(count).toEqual(1)
+            expect(str).toEqual('cached')
+          })
+        })
+      })
+      it('should use default View class when no custom view is set', async () => {
+        const app = new App()
+
+        app.engine('eta', renderFile)
+        app.set('views', `${process.cwd()}/tests/fixtures/views`)
+        app.set('view engine', 'eta')
+        app.locals.name = 'default-view-test'
+
+        app.use((_req, res) => {
+          res.render('index')
+        })
+
+        const server = app.listen()
+        const fetch = makeFetch(server)
+
+        await fetch('/').expect(200, 'Hello from default-view-test')
+      })
     })
+  })
+})
+
+describe('App.use with array of paths', () => {
+  it('should handle array of string paths', async () => {
+    const app = new App()
+
+    app.use(['/api', '/v1'], (_req, res) => {
+      res.send('matched array path')
+    })
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    await fetch('/api').expect(200, 'matched array path')
+    await fetch('/v1').expect(200, 'matched array path')
+    await fetch('/other').expect(404)
+  })
+  it('should handle single string path', async () => {
+    const app = new App()
+
+    app.use('/single', (_req, res) => {
+      res.send('matched single path')
+    })
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    await fetch('/single').expect(200, 'matched single path')
+    await fetch('/single/nested').expect(200, 'matched single path')
   })
 })
 
