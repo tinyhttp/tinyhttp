@@ -51,10 +51,13 @@ function parseCharset(str: string, i: number): CharsetSpec | null {
 }
 
 function getCharsetPriority(charset: string, accepted: CharsetSpec[], index: number): Spec {
-  return accepted.reduce<Spec>((priority, acc) => {
-    const spec = specifyCharset(charset, acc, index)
-    return spec && (priority.s - spec.s || priority.q - spec.q || priority.o - spec.o) < 0 ? spec : priority
-  }, { o: -1, q: 0, s: 0, i: index })
+  return accepted.reduce<Spec>(
+    (priority, acc) => {
+      const spec = specifyCharset(charset, acc, index)
+      return spec && (priority.s - spec.s || priority.q - spec.q || priority.o - spec.o) < 0 ? spec : priority
+    },
+    { o: -1, q: 0, s: 0, i: index }
+  )
 }
 
 function specifyCharset(charset: string, spec: CharsetSpec, index: number): Spec | null {
@@ -124,10 +127,13 @@ function parseEncoding(str: string, i: number): EncodingSpec | null {
 }
 
 function getEncodingPriority(encoding: string, accepted: EncodingSpec[], index: number): Spec & { encoding: string } {
-  return accepted.reduce<Spec & { encoding: string }>((priority, acc) => {
-    const spec = specifyEncoding(encoding, acc, index)
-    return spec && (priority.s - spec.s || priority.q - spec.q || priority.o - spec.o) < 0 ? spec : priority
-  }, { encoding, o: -1, q: 0, s: 0, i: index })
+  return accepted.reduce<Spec & { encoding: string }>(
+    (priority, acc) => {
+      const spec = specifyEncoding(encoding, acc, index)
+      return spec && (priority.s - spec.s || priority.q - spec.q || priority.o - spec.o) < 0 ? spec : priority
+    },
+    { encoding, o: -1, q: 0, s: 0, i: index }
+  )
 }
 
 function specifyEncoding(encoding: string, spec: EncodingSpec, index: number): (Spec & { encoding: string }) | null {
@@ -194,10 +200,13 @@ function parseLanguage(str: string, i: number): LanguageSpec | null {
 }
 
 function getLanguagePriority(language: string, accepted: LanguageSpec[], index: number): Spec {
-  return accepted.reduce<Spec>((priority, acc) => {
-    const spec = specifyLanguage(language, acc, index)
-    return spec && (priority.s - spec.s || priority.q - spec.q || priority.o - spec.o) < 0 ? spec : priority
-  }, { o: -1, q: 0, s: 0, i: index })
+  return accepted.reduce<Spec>(
+    (priority, acc) => {
+      const spec = specifyLanguage(language, acc, index)
+      return spec && (priority.s - spec.s || priority.q - spec.q || priority.o - spec.o) < 0 ? spec : priority
+    },
+    { o: -1, q: 0, s: 0, i: index }
+  )
 }
 
 function specifyLanguage(language: string, spec: LanguageSpec, index: number): Spec | null {
@@ -286,10 +295,13 @@ function parseMediaType(str: string, i: number): MediaTypeSpec | null {
 }
 
 function getMediaTypePriority(type: string, accepted: MediaTypeSpec[], index: number): Spec {
-  return accepted.reduce<Spec>((priority, acc) => {
-    const spec = specifyMediaType(type, acc, index)
-    return spec && (priority.s - spec.s || priority.q - spec.q || priority.o - spec.o) < 0 ? spec : priority
-  }, { o: -1, q: 0, s: 0, i: index })
+  return accepted.reduce<Spec>(
+    (priority, acc) => {
+      const spec = specifyMediaType(type, acc, index)
+      return spec && (priority.s - spec.s || priority.q - spec.q || priority.o - spec.o) < 0 ? spec : priority
+    },
+    { o: -1, q: 0, s: 0, i: index }
+  )
 }
 
 function specifyMediaType(type: string, spec: MediaTypeSpec, index: number): Spec | null {
