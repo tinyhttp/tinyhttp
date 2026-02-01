@@ -46,6 +46,16 @@ describe('Negotiator', () => {
       const negotiator = new Negotiator(createRequest({ 'accept-charset': 'UTF-8' }))
       expect(negotiator.charsets(['utf-8'])).toEqual(['utf-8'])
     })
+
+    it('should handle array headers', () => {
+      const negotiator = new Negotiator({ headers: { 'accept-charset': ['utf-8', 'iso-8859-1'] } })
+      expect(negotiator.charsets()).toEqual(['utf-8', 'iso-8859-1'])
+    })
+
+    it('should handle malformed charset', () => {
+      const negotiator = new Negotiator(createRequest({ 'accept-charset': ';;;' }))
+      expect(negotiator.charsets()).toEqual([])
+    })
   })
 
   describe('encodings()', () => {
@@ -89,6 +99,18 @@ describe('Negotiator', () => {
     it('should exclude identity when q=0', () => {
       const negotiator = new Negotiator(createRequest({ 'accept-encoding': 'gzip, identity;q=0' }))
       expect(negotiator.encodings()).not.toContain('identity')
+    })
+
+    it('should handle array headers', () => {
+      const negotiator = new Negotiator({ headers: { 'accept-encoding': ['gzip', 'deflate'] } })
+      expect(negotiator.encodings()).toContain('gzip')
+      expect(negotiator.encodings()).toContain('deflate')
+    })
+
+    it('should use minQuality for implicit identity', () => {
+      const negotiator = new Negotiator(createRequest({ 'accept-encoding': 'gzip;q=0.5, deflate;q=0.3' }))
+      const encodings = negotiator.encodings()
+      expect(encodings).toContain('identity')
     })
   })
 
@@ -141,6 +163,22 @@ describe('Negotiator', () => {
     it('should exclude q=0 languages', () => {
       const negotiator = new Negotiator(createRequest({ 'accept-language': 'en, es;q=0' }))
       expect(negotiator.languages()).toEqual(['en'])
+    })
+
+    it('should handle array headers', () => {
+      const negotiator = new Negotiator({ headers: { 'accept-language': ['en', 'es'] } })
+      expect(negotiator.languages()).toEqual(['en', 'es'])
+    })
+
+    it('should handle malformed language', () => {
+      const negotiator = new Negotiator(createRequest({ 'accept-language': ';;;' }))
+      expect(negotiator.languages()).toEqual([])
+    })
+
+    it('should handle invalid provided language format', () => {
+      const negotiator = new Negotiator(createRequest({ 'accept-language': 'en' }))
+      // Malformed provided language that doesn't parse
+      expect(negotiator.languages([';;;'])).toEqual([])
     })
   })
 
@@ -227,6 +265,22 @@ describe('Negotiator', () => {
       const negotiator = new Negotiator(createRequest({ accept: 'text/*, text/html' }))
       const types = negotiator.mediaTypes(['text/html', 'text/plain'])
       expect(types[0]).toBe('text/html')
+    })
+
+    it('should match wildcard parameter value', () => {
+      const negotiator = new Negotiator(createRequest({ accept: 'text/html;level=*' }))
+      expect(negotiator.mediaTypes(['text/html;level=1'])).toEqual(['text/html;level=1'])
+    })
+
+    it('should handle invalid provided media type format', () => {
+      const negotiator = new Negotiator(createRequest({ accept: 'text/html' }))
+      // Malformed provided type that doesn't parse
+      expect(negotiator.mediaTypes(['invalid'])).toEqual([])
+    })
+
+    it('should handle parameter without value', () => {
+      const negotiator = new Negotiator(createRequest({ accept: 'text/html;level' }))
+      expect(negotiator.mediaTypes()).toEqual(['text/html'])
     })
   })
 
