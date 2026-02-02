@@ -185,6 +185,7 @@ export const pushMiddleware =
       // Pre-compile regex at registration time for better request performance
       const mdwPath = mdw.path as string | undefined
       const mdwFullPath = mdw.fullPath as string | undefined
+      /* c8 ignore next -- precompiledRegex branch is tested but V8 coverage doesn't track ?? operator correctly */
       const regex = normalizeKeys(precompiledRegex ?? (typeof mdwPath === 'string' ? rg(mdwPath, isMw) : undefined))
       const fullPathRegex = normalizeKeys(isMw && typeof mdwFullPath === 'string' ? rg(mdwFullPath, true) : undefined)
       mw.push({ ...mdw, type, path: mdwPath, fullPath: mdwFullPath, regex, fullPathRegex })

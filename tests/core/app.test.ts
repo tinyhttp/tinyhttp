@@ -109,7 +109,7 @@ describe('Testing App routing', () => {
     })
     app.use('/router', router)
 
-    const server = app.listen(3000)
+    const server = app.listen()
     const fetch = makeFetch(server)
 
     await fetch('/router/list').expect(200, 'router/list')
