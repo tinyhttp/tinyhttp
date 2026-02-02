@@ -109,7 +109,7 @@ describe('Testing App routing', () => {
     })
     app.use('/router', router)
 
-    const server = app.listen(3000)
+    const server = app.listen()
     const fetch = makeFetch(server)
 
     await fetch('/router/list').expect(200, 'router/list')
@@ -195,6 +195,25 @@ describe('Testing App routing', () => {
         .use((_req, res) => void res.json({ ...app.locals }))
 
       await makeFetch(app.listen())('/').expect(200, { log: '/' })
+    })
+    it('middleware is only executed once even when matched multiple times', async () => {
+      const app = new App()
+      const callCounts = { mw1: 0, mw2: 0, mw3: 0 }
+
+      app.use('/path', (_req, _res, next) => {
+        callCounts.mw1++
+        next()
+      })
+      app.use('/path', (_req, _res, next) => {
+        callCounts.mw2++
+        next()
+      })
+      app.use('/path', (_req, res) => {
+        callCounts.mw3++
+        res.json(callCounts)
+      })
+
+      await makeFetch(app.listen())('/path').expect(200, { mw1: 1, mw2: 1, mw3: 1 })
     })
     it('next function handles errors', async () => {
       const app = new App()

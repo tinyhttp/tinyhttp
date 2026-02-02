@@ -72,6 +72,9 @@ importers:
 
   packages/app:
     dependencies:
+      '@tinyhttp/accepts':
+        specifier: workspace:^
+        version: link:../accepts
       '@tinyhttp/cookie':
         specifier: workspace:*
         version: link:../cookie
@@ -171,7 +174,11 @@ importers:
         specifier: 4.1.0
         version: 4.1.0
 
-  packages/router: {}
+  packages/router:
+    dependencies:
+      regexparam:
+        specifier: ^2.0.2
+        version: 2.0.2
 
   packages/send:
     dependencies:
