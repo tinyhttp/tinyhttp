@@ -428,4 +428,44 @@ describe('Testing HTTP methods', () => {
     expect(router.middleware[0].path).toBe('/')
     expect(router.middleware[1].path).toBe('/test')
   })
+  it('pushMiddleware should use precompiledRegex when provided', () => {
+    const middleware: Middleware[] = []
+    // Use a deliberately different pattern than what rg() would generate
+    // to prove precompiledRegex is used instead of calling rg()
+    const precompiledRegex = { keys: ['custom'], pattern: /^\/custom-pattern$/ }
+    pushMiddleware(middleware)({
+      path: '/different/path/:id',
+      handler: () => void 0,
+      method: 'GET',
+      type: 'route',
+      regex: precompiledRegex
+    })
+    // Verify the precompiled regex was used, not computed from path
+    expect(middleware[0].regex).toEqual(precompiledRegex)
+    expect(middleware[0].regex?.keys).toEqual(['custom'])
+  })
+  it('normalizeKeys handles regex with false keys (static routes)', () => {
+    const middleware: Middleware[] = []
+    const precompiledRegex = { keys: false as const, pattern: /^\/$/ }
+    pushMiddleware(middleware)({
+      path: '/',
+      handler: () => void 0,
+      method: 'GET',
+      type: 'route',
+      regex: precompiledRegex
+    })
+    expect(middleware[0].regex?.keys).toBe(false)
+  })
+  it('normalizeKeys converts wildcard * key to wild', () => {
+    const middleware: Middleware[] = []
+    const precompiledRegex = { keys: ['*'], pattern: /^\/(.*)$/ }
+    pushMiddleware(middleware)({
+      path: '/*',
+      handler: () => void 0,
+      method: 'GET',
+      type: 'route',
+      regex: precompiledRegex
+    })
+    expect(middleware[0].regex?.keys).toEqual(['wild'])
+  })
 })
