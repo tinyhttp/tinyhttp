@@ -20,7 +20,7 @@
     "router"
   ],
   "engines": {
-    "node": ">=12.17.0"
+    "node": ">=14.0.0"
   },
   "author": "v1rtl",
   "license": "MIT",

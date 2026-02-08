@@ -90,9 +90,6 @@ importers:
       '@tinyhttp/router':
         specifier: workspace:*
         version: link:../router
-      header-range-parser:
-        specifier: 1.1.3
-        version: 1.1.3
       regexparam:
         specifier: ^2.0.2
         version: 2.0.2
@@ -167,9 +164,6 @@ importers:
       '@tinyhttp/vary':
         specifier: ^0.1.3
         version: 0.1.3
-      es-escape-html:
-        specifier: ^0.1.1
-        version: 0.1.1
       mime:
         specifier: 4.1.0
         version: 4.1.0
@@ -1000,10 +994,6 @@ packages:
 
   error-ex@1.3.4:
     resolution: {integrity: sha512-sqQamAnR14VgCr1A618A3sGrygcpK+HEbenA/HiEAkkUwcZIIB/tgWqHFxWgOyDh4nB4JCRimh79dR5Ywc9MDQ==}
-
-  es-escape-html@0.1.1:
-    resolution: {integrity: sha512-yUx1o+8RsG7UlszmYPtks+dm6Lho2m8lgHMOsLJQsFI0R8XwUJwiMhM1M4E/S8QLeGyf6MkDV/pWgjQ0tdTSyQ==}
-    engines: {node: '>=12.x'}
 
   es-module-lexer@1.7.0:
     resolution: {integrity: sha512-jEQoCwk8hyb2AZziIOLhDqpm5+2ww5uIE6lkO/6jcOCusfk6LhMHpXXfBLXTZ7Ydyt0j4VoUQv6uGNYbdW+kBA==}
@@ -2500,8 +2490,6 @@ snapshots:
   error-ex@1.3.4:
     dependencies:
       is-arrayish: 0.2.1
-
-  es-escape-html@0.1.1: {}
 
   es-module-lexer@1.7.0: {}
 
