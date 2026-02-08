@@ -1,5 +1,17 @@
 # @tinyhttp/app
 
+## 3.0.6
+
+### Patch Changes
+
+- 962c6ab: Improve performance of the router and app
+- 8b4743c: Fix invalid (duplicate and uneeded) dependencies
+- Updated dependencies [962c6ab]
+- Updated dependencies [8b4743c]
+  - @tinyhttp/router@2.2.5
+  - @tinyhttp/req@2.2.8
+  - @tinyhttp/res@2.2.10
+
 ## 3.0.5
 
 ### Patch Changes
