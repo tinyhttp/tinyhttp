@@ -23,16 +23,15 @@ const trail = (x: string) => (x.charCodeAt(x.length - 1) === 47 ? x.substring(0,
 
 const mount = (fn: App | Handler) => (fn instanceof App ? fn.attach : fn)
 
-const applyHandler =
-  <Req, Res>(h: Handler<Req, Res>, req: Req, res: Res, next: NextFunction) => {
-    if (h[Symbol.toStringTag] === 'AsyncFunction') return h(req, res, next).catch(next)
+const applyHandler = <Req, Res>(h: Handler<Req, Res>, req: Req, res: Res, next: NextFunction) => {
+  if (h[Symbol.toStringTag] === 'AsyncFunction') return (h(req, res, next) as Promise<void>).catch(next)
 
-    try {
-      h(req, res, next)
-    } catch (e) {
-      next?.(e)
-    }
+  try {
+    h(req, res, next)
+  } catch (e) {
+    next?.(e)
   }
+}
 
 // Shared middleware for handling HEAD requests - avoids creating new object per request
 const HEAD_HANDLER_MW: Middleware = {
