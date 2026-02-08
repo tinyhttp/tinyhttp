@@ -23,17 +23,15 @@ const trail = (x: string) => (x.charCodeAt(x.length - 1) === 47 ? x.substring(0,
 
 const mount = (fn: App | Handler) => (fn instanceof App ? fn.attach : fn)
 
-const applyHandler =
-  <Req, Res>(h: Handler<Req, Res>) =>
-  async (req: Req, res: Res, next: NextFunction) => {
-    try {
-      if (h[Symbol.toStringTag] === 'AsyncFunction') {
-        await h(req, res, next)
-      } else h(req, res, next)
-    } catch (e) {
-      next?.(e)
-    }
+const applyHandler = <Req, Res>(h: Handler<Req, Res>, req: Req, res: Res, next: NextFunction) => {
+  if (h[Symbol.toStringTag] === 'AsyncFunction') return (h(req, res, next) as Promise<void>).catch(next)
+
+  try {
+    h(req, res, next)
+  } catch (e) {
+    next?.(e)
   }
+}
 
 // Shared middleware for handling HEAD requests - avoids creating new object per request
 const HEAD_HANDLER_MW: Middleware = {
@@ -99,8 +97,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       ...options.settings
     }
     if (options.applyExtensions) this.applyExtensions = options?.applyExtensions
-    const boundHandler = this.handler.bind(this)
-    this.attach = (req, res, next?: NextFunction) => setImmediate(boundHandler, req, res, next)
+    this.attach = this.handler.bind(this)
     this.cache = {}
   }
 
@@ -112,12 +109,11 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
   enable<K extends keyof AppSettings>(setting: K): this {
     this.settings[setting] = true as AppSettings[K]
-
     return this
   }
 
   enabled<K extends keyof AppSettings>(setting: K) {
-    return Boolean(this.settings[setting])
+    return !!this.settings[setting]
   }
 
   disable<K extends keyof AppSettings>(setting: K): this {
@@ -154,9 +150,8 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     locals = { ...locals, ...data }
 
-    if (opts.cache == null) opts.cache = this.enabled('view cache')
-
-    if (opts.cache) {
+    // biome-ignore lint/suspicious/noAssignInExpressions: its faster this way
+    if ((opts.cache ??= this.enabled('view cache'))) {
       view = this.cache[name] as View
     }
 
@@ -261,10 +256,9 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
   #find(url: string, method: string, exclude: Middleware[]): Middleware<Req, Res>[] {
     const result: Middleware<Req, Res>[] = []
-    const isHead = method === 'HEAD'
 
-    for (let i = 0; i < this.middleware.length; i++) {
-      const m = this.middleware[i]
+    for (let i = 0, middlewares = this.middleware, isHead = method === 'HEAD'; i < middlewares.length; i++) {
+      const m = middlewares[i]
 
       // Regex is pre-compiled at registration time in pushMiddleware
       if (!m.regex?.pattern.test(url)) {
@@ -312,7 +306,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     req.baseUrl = ''
 
-    const handle = async (middleware: Middleware, pathname: string) => {
+    const handle = (middleware: Middleware, pathname: string) => {
       const { path, handler, regex } = middleware
 
       let params: URLParams
@@ -336,19 +330,18 @@ export class App<Req extends Request = Request, Res extends Response = Response>
         }
       }
 
-      if (!req.params) req.params = {}
-      Object.assign(req.params, params)
+      // biome-ignore lint/suspicious/noAssignInExpressions: its faster this way
+      Object.assign((req.params ??= {}), params)
 
       if (middleware.type === 'mw') {
-        req.url = lead(req.originalUrl.substring(prefix.length))
-        req.baseUrl = trail(req.originalUrl.substring(0, prefix.length))
+        req.url = lead(req.originalUrl.slice(prefix.length))
+        req.baseUrl = trail(req.originalUrl.slice(0, prefix.length))
       }
 
-      if (!req.path) req.path = pathname
-
+      req.path ??= pathname
       if (this.settings?.enableReqRoute) req.route = middleware
 
-      await applyHandler<Req, Res>(handler as unknown as Handler<Req, Res>)(req, res, next as NextFunction)
+      return applyHandler<Req, Res>(handler as unknown as Handler<Req, Res>, req, res, next as NextFunction)
     }
 
     let idx = 0
@@ -363,8 +356,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
           idx = mw.length
           req.params = {}
         }
-        mw.push(...matched)
-        mw.push(HEAD_HANDLER_MW)
+        mw.push(...matched, HEAD_HANDLER_MW)
       } else if (this.parent == null) {
         mw.push({
           handler: this.noMatchHandler,
@@ -385,7 +377,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
       if (res.writableEnded) return
       if (idx >= mw.length) {
-        if (parentNext != null) parentNext()
+        parentNext?.()
         return
       }
 
