@@ -1,5 +1,13 @@
 # @tinyhttp/res
 
+## 2.2.10
+
+### Patch Changes
+
+- 8b4743c: Fix invalid (duplicate and uneeded) dependencies
+- Updated dependencies [8b4743c]
+  - @tinyhttp/req@2.2.8
+
 ## 2.2.9
 
 ### Patch Changes

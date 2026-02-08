@@ -1,5 +1,14 @@
 # @tinyhttp/jsonp
 
+## 2.1.22
+
+### Patch Changes
+
+- 962c6ab: Improve performance of the router and app
+- Updated dependencies [962c6ab]
+- Updated dependencies [8b4743c]
+  - @tinyhttp/app@3.0.6
+
 ## 2.1.21
 
 ### Patch Changes
