@@ -57,9 +57,6 @@ importers:
       typescript:
         specifier: ~5.9.3
         version: 5.9.3
-      vite:
-        specifier: ^7.3.0
-        version: 7.3.0(@types/node@24.10.1)(jiti@2.6.1)
       vitest:
         specifier: 4.0.16
         version: 4.0.16(@types/node@24.10.1)(jiti@2.6.1)
