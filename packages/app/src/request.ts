@@ -4,9 +4,8 @@ import { isIP } from 'node:net'
 import type { ParsedUrlQuery } from 'node:querystring'
 import type { TLSSocket } from 'node:tls'
 import { all, compile, proxyaddr as proxyAddr, type Trust } from '@tinyhttp/proxy-addr'
-import type { URLParams } from '@tinyhttp/req'
+import type { RangeParserOptions, RangeParserRanges, URLParams } from '@tinyhttp/req'
 import type { Middleware } from '@tinyhttp/router'
-import type { Options, Ranges } from 'header-range-parser'
 import type { App } from './app.js'
 
 export { getURLParams } from '@tinyhttp/req'
@@ -136,7 +135,7 @@ export interface Request extends IncomingMessage {
   ips?: string[]
   subdomains?: string[]
   get: <HeaderName extends string>(header: HeaderName) => IncomingHttpHeaders[HeaderName]
-  range: (size: number, options?: Options) => -1 | -2 | -3 | Ranges | undefined
+  range: (size: number, options?: RangeParserOptions) => -1 | -2 | -3 | RangeParserRanges | undefined
   accepts: (...types: string[]) => AcceptsReturns
   acceptsEncodings: (...encodings: string[]) => AcceptsReturns
   acceptsCharsets: (...charsets: string[]) => AcceptsReturns

@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 tinyhttp is a modern Express-like web framework written in TypeScript, compiled to native ESM with minimal dependencies. It provides Express middleware compatibility while targeting recent Node.js versions without legacy polyfills.
 
+**Documentation**: https://tinyhttp.v1rtl.site
+
 ## Project Structure
 
 This is a **pnpm monorepo** with packages in the `packages/` directory:
@@ -133,10 +135,26 @@ pnpm prerelease
 ## Code Style
 
 - **Formatter/Linter**: Biome (replaces ESLint + Prettier)
-- **Target**: ES2022, Node.js 14.21.3+
+- **Target**: ES2022, Node.js 16.10.0+ (for `@tinyhttp/app`)
 - **Module system**: ESM only (`"type": "module"`)
 - **TypeScript**: Strict mode enabled
 - Uses `.js` extensions in imports even in TypeScript files (ESM requirement)
+
+### Biome Formatting Rules
+
+- Single quotes, no semicolons
+- 2-space indentation, 120 char line width
+- No trailing commas
+- Bracket spacing enabled
+
+### Node.js Version Requirements by Package
+
+| Node.js Version | Packages | Constraining Feature |
+|-----------------|----------|---------------------|
+| `>=12.17.0` | content-disposition, cookie, encode-url, forwarded | ES2019 |
+| `>=14.0.0` | router | `?.` and `??` (ES2020) |
+| `>=14.13.1` | accepts, cookie-signature, etag, jsonp, rate-limit, req, res, send, type-is, url | `node:` prefix |
+| `>=16.10.0` | **app**, dotenv, proxy-addr | `Object.hasOwn()` (ES2022) |
 
 ## Key Dependencies
 

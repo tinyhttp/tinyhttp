@@ -1558,7 +1558,7 @@ describe('App settings', () => {
   describe('applyExtensions', () => {
     it('should use custom applyExtensions function when provided', async () => {
       let extensionsCalled = false
-      const customExtensions = (req: Request, res: Response, next: () => void) => {
+      const customExtensions = (req: Request, _res: Response, next: () => void) => {
         extensionsCalled = true
         ;(req as Request & { custom: boolean }).custom = true
         next()

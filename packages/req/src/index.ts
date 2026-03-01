@@ -1,6 +1,9 @@
 import type { IncomingHttpHeaders, IncomingMessage as Request, ServerResponse as Response } from 'node:http'
 import { typeIs } from '@tinyhttp/type-is'
 import { type Options, parseRange, type Ranges, type Result } from 'header-range-parser'
+
+export type { Options as RangeParserOptions, Ranges as RangeParserRanges, Result as RangeParserResult }
+
 import { fresh } from './fresh.js'
 
 export * from '@tinyhttp/url'

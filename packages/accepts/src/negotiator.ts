@@ -373,7 +373,7 @@ function splitMediaTypes(accept: string): string[] {
     if (quoteCount(accepts[j]) % 2 === 0) {
       accepts[++j] = accepts[i]
     } else {
-      accepts[j] += ',' + accepts[i]
+      accepts[j] += `,${accepts[i]}`
     }
   }
 
@@ -388,7 +388,7 @@ function splitParameters(str: string): string[] {
     if (quoteCount(parameters[j]) % 2 === 0) {
       parameters[++j] = parameters[i]
     } else {
-      parameters[j] += ';' + parameters[i]
+      parameters[j] += `;${parameters[i]}`
     }
   }
 
@@ -437,7 +437,7 @@ export class Negotiator {
   }
 
   mediaTypes(available?: string[]): string[] {
-    const header = this.#request.headers['accept']
+    const header = this.#request.headers.accept
     const accept = Array.isArray(header) ? header.join(', ') : header
     return preferredMediaTypes(accept, available)
   }
