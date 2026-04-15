@@ -548,6 +548,13 @@ describe('Response extensions', () => {
 
       await makeFetch(app)('/').expectHeader('Location', 'https://google.com\\@app%5Cl%5Ce.com').expectStatus(200)
     })
+    it('should encode characters in the fragment', async () => {
+      const app = runServer((req, res) => {
+        setLocationHeader(req, res)('https://google.com#\u2603 §10').end()
+      })
+
+      await makeFetch(app)('/').expectHeader('Location', 'https://google.com#%E2%98%83%20%C2%A710').expectStatus(200)
+    })
     describe('"url" is back', () => {
       it('should set location from "Referer" header', async () => {
         const app = runServer((req, res) => {
