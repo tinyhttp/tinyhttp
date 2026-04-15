@@ -1,5 +1,13 @@
 # @tinyhttp/res
 
+## 2.2.11
+
+### Patch Changes
+
+- 29a4c87: harden redirect location handling
+- Updated dependencies [ccd1129]
+  - @tinyhttp/send@2.2.5
+
 ## 2.2.10
 
 ### Patch Changes

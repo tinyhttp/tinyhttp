@@ -1,5 +1,12 @@
 # @tinyhttp/app
 
+## 3.0.7
+
+### Patch Changes
+
+- Updated dependencies [29a4c87]
+  - @tinyhttp/res@2.2.11
+
 ## 3.0.6
 
 ### Patch Changes
