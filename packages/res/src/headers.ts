@@ -5,6 +5,7 @@ import { vary } from '@tinyhttp/vary'
 import mime from 'mime'
 
 const charsetRegExp = /;\s*charset\s*=/
+const schemeAndHostRegExp = /^(?:[a-zA-Z][a-zA-Z0-9+.-]*:)?\/\/[^\\/?#]+/
 
 export const setHeader =
   <Response extends Res = Res>(res: Response) =>
@@ -40,8 +41,12 @@ export const setLocationHeader =
     // "back" is an alias for the referrer
     if (url === 'back') loc = (getRequestHeader(req)('Referrer') as string) || '/'
 
-    // set location
-    res.setHeader('Location', encodeUrl(loc))
+    const match = schemeAndHostRegExp.exec(loc)
+    const pos = match ? match[0].length + 1 : 0
+
+    // Only encode after the host to avoid turning authority backslashes into
+    // encoded bytes that can bypass redirect allowlists.
+    res.setHeader('Location', loc.slice(0, pos) + encodeUrl(loc.slice(pos)))
     return res
   }
 
