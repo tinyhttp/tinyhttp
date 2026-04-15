@@ -1,8 +1,10 @@
 import { createReadStream, statSync } from 'node:fs'
 import type { IncomingMessage as I, IncomingHttpHeaders, ServerResponse as S } from 'node:http'
-import { extname, isAbsolute, join } from 'node:path'
+import { extname, isAbsolute, join, normalize, sep } from 'node:path'
 import mime from 'mime'
 import { createETag } from './utils.js'
+
+const UP_PATH_REGEXP = /(?:^|[\\/])\.\.(?:[\\/]|$)/
 
 export type ReadStreamOptions = Partial<{
   flags: string
@@ -61,7 +63,15 @@ export const sendFile =
 
     if (caching) enableCaching(res, caching)
 
-    const filePath = root ? join(root, path) : path
+    const filePath = root
+      ? (() => {
+          const normalizedPath = normalize(`.${sep}${path}`)
+
+          if (UP_PATH_REGEXP.test(normalizedPath)) throw new TypeError('path must not contain ".."')
+
+          return join(root, normalizedPath)
+        })()
+      : path
 
     const stats = statSync(filePath)
 

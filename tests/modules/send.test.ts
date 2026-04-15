@@ -218,6 +218,55 @@ describe('sendFile(path)', () => {
 
     await makeFetch(app)('/').expectHeader('Content-Type', 'text/plain; charset=utf-8')
   })
+  it('should send a relative path inside root', async () => {
+    const app = runServer((req, res) => sendFile(req, res)('test.txt', { root: __dirname }))
+
+    await makeFetch(app)('/').expect('Hello World')
+  })
+  it('should send a normalized path inside root', async () => {
+    const app = runServer((req, res) => sendFile(req, res)('foo/../test.txt', { root: __dirname }))
+
+    await makeFetch(app)('/').expect('Hello World')
+  })
+  it('should keep an absolute-looking path inside root', async () => {
+    const app = runServer((req, res) => sendFile(req, res)('/test.txt', { root: __dirname }))
+
+    await makeFetch(app)('/').expect('Hello World')
+  })
+  it('should throw if path traverses outside root', async () => {
+    const app = runServer((req, res) => {
+      try {
+        sendFile(req, res)('../relative/path', { root: __dirname })
+      } catch (err) {
+        expect(err.message).toMatch(/must not contain/)
+
+        res.end()
+
+        return
+      }
+
+      throw new Error('Did not throw an error')
+    })
+
+    await makeFetch(app)('/')
+  })
+  it('should throw if normalized path traverses outside root', async () => {
+    const app = runServer((req, res) => {
+      try {
+        sendFile(req, res)('foo/../../test.txt', { root: __dirname })
+      } catch (err) {
+        expect(err.message).toMatch(/must not contain/)
+
+        res.end()
+
+        return
+      }
+
+      throw new Error('Did not throw an error')
+    })
+
+    await makeFetch(app)('/')
+  })
   it('should inherit the previously set Content-Type header', async () => {
     const app = runServer((req, res) => {
       res.setHeader('Content-Type', 'text/markdown')
