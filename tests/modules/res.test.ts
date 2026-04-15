@@ -124,7 +124,22 @@ describe('Response extensions', () => {
         headers: {
           Accept: 'text/html'
         }
-      }).expect(302, '<p>Found. Redirecting to <a href="/abc">/abc</a></p>')
+      }).expect(302, '<p>Found. Redirecting to /abc</p>')
+    })
+    it('should not render redirect URLs in an anchor href', async () => {
+      const xss = 'javascript:eval(document.body.innerHTML=`<p>XSS</p>`);'
+      const encodedXss = 'javascript:eval(document.body.innerHTML=%60%3Cp%3EXSS%3C/p%3E%60);'
+
+      const app = runServer((req, res) => {
+        redirect(req, res, () => {})(xss).end()
+      })
+
+      await makeFetch(app)('/', {
+        redirect: 'manual',
+        headers: {
+          Accept: 'text/html'
+        }
+      }).expect(302, `<p>Found. Redirecting to ${encodedXss}</p>`)
     })
     it('should send an empty response for unsupported MIME types', async () => {
       const app = runServer((req, res) => {
@@ -511,6 +526,27 @@ describe('Response extensions', () => {
       })
 
       await makeFetch(app)('/').expectHeader('Location', 'https://google.com?q=%A710').expectStatus(200)
+    })
+    it('should not encode backslashes in the authority', async () => {
+      const app = runServer((req, res) => {
+        setLocationHeader(req, res)('http://google.com\\@apple.com').end()
+      })
+
+      await makeFetch(app)('/').expectHeader('Location', 'http://google.com\\@apple.com').expectStatus(200)
+    })
+    it('should encode backslashes in the path after the authority', async () => {
+      const app = runServer((req, res) => {
+        setLocationHeader(req, res)('https://google.com/foo\\bar\\baz').end()
+      })
+
+      await makeFetch(app)('/').expectHeader('Location', 'https://google.com/foo%5Cbar%5Cbaz').expectStatus(200)
+    })
+    it('should preserve the host when an authority backslash is followed by a path', async () => {
+      const app = runServer((req, res) => {
+        setLocationHeader(req, res)('https://google.com\\@app\\l\\e.com').end()
+      })
+
+      await makeFetch(app)('/').expectHeader('Location', 'https://google.com\\@app%5Cl%5Ce.com').expectStatus(200)
     })
     describe('"url" is back', () => {
       it('should set location from "Referer" header', async () => {
