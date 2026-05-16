@@ -5,3 +5,5 @@ trustPolicy: no-downgrade
 
 minimumReleaseAge: 86400
 trustPolicyIgnoreAfter: 604800
+allowBuilds:
+  esbuild: true
