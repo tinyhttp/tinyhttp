@@ -34,7 +34,7 @@
     "chgset:run": "changeset",
     "chgset:version": "changeset version && pnpm install && biome check . --write",
     "chgset": "pnpm chgset:run && pnpm chgset:version",
-    "release": "changeset publish",
+    "release": "pnpm -r publish --access public --provenance --no-git-checks",
     "test:dev": "vitest --dir tests",
     "test:coverage": "vitest run --dir tests --coverage",
     "test": "pnpm test:coverage",
