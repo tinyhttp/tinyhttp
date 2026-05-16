@@ -148,4 +148,28 @@ describe('Dotenv config', () => {
     expect(target.test).toBe(mockParseResponse.test)
     expect(process.env.test).toBeUndefined()
   })
+
+  it('logs the "WAS overwritten" debug message when override is true', () => {
+    process.env.test = 'bar'
+    const log = console.log
+    const messages: string[] = []
+    console.log = (x: unknown) => {
+      messages.push(String(x))
+    }
+    dotenv.config({ path: envPath, debug: true, override: true })
+    console.log = log
+    expect(messages.some((m) => m.includes('"test" is already defined') && m.includes('WAS overwritten'))).toBe(true)
+  })
+
+  it('logs the failure reason when debug is true and the file cannot be read', () => {
+    const log = console.log
+    const messages: string[] = []
+    console.log = (x: unknown) => {
+      messages.push(String(x))
+    }
+    const env = dotenv.config({ path: path.join(__dirname, '../fixtures/.env.does-not-exist'), debug: true })
+    console.log = log
+    expect(env.error).toBeInstanceOf(Error)
+    expect(messages.some((m) => m.startsWith('[dotenv][DEBUG] failed to load'))).toBe(true)
+  })
 })
