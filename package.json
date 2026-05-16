@@ -22,7 +22,7 @@
     "@vitest/coverage-v8": "^4.1.6",
     "c8": "^11.0.0",
     "eta": "2.2.0",
-    "header-range-parser": "^1.1.5",
+    "header-range-parser": "1.1.4",
     "husky": "9.1.7",
     "regexparam": "3.0.0",
     "supertest-fetch": "2.0.0",
