@@ -38,16 +38,13 @@ jobs:
       - name: Build Packages
         run: pnpm -r build
 
-      - name: Bump npm
-        run: npm i -g npm@latest
-
       - name: Create Release Pull Request or Publish
         id: changesets
         uses: changesets/action@e0145edc7d9d8679003495b11f87bd8ef63c0cba # v1.5.3
         with:
           # Note: pnpm install after versioning is necessary to refresh lockfile
           version: pnpm chgset:version
-          publish: npm run release
+          publish: pnpm run release
           commit: "chore: release"
           title: "[ci] release"
         env:
