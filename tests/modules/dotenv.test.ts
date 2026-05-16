@@ -62,16 +62,26 @@ describe('Dotenv parsing', () => {
 
     expect(payload).toEqual(expectedPayload)
   })
-  it('debug works', () => {
-    const log = console.log
-
-    console.log = (x: unknown) => {
-      expect(x).toBe('[dotenv][DEBUG] did not match key and value when parsing line 1: what is this')
-    }
-
-    dotenv.parse(Buffer.from('what is this'), { debug: true })
-
-    console.log = log
+  it('ignores lines without a key=value pair', () => {
+    const payload = dotenv.parse(Buffer.from('what is this\nKEY=value'))
+    expect(payload).toEqual({ KEY: 'value' })
+  })
+  it('strips inline comments on unquoted values', () => {
+    const payload = dotenv.parse(Buffer.from('FOO=bar # inline comment'))
+    expect(payload.FOO).toBe('bar')
+  })
+  it('supports `export` prefix', () => {
+    const payload = dotenv.parse(Buffer.from('export FOO=bar'))
+    expect(payload.FOO).toBe('bar')
+  })
+  it('supports backtick-quoted values', () => {
+    const payload = dotenv.parse(Buffer.from('FOO=`back"tick\'s`'))
+    expect(payload.FOO).toBe(`back"tick's`)
+  })
+  it('does not pollute Object.prototype via __proto__ key', () => {
+    const payload = dotenv.parse(Buffer.from('__proto__={"polluted":"yes"}\nFOO=bar'))
+    expect(payload.FOO).toBe('bar')
+    expect(({} as Record<string, unknown>).polluted).toBeUndefined()
   })
 })
 
@@ -124,5 +134,42 @@ describe('Dotenv config', () => {
     const env = dotenv.config({ path: envPath, debug: true })
 
     expect(env.parsed?.test).toBe(mockParseResponse.test)
+  })
+
+  it('overrides existing process.env keys when override is true', () => {
+    process.env.test = 'bar'
+    dotenv.config({ path: envPath, override: true })
+    expect(process.env.test).toBe(mockParseResponse.test)
+  })
+
+  it('writes parsed values to a custom processEnv when provided', () => {
+    const target: NodeJS.ProcessEnv = {}
+    dotenv.config({ path: envPath, processEnv: target })
+    expect(target.test).toBe(mockParseResponse.test)
+    expect(process.env.test).toBeUndefined()
+  })
+
+  it('logs the "WAS overwritten" debug message when override is true', () => {
+    process.env.test = 'bar'
+    const log = console.log
+    const messages: string[] = []
+    console.log = (x: unknown) => {
+      messages.push(String(x))
+    }
+    dotenv.config({ path: envPath, debug: true, override: true })
+    console.log = log
+    expect(messages.some((m) => m.includes('"test" is already defined') && m.includes('WAS overwritten'))).toBe(true)
+  })
+
+  it('logs the failure reason when debug is true and the file cannot be read', () => {
+    const log = console.log
+    const messages: string[] = []
+    console.log = (x: unknown) => {
+      messages.push(String(x))
+    }
+    const env = dotenv.config({ path: path.join(__dirname, '../fixtures/.env.does-not-exist'), debug: true })
+    console.log = log
+    expect(env.error).toBeInstanceOf(Error)
+    expect(messages.some((m) => m.startsWith('[dotenv][DEBUG] failed to load'))).toBe(true)
   })
 })
