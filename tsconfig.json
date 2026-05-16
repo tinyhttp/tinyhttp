@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2022",
-    "module": "Node16",
+    "module": "NodeNext",
     "declaration": true,
     "preserveSymlinks": true,
     "outDir": "dist",
@@ -9,7 +9,7 @@
     "noImplicitAny": false,
     "noUnusedParameters": true,
     "skipLibCheck": true,
-    "moduleResolution": "Node16",
+    "moduleResolution": "NodeNext",
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
