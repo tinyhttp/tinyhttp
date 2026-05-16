@@ -114,7 +114,7 @@ export type Protocol = 'http' | 'https' | string
 
 export type { URLParams }
 
-type AcceptsReturns = string | boolean | string[]
+type AcceptsReturns = string | false | string[]
 
 export interface Request extends IncomingMessage {
   originalUrl: string
@@ -136,10 +136,30 @@ export interface Request extends IncomingMessage {
   subdomains?: string[]
   get: <HeaderName extends string>(header: HeaderName) => IncomingHttpHeaders[HeaderName]
   range: (size: number, options?: RangeParserOptions) => -1 | -2 | -3 | RangeParserRanges | undefined
-  accepts: (...types: string[]) => AcceptsReturns
-  acceptsEncodings: (...encodings: string[]) => AcceptsReturns
-  acceptsCharsets: (...charsets: string[]) => AcceptsReturns
-  acceptsLanguages: (...languages: string[]) => AcceptsReturns
+  accepts: {
+    (): string[]
+    (type: string): string | false
+    (types: string[]): string | false
+    (...types: string[]): string | false
+  }
+  acceptsEncodings: {
+    (): string[]
+    (encoding: string): string | false
+    (encodings: string[]): string | false
+    (...encodings: string[]): string | false
+  }
+  acceptsCharsets: {
+    (): string[]
+    (charset: string): string | false
+    (charsets: string[]): string | false
+    (...charsets: string[]): string | false
+  }
+  acceptsLanguages: {
+    (): string[]
+    (language: string): string | false
+    (languages: string[]): string | false
+    (...languages: string[]): string | false
+  }
   is: (...types: string[]) => string | boolean
   cookies?: any
   signedCookies?: any
