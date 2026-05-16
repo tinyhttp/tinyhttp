@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2022",
-    "module": "esnext",
+    "module": "Node16",
     "declaration": true,
     "preserveSymlinks": true,
     "outDir": "dist",
@@ -9,7 +9,7 @@
     "noImplicitAny": false,
     "noUnusedParameters": true,
     "skipLibCheck": true,
-    "moduleResolution": "Node",
+    "moduleResolution": "Node16",
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
@@ -18,7 +18,8 @@
     "composite": true,
     "sourceMap": true,
     "alwaysStrict": true,
-    "strict": true
+    "strict": true,
+    "types": ["node"]
   },
   "include": ["*.json"],
   "exclude": ["examples", "packages/*/dist", "node_modules"]
