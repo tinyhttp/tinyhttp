@@ -1,7 +1,7 @@
 /* c8 ignore start */
 export interface DotenvParseOptions {
   /**
-   * You may turn on logging to help debug why certain keys or values are not being set as you expect.
+   * @deprecated Kept for backwards-compatibility. The new parser does not log per-line warnings.
    */
   debug?: boolean
 }
@@ -25,6 +25,18 @@ export type DotenvConfigOptions = {
    * You may turn on logging to help debug why certain keys or values are not being set as you expect.
    */
   debug: boolean
+
+  /**
+   * Override any environment variables that have already been set.
+   * @default false
+   */
+  override: boolean
+
+  /**
+   * Specify an object to write your secrets to. Defaults to `process.env`.
+   * @default process.env
+   */
+  processEnv: NodeJS.ProcessEnv
 }
 
 export interface DotenvConfigOutput {

@@ -4,56 +4,39 @@ import type { DotenvConfigOptions, DotenvConfigOutput, DotenvParseOptions, Doten
 
 const log = (message: string) => console.log(`[dotenv][DEBUG] ${message}`)
 
-const NEWLINE = '\n'
-const RE_INI_KEY_VAL = /^\s*([\w.-]+)\s*=\s*(.*)?\s*$/
-const RE_NEWLINES = /\\n/g
-const NEWLINES_MATCH = /\n|\r|\r\n/
+// Mirrors motdotla/dotenv parser: one multiline regex, no polynomial backtracking.
+// Matches: optional `export`, KEY, `=` or `:`, then a quoted ('/"/`) or unquoted value, optional trailing comment.
+const LINE =
+  /(?:^|^)\s*(?:export\s+)?([\w.-]+)(?:\s*=\s*?|:\s+?)(\s*'(?:\\'|[^'])*'|\s*"(?:\\"|[^"])*"|\s*`(?:\\`|[^`])*`|[^#\r\n]+)?\s*(?:#.*)?(?:$|$)/gm
 
 /**
  * Parses a string or buffer in the .env file format into an object.
  *
  * @param src - contents to be parsed
- * @param options - additional options
  * @returns an object with keys and values based on `src`
  */
-export function parse(src: string | Buffer, options?: DotenvParseOptions): DotenvParseOutput {
-  const debug = Boolean(options?.debug)
-  const obj = {}
+export function parse(src: string | Buffer, _options?: DotenvParseOptions): DotenvParseOutput {
+  const obj: DotenvParseOutput = {}
+  // normalize line endings so the `m` flag anchors work consistently
+  const lines = src.toString().replace(/\r\n?/gm, '\n')
 
-  // convert Buffers before splitting into lines and processing
-  src
-    .toString()
-    .split(NEWLINES_MATCH)
-    .forEach((line: string, idx: number) => {
-      // matching "KEY' and 'VAL' in 'KEY=VAL'
-      const keyValueArr = line.match(RE_INI_KEY_VAL)
-      // matched?
-      if (keyValueArr != null) {
-        const key = keyValueArr[1]
-        // default undefined or missing values to empty string
-        let val = keyValueArr[2] || ''
-        const end = val.length - 1
-        const isDoubleQuoted = val[0] === '"' && val[end] === '"'
-        const isSingleQuoted = val[0] === "'" && val[end] === "'"
+  let match: RegExpExecArray | null
+  // biome-ignore lint/suspicious/noAssignInExpressions: idiomatic regex loop
+  while ((match = LINE.exec(lines)) != null) {
+    const key = match[1]
+    if (key === '__proto__' || key === 'constructor' || key === 'prototype') continue
 
-        // if single or double quoted, remove quotes
-        if (isSingleQuoted || isDoubleQuoted) {
-          val = val.substring(1, end)
+    let value = (match[2] || '').trim()
+    const quote = value[0]
 
-          // if double quoted, expand newlines
-          if (isDoubleQuoted) {
-            val = val.replace(RE_NEWLINES, NEWLINE)
-          }
-        } else {
-          // remove surrounding whitespace
-          val = val.trim()
-        }
+    // strip surrounding matching quotes (`, ', ")
+    value = value.replace(/^(['"`])([\s\S]*)\1$/gm, '$2')
 
-        obj[key] = val
-      } else if (debug) {
-        log(`did not match key and value when parsing line ${idx + 1}: ${line}`)
-      }
-    })
+    // expand escapes only inside double quotes
+    if (quote === '"') value = value.replace(/\\n/g, '\n').replace(/\\r/g, '\r')
+
+    obj[key] = value
+  }
 
   return obj
 }
@@ -64,27 +47,29 @@ export function parse(src: string | Buffer, options?: DotenvParseOptions): Doten
  *
  * @param options - controls behavior
  * @returns an object with a `parsed` key if successful or `error` key if an error occurred
- *
  */
 export function config(options?: Partial<DotenvConfigOptions>): DotenvConfigOutput {
   const dotenvPath = options?.path || path.resolve(process.cwd(), '.env')
   const encoding = options?.encoding || 'utf8'
   const debug = options?.debug || false
+  const override = options?.override || false
+  const processEnv = options?.processEnv || process.env
 
   try {
-    // specifying an encoding returns a string instead of a buffer
-    const parsed = parse(readFileSync(dotenvPath, { encoding }), { debug })
+    const parsed = parse(readFileSync(dotenvPath, { encoding }))
 
     for (const key of Object.keys(parsed)) {
-      if (!Object.hasOwn(process.env, key)) {
-        process.env[key] = parsed[key]
-      } else if (debug) {
-        log(`"${key}" is already defined in \`process.env\` and will not be overwritten`)
+      if (Object.hasOwn(processEnv, key)) {
+        if (override) processEnv[key] = parsed[key]
+        if (debug) log(`"${key}" is already defined in \`process.env\` and ${override ? 'WAS' : 'was NOT'} overwritten`)
+      } else {
+        processEnv[key] = parsed[key]
       }
     }
 
     return { parsed }
   } catch (error) {
+    if (debug) log(`failed to load ${dotenvPath}: ${(error as Error).message}`)
     return { error: error as Error }
   }
 }
