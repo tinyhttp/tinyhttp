@@ -3,7 +3,7 @@ packages:
 
 trustPolicy: no-downgrade
 
-minimumReleaseAge: 86400
-trustPolicyIgnoreAfter: 604800
+minimumReleaseAge: 1440
+trustPolicyIgnoreAfter: 10080
 allowBuilds:
   esbuild: true
