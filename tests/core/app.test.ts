@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises'
 import http from 'node:http'
+import { join } from 'node:path'
 import { renderFile } from 'eta'
 import { makeFetch } from 'supertest-fetch'
 import { describe, expect, it } from 'vitest'
@@ -1335,7 +1336,7 @@ describe('Template engines', () => {
       })
 
       expect(view.root).toBe(root)
-      expect(view.path).toBe(`${root}/index.eta`)
+      expect(view.path).toBe(join(root, 'index.eta'))
     })
 
     it('View constructor defaults root to [] when opts.root is omitted', () => {
