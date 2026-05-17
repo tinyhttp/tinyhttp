@@ -144,6 +144,61 @@ describe('new Accepts(req)', () => {
       })
     })
   })
+  describe('edge cases', () => {
+    it('empty Accept-Charset header falls back to no preferences', () => {
+      const req = { headers: { 'accept-charset': '' } } as unknown as IncomingMessage
+      const accept = new Accepts(req)
+      expect(accept.charsets()).toStrictEqual([])
+    })
+    it('empty Accept-Language header falls back to no preferences', () => {
+      const req = { headers: { 'accept-language': '' } } as unknown as IncomingMessage
+      const accept = new Accepts(req)
+      expect(accept.languages()).toStrictEqual([])
+    })
+    it('empty Accept header falls back to no preferences', () => {
+      const req = { headers: { accept: '' } } as unknown as IncomingMessage
+      const accept = new Accepts(req)
+      expect(accept.types()).toStrictEqual([])
+    })
+    it('Accept-Encoding with q=0 still appends identity with q=1', () => {
+      const req = createRequest('gzip;q=0')
+      const accept = new Accepts(req)
+      // gzip is filtered out (q=0), identity is appended via the `enc.q || 1` fallback
+      // @ts-expect-error - encoding() with no args is allowed at runtime
+      expect(accept.encoding()).toStrictEqual(['identity'])
+    })
+    it('Accept with duplicate matching media types still selects the type', () => {
+      // Two `*/*` entries force getMediaTypePriority to compare specs whose s and q
+      // match but whose o (original index in Accept) differs.
+      const req = createRequest('*/*, */*')
+      const accept = new Accepts(req)
+      expect(accept.types(['text/html'])).toStrictEqual('text/html')
+    })
+    it('Accept-Language with duplicate matching languages still selects the language', () => {
+      const req = createRequest('en, en')
+      const accept = new Accepts(req)
+      expect(accept.languages(['en'])).toStrictEqual('en')
+    })
+    it('Accept-Charset with duplicate matching charsets still selects the charset', () => {
+      const req = createRequest('utf-8, utf-8')
+      const accept = new Accepts(req)
+      expect(accept.charsets(['utf-8'])).toStrictEqual('utf-8')
+    })
+    it('Accept-Encoding with duplicate matching encodings still selects the encoding', () => {
+      const req = createRequest('gzip, gzip')
+      const accept = new Accepts(req)
+      expect(accept.encoding(['gzip'])).toStrictEqual('gzip')
+    })
+    it('Accept media type with extra params matches against provided type without those params', () => {
+      // Exercises `(spec.params[k] || '').toLowerCase() === (p.params[k] || '').toLowerCase()`
+      // where p.params[k] is undefined and falls through to the empty-string fallback.
+      const req = createRequest('text/html;level=1')
+      const accept = new Accepts(req)
+      // The provided type lacks `level`, so its param read falls back to ''
+      expect(accept.types(['text/html'])).toStrictEqual(false)
+    })
+  })
+
   describe('getter aliases', () => {
     it('all getter aliases for "languages" should map to accepts.languages', () => {
       const req = createRequest('application/json, text/plain')

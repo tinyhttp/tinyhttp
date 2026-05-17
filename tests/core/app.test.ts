@@ -4,7 +4,7 @@ import { renderFile } from 'eta'
 import { makeFetch } from 'supertest-fetch'
 import { describe, expect, it } from 'vitest'
 import { App, type Request, type Response } from '../../packages/app/src/index'
-import type { View } from '../../packages/app/src/view'
+import { View } from '../../packages/app/src/view'
 import type { RouterMethod } from '../../packages/router/src'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 
@@ -968,6 +968,15 @@ describe('Subapps', () => {
     const fetch = makeFetch(server)
     await fetch('/%').expect(400, 'Bad Request')
   })
+  it('short-circuits HEAD requests with 204 when chain falls through', async () => {
+    const app = new App()
+    app.use((_req, _res, next) => next?.())
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    await fetch('/', { method: 'HEAD' }).expect(204)
+  })
   it('handles errors by parent when no onError specified', async () => {
     const app = new App({
       onError: (err, req, res) => res.status(500).end(`Ouch, ${err} hurt me on ${req.path} page.`)
@@ -1315,6 +1324,28 @@ describe('Template engines', () => {
           expect((err as Error).message).toMatch(/Failed to lookup view "uknown.eta" in views directories/)
         })
       })
+    })
+
+    it('View constructor honors opts.root', () => {
+      const root = `${process.cwd()}/tests/fixtures/views`
+      const view = new View('index.eta', {
+        defaultEngine: 'eta',
+        root,
+        engines: { '.eta': renderFile as never }
+      })
+
+      expect(view.root).toBe(root)
+      expect(view.path).toBe(`${root}/index.eta`)
+    })
+
+    it('View constructor defaults root to [] when opts.root is omitted', () => {
+      expect(
+        () =>
+          new View('index.eta', {
+            defaultEngine: 'eta',
+            engines: { '.eta': renderFile as never }
+          })
+      ).toThrow(/Failed to lookup view "index.eta"/)
     })
 
     it('supports custom View', () => {

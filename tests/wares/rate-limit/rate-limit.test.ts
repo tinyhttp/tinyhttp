@@ -332,6 +332,39 @@ describe('rate-limit', () => {
   })
 })
 
+describe('rate-limit decrement guards', () => {
+  it('decrements once when close fires before response ended (skipFailedRequests)', async () => {
+    const store = new MockStore()
+    const app = new App()
+    app.use(rateLimit({ skipFailedRequests: true, store }))
+    app.get('/', (_req, res) => {
+      // Fire close manually before ending; writableEnded is false at this point
+      res.emit('close')
+      res.send('done')
+    })
+
+    await makeFetch(app.listen())('/').expect(200)
+    expect(store.decrement_was_called).toBe(true)
+    expect(store.counter).toBe(0)
+  })
+
+  it('does not double-decrement when both finish and error fire (skipFailedRequests)', async () => {
+    const store = new MockStore()
+    const app = new App()
+    app.use(rateLimit({ skipFailedRequests: true, store }))
+    app.get('/', (_req, res) => {
+      res.statusCode = 500
+      // After rate-limit's finish handler decrements, force its error handler too
+      res.on('finish', () => res.emit('error', new Error('boom')))
+      res.end('bad')
+    })
+
+    await makeFetch(app.listen())('/').expect(500)
+    // incr +1, decrement -1 exactly once → counter 0
+    expect(store.counter).toBe(0)
+  })
+})
+
 describe('rate-limit edge cases', () => {
   it('should handle draftPolliRatelimitHeaders without resetTime', async () => {
     const app = new App()
