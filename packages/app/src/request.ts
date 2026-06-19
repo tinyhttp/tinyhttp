@@ -114,8 +114,6 @@ export type Protocol = 'http' | 'https' | string
 
 export type { URLParams }
 
-type AcceptsReturns = string | false | string[]
-
 export interface Request extends IncomingMessage {
   originalUrl: string
   path: string

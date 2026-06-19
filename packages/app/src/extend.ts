@@ -79,9 +79,12 @@ export const extendMiddleware = <EngineOptions extends TemplateEngineOptions = T
       return acceptsInstance
     }
     req.accepts = ((...types: string[]) => getAcceptsInstance().types(types)) as Request['accepts']
-    req.acceptsCharsets = ((...charsets: string[]) => getAcceptsInstance().charsets(charsets)) as Request['acceptsCharsets']
-    req.acceptsEncodings = ((...encodings: string[]) => getAcceptsInstance().encodings(encodings)) as Request['acceptsEncodings']
-    req.acceptsLanguages = ((...languages: string[]) => getAcceptsInstance().languages(languages)) as Request['acceptsLanguages']
+    req.acceptsCharsets = ((...charsets: string[]) =>
+      getAcceptsInstance().charsets(charsets)) as Request['acceptsCharsets']
+    req.acceptsEncodings = ((...encodings: string[]) =>
+      getAcceptsInstance().encodings(encodings)) as Request['acceptsEncodings']
+    req.acceptsLanguages = ((...languages: string[]) =>
+      getAcceptsInstance().languages(languages)) as Request['acceptsLanguages']
 
     req.xhr = checkIfXMLHttpRequest(req)
 
