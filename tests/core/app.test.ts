@@ -162,6 +162,13 @@ describe('Testing App routing', () => {
 
     await makeFetch(app.listen())('/abc').expect(200, 'Hello World')
   })
+  it('should ignore a non-string, non-array base path and mount at root', async () => {
+    const app = new App()
+
+    app.use(123 as unknown as string, (_req, res) => void res.send('Hello world'))
+
+    await makeFetch(app.listen())('/').expect(200, 'Hello world')
+  })
   it('should can set url prefix for the application', async () => {
     const app = new App()
 
