@@ -794,4 +794,11 @@ describe('Request properties', () => {
 
     await fetch('/', { headers: { 'If-None-Match': etag, 'Cache-Control': 'max-age=3600' } }).expectStatus(304)
   })
+  it('req.stale is true when the response is not fresh', async () => {
+    const { fetch } = InitAppAndTest((req, res) => {
+      res.send(`stale: ${req.stale}`)
+    })
+
+    await fetch('/').expect(200, 'stale: true')
+  })
 })
