@@ -1,4 +1,4 @@
-import mime from 'mime'
+import { lookup } from 'mrmime'
 
 export type NormalizedType = {
   value: string
@@ -21,7 +21,7 @@ export function acceptParams(str: string, index?: number): NormalizedType {
 }
 
 export const normalizeType = (type: string): NormalizedType =>
-  ~type.indexOf('/') ? acceptParams(type) : ({ value: mime.getType(type), params: {} } as NormalizedType)
+  ~type.indexOf('/') ? acceptParams(type) : ({ value: lookup(type), params: {} } as NormalizedType)
 
 export function normalizeTypes(types: string[]): NormalizedType[] {
   const ret: NormalizedType[] = []
@@ -59,7 +59,7 @@ export function escapeHTML(str: string): string {
       case 39: // '
         escapeChar = '&#39;'
         break
-      case 60: // <
+      case 60: //
         escapeChar = '&lt;'
         break
       case 62: // >
