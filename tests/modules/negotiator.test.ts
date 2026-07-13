@@ -282,6 +282,11 @@ describe('Negotiator', () => {
       const negotiator = new Negotiator(createRequest({ accept: 'text/html;level' }))
       expect(negotiator.mediaTypes()).toEqual(['text/html'])
     })
+
+    it('should match provided type when accept has an empty-valued parameter', () => {
+      const negotiator = new Negotiator(createRequest({ accept: 'text/html;level' }))
+      expect(negotiator.mediaTypes(['text/html'])).toEqual(['text/html'])
+    })
   })
 
   describe('edge cases', () => {

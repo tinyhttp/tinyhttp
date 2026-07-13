@@ -794,4 +794,25 @@ describe('Request properties', () => {
 
     await fetch('/', { headers: { 'If-None-Match': etag, 'Cache-Control': 'max-age=3600' } }).expectStatus(304)
   })
+  it('req.stale is false when the response is fresh', async () => {
+    const etag = '123'
+    const { fetch } = InitAppAndTest((req, res) => {
+      res.set('ETag', etag)
+      assert.strictEqual(req.fresh, true)
+      assert.strictEqual(req.stale, false)
+      res.end('done')
+    })
+
+    await fetch('/', { headers: { 'If-None-Match': etag, 'Cache-Control': 'max-age=3600' } }).expectStatus(200)
+  })
+  it('req.stale is true when the response is stale', async () => {
+    const { fetch } = InitAppAndTest((req, res) => {
+      res.set('ETag', '123')
+      assert.strictEqual(req.fresh, false)
+      assert.strictEqual(req.stale, true)
+      res.end('done')
+    })
+
+    await fetch('/', { headers: { 'If-None-Match': '456', 'Cache-Control': 'max-age=3600' } }).expectStatus(200)
+  })
 })
