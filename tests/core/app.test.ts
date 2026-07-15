@@ -3,9 +3,10 @@ import http from 'node:http'
 import { join } from 'node:path'
 import { renderFile } from 'eta'
 import { makeFetch } from 'supertest-fetch'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { App, type Request, type Response } from '../../packages/app/src/index'
 import { View } from '../../packages/app/src/view'
+import * as req from '../../packages/req/src'
 import type { RouterMethod } from '../../packages/router/src'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
 
@@ -51,6 +52,23 @@ describe('Testing App', () => {
     const fetch = makeFetch(server)
 
     await fetch('/').expect(500, 'Ouch, you hurt me on / page.')
+  })
+  it('Custom onError handles unexpected route parameter errors', async () => {
+    const error = new Error('Unable to parse route parameters')
+    const getURLParams = vi.spyOn(req, 'getURLParams').mockImplementationOnce(() => {
+      throw error
+    })
+    const app = new App({
+      onError: (err, _req, res) => res.status(500).end((err as Error).message)
+    })
+
+    app.get('/:id', (_req, res) => res.end('matched'))
+
+    try {
+      await makeFetch(app.listen())('/value').expect(500, error.message)
+    } finally {
+      getURLParams.mockRestore()
+    }
   })
 
   it('App works with HTTP 1.1', async () => {
