@@ -22,9 +22,9 @@
     "@vitest/coverage-v8": "^4.1.6",
     "c8": "^11.0.0",
     "eta": "2.2.0",
-    "header-range-parser": "1.1.4",
+    "header-range-parser": "catalog:",
     "husky": "9.1.7",
-    "regexparam": "3.0.0",
+    "regexparam": "catalog:",
     "supertest-fetch": "2.0.0",
     "typescript": "~6.0.3",
     "vitest": "4.1.10"

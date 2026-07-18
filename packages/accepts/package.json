@@ -26,6 +26,6 @@
     "build": "tsc"
   },
   "dependencies": {
-    "mrmime": "^2.0.1"
+    "mrmime": "catalog:"
   }
 }

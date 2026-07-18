@@ -31,6 +31,6 @@
     "dist"
   ],
   "dependencies": {
-    "regexparam": "^2.0.2"
+    "regexparam": "catalog:"
   }
 }

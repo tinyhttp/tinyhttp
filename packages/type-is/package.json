@@ -31,8 +31,8 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@tinyhttp/content-type": "^0.1.4",
-    "mrmime": "^2.0.1"
+    "@tinyhttp/content-type": "catalog:",
+    "mrmime": "catalog:"
   },
   "files": [
     "dist"

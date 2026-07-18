@@ -38,7 +38,7 @@
     "@tinyhttp/req": "workspace:*",
     "@tinyhttp/res": "workspace:*",
     "@tinyhttp/router": "workspace:*",
-    "regexparam": "^2.0.2"
+    "regexparam": "catalog:"
   },
   "scripts": {
     "build": "tsc"

@@ -32,7 +32,7 @@
     "@tinyhttp/accepts": "workspace:*",
     "@tinyhttp/type-is": "workspace:*",
     "@tinyhttp/url": "workspace:*",
-    "header-range-parser": "1.1.4"
+    "header-range-parser": "catalog:"
   },
   "files": [
     "dist"
