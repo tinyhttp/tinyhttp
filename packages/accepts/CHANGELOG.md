@@ -1,5 +1,11 @@
 # @tinyhttp/accepts
 
+## 2.3.1
+
+### Patch Changes
+
+- d28bdb8: replace mime with mrmime
+
 ## 2.3.0
 
 ### Minor Changes
