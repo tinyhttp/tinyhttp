@@ -314,11 +314,22 @@ describe('sendFile(path)', () => {
       .expect('Accept-Ranges', 'bytes')
       .expect('Hello')
   })
-  it('should send 419 if out of range', async () => {
+  it('should clamp an end position beyond the file size (bytes=0-666)', async () => {
     const app = runServer((req, res) => sendFile(req, res)(testFilePath))
     await makeFetch(app)('/', {
       headers: {
         Range: 'bytes=0-666'
+      }
+    })
+      .expectStatus(206)
+      .expect('Content-Range', 'bytes 0-10/11')
+      .expect('Hello World')
+  })
+  it('should send 416 when the range start is beyond the file size', async () => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath))
+    await makeFetch(app)('/', {
+      headers: {
+        Range: 'bytes=666-777'
       }
     })
       .expectStatus(416)

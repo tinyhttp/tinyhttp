@@ -169,6 +169,9 @@ importers:
       '@tinyhttp/etag':
         specifier: workspace:*
         version: link:../etag
+      header-range-parser:
+        specifier: 1.1.4
+        version: 1.1.4
       mrmime:
         specifier: ^2.0.1
         version: 2.0.1
