@@ -35,9 +35,14 @@ export const setLocationHeader =
     // "back" is an alias for the referrer
     if (url === 'back') loc = (getRequestHeader(req)('Referrer') as string) || '/'
     const match = schemeAndHostRegExp.exec(loc)
-    const pos = match ? match[0].length + 1 : 0
-    // Only encode after the host to avoid turning authority backslashes into
-    // encoded bytes that can bypass redirect allowlists.
+    // Encode everything after the scheme + authority. The `schemeAndHostRegExp`
+    // match stops at the first `\`, `/`, `?` or `#`, so any of those delimiters
+    // (including a backslash smuggled into the authority) falls into the encoded
+    // portion. This prevents an open redirect via a raw backslash such as
+    // `https://evil.com\@trusted.com`, which some URL parsers resolve to
+    // `evil.com` (GHSA-8q4p-mhxr-fq83), while leaving the real host verbatim so
+    // redirect allowlists still see it.
+    const pos = match ? match[0].length : 0
     res.setHeader('Location', loc.slice(0, pos) + encodeUrl(loc.slice(pos)))
     return res
   }

@@ -141,6 +141,17 @@ describe('Response extensions', () => {
         }
       }).expect(302, `<p>Found. Redirecting to ${encodedXss}</p>`)
     })
+    it('should not allow an open redirect via an authority backslash (GHSA-8q4p-mhxr-fq83)', async () => {
+      const app = runServer((req, res) => {
+        redirect(req, res, () => {})('https://evil.com\\@trusted.com').end()
+      })
+
+      await makeFetch(app)('/', {
+        redirect: 'manual'
+      })
+        .expectStatus(302)
+        .expectHeader('Location', 'https://evil.com%5C@trusted.com')
+    })
     it('should send an empty response for unsupported MIME types', async () => {
       const app = runServer((req, res) => {
         redirect(req, res, (err) => res.writeHead(err.status).end(err.message))('/abc').end()
@@ -527,12 +538,24 @@ describe('Response extensions', () => {
 
       await makeFetch(app)('/').expectHeader('Location', 'https://google.com?q=%A710').expectStatus(200)
     })
-    it('should not encode backslashes in the authority', async () => {
+    // GHSA-8q4p-mhxr-fq83: a backslash right after the host must be encoded to
+    // %5C. Left raw, parsers that treat `\` like `/` resolve
+    // `http://google.com\@apple.com` to host `google.com`, but a redirect
+    // allowlist checking the string sees "google.com..." while the browser may
+    // navigate to `apple.com` — an open redirect.
+    it('should encode a backslash smuggled into the authority', async () => {
       const app = runServer((req, res) => {
         setLocationHeader(req, res)('http://google.com\\@apple.com').end()
       })
 
-      await makeFetch(app)('/').expectHeader('Location', 'http://google.com\\@apple.com').expectStatus(200)
+      await makeFetch(app)('/').expectHeader('Location', 'http://google.com%5C@apple.com').expectStatus(200)
+    })
+    it('should encode an authority backslash in a scheme-relative URL', async () => {
+      const app = runServer((req, res) => {
+        setLocationHeader(req, res)('//google.com\\@apple.com').end()
+      })
+
+      await makeFetch(app)('/').expectHeader('Location', '//google.com%5C@apple.com').expectStatus(200)
     })
     it('should encode backslashes in the path after the authority', async () => {
       const app = runServer((req, res) => {
@@ -541,12 +564,12 @@ describe('Response extensions', () => {
 
       await makeFetch(app)('/').expectHeader('Location', 'https://google.com/foo%5Cbar%5Cbaz').expectStatus(200)
     })
-    it('should preserve the host when an authority backslash is followed by a path', async () => {
+    it('should encode every backslash when the authority is followed by more', async () => {
       const app = runServer((req, res) => {
         setLocationHeader(req, res)('https://google.com\\@app\\l\\e.com').end()
       })
 
-      await makeFetch(app)('/').expectHeader('Location', 'https://google.com\\@app%5Cl%5Ce.com').expectStatus(200)
+      await makeFetch(app)('/').expectHeader('Location', 'https://google.com%5C@app%5Cl%5Ce.com').expectStatus(200)
     })
     it('should encode characters in the fragment', async () => {
       const app = runServer((req, res) => {
