@@ -314,15 +314,132 @@ describe('sendFile(path)', () => {
       .expect('Accept-Ranges', 'bytes')
       .expect('Hello')
   })
-  it('should send 419 if out of range', async () => {
+  it('should clamp an end position beyond the file size (bytes=0-666)', async () => {
     const app = runServer((req, res) => sendFile(req, res)(testFilePath))
     await makeFetch(app)('/', {
       headers: {
         Range: 'bytes=0-666'
       }
     })
+      .expectStatus(206)
+      .expect('Content-Range', 'bytes 0-10/11')
+      .expect('Hello World')
+  })
+  it('should send 416 when the range start is beyond the file size', async () => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath))
+    await makeFetch(app)('/', {
+      headers: {
+        Range: 'bytes=666-777'
+      }
+    })
       .expectStatus(416)
       .expectHeader('Content-Range', 'bytes */11')
+  })
+  // GHSA-w65r-fqv6-q6w9: an inverted range (start > end) must not crash the
+  // process. Previously it slipped past the bounds check, produced a negative
+  // Content-Length and made createReadStream throw after headers were committed.
+  it('should send 416 for an inverted Range (start > end) without crashing', async () => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath))
+    await makeFetch(app)('/', {
+      headers: {
+        Range: 'bytes=10-5'
+      }
+    })
+      .expectStatus(416)
+      .expectHeader('Content-Range', 'bytes */11')
+  })
+  it('should send 416 for an inverted Range where end parses as falsy (bytes=1-0)', async () => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath))
+    await makeFetch(app)('/', {
+      headers: {
+        Range: 'bytes=1-0'
+      }
+    })
+      .expectStatus(416)
+      .expectHeader('Content-Range', 'bytes */11')
+  })
+  it('should send 416 for a malformed Range header', async () => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath))
+    await makeFetch(app)('/', {
+      headers: {
+        Range: 'bytes=abc-def'
+      }
+    })
+      .expectStatus(416)
+      .expectHeader('Content-Range', 'bytes */11')
+  })
+  it('should serve the full body (200) for a syntactically invalid Range header', async () => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath))
+    // No "=" → header-range-parser returns -2 (invalid), so we ignore the
+    // header and respond with the whole file instead of a partial/416.
+    await makeFetch(app)('/', {
+      headers: {
+        Range: 'invalid-range'
+      }
+    })
+      .expectStatus(200)
+      .expect('Content-Length', '11')
+      .expect('Hello World')
+  })
+  it('should serve the full body (200) for a multi-range request', async () => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath))
+    // Multiple ranges are parsed successfully but we only support single-range
+    // responses, so this falls through to a normal 200 full-body response.
+    await makeFetch(app)('/', {
+      headers: {
+        Range: 'bytes=0-1,4-5'
+      }
+    })
+      .expectStatus(200)
+      .expect('Content-Length', '11')
+      .expect('Hello World')
+  })
+  it('should handle a Range header supplied as an array', async () => {
+    // Node normally collapses duplicate Range headers to a string, but the type
+    // allows string[]; sendFile should use the first entry rather than throw.
+    const chunks: Buffer[] = []
+    const res = {
+      headers: {} as Record<string, string | number>,
+      statusCode: 0,
+      setHeader(k: string, v: string | number) {
+        this.headers[k.toLowerCase()] = v
+      },
+      getHeader(k: string) {
+        return this.headers[k.toLowerCase()]
+      },
+      writeHead(code: number) {
+        this.statusCode = code
+        return this
+      },
+      // WritableStream surface used by stream.pipe / .end
+      on() {
+        return this
+      },
+      once() {
+        return this
+      },
+      emit() {
+        return true
+      },
+      write(chunk: Buffer) {
+        chunks.push(Buffer.from(chunk))
+        return true
+      },
+      end(chunk?: Buffer) {
+        if (chunk) chunks.push(Buffer.from(chunk))
+        return this
+      }
+    }
+    const req = { headers: { range: ['bytes=0-4', 'bytes=6-10'] as string[] } }
+
+    // biome-ignore lint/suspicious/noExplicitAny: minimal req/res test doubles
+    sendFile(req as any, res as any)(testFilePath)
+
+    await new Promise((resolve) => setTimeout(resolve, 30))
+
+    expect(res.statusCode).toBe(206)
+    expect(res.headers['content-range']).toBe('bytes 0-4/11')
+    expect(res.headers['content-length']).toBe('5')
   })
   it('should set default encoding to UTF-8', async () => {
     const app = runServer((req, res) => sendFile(req, res)(testFilePath))

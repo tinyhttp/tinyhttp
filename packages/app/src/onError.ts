@@ -11,6 +11,14 @@ export const onErrorHandler: ErrorHandler = function (this: App, err: any, _req:
 
   if (err instanceof Error) console.error(err)
 
+  // If the response headers are already committed we can no longer write a
+  // status line. Attempting to do so throws ERR_HTTP_HEADERS_SENT, which would
+  // be uncaught and crash the process. Just tear the socket down instead.
+  if (res.headersSent) {
+    res.destroy()
+    return
+  }
+
   const code = err.code in STATUS_CODES ? err.code : err.status
 
   if (typeof err === 'string' || Buffer.isBuffer(err)) res.writeHead(500).end(err)

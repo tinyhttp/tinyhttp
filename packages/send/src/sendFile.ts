@@ -1,6 +1,7 @@
 import { createReadStream, statSync } from 'node:fs'
 import type { IncomingMessage as I, IncomingHttpHeaders, ServerResponse as S } from 'node:http'
 import { extname, isAbsolute, join, normalize, sep } from 'node:path'
+import { parseRange } from 'header-range-parser'
 import { lookup } from 'mrmime'
 import { createETag } from './utils.js'
 
@@ -88,15 +89,16 @@ export const sendFile =
     let status = res.statusCode || 200
 
     if (req.headers.range) {
-      status = 206
-      const [x, y] = req.headers.range.replace('bytes=', '').split('-')
-      const end = Number.parseInt(y, 10) || stats.size - 1
-      const start = Number.parseInt(x, 10) || 0
+      const rangeHeader = Array.isArray(req.headers.range) ? req.headers.range[0] : req.headers.range
 
-      options.start = start
-      options.end = end
+      // Delegate parsing to header-range-parser (a maintained fork of the parser
+      // Express uses). It never yields an inverted range, so a malformed header
+      // such as `bytes=10-5` can no longer produce a negative Content-Length and
+      // crash the process (GHSA-w65r-fqv6-q6w9).
+      const ranges = parseRange(stats.size, rangeHeader, { combine: true, throwError: false })
 
-      if (start >= stats.size || end >= stats.size) {
+      if (ranges === -1) {
+        // Unsatisfiable (out of bounds or inverted) → 416.
         res
           .writeHead(416, {
             'Content-Range': `bytes */${stats.size}`
@@ -104,9 +106,22 @@ export const sendFile =
           .end()
         return res
       }
-      headers['Content-Range'] = `bytes ${start}-${end}/${stats.size}`
-      headers['Content-Length'] = (end - start + 1).toString()
-      headers['Accept-Ranges'] = 'bytes'
+
+      // A single satisfiable range → 206. Malformed (-2) or multi-range requests
+      // fall through to a normal 200 full-body response.
+      if (Array.isArray(ranges) && ranges.length === 1) {
+        status = 206
+        const { start, end } = ranges[0]
+
+        options.start = start
+        options.end = end
+
+        headers['Content-Range'] = `bytes ${start}-${end}/${stats.size}`
+        headers['Content-Length'] = (end - start + 1).toString()
+        headers['Accept-Ranges'] = 'bytes'
+      } else {
+        headers['Content-Length'] = stats.size.toString()
+      }
     } else {
       headers['Content-Length'] = stats.size.toString()
     }

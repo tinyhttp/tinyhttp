@@ -53,6 +53,30 @@ describe('Testing App', () => {
     await fetch('/').expect(500, 'Ouch, you hurt me on / page.')
   })
 
+  it('does not crash when a handler throws after headers are sent', async () => {
+    // GHSA-w65r-fqv6-q6w9 defense-in-depth: the default onError handler must
+    // not call writeHead on a response whose headers are already committed,
+    // otherwise ERR_HTTP_HEADERS_SENT propagates uncaught and crashes the process.
+    const app = new App()
+
+    app.get('/boom', (_req, res) => {
+      res.writeHead(206, { 'Content-Type': 'text/plain' })
+      res.write('partial')
+      throw new Error('boom after headers sent')
+    })
+    app.get('/alive', (_req, res) => void res.send('still alive'))
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    // The offending request tears down its own socket instead of crashing the
+    // process, so the client sees a dropped connection rather than a response.
+    await expect(fetch('/boom')).rejects.toThrow()
+
+    // Crucially, the server process is still alive and serving other requests.
+    await fetch('/alive').expect(200, 'still alive')
+  })
+
   it('App works with HTTP 1.1', async () => {
     const app = new App()
 
