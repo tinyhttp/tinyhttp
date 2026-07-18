@@ -1,5 +1,12 @@
 # @tinyhttp/rate-limit
 
+## 2.1.10
+
+### Patch Changes
+
+- Updated dependencies [7f6bdf7]
+  - @tinyhttp/send@2.2.7
+
 ## 2.1.9
 
 ### Patch Changes

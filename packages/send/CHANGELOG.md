@@ -1,5 +1,11 @@
 # @tinyhttp/send
 
+## 2.2.7
+
+### Patch Changes
+
+- 7f6bdf7: fix DoS via malformed `Range` header in `res.sendFile()` (GHSA-w65r-fqv6-q6w9). Range parsing now uses `header-range-parser`, so an inverted or malformed range (e.g. `bytes=10-5`) returns `416` instead of producing a negative `Content-Length` and crashing the process. The default error handler also no longer attempts to write headers after they have been sent.
+
 ## 2.2.6
 
 ### Patch Changes
