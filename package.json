@@ -45,7 +45,7 @@
     "build": "pnpm -r build",
     "prepare": "husky"
   },
-  "packageManager": "pnpm@11.1.2",
+  "packageManager": "pnpm@11.14.0",
   "pnpm": {
     "overrides": {
       "es-define-property": "npm:@socketregistry/es-define-property@^1",
