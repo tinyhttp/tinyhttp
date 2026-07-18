@@ -61,6 +61,8 @@ export const sendFile =
 
     if (!isAbsolute(path) && !root) throw new TypeError('path must be absolute')
 
+    if (!root && UP_PATH_REGEXP.test(path)) throw new TypeError('path must not contain ".."')
+
     if (caching) enableCaching(res, caching)
 
     const filePath = root
