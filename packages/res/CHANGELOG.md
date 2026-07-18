@@ -1,5 +1,15 @@
 # @tinyhttp/res
 
+## 2.2.12
+
+### Patch Changes
+
+- d28bdb8: replace mime with mrmime
+- Updated dependencies [d28bdb8]
+- Updated dependencies [65fa2f7]
+  - @tinyhttp/send@2.2.6
+  - @tinyhttp/req@2.2.9
+
 ## 2.2.11
 
 ### Patch Changes
