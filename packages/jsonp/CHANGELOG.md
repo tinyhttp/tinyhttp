@@ -1,5 +1,13 @@
 # @tinyhttp/jsonp
 
+## 2.1.25
+
+### Patch Changes
+
+- Updated dependencies [4869a41]
+- Updated dependencies [7f6bdf7]
+  - @tinyhttp/app@3.0.9
+
 ## 2.1.24
 
 ### Patch Changes

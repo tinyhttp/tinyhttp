@@ -1,5 +1,14 @@
 # @tinyhttp/app
 
+## 3.0.9
+
+### Patch Changes
+
+- 4869a41: fix open redirect via a backslash in the authority of `res.redirect()` / `res.location()` (GHSA-8q4p-mhxr-fq83). A URL such as `https://evil.com\@trusted.com` was written to the `Location` header with the backslash raw; some URL parsers resolve that to the host `evil.com`, bypassing redirect allowlists. The backslash is now encoded to `%5C`, matching Express, while the real host is still left verbatim.
+- 7f6bdf7: fix DoS via malformed `Range` header in `res.sendFile()` (GHSA-w65r-fqv6-q6w9). Range parsing now uses `header-range-parser`, so an inverted or malformed range (e.g. `bytes=10-5`) returns `416` instead of producing a negative `Content-Length` and crashing the process. The default error handler also no longer attempts to write headers after they have been sent.
+- Updated dependencies [4869a41]
+  - @tinyhttp/res@2.2.13
+
 ## 3.0.8
 
 ### Patch Changes

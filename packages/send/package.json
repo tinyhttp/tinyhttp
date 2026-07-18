@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/send",
-  "version": "2.2.6",
+  "version": "2.2.7",
   "type": "module",
   "description": "json, send, sendFile, status and sendStatus methods for tinyhttp",
   "homepage": "https://tinyhttp.v1rtl.site",
