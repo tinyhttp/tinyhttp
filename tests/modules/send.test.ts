@@ -196,6 +196,23 @@ describe('sendFile(path)', () => {
     await makeFetch(app)('/').expect('Hello World')
   })
 
+  it('should throw if absolute path contains ".." without root', async () => {
+    const app = runServer(async (req, res) => {
+      try {
+        sendFile(req, res)('/tmp/../../../etc/passwd')
+      } catch (err) {
+        expect(err.message).toMatch(/must not contain/)
+
+        res.end()
+
+        return
+      }
+
+      throw new Error('Did not throw an error')
+    })
+
+    await makeFetch(app)('/')
+  })
   it('should throw if path is not absolute', async () => {
     const app = runServer(async (req, res) => {
       try {
