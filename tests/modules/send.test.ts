@@ -324,6 +324,39 @@ describe('sendFile(path)', () => {
       .expectStatus(416)
       .expectHeader('Content-Range', 'bytes */11')
   })
+  // GHSA-w65r-fqv6-q6w9: an inverted range (start > end) must not crash the
+  // process. Previously it slipped past the bounds check, produced a negative
+  // Content-Length and made createReadStream throw after headers were committed.
+  it('should send 416 for an inverted Range (start > end) without crashing', async () => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath))
+    await makeFetch(app)('/', {
+      headers: {
+        Range: 'bytes=10-5'
+      }
+    })
+      .expectStatus(416)
+      .expectHeader('Content-Range', 'bytes */11')
+  })
+  it('should send 416 for an inverted Range where end parses as falsy (bytes=1-0)', async () => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath))
+    await makeFetch(app)('/', {
+      headers: {
+        Range: 'bytes=1-0'
+      }
+    })
+      .expectStatus(416)
+      .expectHeader('Content-Range', 'bytes */11')
+  })
+  it('should send 416 for a malformed Range header', async () => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath))
+    await makeFetch(app)('/', {
+      headers: {
+        Range: 'bytes=abc-def'
+      }
+    })
+      .expectStatus(416)
+      .expectHeader('Content-Range', 'bytes */11')
+  })
   it('should set default encoding to UTF-8', async () => {
     const app = runServer((req, res) => sendFile(req, res)(testFilePath))
     await makeFetch(app)('/').expectStatus(200).expectHeader('Content-Encoding', 'utf-8')

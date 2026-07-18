@@ -89,14 +89,17 @@ export const sendFile =
 
     if (req.headers.range) {
       status = 206
-      const [x, y] = req.headers.range.replace('bytes=', '').split('-')
-      const end = Number.parseInt(y, 10) || stats.size - 1
-      const start = Number.parseInt(x, 10) || 0
 
-      options.start = start
-      options.end = end
+      const rangeHeader = Array.isArray(req.headers.range) ? req.headers.range[0] : req.headers.range
+      const match = /^bytes=(\d*)-(\d*)$/.exec(rangeHeader)
 
-      if (start >= stats.size || end >= stats.size) {
+      const start = match?.[1] ? Number.parseInt(match[1], 10) : 0
+      const end = match?.[2] ? Number.parseInt(match[2], 10) : stats.size - 1
+
+      // Reject malformed (`bytes=abc`, `bytes=-`), inverted (`bytes=10-5`) or
+      // out-of-bounds ranges with a 416 before any headers are committed, so a
+      // client-supplied Range header can't crash the process (GHSA-w65r-fqv6-q6w9).
+      if (!match || end < start || start >= stats.size || end >= stats.size) {
         res
           .writeHead(416, {
             'Content-Range': `bytes */${stats.size}`
@@ -104,6 +107,10 @@ export const sendFile =
           .end()
         return res
       }
+
+      options.start = start
+      options.end = end
+
       headers['Content-Range'] = `bytes ${start}-${end}/${stats.size}`
       headers['Content-Length'] = (end - start + 1).toString()
       headers['Accept-Ranges'] = 'bytes'
