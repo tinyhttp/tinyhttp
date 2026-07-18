@@ -15,9 +15,9 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.7",
-    "@changesets/cli": "2.31.0",
-    "@commitlint/cli": "21.0.1",
-    "@commitlint/config-conventional": "21.0.1",
+    "@changesets/cli": "2.31.1",
+    "@commitlint/cli": "21.2.1",
+    "@commitlint/config-conventional": "21.2.0",
     "@types/node": "24.10.1",
     "@vitest/coverage-v8": "^4.1.6",
     "c8": "^11.0.0",
@@ -27,7 +27,7 @@
     "regexparam": "3.0.0",
     "supertest-fetch": "2.0.0",
     "typescript": "~6.0.3",
-    "vitest": "4.1.6"
+    "vitest": "4.1.10"
   },
   "scripts": {
     "prerelease": "pnpm lint && pnpm build && pnpm test",
