@@ -22,10 +22,10 @@
   "files": [
     "dist"
   ],
-  "dependencies": {
-    "mime": "4.1.0"
-  },
   "scripts": {
     "build": "tsc"
+  },
+  "dependencies": {
+    "mrmime": "^2.0.1"
   }
 }

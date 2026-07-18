@@ -1,7 +1,7 @@
 import { createReadStream, statSync } from 'node:fs'
 import type { IncomingMessage as I, IncomingHttpHeaders, ServerResponse as S } from 'node:http'
 import { extname, isAbsolute, join, normalize, sep } from 'node:path'
-import mime from 'mime'
+import { lookup } from 'mrmime'
 import { createETag } from './utils.js'
 
 const UP_PATH_REGEXP = /(?:^|[\\/])\.\.(?:[\\/]|$)/
@@ -81,7 +81,7 @@ export const sendFile =
 
     headers.ETag = createETag(stats, encoding)
 
-    if (!res.getHeader('Content-Type')) headers['Content-Type'] = `${mime.getType(extname(path))}; charset=utf-8`
+    if (!res.getHeader('Content-Type')) headers['Content-Type'] = `${lookup(extname(path))}; charset=utf-8`
 
     let status = res.statusCode || 200
 

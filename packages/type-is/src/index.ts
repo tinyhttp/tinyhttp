@@ -1,5 +1,5 @@
 import * as typer from '@tinyhttp/content-type'
-import mime from 'mime'
+import { lookup } from 'mrmime'
 
 function normalizeType(value: string) {
   // parse the type
@@ -59,7 +59,7 @@ function normalize(type: string | unknown): string | false | null {
   // "+json" -> "*/*+json" expando
   if (type[0] === '+') return `*/*${type}`
 
-  return type.indexOf('/') === -1 ? mime.getType(type) : type
+  return type.indexOf('/') === -1 ? (lookup(type) ?? null) : type
 }
 
 /**

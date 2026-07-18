@@ -2,28 +2,24 @@ import type { OutgoingHttpHeaders, IncomingMessage as Req, ServerResponse as Res
 import { encodeUrl } from '@tinyhttp/encode-url'
 import { getRequestHeader } from '@tinyhttp/req'
 import { vary } from '@tinyhttp/vary'
-import mime from 'mime'
+import { lookup } from 'mrmime'
 
 const charsetRegExp = /;\s*charset\s*=/
 const schemeAndHostRegExp = /^(?:[a-zA-Z][a-zA-Z0-9+.-]*:)?\/\/[^\\/?#]+/
-
 export const setHeader =
   <Response extends Res = Res>(res: Response) =>
   (field: string | Record<string, string | number | string[]>, val?: string | number | readonly string[]): Response => {
     if (typeof field === 'string') {
       let value = Array.isArray(val) ? val.map(String) : String(val)
-
       // add charset to content-type
       if (field.toLowerCase() === 'content-type') {
         if (Array.isArray(value)) {
           throw new TypeError('Content-Type cannot be set to an Array')
         }
-
         if (!charsetRegExp.test(value)) {
           value += '; charset=utf-8'
         }
       }
-
       res.setHeader(field, value)
     } else {
       for (const key in field) {
@@ -32,30 +28,24 @@ export const setHeader =
     }
     return res
   }
-
 export const setLocationHeader =
   <Request extends Req = Req, Response extends Res = Res>(req: Request, res: Response) =>
   (url: string): Response => {
     let loc = url
-
     // "back" is an alias for the referrer
     if (url === 'back') loc = (getRequestHeader(req)('Referrer') as string) || '/'
-
     const match = schemeAndHostRegExp.exec(loc)
     const pos = match ? match[0].length + 1 : 0
-
     // Only encode after the host to avoid turning authority backslashes into
     // encoded bytes that can bypass redirect allowlists.
     res.setHeader('Location', loc.slice(0, pos) + encodeUrl(loc.slice(pos)))
     return res
   }
-
 export const getResponseHeader = <Response extends Res = Res>(res: Response) => {
   return <HeaderName extends string>(field: HeaderName): OutgoingHttpHeaders[HeaderName] => {
     return res.getHeader(field)
   }
 }
-
 export const setLinksHeader =
   <Response extends Res = Res>(res: Response) =>
   (links: { [key: string]: string }): Response => {
@@ -68,24 +58,18 @@ export const setLinksHeader =
           .map((rel) => `<${links[rel]}>; rel="${rel}"`)
           .join(', ')
     )
-
     return res
   }
-
 export const setVaryHeader =
   <Response extends Res = Res>(res: Response) =>
   (field: string): Response => {
     vary(res, field)
-
     return res
   }
-
 export const setContentType =
   <Response extends Res = Res>(res: Response) =>
   (type: string): Response => {
-    const ct = type.indexOf('/') === -1 ? mime.getType(type) : type
-
+    const ct = type.indexOf('/') === -1 ? lookup(type) : type
     setHeader(res)('Content-Type', ct as string)
-
     return res
   }
