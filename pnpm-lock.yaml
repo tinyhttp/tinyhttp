@@ -10,8 +10,8 @@ catalogs:
       specifier: ^0.1.4
       version: 0.1.4
     header-range-parser:
-      specifier: 1.1.4
-      version: 1.1.4
+      specifier: 2.0.0
+      version: 2.0.0
     mrmime:
       specifier: ^2.0.1
       version: 2.0.1
@@ -49,7 +49,7 @@ importers:
         version: 2.2.0
       header-range-parser:
         specifier: 'catalog:'
-        version: 1.1.4
+        version: 2.0.0
       husky:
         specifier: 9.1.7
         version: 9.1.7
@@ -141,7 +141,7 @@ importers:
         version: link:../url
       header-range-parser:
         specifier: 'catalog:'
-        version: 1.1.4
+        version: 2.0.0
 
   packages/res:
     dependencies:
@@ -186,7 +186,7 @@ importers:
         version: link:../etag
       header-range-parser:
         specifier: 'catalog:'
-        version: 1.1.4
+        version: 2.0.0
       mrmime:
         specifier: 'catalog:'
         version: 2.0.1
@@ -948,9 +948,9 @@ packages:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
     engines: {node: '>=8'}
 
-  header-range-parser@1.1.4:
-    resolution: {integrity: sha512-KeYnaTStX0a4rkl2L8ow5hQXzg6OI74bmaYJxpaEHUPJWaf41RcgVbDe/UWmh7TbxfXx/FzA1pmwO8Rw91LR+Q==}
-    engines: {node: '>=12.22.0'}
+  header-range-parser@2.0.0:
+    resolution: {integrity: sha512-DMbQU7Dd2tG4a+9M09ZUkPX4Ie/QRed6TYvoeDtgIajIkVo7A7xRTbs/M/j7jFMZzVhe6tVNWLk3/nwPO8iSMQ==}
+    engines: {node: '>=20.19.0'}
 
   html-escaper@2.0.2:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
@@ -2355,7 +2355,7 @@ snapshots:
 
   has-flag@4.0.0: {}
 
-  header-range-parser@1.1.4: {}
+  header-range-parser@2.0.0: {}
 
   html-escaper@2.0.2: {}
 
