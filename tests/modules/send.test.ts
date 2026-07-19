@@ -358,15 +358,19 @@ describe('sendFile(path)', () => {
       .expectStatus(416)
       .expectHeader('Content-Range', 'bytes */11')
   })
-  it('should send 416 for a malformed Range header', async () => {
+  it('should serve the full body (200) for a malformed Range header', async () => {
     const app = runServer((req, res) => sendFile(req, res)(testFilePath))
+    // header-range-parser v2 classifies `bytes=abc-def` as syntactically
+    // invalid (-2) rather than unsatisfiable (-1), so per RFC 9110 the header
+    // is ignored and the whole file is served instead of a 416.
     await makeFetch(app)('/', {
       headers: {
         Range: 'bytes=abc-def'
       }
     })
-      .expectStatus(416)
-      .expectHeader('Content-Range', 'bytes */11')
+      .expectStatus(200)
+      .expect('Content-Length', '11')
+      .expect('Hello World')
   })
   it('should serve the full body (200) for a syntactically invalid Range header', async () => {
     const app = runServer((req, res) => sendFile(req, res)(testFilePath))
