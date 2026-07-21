@@ -56,17 +56,69 @@ export function parse(
   return obj
 }
 
+/**
+ * Options for serializing a cookie.
+ */
 export type SerializeOptions = Partial<{
+  /**
+   * Specifies a function that will be used to encode a cookie's value.
+   * Since value of a cookie has a limited character set (and must be a simple string),
+   * this function can be used to encode a value into a string suited for a cookie's value.
+   *
+   * The default function is the global `encodeURIComponent`, which will encode a JavaScript string
+   * into UTF-8 byte sequences and then URL-encode any that fall outside of the cookie range.
+   */
   encode: (str: string) => string
+  /**
+   * Specifies the number (in seconds) to be the value for the Max-Age Set-Cookie attribute.
+   * The given number will be converted to an integer by rounding down.
+   * By default, no maximum age is set.
+   */
   maxAge: number
+  /**
+   * Specifies the value for the Domain Set-Cookie attribute.
+   */
   domain: string
+  /**
+   * Specifies the value for the Path Set-Cookie attribute.
+   * By default, the path is considered the "default path".
+   */
   path: string
+  /**
+   * Specifies the boolean value for the HttpOnly Set-Cookie attribute.
+   * When truthy, the HttpOnly attribute is set, otherwise it is not.
+   * By default, the HttpOnly attribute is not set.
+   */
   httpOnly: boolean
+  /**
+   * Specifies the boolean value for the Secure Set-Cookie attribute.
+   * When truthy, the Secure attribute is set, otherwise it is not.
+   * By default, the Secure attribute is not set.
+   */
   secure: boolean
+  /**
+   * Specifies the boolean or string to be the value for the SameSite Set-Cookie attribute.
+   */
   sameSite: boolean | 'Strict' | 'strict' | 'Lax' | 'lax' | 'None' | 'none' | string
+  /**
+   * Specifies the `Date` object to be the value for the Expires Set-Cookie attribute.
+   * By default, no expiration is set, and most clients will consider this a "non-persistent cookie"
+   * and will delete it on a condition like exiting a web browser application.
+   */
   expires: Date
 }>
 
+/**
+ * Serialize data into a cookie header.
+ *
+ * Serialize a name value pair into a cookie string suitable for
+ * http headers. An optional options object specifies cookie parameters.
+ *
+ * @param name - cookie name
+ * @param val - cookie value
+ * @param opt - options
+ * @returns serialized cookie string
+ */
 export function serialize(name: string, val: string, opt: SerializeOptions = {}): string {
   if (!opt.encode) opt.encode = encodeURIComponent
 
