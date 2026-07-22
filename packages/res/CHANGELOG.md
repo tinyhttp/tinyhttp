@@ -1,5 +1,13 @@
 # @tinyhttp/res
 
+## 2.2.14
+
+### Patch Changes
+
+- Updated dependencies [bd43b78]
+  - @tinyhttp/req@2.2.10
+  - @tinyhttp/send@2.2.8
+
 ## 2.2.13
 
 ### Patch Changes
