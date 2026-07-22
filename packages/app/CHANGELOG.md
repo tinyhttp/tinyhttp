@@ -1,5 +1,14 @@
 # @tinyhttp/app
 
+## 3.0.10
+
+### Patch Changes
+
+- bf0e89b: fix: add TypeScript overload signatures for accepts methods
+- Updated dependencies [bd43b78]
+  - @tinyhttp/req@2.2.10
+  - @tinyhttp/res@2.2.14
+
 ## 3.0.9
 
 ### Patch Changes
