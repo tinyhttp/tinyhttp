@@ -13,3 +13,4 @@ export {
   setVaryHeader
 } from './headers.js'
 export { redirect } from './redirect.js'
+export { escapeHTML } from './util.js'
