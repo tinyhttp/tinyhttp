@@ -1,4 +1,6 @@
+import { Buffer } from 'node:buffer'
 import { STATUS_CODES } from 'node:http'
+import { escapeHTML } from '@tinyhttp/res'
 import type { NextFunction } from '@tinyhttp/router'
 import type { App } from './app.js'
 import type { Request } from './request.js'
@@ -20,8 +22,34 @@ export const onErrorHandler: ErrorHandler = function (this: App, err: any, _req:
   }
 
   const code = err.code in STATUS_CODES ? err.code : err.status
+  const isProd = process.env.NODE_ENV === 'production'
 
-  if (typeof err === 'string' || Buffer.isBuffer(err)) res.writeHead(500).end(err)
-  else if (code in STATUS_CODES) res.writeHead(code).end(STATUS_CODES[code])
-  else res.writeHead(500).end(err.message)
+  // GHSA-rqg5-h5qr-gp89: always serve error bodies as plain text, refuse
+  // MIME-sniffing, and escape any request-influenced content so it cannot be
+  // reflected as HTML.
+  res.setHeader('Content-Type', 'text/plain; charset=utf-8')
+  res.setHeader('X-Content-Type-Options', 'nosniff')
+
+  if (code in STATUS_CODES) {
+    res.writeHead(code).end(STATUS_CODES[code])
+    return
+  }
+
+  // Don't leak internal error details in production.
+  if (isProd) {
+    res.writeHead(500).end(STATUS_CODES[500])
+    return
+  }
+
+  if (typeof err === 'string') {
+    res.writeHead(500).end(escapeHTML(err))
+    return
+  }
+
+  if (Buffer.isBuffer(err)) {
+    res.writeHead(500).end(escapeHTML(err.toString()))
+    return
+  }
+
+  res.writeHead(500).end(escapeHTML(String(err?.message ?? err)))
 }

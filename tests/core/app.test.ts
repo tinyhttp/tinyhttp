@@ -290,6 +290,58 @@ describe('Testing App routing', () => {
       await makeFetch(server)('/').expect(500, 'bruh')
     })
   })
+  describe('default onError handler sanitizes error output (GHSA-rqg5-h5qr-gp89)', () => {
+    it('escapes HTML reflected via next(string)', async () => {
+      const app = new App()
+
+      app.use((_req, _res, next) => next('<script>alert(1)</script>'))
+
+      await makeFetch(app.listen())('/').expect(500, '&lt;script&gt;alert(1)&lt;/script&gt;')
+    })
+    it('escapes HTML in Error.message', async () => {
+      const app = new App()
+
+      app.use(() => {
+        throw new Error('Invalid search query: <script>alert(document.cookie)</script>')
+      })
+
+      await makeFetch(app.listen())('/').expect(
+        500,
+        'Invalid search query: &lt;script&gt;alert(document.cookie)&lt;/script&gt;'
+      )
+    })
+    it('escapes HTML in Buffer errors', async () => {
+      const app = new App()
+
+      app.use((_req, _res, next) => next(Buffer.from('<script>alert(1)</script>')))
+
+      await makeFetch(app.listen())('/').expect(500, '&lt;script&gt;alert(1)&lt;/script&gt;')
+    })
+    it('sets Content-Type text/plain and X-Content-Type-Options nosniff', async () => {
+      const app = new App()
+
+      app.use((_req, _res, next) => next('oops'))
+
+      await makeFetch(app.listen())('/')
+        .expect(500, 'oops')
+        .expect('Content-Type', 'text/plain; charset=utf-8')
+        .expect('X-Content-Type-Options', 'nosniff')
+    })
+    it('suppresses raw error details when NODE_ENV is production', async () => {
+      const prev = process.env.NODE_ENV
+      process.env.NODE_ENV = 'production'
+
+      try {
+        const app = new App()
+
+        app.use((_req, _res, next) => next('sensitive <script>alert(1)</script> details'))
+
+        await makeFetch(app.listen())('/').expect(500, 'Internal Server Error')
+      } finally {
+        process.env.NODE_ENV = prev
+      }
+    })
+  })
 })
 
 describe('App methods', () => {
