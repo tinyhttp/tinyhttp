@@ -794,4 +794,11 @@ describe('Request properties', () => {
 
     await fetch('/', { headers: { 'If-None-Match': etag, 'Cache-Control': 'max-age=3600' } }).expectStatus(304)
   })
+  it('req.stale returns the inverse of req.fresh', async () => {
+    const { fetch } = InitAppAndTest((req, res) => {
+      res.json({ fresh: req.fresh, stale: req.stale })
+    })
+
+    await fetch('/').expect(200, { fresh: false, stale: true })
+  })
 })
