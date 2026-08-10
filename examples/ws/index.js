@@ -5,24 +5,24 @@ const app = new App()
 
 let connections = []
 
-app.use('/chat', async (req) => {
-  if (req.ws) {
-    const ws = await req.ws()
+app.use('/chat', async (req, res) => {
+  if (!req.ws) return res.send('Hello from HTTP! Connect over WebSocket to join the chat.')
 
-    connections.push(ws)
+  const ws = await req.ws()
 
-    ws.on('message', (message) => {
-      console.log('Received message:', message.toString())
+  connections.push(ws)
 
-      // broadcast
-      connections.forEach((socket) => {
-        socket.send(message)
-      })
+  ws.on('message', (message) => {
+    console.log('Received message:', message.toString())
+
+    // broadcast
+    connections.forEach((socket) => {
+      socket.send(message)
     })
+  })
 
-    // biome-ignore lint/suspicious/noAssignInExpressions: quick example
-    ws.on('close', () => (connections = connections.filter((conn) => conn !== ws)))
-  }
+  // biome-ignore lint/suspicious/noAssignInExpressions: quick example
+  ws.on('close', () => (connections = connections.filter((conn) => conn !== ws)))
 })
 
 const server = app.listen(3000)
