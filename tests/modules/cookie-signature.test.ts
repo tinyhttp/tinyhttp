@@ -17,4 +17,27 @@ describe('.unsign(val, secret)', () => {
     expect(cookie.unsign(val, 'tobiiscool')).toBe('hello')
     expect(cookie.unsign(val, 'luna')).toBe(false)
   })
+
+  it('should unsign a value containing dots', () => {
+    const val = cookie.sign('a.b.c', 'tobiiscool')
+    expect(cookie.unsign(val, 'tobiiscool')).toBe('a.b.c')
+  })
+
+  // GHSA-63x4-8g8c-vhww: the untrusted value was truncated to the length of the
+  // expected signature before comparison, so any suffix appended to a valid
+  // cookie was silently discarded and verified successfully.
+  it('should reject a valid cookie with appended data', () => {
+    const val = cookie.sign('mysessionid', 'secret')
+    expect(cookie.unsign(`${val}tampered`, 'secret')).toBe(false)
+  })
+
+  it('should reject a truncated signature', () => {
+    const val = cookie.sign('hello', 'tobiiscool')
+    expect(cookie.unsign(val.slice(0, -1), 'tobiiscool')).toBe(false)
+  })
+
+  it('should reject a value with no signature separator', () => {
+    expect(cookie.unsign('hello', 'tobiiscool')).toBe(false)
+    expect(cookie.unsign('', 'tobiiscool')).toBe(false)
+  })
 })
