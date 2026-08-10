@@ -26,7 +26,7 @@
     "husky": "9.1.7",
     "regexparam": "catalog:",
     "supertest-fetch": "2.0.0",
-    "typescript": "~6.0.3",
+    "typescript": "~7.0.2",
     "vitest": "4.1.10"
   },
   "scripts": {

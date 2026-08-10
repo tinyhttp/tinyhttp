@@ -19,11 +19,10 @@ app
       </head>
       <body>
         <div id="app">${html}</div>
-        <script async src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"></script>
         <script type="importmap">
         {
           "imports": {
-            "vue": "https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.41/vue.esm-browser.prod.js"
+            "vue": "https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.41/vue.esm-browser.prod.js"
           }
         }
         </script>
