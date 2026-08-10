@@ -3,8 +3,6 @@ import { tinyws } from 'tinyws'
 
 const app = new App()
 
-app.use(tinyws())
-
 let connections = []
 
 app.use('/chat', async (req) => {
@@ -27,4 +25,6 @@ app.use('/chat', async (req) => {
   }
 })
 
-app.listen(3000)
+const server = app.listen(3000)
+
+tinyws(app, server, { paths: '/chat' })

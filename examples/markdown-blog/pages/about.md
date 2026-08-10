@@ -1,3 +1,0 @@
-# About
-
-about page.
