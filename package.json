@@ -45,5 +45,5 @@
     "build": "pnpm -r build",
     "prepare": "husky"
   },
-  "packageManager": "pnpm@11.14.0"
+  "packageManager": "pnpm@11.21.0"
 }
