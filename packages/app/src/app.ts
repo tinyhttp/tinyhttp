@@ -306,67 +306,7 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     req.baseUrl = ''
 
-    const handle = (middleware: Middleware, pathname: string) => {
-      const { path, handler, regex } = middleware
-
-      let params: URLParams
-
-      try {
-        params = regex ? getURLParams(regex, pathname) : {}
-      } catch (e) {
-        console.error(e)
-        if (e instanceof URIError) return res.sendStatus(400)
-        throw e
-      }
-
-      let prefix = path as string
-      if (regex) {
-        for (const key of regex.keys as string[]) {
-          if (key === 'wild') {
-            prefix = prefix.replace('*', params.wild)
-          } else {
-            prefix = prefix.replace(`:${key}`, params[key])
-          }
-        }
-      }
-
-      // biome-ignore lint/suspicious/noAssignInExpressions: its faster this way
-      Object.assign((req.params ??= {}), params)
-
-      if (middleware.type === 'mw') {
-        req.url = lead(req.originalUrl.slice(prefix.length))
-        req.baseUrl = trail(req.originalUrl.slice(0, prefix.length))
-      }
-
-      req.path ??= pathname
-      if (this.settings?.enableReqRoute) req.route = middleware
-
-      return applyHandler<Req, Res>(handler as unknown as Handler<Req, Res>, req, res, next as NextFunction)
-    }
-
-    let idx = 0
-
-    const loop = () => {
-      req.originalUrl = req.baseUrl + req.url
-      const pathname = getPathname(req.url)
-      const matched = this.#find(pathname, req.method as string, mw)
-
-      if (matched.length && matched[0] !== null) {
-        if (idx !== 0) {
-          idx = mw.length
-          req.params = {}
-        }
-        mw.push(...matched, HEAD_HANDLER_MW)
-      } else if (this.parent == null) {
-        mw.push({
-          handler: this.noMatchHandler,
-          type: 'route',
-          path: '/'
-        })
-      }
-
-      void handle(mw[idx++], pathname)
-    }
+    const state = { idx: 0 }
 
     const parentNext = next
     next = (err) => {
@@ -376,15 +316,75 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       }
 
       if (res.writableEnded) return
-      if (idx >= mw.length) {
+      if (state.idx >= mw.length) {
         parentNext?.()
         return
       }
 
-      loop()
+      this.#loop(req, res, next as NextFunction, state, mw)
     }
 
-    loop()
+    this.#loop(req, res, next, state, mw)
+  }
+
+  #loop(req: Req, res: Res, next: NextFunction, state: { idx: number }, mw: Middleware[]) {
+    req.originalUrl = req.baseUrl + req.url
+    const pathname = getPathname(req.url)
+    const matched = this.#find(pathname, req.method as string, mw)
+
+    if (matched.length && matched[0] !== null) {
+      if (state.idx !== 0) {
+        state.idx = mw.length
+        req.params = {}
+      }
+      mw.push(...matched, HEAD_HANDLER_MW)
+    } else if (this.parent == null) {
+      mw.push({
+        handler: this.noMatchHandler,
+        type: 'route',
+        path: '/'
+      })
+    }
+
+    void this.#handle(req, res, next, mw[state.idx++], pathname)
+  }
+
+  #handle(req: Req, res: Res, next: NextFunction, middleware: Middleware, pathname: string) {
+    const { path, handler, regex } = middleware
+
+    let params: URLParams
+
+    try {
+      params = regex ? getURLParams(regex, pathname) : {}
+    } catch (e) {
+      console.error(e)
+      if (e instanceof URIError) return res.sendStatus(400)
+      throw e
+    }
+
+    let prefix = path as string
+    if (regex) {
+      for (const key of regex.keys as string[]) {
+        if (key === 'wild') {
+          prefix = prefix.replace('*', params.wild)
+        } else {
+          prefix = prefix.replace(`:${key}`, params[key])
+        }
+      }
+    }
+
+    // biome-ignore lint/suspicious/noAssignInExpressions: its faster this way
+    Object.assign((req.params ??= {}), params)
+
+    if (middleware.type === 'mw') {
+      req.url = lead(req.originalUrl.slice(prefix.length))
+      req.baseUrl = trail(req.originalUrl.slice(0, prefix.length))
+    }
+
+    req.path ??= pathname
+    if (this.settings?.enableReqRoute) req.route = middleware
+
+    return applyHandler<Req, Res>(handler as unknown as Handler<Req, Res>, req, res, next)
   }
 
   listen(port?: number, cb?: () => void, host?: string) {
