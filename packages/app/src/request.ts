@@ -91,10 +91,10 @@ export const getHost = (req: Request, trust: Trust): Host | undefined => {
   return { hostname, port }
 }
 
-export const getIP = (req: Pick<Request, 'headers' | 'connection' | 'socket'>, trust: Trust): string | undefined =>
+export const getIP = (req: Pick<Request, 'headers' | 'socket'>, trust: Trust): string | undefined =>
   proxyAddr(req, trust).replace(/^.*:/, '') // striping the redundant prefix addeded by OS to IPv4 address
 
-export const getIPs = (req: Pick<Request, 'headers' | 'connection' | 'socket'>, trust: Trust): string[] | undefined =>
+export const getIPs = (req: Pick<Request, 'headers' | 'socket'>, trust: Trust): string[] | undefined =>
   all(req, trust)
 
 export const getSubdomains = (req: Request, trust: Trust, subdomainOffset = 2): string[] => {
@@ -121,6 +121,7 @@ export interface Request extends IncomingMessage {
   baseUrl: string
   query: ParsedUrlQuery
   params: URLParams
+  /** @deprecated — use `socket` instead (Node 13+ `req.connection` alias). Kept for BC. */
   connection: Connection
   socket: TLSSocket | Socket
   route?: Middleware
