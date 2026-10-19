@@ -125,7 +125,7 @@ pnpm chgset:run
 # Version packages and update CHANGELOG
 pnpm chgset:version
 
-# Publish to npm
+# Stage packages for publishing, a maintainer approves them to go live
 pnpm release
 
 # Full pre-release check (lint, build, test)
