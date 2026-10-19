@@ -20,7 +20,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-slim, ubuntu-24.04-arm, windows-latest, macos-latest]
+        os: [ubuntu-latest, ubuntu-24.04-arm, windows-latest, macos-latest]
         node_version: ["22", "24"]
     # This workflow contains a single job called "build"
     # The type of runner that the job will run on
@@ -50,7 +50,7 @@ jobs:
         run: pnpm test
         # run coverage only on ubuntu
       - name: Coveralls
-        if: ${{ matrix.os == 'ubuntu-slim' }}
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
