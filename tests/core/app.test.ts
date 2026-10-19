@@ -157,6 +157,60 @@ describe('Testing App routing', () => {
     await fetch('/abc/def').expect(200, 'Hello world')
     await fetch('/abcdef').expect(404)
   })
+  describe('middleware mounted on a path', () => {
+    it('runs the remaining middleware for requests under the mount path', async () => {
+      const app = new App()
+
+      app.use('/public', (_req, _res, next) => next())
+      app.use((_req, res) => void res.status(401).send('login required'))
+
+      const fetch = makeFetch(app.listen())
+
+      await fetch('/public/dashboard').expect(401, 'login required')
+    })
+    it('matches the routes against the original url', async () => {
+      const app = new App()
+
+      app.use('/public', (_req, _res, next) => next())
+      app.get('/dashboard', (_req, res) => void res.send('dashboard'))
+
+      const fetch = makeFetch(app.listen())
+
+      await fetch('/dashboard').expect(200, 'dashboard')
+      await fetch('/public/dashboard').expect(404)
+    })
+    it('matches the route registered under the mount path', async () => {
+      const app = new App()
+
+      app.use('/api', (_req, _res, next) => next())
+      app.get('/api/me', (_req, res) => void res.send('api me'))
+      app.get('/me', (_req, res) => void res.send('root me'))
+
+      const fetch = makeFetch(app.listen())
+
+      await fetch('/api/me').expect(200, 'api me')
+      await fetch('/me').expect(200, 'root me')
+    })
+    it('gives the mounted middleware the url relative to the mount path', async () => {
+      const app = new App()
+
+      app.use('/public', (req, res) => void res.send(req.url))
+
+      const fetch = makeFetch(app.listen())
+
+      await fetch('/public/dashboard').expect(200, '/dashboard')
+    })
+    it('restores the url once the mounted middleware calls next()', async () => {
+      const app = new App()
+
+      app.use('/public', (_req, _res, next) => next())
+      app.use((req, res) => void res.send(req.url))
+
+      const fetch = makeFetch(app.listen())
+
+      await fetch('/public/dashboard').expect(200, '/public/dashboard')
+    })
+  })
   it('"*" should catch all undefined routes', async () => {
     const app = new App()
 

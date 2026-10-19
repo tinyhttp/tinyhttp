@@ -306,6 +306,10 @@ export class App<Req extends Request = Request, Res extends Response = Response>
 
     req.baseUrl = ''
 
+    // Holds the url state the running middleware was invoked with, so that the url can be
+    // restored once the middleware hands the request back to the app.
+    let current: { url: string; baseUrl: string; entryUrl: string } | null = null
+
     const handle = (middleware: Middleware, pathname: string) => {
       const { path, handler, regex } = middleware
 
@@ -333,10 +337,15 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       // biome-ignore lint/suspicious/noAssignInExpressions: its faster this way
       Object.assign((req.params ??= {}), params)
 
+      const prevUrl = req.url
+      const prevBaseUrl = req.baseUrl
+
       if (middleware.type === 'mw') {
         req.url = lead(req.originalUrl.slice(prefix.length))
         req.baseUrl = trail(req.originalUrl.slice(0, prefix.length))
       }
+
+      current = { url: prevUrl, baseUrl: prevBaseUrl, entryUrl: req.url }
 
       req.path ??= pathname
       if (this.settings?.enableReqRoute) req.route = middleware
@@ -376,6 +385,18 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       }
 
       if (res.writableEnded) return
+
+      // A middleware mounted on a path is given the url relative to that path. When it hands
+      // the request back without rewriting the url itself, the original url is restored so
+      // that the remaining middleware and routes are matched against it.
+      if (current !== null) {
+        if (req.url === current.entryUrl) {
+          req.url = current.url
+          req.baseUrl = current.baseUrl
+        }
+        current = null
+      }
+
       if (idx >= mw.length) {
         parentNext?.()
         return

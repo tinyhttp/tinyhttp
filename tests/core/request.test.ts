@@ -183,6 +183,18 @@ describe('Request properties', () => {
       const fetch = makeFetch(app.listen())
       await fetch('/a').expect(404, 'Not Found')
     })
+    it('should rewrite req.url in a middleware mounted on a path and follow the next route', async () => {
+      const rewrite = (req, _, next) => {
+        req.url = '/b'
+        next()
+      }
+      const echo = (req, res) => res.send({ url: req.url })
+      const app = new App().use('/a', rewrite).get('/b', echo)
+      const fetch = makeFetch(app.listen())
+      await fetch('/a').expect(200, {
+        url: '/b'
+      })
+    })
     it('should reset params when middleware chain finds new matches after rewrite', async () => {
       // This tests the branch where idx !== 0 and new matched routes are found
       // In this case, params should be reset to avoid param pollution
