@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
 
 defaults:
   run:
@@ -12,18 +13,80 @@ defaults:
 env:
   FORCE_COLOR: true
 
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+
 jobs:
-  changelog:
-    name: PR or Release
+  select-mode:
+    name: Select mode
     if: ${{ github.repository_owner == 'tinyhttp' }}
+    runs-on: ubuntu-latest
+    outputs:
+      mode: ${{ steps.select-mode.outputs.mode }}
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
+        with:
+          runtime: node@lts
+          cache: true
+
+      - name: Select Changesets mode
+        id: select-mode
+        uses: changesets/action/select-mode@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
+
+  version:
+    name: Version PR
+    if: needs.select-mode.outputs.mode == 'version'
+    needs: select-mode
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      id-token: write
       pull-requests: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: false
+
+      - uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
+        with:
+          runtime: node@lts
+          cache: true
+
+      - name: Version packages
+        uses: changesets/action/version@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
+        with:
+          script: pnpm chgset:version
+          commit-message: "chore: release"
+          pr-title: "[ci] release"
+
+  # Nothing goes live until a maintainer approves with `pnpm stage approve` (2FA).
+  # Staged versions still count as unpublished, so only stage on the release PR merge
+  # (or a manual run), not on every push while they wait for approval.
+  stage:
+    name: Stage for npm
+    if: >-
+      needs.select-mode.outputs.mode == 'publish' && (
+        github.event_name == 'workflow_dispatch' ||
+        contains(github.event.head_commit.message, 'changeset-release/') ||
+        startsWith(github.event.head_commit.message, '[ci] release') ||
+        startsWith(github.event.head_commit.message, 'chore: release')
+      )
+    needs: select-mode
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # git tags + GitHub releases
+      id-token: write # npm trusted publishing (OIDC)
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
           fetch-tags: true
 
       - uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
@@ -34,14 +97,9 @@ jobs:
       - name: Build Packages
         run: pnpm -r build
 
-      - name: Create Release Pull Request or Publish
-        id: changesets
-        uses: changesets/action@e0145edc7d9d8679003495b11f87bd8ef63c0cba # v1.5.3
+      # `pnpm release` stages the packages, then `changeset git-tag` reports the new tags
+      # so the action can push them and create GitHub releases.
+      - name: Stage packages
+        uses: changesets/action/publish@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
         with:
-          # Note: pnpm install after versioning is necessary to refresh lockfile
-          version: pnpm chgset:version
-          publish: pnpm run release
-          commit: "chore: release"
-          title: "[ci] release"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          script: pnpm release

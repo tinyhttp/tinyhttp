@@ -45,6 +45,49 @@ If you use VS Code, please install Biome extension for proper linting and code f
 
 If your editor doesn't have such extension, use `pnpm check`.
 
+## Releasing
+
+Releases are managed with [changesets](https://github.com/changesets/changesets). Every pull request that
+changes a package needs a changeset describing it:
+
+```sh
+pnpm chgset
+```
+
+Merging it to `master` opens a "[ci] release" pull request with the bumped versions and the changelogs.
+Once that pull request is merged, the release workflow builds the packages and **stages** them for
+publishing with [npm's staged publishing](https://docs.npmjs.com/staged-publishing):
+
+```sh
+pnpm run release
+```
+
+A staged version is not resolvable by `npm install` and is not live on the registry yet. A maintainer
+has to review and approve it with 2FA, which promotes it to the live registry:
+
+```sh
+# list the staged versions
+pnpm stage list
+
+# inspect one of them
+pnpm stage view <stage-id>
+
+# approve the staged versions, they are promoted in dependency order
+pnpm stage approve
+
+# or drop a staged version that should not be released
+pnpm stage reject <stage-id>
+```
+
+`pnpm stage approve` without a stage id opens an interactive picker and approves the selected
+versions with a single one-time password. The versions are approved in dependency order, so a package
+is never published against a dependency that did not reach the registry. The staged versions can also
+be approved from the "Staged Packages" tab on [npmjs.com](https://www.npmjs.com), in which case the
+dependencies have to be approved first.
+
+A staged version still counts as unpublished, so the workflow only stages on the merge of the release
+pull request. The "Release" workflow can also be run manually to stage the pending versions again.
+
 ## Submitting PRs
 
 ### General rules
