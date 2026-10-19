@@ -10,16 +10,15 @@
   "license": "MIT",
   "type": "module",
   "engines": {
-    "node": ">=14.21.3",
-    "pnpm": ">=8"
+    "node": ">=14.21.3"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.7",
-    "@changesets/cli": "2.31.1",
-    "@commitlint/cli": "21.2.1",
-    "@commitlint/config-conventional": "21.2.0",
+    "@changesets/cli": "3.0.3",
+    "@commitlint/cli": "21.2.4",
+    "@commitlint/config-conventional": "21.2.4",
     "@types/node": "24.10.1",
-    "@vitest/coverage-v8": "^4.1.10",
+    "@vitest/coverage-v8": "^5.0.5",
     "c8": "^12.0.0",
     "eta": "2.2.0",
     "header-range-parser": "catalog:",
@@ -27,7 +26,7 @@
     "regexparam": "catalog:",
     "supertest-fetch": "2.0.0",
     "typescript": "~7.0.2",
-    "vitest": "4.1.10"
+    "vitest": "5.0.5"
   },
   "scripts": {
     "prerelease": "pnpm lint && pnpm build && pnpm test",
@@ -45,5 +44,5 @@
     "build": "pnpm -r build",
     "prepare": "husky"
   },
-  "packageManager": "pnpm@11.14.0"
+  "packageManager": "pnpm@12.14.0"
 }
