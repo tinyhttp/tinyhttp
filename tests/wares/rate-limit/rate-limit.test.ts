@@ -56,6 +56,46 @@ describe('rate-limit', () => {
       await makeFetch(app)('/').expect(429)
     })
 
+    it('should key the requests by the socket address when req.ip is not set', async () => {
+      const keys: string[] = []
+      const store = {
+        incr: (key: string, cb: (error: Error | null, hits: number, resetTime: Date) => void) => {
+          keys.push(key)
+          cb(null, 1, new Date())
+        },
+        decrement: () => {},
+        resetAll: () => {},
+        resetKey: () => {}
+      }
+      const app = createAppWith(rateLimit({ store }))
+
+      await makeFetch(app)('/').expect(200)
+      expect(['127.0.0.1', '::ffff:127.0.0.1', '::1']).toContain(keys[0])
+    })
+
+    it('should key the requests by req.ip when it is set', async () => {
+      const keys: string[] = []
+      const store = {
+        incr: (key: string, cb: (error: Error | null, hits: number, resetTime: Date) => void) => {
+          keys.push(key)
+          cb(null, 1, new Date())
+        },
+        decrement: () => {},
+        resetAll: () => {},
+        resetKey: () => {}
+      }
+      const app = new App()
+      app.use((req, _res, next) => {
+        req.ip = '203.0.113.7'
+        next()
+      })
+      app.use(rateLimit({ store }))
+      app.get('/', (_, res) => res.send('response!'))
+
+      await makeFetch(app.listen())('/').expect(200)
+      expect(keys).toEqual(['203.0.113.7'])
+    })
+
     it('should show the provided message instead of the default message when max connections are reached', async () => {
       const message = 'Test ratelimit message'
       const app = createAppWith(
