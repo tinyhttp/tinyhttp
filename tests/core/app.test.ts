@@ -1653,6 +1653,38 @@ describe('Template engines', () => {
       })
     })
   })
+  describe('res.render', () => {
+    it('passes an error of an engine calling back asynchronously to the error handler', async () => {
+      const app = new App({
+        onError: (err, _req, res) => res.status(500).end(`handled: ${(err as Error).message}`)
+      })
+
+      app.engine('eta', (_path, _data, _options, cb) => setImmediate(() => cb(new Error('template failed'), '')))
+      app.set('views', `${process.cwd()}/tests/fixtures/views`)
+
+      app.get('/', (_req, res) => res.render('index.eta'))
+
+      const server = app.listen()
+      const fetch = makeFetch(server)
+
+      await fetch('/').expect(500, 'handled: template failed')
+    })
+    it('passes an error of an engine calling back synchronously to the error handler', async () => {
+      const app = new App({
+        onError: (err, _req, res) => res.status(500).end(`handled: ${(err as Error).name}`)
+      })
+
+      app.engine('eta', renderFile)
+      app.set('views', `${process.cwd()}/tests/fixtures/views`)
+
+      app.get('/', (_req, res) => res.render('error.eta'))
+
+      const server = app.listen()
+      const fetch = makeFetch(server)
+
+      await fetch('/').expect(500, 'handled: ReferenceError')
+    })
+  })
 })
 
 describe('App.use with array of paths', () => {
