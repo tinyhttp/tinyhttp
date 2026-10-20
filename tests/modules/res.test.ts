@@ -397,6 +397,23 @@ describe('Response extensions', () => {
 
       await makeFetch(app)('/').expect(200)
     })
+    it('should not modify the options object', async () => {
+      const maxAge = 3600 * 24 * 365
+      const options = { maxAge }
+
+      const app = runServer((req, res) => {
+        setCookie(req, res)('a', '1', options)
+        setCookie(req, res)('b', '2', options).end()
+      })
+
+      const response = await makeFetch(app)('/').expect(200)
+
+      expect(options).toEqual({ maxAge })
+      expect(response.headers.getSetCookie()).toEqual([
+        expect.stringContaining(`a=1; Max-Age=${maxAge / 1000}; Path=/; Expires=`),
+        expect.stringContaining(`b=2; Max-Age=${maxAge / 1000}; Path=/; Expires=`)
+      ])
+    })
     it('should append to Set-Cookie if called multiple times', async () => {
       const app = runServer((req, res) => {
         setCookie(req, res)('hello', 'world')
