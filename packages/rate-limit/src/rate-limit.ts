@@ -36,7 +36,7 @@ const defaultOptions: RateLimitOptions = {
   skipFailedRequests: false,
   skipSuccessfulRequests: false,
   draftPolliRatelimitHeaders: false,
-  keyGenerator: (req) => req.ip as string,
+  keyGenerator: (req) => (req.ip ?? req.socket.remoteAddress) as string,
   shouldSkip: () => false,
   onLimitReached: () => {}
 }
