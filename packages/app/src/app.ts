@@ -354,17 +354,22 @@ export class App<Req extends Request = Request, Res extends Response = Response>
     }
 
     let idx = 0
+    let queuedPathname: string | undefined
 
     const loop = () => {
       req.originalUrl = req.baseUrl + req.url
       const pathname = getPathname(req.url)
+
+      // url was rewritten, rematch the middleware that has not run yet
+      if (queuedPathname !== undefined && pathname !== queuedPathname) {
+        mw.length = idx
+        req.params = {}
+      }
+      queuedPathname = pathname
+
       const matched = this.#find(pathname, req.method as string, mw)
 
       if (matched.length && matched[0] !== null) {
-        if (idx !== 0) {
-          idx = mw.length
-          req.params = {}
-        }
         mw.push(...matched, HEAD_HANDLER_MW)
       } else if (this.parent == null) {
         mw.push({
