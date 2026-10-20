@@ -48,9 +48,9 @@ jobs:
 
       - name: run tests
         run: pnpm test
-        # run coverage only on ubuntu
+        # upload coverage from a single job
       - name: Coveralls
-        if: ${{ matrix.os == 'ubuntu-latest' }}
+        if: ${{ matrix.os == 'ubuntu-latest' && matrix.node_version == '24' }}
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
