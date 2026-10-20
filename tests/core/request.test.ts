@@ -1,7 +1,7 @@
 import { Agent } from 'node:http'
 import { makeFetch } from 'supertest-fetch'
 import { afterEach, assert, describe, expect, it, vi } from 'vitest'
-import type { Request } from '../../packages/app/src'
+import { getIP, type Request } from '../../packages/app/src'
 import { App } from '../../packages/app/src/app'
 import * as req from '../../packages/req/src'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
@@ -336,8 +336,8 @@ describe('Request properties', () => {
       const body = await response.json()
 
       // Node.js v24+ may connect via IPv6 even with family: 4, so accept both
-      if (body.ip === '1' || body.ip === '::1') {
-        expect(body).toEqual({ ip: '1', ips: ['::1'] })
+      if (body.ip === '::1') {
+        expect(body).toEqual({ ip: '::1', ips: ['::1'] })
       } else {
         expect(body).toEqual({ ip: '127.0.0.1', ips: ['::ffff:127.0.0.1'] })
       }
@@ -349,11 +349,21 @@ describe('Request properties', () => {
 
         const agent = new Agent({ family: 6 }) // ensure IPv6 only
         await fetch('/', { agent }).expect(200, {
-          ip: '1',
+          ip: '::1',
           ips: ['::1']
         })
       })
     }
+    it('req.ip keeps IPv6 addresses whole and strips the prefix of IPv4-mapped ones', () => {
+      const reqFrom = (remoteAddress: string, xff?: string) =>
+        ({ headers: xff ? { 'x-forwarded-for': xff } : {}, socket: { remoteAddress } }) as unknown as Request
+
+      expect(getIP(reqFrom('2001:db8:85a3::8a2e:370:7334'), 0)).toBe('2001:db8:85a3::8a2e:370:7334')
+      expect(getIP(reqFrom('::ffff:127.0.0.1'), 0)).toBe('127.0.0.1')
+      expect(getIP(reqFrom('127.0.0.1'), 0)).toBe('127.0.0.1')
+      expect(getIP(reqFrom('::ffff:10.0.0.1', '2001:db8::1'), 'loopback')).toBe('10.0.0.1')
+      expect(getIP(reqFrom('127.0.0.1', '2001:db8::1'), 'loopback')).toBe('2001:db8::1')
+    })
     it('IPv4 req.ip & req.ips do not trust proxies by default', async () => {
       const { fetch } = InitAppAndTest(ipHandler, '/', 'GET', options)
 
@@ -365,8 +375,8 @@ describe('Request properties', () => {
       const body = await response.json()
 
       // Node.js v24+ may connect via IPv6 even with family: 4, so accept both
-      if (body.ip === '1' || body.ip === '::1') {
-        expect(body).toEqual({ ip: '1', ips: ['::1'] })
+      if (body.ip === '::1') {
+        expect(body).toEqual({ ip: '::1', ips: ['::1'] })
       } else {
         expect(body).toEqual({ ip: '127.0.0.1', ips: ['::ffff:127.0.0.1'] })
       }
