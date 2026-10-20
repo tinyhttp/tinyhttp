@@ -269,8 +269,8 @@ export class App<Req extends Request = Request, Res extends Response = Response>
         continue
       }
 
-      // Filter by method (HEAD matches any, otherwise must match or have no method)
-      if (!isHead && m.method && m.method !== method) {
+      // Filter by method (must match or have no method, HEAD also matches GET)
+      if (m.method && m.method !== method && !(isHead && m.method === 'GET')) {
         continue
       }
 
