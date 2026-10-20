@@ -323,16 +323,8 @@ export class App<Req extends Request = Request, Res extends Response = Response>
         throw e
       }
 
-      let prefix = path as string
-      if (regex) {
-        for (const key of regex.keys as string[]) {
-          if (key === 'wild') {
-            prefix = prefix.replace('*', params.wild)
-          } else {
-            prefix = prefix.replace(`:${key}`, params[key])
-          }
-        }
-      }
+      // params are decoded, use the length of the raw match
+      const prefixLength = regex?.pattern.exec(pathname)?.[0].length ?? (path as string).length
 
       // biome-ignore lint/suspicious/noAssignInExpressions: its faster this way
       Object.assign((req.params ??= {}), params)
@@ -341,8 +333,8 @@ export class App<Req extends Request = Request, Res extends Response = Response>
       const prevBaseUrl = req.baseUrl
 
       if (middleware.type === 'mw') {
-        req.url = lead(req.originalUrl.slice(prefix.length))
-        req.baseUrl = trail(req.originalUrl.slice(0, prefix.length))
+        req.url = lead(req.originalUrl.slice(prefixLength))
+        req.baseUrl = trail(req.originalUrl.slice(0, prefixLength))
       }
 
       current = { url: prevUrl, baseUrl: prevBaseUrl, entryUrl: req.url }

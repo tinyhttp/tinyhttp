@@ -162,6 +162,33 @@ describe('Request properties', () => {
         params: { wild: 'a/b/c/d' }
       })
     })
+    it('should set the correct req.url on a subapp mounted on a path with an encoded param', async () => {
+      const subApp = new App()
+      subApp.use((_req, _res, next) => next())
+      subApp.get('/admin/users', (_, res) => res.send('admin users'))
+      subApp.get('/users', (req, res) => res.send({ url: req.url, params: req.params }))
+      const app = new App().use('/:tenant', subApp)
+      const fetch = makeFetch(app.listen())
+      await fetch('/%C3%A9admin/users').expect(200, {
+        url: '/users',
+        params: { tenant: 'éadmin' }
+      })
+    })
+    it('should set the correct req.url and req.baseUrl on a mw mounted on a path with encoded params', async () => {
+      const echo = (req, res) => res.send({ url: req.url, baseUrl: req.baseUrl, params: req.params })
+      const app = new App().use('/p/:name', echo).use('/w/*', echo)
+      const fetch = makeFetch(app.listen())
+      await fetch('/p/a%20b/c').expect(200, {
+        url: '/c',
+        baseUrl: '/p/a%20b',
+        params: { name: 'a b' }
+      })
+      await fetch('/w/a%2Fb').expect(200, {
+        url: '/',
+        baseUrl: '/w/a%2Fb',
+        params: { wild: 'a/b' }
+      })
+    })
     it('should rewrite req.url, follow the next route and set correct req.url in response', async () => {
       const rewrite = (req, _, next) => {
         req.url = '/a/b'
