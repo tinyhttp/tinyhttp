@@ -1,7 +1,7 @@
 import { Agent } from 'node:http'
 import { makeFetch } from 'supertest-fetch'
 import { afterEach, assert, describe, expect, it, vi } from 'vitest'
-import { getIP, getProtocol, type Request } from '../../packages/app/src'
+import { getHost, getIP, getProtocol, type Request } from '../../packages/app/src'
 import { App } from '../../packages/app/src/app'
 import * as req from '../../packages/req/src'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
@@ -639,6 +639,20 @@ describe('Request properties', () => {
 
       const response2 = await fetch('/', { headers: { Host: 'foo.bar:8080' } })
       expect([200, 500]).toContain(response2.status)
+    })
+    it('getHost does not percent-decode the host', () => {
+      const reqWith = (headers: Record<string, string>) => {
+        return {
+          headers,
+          socket: { remoteAddress: '127.0.0.1' },
+          get: (header: string) => headers[header.toLowerCase()]
+        } as unknown as Request
+      }
+
+      expect(getHost(reqWith({ host: 'Foo%2Ebar.com:8080' }), 0)).toEqual({ hostname: 'foo%2ebar.com', port: 8080 })
+      expect(getHost(reqWith({ host: 'a%2Fb.com' }), 0)).toEqual({ hostname: 'a%2fb.com' })
+      expect(getHost(reqWith({ host: '%' }), 0)).toEqual({ hostname: '%' })
+      expect(getHost(reqWith({ 'x-forwarded-host': 'a%2Eb.com' }), 'loopback')).toEqual({ hostname: 'a%2eb.com' })
     })
     it('should use x-forwarded-host when proxy is trusted', async () => {
       const { fetch, app } = InitAppAndTest(
