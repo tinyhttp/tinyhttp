@@ -664,6 +664,48 @@ describe('HTTP methods', () => {
 
     await fetch('/hello', { method: 'HEAD' }).expect(404)
   })
+  it('HEAD request does not run the handlers of other methods', async () => {
+    const app = new App()
+    const called: string[] = []
+
+    app.post('/', (req, res) => {
+      called.push(req.method as string)
+      res.send('post')
+    })
+    app.delete('/', (req, res) => {
+      called.push(req.method as string)
+      res.send('delete')
+    })
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    await fetch('/', { method: 'HEAD' }).expect(404)
+    expect(called).toEqual([])
+  })
+  it('HEAD request runs the GET handler registered after the handlers of other methods', async () => {
+    const app = new App()
+
+    app.post('/', (_, res) => res.set('X-Handler', 'post').send('post'))
+    app.get('/', (_, res) => res.set('X-Handler', 'get').send('get'))
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    await fetch('/', { method: 'HEAD' }).expect(200).expectHeader('X-Handler', 'get')
+  })
+  it('HEAD request runs HEAD and all handlers', async () => {
+    const app = new App()
+
+    app.head('/head', (_, res) => res.set('X-Handler', 'head').end())
+    app.all('/all', (_, res) => res.set('X-Handler', 'all').end())
+
+    const server = app.listen()
+    const fetch = makeFetch(server)
+
+    await fetch('/head', { method: 'HEAD' }).expect(200).expectHeader('X-Handler', 'head')
+    await fetch('/all', { method: 'HEAD' }).expect(200).expectHeader('X-Handler', 'all')
+  })
 })
 
 describe('Route handlers', () => {

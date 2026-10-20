@@ -222,6 +222,47 @@ describe('Request properties', () => {
         url: '/b'
       })
     })
+    it('should run the middleware registered after the one that rewrites req.url', async () => {
+      const app = new App()
+      app.use((req, _, next) => {
+        if (req.url.startsWith('/en/')) req.url = req.url.slice(3)
+        next()
+      })
+      app.use((req, res, next) => (req.headers.authorization ? next() : res.status(401).send('login required')))
+      app.get('/dashboard', (_, res) => res.send('dashboard'))
+      const fetch = makeFetch(app.listen())
+      await fetch('/dashboard').expect(401, 'login required')
+      await fetch('/en/dashboard').expect(401, 'login required')
+      await fetch('/en/dashboard', { headers: { authorization: 'yes' } }).expect(200, 'dashboard')
+    })
+    it('should run the middleware registered after a middleware mounted on a path that changes req.url', async () => {
+      const app = new App()
+      app.use('/public', (req, _, next) => {
+        req.url = req.url.replace(/\?.*$/, '')
+        next()
+      })
+      app.use((_, res) => res.status(401).send('login required'))
+      app.get('/dashboard', (_, res) => res.send('dashboard'))
+      const fetch = makeFetch(app.listen())
+      await fetch('/public/dashboard').expect(401, 'login required')
+      await fetch('/public/dashboard?x=1').expect(401, 'login required')
+    })
+    it('should run the middleware queued before req.url was rewritten only once', async () => {
+      const app = new App()
+      let calls = 0
+      app.use((req, _, next) => {
+        req.url = '/b'
+        next()
+      })
+      app.use((_req, _res, next) => {
+        calls++
+        next()
+      })
+      app.get('/b', (req, res) => res.send(req.url))
+      const fetch = makeFetch(app.listen())
+      await fetch('/a').expect(200, '/b')
+      expect(calls).toBe(1)
+    })
     it('should reset params when middleware chain finds new matches after rewrite', async () => {
       // This tests the branch where idx !== 0 and new matched routes are found
       // In this case, params should be reset to avoid param pollution
