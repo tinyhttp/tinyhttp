@@ -1,7 +1,7 @@
 import { Agent } from 'node:http'
 import { makeFetch } from 'supertest-fetch'
 import { afterEach, assert, describe, expect, it, vi } from 'vitest'
-import { getIP, type Request } from '../../packages/app/src'
+import { getIP, getProtocol, type Request } from '../../packages/app/src'
 import { App } from '../../packages/app/src/app'
 import * as req from '../../packages/req/src'
 import { InitAppAndTest } from '../../test_helpers/initAppAndTest'
@@ -466,11 +466,9 @@ describe('Request properties', () => {
     })
     it('req.secure is true when connection is encrypted (HTTPS)', async () => {
       const { getRequestHeader }: typeof req = await vi.importActual('../../packages/req/src')
-      // Mock req.secure by intercepting the request before extensions are applied
       vi.mocked(req.getRequestHeader).mockImplementation((r) => {
-        // Simulate a TLS connection by setting secure = true on the request
-        // This mimics what happens with HTTPS servers where the initial connection is secure
-        ;(r as Request & { secure: boolean }).secure = true
+        // simulate an HTTPS connection
+        ;((r as Request).socket as Request['socket'] & { encrypted: boolean }).encrypted = true
         return getRequestHeader(r)
       })
 
@@ -484,6 +482,13 @@ describe('Request properties', () => {
       )
 
       await fetch('/').expect(200, 'protocol: https, secure: true')
+    })
+    it('getProtocol derives the protocol from the socket', () => {
+      const reqWith = (encrypted: boolean) =>
+        ({ headers: {}, socket: { remoteAddress: '127.0.0.1', encrypted } }) as unknown as Request
+
+      expect(getProtocol(reqWith(true), 0)).toBe('https')
+      expect(getProtocol(reqWith(false), 0)).toBe('http')
     })
     it('req.subdomains is empty by default', async () => {
       const { fetch } = InitAppAndTest(
