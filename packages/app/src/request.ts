@@ -92,7 +92,7 @@ export const getHost = (req: Request, trust: Trust): Host | undefined => {
 }
 
 export const getIP = (req: Pick<Request, 'headers' | 'connection' | 'socket'>, trust: Trust): string | undefined =>
-  proxyAddr(req, trust).replace(/^.*:/, '') // striping the redundant prefix addeded by OS to IPv4 address
+  proxyAddr(req, trust).replace(/^::ffff:(?=\d+\.\d+\.\d+\.\d+$)/i, '') // strip the IPv4-mapped prefix
 
 export const getIPs = (req: Pick<Request, 'headers' | 'connection' | 'socket'>, trust: Trust): string[] | undefined =>
   all(req, trust)
