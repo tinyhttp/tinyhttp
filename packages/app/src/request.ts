@@ -22,7 +22,7 @@ const trustRemoteAddress = ({ socket }: Pick<Request, 'headers' | 'socket'>, tru
 }
 
 export const getProtocol = (req: Request, trust: Trust): Protocol => {
-  const proto = `http${req.secure ? 's' : ''}`
+  const proto = `http${(req.socket as TLSSocket).encrypted ? 's' : ''}`
 
   if (!trustRemoteAddress(req, trust)) return proto
 
