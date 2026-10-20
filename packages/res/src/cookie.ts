@@ -28,14 +28,16 @@ export const setCookie =
 
     if (signed) val = `s:${sign(val, secret)}`
 
-    if (options.maxAge) {
-      options.expires = new Date(Date.now() + options.maxAge)
-      options.maxAge /= 1000
+    const opts = { ...options }
+
+    if (opts.maxAge) {
+      opts.expires = new Date(Date.now() + opts.maxAge)
+      opts.maxAge /= 1000
     }
 
-    if (options.path == null) options.path = '/'
+    if (opts.path == null) opts.path = '/'
 
-    append(res)('Set-Cookie', `${cookie.serialize(name, String(val), options)}`)
+    append(res)('Set-Cookie', `${cookie.serialize(name, String(val), opts)}`)
 
     return res
   }
