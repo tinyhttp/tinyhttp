@@ -1,15 +1,24 @@
 import type { OutgoingHttpHeaders, ServerResponse } from 'node:http'
 import type { SerializeOptions } from '@tinyhttp/cookie'
 import type { DownloadOptions, FormatProps, SendFileOptions } from '@tinyhttp/res'
+import type { NextFunction } from '@tinyhttp/router'
 import type { App } from './app.js'
 import type { Request } from './request.js'
 import type { AppRenderOptions, TemplateEngineOptions } from './types.js'
 
 export const renderTemplate =
-  <O extends TemplateEngineOptions = TemplateEngineOptions>(_req: Request, res: Response, app: App) =>
+  <O extends TemplateEngineOptions = TemplateEngineOptions>(
+    _req: Request,
+    res: Response,
+    app: App,
+    next?: NextFunction
+  ) =>
   (file: string, data?: Record<string, unknown>, options?: AppRenderOptions<O>): Response => {
     app.render(file, data ? { ...res.locals, ...data } : res.locals, options, (err: unknown, html: unknown) => {
-      if (err) throw err
+      if (err) {
+        if (next) return next(err)
+        throw err
+      }
       res.send(html)
     })
     return res
