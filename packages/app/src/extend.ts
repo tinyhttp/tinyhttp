@@ -100,7 +100,7 @@ export const extendMiddleware = <EngineOptions extends TemplateEngineOptions = T
     res.vary = setVaryHeader<Response>(res)
     res.cookie = setCookie<Request, Response>(req, res)
     res.clearCookie = clearCookie<Request, Response>(req, res)
-    res.render = renderTemplate(req, res, app)
+    res.render = renderTemplate(req, res, app, next)
     res.format = formatResponse(req, res, next)
     res.redirect = redirect(req, res, next)
     res.attachment = attachment<Response>(res)
