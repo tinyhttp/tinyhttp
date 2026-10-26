@@ -258,6 +258,13 @@ describe('Response extensions', () => {
 
       await makeFetch(app)('/').expect('Content-Type', 'application/json; charset=utf-8')
     })
+    it('should fall back to application/octet-stream for an unknown extension', async () => {
+      const app = runServer((_, res) => {
+        setContentType(res)('.qqq').end()
+      })
+
+      await makeFetch(app)('/').expect('Content-Type', 'application/octet-stream; charset=utf-8')
+    })
   })
   describe('res.attachment(filename)', () => {
     it('should set Content-Disposition without a filename specified', async () => {
