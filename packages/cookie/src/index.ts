@@ -11,6 +11,19 @@ const pairSplitRegExp = /; */
 // biome-ignore lint/suspicious/noControlCharactersInRegex: RFC 7230 field-content includes HTAB
 const fieldContentRegExp = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/
 
+/**
+ * RegExp to match cookie-name in RFC 6265 sec 4.1.1, which refers to the
+ * `token` definition in RFC 2616 sec 2.2.
+ */
+const cookieNameRegExp = /^[!#$%&'*+\-.^_`|~0-9A-Za-z]+$/
+
+/**
+ * RegExp to match cookie-value in RFC 6265 sec 4.1.1:
+ *
+ * cookie-value = *cookie-octet / ( DQUOTE *cookie-octet DQUOTE )
+ */
+const cookieValueRegExp = /^("?)[\u0021\u0023-\u002B\u002D-\u003A\u003C-\u005B\u005D-\u007E]*\1$/
+
 function tryDecode(str: string, decode: (str: string) => string) {
   try {
     return decode(str)
@@ -70,11 +83,11 @@ export type SerializeOptions = Partial<{
 export function serialize(name: string, val: string, opt: SerializeOptions = {}): string {
   if (!opt.encode) opt.encode = encodeURIComponent
 
-  if (!fieldContentRegExp.test(name)) throw new TypeError('argument name is invalid')
+  if (!cookieNameRegExp.test(name)) throw new TypeError('argument name is invalid')
 
   const value = opt.encode(val)
 
-  if (value && !fieldContentRegExp.test(value)) throw new TypeError('argument val is invalid')
+  if (!cookieValueRegExp.test(value)) throw new TypeError('argument val is invalid')
 
   let str = `${name}=${value}`
 

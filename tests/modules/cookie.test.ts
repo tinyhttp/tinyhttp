@@ -143,6 +143,12 @@ describe('Cookie serializing', () => {
     }
     throw new Error('Did not throw an error')
   })
+  it('should throw an error if argument name is not a valid cookie name', () => {
+    expect(() => cookie.serialize('a b', 'bar')).toThrow('argument name is invalid')
+  })
+  it('should throw an error if argument val contains characters outside the cookie value grammar', () => {
+    expect(() => cookie.serialize('foo', 'bar;baz', { encode: (val) => val })).toThrow('argument val is invalid')
+  })
   it('should throw an error if opt.domain is invalid', () => {
     try {
       const customOpt = { domain: '➡️' }
