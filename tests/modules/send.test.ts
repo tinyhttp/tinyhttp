@@ -100,7 +100,7 @@ describe('send(body)', () => {
   it('should send an empty body when the body is undefined', async () => {
     const app = runServer((req, res) => send(req, res)(undefined))
 
-    await makeFetch(app)('/').expectStatus(200).expectBody('')
+    await makeFetch(app)('/').expectStatus(200).expectBody('').expectHeader('Content-Type', null)
   })
   it('should remove some headers for 204 status', async () => {
     const app = runServer((req, res) => {

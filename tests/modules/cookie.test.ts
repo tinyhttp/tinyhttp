@@ -149,6 +149,12 @@ describe('Cookie serializing', () => {
   it('should throw an error if argument val contains characters outside the cookie value grammar', () => {
     expect(() => cookie.serialize('foo', 'bar;baz', { encode: (val) => val })).toThrow('argument val is invalid')
   })
+  it('should throw an error if argument name contains a separator', () => {
+    expect(() => cookie.serialize('a:b', 'bar')).toThrow('argument name is invalid')
+  })
+  it('should accept a value that the default encoder percent-encodes', () => {
+    expect(cookie.serialize('foo', 'a=b')).toBe('foo=a%3Db')
+  })
   it('should throw an error if opt.domain is invalid', () => {
     try {
       const customOpt = { domain: '➡️' }
