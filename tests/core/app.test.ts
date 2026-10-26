@@ -1684,6 +1684,25 @@ describe('Template engines', () => {
 
       await fetch('/').expect(500, 'handled: ReferenceError')
     })
+    it('passes an error of an engine calling back asynchronously to the error handler of the sub-app', async () => {
+      const app = new App({
+        onError: (err, _req, res) => res.status(500).end(`app: ${(err as Error).message}`)
+      })
+      const subApp = new App({
+        onError: (err, _req, res) => res.status(500).end(`sub-app: ${(err as Error).message}`)
+      })
+
+      subApp.engine('eta', (_path, _data, _options, cb) => setImmediate(() => cb(new Error('template failed'), '')))
+      subApp.set('views', `${process.cwd()}/tests/fixtures/views`)
+      subApp.get('/', (_req, res) => res.render('index.eta'))
+
+      app.use('/sub', subApp)
+
+      const server = app.listen()
+      const fetch = makeFetch(server)
+
+      await fetch('/sub').expect(500, 'sub-app: template failed')
+    })
   })
 })
 
