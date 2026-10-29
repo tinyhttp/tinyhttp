@@ -97,6 +97,11 @@ describe('send(body)', () => {
 
     await makeFetch(app)('/').expectBody('')
   })
+  it('should send an empty body when the body is undefined', async () => {
+    const app = runServer((req, res) => send(req, res)(undefined))
+
+    await makeFetch(app)('/').expectStatus(200).expectBody('').expectHeader('Content-Type', null)
+  })
   it('should remove some headers for 204 status', async () => {
     const app = runServer((req, res) => {
       res.statusCode = 204
@@ -234,6 +239,19 @@ describe('sendFile(path)', () => {
     const app = runServer((req, res) => sendFile(req, res)(testFilePath, {}))
 
     await makeFetch(app)('/').expectHeader('Content-Type', 'text/plain; charset=utf-8')
+  })
+  it('should fall back to application/octet-stream for an unknown extension', async () => {
+    const unknownFilePath = path.resolve(__dirname, 'test.qqq')
+
+    fs.writeFileSync(unknownFilePath, 'Hello World')
+
+    try {
+      const app = runServer((req, res) => sendFile(req, res)(unknownFilePath, {}))
+
+      await makeFetch(app)('/').expectHeader('Content-Type', 'application/octet-stream; charset=utf-8')
+    } finally {
+      fs.unlinkSync(unknownFilePath)
+    }
   })
   it('should send a relative path inside root', async () => {
     const app = runServer((req, res) => sendFile(req, res)('test.txt', { root: __dirname }))

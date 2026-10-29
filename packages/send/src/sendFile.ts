@@ -84,7 +84,8 @@ export const sendFile =
 
     headers.ETag = createETag(stats, encoding)
 
-    if (!res.getHeader('Content-Type')) headers['Content-Type'] = `${lookup(extname(path))}; charset=utf-8`
+    if (!res.getHeader('Content-Type'))
+      headers['Content-Type'] = `${lookup(extname(path)) ?? 'application/octet-stream'}; charset=utf-8`
 
     let status = res.statusCode || 200
 

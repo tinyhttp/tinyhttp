@@ -72,6 +72,11 @@ export const send =
         res.end(bodyToSend)
       } else json(res)(bodyToSend, encoding)
     } else {
+      if (bodyToSend === undefined) {
+        res.end('')
+        return res
+      }
+
       if (typeof bodyToSend !== 'string') bodyToSend = bodyToSend.toString()
 
       res.end(bodyToSend, encoding)

@@ -74,7 +74,7 @@ export const setVaryHeader =
 export const setContentType =
   <Response extends Res = Res>(res: Response) =>
   (type: string): Response => {
-    const ct = type.indexOf('/') === -1 ? lookup(type) : type
-    setHeader(res)('Content-Type', ct as string)
+    const ct = type.indexOf('/') === -1 ? (lookup(type) ?? 'application/octet-stream') : type
+    setHeader(res)('Content-Type', ct)
     return res
   }
