@@ -302,6 +302,40 @@ describe('sendFile(path)', () => {
     await makeFetch(app)('/').expectHeader(HEADER_NAME, HEADER_VALUE)
   })
 
+  it.each([
+    'items=0-4',
+    'items=666-777',
+    'items=10-5'
+  ])('should ignore an unsupported range unit (%s)', async (range) => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath))
+    await makeFetch(app)('/', { headers: { Range: range } })
+      .expectStatus(200)
+      .expectHeader('Content-Range', null)
+      .expectHeader('Content-Length', '11')
+      .expect('Hello World')
+  })
+  it.each([
+    ['HEAD', 'bytes=0-4'],
+    ['HEAD', 'bytes=666-777'],
+    ['HEAD', 'bytes=10-5'],
+    ['POST', 'bytes=0-4'],
+    ['POST', 'bytes=666-777'],
+    ['POST', 'bytes=10-5']
+  ])('should ignore Range on a %s request (%s)', async (method, range) => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath))
+    await makeFetch(app)('/', { method, headers: { Range: range } })
+      .expectStatus(200)
+      .expectHeader('Content-Range', null)
+      .expectHeader('Content-Length', '11')
+      .expectBody(method === 'HEAD' ? '' : 'Hello World')
+  })
+  it('should recognize the bytes range unit case-insensitively', async () => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath))
+    await makeFetch(app)('/', { headers: { Range: 'BYTES=0-4' } })
+      .expectStatus(206)
+      .expectHeader('Content-Range', 'bytes 0-4/11')
+      .expect('Hello')
+  })
   it('should support Range header', async () => {
     const app = runServer((req, res) => sendFile(req, res)(testFilePath))
     await makeFetch(app)('/', {

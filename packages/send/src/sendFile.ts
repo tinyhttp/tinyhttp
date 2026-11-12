@@ -34,7 +34,7 @@ export type Caching = Partial<{
   immutable: boolean
 }>
 
-type Req = Pick<I, 'headers'>
+type Req = Pick<I, 'headers'> & Partial<Pick<I, 'method'>>
 
 type Res = Pick<S, 'setHeader' | 'statusCode' | 'writeHead' | 'getHeader'> & NodeJS.WritableStream
 
@@ -88,9 +88,12 @@ export const sendFile =
 
     let status = res.statusCode || 200
 
-    if (req.headers.range) {
-      const rangeHeader = Array.isArray(req.headers.range) ? req.headers.range[0] : req.headers.range
+    const rangeHeader = Array.isArray(req.headers.range) ? req.headers.range[0] : req.headers.range
 
+    // RFC 9110 section 14.2: ranges only modify GET, and unknown range units
+    // must be ignored before interpreting their offsets. An omitted method
+    // preserves support for callers using a minimal request object.
+    if ((req.method === undefined || req.method === 'GET') && rangeHeader && /^bytes=/i.test(rangeHeader)) {
       // Delegate parsing to header-range-parser (a maintained fork of the parser
       // Express uses). It never yields an inverted range, so a malformed header
       // such as `bytes=10-5` can no longer produce a negative Content-Length and
