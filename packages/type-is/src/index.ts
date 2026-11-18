@@ -21,7 +21,7 @@ function tryNormalizeType(value: string) {
 
 function mimeMatch(expected: string | boolean | null, actual: string | boolean): boolean {
   // invalid type
-  if (expected === false) return false
+  if (!expected) return false
 
   // split types
   const actualParts = (actual as string).split('/')
