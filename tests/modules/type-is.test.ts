@@ -34,6 +34,15 @@ describe('typeIs', () => {
     expect(typeIs('text/html', 'application/javascript')).toBe(false)
   })
 
+  it('should return false for an unknown extension', () => {
+    expect(typeIs('application/json', 'foo')).toBe(false)
+  })
+
+  it('should skip unknown extensions when matching subsequent types', () => {
+    expect(typeIs('application/json', 'foo', 'json')).toBe('json')
+    expect(typeIs('text/html', 'foo', 'html')).toBe('html')
+  })
+
   it('should return matched value for urlencoded shorthand', () => {
     expect(typeIs('application/x-www-form-urlencoded', 'urlencoded')).toBe('urlencoded')
   })
