@@ -62,6 +62,31 @@ describe('contentDisposition(filename)', () => {
       expect(contentDisposition('the "plans".pdf')).toBe('attachment; filename="the \\"plans\\".pdf"')
     })
   })
+
+  describe('with fallback options', () => {
+    it('should generate a Latin-1 fallback by default', () => {
+      const expected = 'attachment; filename="? rates.txt"; filename*=UTF-8\'\'%E2%82%AC%20rates.txt'
+      expect(contentDisposition('€ rates.txt')).toBe(expected)
+      expect(contentDisposition('€ rates.txt', { fallback: true })).toBe(expected)
+    })
+
+    it('should omit the generated fallback when disabled', () => {
+      expect(contentDisposition('€ rates.txt', { fallback: false })).toBe(
+        "attachment; filename*=UTF-8''%E2%82%AC%20rates.txt"
+      )
+    })
+
+    it('should retain a quoted filename when it needs no fallback', () => {
+      expect(contentDisposition('plans.pdf', { fallback: false })).toBe('attachment; filename="plans.pdf"')
+      expect(contentDisposition('£ rates.txt', { fallback: false })).toBe('attachment; filename="£ rates.txt"')
+    })
+
+    it('should preserve an explicitly empty fallback', () => {
+      expect(contentDisposition('€ rates.txt', { fallback: '' })).toBe(
+        'attachment; filename=""; filename*=UTF-8\'\'%E2%82%AC%20rates.txt'
+      )
+    })
+  })
 })
 
 describe('parse(string)', () => {
