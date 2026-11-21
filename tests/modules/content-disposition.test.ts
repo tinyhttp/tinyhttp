@@ -272,6 +272,22 @@ describe('parse(string)', () => {
       })
     })
 
+    it('should parse with a language tag that has subtags', () => {
+      for (const lang of ['en-US', 'de-DE', 'zh-Hans-CN', 'es-419']) {
+        expect(parse(`attachment; filename*=UTF-8'${lang}'%E2%82%AC%20rates.pdf`)).toEqual({
+          type: 'attachment',
+          parameters: { filename: '€ rates.pdf' }
+        })
+      }
+    })
+
+    it('should parse an empty extended parameter value', () => {
+      expect(parse("attachment; filename*=UTF-8''")).toEqual({
+        type: 'attachment',
+        parameters: { filename: '' }
+      })
+    })
+
     it('should prefer extended parameter value', () => {
       expect(parse('attachment; filename="EURO rates.pdf"; filename*=UTF-8\'\'%E2%82%AC%20rates.pdf')).toEqual({
         type: 'attachment',
