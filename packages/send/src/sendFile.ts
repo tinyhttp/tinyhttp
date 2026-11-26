@@ -90,9 +90,7 @@ export const sendFile =
 
     const rangeHeader = Array.isArray(req.headers.range) ? req.headers.range[0] : req.headers.range
 
-    // RFC 9110 section 14.2: ranges only modify GET, and unknown range units
-    // must be ignored before interpreting their offsets. An omitted method
-    // preserves support for callers using a minimal request object.
+    // RFC 9110 §14.2: only GET has range semantics; ignore unknown units before parsing offsets.
     if ((req.method === undefined || req.method === 'GET') && rangeHeader && /^bytes=/i.test(rangeHeader)) {
       // Delegate parsing to header-range-parser (a maintained fork of the parser
       // Express uses). It never yields an inverted range, so a malformed header
