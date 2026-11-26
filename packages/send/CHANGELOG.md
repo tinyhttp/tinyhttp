@@ -1,5 +1,11 @@
 # @tinyhttp/send
 
+## 2.2.9
+
+### Patch Changes
+
+- 9f019bc: Ignore file Range headers for non-GET requests and unsupported range units. Keep byte-range validation and partial GET responses unchanged.
+
 ## 2.2.8
 
 ### Patch Changes

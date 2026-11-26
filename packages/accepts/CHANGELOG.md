@@ -1,5 +1,11 @@
 # @tinyhttp/accepts
 
+## 2.3.2
+
+### Patch Changes
+
+- f9939a5: Fix the README example to use the named Accepts export and document how file extensions are resolved.
+
 ## 2.3.1
 
 ### Patch Changes
