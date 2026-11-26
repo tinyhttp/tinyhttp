@@ -1,5 +1,19 @@
 # @tinyhttp/res
 
+## 2.3.0
+
+### Minor Changes
+
+- a657eff: Build the `Content-Disposition` header with [`content-disposition@3`](https://github.com/jshttp/content-disposition) instead of `@tinyhttp/content-disposition`, which is deprecated.
+  
+  `res.attachment` and `res.download` now send plain filenames without quotes (`attachment; filename=favicon.ico`), and add an ASCII fallback plus `filename*` for non-ASCII names. `res.download(path, name)` also strips the directory from `name`, so a custom filename containing a path no longer leaks it to the client.
+
+### Patch Changes
+
+- Updated dependencies [9f019bc]
+  - @tinyhttp/send@2.2.9
+  - @tinyhttp/req@2.2.11
+
 ## 2.2.16
 
 ### Patch Changes

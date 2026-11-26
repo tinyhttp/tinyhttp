@@ -1,5 +1,15 @@
 # @tinyhttp/app
 
+## 3.0.15
+
+### Patch Changes
+
+- Updated dependencies [f9939a5]
+- Updated dependencies [a657eff]
+  - @tinyhttp/accepts@2.3.2
+  - @tinyhttp/res@2.3.0
+  - @tinyhttp/req@2.2.11
+
 ## 3.0.14
 
 ### Patch Changes
