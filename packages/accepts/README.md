@@ -67,8 +67,8 @@ Return the first accepted type (and it is returned as the same text as what
 appears in the `types` array). If nothing in `types` is accepted, then `false`
 is returned.
 
-The `types` array can contain full MIME types or file extensions. Any value that
-is not a full MIME types is passed to `require('mime-types').lookup`.
+The `types` array can contain full MIME types or file extensions. File
+extensions are looked up with `mrmime`.
 
 #### `.types()`
 
@@ -83,7 +83,7 @@ preferences in order and will get back the best match between the client and
 server.
 
 ```ts
-import Accepts from '@tinyhttp/accepts'
+import { Accepts } from '@tinyhttp/accepts'
 import { createServer } from 'node:http'
 
 createServer((req, res) => {
