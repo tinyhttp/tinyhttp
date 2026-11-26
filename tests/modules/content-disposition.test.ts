@@ -86,6 +86,14 @@ describe('contentDisposition(filename)', () => {
         'attachment; filename=""; filename*=UTF-8\'\'%E2%82%AC%20rates.txt'
       )
     })
+
+    it('should reject a fallback that is not a string or boolean', () => {
+      for (const fallback of [null, 0, 1, {}]) {
+        expect(() => contentDisposition('€ rates.txt', { fallback: fallback as unknown as boolean })).toThrow(
+          'fallback must be a string or boolean'
+        )
+      }
+    })
   })
 })
 
