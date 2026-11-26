@@ -254,8 +254,6 @@ importers:
         specifier: 'catalog:'
         version: 3.0.0
 
-  packages/content-disposition: {}
-
   packages/cookie: {}
 
   packages/cookie-signature: {}
@@ -303,9 +301,6 @@ importers:
 
   packages/res:
     dependencies:
-      '@tinyhttp/content-disposition':
-        specifier: workspace:*
-        version: link:../content-disposition
       '@tinyhttp/cookie':
         specifier: workspace:*
         version: link:../cookie
@@ -324,6 +319,9 @@ importers:
       '@tinyhttp/vary':
         specifier: ^0.1.3
         version: 0.1.3
+      content-disposition:
+        specifier: ^3.1.0
+        version: 3.1.0
       mrmime:
         specifier: 'catalog:'
         version: 2.0.1
@@ -990,6 +988,10 @@ packages:
   cliui@9.0.1:
     resolution: {integrity: sha512-k7ndgKhwoQveBL+/1tqGJYNz097I7WOvwbmmU2AR5+magtbjPWQTS1C5vzGkBC8Ym8UWRzfKUzUUqFLypY4Q+w==}
     engines: {node: '>=20'}
+
+  content-disposition@3.1.0:
+    resolution: {integrity: sha512-6lwVDK9bsenmMu7hxcLuUiu+FzFBDAdfQR1LKbE+SCo7/Qfpm2NG8X9f8AJgumfoVID/4r1stSxcmCeiT7pfkQ==}
+    engines: {node: '>=22'}
 
   conventional-changelog-angular@9.2.1:
     resolution: {integrity: sha512-oWSL6ZhnXbYraOFTK3PgRAQJ8fADDAEv5K6AdeyQPLvjFmhG8+ejL0jZZp/R7vTmGJaBvZEE+sE7dB4bCv7sAw==}
@@ -2152,6 +2154,8 @@ snapshots:
       string-width: 7.2.0
       strip-ansi: 7.2.0
       wrap-ansi: 9.0.2
+
+  content-disposition@3.1.0: {}
 
   conventional-changelog-angular@9.2.1:
     dependencies:

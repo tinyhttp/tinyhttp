@@ -151,7 +151,7 @@ pnpm prerelease
 
 | Node.js Version | Packages | Constraining Feature |
 |-----------------|----------|---------------------|
-| `>=12.17.0` | content-disposition, cookie, encode-url, forwarded | ES2019 |
+| `>=12.17.0` | cookie, encode-url, forwarded | ES2019 |
 | `>=14.0.0` | router | `?.` and `??` (ES2020) |
 | `>=14.13.1` | accepts, cookie-signature, etag, jsonp, rate-limit, req, res, send, type-is, url | `node:` prefix |
 | `>=16.10.0` | **app**, dotenv, proxy-addr | `Object.hasOwn()` (ES2022) |

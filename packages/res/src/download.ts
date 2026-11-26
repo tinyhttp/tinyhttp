@@ -1,8 +1,8 @@
 import type { IncomingMessage as Req, ServerResponse as Res } from 'node:http'
 import { basename, extname, resolve } from 'node:path'
-import { contentDisposition } from '@tinyhttp/content-disposition'
 import type { SendFileOptions } from '@tinyhttp/send'
 import { sendFile } from '@tinyhttp/send'
+import { create } from 'content-disposition'
 import { setContentType, setHeader } from './headers.js'
 
 export type DownloadOptions = SendFileOptions &
@@ -30,7 +30,7 @@ export const download =
 
     // set Content-Disposition when file is sent
     const headers = {
-      'Content-Disposition': contentDisposition(name || basename(path))
+      'Content-Disposition': create(basename(name || path))
     }
 
     // merge user-provided headers
@@ -56,7 +56,7 @@ export const attachment =
       filename = basename(filename)
     }
 
-    setHeader(res)('Content-Disposition', contentDisposition(filename))
+    setHeader(res)('Content-Disposition', create(filename))
 
     return res
   }

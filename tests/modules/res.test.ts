@@ -272,7 +272,23 @@ describe('Response extensions', () => {
         attachment(res)(path.join(__dirname, '../fixtures', 'favicon.ico')).end()
       })
 
-      await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename="favicon.ico"')
+      await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename=favicon.ico')
+    })
+    it('should strip the directory from the filename', async () => {
+      const app = runServer((_, res) => {
+        attachment(res)(path.join(__dirname, '../fixtures', 'nested', 'favicon.ico')).end()
+      })
+
+      await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename=favicon.ico')
+    })
+    it('should add an ASCII fallback for a non-ASCII filename', async () => {
+      const app = runServer((_, res) => {
+        attachment(res)(path.join(__dirname, '../fixtures', '€ rates.txt')).end()
+      })
+
+      await makeFetch(app)('/')
+        .expect('Content-Disposition', 'attachment; filename="? rates.txt"; filename*=UTF-8\'\'%E2%82%AC%20rates.txt')
+        .expect('Content-Type', 'text/plain; charset=utf-8')
     })
   })
   describe('res.download(filename)', () => {
@@ -281,14 +297,14 @@ describe('Response extensions', () => {
         download(req, res)(path.join(__dirname, '../fixtures', 'favicon.ico')).end()
       })
 
-      await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename="favicon.ico"')
+      await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename=favicon.ico')
     })
     it('should set Content-Disposition based on filename', async () => {
       const app = runServer((req, res) => {
         download(req, res)(path.join(__dirname, '../fixtures', 'favicon.ico'), 'favicon.icon').end()
       })
 
-      await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename="favicon.icon"')
+      await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename=favicon.icon')
     })
     it('should pass the error to a callback', async () => {
       const app = runServer((req, res) => {
@@ -297,7 +313,7 @@ describe('Response extensions', () => {
         }).end()
       })
 
-      await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename="some_file.png"')
+      await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename=some_file.png')
     })
     it('should set "root" from options', async () => {
       const app = runServer((req, res) => {
@@ -306,7 +322,7 @@ describe('Response extensions', () => {
         }).end()
       })
 
-      await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename="favicon.ico"')
+      await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename=favicon.ico')
     })
     it(`'should pass options to sendFile's ReadStream'`, async () => {
       const app = runServer((req, res) => {
@@ -315,7 +331,7 @@ describe('Response extensions', () => {
         }).end()
       })
 
-      await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename="favicon.ico"')
+      await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename=favicon.ico')
     })
     it('should set headers from options', async () => {
       const app = runServer((req, res) => {
@@ -327,7 +343,7 @@ describe('Response extensions', () => {
       })
 
       await makeFetch(app)('/')
-        .expect('Content-Disposition', 'attachment; filename="favicon.ico"')
+        .expect('Content-Disposition', 'attachment; filename=favicon.ico')
         .expect('X-Custom-Header', 'Value')
     })
     it('should ignore Content-Disposition header in options (case-insensitive)', async () => {
@@ -341,7 +357,7 @@ describe('Response extensions', () => {
       })
 
       await makeFetch(app)('/')
-        .expect('Content-Disposition', 'attachment; filename="custom.ico"')
+        .expect('Content-Disposition', 'attachment; filename=custom.ico')
         .expect('X-Custom-Header', 'Value')
     })
     it('should work without a callback', async () => {
@@ -349,7 +365,24 @@ describe('Response extensions', () => {
         download(req, res)(path.join(__dirname, '../fixtures', 'favicon.ico'), 'file.ico')
       })
 
-      await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename="file.ico"').expect(200)
+      await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename=file.ico').expect(200)
+    })
+    it('should strip the directory from a custom filename', async () => {
+      const app = runServer((req, res) => {
+        download(req, res)(path.join(__dirname, '../fixtures', 'favicon.ico'), 'nested/custom.ico').end()
+      })
+
+      await makeFetch(app)('/').expect('Content-Disposition', 'attachment; filename=custom.ico')
+    })
+    it('should add an ASCII fallback for a non-ASCII filename', async () => {
+      const app = runServer((req, res) => {
+        download(req, res)(path.join(__dirname, '../fixtures', 'favicon.ico'), '€ rates.txt', () => void 0).end()
+      })
+
+      await makeFetch(app)('/').expect(
+        'Content-Disposition',
+        'attachment; filename="? rates.txt"; filename*=UTF-8\'\'%E2%82%AC%20rates.txt'
+      )
     })
   })
   describe('res.cookie(name, value, options)', () => {
