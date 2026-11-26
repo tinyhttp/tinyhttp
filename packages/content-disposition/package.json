@@ -1,6 +1,6 @@
 {
   "name": "@tinyhttp/content-disposition",
-  "description": "content-disposition rewrite in TypeScript",
+  "description": "port of content-disposition@3.1.0 in TypeScript",
   "version": "2.2.4",
   "license": "MIT",
   "homepage": "https://tinyhttp.v1rtl.site",
@@ -14,7 +14,7 @@
     "directory": "packages/content-disposition"
   },
   "engines": {
-    "node": ">=12.17.0"
+    "node": ">=14.0.0"
   },
   "type": "module",
   "types": "./dist/index.d.ts",
