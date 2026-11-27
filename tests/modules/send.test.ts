@@ -359,6 +359,49 @@ describe('sendFile(path)', () => {
       .expect('Content-Range', 'bytes 0-10/11')
       .expect('Hello World')
   })
+  it.each([
+    '"previous"',
+    'Wed, 21 Oct 2015 07:28:00 GMT'
+  ])('should send the full file when If-Range does not match (%s)', async (validator) => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath))
+    await makeFetch(app)('/', { headers: { Range: 'bytes=0-4', 'If-Range': validator } })
+      .expectStatus(200)
+      .expectHeader('Content-Range', null)
+      .expectHeader('Content-Length', '11')
+      .expect('Hello World')
+  })
+  it('should not satisfy If-Range with a weak ETag or unverified Last-Modified date', async () => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath))
+    const request = makeFetch(app)
+    const response = await request('/')
+    const validators = [response.headers.get('ETag'), response.headers.get('Last-Modified')]
+    for (const validator of validators) {
+      expect(validator).toBeTruthy()
+      await request('/', { headers: { Range: 'bytes=0-4', 'If-Range': validator ?? '' } })
+        .expectStatus(200)
+        .expect('Hello World')
+    }
+  })
+  it('should honor Range when If-Range matches a supplied strong ETag', async () => {
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath, { headers: { ETag: '"current"' } }))
+    await makeFetch(app)('/', { headers: { Range: 'bytes=0-4', 'If-Range': '"current"' } })
+      .expectStatus(206)
+      .expectHeader('ETag', '"current"')
+      .expectHeader('Content-Range', 'bytes 0-4/11')
+      .expect('Hello')
+  })
+  it('should not reuse previous range headers when an If-Range request sends the full body', async () => {
+    const headers = { ETag: '"current"' }
+    const app = runServer((req, res) => sendFile(req, res)(testFilePath, { headers }))
+    const request = makeFetch(app)
+    await request('/', { headers: { Range: 'bytes=0-4', 'If-Range': '"current"' } })
+      .expectStatus(206)
+      .expectHeader('Content-Range', 'bytes 0-4/11')
+    await request('/', { headers: { Range: 'bytes=0-4', 'If-Range': '"old"' } })
+      .expectStatus(200)
+      .expectHeader('Content-Range', null)
+      .expect('Hello World')
+  })
   it('should send 416 when the range start is beyond the file size', async () => {
     const app = runServer((req, res) => sendFile(req, res)(testFilePath))
     await makeFetch(app)('/', {

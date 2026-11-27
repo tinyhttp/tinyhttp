@@ -6,6 +6,7 @@ import { lookup } from 'mrmime'
 import { createETag } from './utils.js'
 
 const UP_PATH_REGEXP = /(?:^|[\\/])\.\.(?:[\\/]|$)/
+const STRONG_ETAG_REGEXP = /^"[\x21\x23-\x7e\x80-\xff]*"$/
 
 export type ReadStreamOptions = Partial<{
   flags: string
@@ -58,7 +59,8 @@ export const enableCaching = (res: Res, caching: Caching): void => {
 export const sendFile =
   <Request extends Req = Req, Response extends Res = Res>(req: Request, res: Response) =>
   (path: string, opts: SendFileOptions = {}, cb?: (err?: Error) => void): Response => {
-    const { root, headers = {}, encoding = 'utf-8', caching, ...options } = opts
+    const { root, headers: customHeaders, encoding = 'utf-8', caching, ...options } = opts
+    const headers = { ...customHeaders }
 
     if (!isAbsolute(path) && !root) throw new TypeError('path must be absolute')
 
@@ -82,7 +84,10 @@ export const sendFile =
 
     headers['Last-Modified'] = stats.mtime.toUTCString()
 
-    headers.ETag = createETag(stats, encoding)
+    const etagHeader = Object.keys(headers).find((name) => name.toLowerCase() === 'etag')
+    const suppliedETag = etagHeader ? headers[etagHeader] : res.getHeader('ETag')
+    const etag = typeof suppliedETag === 'string' ? suppliedETag : createETag(stats, encoding)
+    headers[etagHeader ?? 'ETag'] = etag
 
     if (!res.getHeader('Content-Type')) headers['Content-Type'] = `${lookup(extname(path))}; charset=utf-8`
 
@@ -90,8 +95,20 @@ export const sendFile =
 
     const rangeHeader = Array.isArray(req.headers.range) ? req.headers.range[0] : req.headers.range
 
+    // RFC 9110 §13.1.5: If-Range requires a strong validator. File metadata alone
+    // cannot establish that the representation changed at most once in that second.
+    const ifRangeHeader = req.headers['if-range']
+    const ifRange = typeof ifRangeHeader === 'string' ? ifRangeHeader.trim() : undefined
+    const matchesIfRange =
+      ifRangeHeader === undefined || (ifRange !== undefined && STRONG_ETAG_REGEXP.test(ifRange) && ifRange === etag)
+
     // RFC 9110 §14.2: only GET has range semantics; ignore unknown units before parsing offsets.
-    if ((req.method === undefined || req.method === 'GET') && rangeHeader && /^bytes=/i.test(rangeHeader)) {
+    if (
+      (req.method === undefined || req.method === 'GET') &&
+      rangeHeader &&
+      /^bytes=/i.test(rangeHeader) &&
+      matchesIfRange
+    ) {
       // Delegate parsing to header-range-parser (a maintained fork of the parser
       // Express uses). It never yields an inverted range, so a malformed header
       // such as `bytes=10-5` can no longer produce a negative Content-Length and
