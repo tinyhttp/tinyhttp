@@ -145,6 +145,24 @@ describe('send(body)', () => {
       }
     }).expectStatus(304)
   })
+  it.each([
+    ['"current"', 304],
+    ['"other"', 200],
+    ['*', 304],
+    ['"old",	W/"current"', 304]
+  ])('should use If-None-Match %s in preference to If-Modified-Since', async (validator, expectedStatus) => {
+    const app = new App()
+    app.use((_req, res) => {
+      res.set('ETag', '"current"').set('Last-Modified', 'Wed, 21 Oct 2015 07:28:00 GMT').send('Hello World')
+    })
+    await makeFetch(app.listen())('/', {
+      headers: {
+        'If-None-Match': validator,
+        'If-Modified-Since': 'Tue, 20 Oct 2015 07:28:00 GMT',
+        'Cache-Control': 'max-age=3600'
+      }
+    }).expectStatus(expectedStatus)
+  })
 })
 
 describe('status(status)', () => {
