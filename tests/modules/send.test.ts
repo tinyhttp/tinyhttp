@@ -1,5 +1,7 @@
 import fs from 'node:fs'
+import { tmpdir } from 'node:os'
 import path from 'node:path'
+import { gzipSync } from 'node:zlib'
 import { makeFetch } from 'supertest-fetch'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { App } from '../../packages/app/src'
@@ -479,9 +481,24 @@ describe('sendFile(path)', () => {
     expect(res.headers['content-range']).toBe('bytes 0-4/11')
     expect(res.headers['content-length']).toBe('5')
   })
-  it('should set default encoding to UTF-8', async () => {
+  it('should send an ordinary file without a content coding', async () => {
     const app = runServer((req, res) => sendFile(req, res)(testFilePath))
-    await makeFetch(app)('/').expectStatus(200).expectHeader('Content-Encoding', 'utf-8')
+    await makeFetch(app)('/')
+      .expectStatus(200)
+      .expectHeader('Content-Encoding', null)
+      .expectHeader('Content-Type', 'text/plain; charset=utf-8')
+      .expect('Hello World')
+  })
+  it('should preserve a caller-supplied content coding for a pre-compressed file', async () => {
+    const dir = fs.mkdtempSync(path.join(tmpdir(), 'tinyhttp-send-'))
+    const file = path.join(dir, 'test.txt')
+    try {
+      fs.writeFileSync(file, gzipSync('Hello World'))
+      const app = runServer((req, res) => sendFile(req, res)(file, { headers: { 'Content-Encoding': 'gzip' } }))
+      await makeFetch(app)('/').expectStatus(200).expectHeader('Content-Encoding', 'gzip').expect('Hello World')
+    } finally {
+      fs.rmSync(dir, { recursive: true, force: true })
+    }
   })
   it('should inherit the previously set status code', async () => {
     const app = runServer((req, res) => {
