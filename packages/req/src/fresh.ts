@@ -4,28 +4,26 @@ const CACHE_CONTROL_NO_CACHE_REGEXP = /(?:^|,)\s*?no-cache\s*?(?:,|$)/
 
 const compareETags = (etag: string, str: string) => str === etag || str === `W/${etag}` || `W/${str}` === etag
 
-function isStale(etag: string, noneMatch: string) {
-  let start = 0
-  let end = 0
+const isOWS = (char: string | undefined) => char === ' ' || char === '\t'
 
-  for (let i = 0, len = noneMatch.length; i < len; i++) {
-    switch (noneMatch.charCodeAt(i)) {
-      case 0x20 /*   */:
-        if (start === end) start = end = i + 1
-        break
-      case 0x2c /* , */:
-        if (compareETags(etag, noneMatch.substring(start, end))) return false
-        start = end = i + 1
-        break
-      default:
-        end = i + 1
-        break
+function includesETag(etag: string, noneMatch: string) {
+  let start = 0
+  let inTag = false
+
+  for (let i = 0; i <= noneMatch.length; i++) {
+    const char = noneMatch[i]
+    if (char === '"') inTag = !inTag
+    if (!inTag && (char === ',' || i === noneMatch.length)) {
+      // A comma can appear within an opaque tag. Only trim HTTP OWS.
+      let end = i
+      while (start < end && isOWS(noneMatch[start])) start++
+      while (start < end && isOWS(noneMatch[end - 1])) end--
+      if (compareETags(etag, noneMatch.slice(start, end))) return true
+      start = i + 1
     }
   }
 
-  if (compareETags(etag, noneMatch.substring(start, end))) return false
-
-  return true
+  return false
 }
 
 /**
@@ -35,24 +33,17 @@ export function fresh(reqHeaders: IncomingHttpHeaders, resHeaders: OutgoingHttpH
   const modifiedSince = reqHeaders['if-modified-since']
   const noneMatch = reqHeaders['if-none-match']
 
-  if (!modifiedSince && !noneMatch) return false
-
   const cacheControl = reqHeaders['cache-control']
   if (cacheControl && CACHE_CONTROL_NO_CACHE_REGEXP.test(cacheControl)) return false
 
-  // if-none-match
-  if (noneMatch && noneMatch !== '*') {
-    const etag = resHeaders.etag as string | undefined
-
-    if (!etag || isStale(etag, noneMatch)) return false
+  // RFC 9110 §13.1.3: If-None-Match takes precedence over If-Modified-Since.
+  if (noneMatch !== undefined) {
+    if (noneMatch === '*') return true
+    const etag = resHeaders.etag
+    return typeof etag === 'string' && etag.length > 0 && includesETag(etag, noneMatch)
   }
 
-  // if-modified-since
-  if (modifiedSince) {
-    const lastModified = resHeaders['last-modified'] as string | undefined
-
-    if (!lastModified || !(Date.parse(lastModified) <= Date.parse(modifiedSince))) return false
-  }
-
-  return true
+  if (!modifiedSince) return false
+  const lastModified = resHeaders['last-modified'] as string | undefined
+  return Boolean(lastModified && Date.parse(lastModified) <= Date.parse(modifiedSince))
 }

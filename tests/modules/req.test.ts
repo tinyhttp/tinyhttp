@@ -326,6 +326,21 @@ describe('Request extensions', () => {
         )
       ).toBe(true)
     })
+
+    it('should not split an ETag at a comma inside its opaque value', () => {
+      expect(fresh({ 'if-none-match': '"old", W/"a,b", "other"' }, { etag: '"a,b"' })).toBe(true)
+    })
+    it('should allow tabs around ETags in a list', () => {
+      expect(fresh({ 'if-none-match': '"old",	"current"	, "other"' }, { etag: '"current"' })).toBe(true)
+    })
+    it('should not fall back to a newer date when an ETag is present but different', () => {
+      expect(
+        fresh(
+          { 'if-none-match': '"old"', 'if-modified-since': 'Thu, 22 Oct 2015 07:28:00 GMT' },
+          { etag: '"current"', 'last-modified': 'Wed, 21 Oct 2015 07:28:00 GMT' }
+        )
+      ).toBe(false)
+    })
     it('should return false when ETag does not match any in comma-separated list', () => {
       expect(
         fresh(
