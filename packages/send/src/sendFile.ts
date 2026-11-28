@@ -78,8 +78,6 @@ export const sendFile =
 
     const stats = statSync(filePath)
 
-    headers['Content-Encoding'] = encoding
-
     headers['Last-Modified'] = stats.mtime.toUTCString()
 
     headers.ETag = createETag(stats, encoding)
